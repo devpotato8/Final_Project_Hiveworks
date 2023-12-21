@@ -34,3 +34,7 @@ build/
 
 ### properties/yml ###
 src/main/resources/application.*
+
+###DBeaber###
+Script/
+.dbeaver/
