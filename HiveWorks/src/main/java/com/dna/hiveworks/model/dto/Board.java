@@ -1,5 +1,5 @@
 package com.dna.hiveworks.model.dto;
 
-public class Dummy5 {
+public class Board {
 
 }

@@ -1,5 +1,5 @@
 package com.dna.hiveworks.model.dao;
 
-public class Dummy3 {
+public class BoardDao {
 
 }

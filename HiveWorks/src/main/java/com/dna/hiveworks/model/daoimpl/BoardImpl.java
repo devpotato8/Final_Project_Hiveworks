@@ -1,5 +1,5 @@
 package com.dna.hiveworks.model.daoimpl;
 
-public class Dummy4 {
+public class BoardImpl {
 
 }
