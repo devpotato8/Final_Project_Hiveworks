@@ -32,7 +32,7 @@
 
 <body>
 	<!-- Wrapper 상단 검색바 포함 header라인-->
-	<div class="hk-wrapper" data-layout="vertical" data-layout-style="default" data-menu="light" data-footer="simple">
+	<div class="hk-wrapper" data-layout="vertical" data-layout-style="${param.style}" data-menu="light" data-footer="simple" ${param.hover}>
 		<!-- Top Navbar -->
 		<nav class="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
 			<div class="container-fluid">
@@ -171,18 +171,36 @@
 			<!-- End Nav -->
 			<div class="nav-end-wrap">
 				<ul class="navbar-nav flex-row">
+					<!-- email아이콘 -->
 					<li class="nav-item">
-						<a href="email.html" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
+						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
 							<span class="icon">
 								<span class=" position-relative">
 								<span class="feather-icon">
-									<i data-feather="inbox"></i>
+									<i data-feather="mail"></i>
 								</span>
 								<span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span>
 								</span>
 							</span>
 						</a>
 					</li>
+					<!-- /email아이콘 -->
+					
+					<!-- 쪽지 아이콘 -->
+					<li class="nav-item">
+						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
+							<span class="icon">
+								<span class=" position-relative">
+								<span class="feather-icon">
+									<i data-feather="message-square"></i>
+								</span>
+								<span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span>
+								</span>
+							</span>
+						</a>
+					</li>
+					<!-- /쪽지 아이콘 -->
+					
 					<li class="nav-item">
 						<div class="dropdown dropdown-notifications">
 							<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation role="button" aria-haspopup="true" aria-expanded="false">
@@ -196,7 +214,8 @@
 							</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-end p-0">
-								<h6 class="dropdown-header px-4 fs-6">Notifications<a href="#" class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
+								<h6 class="dropdown-header px-4 fs-6">알림
+									<!-- <a href="#" class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a> -->
 								</h6>
 								<div data-simplebar class="dropdown-body  p-2">
 									<a href="javascript:void(0);" class="dropdown-item">
