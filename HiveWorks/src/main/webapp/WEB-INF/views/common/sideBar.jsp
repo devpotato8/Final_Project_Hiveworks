@@ -97,12 +97,8 @@
 								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_chatpop">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-circle-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
-												<line x1="12" y1="12" x2="12" y2="12.01" />
-												<line x1="8" y1="12" x2="8" y2="12.01" />
-												<line x1="16" y1="12" x2="16" y2="12.01" />
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square">
+												<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
 											</svg>
 										</span>
 									</span>
@@ -156,19 +152,19 @@
 							</li>	
 							
 							<li class="nav-item">
-								<a class="nav-link" href="email.html">
+								<a class="nav-link" href="#">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-inbox" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<rect x="4" y="4" width="16" height="16" rx="2" />
-												<path d="M4 13h3l3 3h4l3 -3h3" />
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
+												<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+												<polyline points="22,6 12,13 2,6"></polyline>
 											</svg>
 										</span>
 									</span>
 									<span class="nav-link-text">Email</span>
 								</a>
 							</li>
+							
 							<li class="nav-item">
 								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_scrumboard">
 									<span class="nav-icon-wrap position-relative">

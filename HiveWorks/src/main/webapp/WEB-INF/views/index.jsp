@@ -5,8 +5,13 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<%-- <jsp:include page= "/WEB-INF/views/common/header.jsp"/> --%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<jsp:include page= "/WEB-INF/views/common/header.jsp">
+	<jsp:param value="default" name="style"/>
+	<jsp:param value="" name="hover"/>
+	
+</jsp:include>
+<%-- 	<jsp:param value="collapsed" name="style"/>
+	<jsp:param value="data-hover='active'" name="hover"/> --%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <!-- Main Content -->
