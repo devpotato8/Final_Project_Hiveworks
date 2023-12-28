@@ -18,7 +18,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request->{
 					request.requestMatchers("/").permitAll()
 							.requestMatchers("/WEB-INF/views/**").permitAll()
-							.requestMatchers("/resources/**").permitAll();
+							.requestMatchers("/resources/**").permitAll()
+							.requestMatchers("/**").permitAll();
 				})
 				.formLogin(formlogin->{
 					formlogin.loginProcessingUrl("/login")
