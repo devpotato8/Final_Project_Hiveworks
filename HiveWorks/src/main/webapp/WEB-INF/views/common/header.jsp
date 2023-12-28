@@ -47,7 +47,7 @@
 						<div class="input-group d-xl-flex d-none">
 							<span class="input-affix-wrapper input-search affix-border">
 								<input type="text" class="form-control  bg-transparent"  data-navbar-search-close="false" placeholder="통합검색: 검색어를 입력하세요" aria-label="Search">
-								<span class="input-suffix"><span><img src="/resources/img/search.svg"></span>
+								<span class="input-suffix"><span><img src="${path}/resources/img/search.svg"></span>
 									<span class="btn-input-clear"><i class="bi bi-x-circle-fill"></i></span>
 									<span class="spinner-border spinner-border-sm input-loader text-primary" role="status">
 										<span class="sr-only">Loading...</span>
@@ -172,11 +172,29 @@
 			<div class="nav-end-wrap">
 				<ul class="navbar-nav flex-row">
 					<li class="nav-item">
-						<a href="email.html" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"><span class="icon"><span class=" position-relative"><span class="feather-icon"><i data-feather="inbox"></i></span><span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span></span></span></a>
+						<a href="email.html" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
+							<span class="icon">
+								<span class=" position-relative">
+								<span class="feather-icon">
+									<i data-feather="inbox"></i>
+								</span>
+								<span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span>
+								</span>
+							</span>
+						</a>
 					</li>
 					<li class="nav-item">
 						<div class="dropdown dropdown-notifications">
-							<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="position-relative"><span class="feather-icon"><i data-feather="bell"></i></span><span class="badge badge-success badge-indicator position-top-end-overflow-1"></span></span></span></a>
+							<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation role="button" aria-haspopup="true" aria-expanded="false">
+							<span class="icon">
+								<span class="position-relative">
+									<span class="feather-icon">
+										<i data-feather="bell"></i>
+									</span>
+									<span class="badge badge-success badge-indicator position-top-end-overflow-1"></span>
+								</span>
+							</span>
+							</a>
 							<div class="dropdown-menu dropdown-menu-end p-0">
 								<h6 class="dropdown-header px-4 fs-6">Notifications<a href="#" class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
 								</h6>
