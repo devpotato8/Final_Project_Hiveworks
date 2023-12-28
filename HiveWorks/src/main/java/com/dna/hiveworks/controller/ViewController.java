@@ -13,7 +13,7 @@ public class ViewController {
 	
 	@GetMapping("/MyloginPage")
 	public String loginPage() {
-		return "loginPage";
+		return "common/loginPage";
 	}
 	
 }

@@ -1,14 +1,20 @@
 package com.dna.hiveworks.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.dna.hiveworks.security.DBConnectionProvider;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
+	@Autowired
+	private DBConnectionProvider dbprovider;
 	
 	@Bean
 	SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception{
@@ -22,12 +28,16 @@ public class SecurityConfig {
 							.requestMatchers("/**").permitAll();
 				})
 				.formLogin(formlogin->{
-					formlogin.loginProcessingUrl("/login")
-							.loginPage("/MyloginPage")
+					formlogin.loginPage("/MyloginPage")
+					.usernameParameter("empId")
+					.passwordParameter("empPw")
+							.loginProcessingUrl("/loginend")
 							.failureForwardUrl("/loginfail")
-							.successForwardUrl("/loginsuccess")
+							.successForwardUrl("/")
 							.permitAll();
 				})
+				.logout(logout->logout.logoutUrl("/logout"))
+				.authenticationProvider(dbprovider)
 				.build();
 	}
 }
