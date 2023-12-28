@@ -1,5 +1,11 @@
 package com.dna.hiveworks.serviceimpl;
 
+import org.springframework.stereotype.Service;
+
+import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.service.EmpService;
+
+
 /**
  * @author : 김태윤
  * @since : 2023. 12. 28.
@@ -10,6 +16,14 @@ package com.dna.hiveworks.serviceimpl;
  * 
  */
 
-public class EmpServiceImpl {
+@Service
+public class EmpServiceImpl implements EmpService {
 
+	@Override
+	public Employee selectEmployeeById(String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

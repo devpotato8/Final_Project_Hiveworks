@@ -106,7 +106,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Chat Popup</span>
+									<span class="nav-link-text">쪽지함</span>
 									
 								</a>
 								<ul id="dash_chatpop" class="nav flex-column collapse  nav-children">
@@ -137,7 +137,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Calendar</span>
+									<span class="nav-link-text">캘린더</span>
 								</a>
 							</li>	
 							
@@ -183,7 +183,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Scrumboard</span>
+									<span class="nav-link-text">게시판</span>
 								</a>
 								<ul id="dash_scrumboard" class="nav flex-column collapse  nav-children">
 									<li class="nav-item">
@@ -349,7 +349,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Invoices</span>
+									<span class="nav-link-text">급여관리</span>
 								</a>
 								<ul id="dash_invoice" class="nav flex-column collapse  nav-children">
 									<li class="nav-item">
@@ -420,7 +420,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Authentication</span>
+									<span class="nav-link-text">인사관리</span>
 								</a>
 								<ul id="dash_pages" class="nav flex-column collapse  nav-children">
 									<li class="nav-item">

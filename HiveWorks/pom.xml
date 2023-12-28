@@ -76,16 +76,16 @@
 		</dependency>
 		<!-- spring security 사용할 때 주석 해제하기 -->
 		
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>-->
+		</dependency>
 		
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
-		</dependency>-->
+		</dependency>
 		
 		<!-- jsp -->
 		<dependency>

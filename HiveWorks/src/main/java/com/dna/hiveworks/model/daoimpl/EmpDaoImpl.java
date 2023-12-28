@@ -1,5 +1,11 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import com.dna.hiveworks.model.dao.EmpDao;
+import com.dna.hiveworks.model.dto.Employee;
+
 /**
  * @author : 김태윤
  * @since : 2023. 12. 28.
@@ -10,6 +16,12 @@ package com.dna.hiveworks.model.daoimpl;
  * 
  */
 
-public class EmpDaoImpl {
-
+@Repository
+public class EmpDaoImpl implements EmpDao {
+	
+	@Override
+	public Employee selectEmployeeById(SqlSession session, String empId) {
+		return session.selectOne("selectEmployeeById",empId);
+	}
+	
 }

@@ -1,5 +1,9 @@
 package com.dna.hiveworks.model.dao;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.dna.hiveworks.model.dto.Employee;
+
 /**
  * @author : 김태윤
  * @since : 2023. 12. 28.
@@ -10,6 +14,8 @@ package com.dna.hiveworks.model.dao;
  * 
  */
 
-public class EmpDao {
-
+public interface EmpDao {
+	
+	Employee selectEmployeeById(SqlSession session, String empId);
+	
 }

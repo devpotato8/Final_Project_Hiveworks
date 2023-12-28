@@ -1,12 +1,16 @@
 package com.dna.hiveworks.controller;
 
-import java.util.List;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.service.EmpService;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author : 김태윤
@@ -20,16 +24,20 @@ import com.dna.hiveworks.model.dto.Employee;
 
 @RestController
 @RequestMapping("/employees")
+@RequiredArgsConstructor
 public class EmpController {
+	
+	private final EmpService service;
 	
 //	@GetMapping
 //	public List<Employee> selectEmployeeAll(){
 //		
 //	}
 //	
-//	@GetMapping
-//	public Employee selectEmployeeById() {
-//		
-//	}
+	@GetMapping("/{empId}")
+	public ResponseEntity<Employee> selectEmployeeById(@PathVariable String empId) {
+		Employee e = service.selectEmployeeById(empId);
+		return ResponseEntity.status(HttpStatus.OK).body(e);
+	}
 	
 }

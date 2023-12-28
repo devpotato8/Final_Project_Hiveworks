@@ -1,5 +1,7 @@
 package com.dna.hiveworks.service;
 
+import com.dna.hiveworks.model.dto.Employee;
+
 /**
  * @author : 김태윤
  * @since : 2023. 12. 28.
@@ -10,6 +12,7 @@ package com.dna.hiveworks.service;
  * 
  */
 
-public class EmpService {
-
+public interface EmpService {
+	
+	public Employee selectEmployeeById(String empId);
 }

@@ -35,7 +35,7 @@
 										<img class="brand-img d-inline-block" src="${path}/resources/img/hiveworks.png" alt="brand">
 									</a>
 								</div>
-								<form class="w-100">
+								<form class="w-100" action="/loginPage" method="post">
 									<div class="row">
 										<div class="col-xl-7 col-sm-10 mx-auto">
 											<div class="text-center mb-4">
