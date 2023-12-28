@@ -19,24 +19,21 @@ import lombok.RequiredArgsConstructor;
 public class DBConnectionProvider implements AuthenticationProvider{
 	
 	private final EmpDao dao;
-	private final SqlSession session;
-	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		System.out.println("dao:"+dao);
-		System.out.println("session:"+session);
 		
 		String empId = authentication.getName();
 		String empPw = (String)authentication.getCredentials();
-		System.out.println(empId);
-		System.out.println(empPw);
-		Employee loginEmp = dao.selectEmployeeById(session,empId);
-		System.out.println(loginEmp);
+
+		Employee loginEmp = dao.selectEmployeeById(empId);
+				
 		if(loginEmp== null||!loginEmp.getEmpPw().equals(empPw)) {
 			throw new BadCredentialsException("인증실패!");
 		}
-		
+
+//DB 완성 이후에 BCrypt이용해서 pw 재설정한 더미데이터 삽입 후 이용할 로직
 //		if(loginEmp==null||!encoder.matches(empPw,loginEmp.getEmpPw())) {
 //			throw new BadCredentialsException("인증실패!");
 //		}

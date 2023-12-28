@@ -17,6 +17,21 @@
 	
 	<!-- CSS -->
     <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
+
+	<!-- Font적용 -->    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">	
+
+	<style>
+		h2,h4{
+			font-family: 'Do Hyeon', sans-serif;
+		}
+		label{
+			font-family: 'Do Hyeon', sans-serif;
+			font-size: 1.2rem;
+		}
+	</style>
 </head>
 <body>
    	  	<!-- Wrapper -->
@@ -31,9 +46,9 @@
 						<div class="col-xl-5 col-lg-6 col-md-7 position-relative mx-auto">
 							<div class="auth-content flex-column pt-8 pb-md-8 pb-13">
 								<div class="text-center mb-7">
-									<a class="navbar-brand me-0" href="index.html">
-										<img class="brand-img d-inline-block" src="${path}/resources/img/hiveworks.png" alt="brand">
-									</a>
+									
+										<img class="brand-img d-inline-block" src="${path}/resources/img/hiveworks.png" width="350px" height="75px" alt="brand">
+									
 								</div>
 								<form class="w-100" action="/loginend" method="post">
 									<div class="row">
@@ -114,8 +129,8 @@
 								<div class="row">
 									<div class="col-xxl-12 col-xl-10 col-lg-11 mx-auto">
 										<h2 class="mb-5">HiveWorks ERP System</h2>
-										<h2 class="mb-3">환영합니다!</h2>
-										<p>HiveWorks 그룹웨어와 함께 업무효율을 최대로 발휘해 보세요!</p>
+										
+										<p>지금 HiveWorks에서 업무능력을 최대로 발휘해 보세요!</p>
 										<!-- <button class="btn  btn-flush-primary btn-uppercase mt-2">Take Tour</button> -->
 									</div>
 								</div>

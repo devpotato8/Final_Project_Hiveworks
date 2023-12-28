@@ -168,6 +168,7 @@
 			</div>
 			<!-- /Start Nav -->
 			
+			
 			<!-- End Nav -->
 			<div class="nav-end-wrap">
 				<ul class="navbar-nav flex-row">
@@ -201,6 +202,7 @@
 					</li>
 					<!-- /쪽지 아이콘 -->
 					
+					<!-- 알림 아이콘 -->
 					<li class="nav-item">
 						<div class="dropdown dropdown-notifications">
 							<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation role="button" aria-haspopup="true" aria-expanded="false">
@@ -334,6 +336,9 @@
 							</div>
 						</div>
 					</li>
+					<!-- /알림 아이콘 -->
+					
+					<!-- 프로필 아이콘 -->
 					<li class="nav-item">
 						<div class="dropdown ps-2">
 							<a class=" dropdown-toggle no-caret" href="#" role="button" data-bs-display="static" data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="outside" aria-expanded="false">
@@ -403,6 +408,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- /프로필 아이콘 -->
 				</ul>
 			</div>
 			<!-- /End Nav -->

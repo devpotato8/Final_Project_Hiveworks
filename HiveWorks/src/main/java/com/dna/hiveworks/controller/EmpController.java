@@ -29,11 +29,6 @@ public class EmpController {
 	
 	private final EmpService service;
 	
-//	@GetMapping
-//	public List<Employee> selectEmployeeAll(){
-//		
-//	}
-//	
 	@GetMapping("/{empId}")
 	public ResponseEntity<Employee> selectEmployeeById(@PathVariable String empId) {
 		Employee e = service.selectEmployeeById(empId);

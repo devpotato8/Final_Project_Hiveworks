@@ -28,12 +28,12 @@ public class SecurityConfig {
 							.requestMatchers("/**").permitAll();
 				})
 				.formLogin(formlogin->{
-					formlogin.loginPage("/MyloginPage")
-					.usernameParameter("empId")
-					.passwordParameter("empPw")
+					formlogin.loginPage("/MyLoginPage")
+							.usernameParameter("empId")
+							.passwordParameter("empPw")
 							.loginProcessingUrl("/loginend")
 							.failureForwardUrl("/loginfail")
-							.successForwardUrl("/")
+							.successForwardUrl("/login/index")
 							.permitAll();
 				})
 				.logout(logout->logout.logoutUrl("/logout"))

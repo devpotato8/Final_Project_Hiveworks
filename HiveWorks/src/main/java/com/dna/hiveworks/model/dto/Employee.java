@@ -35,9 +35,7 @@ public class Employee implements UserDetails{
 	private String empPw;
 	private String empName;
 	
-	
-	
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auth = new ArrayList<>();
