@@ -5,33 +5,74 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<%-- <jsp:include page= "/WEB-INF/views/common/header.jsp"/> --%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<jsp:include page= "/WEB-INF/views/common/header.jsp">
+	<jsp:param value="collapsed" name="style"/>
+	<jsp:param value="data-hover='active'" name="hover"/>
+</jsp:include>
+<%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <!-- Main Content -->
-<div class="hk-pg-wrapper">
-    <div class="container-xxl">
-        <!-- EDoc SideBar -->
-        <!-- /EDoc SideBar -->
-        <!-- Page Header -->
-        <div class="hk-pg-header pg-header-wth-tab pt-7">
-            <div class="d-flex">
-                <div class="d-flex flex-wrap justify-content-between flex-1">
-                    <div class="mb-lg-0 mb-2 me-8">
-                        <h1 class="pg-title">전자문서</h1>
-                        <h3>Status : <c:out value="${status }"/></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Page Header -->
-        <!-- Page Body -->
-        <div>
-            <div class="container">
-                
-            </div>
-        </div>
-    </div>
+<div class="hk-pg-wrapper pb-0">
+	<!-- Page Body -->
+	<div class="hk-pg-body py-0">
+		<div class="fmapp-wrap">
+			<!-- PageSideBar -->
+			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
+				<jsp:param value="${currentPage }" name=""/>
+			</jsp:include>
+			<div class="fmapp-content">
+				<div class="fmapp-detail-wrap">
+					<header class="fm-header">
+						<div class="d-flex align-items-center flex-grow-1">
+							<a class="fmapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+								<h1>My Space</h1>
+							</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="file"></i></span><span>All Files</span></a>
+								<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="file-plus"></i></span><span>Synced Files</span></a>
+								<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="upload-cloud"></i></span><span>Cloud Document</span></a>
+							</div>
+							
+						</div>
+						<div class="fm-options-wrap">	
+							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover disabled d-xl-inline-block d-none" href="#" ><span class="icon"><span class="feather-icon"><i data-feather="user-plus"></i></span></span></a>
+							
+							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
+								<span class="icon">
+									<span class="feather-icon"><i data-feather="chevron-up"></i></span>
+									<span class="feather-icon d-none"><i data-feather="chevron-down"></i></span>
+								</span>
+							</a>
+						</div>
+						<div class="hk-sidebar-togglable"></div>
+					</header>
+					<div class="fm-body">
+						<div data-simplebar class="nicescroll-bar">
+							<div class="file-list-view">
+								<ul class="nav nav-tabs nav-line nav-icon nav-light">
+									<li class="nav-item">
+										<a class="nav-link active" data-bs-toggle="tab" href="#cloud_doc">
+											<span class="nav-link-text">Cloud Documents</span>
+										</a>
+									</li>
+									
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane fade show active" id="cloud_doc">
+										<div class="table-responsive">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Page Body -->
 </div>
+<!-- /Main Content -->
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
