@@ -18,12 +18,14 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request->{
 					request.requestMatchers("/").permitAll()
 							.requestMatchers("/WEB-INF/views/**").permitAll()
-							.requestMatchers("/resources/**").permitAll();
-				}).formLogin(formlogin->{
+							.requestMatchers("/resources/**").permitAll()
+							.requestMatchers("/**").permitAll();
+				})
+				.formLogin(formlogin->{
 					formlogin.loginProcessingUrl("/login")
 							.loginPage("/MyloginPage")
-//							.failureForwardUrl("/loginfail")
-//							.successForwardUrl("/loginsuccess")
+							.failureForwardUrl("/loginfail")
+							.successForwardUrl("/loginsuccess")
 							.permitAll();
 				})
 				.build();
