@@ -290,7 +290,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Todo</span>
+									<span class="nav-link-text">Todo리스트</span>
 									<span class="badge badge-soft-success ms-2">2</span>
 								</a>
 								<ul id="dash_task" class="nav flex-column collapse  nav-children">
