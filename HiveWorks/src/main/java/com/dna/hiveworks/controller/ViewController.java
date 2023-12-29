@@ -28,7 +28,7 @@ public class ViewController {
 	
 	@GetMapping("/MyLoginPage")
 	public String loginPage() {
-		
+
 		return "common/loginPage";
 	}
 	
