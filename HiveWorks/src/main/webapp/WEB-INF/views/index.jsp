@@ -22,7 +22,7 @@
 					<div class="d-flex">
 						<div class="d-flex flex-wrap justify-content-between flex-1">
 							<div class="mb-lg-0 mb-2 me-8">
-								<h1 class="pg-title">안녕하세요 OO님</h1>
+								<h1 class="pg-title">안녕하세요 ${loginEmp.empName}님</h1>
 							</div>
 						</div>
 					</div>
