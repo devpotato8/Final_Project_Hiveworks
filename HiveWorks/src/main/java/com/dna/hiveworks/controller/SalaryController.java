@@ -1,5 +1,6 @@
 package com.dna.hiveworks.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import lombok.AllArgsConstructor;
  * 
  */
 
-
+@Controller
 @AllArgsConstructor
 @RequestMapping("/salary")
 public class SalaryController {
@@ -32,7 +33,7 @@ public class SalaryController {
 		
 		//model.addAttribute(list);
 		
-		return "/salaryList";
+		return "salary/salaryList";
 	}
 	
 	

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>김태윤 천재 로그인 최고임</h1>
+	<h1>나도 아프다</h1>
 </body>
 </html>

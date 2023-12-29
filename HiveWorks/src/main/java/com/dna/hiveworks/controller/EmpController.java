@@ -40,4 +40,11 @@ public class EmpController {
 		return ResponseEntity.status(HttpStatus.OK).body(e);
 	}
 	
+	@GetMapping("/employeeList.do")
+	public String selectEmployeesListAll() {
+		
+		return "employees/employeeList";
+	}
+	
+	
 }
