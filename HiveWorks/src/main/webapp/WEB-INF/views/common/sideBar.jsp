@@ -351,7 +351,7 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="invoice-list.html"><span class="nav-link-text">Invoice List</span></a>
+												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
 											</li>
 											<li class="nav-item">
 												<a class="nav-link" href="invoice-templates.html"><span class="nav-link-text">Invoice Templates</span></a>
@@ -473,6 +473,9 @@
 											</li>
 											<li class="nav-item">
 												<a class="nav-link" href="503.html"><span class="nav-link-text">Error 503</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/employees/employeeList"><span class="nav-link-text">직원 관리</span></a>
 											</li>
 										</ul>
 									</li>
