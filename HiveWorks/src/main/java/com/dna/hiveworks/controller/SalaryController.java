@@ -1,10 +1,9 @@
 package com.dna.hiveworks.controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.dna.hiveworks.serviceimpl.SalaryServiceImpl;
 
 import lombok.AllArgsConstructor;
 
@@ -25,9 +24,9 @@ import lombok.AllArgsConstructor;
 public class SalaryController {
 
 	
-	private final SalaryServiceImpl service;
+	//private final SalaryServiceImpl service;
 	
-	@RequestMapping("/salaryList.do")
+	@GetMapping("/salaryList.do")
 	public String selectSalaryListAll(Model model, @RequestParam(defaultValue="1") int cPage){
 		//List<Salary> list = service.selectSalaryListAll();
 		
