@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.daoimpl;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.EmpDao;
@@ -19,9 +20,12 @@ import com.dna.hiveworks.model.dto.Employee;
 @Repository
 public class EmpDaoImpl implements EmpDao {
 	
+	@Autowired
+	private SqlSession session;
+	
 	@Override
-	public Employee selectEmployeeById(SqlSession session, String empId) {
-		return session.selectOne("selectEmployeeById",empId);
+	public Employee selectEmployeeById(String empId) {
+		return session.selectOne("employee.selectEmployeeById",empId);
 	}
 	
 }
