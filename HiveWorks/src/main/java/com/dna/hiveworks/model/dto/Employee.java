@@ -1,5 +1,15 @@
 package com.dna.hiveworks.model.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.dna.hiveworks.common.Authorities;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +29,53 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Employee {
+public class Employee implements UserDetails{
 
 	private String empId;
 	private String empPw;
 	private String empName;
+	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> auth = new ArrayList<>();
+		
+		auth.add(new SimpleGrantedAuthority(Authorities.USER.name()));
+		if(empId.equals("admin")) {
+			auth.add(new SimpleGrantedAuthority(Authorities.ADMIN.name()));
+		}
+		return auth;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.empId;
+	}
+	
+	@Override
+	public String getPassword() {
+		return this.empPw;
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	
+	
+	
 	
 }

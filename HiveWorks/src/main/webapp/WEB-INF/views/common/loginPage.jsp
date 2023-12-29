@@ -17,6 +17,21 @@
 	
 	<!-- CSS -->
     <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
+
+	<!-- Font적용 -->    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">	
+
+	<style>
+		h2,h4{
+			font-family: 'Do Hyeon', sans-serif;
+		}
+		label{
+			font-family: 'Do Hyeon', sans-serif;
+			font-size: 1.2rem;
+		}
+	</style>
 </head>
 <body>
    	  	<!-- Wrapper -->
@@ -31,11 +46,11 @@
 						<div class="col-xl-5 col-lg-6 col-md-7 position-relative mx-auto">
 							<div class="auth-content flex-column pt-8 pb-md-8 pb-13">
 								<div class="text-center mb-7">
-									<a class="navbar-brand me-0" href="index.html">
-										<img class="brand-img d-inline-block" src="${path}/resources/img/hiveworks.png" alt="brand">
-									</a>
+									
+										<img class="brand-img d-inline-block" src="${path}/resources/img/hiveworks.png" width="350px" height="75px" alt="brand">
+									
 								</div>
-								<form class="w-100" action="/login" method="post">
+								<form class="w-100" action="/loginend" method="post">
 									<div class="row">
 										<div class="col-xl-7 col-sm-10 mx-auto">
 											<div class="text-center mb-4">
@@ -47,16 +62,16 @@
 													<div class="form-label-group">
 														<label>User ID</label>
 													</div>
-													<input class="form-control" placeholder="Enter your userID" value="" type="text">
+													<input class="form-control" placeholder="Enter your userID" value="" type="text" name="empId">
 												</div>
 												<div class="form-group col-lg-12">
 													<div class="form-label-group">
 														<label>Password</label>
-														<a href="#" class="fs-8 fw-medium">비밀번호 찾기</a>
+														<a href="#" class="fs-8 fw-medium">비밀번호를 잊으셨나요?</a>
 													</div>
 													<div class="input-group password-check">
 														<span class="input-affix-wrapper affix-wth-text">
-															<input class="form-control" placeholder="Enter your password" value="" type="password">
+															<input class="form-control" placeholder="Enter your password" value="" type="password" name="empPw">
 															<a href="#" class="input-suffix text-primary text-uppercase fs-8 fw-medium">
 																<span>
 																	<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
@@ -81,11 +96,11 @@
 													<label class="form-check-label text-muted fs-7" for="logged_in">로그인 상태 유지</label>
 												</div>
 											</div>
-											<a href="#" class="btn btn-primary btn-uppercase btn-block">Login</a>
+											<button class="btn btn-primary btn-uppercase btn-block">Login</button>
 											<!-- <p class="p-xs mt-2 text-center">New to Jampack? <a href="#"><u>Create new account</u></a></p>
 											<a href="#" class="d-block extr-link text-center mt-4"><span class="feather-icon"><i data-feather="external-link"></i></span><u class="text-muted">Send feedback to our help forum</u></a> -->
 											<hr>
-											<p class="p-xs mt-2 text-center"> 신규가입은 인사담당자에게 문의해주세요 </p>
+											<p class="p-xs mt-2 text-center"> 신규가입은 인사관리자에게 문의해주세요 </p>
 										</div>
 									</div>
 								</form>
@@ -114,8 +129,8 @@
 								<div class="row">
 									<div class="col-xxl-12 col-xl-10 col-lg-11 mx-auto">
 										<h2 class="mb-5">HiveWorks ERP System</h2>
-										<h2>환영합니다!</h2>
-										<p>HiveWorks 그룹웨어와 함께 업무효율을 최대로 발휘해 보세요!</p>
+										
+										<p>지금 HiveWorks에서 업무능력을 최대로 발휘해 보세요!</p>
 										<!-- <button class="btn  btn-flush-primary btn-uppercase mt-2">Take Tour</button> -->
 									</div>
 								</div>
