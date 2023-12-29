@@ -16,6 +16,6 @@ import com.dna.hiveworks.model.dto.Employee;
 
 public interface EmpDao {
 	
-	Employee selectEmployeeById(SqlSession session, String empId);
+	Employee selectEmployeeById(String empId);
 	
 }

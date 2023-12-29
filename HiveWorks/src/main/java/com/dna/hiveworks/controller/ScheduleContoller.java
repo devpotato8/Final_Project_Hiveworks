@@ -8,9 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/schedule")
 public class ScheduleContoller {
 	
-	@GetMapping
+	@GetMapping("schedulelist.do")
 	public String schuduleList() {
-		return "/schuduleList";
+		return "schedule/scheduleList";
 	}
-
+	
+	
+	@GetMapping("reservationlist.do")
+	public String reservationList() {
+		return "schedule/reservationList";
+	}
+	
+	@GetMapping("projectlist.do")
+	public String projectList() {
+		return "schedule/projectList";
+	}
+	
+	
 }
