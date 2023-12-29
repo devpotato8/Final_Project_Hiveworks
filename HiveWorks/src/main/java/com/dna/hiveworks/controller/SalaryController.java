@@ -27,7 +27,7 @@ public class SalaryController {
 	
 	//private final SalaryServiceImpl service;
 	
-	@GetMapping("/salaryList.do")
+	@GetMapping("/salaryList")
 	public String selectSalaryListAll(Model model, @RequestParam(defaultValue="1") int cPage){
 		//List<Salary> list = service.selectSalaryListAll();
 		
