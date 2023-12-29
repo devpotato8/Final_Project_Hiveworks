@@ -31,6 +31,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Employee implements UserDetails{
 
+
 	private String empId;
 	private String empPw;
 	private String empName;
