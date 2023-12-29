@@ -178,15 +178,9 @@
 							<li class="nav-item">
 								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_scrumboard">
 									<span class="nav-icon-wrap position-relative">
-										<span class="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">3</span>
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-kanban" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<line x1="4" y1="4" x2="10" y2="4" />
-												<line x1="14" y1="4" x2="20" y2="4" />
-												<rect x="4" y="8" width="6" height="12" rx="2" />
-												<rect x="14" y="8" width="6" height="6" rx="2" />
-											</svg>
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard">
+											<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
 										</span>
 									</span>
 									<span class="nav-link-text" >게시판</span>
