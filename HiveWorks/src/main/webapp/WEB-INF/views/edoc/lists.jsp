@@ -29,11 +29,11 @@
 								<h1>My Space</h1>
 							</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="file"></i></span><span>All Files</span></a>
-								<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="file-plus"></i></span><span>Synced Files</span></a>
-								<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="upload-cloud"></i></span><span>Cloud Document</span></a>
+								<a class="dropdown-item" href="#"><span>전체</span></a>
+								<a class="dropdown-item" href="#"><span>All Files</span></a>
+								<a class="dropdown-item" href="#"><span>All Files</span></a>
+								<a class="dropdown-item" href="#"><span>All Files</span></a>
 							</div>
-							
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover disabled d-xl-inline-block d-none" href="#" ><span class="icon"><span class="feather-icon"><i data-feather="user-plus"></i></span></span></a>

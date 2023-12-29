@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <style>
+.menu-content-wrap {
+	padding : 1.5rem;
+	position : relative;
+}
 .menu-content-wrap .menu-group .navbar-nav > .nav-item > ul {
     position: relative;
     padding: 0.5rem 0;
@@ -13,7 +17,7 @@
     background: #d8d8d8;
     height: calc(100% - 20px);
     position: absolute;
-    left: 10px;
+    left: 25px;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -97,11 +101,11 @@
 						</a>
 						<ul id="edoc_pending" class="nav flex-column collapse nav-children">
 							<li class="nav-item">
-								<a class="nav-link" href="#"><span class="nav-link-text">전체</span></a>
-								<a class="nav-link" href="#"><span class="nav-link-text">대기</span></a>
-								<a class="nav-link" href="#"><span class="nav-link-text">확인</span></a>
-								<a class="nav-link" href="#"><span class="nav-link-text">예정</span></a>
-								<a class="nav-link" href="#"><span class="nav-link-text">진행</span></a>
+								<a class="nav-link" href="${path }/edoc/lists/all"><span class="nav-link-text">전체</span></a>
+								<a class="nav-link" href="${path }/edoc/lists/wait"><span class="nav-link-text">대기</span></a>
+								<a class="nav-link" href="${path }/edoc/lists/check"><span class="nav-link-text">확인</span></a>
+								<a class="nav-link" href="${path }/edoc/lists/expect"><span class="nav-link-text">예정</span></a>
+								<a class="nav-link" href="${path }/edoc/lists/process"><span class="nav-link-text">진행</span></a>
 							</li>	
 						</ul>
 					</li>
@@ -123,19 +127,22 @@
 							<li class="nav-item">
 								<ul class="nav flex-column">
 									<li class="nav-item">
-										<a class="nav-link" href="#"><span class="nav-link-text">전체</span></a>
+										<a class="nav-link" href="${path }/edoc/box/all"><span class="nav-link-text">전체</span></a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#"><span class="nav-link-text">대기</span></a>
+										<a class="nav-link" href="${path }/edoc/box/writer"><span class="nav-link-text">기안</span></a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#"><span class="nav-link-text">확인</span></a>
+										<a class="nav-link" href="${path }/edoc/box/approval"><span class="nav-link-text">결재</span></a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#"><span class="nav-link-text">예정</span></a>
+										<a class="nav-link" href="${path }/edoc/box/refer"><span class="nav-link-text">수신</span></a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#"><span class="nav-link-text">진행</span></a>
+										<a class="nav-link" href="${path }/edoc/box/read"><span class="nav-link-text">회람/참조</span></a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="${path }/edoc/box/return"><span class="nav-link-text">반려</span></a>
 									</li>
 								</ul>	
 							</li>	
