@@ -179,13 +179,13 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">게시판</span>
+									<span class="nav-link-text" >게시판</span>
 								</a>
 								<ul id="dash_scrumboard" class="nav flex-column collapse  nav-children">
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="projects-board.html"><span class="nav-link-text">All Boards</span></a>
+												<a class="nav-link" href="${path}/board/board""><span class="nav-link-text">All Boards</span></a>
 											</li>
 											
 											<li class="nav-item">

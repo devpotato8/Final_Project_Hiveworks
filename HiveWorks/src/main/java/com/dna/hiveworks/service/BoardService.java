@@ -1,5 +1,8 @@
 package com.dna.hiveworks.service;
 
-public class BoardService {
+import com.dna.hiveworks.model.dto.Board;
 
+public interface BoardService {
+
+	public Board selectBoardByNo(int boardNo);
 }
