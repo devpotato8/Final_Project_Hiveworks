@@ -28,8 +28,7 @@
 														</span></th>														
 													<th>게시판 번호</th>
 													<th>날짜</th>
-													<th>제목111</th>
-													
+													<th>제목</th>												
 													<th>작성자</th>
 													<th>작성일</th>
 													<th>수정일</th>
@@ -37,16 +36,16 @@
 												</tr>
 											</thead>
 											<tbody>
-												<c:if test="${not empty boards }">
-												<c:forEach var="b" items="${board }">
 												<tr>
+												<c:if test="${not empty board }">
+												<c:forEach var="b" items="${board }">
 													<td></td>
 													<td><a href="#" class="table-link-text link-high-em"><c:out value="${b.boardNo }"/></a></td>
 													<td><c:out value="${b.createDate }"/></td>
 													<td>
 													<c:out value="${b.boardTitle }"/>
 													</td>
-													<td><c:out value="${b.creater }"/></td>creater
+													<td><c:out value="${b.creater }"/></td>
 													<td><c:out value="${b.createDate }"/></td>
 													<td><c:out value="${b.modifyDate }"/></td>
 													<td>
@@ -59,10 +58,10 @@
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="삭제" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
-													</td>
-												</tr>
+													 </td>
 												</c:forEach>
 										     </c:if>
+										    </tr>
 											</tbody>
 										</table>			
 									</div>
@@ -70,9 +69,5 @@
 								</div>
 							</div>				
 </div>
-
-
-
-
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
