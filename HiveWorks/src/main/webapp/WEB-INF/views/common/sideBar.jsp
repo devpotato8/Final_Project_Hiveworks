@@ -189,14 +189,14 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/board/board""><span class="nav-link-text">공지사항</span></a>
+												<a class="nav-link" href="${path}/board/board"><span class="nav-link-text">공지사항</span></a>
 											</li>
 											
 											<li class="nav-item">
-												<a class="nav-link" href="kanban-board.html"><span class="nav-link-text">건의</span></a>
+												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="pipeline.html"><span class="nav-link-text">블라인드</span></a>
+												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
 											</li>
 											<li class="nav-item">
 												<a class="nav-link" href="pipeline.html"><span class="nav-link-text">설문</span></a>

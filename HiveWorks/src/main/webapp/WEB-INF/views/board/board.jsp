@@ -37,20 +37,22 @@
 												</tr>
 											</thead>
 											<tbody>
+												<c:if test="${not empty boards }">
+												<c:forEach var="b" items="${board }">
 												<tr>
 													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">1AA</a></td>
-													<td>2023.11.11</td>
+													<td><a href="#" class="table-link-text link-high-em"><c:out value="${b.boardNo }"/></a></td>
+													<td><c:out value="${b.createDate }"/></td>
 													<td>
-													가
+													<c:out value="${b.boardTitle }"/>
 													</td>
-													<td>피말자</td>
-													<td>2</td>
-													<td>2</td>
+													<td><c:out value="${b.creater }"/></td>creater
+													<td><c:out value="${b.createDate }"/></td>
+													<td><c:out value="${b.modifyDate }"/></td>
 													<td>
 														<div class="d-flex align-items-center">
 															<div style="margin-right: 100px;">
-																55
+																<c:out value="${b.boardCount }"/>
 															</div>
 															<div class="d-flex">
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="수정" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
@@ -59,60 +61,14 @@
 														</div>
 													</td>
 												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">1BB</a></td>
-													<td>2023.11.12</td>
-													<td>
-													나
-													</td>
-													<td>김말자</td>
-													<td>2</td>
-													<td>2</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div style="margin-right: 100px;">
-																33
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="수정" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="삭제" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">1CC</a></td>
-													<td>2023.11.13</td>
-													<td>
-													다
-													</td>
-													<td>이말자</td>
-													<td>3</td>
-													<td>3</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div style="margin-right: 100px;">
-																22
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="수정" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="삭제" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												
+												</c:forEach>
+										     </c:if>
 											</tbody>
-										</table>
-									
+										</table>			
 									</div>
-								
+			
 								</div>
-							</div>
-							
-							
+							</div>				
 </div>
 
 
