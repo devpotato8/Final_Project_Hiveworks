@@ -12,7 +12,8 @@
 
 <div class="hk-pg-wrapper">
          <div class="container-xxl">
-			<h2>게시판임 ㅅㄱ</h2>
+			<h2>공지사항</h2>
+			
 			<hr/>
 		</div>
 		<div class="invoice-body">
@@ -110,6 +111,7 @@
 								
 								</div>
 							</div>
+							
 							
 </div>
 
