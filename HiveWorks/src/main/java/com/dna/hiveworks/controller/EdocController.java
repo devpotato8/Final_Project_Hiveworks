@@ -24,6 +24,7 @@ public class EdocController {
 	
 	@GetMapping("/lists/{status}")
 	public String pendingList(@PathVariable String status, Model model) {
+		
 		model.addAttribute("status",status);
 		model.addAttribute("current","lists");
 		return "edoc/lists";
