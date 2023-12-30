@@ -8,7 +8,7 @@
 			<!-- Brand -->
 			<div class="menu-header">
 				<span>
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="${path}/">
 						<img class="brand-img img-fluid" src="${path}/resources/img/logo_bee.png" alt="brand" width="30px" height="35px"/>
 						<img class="brand-img img-fluid" src="${path}/resources/img/logo-title.png" alt="brand" width="150px" height="35px"/>
 					</a>
@@ -443,7 +443,7 @@
 													<li class="nav-item">
 														<ul class="nav flex-column">
 															<li class="nav-item">
-																<a class="nav-link" href="signup.html"><span class="nav-link-text">조직구성</span></a>
+																<a class="nav-link" href="${path}/dept/deptview"><span class="nav-link-text">조직구성</span></a>
 															</li>
 															<li class="nav-item">
 																<a class="nav-link" href="signup-simple.html"><span class="nav-link-text">구성원 관리</span></a>
