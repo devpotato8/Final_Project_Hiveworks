@@ -1,5 +1,7 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,5 +29,31 @@ public class EmpDaoImpl implements EmpDao {
 	public Employee selectEmployeeById(String empId) {
 		return session.selectOne("employee.selectEmployeeById",empId);
 	}
+
+	@Override
+	public List<Employee> selectEmployeesListAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertEmployee(Employee e) {
+		return 0;
+	}
+
+	@Override
+	public int updateEmployee(Employee e) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteEmployee(Employee e) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	
 	
 }
