@@ -8,7 +8,7 @@
 			<!-- Brand -->
 			<div class="menu-header">
 				<span>
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="${path}/">
 						<img class="brand-img img-fluid" src="${path}/resources/img/logo_bee.png" alt="brand" width="30px" height="35px"/>
 						<img class="brand-img img-fluid" src="${path}/resources/img/logo-title.png" alt="brand" width="150px" height="35px"/>
 					</a>
@@ -410,23 +410,23 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">인사관리</span>
+									<span class="nav-link-text">인사/부서관리</span>
 								</a>
 								<ul id="dash_pages" class="nav flex-column collapse  nav-children">
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
 												<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_log">
-													<span class="nav-link-text">Log In</span> 
+													<span class="nav-link-text">인사 관리</span> 
 												</a>
 												<ul id="dash_log" class="nav flex-column collapse  nav-children">
 													<li class="nav-item">
 														<ul class="nav flex-column">
 															<li class="nav-item">
-																<a class="nav-link" href="login.html"><span class="nav-link-text">Login</span></a>
+																<a class="nav-link" href="${path }/employees/employeeList"><span class="nav-link-text">직원관리</span></a>
 															</li>
 															<li class="nav-item">
-																<a class="nav-link" href="login-simple.html"><span class="nav-link-text">Login Simple</span></a>
+																<a class="nav-link" href="login-simple.html"><span class="nav-link-text">직위/직무관리</span></a>
 															</li>
 															<li class="nav-item">
 																<a class="nav-link" href="login-classic.html"><span class="nav-link-text">Login Classic</span></a>
@@ -437,20 +437,18 @@
 											</li>
 											<li class="nav-item">
 												<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_sign">
-													<span class="nav-link-text">Sign Up</span>
+													<span class="nav-link-text">부서 관리</span>
 												</a>
 												<ul id="dash_sign" class="nav flex-column collapse  nav-children">
 													<li class="nav-item">
 														<ul class="nav flex-column">
 															<li class="nav-item">
-																<a class="nav-link" href="signup.html"><span class="nav-link-text">Signup</span></a>
+																<a class="nav-link" href="${path}/dept/deptview"><span class="nav-link-text">조직구성</span></a>
 															</li>
 															<li class="nav-item">
-																<a class="nav-link" href="signup-simple.html"><span class="nav-link-text">Signup Simple</span></a>
+																<a class="nav-link" href="signup-simple.html"><span class="nav-link-text">구성원 관리</span></a>
 															</li>
-															<li class="nav-item">
-																<a class="nav-link" href="signup-classic.html"><span class="nav-link-text">Signup Classic</span></a>
-															</li>
+															
 														</ul>		
 													</li>	
 												</ul>	

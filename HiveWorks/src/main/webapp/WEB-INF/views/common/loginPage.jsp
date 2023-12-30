@@ -50,7 +50,7 @@
 										<img class="brand-img d-inline-block" src="${path}/resources/img/hiveworks.png" width="350px" height="75px" alt="brand">
 									
 								</div>
-								<form class="w-100" action="/loginend" method="post">
+								<form class="w-100" action="${path}/loginend" method="post">
 									<div class="row">
 										<div class="col-xl-7 col-sm-10 mx-auto">
 											<div class="text-center mb-4">
