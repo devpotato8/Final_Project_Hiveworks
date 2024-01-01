@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	   height: 'parent',
 	   droppable: true,	
 	   editable: true,
-	   
+	   selectable: true, // 달력 일자 드래그 설정가능
+	   locale: 'ko', // 한국어 설정
 	   events: [
 		 {
 		   backgroundColor: '#FFC400',
@@ -170,19 +171,34 @@ document.addEventListener('DOMContentLoaded', function() {
 	/*Event Add*/
 	$(document).on("click","#add_event",function (e) {
 		setTimeout(function(){
-			$('.alert.alert-dismissible .close').addClass('btn-close').removeClass('close');
-		},100);
-		
-		calendar.addEvent({
-			backgroundColor: $('.cal-event-color').val(),
-			borderColor: $('.cal-event-color').val(),
-			title: $('.cal-event-name').val(),
-			start: $('.cal-event-date-start').val(),
-			end: $('.cal-event-date-end').val()
-		});
+        $('.alert.alert-dismissible .close').addClass('btn-close').removeClass('close');
+    },100);
+    
+    var eventData = {
+        backgroundColor: $('.cal-event-color').val(),
+        title: $('.cal-event-name').val(),
+        start: $('.cal-event-date-start').val(),
+        end: $('.cal-event-date-end').val()
+    };
+    
+    calendar.addEvent(eventData);
+
+    $.ajax({
+        url: '/schedule/insertevent.do', // 여기에 요청을 보낼 서버 URL을 작성해주세요.
+        type: 'POST', 
+        data: JSON.stringify(eventData),
+        contentType: "application/json",
+        success: function(response) {
+            if(response.status != 'success')  // 'status'와 'success'는 서버 응답에 따라 조정해야 합니다.
+                alert('일정 등록에 실패했습니다.');
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
 		$.notify({
 			icon: 'ri-checkbox-line mr-5',
-			message: "Event has been created",
+			message: "이벤트가 등록되었습니다",
 		},{	
 			type: "dismissible alert alert-inv alert-inv-primary",
 			placement: {
