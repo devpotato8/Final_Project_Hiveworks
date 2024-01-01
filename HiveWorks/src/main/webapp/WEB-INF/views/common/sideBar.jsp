@@ -149,7 +149,7 @@
 								</ul>	
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="calendar.html">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_works">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase">
@@ -160,6 +160,18 @@
 									</span>
 									<span class="nav-link-text">근태관리</span>
 								</a>
+								<ul id="dash_works" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/works/manageworks"><span class="nav-link-text">근무관리</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/vacation/managevacation"><span class="nav-link-text">휴가관리</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>
 							</li>	
 							<li class="nav-item">
 								<a class="nav-link" href="#">
@@ -486,7 +498,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text position-relative">Profile
+									<span class="nav-link-text position-relative">마이페이지
 										<span class="badge badge-danger badge-indicator position-absolute top-0 start-100"></span>
 									</span>
 								</a>
@@ -494,18 +506,18 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="profile.html">
-													<span class="nav-link-text">Profile</span>
+												<a class="nav-link" href="${path }/mypage/myprofile">
+													<span class="nav-link-text">프로필 보기</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="edit-profile.html">
-													<span class="nav-link-text">Edit Profile</span>
+												<a class="nav-link" href="${path }/mypage/editmyprofile">
+													<span class="nav-link-text">프로필 수정</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="account.html">
-													<span class="nav-link-text">Account</span>
+												<a class="nav-link" href="${path }/mypage/myvacation">
+													<span class="nav-link-text">내 휴가</span>
 												</a>
 											</li>
 										</ul>
