@@ -10,21 +10,15 @@
 	<jsp:param value="" name="hover"/>
 </jsp:include>
 
+
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <!-- jstree -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js"></script>
+<link rel="stylesheet" href="//static.jstree.com/3.3.15/assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/themes/default/style.min.css" />
 
-<!-- Bootstrap Core JS -->
-<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- FeatherIcons JS -->
-<script src="${path}/resources/js/feather.min.js"></script>
-
-<!-- Fancy Dropdown JS -->
-<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
 
 <!-- Main Content -->
 <div class="hk-pg-wrapper">
@@ -63,63 +57,9 @@
 					
 						<div class="title-lg fs-5"><span>부서 관리</span></div>
 						<p class="mb-4">부서는 레벨5까지 추가 가능합니다</p>
-						
-    <div id="jstree">
-        <ul>
-            <li id="root">Root node
-                <ul>
-                    <li class="group" id="groupA">A 그룹
-                        <ul>
-                            <li id="child1">Child node 1</li>
-                            <li id="child2">Child node 2</li>
-                        </ul>
-                    </li>
-                    <li class="group" id="groupB">B 그룹
-                        <ul>
-                            <li id="child3">Child node 3</li>
-                            <li id="child4">Child node 4</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
 
-    <button id="confirmationBtn">선택확인</button>
 
-<script>
-/* $(document).ready(function() {
-	$("#jstree").jstree("open_all");
-});
-    
-$(function () {
-	$('#jstree').jstree({
-	    'plugins': [
-	    	"contextmenu",
-	    	"dnd",
-	    	"search",
-	    	"checkbox",
-	    	"unique"
-	   	]
-	});
-}); */
-$(function () {
-    // 6 create an instance when the DOM is ready
-    $('#jstree').jstree();
-    // 7 bind to events triggered on the tree
-    $('#jstree').on("changed.jstree", function (e, data) {
-      console.log(data.selected);
-    });
-    // 8 interact with the tree - either way is OK
-    $('button').on('click', function () {
-      $('#jstree').jstree(true).select_node('child_node_1');
-      $('#jstree').jstree('select_node', 'child_node_1');
-      $.jstree.reference('#jstree').select_node('child_node_1');
-    });
-  });
-</script>	
-						
-						
+
 						
 						<div class="text-end mt-5">
 							<button class="btn btn-primary btn-rounded">
