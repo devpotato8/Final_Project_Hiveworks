@@ -23,7 +23,6 @@ public class DeptDaoImpl implements DeptDao {
 
 	@Override
 	public List<Department> deptListAll(SqlSession session) {
-		
 		return session.selectList("department.deptListAll");
 	}
 
