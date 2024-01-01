@@ -1,6 +1,5 @@
 package com.dna.hiveworks.security;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,9 +25,9 @@ public class DBConnectionProvider implements AuthenticationProvider{
 		
 		String empId = authentication.getName();
 		String empPw = (String)authentication.getCredentials();
-
+		
 		Employee loginEmp = dao.selectEmployeeById(empId);
-				
+		
 		if(loginEmp== null||!loginEmp.getEmpPw().equals(empPw)) {
 			throw new BadCredentialsException("인증실패!");
 		}

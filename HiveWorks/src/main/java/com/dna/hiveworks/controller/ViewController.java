@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class ViewController {
 
-	@GetMapping
+	@GetMapping("/")
 	public String index() {
 		return "index";
 	}
@@ -28,7 +28,6 @@ public class ViewController {
 	
 	@GetMapping("/MyLoginPage")
 	public String loginPage() {
-
 		return "common/loginPage";
 	}
 	
