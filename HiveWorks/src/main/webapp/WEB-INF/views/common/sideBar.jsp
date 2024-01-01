@@ -455,7 +455,7 @@
 													<li class="nav-item">
 														<ul class="nav flex-column">
 															<li class="nav-item">
-																<a class="nav-link" href="${path}/dept/deptview"><span class="nav-link-text">조직구성</span></a>
+																<a class="nav-link" href="${path}/deptview"><span class="nav-link-text">조직구성</span></a>
 															</li>
 															<li class="nav-item">
 																<a class="nav-link" href="signup-simple.html"><span class="nav-link-text">구성원 관리</span></a>
