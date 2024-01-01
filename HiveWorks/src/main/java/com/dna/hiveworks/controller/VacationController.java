@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
  * - 작성자 : 강진하, 날짜 : 2023. 12. 28., 설명 : 최초작성
  * 
  */
-@RestController
 @Controller
-@RequestMapping("/vac")
+@RequestMapping("/vacation")
 public class VacationController {
 	
-	@GetMapping
+	@GetMapping("managevacation")
 	public String worksList() {
-		return "vac/vacList";
+		return "vacation/vacationList";
 	}
 	
 	

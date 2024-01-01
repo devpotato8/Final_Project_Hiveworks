@@ -13,7 +13,7 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <div class="hk-pg-wrapper">
 	<div class="container-xxl">
-		<h2>근무페이지</h2>
+		<h2>휴가페이지</h2>
 	</div>
 </div>
 

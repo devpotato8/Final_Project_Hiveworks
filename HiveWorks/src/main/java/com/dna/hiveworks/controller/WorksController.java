@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
  * - 작성자 : 강진하, 날짜 : 2023. 12. 28., 설명 : 최초작성
  * 
  */
-@RestController
 @Controller
 @RequestMapping("/works")
 public class WorksController {
 	
-	@GetMapping
+	@GetMapping("manageworks")
 	public String worksList() {
 		return "works/worksList";
 	}
