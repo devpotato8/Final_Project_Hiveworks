@@ -43,18 +43,23 @@ public class VacationController {
 //	}
 	
 	@PostMapping("applyvacation")
-	public String applyVacation(Vacation vacation) {
-		int result = service.insertVacation(vacation);
-		
-		String msg,loc;
-		if(result>0) {
-			msg = "휴가 신청 완료  :)";
-			loc = "vacation/vacationList";
-		} else {
-			msg = "휴가 신청 실패  :(";
-			loc = "vacation/vacationList";
-		}
-		
+	public String applyVacation(Vacation vacation, Model m) {
+		System.out.println(vacation);
+//		int result = service.insertVacation(vacation);
+//		
+//		String msg,loc;
+//		if(result>0) {
+//			msg = "휴가 신청 완료  :)";
+//			loc = "vacation/vacationList";
+//		} else {
+//			msg = "휴가 신청 실패  :(";
+//			loc = "vacation/vacationList";
+//		}
+//		
+//		m.addAttribute("msg",msg);
+//		m.addAttribute("loc",loc);
+//		
+//		return "common/msg";
 		return "vacation/vacationList";
 	}
 	

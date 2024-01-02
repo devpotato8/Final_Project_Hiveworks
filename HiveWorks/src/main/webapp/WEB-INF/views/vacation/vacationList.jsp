@@ -67,23 +67,23 @@
 	                </c:if> --%>
 	                
 	                <div class="first-container common-container">
-	                    <div><p>연차</p><button class="btn" name="연차">신청하기</button></div>
-	                    <div><p>반차</p><button class="btn" name="반차">신청하기</button></div>
-	                    <div><p>병가</p><button class="btn" name="병가">신청하기</button></div>
-	                    <div><p>공가</p><button class="btn" name="공가">신청하기</button></div>
+	                    <div><p>연차</p><button class="btn" name="vacOption" id="연차" value="연차">신청하기</button></div>
+	                    <div><p>반차</p><button class="btn" name="vacOption" id="반차" value="반차">신청하기</button></div>
+	                    <div><p>병가</p><button class="btn" name="vacOption" id="병가" value="병가">신청하기</button></div>
+	                    <div><p>공가</p><button class="btn" name="vacOption" id="공가" value="공가">신청하기</button></div>
 	                </div>
 	                <p></p>
 	                <div class="second-container common-container">
-	                    <div><p>조의 - 부모 / 배우자 / 자녀</p><p>신청시 지급 5일</p><button class="btn" name="조의 (부모 / 배우자 / 자녀)">신청하기</button></div>
-	                    <div><p>조의 - 조부모 / 형제 / 자매</p><p>신청시 지급 3일</p><button class="btn" name="조의 (조부모 / 형제 / 자매)">신청하기</button></div>
-	                    <div><p>결혼 - 본인</p><p>신청시 지급 3일</p><button class="btn" name="결혼 (본인)">신청하기</button></div>
-	                    <div><p>결혼 - 자녀</p><p>신청시 지급 1일</p><button class="btn" name="결혼 (자녀)">신청하기</button></div>
+	                    <div><p>조의 - 부모 / 배우자 / 자녀</p><p>신청시 지급 5일</p><button class="btn" name="vacOption" id="조의 (부모 / 배우자 / 자녀)" value="조의5일">신청하기</button></div>
+	                    <div><p>조의 - 조부모 / 형제 / 자매</p><p>신청시 지급 3일</p><button class="btn" name="vacOption" id="조의 (조부모 / 형제 / 자매)" value="조의3일">신청하기</button></div>
+	                    <div><p>결혼 - 본인</p><p>신청시 지급 3일</p><button class="btn" name="vacOption" id="결혼 (본인)" value="결혼본인">신청하기</button></div>
+	                    <div><p>결혼 - 자녀</p><p>신청시 지급 1일</p><button class="btn" name="vacOption" id="결혼 (자녀)" value="결혼자녀">신청하기</button></div>
 	                </div>
 	            </div>
 	        </div>
         
           <!-- 모달 -->
-          <form action="${path }/vacation/applyvacation" method="get">
+          <form action="${path }/vacation/applyvacation" method="post">
           	<div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -114,7 +114,8 @@
                       </div>
                 </div>
                 <div class="modal-footer">
-                	<input type="hidden" name="dayInfo" value="">
+                	<input type="hidden" name="vacOption" value="">
+                	<input type="hidden" name="createDate" value="">
                 	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                  	<button type="submit" class="btn" style="background-color: rgba(14, 25, 90, 0.8); color: white;">신청</button>
                 </div>
@@ -142,8 +143,9 @@
         // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
         $(".common-container>div>button").click(function(e){
-        	      console.log(e.target.getAttribute("name"));
-        	$("#exampleModalLabel").text("휴가신청 - " + e.target.getAttribute("name"));
+        	      console.log(e.target.id);
+        	$("#exampleModalLabel").text("휴가신청 - " + e.target.id);
+        	$("input[name='vacOption']").val(e.target.id);
        	});
         
         
@@ -268,7 +270,9 @@
                 
            	 	//$(clickedElement).toggleClass("highlight"); // 클릭한 요소에만 highlight 클래스를 토글
              	// applyDate 값을 hidden input 요소의 value에 넣습니다.
-                $("input[name='dayInfo']").val(applyDate);
+                
+             	$("input[name='createDate']").val(applyDate);
+           	 	
            	});
         }
         
