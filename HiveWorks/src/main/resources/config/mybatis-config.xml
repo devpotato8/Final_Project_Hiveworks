@@ -4,5 +4,7 @@
 	<typeAliases>
 		<typeAlias type="com.dna.hiveworks.model.dto.Employee" alias="employee"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Department" alias="department"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Works" alias="works"/>
 	</typeAliases>
 </configuration>

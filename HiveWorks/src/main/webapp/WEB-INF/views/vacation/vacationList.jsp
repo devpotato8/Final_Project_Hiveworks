@@ -48,17 +48,17 @@
 	            <div class="main-container">
 	                <p>휴가신청</p>
 	                <div class="first-container common-container">
-	                    <div></div>
-	                    <div></div>
-	                    <div></div>
-	                    <div></div>
+	                    <div id="연차"><p>연차</p></div>
+	                    <div id="반차"><p>반차</p></div>
+	                    <div id="병가"><p>병가</p></div>
+	                    <div id="공가"><p>공가</p></div>
 	                </div>
 	                <p></p>
 	                <div class="second-container common-container">
-	                    <div></div>
-	                    <div></div>
-	                    <div></div>
-	                    <div></div>
+	                    <div id="조의 (부모 / 배우자 / 자녀)"><p>조의 - 부모 / 배우자 / 자녀</p><p>신청시 지급 5일</p></div>
+	                    <div id="조의 (조부모 / 형제 / 자매)"><p>조의 - 조부모 / 형제 / 자매</p><p>신청시 지급 3일</p></div>
+	                    <div id="결혼 (본인)"><p>결혼 - 본인</p><p>신청시 지급 3일</p></div>
+	                    <div id="결혼 (자녀)"><p>결혼 - 자녀</p><p>신청시 지급 1일</p></div>
 	                </div>
 	            </div>
 	        </div>
@@ -68,7 +68,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">휴가신청</h1>
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">휴가신청 - </h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -95,7 +95,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="button" class="btn btn-primary">저장</button>
+                  <button type="button" class="btn" style="background-color: rgba(14, 25, 90, 0.8); color: white;">저장</button>
                 </div>
               </div>
             </div>
@@ -106,6 +106,7 @@
 			    
 	    </div>
     </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>        
         // div 클릭 시 모달 열기
         const openModal = () =>
@@ -116,7 +117,15 @@
             element.addEventListener("click", openModal);
         });
         
-        $(document).ready(function() {
+        // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
+        $(".common-container>div").click(function(e){
+        	      console.log(e.target.id);
+        	$("#exampleModalLabel").text("휴가신청 - " + e.target.id);
+       	});
+        
+        
+        
+        $(document).ready(function() { // $(function() {}) 이렇게써도됨
             calendarInit();
         });
         /*
@@ -137,8 +146,6 @@
           
             var thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             // 달력에서 표기하는 날짜 객체
-          
-            
             var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
             var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
             var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
@@ -195,7 +202,6 @@
                     currentMonthDate[todayDate -1].classList.add('today');
                 }
             }
-        
             // 이전달로 이동
             $('.go-prev').on('click', function() {
                 thisMonth = new Date(currentYear, currentMonth - 1, 1);
@@ -207,9 +213,38 @@
                 thisMonth = new Date(currentYear, currentMonth + 1, 1);
                 renderCalender(thisMonth); 
             });
+            
+         // 데이트 클릭시 선택표시 css적용
+            $(".dates").click(function(e){
+            	let clickedElement = e.target; // 클릭한 요소
+            	console.log(currentYear);
+            	console.log(currentMonth + 1);
+            	let addedCurrentMonth = currentMonth + 1;
+            	console.log(clickedElement.textContent);
+            	if(currentMonth<10){
+            		currentMonth2 = "0" + addedCurrentMonth;
+            		console.log(currentMonth2);
+            	} else {
+            		currentMonth2 = currentMonth;
+            	}
+            	if(clickedElement.textContent<10){
+            		clickedElement.textContent2 = "0" + clickedElement.textContent;
+            	} else {
+            		clickedElement.textContent2 = clickedElement.textContent;
+            	}
+            	let applyDate = currentYear + "-" + currentMonth2 + "-" + clickedElement.textContent2;
+            	console.log(applyDate);
+            	
+            	
+           	 	$(clickedElement).toggleClass("highlight"); // 클릭한 요소에만 highlight 클래스를 토글
+           	});
         }
+        
     </script>
     <style>
+    	:root {
+            --navy: rgba(14, 25, 90, 0.8);
+        }
         .container{
             width: 100%;
             height: 100%;
@@ -274,117 +309,123 @@
         .main-container>p{
             font-size: 28px;
         }
+        
         /* section calendar */
-
-	.sec_cal {
-	    width: 360px;
-	    margin: 0 auto;
-	    font-family: "NotoSansR";
-	}
-	
-	.sec_cal .cal_nav {
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    font-weight: 700;
-	    font-size: 48px;
-	    line-height: 78px;
-	}
-	
-	.sec_cal .cal_nav .year-month {
-	    width: 300px;
-	    text-align: center;
-	    line-height: 1;
-	}
-	
-	.sec_cal .cal_nav .nav {
-	    display: flex;
-	    border: 1px solid #333333;
-	    border-radius: 5px;
-	}
-	
-	.sec_cal .cal_nav .go-prev,
-	.sec_cal .cal_nav .go-next {
-	    display: block;
-	    width: 50px;
-	    height: 78px;
-	    font-size: 0;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	}
-	
-	.sec_cal .cal_nav .go-prev::before,
-	.sec_cal .cal_nav .go-next::before {
-	    content: "";
-	    display: block;
-	    width: 20px;
-	    height: 20px;
-	    border: 3px solid #000;
-	    border-width: 3px 3px 0 0;
-	    transition: border 0.1s;
-	}
-	
-	.sec_cal .cal_nav .go-prev:hover::before,
-	.sec_cal .cal_nav .go-next:hover::before {
-	    border-color: #ed2a61;
-	}
-	
-	.sec_cal .cal_nav .go-prev::before {
-	    transform: rotate(-135deg);
-	}
-	
-	.sec_cal .cal_nav .go-next::before {
-	    transform: rotate(45deg);
-	}
-	
-	.sec_cal .cal_wrap {
-	    padding-top: 40px;
-	    position: relative;
-	    margin: 0 auto;
-	}
-	
-	.sec_cal .cal_wrap .days {
-	    display: flex;
-	    margin-bottom: 20px;
-	    padding-bottom: 20px;
-	    border-bottom: 1px solid #ddd;
-	}
-	
-	.sec_cal .cal_wrap::after {
-	    top: 368px;
-	}
-	
-	.sec_cal .cal_wrap .day {
-	    display:flex;
-	    align-items: center;
-	    justify-content: center;
-	    width: calc(100% / 7);
-	    text-align: left;
-	    color: #999;
-	    font-size: 12px;
-	    text-align: center;
-	    border-radius:5px
-	}
-	
-	.current.today {background: rgb(242 242 242);}
-	
-	.sec_cal .cal_wrap .dates {
-	    display: flex;
-	    flex-flow: wrap;
-	    height: 290px;
-	}
-	
-	.sec_cal .cal_wrap .day:nth-child(7n -1) {
-	    color: #3c6ffa;
-	}
-	
-	.sec_cal .cal_wrap .day:nth-child(7n) {
-	    color: #ed2a61;
-	}
-	
-	.sec_cal .cal_wrap .day.disable {
-	    color: #ddd;
-	}
+		.sec_cal {
+		    width: 360px;
+		    margin: 0 auto;
+		    font-family: "NotoSansR";
+		}
+		
+		.sec_cal .cal_nav {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    font-weight: 700;
+		    font-size: 48px;
+		    line-height: 78px;
+		}
+		
+		.sec_cal .cal_nav .year-month {
+		    width: 300px;
+		    text-align: center;
+		    line-height: 1;
+		}
+		
+		.sec_cal .cal_nav .nav {
+		    display: flex;
+		    border: 1px solid #333333;
+		    border-radius: 5px;
+		}
+		
+		.sec_cal .cal_nav .go-prev,
+		.sec_cal .cal_nav .go-next {
+		    display: block;
+		    width: 50px;
+		    height: 78px;
+		    font-size: 0;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		}
+		
+		.sec_cal .cal_nav .go-prev::before,
+		.sec_cal .cal_nav .go-next::before {
+		    content: "";
+		    display: block;
+		    width: 20px;
+		    height: 20px;
+		    border: 3px solid #000;
+		    border-width: 3px 3px 0 0;
+		    transition: border 0.1s;
+		}
+		
+		.sec_cal .cal_nav .go-prev:hover::before,
+		.sec_cal .cal_nav .go-next:hover::before {
+		    border-color: #ed2a61;
+		}
+		
+		.sec_cal .cal_nav .go-prev::before {
+		    transform: rotate(-135deg);
+		}
+		
+		.sec_cal .cal_nav .go-next::before {
+		    transform: rotate(45deg);
+		}
+		
+		.sec_cal .cal_wrap {
+		    padding-top: 40px;
+		    position: relative;
+		    margin: 0 auto;
+		}
+		
+		.sec_cal .cal_wrap .days {
+		    display: flex;
+		    margin-bottom: 20px;
+		    padding-bottom: 20px;
+		    border-bottom: 1px solid #ddd;
+		}
+		
+		.sec_cal .cal_wrap::after {
+		    top: 368px;
+		}
+		
+		.sec_cal .cal_wrap .day {
+		    display:flex;
+		    align-items: center;
+		    justify-content: center;
+		    width: calc(100% / 7);
+		    text-align: left;
+		    color: #999;
+		    font-size: 12px;
+		    text-align: center;
+		    border-radius:5px
+		}
+		
+		.current.today {background: rgb(242 242 242);}
+		
+		.sec_cal .cal_wrap .dates {
+		    display: flex;
+		    flex-flow: wrap;
+		    height: 290px;
+		}
+		
+		.sec_cal .cal_wrap .day:nth-child(7n -1) {
+		    color: #3c6ffa;
+		}
+		
+		.sec_cal .cal_wrap .day:nth-child(7n) {
+		    color: #ed2a61;
+		}
+		
+		.sec_cal .cal_wrap .day.disable {
+		    color: #ddd;
+		}
+		.day{
+		cursor: pointer;
+		}
+		.highlight {
+	    	background-color: var(--navy);
+	  	}
 </style>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
