@@ -32,8 +32,7 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public List<Employee> selectEmployeesListAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("employee.selectEmployeesListAll", null, null);
 	}
 
 	@Override

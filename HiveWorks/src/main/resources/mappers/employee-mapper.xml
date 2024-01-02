@@ -10,4 +10,8 @@
 	<select id="selectEmployeeById" resultMap="empMap" parameterType="string">
 		SELECT * FROM TBL_EMPLOYEE WHERE EMP_ID=#{empId}
 	</select>
+	
+	<select id="selectEmployeesListAll" resultMap="empMap">
+		SELECT * FROM TBL_EMPLOYEE
+	</select>
 </mapper>

@@ -19,7 +19,7 @@ public interface EmpService {
 	
 	Employee selectEmployeeById(String empId);
 	
-	List<Employee> selectEmployeesListAll();
+	List<Employee> selectEmployeesListAll(int cPage, int numPerpage);
 	
 	int insertEmployee(Employee e);
 	int updateEmployee(Employee e);
