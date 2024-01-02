@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 .menu-content-wrap {
 	padding : 1.5rem;
@@ -77,18 +78,17 @@
     transition: all 0.25s ease;
 }
 </style>
-<nav class="fmapp-sidebar">
+<nav class="fmapp-sidebar" style="width:200px">
 	<div data-simplebar class="nicescroll-bar">
 		<div class="menu-content-wrap">
 			<button type="button" class="btn btn-warning btn-rounded btn-block mb-4">
 				기안하기
 			</button>
-			
 			<div class="menu-group">
 				<ul class="nav nav-light navbar-nav flex-column">
-					<li class="nav-item 
-						<c:if test=${currentPage eq 'lists' }>active</c:if> 
-					">
+					<li class="nav-item
+						<c:if test="${currentPage eq 'lists' }">active</c:if> 
+					 ">
 						<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#edoc_pending">
 							<span class="nav-icon-wrap">
 								<span class="svg-icon">
@@ -111,8 +111,8 @@
 							</li>	
 						</ul>
 					</li>
-					<li class="nav-item 
-						<c:if test="${currentPage eq 'box' }">active</c:if>
+					<li class="nav-item
+						<c:if test="${currentPage eq 'box' }">active</c:if> 
 					 ">
 						<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#edoc_box">
 							<span class="nav-icon-wrap">
