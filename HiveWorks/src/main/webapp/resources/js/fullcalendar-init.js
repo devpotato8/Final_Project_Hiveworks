@@ -28,6 +28,7 @@ curMonth = moment().format('MM');
 document.addEventListener('DOMContentLoaded', function() {
 	var calendarEl = document.getElementById('calendar'),
 	calendar = new FullCalendar.Calendar(calendarEl, {
+	googleCalendarApiKey: 'AIzaSyDTmzIpCFcBNK5_MAtLBPVD-j7O9mkXb_c',
 	   initialView: 'dayGridMonth',
 	   initialDate: curYear+'-'+curMonth+'-07',
 	   headerToolbar: {
@@ -37,77 +38,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	   },
 	   themeSystem: 'bootstrap5',
 	   height: 'parent',
+	   navLinks: true,
+	   selectable: true, // 달력 일자 드래그 설정가능
 	   droppable: true,	
 	   editable: true,
-	   
-	   events: [
-		 {
-		   backgroundColor: '#FFC400',
-		   borderColor: '#FFC400',
-		   title: '9:30 AM - 8:00 PM Awwards Conference',
-		   start: curYear+'-'+curMonth+'-04',
-		   end: curYear+'-'+curMonth+'-06',
-		 },
-		 {
-		   backgroundColor: '#da82f8',
-		   borderColor: '#da82f8',
-		   title: 'Jampack Team Meet',
-		   start: curYear+'-'+curMonth+'-13',
-		   end: curYear+'-'+curMonth+'-15'
-		 },
-		 {
-		   backgroundColor: '#da82f8',
-		   borderColor: '#da82f8',
-		   title: 'Project meeting with delegates',
-		   start: curYear+'-'+curMonth+'-19'
-		 },
-		 {
-		   backgroundColor: '#298DFF',
-		   borderColor: '#298DFF',
-		   title: 'Conference',
-		   start: curYear+'-'+curMonth+'-11',
-		   end: curYear+'-'+curMonth+'-13'
-		 },
-		 {
-		   title: 'Call back to Morgan Freeman',
-		   start: curYear+'-'+curMonth+'-27T10:30:00',
-		 },
-		 {
-		   title: 'Grocery Day',
-		   start: curYear+'-'+curMonth+'-27T12:00:00'
-		 },
-		 {
-		   title: 'Follow-up call with client',
-		   start: curYear+'-'+curMonth+'-7T14:30:00'
-		 },
-		 {
-		   title: 'Follow-up call with client',
-		   start: curYear+'-'+curMonth+'-07T07:00:00',
-		 },
-		 {
-		   title: 'Grocery Day',
-		   start: curYear+'-'+curMonth+'-02T07:00:00',
-		 },
-		 {
-		   backgroundColor: '#298DFF',
-		   borderColor: '#298DFF',
-		   title: '<i class="ri-plane-fill"></i><span>2:35 PM  Flight to Indonesia</span>',
-		   url: 'http://google.com/',
-		   start: curYear+'-'+curMonth+'-13',
-		   extendedProps:{
-			   toHtml: 'convert'
-		   }
-		 },
-		 {
-		   backgroundColor: '#007D88',
-		   borderColor: '#007D88',
-		   title: "<i class='ri-cake-line'></i><span>Boss's Birthday</span>",
-		   start: curYear+'-'+curMonth+'-29',
-		   extendedProps:{
-			   toHtml: 'convert'
-		   }
-		 }
-	   ],
+	   locale: 'ko', // 한국어 설정
+	   events : {
+	   },
 		eventContent: function(arg) {
 			if (arg.event.extendedProps.toHtml) {
 				return { html: arg.event.title }
@@ -117,9 +54,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		},
 	   eventClick: function(info) {
 		   targetEvent = info.event;
-	   }
+	   },
+	   dateClick: function(info) {
+		//alert('Clicked on: ' + info.dateStr); 
+		$('#create_short_event').modal('show');
+		
+
+        // 선택한 날짜를 모달에 표시하려면 아래 코드를 사용할 수 있습니다.
+        // 'selectedDate'는 모달 내부에 날짜를 표시할 요소의 id입니다.
+        $('.form-control.single-date').val(info.dateStr);
+    }
 	 });
 	 calendar.render();
+
+
 	var targetDrawer = '.hk-drawer.calendar-drawer',
 	targetEvent;
 	$(document).on("click",".calendarapp-wrap .fc-daygrid-event",function (e) {
@@ -180,9 +128,41 @@ document.addEventListener('DOMContentLoaded', function() {
 			start: $('.cal-event-date-start').val(),
 			end: $('.cal-event-date-end').val()
 		});
+		
+		var allEvent = calendar.getEvents(); // .getEvents() 함수로 모든 이벤트를 Array 형식으로 가져온다. (FullCalendar 기능 참조)
+
+			var events = new Array(); // Json 데이터를 받기 위한 배열 선언
+			for (var i = 0; i < allEvent.length; i++) {
+				var obj = new Object();     // Json 을 담기 위해 Object 선언
+				// alert(allEvent[i]._def.title); // 이벤트 명칭 알람
+				obj.title = allEvent[i]._def.title; // 이벤트 명칭  ConsoleLog 로 확인 가능.
+				obj.start = allEvent[i]._instance.range.start; // 시작
+				obj.end = allEvent[i]._instance.range.end; // 끝
+
+				events.push(obj);
+			}
+			var jsondata = JSON.stringify(events);
+			console.log(jsondata);
+			// saveData(jsondata);
+				$.ajax({
+					url: "/schedule/insertschedule.do",
+					method: "POST",
+					dataType: "json",
+					data: jsondata,
+					contentType: 'application/json',
+				})
+					.done(function(result) {
+						// alert(result);
+					})
+					.fail(function(request, status, error) {
+						alert("에러 발생" + error);
+						console.log(error);
+					});
+				calendar.unselect();
+			
 		$.notify({
 			icon: 'ri-checkbox-line mr-5',
-			message: "Event has been created",
+			message: "이벤트가 등록되었습니다",
 		},{	
 			type: "dismissible alert alert-inv alert-inv-primary",
 			placement: {
@@ -207,6 +187,3 @@ setTimeout(function(){
 	$('.fc-prev-button,.fc-next-button').addClass('btn-icon btn-flush-dark btn-rounded flush-soft-hover').find('.fa').addClass('icon');
 	$('.fc-today-button').removeClass('btn-primary').addClass('btn-outline-light');
 },120);
-	
-
-
