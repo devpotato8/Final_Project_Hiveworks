@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.dna.hiveworks.model.dto.Employee" alias="employee"/>
-		<typeAlias type="com.dna.hiveworks.model.dto.Schedule" alias="schedule "/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Schedule" alias="schedule"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Department" alias="department"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Board" alias="board"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Works" alias="works"/>
 	</typeAliases>
 </configuration>
