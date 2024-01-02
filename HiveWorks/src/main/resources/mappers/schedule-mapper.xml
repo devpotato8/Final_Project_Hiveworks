@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="schedule">
-	<resultMap id="scheduleMap" type="Schedule">
+	<resultMap id="scheduleMap" type="schedule">
 		<result property="calSubject" column="cal_subject"/>
 		<result property="calStartDate" column="cal_start_date"/>
 		<result property="calEndDate" column="cal_end_date"/>

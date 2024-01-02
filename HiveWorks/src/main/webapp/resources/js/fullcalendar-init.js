@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	   droppable: true,	
 	   editable: true,
 	   locale: 'ko', // 한국어 설정
+	   events : {
+	   },
 		eventContent: function(arg) {
 			if (arg.event.extendedProps.toHtml) {
 				return { html: arg.event.title }
