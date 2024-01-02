@@ -3,6 +3,8 @@
  */
 package com.dna.hiveworks.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.dna.hiveworks.common.exception.HiveworksException;
+import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
 
 /**
@@ -33,14 +38,27 @@ public class EdocController {
 	
 	@GetMapping("/lists/{status}")
 	public String pendingList(@PathVariable String status, Model model, @SessionAttribute Employee loginEmp) {
-		if(loginEmp == null) {
-			throw new HiveworksException();
+		ListStatus listStatus;
+		try {
+			listStatus = ListStatus.valueOf(status.toUpperCase());
+		}catch(IllegalArgumentException e) {
+			throw new HiveworksException("부적절한 접근입니다.");
 		}
 		
+		if(loginEmp == null) {
+			throw new HiveworksException("로그인 정보가 없습니다.");
+		}
 		
-		
-		model.addAttribute("status",status);
+		List<ElectronicDocument> lists = service.getEdocList(loginEmp.getEmpId(), listStatus);
+		if(listStatus == ListStatus.ALL) {
+			model.addAttribute("category",ListStatus.values());
+		}else {
+			model.addAttribute("category",DotCode.values());
+		}
+		model.addAttribute("title","진행중-"+listStatus.getStatus());
 		model.addAttribute("currentPage","lists");
+		model.addAttribute("lists",lists);
+		
 		return "edoc/lists";
 	}
 	@GetMapping("/box/{status}")
@@ -49,5 +67,15 @@ public class EdocController {
 		model.addAttribute("status",status);
 		model.addAttribute("currentPage","box");
 		return "edoc/lists";
+	}
+	
+	@GetMapping("/write")
+	public String writeDocument() {
+		return "edoc/write";
+	}
+	
+	@GetMapping("/personalSetting")
+	public String personalSetting() {
+		return "edoc/personalSetting";
 	}
 }

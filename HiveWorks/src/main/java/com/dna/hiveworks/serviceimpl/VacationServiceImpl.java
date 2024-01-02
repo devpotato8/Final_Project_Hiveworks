@@ -9,11 +9,14 @@ import com.dna.hiveworks.model.dao.VacationDao;
 import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.VacationService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class VacationServiceImpl implements VacationService {
 	
-	private SqlSession session;
-	private VacationDao dao;
+	private final SqlSession session;
+	private final VacationDao dao;
 
 	@Override
 	public List<Vacation> selectVacationListAll() {
@@ -22,9 +25,9 @@ public class VacationServiceImpl implements VacationService {
 	}
 
 	@Override
-	public List<Vacation> selectVacationByNo(int VacationNo) {
+	public List<Vacation> selectVacationByNo(int no) {
 		// TODO Auto-generated method stub
-		return dao.selectVacationByNo(session, VacationNo);
+		return dao.selectVacationByNo(session, no);
 	}
 
 	@Override
