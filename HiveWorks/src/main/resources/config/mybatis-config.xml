@@ -7,5 +7,9 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.Department" alias="department"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.Salary" alias="salary"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.Dedution" alias="dedution"/>
+
+		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Works" alias="works"/>
+
 	</typeAliases>
 </configuration>
