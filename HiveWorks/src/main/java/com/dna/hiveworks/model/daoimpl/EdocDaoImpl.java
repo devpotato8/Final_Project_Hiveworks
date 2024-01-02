@@ -5,7 +5,7 @@ package com.dna.hiveworks.model.daoimpl;
 
 import org.springframework.stereotype.Repository;
 
-import com.dna.hiveworks.model.dao.ElectronicDocumentDao;
+import com.dna.hiveworks.model.dao.EdocDao;
 
 /**
  * @author : 이재연
@@ -17,6 +17,6 @@ import com.dna.hiveworks.model.dao.ElectronicDocumentDao;
  * 
  */
 @Repository
-public class ElectronicDocumentDaoImpl implements ElectronicDocumentDao{
+public class EdocDaoImpl implements EdocDao{
 	
 }
