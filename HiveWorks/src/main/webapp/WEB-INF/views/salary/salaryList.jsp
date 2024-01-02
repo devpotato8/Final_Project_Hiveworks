@@ -403,6 +403,7 @@
 								
 							</header>
 							<div class="invoice-body">
+							<c:out value="${list }" />
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
 										<table id="datable_1" class="table nowrap w-100 mb-5">

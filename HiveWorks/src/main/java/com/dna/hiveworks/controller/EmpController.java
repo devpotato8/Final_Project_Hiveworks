@@ -38,6 +38,7 @@ public class EmpController {
 	@GetMapping("/employeeList")
 	public String selectEmployeesListAll() {
 
+		
 		return "employees/employeeList";
 	}
 	
