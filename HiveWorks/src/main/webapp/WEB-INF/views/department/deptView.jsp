@@ -48,15 +48,17 @@
 				<div class="row">
 					<div class="col-xl-10">
 					
-						<div class="title-lg fs-5"><span>부서 관리</span></div>
-						<p class="mb-4">#</p>
-						<input type="text" id="schName" value="" class="mb-4">
-	    				<button class="btn btn-primary btn-sm" onclick="deptsearch()">검색</button>
+						<div class="title-lg fs-5"><span>조직도</span></div>
+						<p class="mb-4">부서 추가,수정,삭제 등, 변경사항은 즉시 반영되니 주의하세요</p>
+						
 
 			<!-- 조직도 jstree -->
 			<div id="jstree"></div>
 		
-
+						<div class="text-end mt-5">
+							<input type="text" id="schName" value="" class="mb-4">
+	    					<button class="btn btn-primary btn-sm" onclick="deptsearch()">검색</button>
+	    				</div>
 						<div class="text-end mt-5">
 							<button class="btn btn-primary">부서 일괄 등록</button>
 						
@@ -221,7 +223,7 @@ $.jstree.defaults.core.themes.variant = "large";
 
 function getJson(){
 	$.ajax({
-		type:'get',
+		type:'GET',
 		url:'/deptlist',
 		dataType:'JSON',
 		success: function(data){
@@ -241,8 +243,10 @@ function getJson(){
 						'icon':'fa-solid fa-book-open-reader'
 					}
 				},
-				'check_callback': true		
-			})
+				
+			}).on('ready.jstree', function() {
+			    $(this).jstree('open_all');  // jstree가 로드되면 전부 펼쳐보이게
+			});
 			
 		},
 		error:function(data){
