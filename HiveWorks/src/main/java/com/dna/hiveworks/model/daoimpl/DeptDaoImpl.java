@@ -27,9 +27,8 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 	@Override
-	public Department insertDept(SqlSession session, Department dept) {
-		
-		return null;
+	public int insertDept(SqlSession session, Department dept) {
+		return session.insert("department.insertDept");
 	}
 
 	@Override
