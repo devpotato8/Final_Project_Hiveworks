@@ -37,7 +37,7 @@ public class SalaryController {
 	public String selectSalaryListAll(Model model, @RequestParam(defaultValue="1") int cPage, @RequestParam(defaultValue="10") int numPerpage){
 		List<Salary> list = service.selectSalaryListAll(Map.of("cPage",cPage,"numPerpage",numPerpage));
 		
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		
 		return "salary/salaryList";
 	}

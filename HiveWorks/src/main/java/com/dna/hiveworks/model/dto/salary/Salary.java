@@ -26,5 +26,8 @@ public class Salary {
 	private Date create_date;
 	private int modifier;
 	private Date modify_date;
+	private Dedution dedution;
+	private int overtime_pay;
+	private int position_pay;
 	
 }

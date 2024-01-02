@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="salary">
-	
+	<resultMap type="salary" id="salaryMap">
+		<id column="sal_no" property="sal_no"/>
+		<result column="emp_no" property="emp_no"/>
+		<result column="dedu_no" property="dedu_no"/>
+		<result column="sal_base" property="sal_base"/>
+		<result column="sal_meal" property="sal_meal"/>
+		<result column="sal_bonus" property="sal_bonus"/>
+		<result column="sal_actual" property="sal_actual"/>
+		<result column="sal_date" property="sal_date"/>
+		<result column="use_yn" property="use_yn"/>
+		<result column="creater" property="creater"/>
+		<result column="create_date" property="create_date"/>
+		<result column="modifier" property="modifier"/>
+		<result column="modify_date" property="modify_date"/>
+		<association property="dedution" resultMap="dedution.dedutionMap"/>
+		<result column="overtime_pay" property="overtime_pay"/>
+		<result column="position_pay" property="position_pay"/>
+	</resultMap>
+	<resultMap type="dedution" id="dedutionMap">
+		<id column="dedu_no" property="dedu_no"/>
+		<result column="dedu_emp_insur" property="dedu_emp_insur"/>
+		<result column="dedu_health_insur" property="dedu_health_insur"/>
+		<result column="dedu_industry_insur" property="dedu_industry_insur"/>
+		<result column="dedu_national_pension" property="dedu_national_pension"/>
+		<result column="dedu_income_tax" property="dedu_income_tax"/>
+		<result column="dedu_local_income_tax" property="dedu_local_income_tax"/>
+		<result column="use_yn" property="use_yn"/>
+	</resultMap>
 
-  	<select id="selectSalaryListAll">
+  	<select id="selectSalaryListAll" resultMap="salaryMap">
   		SELECT * FROM TBL_SALARY
+	        JOIN TBL_DEDUTION USING (DEDU_NO)
+	        JOIN TBL_OVERTIME_PAY USING (SAL_NO)
+	        JOIN TBL_POSITION_PAY USING (SAL_NO)
+	    ORDER BY MODIFY)DATE DESC
   	</select>
 </mapper>

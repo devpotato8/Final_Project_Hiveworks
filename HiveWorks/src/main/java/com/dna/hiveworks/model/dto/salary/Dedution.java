@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 public class Dedution {
 
 	private int dedu_no;
-	private int dedu_emp_insur;
-	private int dedu_health_insur;
-	private int dedu_industry_insur;
-	private int dedu_national_pension;
-	private int dedu_income_tax;
-	private int dedu_local_income_tax;
+	private double dedu_emp_insur;
+	private double dedu_health_insur;
+	private double dedu_industry_insur;
+	private double dedu_national_pension;
+	private double dedu_income_tax;
+	private double dedu_local_income_tax;
 	private String use_yn;
 }
