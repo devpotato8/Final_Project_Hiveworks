@@ -425,18 +425,36 @@
 												</tr>
 											</thead>
 											<tbody>
+												<c:forEach var="s" items="${list }">
 												<tr>
 													<td></td>
-													<td><a href="#">2023년 12월 27일</a></td>
-													<td><a href="#" class="table-link-text link-high-em">11234</a></td>
+													<td><a href="#"><c:out value="${s.sal_date }" /></a></td>
+													<td><a href="#" class="table-link-text link-high-em"><c:out value="${s.employee. }" /></a></td>
 													<td>
-														<div class="text-dark">홍길동</div>
+														<div class="text-dark"><c:out value="${s.emp_no }" /></div>
 													</td>
-													<td><span>test1234</span></td>
-													<td>마케팅부</td>
-													<td>3,250,000원</td>
-													<td>480,520원</td>
-													<td>2,769,480원</td>
+													<td><span><c:out value="${s.emp_no }" /></span></td>
+													<td><c:out value="${s.emp_no }" /></td>
+													<td><c:out value="${s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay }" />원</td>
+													<td><c:out value="
+													${
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_emp_insur+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_health_insur+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_industry_insur+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_national_pension+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_income_tax+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_local_income_tax
+													
+													}" />원</td>
+													<td><c:out value="
+													${s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay
+													-((s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_emp_insur+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_health_insur+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_industry_insur+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_national_pension+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_income_tax+ 
+													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_local_income_tax) }" />원</td>
+													
 													<td>
 															<div class="d-flex">
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
@@ -445,6 +463,7 @@
 														</div>
 													</td>
 												</tr>
+												</c:forEach>
 												<tr>
 													<td></td>
 													<td><a href="#">2023년 12월 27일</a></td>

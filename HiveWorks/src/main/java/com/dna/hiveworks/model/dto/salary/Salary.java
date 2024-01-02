@@ -1,6 +1,9 @@
 package com.dna.hiveworks.model.dto.salary;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.dna.hiveworks.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +23,7 @@ public class Salary {
 	private int sal_meal;
 	private int sal_bonus;
 	private int sal_actual;
-	private int sal_date;
+	private Date sal_date;
 	private String use_yn;
 	private int creater;
 	private Date create_date;
@@ -29,5 +32,6 @@ public class Salary {
 	private Dedution dedution;
 	private int overtime_pay;
 	private int position_pay;
+	private List<Employee> employee;
 	
 }

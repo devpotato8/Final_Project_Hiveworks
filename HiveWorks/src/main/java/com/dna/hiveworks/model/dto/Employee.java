@@ -32,17 +32,33 @@ import lombok.NoArgsConstructor;
 public class Employee implements UserDetails{
 
 
-	private String empId;
-	private String empPw;
-	private String empName;
-	
+	private int emp_no;
+	private String dept_code;
+	private String position_code;
+	private String job_code;
+	private String work_type_code;
+	private String work_status;
+	private String work_pattern;
+	private String aut_code;
+	private String emp_id;
+	private String emp_pw;
+	private String emp_name;
+	private String emp_phone;
+	private String emp_cellphone;
+	private String emp_email;
+	private String emp_address;
+	private String emp_resident_no;
+	private String emp_memo;
+	private String emp_hired_date;
+	private String emp_retired_date;
+	private String use_yn;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auth = new ArrayList<>();
 		
 		auth.add(new SimpleGrantedAuthority(Authorities.USER.name()));
-		if(empId.equals("admin")) {
+		if(emp_id.equals("admin")) {
 			auth.add(new SimpleGrantedAuthority(Authorities.ADMIN.name()));
 		}
 		return auth;
@@ -50,12 +66,12 @@ public class Employee implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return this.empId;
+		return this.emp_id;
 	}
 	
 	@Override
 	public String getPassword() {
-		return this.empPw;
+		return this.emp_pw;
 	}
 	
 	@Override
