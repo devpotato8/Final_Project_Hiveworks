@@ -232,7 +232,8 @@ function getJson(){
 			
 			$('#jstree').jstree({
 				'core':{
-					'data':deptlist
+					'data':deptlist,
+					'check_callback':true
 				},
 				'plugins':['types','search','contextmenu','dnd'],
 				'types':{
@@ -245,7 +246,7 @@ function getJson(){
 			
 		},
 		error:function(data){
-			alert("에러");
+			alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
 		}
 	});
 }

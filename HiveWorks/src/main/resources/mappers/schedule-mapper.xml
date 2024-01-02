@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="schedule">
+	<resultMap id="scheduleMap" type="schedule">
+		<result property="calSubject" column="cal_subject"/>
+		<result property="calStartDate" column="cal_start_date"/>
+		<result property="calEndDate" column="cal_end_date"/>
+	</resultMap>
+	
+	<insert id="insertSchdule" parameterType="schedule">
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,"CAL001","user01",#{calStartDate},
+		 #{calEndDate},#{calSubject},"일정테스트","빨강색",DEFAULT,DEFAULT,DEFAULT,NULL,DEFAULT,DEFAULT,"user01","user01",DEFAULT)
+	</insert>
+</mapper>

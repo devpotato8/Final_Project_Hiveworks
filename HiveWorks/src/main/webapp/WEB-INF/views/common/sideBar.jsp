@@ -248,31 +248,12 @@
 								</ul>	
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_file">
+								<a class="nav-link" href="${path}/edoc/lists/">
 									<span class="nav-icon-wrap">
-										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-												<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-												<path d="M9 15l2 2l4 -4" />
-											</svg>
-										</span>
+										<i class="las la-file-contract"></i>
 									</span>
 									<span class="nav-link-text">File Manager</span>
 								</a>
-								<ul id="dash_file" class="nav flex-column collapse  nav-children">
-									<li class="nav-item">
-										<ul class="nav flex-column">
-											<li class="nav-item">
-												<a class="nav-link" href="file-manager-list.html"><span class="nav-link-text">List View</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="file-manager-grid.html"><span class="nav-link-text">Grid View</span></a>
-											</li>
-										</ul>	
-									</li>	
-								</ul>	
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="gallery.html">
