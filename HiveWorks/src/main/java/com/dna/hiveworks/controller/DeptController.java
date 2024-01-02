@@ -1,10 +1,15 @@
 package com.dna.hiveworks.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,4 +37,17 @@ public class DeptController {
 		
 		return deptList;
 	}
+	
+	@PostMapping("/insertdept")
+	public ResponseEntity<Map<String,Object>> insertDept(@RequestBody Department dept){
+		Department newDept = service.insertDept(dept);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("id", newDept.getDeptCode());
+		response.put("parent", newDept.getDeptUpstair());
+		response.put("text", newDept.getDeptName());
+		
+		return ResponseEntity.ok(response);
+	}
+	
 }
