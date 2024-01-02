@@ -125,26 +125,12 @@
 						</a>
 						<ul id="edoc_box" class="nav flex-column collapse  nav-children">
 							<li class="nav-item">
-								<ul class="nav flex-column">
-									<li class="nav-item">
-										<a class="nav-link" href="${path }/edoc/box/all"><span class="nav-link-text">전체</span></a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="${path }/edoc/box/writer"><span class="nav-link-text">기안</span></a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="${path }/edoc/box/approval"><span class="nav-link-text">결재</span></a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="${path }/edoc/box/refer"><span class="nav-link-text">수신</span></a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="${path }/edoc/box/read"><span class="nav-link-text">회람/참조</span></a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="${path }/edoc/box/return"><span class="nav-link-text">반려</span></a>
-									</li>
-								</ul>	
+								<a class="nav-link" href="${path }/edoc/box/all"><span class="nav-link-text">전체</span></a>
+								<a class="nav-link" href="${path }/edoc/box/writer"><span class="nav-link-text">기안</span></a>
+								<a class="nav-link" href="${path }/edoc/box/approval"><span class="nav-link-text">결재</span></a>
+								<a class="nav-link" href="${path }/edoc/box/refer"><span class="nav-link-text">수신</span></a>
+								<a class="nav-link" href="${path }/edoc/box/read"><span class="nav-link-text">회람/참조</span></a>
+								<a class="nav-link" href="${path }/edoc/box/return"><span class="nav-link-text">반려</span></a>
 							</li>	
 						</ul>
 					</li>
