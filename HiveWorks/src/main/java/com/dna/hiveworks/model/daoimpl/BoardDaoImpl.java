@@ -1,5 +1,7 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +15,5 @@ public class BoardDaoImpl implements BoardDao{
 	public Board selectBoardByNo(SqlSession session, int boardNo) {
 		return session.selectOne("selectBoardByNo",boardNo);
 	}
+	
 }

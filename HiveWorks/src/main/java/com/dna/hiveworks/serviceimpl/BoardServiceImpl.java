@@ -1,5 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,6 @@ public class BoardServiceImpl implements BoardService{
 	public Board selectBoardByNo(int boardNo) {
 		return dao.selectBoardByNo(session, boardNo);
 	}
-
+	
 	
 }
