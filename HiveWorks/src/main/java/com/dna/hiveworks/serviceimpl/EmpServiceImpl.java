@@ -1,7 +1,10 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.service.EmpService;
 
@@ -19,11 +22,40 @@ import com.dna.hiveworks.service.EmpService;
 @Service
 public class EmpServiceImpl implements EmpService {
 
+	private EmpDaoImpl dao;
+	
+	
 	@Override
 	public Employee selectEmployeeById(String empId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int insertEmployee(Employee e) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateEmployee(Employee e) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteEmployee(Employee e) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Employee> selectEmployeesListAll(int cPage, int numPerpage) {
+		return dao.selectEmployeesListAll();
+	}
+	
+	
+	
 
 	
 }
