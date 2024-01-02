@@ -86,7 +86,9 @@
 			
 			<div class="menu-group">
 				<ul class="nav nav-light navbar-nav flex-column">
-					<li class="nav-item">
+					<li class="nav-item 
+						<c:if test=${currentPage eq 'lists' }>active</c:if> 
+					">
 						<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#edoc_pending">
 							<span class="nav-icon-wrap">
 								<span class="svg-icon">
@@ -109,7 +111,9 @@
 							</li>	
 						</ul>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item 
+						<c:if test="${currentPage eq 'box' }">active</c:if>
+					 ">
 						<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#edoc_box">
 							<span class="nav-icon-wrap">
 								<span class="svg-icon">

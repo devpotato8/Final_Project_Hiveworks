@@ -26,7 +26,14 @@ public class EdocController {
 	public String pendingList(@PathVariable String status, Model model) {
 		
 		model.addAttribute("status",status);
-		model.addAttribute("current","lists");
+		model.addAttribute("currentPage","lists");
+		return "edoc/lists";
+	}
+	@GetMapping("/box/{status}")
+	public String documentBox(@PathVariable String status, Model model) {
+		
+		model.addAttribute("status",status);
+		model.addAttribute("currentPage","box");
 		return "edoc/lists";
 	}
 }
