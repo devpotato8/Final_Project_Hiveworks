@@ -11,7 +11,6 @@
 </jsp:include>
 <%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -19,7 +18,7 @@
 		<div class="fmapp-wrap">
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
-				<jsp:param value="${currentPage }" name=""/>
+			 	<jsp:param value="${currentPage }" name="currentPage"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">

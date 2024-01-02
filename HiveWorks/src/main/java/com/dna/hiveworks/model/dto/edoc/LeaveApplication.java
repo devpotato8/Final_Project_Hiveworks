@@ -16,27 +16,29 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author : 이재연
- * @since : 2023. 12. 29.
- * Description : 전자 문서의 내용을 전달하기 위한 DTO클래스
+ * @since : 2024. 1. 2.
+ * Description : 휴가신청서 DTO
  * 
  * History :
- * - 작성자 : 이재연, 날짜 : 2023. 12. 29., 설명 : 최초작성
+ * - 작성자 : 이재연, 날짜 : 2024. 1. 2., 설명 : 최초작성
  * 
  */
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ElectronicDocument {
+public class LeaveApplication {
 	private String edocNo;
 	private DotCode edocDotCode;
 	private String edocTitle;
 	private Date edocPreservePeriod;
 	private DsgCode edocDsgCode;
 	private String edocContent;
-	private Date edocStartDate;
-	private Date edocEndDate;
-	private String edocStatus;
+	private Date startDate;
+	private Date endDate;
+	private int creater;
+	private Date createDate;
 	
 	List<ElectronicDocumentComment> comments;
 	List<ElectronicDocumentHistory> history;

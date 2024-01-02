@@ -248,11 +248,11 @@
 								</ul>	
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="${path}/edoc/lists/">
+								<a class="nav-link" href="${path}/edoc/lists/wait">
 									<span class="nav-icon-wrap">
 										<i class="las la-file-contract"></i>
 									</span>
-									<span class="nav-link-text">File Manager</span>
+									<span class="nav-link-text">전자문서</span>
 								</a>
 							</li>
 							<li class="nav-item">
