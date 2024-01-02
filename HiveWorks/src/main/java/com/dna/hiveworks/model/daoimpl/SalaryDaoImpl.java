@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.SalaryDao;
-import com.dna.hiveworks.model.dto.Salary;
+import com.dna.hiveworks.model.dto.salary.Salary;
 
 @Repository
 public class SalaryDaoImpl implements SalaryDao {

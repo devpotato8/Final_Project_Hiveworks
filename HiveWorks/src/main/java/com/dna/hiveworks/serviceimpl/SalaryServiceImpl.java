@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.daoimpl.SalaryDaoImpl;
-import com.dna.hiveworks.model.dto.Salary;
+import com.dna.hiveworks.model.dto.salary.Salary;
 import com.dna.hiveworks.service.SalaryService;
 
 import lombok.RequiredArgsConstructor;

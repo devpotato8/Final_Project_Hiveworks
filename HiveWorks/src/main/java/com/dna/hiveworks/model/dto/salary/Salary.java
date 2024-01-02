@@ -1,4 +1,4 @@
-package com.dna.hiveworks.model.dto;
+package com.dna.hiveworks.model.dto.salary;
 
 import java.sql.Date;
 

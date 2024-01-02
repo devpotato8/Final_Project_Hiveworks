@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.dna.hiveworks.model.dto.Salary;
+import com.dna.hiveworks.model.dto.salary.Salary;
 
 public interface SalaryDao {
 
