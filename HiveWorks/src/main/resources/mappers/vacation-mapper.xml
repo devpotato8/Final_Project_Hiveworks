@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="vacation">
-	<insert id="insertVacation"></insert>
+	<resultMap id="vacationMap" type="vacation">
+		<id property="vacNo" column="VAC_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="vacCount" column="VAC_COUNT"/>
+		<result property="vacUsed" column="VAC_USED"/>
+		<result property="vacOption" column="VAC_OPTION"/>
+		<result property="creater" column="CREATER"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifier" column="MODIFIER"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="useYN" column="USE_TN"/>
+	</resultMap>
+	
+	<select id="selectVacationByNo" parameterType="integer" 
+		resultMap="vacationMap">
+		SELECT * FROM TBL_VACATION WHERE EMP_NO = #{no}
+	</select>
+	
+	<insert id="insertVacation" parameterType="vacation" >
+		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,1,15,1,#{vac_option},1,#{create_date},1,DEFAULT,'Y')
+	</insert>
+	<update id="updateVacation" parameterType="vacation" >
+		UPDATE TBL_VACATION SET 
+		vacNo = SEQ_VAC_NO.NEXTVAL, 
+		empNo = 1, vacCount = 15, 
+		vacUsed = #{vac_used}+1, 
+		vacOption = #{vac_option}, 
+		creater = 1,  createDate = #{create_date}, 
+		modifier = 1, modifyDate = DEFAULT, 
+		userYN = 'Y'
+		WHERE EMP_NO = 1
+	</update>
 </mapper>

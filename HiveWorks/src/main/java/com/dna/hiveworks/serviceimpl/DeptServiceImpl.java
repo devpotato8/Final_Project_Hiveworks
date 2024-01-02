@@ -33,4 +33,21 @@ public class DeptServiceImpl implements DeptService {
 		return dao.deptListAll(session);
 	}
 
+	@Override
+	public int insertDept(Department dept) {
+		int result = dao.insertDept(session,dept);
+		return result;
+	}
+
+	@Override
+	public int deleteDept(Department dept) {
+		return 0;
+	}
+
+	@Override
+	public int updateDept(Department dept) {
+		return 0;
+	}
+	
+	
 }
