@@ -26,4 +26,21 @@ public class DeptDaoImpl implements DeptDao {
 		return session.selectList("department.deptListAll");
 	}
 
+	@Override
+	public int insertDept(SqlSession session, Department dept) {
+		return session.insert("department.insertDept");
+	}
+
+	@Override
+	public int deleteDept(SqlSession session, Department dept) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateDept(SqlSession session, Department dept) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

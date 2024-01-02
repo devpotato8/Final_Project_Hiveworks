@@ -19,4 +19,7 @@ import com.dna.hiveworks.model.dto.Department;
 public interface DeptDao {
 	
 	List<Department> deptListAll(SqlSession session);
+	int insertDept(SqlSession session, Department dept);
+	int deleteDept(SqlSession session, Department dept);
+	int updateDept(SqlSession session, Department dept);
 }
