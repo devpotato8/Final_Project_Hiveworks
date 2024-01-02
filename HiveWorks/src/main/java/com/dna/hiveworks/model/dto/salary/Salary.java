@@ -1,7 +1,6 @@
 package com.dna.hiveworks.model.dto.salary;
 
 import java.sql.Date;
-import java.util.List;
 
 import com.dna.hiveworks.model.dto.Employee;
 
@@ -32,6 +31,6 @@ public class Salary {
 	private Dedution dedution;
 	private int overtime_pay;
 	private int position_pay;
-	private List<Employee> employee;
+	private Employee employee;
 	
 }

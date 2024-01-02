@@ -429,31 +429,30 @@
 												<tr>
 													<td></td>
 													<td><a href="#"><c:out value="${s.sal_date }" /></a></td>
-													<td><a href="#" class="table-link-text link-high-em"><c:out value="${s.employee. }" /></a></td>
+													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
-														<div class="text-dark"><c:out value="${s.emp_no }" /></div>
+														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
-													<td><span><c:out value="${s.emp_no }" /></span></td>
-													<td><c:out value="${s.emp_no }" /></td>
-													<td><c:out value="${s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay }" />원</td>
+													<td><span><c:out value="${s.employee.emp_id }" /></span></td>
+													<td><c:out value="${s.employee.dept_code }" /></td>
+													<td><c:out value="${s.sal_actual}" />원</td>
 													<td><c:out value="
-													${
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_emp_insur+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_health_insur+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_industry_insur+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_national_pension+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_income_tax+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_local_income_tax
-													
-													}" />원</td>
+														${s.dedution.dedu_emp_insur
+															+s.dedution.dedu_health_insur
+															+s.dedution.dedu_industry_insur
+															+s.dedution.dedu_national_pension
+															+s.dedution.dedu_income_tax
+															+s.dedution.dedu_local_income_tax
+														}
+													" />원</td>
 													<td><c:out value="
-													${s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay
-													-((s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_emp_insur+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_health_insur+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_industry_insur+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_national_pension+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_income_tax+ 
-													(s.sal_base+s.sal_meal+s.sal_bonus+s.overtime_pay)*s.dedution.dedu_local_income_tax) }" />원</td>
+													${s.sal_actual-(s.dedution.dedu_emp_insur
+															+s.dedution.dedu_health_insur
+															+s.dedution.dedu_industry_insur
+															+s.dedution.dedu_national_pension
+															+s.dedution.dedu_income_tax
+															+s.dedution.dedu_local_income_tax)}
+													" />원</td>
 													
 													<td>
 															<div class="d-flex">
