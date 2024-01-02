@@ -15,9 +15,9 @@
 		<result column="create_date" property="create_date"/>
 		<result column="modifier" property="modifier"/>
 		<result column="modify_date" property="modify_date"/>
-		<association property="dedution" resultMap="dedution.dedutionMap"/>
 		<result column="overtime_pay" property="overtime_pay"/>
 		<result column="position_pay" property="position_pay"/>
+		<association property="dedution" resultMap="dedution.dedutionMap"/>
 	</resultMap>
 	<resultMap type="dedution" id="dedutionMap">
 		<id column="dedu_no" property="dedu_no"/>
@@ -35,6 +35,6 @@
 	        JOIN TBL_DEDUTION USING (DEDU_NO)
 	        JOIN TBL_OVERTIME_PAY USING (SAL_NO)
 	        JOIN TBL_POSITION_PAY USING (SAL_NO)
-	    ORDER BY MODIFY)DATE DESC
+	    ORDER BY MODIFY_DATE DESC
   	</select>
 </mapper>
