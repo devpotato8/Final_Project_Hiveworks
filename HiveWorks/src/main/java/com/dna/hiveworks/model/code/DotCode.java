@@ -18,12 +18,12 @@ public enum DotCode {
 	DOT003("품의서"),
 	DOT004("휴가/연차 신청서");
 	
-	private String docType;
-	private DotCode(String docType) {
-		this.docType = docType;
+	private String code;
+	private DotCode(String code) {
+		this.code = code;
 	}
 	
-	public String getDocType() {
-		return this.docType;
+	public String getCode() {
+		return this.code;
 	}
 }

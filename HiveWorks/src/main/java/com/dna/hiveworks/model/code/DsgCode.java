@@ -18,14 +18,13 @@ public enum DsgCode {
 	DSG003("B등급"),
 	DSG004("C등급");
 	
-	private String secretGrade;
-	
-	private DsgCode(String secretGrade) {
-		this.secretGrade = secretGrade;
+	private String code;
+	private DsgCode(String code) {
+		this.code = code;
 	}
 	
-	public String getSecretGrade() {
-		return this.secretGrade;
+	public String getCode() {
+		return this.code;
 	}
 	
 }

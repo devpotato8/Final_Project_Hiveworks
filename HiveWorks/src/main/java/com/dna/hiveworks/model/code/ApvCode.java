@@ -19,12 +19,12 @@ public enum ApvCode {
 	 APV004("전결"),
 	 APV005("대결");
 	 
-		private String apvType;
-		private ApvCode(String apvType) {
-			this.apvType = apvType;
-		}
-		
-		public String getApvType() {
-			return this.apvType;
-		}
+	private String code;
+	private ApvCode(String code) {
+		this.code = code;
+	}
+	
+	public String getCode() {
+		return this.code;
+	}
 }

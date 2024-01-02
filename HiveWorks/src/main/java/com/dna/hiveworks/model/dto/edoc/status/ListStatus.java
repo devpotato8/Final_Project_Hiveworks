@@ -13,5 +13,19 @@ package com.dna.hiveworks.model.dto.edoc.status;
  * 
  */
 public enum ListStatus {
+	ALL("전체"),
+	WAIT("대기"),
+	CHECK("확인"),
+	EXPECT("예정"),
+	PROCESS("진행");
+	
+	private String status;
+	private ListStatus(String status) {
+		this.status = status;
+	}
+	
+	public String getStatus() {
+		return this.status;
+	}
 	
 }

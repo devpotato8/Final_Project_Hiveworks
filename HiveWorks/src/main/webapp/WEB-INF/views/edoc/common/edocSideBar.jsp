@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <style>
 .menu-content-wrap {
 	padding : 1.5rem;
@@ -77,11 +78,14 @@
     -webkit-transition: all 0.25s ease;
     transition: all 0.25s ease;
 }
+.fmapp-wrap .fmapp-content {
+    padding-left: 200px;
+}
 </style>
 <nav class="fmapp-sidebar" style="width:200px">
 	<div data-simplebar class="nicescroll-bar">
 		<div class="menu-content-wrap">
-			<button type="button" class="btn btn-warning btn-rounded btn-block mb-4">
+			<button type="button" class="btn btn-warning btn-rounded btn-block mb-4" id="btn-write">
 				기안하기
 			</button>
 			<div class="menu-group">
@@ -152,10 +156,15 @@
 		<div class="hk-toolbar">
 			<ul class="nav nav-light">
 				<li class="nav-item nav-link">
-					<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Settings" href="#"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
+					<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Settings" href="${path }/edoc/personalSetting"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
 				</li>
 			</ul>
 		</div>
 	</div>
 	<!--/ Sidebar Fixnav-->
 </nav>
+<script>
+document.querySelector("#btn-write").addEventListener("click",(e)=>{
+	location.href="${path}/edoc/write";
+});
+</script>
