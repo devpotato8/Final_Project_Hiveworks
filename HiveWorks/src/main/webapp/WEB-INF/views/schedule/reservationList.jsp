@@ -11,7 +11,7 @@
 	<jsp:param value="data-hover='active'" name="hover"/>	
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-		<div class="hk-pg-wrapper pb-0">
+			<div class="hk-pg-wrapper pb-0">
 			<div class="hk-pg-body py-0">
 				<div class="blogapp-wrap">
 					<nav class="blogapp-sidebar">
@@ -37,7 +37,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="#">
+											<a class="nav-link link-badge-right" href="${path }/schedule/reservationinsert.do">
 												<span class="nav-link-text">본사4층회의실</span>
 											</a>
 										</li>
@@ -104,64 +104,79 @@
 								<div class="hk-sidebar-togglable"></div>
 							</header>
 							<div class="blog-body">
-					  <!-- calendar 태그 -->
-                      <div class="hk-pg-wrapper pb-0">
-                        <div class="" style="display: flex;">
-                            <div class="calendarapp-content" style="width: 50%; padding:30px;">
-                                <div id="calendar" class="w-100"></div>
-                            </div>
-                            <div style="width: 50%; display: block;">
-                                <form>
-                                    <div class="form-group">
-                                        <select class="form-select">
-                                            <option  selected="" value="1">가능 </option>
-                                            <option value="2">Half Day</option>
-                                            <option value="3">9 to 5</option>
-                                        </select>
-                                        </div>
-                                    <div class="form-group">
-                                        <label class="form-label">종료일자</label>
-                                        <input class="form-control" name="single-date" type="text"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">참석자</label>
-                                        <input class="form-control" type="text"/>
-                                        <button type="button" class="btn btn-light btn-floating">추가</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                          알림여부
-                                        </label>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>10분전</option>
-                                            <option value="1">30분전</option>
-                                          </select>
-                                </div>
-                        </form>
-                        
-                       
-                   
-                    <button type="button" class="btn btn-secondary">취소</button>
-					<button id="add_event" type="button" class="btn btn-primary fc-addEventButton-button">예약</button>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">예약시각</th>
-                            <th scope="col">예약자</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <th scope="row">1</th>
-                            <td>18:00~20:00</td>
-                            <td>홍길동</td>
-                            </tr>
-                    </table>
-                </div>
-                    </div>
-                    </div>
-                    </div>
+								<div data-simplebar class="nicescroll-bar">
+										<div class="dropdown">
+											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">전체보기</a>
+											<div class="dropdown-menu dropdown-menu-end">
+												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="flag"></i></span><span>회의실</span></a>
+												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="grid"></i></span><span>차량</span></a>
+												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="tag"></i></span><span>빔프로젝터</span></a>
+											</div>
+										</div>
+										<div class="tab-content">
+											<div class="tab-pane fade show active" id="all_post">
+												<table id="datable_1" class="table nowrap w-100 mb-5">
+													<thead>
+														<tr>
+															<th><span class="form-check">
+																<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
+																<label class="form-check-label" for="customCheck1"></label>
+															</span></th>
+															<th>No.</th>
+															<th>자산이름</th>
+															<th>예약자</th>
+															<th>자산종류</th>
+															<th>예약시간</th>
+															<th>예약상태</th>
+															<th>등록일자</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td></td>
+															<td>넘버</td>
+															<td class="mw-250p text-truncate text-high-em">
+																<span>자산이름111</span>
+															</td>
+															<td>
+																<div class="media align-items-center">
+																	<div class="media-head me-2">
+																		<div class="avatar avatar-xs">
+																			<img src="dist/img/avatar2.jpg" alt="user" class="avatar-img rounded-circle">
+																		</div>
+																	</div>
+																	<div class="media-body">
+																		<span class="d-block">예약자1111</span> 
+																	</div>
+																</div>													
+															</td>
+															<td>자산종류1111</td>
+															<td>예약시간11~예약시간11</td>
+															<td>예약상태11</td>
+															<td>등록일자11</td>
+															<td>
+																<div class="d-flex align-items-center">
+																	<div class="dropdown">
+																		<button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" aria-expanded="false" data-bs-toggle="dropdown"><span class="icon"><span class="feather-icon"><i data-feather="more-vertical"></i></span></span></button>
+																		<div role="menu" class="dropdown-menu dropdown-menu-end">
+																			<a class="dropdown-item" href="#">Action</a>
+																			<a class="dropdown-item" href="#">Another action</a>
+																			<a class="dropdown-item" href="#">Something else here</a>
+																			<div class="dropdown-divider"></div>
+																			<a class="dropdown-item" href="#">Separated link</a>
+																		</div>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						
 						<!-- Add Category -->
 						<div id="add_new_cat" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -223,6 +238,5 @@
 			</div>
 			<!-- /Page Body -->
 		</div>
-		<!-- /Main Content -->
-	</div>
+		<!-- /Main Content -->	
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

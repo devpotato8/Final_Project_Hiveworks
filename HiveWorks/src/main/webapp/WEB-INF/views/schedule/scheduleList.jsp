@@ -463,13 +463,13 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label class="form-label">시작일자</label> <input
-													class="form-control" name="single-date" type="text" />
+													class="form-control cal-event-date-start" name="single-date" type="text" />
 											</div>
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label class="form-label">종료일자</label> <input
-													class="form-control" name="single-date" type="text" />
+													class="form-control cal-event-date-end" name="single-date" type="text" />
 											</div>
 										</div>
 									</div>
