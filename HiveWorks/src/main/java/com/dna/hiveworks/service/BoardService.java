@@ -10,4 +10,5 @@ public interface BoardService {
 	
 	List<Board> selectAllBoard();
 	
+	int insertBoard(Board b);
 }

@@ -25,5 +25,5 @@ public class Board {
 	private int modifier;
 	private Date modifyDate;
 	private char useYN;
-
+	private List<Uploadfile> files;
 }

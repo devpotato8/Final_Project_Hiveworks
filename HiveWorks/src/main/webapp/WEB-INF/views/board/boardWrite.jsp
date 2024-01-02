@@ -14,7 +14,7 @@
         <h2>등록</h2>
     </div>
     <div>
-        <form name="boardFrm" action="${path}/board/insertBoard.do" method="post" enctype="multipart/form-data">
+        <form name="boardFrm" action="${path}/board/insertBoard" method="post" enctype="multipart/form-data">
             <div class="invoiceapp-content">
                 <div class="invoiceapp-detail-wrap">
                     <div class="invoice-body">

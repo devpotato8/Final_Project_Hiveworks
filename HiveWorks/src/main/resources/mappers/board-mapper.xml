@@ -13,4 +13,8 @@
 	<select id="selectAllBoard" resultMap="boardMap">
         SELECT * FROM TBL_BOARD WHERE BOARD_TYPE = 'BRD001'
     </select>
+    <insert id="insertBoard" parameterType="board">
+    	 INSERT INTO TBL_BOARD (BOARD_TYPE, BOARD_TITLE, BOARD_CONTENT, BOARD_COUNT, CREATE_DATE, CREATER, MODIFY_DATE)
+    	 VALUES ('BRD001', #{boardTitle}, #{boardContent}, #{boardCount}, #{createDate}, #{creater}, #{modifyDate})
+	</insert>
 </mapper>

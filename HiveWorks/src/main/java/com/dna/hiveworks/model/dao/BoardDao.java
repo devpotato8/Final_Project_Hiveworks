@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.dna.hiveworks.model.dto.Board;
+import com.dna.hiveworks.model.dto.Uploadfile;
 
 public interface BoardDao {
 
@@ -12,5 +13,7 @@ public interface BoardDao {
 
 	List<Board> selectAllBoard(SqlSession session);
 
-	
+	int insertBoard(SqlSession session, Board b);
+
+	int insertUploadfile(SqlSession session, Uploadfile file);
 }

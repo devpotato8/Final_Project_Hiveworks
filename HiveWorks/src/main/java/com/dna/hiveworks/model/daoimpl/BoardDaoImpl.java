@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.Board;
+import com.dna.hiveworks.model.dto.Uploadfile;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
@@ -19,5 +20,12 @@ public class BoardDaoImpl implements BoardDao{
 	public List<Board> selectAllBoard(SqlSession session) {
 	    return session.selectList("board.selectAllBoard");
 	}
-	
+	@Override
+	public int insertBoard(SqlSession session, Board b) {
+		return session.insert("board.insertBoard",b);
+	}
+	@Override
+	public int insertUploadfile(SqlSession session, Uploadfile file) {
+		return session.insert("board.insertUploadfile",file);
+	}
 }
