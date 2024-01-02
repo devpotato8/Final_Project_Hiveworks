@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,5 @@ public class Board {
 	private int modifier;
 	private Date modifyDate;
 	private char useYN;
+
 }

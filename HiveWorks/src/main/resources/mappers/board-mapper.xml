@@ -13,5 +13,4 @@
 	<select id="selectAllBoard" resultMap="boardMap">
         SELECT * FROM TBL_BOARD WHERE BOARD_TYPE = 'BRD001'
     </select>
-	
 </mapper>

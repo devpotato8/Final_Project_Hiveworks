@@ -25,7 +25,6 @@ public class BoardController {
 	public String board(Model model) {
 	    List<Board> boardList = service.selectAllBoard();
 	    model.addAttribute("boardList", boardList);
-	    System.out.println(model);
 	    return "board/board";
 	}
 
@@ -41,4 +40,6 @@ public class BoardController {
 	public String boardWrite() {
 	    return "board/boardWrite";
 	}
+	
+	
 }

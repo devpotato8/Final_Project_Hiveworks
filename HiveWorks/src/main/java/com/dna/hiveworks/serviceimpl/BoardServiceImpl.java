@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.Board;
@@ -26,5 +27,6 @@ public class BoardServiceImpl implements BoardService{
 	public List<Board> selectAllBoard() {
 	    return dao.selectAllBoard(session);
 	}
+	
 	
 }

@@ -19,4 +19,5 @@ public class BoardDaoImpl implements BoardDao{
 	public List<Board> selectAllBoard(SqlSession session) {
 	    return session.selectList("board.selectAllBoard");
 	}
+	
 }

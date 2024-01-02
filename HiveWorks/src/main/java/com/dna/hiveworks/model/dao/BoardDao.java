@@ -11,5 +11,6 @@ public interface BoardDao {
 	Board selectBoardByNo(SqlSession session, int boardNo);
 
 	List<Board> selectAllBoard(SqlSession session);
+
 	
 }
