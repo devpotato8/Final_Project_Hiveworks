@@ -10,4 +10,5 @@
 	    <result column="creater" property="creater"/>
 	    <result column="modifyDate" property="modifyDate"/>
 	</resultMap>
+	
 </mapper>

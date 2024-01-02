@@ -22,6 +22,9 @@ public class BoardServiceImpl implements BoardService{
 	public Board selectBoardByNo(int boardNo) {
 		return dao.selectBoardByNo(session, boardNo);
 	}
-	
+	@Override
+	public List<Board> selectAllBoard() {
+	    return dao.selectAllBoard(session);
+	}
 	
 }

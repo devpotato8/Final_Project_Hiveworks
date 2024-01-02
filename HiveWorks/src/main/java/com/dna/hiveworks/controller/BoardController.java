@@ -16,9 +16,15 @@ public class BoardController {
 	
 	private BoardService service;
 	
+	
+	 public BoardController(BoardService service) {
+	       this.service = service;
+	    }
 
 	@GetMapping("/board")
-	public String board() {
+	public String board(Model model) {
+	    List<Board> boardList = service.selectAllBoard();
+	    model.addAttribute("boardList", boardList);
 	    return "board/board";
 	}
 
