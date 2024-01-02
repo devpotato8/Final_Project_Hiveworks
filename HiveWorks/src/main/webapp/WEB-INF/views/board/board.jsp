@@ -20,6 +20,7 @@
                 <table id="datable_1" class="table nowrap w-100 mb-5">
                     <thead>
                         <tr>
+                            <!-- 테이블 헤더 정보 추가 -->
                             <th><span class="form-check mb-0"> <input
                                     type="checkbox" class="form-check-input check-select-all"
                                     id="customCheck1"> <label class="form-check-label"
@@ -34,21 +35,15 @@
                             <th>조회수</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <c:choose>
-                            <c:when test="${empty board}">
-                                <tr>
-                                    <td colspan="8">게시물이 없습니다.</td>
-                                </tr>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach var="b" items="${board}">
+                    <tbody>  
+                           <c:if test="${not empty boardList }">                         
+                                <c:forEach var="b" items="${boardList}">
                                     <tr>
                                         <td></td>
                                         <td><a href="#" class="table-link-text link-high-em">
-                                        <c:out value="${b.boardNo}" /></a></td>
+                                        <c:out value="${b.boardNo}" /></a></td>                                      
                                         <td><c:out value="${b.createDate}" /></td>
-                                        <td><a href="${path}/board/detail?boardNo=${b.boardNo}"><c:out value="${b.boardTitle}" /></a></td>
+                                        <td><c:out value="${b.boardTitle}" /></td>
                                         <td><c:out value="${b.creater}" /></td>
                                         <td><c:out value="${b.createDate}" /></td>
                                         <td><c:out value="${b.modifyDate}" /></td>
@@ -57,6 +52,7 @@
                                                 <div style="margin-right: 100px;">
                                                     <c:out value="${b.boardCount}" />
                                                 </div>
+                                                
                                                 <div class="d-flex">
                                                     <a
                                                         class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
@@ -76,8 +72,7 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
+                        </c:if>
                     </tbody>
                 </table>
             </div>
