@@ -12,15 +12,14 @@
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <script src="https://kit.fontawesome.com/8f05e1d322.js" crossorigin="anonymous"></script>
-
-	<div class="hk-pg-wrapper">
+<div class="hk-pg-wrapper">
 		<div class="container">
 			<!-- Page Header -->
 			<div class="hk-pg-header pg-header-wth-tab pt-7">
 				<div class="d-flex">
 					<div class="d-flex flex-wrap justify-content-between flex-1">
 						<div class="mb-lg-0 mb-2 me-8">
-							<h1 class="pg-title">마이페이지</h1>
+							<h1 class="pg-title">내휴가</h1>
 						</div>
 					</div>
 				</div>

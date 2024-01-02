@@ -24,4 +24,8 @@ public class BoardController {
 	public String blind() {
 		return "board/blind";
 	}
+	@GetMapping("/boardWrite")
+	public String boardWrite() {
+	    return "board/boardWrite";
+	}
 }

@@ -3,6 +3,10 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.dna.hiveworks.model.dto.Employee" alias="employee"/>
+<<<<<<< HEAD
 		<typeAlias type="com.dna.hiveworks.model.dto.Schedule" alias="schedule "/>
+=======
+		<typeAlias type="com.dna.hiveworks.model.dto.Department" alias="department"/>
+>>>>>>> refs/heads/devㅇ
 	</typeAliases>
 </configuration>
