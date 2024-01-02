@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="department">
+	<resultMap type="department" id="deptMap">
+		<id property="deptCode" column="dept_code"/>
+		<result property="deptName" column="dept_name"/>
+		<result property="deptLevel" column="dept_level"/>
+		<result property="deptUpstair" column="dept_upstair"/>
+	</resultMap>
+ 
+ <select id="deptListAll" resultMap="deptMap">
+ 	WITH CTE (DEPT_CODE, DEPT_NAME, DEPT_LEVEL, DEPT_UPSTAIR) AS
+    (
+        SELECT t1.DEPT_CODE, t1.DEPT_NAME, t1.DEPT_LEVEL, t1.DEPT_UPSTAIR
+        FROM TBL_DEPARTMENT t1
+        WHERE t1.DEPT_UPSTAIR = '#'
+        
+        UNION ALL
+        
+        SELECT t2.DEPT_CODE, t2.DEPT_NAME, t2.DEPT_LEVEL, t2.DEPT_UPSTAIR
+        FROM TBL_DEPARTMENT t2
+        JOIN CTE ON t2.DEPT_UPSTAIR = CTE.DEPT_CODE
+    )
+    
+	SELECT CTE.DEPT_CODE, CTE.DEPT_NAME, CTE.DEPT_LEVEL, CTE.DEPT_UPSTAIR FROM CTE
+	ORDER BY CTE.DEPT_CODE
+ </select>
+</mapper>

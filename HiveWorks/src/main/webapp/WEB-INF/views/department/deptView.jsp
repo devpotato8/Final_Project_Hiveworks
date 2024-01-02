@@ -12,20 +12,6 @@
 
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
-<!-- jstree -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
-<!-- Bootstrap Core JS -->
-<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- FeatherIcons JS -->
-<script src="${path}/resources/js/feather.min.js"></script>
-
-<!-- Fancy Dropdown JS -->
-<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
-
 <!-- Main Content -->
 <div class="hk-pg-wrapper">
 	<div class="container-xxl">
@@ -35,6 +21,7 @@
 		<div class="d-flex">
 			<div class="flex-1">
 				<h1 class="pg-title">조직 관리</h1>
+				<br>
 				<p class="p-lg col-lg-8">조직도로 부서관리를 하거나, 구성원들을 관리할 수 있습니다</p>
 			</div>
 		</div>
@@ -62,74 +49,18 @@
 					<div class="col-xl-10">
 					
 						<div class="title-lg fs-5"><span>부서 관리</span></div>
-						<p class="mb-4">부서는 레벨5까지 추가 가능합니다</p>
-						
-    <div id="jstree">
-        <ul>
-            <li id="root">Root node
-                <ul>
-                    <li class="group" id="groupA">A 그룹
-                        <ul>
-                            <li id="child1">Child node 1</li>
-                            <li id="child2">Child node 2</li>
-                        </ul>
-                    </li>
-                    <li class="group" id="groupB">B 그룹
-                        <ul>
-                            <li id="child3">Child node 3</li>
-                            <li id="child4">Child node 4</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+						<p class="mb-4">#</p>
+						<input type="text" id="schName" value="" class="mb-4">
+	    				<button class="btn btn-primary btn-sm" onclick="deptsearch()">검색</button>
 
-    <button id="confirmationBtn">선택확인</button>
+			<!-- 조직도 jstree -->
+			<div id="jstree"></div>
+		
 
-<script>
-/* $(document).ready(function() {
-	$("#jstree").jstree("open_all");
-});
-    
-$(function () {
-	$('#jstree').jstree({
-	    'plugins': [
-	    	"contextmenu",
-	    	"dnd",
-	    	"search",
-	    	"checkbox",
-	    	"unique"
-	   	]
-	});
-}); */
-$(function () {
-    // 6 create an instance when the DOM is ready
-    $('#jstree').jstree();
-    // 7 bind to events triggered on the tree
-    $('#jstree').on("changed.jstree", function (e, data) {
-      console.log(data.selected);
-    });
-    // 8 interact with the tree - either way is OK
-    $('button').on('click', function () {
-      $('#jstree').jstree(true).select_node('child_node_1');
-      $('#jstree').jstree('select_node', 'child_node_1');
-      $.jstree.reference('#jstree').select_node('child_node_1');
-    });
-  });
-</script>	
-						
-						
-						
 						<div class="text-end mt-5">
-							<button class="btn btn-primary btn-rounded">
-								부서 일괄 등록
-							</button>
-						</div>
-						<div class="text-end mt-5">
-							<button class="btn btn-primary btn-rounded">
-								변경사항 저장
-							</button>
+							<button class="btn btn-primary">부서 일괄 등록</button>
+						
+							<button class="btn btn-primary">변경사항 저장</button>
 						</div>
 					
 					</div>
@@ -246,212 +177,82 @@ $(function () {
 					</div>
 				</div>	
 			</div>
-			<div class="tab-pane fade" id="tab_block_3">
-				<div class="row">
-					<div class="col-md-8">
-						<div class="title-lg fs-5"><span>App Integrations</span></div>
-						<p class="mb-4">Connect suitable apps with your app and get notifications wherever you go</p>
-						<ul class="advance-list">
-							<li class="advance-list-item transform-none shadow-none">
-								<div class="d-flex align-items-center justify-content-between">
-									<div class="media align-items-center">
-										<div class="media-head me-3">
-											<div class="avatar">
-												<img src="dist/img/symbol-avatar-6.png" alt="user" class="avatar-img">
-											</div>
-										</div>
-										<div class="media-body">
-											<div class="text-dark fw-medium">Behance</div>
-											<div class="fs-7">Design Platform</div>
-										</div>
-									</div>
-									<button class="btn mnw-125p btn-outline-primary">
-										Connect
-									</button>
-								</div>
-							</li>
-							<li class="advance-list-item transform-none shadow-none">
-								<div class="d-flex align-items-center justify-content-between">
-									<div class="media align-items-center">
-										<div class="media-head me-3">
-											<div class="avatar">
-												<img src="dist/img/symbol-avatar-5.png" alt="user" class="avatar-img">
-											</div>
-										</div>
-										<div class="media-body">
-											<div class="text-dark fw-medium">Dribble</div>
-											<div class="fs-7">Portfolio</div>
-										</div>
-									</div>
-									<button class="btn mnw-125p btn-outline-danger">
-										Disconnect
-									</button>
-								</div>
-							</li>
-							<li class="advance-list-item transform-none shadow-none">
-								<div class="d-flex align-items-center justify-content-between">
-									<div class="media align-items-center">
-										<div class="media-head me-3">
-											<div class="avatar">
-												<img src="dist/img/symbol-avatar-14.png" alt="user" class="avatar-img">
-											</div>
-										</div>
-										<div class="media-body">
-											<div class="text-dark fw-medium">Intercom</div>
-											<div class="fs-7">Chat Integrations</div>
-										</div>
-									</div>
-									<button class="btn mnw-125p btn-outline-primary">
-										Connect
-									</button>
-								</div>
-							</li>
-							<li class="advance-list-item transform-none shadow-none">
-								<div class="d-flex align-items-center justify-content-between">
-									<div class="media align-items-center">
-										<div class="media-head me-3">
-											<div class="avatar">
-												<img src="dist/img/symbol-avatar-16.png" alt="user" class="avatar-img">
-											</div>
-										</div>
-										<div class="media-body">
-											<div class="text-dark fw-medium">Gitlab</div>
-											<div class="fs-7">Developer Platform</div>
-										</div>
-									</div>
-									<button class="btn mnw-125p btn-outline-primary">
-										Connect
-									</button>
-								</div>
-							</li>
-						</ul>
-						<div class="text-end mt-6">
-							<button class="btn btn-primary btn-rounded">
-								Save changes
-							</button>
-						</div>
-					</div>
-				</div>	
-			</div>
-			<div class="tab-pane fade" id="tab_block_4">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="title-lg fs-5 justify-content-between mb-5"><span>Saved Cards</span>
-							<button class="btn btn-outline-light">
-								+ Add new card
-							</button>
-						</div>
-						
-						<ul class="advance-list">
-							<li class="advance-list-item transform-none shadow-none py-3">
-								<div class="d-flex align-items-center justify-content-between">
-									<div class="media align-items-center">
-										<div class="media-head me-5">
-											<img src="dist/img/card-visa.png" alt="user" class="img-fluid">
-										</div>
-										<div class="media-body">
-											<div>
-												<span class="text-dark fw-medium">****4213</span>
-												<span class="badge badge-soft-primary rounded-0 ms-3">Primary</span>
-											</div>
-										</div>
-									</div>
-									<div  class="d-lg-inline d-none">
-										<span class="fs-7 text-muted me-5 d-xl-inline d-none">Last updated 12/03/2022</span>
-										<button class="btn mnw-100p btn-outline-danger me-2">
-											Delete
-										</button>
-										<button class="btn mnw-100p btn-light">
-											Edit
-										</button>
-									</div>
-								</div>
-							</li>
-							<li class="advance-list-item transform-none shadow-none py-3">
-								<div class="d-flex align-items-center justify-content-between">
-									<div class="media align-items-center">
-										<div class="media-head me-5">
-											<img src="dist/img/mastercard.png" alt="user" class="img-fluid">
-										</div>
-										<div class="media-body">
-											<div>
-												<span class="text-dark fw-medium">****1214</span>
-											</div>
-										</div>
-									</div>
-									<div class="d-lg-inline d-none">
-										<span class="fs-7 text-muted me-5 d-xl-inline d-none">Last updated 25/04/2022</span>
-										<button class="btn mnw-100p btn-outline-danger me-2">
-											Delete
-										</button>
-										<button class="btn mnw-100p btn-light">
-											Edit
-										</button>
-									</div>
-								</div>
-							</li>
-						</ul>
-						<div class="text-end mt-6">
-							<button class="btn btn-primary btn-rounded">
-								Save changes
-							</button>
-						</div>
-					</div>
-				</div>	
-			</div>
-			<div class="tab-pane fade" id="tab_block_5">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="title-lg fs-5"><span>My Addresses</span></div>
-						<div class="row gx-3">
-							<div class="col-md-4">
-								<div class="card card-border mnh-250p">
-									<div class="card-body">
-										<div class="card-action-wrap">
-											<a class="btn btn-sm btn-icon btn-rounded btn-flush-danger flush-soft-hover card-close"  href="#"><span class="icon"><span class="feather-icon"><i data-feather="trash-2"></i></span><span class="feather-icon d-none"><i data-feather="minimize"></i></span></span></a>
-											<a class="btn btn-sm btn-icon btn-rounded btn-flush-dark flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
-										</div>
-										<i class="bi bi-house-door-fill fs-3 d-block mb-1 text-primary"></i>
-										<h5>Home</h5>
-										<p class="card-text">3421 Central Ave NE, Albuquerque, New York - 87106
-											</p>
-										<span class="badge badge-soft-primary">Primary</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="card card-border mnh-250p">
-									<div class="card-body">
-										<div class="card-action-wrap">
-											<a class="btn btn-sm btn-icon btn-rounded btn-flush-danger flush-soft-hover card-close"  href="#"><span class="icon"><span class="feather-icon"><i data-feather="trash-2"></i></span><span class="feather-icon d-none"><i data-feather="minimize"></i></span></span></a>
-											<a class="btn btn-sm btn-icon btn-rounded btn-flush-dark flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
-										</div>
-										<i class="bi bi-shield-fill-check fs-3 d-block mb-1 text-primary"></i>
-										<h5>Office</h5>
-										<p class="card-text">2035 7th St, Clanton, Alaska, 35045</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="card card-border border-dashed mnh-250p">
-									<div class="card-body d-flex align-items-center justify-content-center">
-										<button class="btn btn-outline-light btn-block" data-bs-toggle="modal" data-bs-target="#add_new_board"><span data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Add New Address"><span class="icon"><span class="feather-icon"><i data-feather="plus"></i></span></span></span></button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="text-end mt-6">
-							<button class="btn btn-primary btn-rounded">
-								Save changes
-							</button>
-						</div>
-					</div>
-				</div>	
-			</div>
 			</div>
 		</div>
 	</div>
 	<!-- /Page Body -->		
 </div>
 
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+
+	<!-- jQuery -->
+    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>
+	
+	
+	<!-- jstree -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<script>
+       
+function deptsearch() {
+    $('#jstree').jstree(true).search($("#schName").val());
+}
+
+$.jstree.defaults.core.themes.variant = "large";
+
+
+function getJson(){
+	$.ajax({
+		type:'get',
+		url:'/deptlist',
+		dataType:'JSON',
+		success: function(data){
+			var deptlist = new Array();
+			$.each(data, function(idx, item){
+				deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
+			});
+			
+			$('#jstree').jstree({
+				'core':{
+					'data':deptlist
+				},
+				'plugins':['types','search','contextmenu','dnd'],
+				'types':{
+					'default':{
+						'icon':'fa-solid fa-book-open-reader'
+					}
+				},
+				'check_callback': true		
+			})
+			
+		},
+		error:function(data){
+			alert("에러");
+		}
+	});
+}
+
+$(document).ready(function(){
+	getJson();
+});
+
+</script>
+	

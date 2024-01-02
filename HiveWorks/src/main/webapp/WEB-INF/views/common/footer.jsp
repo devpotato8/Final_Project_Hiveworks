@@ -41,5 +41,6 @@
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
+	
 </body>
 </html>
