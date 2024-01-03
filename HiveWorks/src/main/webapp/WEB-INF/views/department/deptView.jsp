@@ -13,7 +13,7 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <!-- Main Content -->
-<div class="hk-pg-wrapper">
+<div class="hk-pg-wrapper" style="margin-left:300px;">
 	<div class="container-xxl">
 		
 	<!-- Page Header -->
@@ -235,7 +235,15 @@ function getJson(){
 			$('#jstree').jstree({
 				'core':{
 					'data':deptlist,
-					'check_callback':true
+					//callback함수에 최상위 루트와 동일레벨로 node 생성하지 못하도록 조건부여
+					'check_callback': function(operation,node,node_parent,node_position,more){	
+						if(operation==='create_node'||operation==='move_node'){
+							if(node_parent.id==='#'){
+								return false;
+							}
+						}
+						return true;
+					}
 				},
 				'plugins':['types','search','contextmenu','dnd'],
 				'types':{

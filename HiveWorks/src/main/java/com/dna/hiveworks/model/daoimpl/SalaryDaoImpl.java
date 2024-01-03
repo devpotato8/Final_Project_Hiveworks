@@ -22,8 +22,8 @@ public class SalaryDaoImpl implements SalaryDao {
 	}
 
 	@Override
-	public List<Salary> selectSalaryByNo(SqlSession session, int no) {
-		return null;
+	public Salary selectSalaryByNo(SqlSession session, int no) {
+		return session.selectOne("salary.selectSalaryByNo", no);
 	}
 
 	@Override

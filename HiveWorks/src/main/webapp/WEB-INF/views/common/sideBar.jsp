@@ -446,22 +446,7 @@
 													</li>	
 												</ul>	
 											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="lock-screen.html"><span class="nav-link-text">Lock Screen</span></a>
-											</li>
 											
-											<li class="nav-item">
-												<a class="nav-link" href="reset-password.html"><span class="nav-link-text">Reset Password</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="404.html"><span class="nav-link-text">Error 404</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="503.html"><span class="nav-link-text">Error 503</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path }/employees/employeeList"><span class="nav-link-text">직원 관리</span></a>
-											</li>
 										</ul>
 									</li>
 								</ul>

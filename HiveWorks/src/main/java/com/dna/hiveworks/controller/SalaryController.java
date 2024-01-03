@@ -42,5 +42,16 @@ public class SalaryController {
 		return "salary/salaryList";
 	}
 	
+	@GetMapping("/salaryDetail")
+	public String selectSalaryByNo(int sal_no, Model model) {
+		
+		Salary sal = service.selectSalaryByNo(sal_no);
+		
+		model.addAttribute("salary",sal);
+		
+		return "salary/salaryDetail";
+	}
+	
+	
 	
 }
