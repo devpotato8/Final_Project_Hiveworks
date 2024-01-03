@@ -4,33 +4,42 @@
 	<resultMap type="department" id="deptMap">
 		<id property="deptCode" column="dept_code"/>
 		<result property="deptName" column="dept_name"/>
-		<result property="deptLevel" column="dept_level"/>
 		<result property="deptUpstair" column="dept_upstair"/>
+		
 	</resultMap>
  
  <select id="deptListAll" resultMap="deptMap">
- 	WITH CTE (DEPT_CODE, DEPT_NAME, DEPT_LEVEL, DEPT_UPSTAIR) AS
-    (
-        SELECT t1.DEPT_CODE, t1.DEPT_NAME, t1.DEPT_LEVEL, t1.DEPT_UPSTAIR
-        FROM TBL_DEPARTMENT t1
-        WHERE t1.DEPT_UPSTAIR = '#'
-        
-        UNION ALL
-        
-        SELECT t2.DEPT_CODE, t2.DEPT_NAME, t2.DEPT_LEVEL, t2.DEPT_UPSTAIR
-        FROM TBL_DEPARTMENT t2
-        JOIN CTE ON t2.DEPT_UPSTAIR = CTE.DEPT_CODE
-    )
-    
-	SELECT CTE.DEPT_CODE, CTE.DEPT_NAME, CTE.DEPT_LEVEL, CTE.DEPT_UPSTAIR FROM CTE
-	ORDER BY CTE.DEPT_CODE
+ 	SELECT t1.DEPT_CODE, t1.DEPT_NAME, LEVEL, t1.DEPT_UPSTAIR
+    FROM (
+        SELECT * FROM TBL_DEPARTMENT
+        WHERE USE_YN = 'Y'
+    ) t1
+    START WITH t1.DEPT_UPSTAIR = '#'
+    CONNECT BY PRIOR t1.DEPT_CODE = t1.DEPT_UPSTAIR
  </select>
  
  <select id="selectDeptByName" resultMap="deptMap">
  	SELECT * FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{deptName}
  </select>
  
- <insert id="insertDept">
- 	INSERT INTO TBL_DEPARTMENT VALUES()
- </insert>
+ <insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
+    INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{deptUpstair}, #{deptName}, DEFAULT)
+    <selectKey resultType="string" keyProperty="deptCode" order="AFTER">
+        SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_CODE = (SELECT MAX(DEPT_CODE) FROM TBL_DEPARTMENT)
+    </selectKey>
+</insert>
+ 
+ <update id="updateDept">
+ 	UPDATE TBL_DEPARTMENT SET DEPT_NAME = #{name} WHERE DEPT_CODE = #{code}
+ </update>
+ 
+ <update id="deleteDept">
+ 	UPDATE TBL_DEPARTMENT 
+ 	SET USE_YN = 'N' 
+ 	WHERE DEPT_CODE IN
+ 	<foreach item="item" index="index" collection="children" open="(" separator="," close=")">
+        #{item},#{deptCode}
+    </foreach>
+ </update>
+ 
 </mapper>
