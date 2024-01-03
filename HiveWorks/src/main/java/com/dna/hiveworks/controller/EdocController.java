@@ -17,6 +17,7 @@ import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
 
@@ -62,10 +63,28 @@ public class EdocController {
 		return "edoc/lists";
 	}
 	@GetMapping("/box/{status}")
-	public String documentBox(@PathVariable String status, Model model) {
+	public String documentBox(@PathVariable String status, Model model, @SessionAttribute Employee loginEmp) {
+		BoxStatus boxStatus;
+		try {
+			boxStatus = BoxStatus.valueOf(status.toUpperCase());
+		}catch(IllegalArgumentException e) {
+			throw new HiveworksException("부적절한 접근입니다.");
+		}
 		
-		model.addAttribute("status",status);
-		model.addAttribute("currentPage","box");
+		if(loginEmp == null) {
+			throw new HiveworksException("로그인 정보가 없습니다.");
+		}
+		
+		List<ElectronicDocument> lists = service.getEdocBox(loginEmp.getEmpId(), boxStatus);
+		if(boxStatus == BoxStatus.ALL) {
+			model.addAttribute("category",BoxStatus.values());
+		}else {
+			model.addAttribute("category",DotCode.values());
+		}
+		model.addAttribute("title","진행중-"+boxStatus.getStatus());
+		model.addAttribute("currentPage","lists");
+		model.addAttribute("lists",lists);
+		
 		return "edoc/lists";
 	}
 	

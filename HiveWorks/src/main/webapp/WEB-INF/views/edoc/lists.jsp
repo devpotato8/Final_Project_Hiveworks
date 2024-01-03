@@ -122,7 +122,7 @@
 <script>
 $('#docTable').DataTable( {
 	scrollX:  true,
-	autoWidth: false,
+	autoWidth: true,
 	language: { search: "",
 		searchPlaceholder: "Search",
 		sLengthMenu: "_MENU_items",
