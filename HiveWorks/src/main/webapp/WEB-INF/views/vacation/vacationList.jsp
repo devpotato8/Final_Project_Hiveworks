@@ -18,7 +18,7 @@
 				<div class="d-flex">
 					<div class="d-flex flex-wrap justify-content-between flex-1">
 						<div class="mb-lg-0 mb-2 me-8">
-							<h1 class="pg-title">휴가페이지</h1>
+							<h1 class="pg-title">휴가신청</h1>
 						</div>
 					</div>
 				</div>
@@ -27,7 +27,7 @@
 		<section>
 	        <div class="container">
 	            <div class="top-bar">
-	                <div class="first-line">
+	                <!-- <div class="first-line">
 	                    <div>근무관리</div>
 	                    <div>휴가관리</div>
 	                </div>
@@ -39,14 +39,13 @@
 	                    <div>
 	                        
 	                    </div>
-	                </div>
+	                </div> -->
 	                <div class="thrid-line">
 	                    <div class="day-filter"></div>
 	                    <div class="filter-right-part"><div>2023.12.26(화) 오전 08:00</div></div>
 	                </div>
 	            </div>
 	            <div class="main-container">
-	                <p>휴가신청</p>
 	                ${vacations }
 	                <%-- <c:if test="${not empty vacations }">
 		                <c:forEach var="v" items="${vacations }">

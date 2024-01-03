@@ -20,17 +20,13 @@
 	</select>
 	
 	<insert id="insertVacation" parameterType="vacation" >
-		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,1,15,1,#{vac_option},1,#{create_date},1,DEFAULT,'Y')
+		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,1,#{vacCount},1,#{vacOption},1,#{createDate},1,DEFAULT,'Y')
 	</insert>
-	<update id="updateVacation" parameterType="vacation" >
-		UPDATE TBL_VACATION SET 
-		vacNo = SEQ_VAC_NO.NEXTVAL, 
-		empNo = 1, vacCount = 15, 
-		vacUsed = #{vac_used}+1, 
-		vacOption = #{vac_option}, 
-		creater = 1,  createDate = #{create_date}, 
-		modifier = 1, modifyDate = DEFAULT, 
-		userYN = 'Y'
+	
+	<update id="updateVacation" parameterType="Double" >
+		UPDATE TBL_VACATION_BYYEAR SET 
+		VAC_LEFT = VAC_LEFT - #{vacCount}, 
+		MODIFIER = 1, MODIFY_DATE = SYSDATE
 		WHERE EMP_NO = 1
 	</update>
 </mapper>

@@ -11,6 +11,6 @@ public interface VacationService {
 	List<Vacation> selectVacationByNo(int no);
 		
 	int insertVacation(Vacation v);
-	int updateVacation(Vacation v);
+	int updateVacation(Double vacCount);
 	int deleteVacation(int vacationNo);
 }

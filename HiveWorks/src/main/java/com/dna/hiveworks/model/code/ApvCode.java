@@ -13,6 +13,7 @@ package com.dna.hiveworks.model.code;
  * 
  */
 public enum ApvCode {
+	 APV000("대기"),
 	 APV001("결재"),
 	 APV002("반려"),
 	 APV003("협의"),
