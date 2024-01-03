@@ -14,35 +14,42 @@
         <h2>등록</h2>
     </div>
     <div>
-        <form name="boardFrm" action="${path}/board/insertBoard" method="post" enctype="multipart/form-data">
+        <form name="insertBoard" action="/board/insertBoard.do" method="post" enctype="multipart/form-data">
             <div class="invoiceapp-content">
-                <div class="invoiceapp-detail-wrap">
+                <div class="invoiceapp-detail-wrap"s>
                     <div class="invoice-body">
                         <div data-simplebar class="nicescroll-bar">
                             <div class="container">
                                 <div class="create-invoice-wrap mt-xxl-5 p-md-5 p-3">
-                                    <select class="form-select" aria-label="Default select example" style="width: 145px;">
-                                        <option selected>게시판 선택</option>
-                                        <option value="1">공지사항</option>
-                                        <option value="2">건의사항</option>
-                                        <option value="3">블라인드</option>
-                                    </select> <br>
+                                    <select class="form-select" name="boardType" aria-label="Default select example" style="width: 145px;">
+									    <option selected>게시판 선택</option>
+									    <option value="BRD001">공지사항</option>
+									    <option value="BRD002">건의사항</option>
+									    <option value="BRD003">블라인드</option>
+									</select>
+									<br>
+								<var="b" items="${boardList}">
                                     <div>
                                         <input type="text" class="form-control" style="width: 400px;" placeholder="제목">
+                                        <c:out value="${b.boardTitle }"></c:out>
                                     </div>
                                     <br>
                                     <div>
-                                        <input type="text" class="form-control" style="width: 400px;" placeholder="작성자">
+                                        <input type="hidden" class="form-control" style="width: 400px;" placeholder="작성자">
+                                        <c:out value="${b.creater }"></c:out>
                                     </div>
                                     <br>
                                     <div>
                                         <form action="" method="POST">
-                                            <textarea name="text" id="editor" placeholder="내용을 입력해주세요"></textarea>
+                                            <textarea name="boardContent" id="editor" placeholder="내용을 입력해주세요"></textarea>
                                         </form>
                                         <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
                                         <script>
+                                        
                                             ClassicEditor.create(document.querySelector('#editor'));
+                                     
                                         </script>
+                                        <c:out value="${b.boardContent }"></c:out>
                                     </div>
                                     <li data-repeater-item style="display: none;" class="form-group close-over">
                                         <input type="text" class="form-control">
@@ -50,15 +57,12 @@
                                             <span aria-hidden="true">×</span>
                                         </button>
                                     </li>
+                                    </var>
                                 </div>
                                 <div class="input-group mb-3" style="padding: 0px;"></div>
                                 <div id="basicFileForm" class="input-group mb-3" style="padding: 0px;">        
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="upFile" id="upFile1">
-                                    </div>
-                                    <div class="input-group-prepend" style="padding: 0px;">
-                                        <button type="button" class="btn btn-outline-primary" onclick="fn_addFileForm();">추가</button>
-                                        <button type="button" class="btn btn-outline-danger" onclick="fn_deleteFileForm();">삭제</button>
                                     </div>
                                 </div>
                                 <input type="submit" class="btn btn-outline-success" value="저장">

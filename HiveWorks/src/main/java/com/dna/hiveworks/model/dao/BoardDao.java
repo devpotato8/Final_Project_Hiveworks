@@ -16,4 +16,8 @@ public interface BoardDao {
 	int insertBoard(SqlSession session, Board b);
 
 	int insertUploadfile(SqlSession session, Uploadfile file);
+
+	
+
+
 }

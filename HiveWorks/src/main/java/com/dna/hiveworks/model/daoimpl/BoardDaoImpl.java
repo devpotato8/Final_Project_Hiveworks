@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.Board;
 import com.dna.hiveworks.model.dto.Uploadfile;
-
 @Repository
 public class BoardDaoImpl implements BoardDao{
 	
@@ -28,4 +27,5 @@ public class BoardDaoImpl implements BoardDao{
 	public int insertUploadfile(SqlSession session, Uploadfile file) {
 		return session.insert("board.insertUploadfile",file);
 	}
+	
 }

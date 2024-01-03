@@ -25,5 +25,6 @@ public class Board {
 	private int modifier;
 	private Date modifyDate;
 	private char useYN;
+	private String boardType;
 	private List<Uploadfile> files;
 }
