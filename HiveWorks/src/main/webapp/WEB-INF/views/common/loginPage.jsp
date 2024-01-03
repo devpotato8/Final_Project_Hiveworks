@@ -62,7 +62,7 @@
 													<div class="form-label-group">
 														<label>User ID</label>
 													</div>
-													<input class="form-control" placeholder="Enter your userID" value="" type="text" name="empId">
+													<input class="form-control" placeholder="Enter your userID" value="" type="text" name="emp_Id">
 												</div>
 												<div class="form-group col-lg-12">
 													<div class="form-label-group">
@@ -71,7 +71,7 @@
 													</div>
 													<div class="input-group password-check">
 														<span class="input-affix-wrapper affix-wth-text">
-															<input class="form-control" placeholder="Enter your password" value="" type="password" name="empPw">
+															<input class="form-control" placeholder="Enter your password" value="" type="password" name="emp_Pw">
 															<a href="#" class="input-suffix text-primary text-uppercase fs-8 fw-medium">
 																<span>
 																	<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">

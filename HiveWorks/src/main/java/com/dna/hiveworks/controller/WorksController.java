@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/works")
 public class WorksController {
 	
-	@GetMapping("manageworks")
+	@GetMapping("worksList")
 	public String worksList() {
 		return "works/worksList";
+	}
+	@GetMapping("worksView")
+	public String worksView() {
+		return "works/worksView";
 	}
 	
 	

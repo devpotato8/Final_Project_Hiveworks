@@ -3,7 +3,9 @@
  */
 package com.dna.hiveworks.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dto.Employee;
-import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
 
@@ -48,8 +51,13 @@ public class EdocController {
 		if(loginEmp == null) {
 			throw new HiveworksException("로그인 정보가 없습니다.");
 		}
+		Map<String,Object> param = new HashMap<>();
 		
-		List<ElectronicDocument> lists = service.getEdocList(loginEmp.getEmp_id(), listStatus);
+		param.put("emp_id", loginEmp.getEmp_id());
+		param.put("status", listStatus);
+		
+		
+		List<ElectronicDocumentList> lists = service.getEdocList(param);
 		if(listStatus == ListStatus.ALL) {
 			model.addAttribute("category",ListStatus.values());
 		}else {
@@ -62,10 +70,31 @@ public class EdocController {
 		return "edoc/lists";
 	}
 	@GetMapping("/box/{status}")
-	public String documentBox(@PathVariable String status, Model model) {
+	public String documentBox(@PathVariable String status, Model model, @SessionAttribute Employee loginEmp) {
+		BoxStatus boxStatus;
+		try {
+			boxStatus = BoxStatus.valueOf(status.toUpperCase());
+		}catch(IllegalArgumentException e) {
+			throw new HiveworksException("부적절한 접근입니다.");
+		}
 		
-		model.addAttribute("status",status);
+		if(loginEmp == null) {
+			throw new HiveworksException("로그인 정보가 없습니다.");
+		}
+		Map<String, Object> param = new HashMap<>();
+		
+		param.put("emp_id", loginEmp.getEmp_id());
+		
+		List<ElectronicDocumentList> lists = service.getEdocBox(param);
+		if(boxStatus == BoxStatus.ALL) {
+			model.addAttribute("category",BoxStatus.values());
+		}else {
+			model.addAttribute("category",DotCode.values());
+		}
+		model.addAttribute("title","보관함-"+boxStatus.getStatus());
 		model.addAttribute("currentPage","box");
+		model.addAttribute("lists",lists);
+		
 		return "edoc/lists";
 	}
 	

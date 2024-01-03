@@ -31,9 +31,9 @@ public class VacationDaoImpl implements VacationDao {
 	}
 
 	@Override
-	public int updateVacation(SqlSession session, Vacation v) {
+	public int updateVacation(SqlSession session, Double vacCount) {
 		// TODO Auto-generated method stub
-		return session.update("vacation.updateVacation", v);
+		return session.update("vacation.updateVacation", vacCount);
 	}
 
 	@Override

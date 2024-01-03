@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Vacation {
 	private int vacNo;
 	private int empNo;
-	private int vacCount;
+	private double vacCount;
 	private int vacUsed;
 	private String vacOption;
 	private int creater;

@@ -13,6 +13,6 @@ public interface VacationDao {
 	List<Vacation> selectVacationByNo(SqlSession session, int no);
 		
 	int insertVacation(SqlSession session, Vacation v);
-	int updateVacation(SqlSession session, Vacation v);
+	int updateVacation(SqlSession session, Double vacCount);
 	int deleteVacation(SqlSession session, int vacationNo);
 }
