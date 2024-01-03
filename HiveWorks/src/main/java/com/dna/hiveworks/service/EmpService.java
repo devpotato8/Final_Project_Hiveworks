@@ -24,6 +24,7 @@ public interface EmpService {
 	int insertEmployee(Employee e);
 	int updateEmployee(Employee e);
 	int deleteEmployee(Employee e);
+	List<Employee> searchEmployeesByKeyword(String keyword);
 	
 	
 }

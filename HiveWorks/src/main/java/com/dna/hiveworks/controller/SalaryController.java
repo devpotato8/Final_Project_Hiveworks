@@ -85,4 +85,10 @@ public class SalaryController {
 		return "common/msg";
 	}
 	
+	@GetMapping("/salaryWrite")
+	public String salaryWrite() {
+		
+		return "salary/salaryWrite";
+	}
+	
 }

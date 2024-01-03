@@ -32,4 +32,11 @@
 	<select id="selectEmployeesListAll" resultMap="empMap">
 		SELECT * FROM TBL_EMPLOYEE
 	</select>
+	<select id="searchEmployeesByKeyword" parameterType="string" resultMap="empMap">
+		SELECT * FROM TBL_EMPLOYEE
+		<if test="keyword !=null and keyword !=''">
+		WHERE EMP_NO = #{keyword}
+		</if>
+	</select>
+	
 </mapper>

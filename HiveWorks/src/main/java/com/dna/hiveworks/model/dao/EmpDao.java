@@ -18,12 +18,13 @@ import com.dna.hiveworks.model.dto.Employee;
 
 public interface EmpDao {
 	
-	Employee selectEmployeeById(String empId);
+	Employee selectEmployeeById(SqlSession session, String empId);
 	
-	List<Employee> selectEmployeesListAll();
+	List<Employee> selectEmployeesListAll(SqlSession session);
 	
-	int insertEmployee(Employee e);
-	int updateEmployee(Employee e);
-	int deleteEmployee(Employee e);
+	int insertEmployee(SqlSession session,Employee e);
+	int updateEmployee(SqlSession session,Employee e);
+	int deleteEmployee(SqlSession session,Employee e);
 	
+	List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword);
 }

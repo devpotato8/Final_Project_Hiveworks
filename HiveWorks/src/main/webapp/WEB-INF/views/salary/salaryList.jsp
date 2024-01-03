@@ -402,6 +402,7 @@
 								</div> -->
 								
 							</header>
+							<button class="btn btn-primary btn-rounded btn-block mb-4" onclick="location.replace('${path}/salary/salaryWrite')">등록</button>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
@@ -427,7 +428,7 @@
 												<c:forEach var="s" items="${list }">
 												<tr>
 													<td></td>
-													<td><a href="#"><c:out value="${s.sal_date }" /></a></td>
+													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>

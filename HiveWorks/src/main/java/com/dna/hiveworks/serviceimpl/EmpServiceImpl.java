@@ -2,11 +2,15 @@ package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
+import com.dna.hiveworks.model.daoimpl.SalaryDaoImpl;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.service.EmpService;
+
+import lombok.RequiredArgsConstructor;
 
 
 /**
@@ -20,10 +24,11 @@ import com.dna.hiveworks.service.EmpService;
  */
 
 @Service
+@RequiredArgsConstructor
 public class EmpServiceImpl implements EmpService {
 
-	private EmpDaoImpl dao;
-	
+	private final EmpDaoImpl dao;
+	private final SqlSession session;
 	
 	@Override
 	public Employee selectEmployeeById(String empId) {
@@ -51,8 +56,16 @@ public class EmpServiceImpl implements EmpService {
 
 	@Override
 	public List<Employee> selectEmployeesListAll(int cPage, int numPerpage) {
-		return dao.selectEmployeesListAll();
+		return dao.selectEmployeesListAll(session);
 	}
+
+	@Override
+	public List<Employee> searchEmployeesByKeyword(String keyword) {
+		
+		return dao.searchEmployeesByKeyword(session, keyword);
+	}
+	
+	
 	
 	
 	
