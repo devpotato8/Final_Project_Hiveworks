@@ -34,6 +34,11 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
+	public Department selectDeptByName(String deptName) {
+		return dao.selectDeptByName(session,deptName);
+	}
+
+	@Override
 	public int insertDept(Department dept) {
 		int result = dao.insertDept(session,dept);
 		return result;
@@ -48,6 +53,7 @@ public class DeptServiceImpl implements DeptService {
 	public int updateDept(Department dept) {
 		return 0;
 	}
+
 	
 	
 }
