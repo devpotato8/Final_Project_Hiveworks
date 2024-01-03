@@ -38,18 +38,20 @@ public class DeptController {
 		return deptList;
 	}
 	
-//	@PostMapping("/insertdept")
-//	public ResponseEntity<Map<String,Object>> insertDept(@RequestBody Department dept){
-//		int result = service.insertDept(dept);
-//		
-//		
-//		
-//		Map<String, Object> response = new HashMap<>();
-//		response.put("id", newDept.getDeptCode());
-//		response.put("parent", newDept.getDeptUpstair());
-//		response.put("text", newDept.getDeptName());
-//		
-//		return ResponseEntity.ok(response);
-//	}
+	@PostMapping("/insertdept")
+	@ResponseBody
+	public Department insertDept(@RequestBody Department dept){
+		
+		int result = service.insertDept(dept);
+		
+		Department newDept = null;
+		
+		if(result>0){
+			String deptName = dept.getDeptName();
+			newDept = service.selectDeptByName(deptName); 
+		}
+		
+		return newDept; 
+	}
 	
 }
