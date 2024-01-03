@@ -27,8 +27,13 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 	@Override
+	public Department selectDeptByName(SqlSession session, String deptName) {
+		return session.selectOne("department.selectDeptByName",deptName);
+	}
+
+	@Override
 	public int insertDept(SqlSession session, Department dept) {
-		return session.insert("department.insertDept");
+		return session.insert("department.insertDept",dept);
 	}
 
 	@Override
@@ -43,4 +48,5 @@ public class DeptDaoImpl implements DeptDao {
 		return 0;
 	}
 
+	
 }

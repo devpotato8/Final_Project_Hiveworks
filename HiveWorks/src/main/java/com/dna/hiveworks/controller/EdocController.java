@@ -49,7 +49,7 @@ public class EdocController {
 			throw new HiveworksException("로그인 정보가 없습니다.");
 		}
 		
-		List<ElectronicDocument> lists = service.getEdocList(loginEmp.getEmpId(), listStatus);
+		List<ElectronicDocument> lists = service.getEdocList(loginEmp.getEmp_id(), listStatus);
 		if(listStatus == ListStatus.ALL) {
 			model.addAttribute("category",ListStatus.values());
 		}else {

@@ -28,8 +28,8 @@ public class SecurityConfig {
 				})
 				.formLogin(formlogin->{
 					formlogin.loginPage("/MyLoginPage")
-							.usernameParameter("empId")
-							.passwordParameter("empPw")
+							.usernameParameter("emp_Id")
+							.passwordParameter("emp_Pw")
 							.loginProcessingUrl("/loginend")
 							.failureForwardUrl("/loginfail")
 							.successForwardUrl("/login/index")

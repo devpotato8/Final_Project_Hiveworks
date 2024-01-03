@@ -16,6 +16,7 @@ import com.dna.hiveworks.model.dto.Department;
 public interface DeptService {
 	
 	List<Department> deptListAll();
+	Department selectDeptByName(String deptName);
 	int insertDept(Department dept);
 	int deleteDept(Department dept);
 	int updateDept(Department dept);

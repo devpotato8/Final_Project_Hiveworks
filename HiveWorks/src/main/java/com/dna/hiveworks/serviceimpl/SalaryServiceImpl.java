@@ -26,9 +26,8 @@ public class SalaryServiceImpl implements SalaryService {
 	}
 
 	@Override
-	public List<Salary> selectSalaryByNo(int salaryNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Salary selectSalaryByNo(int salaryNo) {
+		return dao.selectSalaryByNo(session, salaryNo);
 	}
 
 	@Override

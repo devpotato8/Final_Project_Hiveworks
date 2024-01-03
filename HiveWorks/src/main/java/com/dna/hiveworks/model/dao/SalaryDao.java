@@ -11,7 +11,7 @@ public interface SalaryDao {
 
 	List<Salary> selectSalaryListAll(SqlSession session, Map<String, Integer> page);
 	
-	List<Salary> selectSalaryByNo(SqlSession session, int no);
+	Salary selectSalaryByNo(SqlSession session, int no);
 	
 	int insertSalary(SqlSession session, Salary s);
 	int updateSalary(SqlSession session, Salary s);

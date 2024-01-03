@@ -19,7 +19,7 @@ public interface SalaryService {
 
 	List<Salary> selectSalaryListAll(Map<String,Integer> page);
 	
-	List<Salary> selectSalaryByNo(int salaryNo);
+	Salary selectSalaryByNo(int salaryNo);
 	
 	int insertSalary(Salary s);
 	int updateSalary(Salary s);

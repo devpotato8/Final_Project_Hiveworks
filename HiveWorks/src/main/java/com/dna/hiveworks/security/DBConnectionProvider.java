@@ -28,7 +28,7 @@ public class DBConnectionProvider implements AuthenticationProvider{
 		
 		Employee loginEmp = dao.selectEmployeeById(empId);
 		
-		if(loginEmp== null||!loginEmp.getEmpPw().equals(empPw)) {
+		if(loginEmp== null||!loginEmp.getEmp_pw().equals(empPw)) {
 			throw new BadCredentialsException("인증실패!");
 		}
 
@@ -36,7 +36,7 @@ public class DBConnectionProvider implements AuthenticationProvider{
 //		if(loginEmp==null||!encoder.matches(empPw,loginEmp.getEmpPw())) {
 //			throw new BadCredentialsException("인증실패!");
 //		}
-		return new UsernamePasswordAuthenticationToken(loginEmp, loginEmp.getEmpPw(),loginEmp.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(loginEmp, loginEmp.getEmp_pw(),loginEmp.getAuthorities());
 	}
 
 	@Override
