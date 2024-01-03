@@ -451,7 +451,7 @@ salary.dedution.dedu_local_income_tax
         <th><span>사원명</span></th>
         <td><c:out value="${salary.employee.emp_name }"/></td>
         <th><span>생년월일</span></th>
-        <td><c:out value="${salary.employee.emp_resident_no }"/></td>
+        <td><c:out value="${salary.employee.emp_birth_date }"/></td>
     </tr>
     <tr>
         <th><span>부서</span></th>
@@ -706,6 +706,23 @@ salary.dedution.dedu_local_income_tax
     </tbody>
 </table>
 
+	<!-- jQuery -->
+    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 
+    <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>
+	

@@ -48,6 +48,7 @@ public class Employee implements UserDetails{
 	private String emp_email;
 	private String emp_address;
 	private String emp_resident_no;
+	private String emp_birth_date;
 	private String emp_memo;
 	private String emp_hired_date;
 	private String emp_retired_date;
