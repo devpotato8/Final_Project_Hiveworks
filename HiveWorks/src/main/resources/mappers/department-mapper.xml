@@ -25,4 +25,12 @@
 	SELECT CTE.DEPT_CODE, CTE.DEPT_NAME, CTE.DEPT_LEVEL, CTE.DEPT_UPSTAIR FROM CTE
 	ORDER BY CTE.DEPT_CODE
  </select>
+ 
+ <select id="selectDeptByName" resultMap="deptMap">
+ 	SELECT * FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{deptName}
+ </select>
+ 
+ <insert id="insertDept">
+ 	INSERT INTO TBL_DEPARTMENT VALUES()
+ </insert>
 </mapper>

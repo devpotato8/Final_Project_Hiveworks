@@ -233,6 +233,7 @@ function getJson(){
 			});
 			
 			$('#jstree').jstree({
+				'plugins':['types','search','contextmenu','dnd'],
 				'core':{
 					'data':deptlist,
 					//callback함수에 최상위 루트와 동일레벨로 node 생성하지 못하도록 조건부여
@@ -245,7 +246,39 @@ function getJson(){
 						return true;
 					}
 				},
-				'plugins':['types','search','contextmenu','dnd'],
+				'contextmenu': {
+					'items': function(node) {
+						var defaultItems = $.jstree.defaults.contextmenu.items();
+						defaultItems.create.label = "하위부서생성";
+						defaultItems.create.action = function (data) {
+							var inst = $.jstree.reference(data.reference);
+							var obj = inst.get_node(data.reference);
+							inst.create_node(obj, { 'text': '새 부서명입력'}, "last", function(newNode) {
+								inst.edit(newNode);
+								$('#jstree').on('rename_node.jstree', function(e, data) {
+									$.ajax({
+										type: 'POST',
+										url: '/insertdept',
+										data: JSON.stringify({ 
+											'deptUpstair': newNode.parent, 
+											'deptName': data.text 
+										}),
+										contentType: 'application/json',
+										success: function(response) {
+											if(response.status == "success") {
+												alert('하위부서가 생성되었습니다.');
+											} else {
+												alert('하위부서 저장에 실패했습니다.');
+											}
+										}
+									});
+								});
+							});
+						};
+						return defaultItems;
+					}
+				},
+
 				'types':{
 					'default':{
 						'icon':'fa-solid fa-book-open-reader'
