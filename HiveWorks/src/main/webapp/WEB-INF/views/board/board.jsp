@@ -42,8 +42,8 @@
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
 											<c:out value="${b.boardNo}" />
-									</a></td>
 									<td><c:out value="${b.createDate}" /></td>
+									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
 									<td><c:out value="${b.creater}" /></td>
 									<td><c:out value="${b.createDate}" /></td>

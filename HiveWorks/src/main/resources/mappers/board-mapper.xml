@@ -14,11 +14,8 @@
     <select id="selectAllBoard" resultMap="boardMap">
         SELECT * FROM TBL_BOARD WHERE BOARD_TYPE = 'BRD001'
     </select>
-   <insert id="insertBoard" parameterType="board">
-		INSERT INTO BOARD VALUES(SEQ_BOARD_NO.NEXTVAL,#{boardTitle},		
-		#{boardContent})
-		<selectKey keyProperty="boardNo" order="AFTER" resultType="long">
-			SELECT SEQ_BOARDNO.CURRVAL FROM DUAL
-		</selectKey>
-	</insert>
+    <insert id="insertBoard" parameterType="board">
+    	INSERT INTO TBL_BOARD VALUES 
+		(SEQ_BOARD_NO.NEXTVAL,BRD001,#{boardTitle},NULL,NULL,#{boardContent},NULL,NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT);
+    </insert>
 </mapper>
