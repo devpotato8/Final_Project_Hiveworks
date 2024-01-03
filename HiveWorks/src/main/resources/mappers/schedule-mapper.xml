@@ -5,10 +5,14 @@
 		<result property="calSubject" column="cal_subject"/>
 		<result property="calStartDate" column="cal_start_date"/>
 		<result property="calEndDate" column="cal_end_date"/>
+		<result property="calColor" column="cal_color"/>
 	</resultMap>
 	
-	<insert id="insertSchdule" parameterType="schedule">
-		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,"CAL001","user01",#{calStartDate},
-		 #{calEndDate},#{calSubject},"일정테스트","빨강색",DEFAULT,DEFAULT,DEFAULT,NULL,DEFAULT,DEFAULT,"user01","user01",DEFAULT)
+	<insert id="insertSchedule" parameterType="schedule">
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},NULL,DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
 	</insert>
+	
+	<select id="selectScheduleAll" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR
+	</select>
 </mapper>

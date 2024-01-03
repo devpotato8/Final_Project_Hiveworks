@@ -70,8 +70,8 @@
 									class="feather-icon"><i data-feather="calendar"></i></span></span> Aug
 								18,2020 - Aug 19, 2020</li>
 							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="clock"></i></span></span> 8:40
-								AM - 5:40 PM</li>
+									class="feather-icon"><i data-feather="clock"></i></span></span><span class="event=start-time">8:40
+								AM - 5:40 PM</span></li>
 							<li><span class="ev-icon-wrap"><span
 									class="feather-icon"><i data-feather="map-pin"></i></span></span>
 								Oslo, Canada</li>
@@ -104,9 +104,7 @@
 									</div>
 								</div></li>
 							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="menu"></i></span></span> Annual
-								meeting with global branch teams & bosses about growth planning
-								and fiscal year reports</li>
+									class="feather-icon"><i data-feather="menu"></i></span></span><span class="event-content"></span></li>
 						</ul>
 					</div>
 				</div>
@@ -159,6 +157,7 @@
 												data-feather="calendar"></i></span></span> <input
 										class="form-control form-wth-icon" name="datetimes"
 										value="Aug 18,2020 - Aug 19, 2020">
+										
 									</span>
 								</div>
 							</div>
@@ -242,7 +241,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<textarea class="form-control" rows="4">Annual meeting with global branch teams & bosses about growth planning and fiscal year reports</textarea>
+								<textarea class="form-control event-content" rows="4">Annual meeting with global branch teams & bosses about growth planning and fiscal year reports</textarea>
 							</div>
 						</form>
 					</div>
@@ -450,11 +449,11 @@
 									</div>
 									<div class="row gx-3">
 										<div class="col-sm-12 form-group">
-											<select class="form-select"
+											<select class="form-select cal-event-code"
 												aria-label="Default select example">
-												<option selected>내일정</option>
-												<option value="1">부서일정</option>
-												<option value="2">전사일정</option>
+												<option selected value="CAL001">내일정</option>
+												<option value="CAL002">부서일정</option>
+												<option value="CAL003">전사일정</option>
 											</select>
 
 										</div>
@@ -476,7 +475,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<div class="form-check form-check-sm mt-2">
-												<input type="checkbox" class="form-check-input" checked="">
+												<input type="checkbox" class="form-check-input cal-event-allday">
 												<label class="form-check-label">종일여부</label>
 											</div>
 										</div>
@@ -490,7 +489,7 @@
 															<option value="1">Private</option>
 														</select>
 														<div class="">
-															<input type="color" class="form-control form-control-color p-0" value="#009B84" title="Choose your color">
+															<input type="color" class="form-control form-control-color p-0 cal-event-color" title="Choose your color">
 														</div>
 													</div>
 												</div>
@@ -507,20 +506,16 @@
 											<div class="col-sm-12 form-group">
 												<div class="form-label-group">
 													<label>일정 내용</label> <small class="text-muted">200</small>
-												</div>
-												<textarea class="form-control" rows="3"></textarea>
+												</div> 
+												<textarea class="form-control cal-event-content" rows="3"></textarea>
 											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-12 form-group">
 												<input class="form-check-input" type="checkbox" value=""
 													id="flexCheckDefault"> <label
-													class="form-check-label" for="flexCheckDefault">
-													알림여부 </label> <select class="form-select"
-													aria-label="Default select example">
-													<option selected>10분전</option>
-													<option value="1">30분전</option>
-												</select>
+													class="form-check-label cal-event-reminder" for="flexCheckDefault">
+													알림여부 </label> 
 											</div>
 										</div>
 								</form>
@@ -691,45 +686,6 @@
 					</div>
 				</div>
 				<!-- /Set Reminder -->
-				<!-- 부트스트랩 modal 부분 -->
-				<!-- Modal -->
-				<div class="modal fade" id="exampleModal" tabindex="-1"
-					aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">일정 추가하기</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								일정이름 : <input type="text" id="title" /><br /> 시작시간 : <input
-									type="datetime-local" id="start" /><br /> 종료시간 : <input
-									type="datetime-local" id="end" /><br /> 배경색상 : <select
-									id="color">
-									<option value="red">빨강색</option>
-									<option value="orange">주황색</option>
-									<option value="yellow">노랑색</option>
-									<option value="green">초록색</option>
-									<option value="blue">파랑색</option>
-									<option value="indigo">남색</option>
-									<option value="purple">보라색</option>
-								</select>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary" id="saveChanges">
-									추가</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
-
-
 
 				<!-- Add Category -->
 				<div id="add_new_cat" class="modal fade" tabindex="-1" role="dialog"

@@ -1,13 +1,13 @@
 package com.dna.hiveworks.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.dna.hiveworks.model.dto.Schedule;
 
 public interface ScheduleService {
 	
 	
-	public ArrayList<Schedule> scheduleList();
+	List<Schedule> selectScheduleAll();
 
 	int insertSchedule(Schedule schedule);
 
