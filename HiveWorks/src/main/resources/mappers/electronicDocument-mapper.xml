@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/DTD/mybatis-3-mapper.dtd" >
 <mapper namespace="edoc">
+  <resultMap type="edocList" id="edocListMap">
+  	<result column="edoc_no" property="edocNo"/>
+  	<result column="edoc_title" property="edocTitle"/>
+  	<result column="emp_name" property="empName"/>
+  	<result column="create_date" property="createDate"/>
+  	<result column="finalized_date" property="finalizedDate"/>
+  	<result column="edoc_dot_code" property="edocDotCode"/>
+  	<result column="edoc_status" property="edocStatus"/>
+  </resultMap>
   
+  <select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
+	SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
+	FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+                JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+                JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+	WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
+    	AND E.EMP_ID = #{emp_id}
+  </select>
+  <select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
+	SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.FINALIZED_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
+	FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+                JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+                JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+	WHERE D.USE_YN = 'Y' AND NOT(D.EDOC_STATUS = 'DST100')
+    	AND E.EMP_ID = #{emp_id}
+  </select>
 </mapper>

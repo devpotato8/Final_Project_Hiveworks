@@ -4,10 +4,9 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
-import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
-import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 
 /**
  * @author : 이재연
@@ -33,7 +32,7 @@ public interface EdocService {
 	 * @param boxStatus
 	 * @return
 	 */
-	List<ElectronicDocument> getEdocList(String empId, ListStatus status);
+	List<ElectronicDocumentList> getEdocList(Map<String, Object> param);
 
 	/**
 	 * @Author : 이재연 
@@ -49,5 +48,5 @@ public interface EdocService {
 	 * @param boxStatus
 	 * @return
 	 */
-	List<ElectronicDocument> getEdocBox(String empId, BoxStatus boxStatus);
+	List<ElectronicDocumentList> getEdocBox(Map<String, Object> param);
 }

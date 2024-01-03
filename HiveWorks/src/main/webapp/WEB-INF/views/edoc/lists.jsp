@@ -84,8 +84,15 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach items="" var="d">
-														
+													<c:forEach items="${lists }" var="d">
+														<tr>
+															<td>${d.edocNo }</td>
+															<td>${d.edocTitle }</td>
+															<td>${d.empName }</td>
+															<td>${d.createDate }</td>
+															<td>${d.edocDotCode.code }</td>
+															<td>${d.edocStatus.status }</td>
+														</tr>
 													</c:forEach>
 												</tbody>
 											</table>
