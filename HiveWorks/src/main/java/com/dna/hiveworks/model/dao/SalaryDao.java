@@ -19,4 +19,6 @@ public interface SalaryDao {
 	
 	int updatePositionPay(SqlSession session, Salary s);
 	
+	int insertPositionPay(SqlSession session, Salary s);
+	
 }

@@ -28,8 +28,7 @@ public class SalaryDaoImpl implements SalaryDao {
 
 	@Override
 	public int insertSalary(SqlSession session, Salary s) {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.insert("session.insertSalary",s);
 	}
 
 	@Override
@@ -48,7 +47,11 @@ public class SalaryDaoImpl implements SalaryDao {
 		return session.update("salary.updatePositionPay",s);
 	}
 
+	@Override
+	public int insertPositionPay(SqlSession session, Salary s) {
+		
+		return session.insert("salary.insertPositionPay",s);
+	}
 	
-
 
 }

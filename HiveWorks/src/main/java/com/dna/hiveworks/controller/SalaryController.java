@@ -91,4 +91,28 @@ public class SalaryController {
 		return "salary/salaryWrite";
 	}
 	
+	@GetMapping("/SalaryWriteEnd")
+	public String insertSalary(Salary s, Model model) {
+		
+		String msg, loc;
+		
+		try {
+			int result = service.insertSalary(s);
+			
+			msg="급여 추가 성공";
+			loc="salary/salaryList";
+			
+			
+		}catch(RuntimeException e) {
+			msg="급여 추가 실패";
+			loc="salary/salaryList";
+	
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+
+		
+		return "common/msg";
+	}
+	
 }

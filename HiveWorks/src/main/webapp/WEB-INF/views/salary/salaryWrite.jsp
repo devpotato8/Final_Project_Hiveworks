@@ -408,7 +408,7 @@
         margin-top: 24px
     }</style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
-<form action="${path }/salary/updateSalaryDetailEnd" method="post">
+<form action="${path }/salary/SalaryWriteEnd" method="post">
 <button>등록</button>
 <input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요."/>
 <button>검색</button>

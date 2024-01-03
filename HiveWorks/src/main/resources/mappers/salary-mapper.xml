@@ -85,5 +85,12 @@
   		SET PP_ADD_PAY=#{position_pay} WHERE SAL_NO=#{sal_no}
   	</update>
   	
+  	<insert id="">
+  		
+  	</insert>
+  	
+  	<insert id="">
+  	
+  	</insert>
   	
 </mapper>
