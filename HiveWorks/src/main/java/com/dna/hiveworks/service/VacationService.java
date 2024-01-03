@@ -8,7 +8,7 @@ public interface VacationService {
 	
 	List<Vacation> selectVacationListAll();
 		
-	List<Vacation> selectVacationByNo(int VacationNo);
+	List<Vacation> selectVacationByNo(int no);
 		
 	int insertVacation(Vacation v);
 	int updateVacation(Vacation v);

@@ -1,10 +1,11 @@
 package com.dna.hiveworks.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author : 강진하
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 import com.dna.hiveworks.model.dto.Vacation;
-import com.dna.hiveworks.serviceimpl.VacationServiceImpl;
+import com.dna.hiveworks.service.VacationService;
 
 import lombok.AllArgsConstructor;
 @Controller
@@ -25,17 +26,41 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/vacation")
 public class VacationController {
 	
-	private final VacationServiceImpl serviceImpl;
+	private final VacationService service;
 	
 	@GetMapping("managevacation")
-	public String worksList() {
+	public String worksList(Model m) {
+		List<Vacation> vacations = service.selectVacationByNo(1);
+		m.addAttribute("vacations", vacations);
 		return "vacation/vacationList";
 	}
 	
+//	@GetMapping("selectvacation")
+//	public String selectVacation(int no, Model m){
+//		List<Vacation> vacations = service.selectVacationByNo(no);
+//		m.addAttribute("vacations", vacations);
+//		return "vacation/vacationList";
+//	}
+	
 	@PostMapping("applyvacation")
-	public Vacation applyVacation(Vacation vacation) {
-		serviceImpl.insertVacation(vacation);
-		return vacation;
+	public String applyVacation(Vacation vacation, Model m) {
+		System.out.println(vacation);
+//		int result = service.insertVacation(vacation);
+//		
+//		String msg,loc;
+//		if(result>0) {
+//			msg = "휴가 신청 완료  :)";
+//			loc = "vacation/vacationList";
+//		} else {
+//			msg = "휴가 신청 실패  :(";
+//			loc = "vacation/vacationList";
+//		}
+//		
+//		m.addAttribute("msg",msg);
+//		m.addAttribute("loc",loc);
+//		
+//		return "common/msg";
+		return "vacation/vacationList";
 	}
 	
 	

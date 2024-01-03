@@ -13,7 +13,6 @@
 	<div class="container-xxl" style="margin-left: 0px;">
 		<h2>공지사항</h2>
 		<a href="${path}/board/boardWrite">등록</a>
-		<hr />
 	</div>
 	<div class="invoice-body">
 		<div data-simplebar class="nicescroll-bar">
@@ -21,6 +20,7 @@
 				<table id="datable_1" class="table nowrap w-100 mb-5">
 					<thead>
 						<tr>
+							<!-- 테이블 헤더 정보 추가 -->
 							<th><span class="form-check mb-0"> <input
 									type="checkbox" class="form-check-input check-select-all"
 									id="customCheck1"> <label class="form-check-label"
@@ -36,49 +36,44 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:choose>
-							<c:when test="${empty board}">
+						<c:if test="${not empty boardList }">
+							<c:forEach var="b" items="${boardList}">
 								<tr>
-									<td colspan="8">게시물이 없습니다.</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<c:forEach var="b" items="${board}">
-									<tr>
-										<td></td>
-										<td><a href="#" class="table-link-text link-high-em"><c:out
-													value="${b.boardNo}" /></a></td>
-										<td>1</td>
-										<td><c:out value="${b.boardTitle}" /></td>
-										<td><c:out value="${b.creater}" /></td>
-										<td><c:out value="${b.createDate}" /></td>
-										<td><c:out value="${b.modifyDate}" /></td>
-										<td>
-											<div class="d-flex align-items-center">
-												<div style="margin-right: 100px;">
-													<c:out value="${b.boardCount}" />
-												</div>
-												<div class="d-flex">
-													<a
-														class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-														data-bs-toggle="tooltip" data-bs-placement="top" title=""
-														data-bs-original-title="수정" href="contact-details.html">
-														<span class="btn-icon-wrap"><span
-															class="feather-icon"><i data-feather="edit"></i></span></span>
-													</a> <a
-														class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-														data-bs-toggle="tooltip" data-bs-placement="top" title=""
-														data-bs-original-title="삭제" href="#"> <span
-														class="btn-icon-wrap"><span class="feather-icon"><i
-																data-feather="trash-2"></i></span></span>
-													</a>
-												</div>
+									<td></td>
+									<td><a href="#" class="table-link-text link-high-em">
+											<c:out value="${b.boardNo}" />
+									</a></td>
+									<td><c:out value="${b.createDate}" /></td>
+									<td><c:out value="${b.boardTitle}" /></td>
+									<td><c:out value="${b.creater}" /></td>
+									<td><c:out value="${b.createDate}" /></td>
+									<td><c:out value="${b.modifyDate}" /></td>
+									<td>
+										<div class="d-flex align-items-center">
+											<div style="margin-right: 100px;">
+												<c:out value="${b.boardCount}" />
 											</div>
-										</td>
-									</tr>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
+
+											<div class="d-flex">
+												<a
+													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
+													data-bs-toggle="tooltip" data-bs-placement="top" title=""
+													data-bs-original-title="수정" href="contact-details.html">
+													<span class="btn-icon-wrap"><span
+														class="feather-icon"><i data-feather="edit"></i></span></span>
+												</a> <a
+													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
+													data-bs-toggle="tooltip" data-bs-placement="top" title=""
+													data-bs-original-title="삭제" href="#"> <span
+													class="btn-icon-wrap"><span class="feather-icon"><i
+															data-feather="trash-2"></i></span></span>
+												</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:if>
 					</tbody>
 				</table>
 			</div>

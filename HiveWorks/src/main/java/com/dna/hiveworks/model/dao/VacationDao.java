@@ -10,7 +10,7 @@ public interface VacationDao {
 	
 	List<Vacation> selectVacationListAll(SqlSession session);
 	
-	List<Vacation> selectVacationByNo(SqlSession session, int VacationNo);
+	List<Vacation> selectVacationByNo(SqlSession session, int no);
 		
 	int insertVacation(SqlSession session, Vacation v);
 	int updateVacation(SqlSession session, Vacation v);

@@ -42,29 +42,49 @@
 	                </div>
 	                <div class="thrid-line">
 	                    <div class="day-filter"></div>
-	                    <div class="filter-right-part"><div>2023.12.26(화) 오전 08:00</div><button>연차</button></div>
+	                    <div class="filter-right-part"><div>2023.12.26(화) 오전 08:00</div></div>
 	                </div>
 	            </div>
 	            <div class="main-container">
 	                <p>휴가신청</p>
+	                ${vacations }
+	                <%-- <c:if test="${not empty vacations }">
+		                <c:forEach var="v" items="${vacations }">
+			                <tr>
+				                <td><c:out value="${v. }"/></td>
+				                <td><c:out value="${b.boardTitle }"/></td>
+				                <td><c:out value="${b.writer.userId }"/></td>
+				                <td><fmt:formatDate value="${b.boardDate }" pattern="yyyy년 MM월 dd일"/></th>
+				                <td>
+									<c:if test="${b.files.size()>0 }">
+										<img src="${path }/resources/images/file.png" width="20px">
+										<span>${b.files.size() }</span>
+									</c:if>
+								</td>
+				                <td><c:out value="${b.boardReadCount }"/></td>
+				            </tr>
+		                </c:forEach>
+	                </c:if> --%>
+	                
 	                <div class="first-container common-container">
-	                    <div id="연차"><p>연차</p></div>
-	                    <div id="반차"><p>반차</p></div>
-	                    <div id="병가"><p>병가</p></div>
-	                    <div id="공가"><p>공가</p></div>
+	                    <div><p>연차</p><button class="btn" name="vacOption" id="연차" value="연차">신청하기</button></div>
+	                    <div><p>반차</p><button class="btn" name="vacOption" id="반차" value="반차">신청하기</button></div>
+	                    <div><p>병가</p><button class="btn" name="vacOption" id="병가" value="병가">신청하기</button></div>
+	                    <div><p>공가</p><button class="btn" name="vacOption" id="공가" value="공가">신청하기</button></div>
 	                </div>
 	                <p></p>
 	                <div class="second-container common-container">
-	                    <div id="조의 (부모 / 배우자 / 자녀)"><p>조의 - 부모 / 배우자 / 자녀</p><p>신청시 지급 5일</p></div>
-	                    <div id="조의 (조부모 / 형제 / 자매)"><p>조의 - 조부모 / 형제 / 자매</p><p>신청시 지급 3일</p></div>
-	                    <div id="결혼 (본인)"><p>결혼 - 본인</p><p>신청시 지급 3일</p></div>
-	                    <div id="결혼 (자녀)"><p>결혼 - 자녀</p><p>신청시 지급 1일</p></div>
+	                    <div><p>조의 - 부모 / 배우자 / 자녀</p><p>신청시 지급 5일</p><button class="btn" name="vacOption" id="조의 (부모 / 배우자 / 자녀)" value="조의5일">신청하기</button></div>
+	                    <div><p>조의 - 조부모 / 형제 / 자매</p><p>신청시 지급 3일</p><button class="btn" name="vacOption" id="조의 (조부모 / 형제 / 자매)" value="조의3일">신청하기</button></div>
+	                    <div><p>결혼 - 본인</p><p>신청시 지급 3일</p><button class="btn" name="vacOption" id="결혼 (본인)" value="결혼본인">신청하기</button></div>
+	                    <div><p>결혼 - 자녀</p><p>신청시 지급 1일</p><button class="btn" name="vacOption" id="결혼 (자녀)" value="결혼자녀">신청하기</button></div>
 	                </div>
 	            </div>
 	        </div>
         
           <!-- 모달 -->
-          <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
+          <form action="${path }/vacation/applyvacation" method="post">
+          	<div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -94,12 +114,15 @@
                       </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="button" class="btn" style="background-color: rgba(14, 25, 90, 0.8); color: white;">저장</button>
+                	<input type="hidden" name="vacOption" value="">
+                	<input type="hidden" name="createDate" value="">
+                	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                 	<button type="submit" class="btn" style="background-color: rgba(14, 25, 90, 0.8); color: white;">신청</button>
                 </div>
               </div>
             </div>
           </div>
+         </form>
 
     </section>
 				
@@ -112,15 +135,17 @@
         const openModal = () =>
             $("#modal").modal("show");
 
-        const elements = document.querySelectorAll(".common-container>div");
+        const elements = document.querySelectorAll(".common-container>div>button");
         elements.forEach(function(element) {
             element.addEventListener("click", openModal);
         });
         
         // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
-        $(".common-container>div").click(function(e){
+        //$(".common-container>div").click(function(e){
+        $(".common-container>div>button").click(function(e){
         	      console.log(e.target.id);
         	$("#exampleModalLabel").text("휴가신청 - " + e.target.id);
+        	$("input[name='vacOption']").val(e.target.id);
        	});
         
         
@@ -217,13 +242,9 @@
          // 데이트 클릭시 선택표시 css적용
             $(".dates").click(function(e){
             	let clickedElement = e.target; // 클릭한 요소
-            	console.log(currentYear);
-            	console.log(currentMonth + 1);
             	let addedCurrentMonth = currentMonth + 1;
-            	console.log(clickedElement.textContent);
             	if(currentMonth<10){
             		currentMonth2 = "0" + addedCurrentMonth;
-            		console.log(currentMonth2);
             	} else {
             		currentMonth2 = currentMonth;
             	}
@@ -232,11 +253,26 @@
             	} else {
             		clickedElement.textContent2 = clickedElement.textContent;
             	}
+            	
             	let applyDate = currentYear + "-" + currentMonth2 + "-" + clickedElement.textContent2;
             	console.log(applyDate);
-            	
-            	
-           	 	$(clickedElement).toggleClass("highlight"); // 클릭한 요소에만 highlight 클래스를 토글
+
+            	// 선택된 날짜가 이미 highlight 클래스를 가지고 있는 경우 아무 작업도 하지 않습니다.
+                if ($(clickedElement).hasClass("highlight")) {
+                    return;
+                }
+
+                // 기존에 선택된 날짜가 있다면 highlight 클래스를 제거합니다.
+                $(".dates .highlight").removeClass("highlight");
+
+                // 클릭한 요소에 highlight 클래스를 추가합니다.
+                $(clickedElement).addClass("highlight");
+                
+           	 	//$(clickedElement).toggleClass("highlight"); // 클릭한 요소에만 highlight 클래스를 토글
+             	// applyDate 값을 hidden input 요소의 value에 넣습니다.
+                
+             	$("input[name='createDate']").val(applyDate);
+           	 	
            	});
         }
         
@@ -290,6 +326,9 @@
             display: flex;
             flex-direction: column;
         }
+        .first-container{
+        	margin-bottom: 20px
+        }
         .common-container{
             height: 200px;
             display: flex;
@@ -298,6 +337,7 @@
         .common-container>div{
             box-shadow: rgba(3, 22, 187, 0.16) 0px 1px 4px;
             border-radius: 5px;
+            padding: 10px;
             height: 100%;
             width: 23%;
             cursor: pointer;
@@ -427,5 +467,12 @@
 		.highlight {
 	    	background-color: var(--navy);
 	  	}
+	  	/* 드래그 금지기능 */
+	  	.dates {
+		    user-select: none;
+		    -moz-user-select: none;
+		    -webkit-user-select: none;
+		    -ms-user-select: none;
+		}
 </style>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
