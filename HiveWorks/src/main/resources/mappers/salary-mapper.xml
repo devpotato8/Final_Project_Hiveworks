@@ -74,4 +74,16 @@
         WHERE S.SAL_NO=#{no}
   	</select>
   	
+  	
+  	<update id="updateSalary" parameterType="salary">
+  		UPDATE TBL_SALARY 
+  		SET SAL_BASE=#{sal_base}, SAL_MEAL=#{sal_meal}, SAL_BONUS=#{sal_bonus} WHERE SAL_NO=#{sal_no}
+  	</update>
+  	
+  	<update id="updatePositionPay" parameterType="positionpay">
+  		UPDATE TBL_POSITION_PAY 
+  		SET PP_ADD_PAY=#{position_pay} WHERE SAL_NO=#{sal_no}
+  	</update>
+  	
+  	
 </mapper>

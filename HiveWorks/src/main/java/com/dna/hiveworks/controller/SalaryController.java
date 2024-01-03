@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -52,6 +53,36 @@ public class SalaryController {
 		return "salary/salaryDetail";
 	}
 	
+	@GetMapping("/updateSalaryDetail")
+	public String updateSalaryDetailByNo(int sal_no, Model model) {
+		
+		Salary sal = service.selectSalaryByNo(sal_no);
+		
+		model.addAttribute("salary",sal);
+		
+		return "salary/updateSalaryDetail";
+	}
 	
+	@PostMapping("/updateSalaryDetailEnd")
+	public String updateSalaryDetailEnd(Salary s, Model model) {
+		
+		String msg, loc;
+		
+		try {
+			int result = service.updateSalary(s);
+			
+			msg="업데이트 성공";
+			loc="salary/salaryList";
+			
+			
+		}catch(RuntimeException e) {
+			msg="업데이트 실패";
+			loc="salary/salaryList";
+	
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";
+	}
 	
 }
