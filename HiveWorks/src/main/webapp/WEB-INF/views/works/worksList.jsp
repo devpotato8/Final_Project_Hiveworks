@@ -27,10 +27,10 @@
 			<section>
 		        <div class="container">
 		            <div class="top-bar">
-		                <div class="first-line">
+		                <!-- <div class="first-line">
 		                    <div>근무관리</div>
 		                    <div>휴가관리</div>
-		                </div>
+		                </div> -->
 		                <div class="second-line">
 		                    <div>
 		                        <div>근무현황</div>

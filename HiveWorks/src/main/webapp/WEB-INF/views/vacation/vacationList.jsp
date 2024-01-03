@@ -27,7 +27,7 @@
 		<section>
 	        <div class="container">
 	            <div class="top-bar">
-	                <div class="first-line">
+	                <!-- <div class="first-line">
 	                    <div>근무관리</div>
 	                    <div>휴가관리</div>
 	                </div>
@@ -39,7 +39,7 @@
 	                    <div>
 	                        
 	                    </div>
-	                </div>
+	                </div> -->
 	                <div class="thrid-line">
 	                    <div class="day-filter"></div>
 	                    <div class="filter-right-part"><div>2023.12.26(화) 오전 08:00</div></div>

@@ -44,7 +44,26 @@ public class VacationController {
 	
 	@PostMapping("applyvacation")
 	public String applyVacation(Vacation vacation, Model m) {
-		System.out.println(vacation);
+		
+		// 휴가를 신청하면 즉시승인되고 잔여연차가 1 줄어야함
+		if(vacation.getVacOption().equals("반차")) {
+			vacation.setVacCount(0.5);
+			service.insertVacation(vacation);
+			service.updateVacation(vacation.getVacCount());
+		} else if(vacation.getVacOption().equals("연차")||vacation.getVacOption().equals("병가")||vacation.getVacOption().equals("공가")) {
+			vacation.setVacCount(1);
+			service.insertVacation(vacation);
+			service.updateVacation(vacation.getVacCount());
+		} else if(vacation.getVacOption().equals("조의 (부모 / 배우자 / 자녀)")){
+			vacation.setVacCount(5);
+			service.insertVacation(vacation);
+		} else if(vacation.getVacOption().equals("결혼자녀")) {
+			vacation.setVacCount(1);
+			service.insertVacation(vacation);
+		} else {
+			vacation.setVacCount(3);
+			service.insertVacation(vacation);
+		}
 //		int result = service.insertVacation(vacation);
 //		
 //		String msg,loc;
