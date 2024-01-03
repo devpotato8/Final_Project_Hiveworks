@@ -28,7 +28,7 @@ public class VacationController {
 	
 	private final VacationService service;
 	
-	@GetMapping("managevacation")
+	@GetMapping("vacationList")
 	public String worksList(Model m) {
 		List<Vacation> vacations = service.selectVacationByNo(1);
 		m.addAttribute("vacations", vacations);
@@ -82,7 +82,10 @@ public class VacationController {
 		return "vacation/vacationList";
 	}
 	
-	
+	@GetMapping("vacationView")
+	public String vacationView(Model m) {
+		return "vacation/vacationView";
+	}
 	
 	
 	

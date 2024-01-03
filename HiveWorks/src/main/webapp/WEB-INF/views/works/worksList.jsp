@@ -18,7 +18,7 @@
 				<div class="d-flex">
 					<div class="d-flex flex-wrap justify-content-between flex-1">
 						<div class="mb-lg-0 mb-2 me-8">
-							<h1 class="pg-title">근무페이지</h1>
+							<h1 class="pg-title">근무현황</h1>
 						</div>
 					</div>
 				</div>
@@ -32,10 +32,7 @@
 		                    <div>휴가관리</div>
 		                </div> -->
 		                <div class="second-line">
-		                    <div>
-		                        <div>근무현황</div>
-		                        <div>세부근무현황</div>
-		                    </div>
+		                    <div></div>
 		                    <div>
 		                        <button class="btn btn-dark">근무내역다운로드</button>
 		                    </div>
@@ -307,6 +304,15 @@
 	    </div>
     </div>
 <style>
+		:root {
+            --navy: rgba(14, 25, 90, 0.8);
+        }
+        .day-filter > button{
+        	background-color: var(--navy);
+        }
+        .filter-right-part > button{
+        	background-color: var(--navy);
+        }
         .container{
             width: 100%;
             height: 100%;

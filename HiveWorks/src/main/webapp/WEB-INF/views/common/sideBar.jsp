@@ -164,15 +164,43 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/works/manageworks"><span class="nav-link-text">근무관리</span></a>
+												<a class="nav-link" href="${path}/works/worksList"><span class="nav-link-text">근무현황</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/vacation/managevacation"><span class="nav-link-text">휴가관리</span></a>
+												<a class="nav-link" href="${path}/works/worksView"><span class="nav-link-text">세부근무현황</span></a>
 											</li>
 										</ul>	
 									</li>	
 								</ul>
 							</li>	
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_vacation">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun">
+												<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+												<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+												<line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+												<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">휴가관리</span>
+								</a>
+								<ul id="dash_vacation" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/vacation/vacationList"><span class="nav-link-text">휴가신청</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/vacation/vacationView"><span class="nav-link-text">휴가사용내역</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>
+							</li>	
+							
 							<li class="nav-item">
 								<a class="nav-link" href="#">
 									<span class="nav-icon-wrap">
