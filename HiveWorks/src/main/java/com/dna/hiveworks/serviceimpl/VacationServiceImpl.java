@@ -34,6 +34,8 @@ public class VacationServiceImpl implements VacationService {
 	public int insertVacation(Vacation v) {
 		// TODO Auto-generated method stub
 		return dao.insertVacation(session, v);
+		
+		// updateVacation 여기다 같이 추가해야할듯?
 	}
 
 	@Override
