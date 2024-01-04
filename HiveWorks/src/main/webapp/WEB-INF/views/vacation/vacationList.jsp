@@ -27,44 +27,12 @@
 		<section>
 	        <div class="container">
 	            <div class="top-bar">
-	                <!-- <div class="first-line">
-	                    <div>근무관리</div>
-	                    <div>휴가관리</div>
-	                </div>
-	                <div class="second-line">
-	                    <div>
-	                        <div>근무현황</div>
-	                        <div>세부근무현황</div>
-	                    </div>
-	                    <div>
-	                        
-	                    </div>
-	                </div> -->
 	                <div class="thrid-line">
 	                    <div class="day-filter"></div>
 	                    <div class="filter-right-part"><div>2023.12.26(화) 오전 08:00</div></div>
 	                </div>
 	            </div>
 	            <div class="main-container">
-	                ${vacations }
-	                <%-- <c:if test="${not empty vacations }">
-		                <c:forEach var="v" items="${vacations }">
-			                <tr>
-				                <td><c:out value="${v. }"/></td>
-				                <td><c:out value="${b.boardTitle }"/></td>
-				                <td><c:out value="${b.writer.userId }"/></td>
-				                <td><fmt:formatDate value="${b.boardDate }" pattern="yyyy년 MM월 dd일"/></th>
-				                <td>
-									<c:if test="${b.files.size()>0 }">
-										<img src="${path }/resources/images/file.png" width="20px">
-										<span>${b.files.size() }</span>
-									</c:if>
-								</td>
-				                <td><c:out value="${b.boardReadCount }"/></td>
-				            </tr>
-		                </c:forEach>
-	                </c:if> --%>
-	                
 	                <div class="first-container common-container">
 	                    <div><p>연차</p><button class="btn" name="vacOption" id="연차" value="연차">신청하기</button></div>
 	                    <div><p>반차</p><button class="btn" name="vacOption" id="반차" value="반차">신청하기</button></div>
@@ -112,8 +80,52 @@
                         </div>
                       </div>
                 </div>
+                
+                
+                <div class="labelBox" id="timeLabelBox">
+                	<label>
+                        <div>시작시간</div>
+                         <select class="form-select" name="startTime" id="startTime">
+                                    <option value="09:00:00.0">09:00</option>
+                                    <option value="10:00:00.0">10:00</option>
+                                    <option value="11:00:00.0">11:00</option>
+                                    <option value="12:00:00.0">12:00</option>
+                                    <option value="13:00:00.0">13:00</option>
+                                    <option value="14:00:00.0">14:00</option>
+                                    <option value="15:00:00.0">15:00</option>
+                                    <option value="16:00:00.0">16:00</option>
+                                    <option value="17:00:00.0">17:00</option>
+                                    <option value="18:00:00.0">18:00</option>
+                                    <option value="19:00:00.0">19:00</option>
+                                    <option value="20:00:00.0">20:00</option>
+                                    <option value="21:00:00.0">21:00</option>
+                                    <option value="22:00:00.0">22:00</option>
+                             </select>
+                    </label>
+                    <label>
+                        <div>종료시간</div>
+                         <select class="form-select" name="endTime" id="endTime">
+                                    <!-- <option value="09:00:00.0">09:00</option> -->
+                                    <option value="09:00:00.0">09:00</option>
+                                    <option value="10:00:00.0">10:00</option>
+                                    <option value="11:00:00.0">11:00</option>
+                                    <option value="12:00:00.0">12:00</option>
+                                    <option value="13:00:00.0">13:00</option>
+                                    <option value="14:00:00.0">14:00</option>
+                                    <option value="15:00:00.0">15:00</option>
+                                    <option value="16:00:00.0">16:00</option>
+                                    <option value="17:00:00.0">17:00</option>
+                                    <option value="18:00:00.0">18:00</option>
+                                    <option value="19:00:00.0">19:00</option>
+                                    <option value="20:00:00.0">20:00</option>
+                                    <option value="21:00:00.0">21:00</option>
+                                    <option value="22:00:00.0">22:00</option>
+                             </select>
+                    </label>
+                </div>
+                
                 <div class="modal-footer">
-                	<input type="hidden" name="vacOption" value="">
+                	<input type="hidden" id="vacOption" name="vacOption" value="">
                 	<input type="hidden" name="createDate" value="">
                 	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                  	<button type="submit" class="btn" style="background-color: rgba(14, 25, 90, 0.8); color: white;">신청</button>
@@ -129,7 +141,23 @@
 	    </div>
     </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>        
+<script>
+		
+		/* 시간선택변경시 */
+		$("#startTime").change(()=>{
+		    let startTime = ($("#startTime").val()).substr(0,2);
+		    let endTime = ($("#endTime").val()).substr(0,2);
+		    $("#endTime option").removeAttr("disabled");
+		    // if(startTime>=endTime){
+		    //     alert("종료시간은 시작시간보다 커야합니다");
+		    //     for(let i=0; i<=10-endTime;i++){
+		    //         $("#endTime option:eq("+i+")").attr("disabled", true);
+		    //     }
+		    // }
+		    for(let i=0; i<=startTime-9;i++){
+		        $("#endTime option:eq("+i+")").attr("disabled", true);
+		    }
+		});
         // div 클릭 시 모달 열기
         const openModal = () =>
             $("#modal").modal("show");
@@ -138,6 +166,8 @@
         elements.forEach(function(element) {
             element.addEventListener("click", openModal);
         });
+        
+        
         
         // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
@@ -273,6 +303,27 @@
              	$("input[name='createDate']").val(applyDate);
            	 	
            	});
+         
+          //반차 옵션 선택 시에만 보여주는 기능
+    		var vacOption = document.getElementById('vacOption');
+    		var timeLabelBox = document.getElementById('timeLabelBox');
+    		var btn = document.getElementsByClassName('btn');
+    		
+    		  const elements = document.querySelectorAll(".common-container>div>button");
+    	        elements.forEach(function(element) {
+    	            element.addEventListener("click", function() {
+    	            	if (vacOption.value !== '반차') {
+    	      			  timeLabelBox.style.visibility = 'hidden';
+    	      			}
+   	    			  if (vacOption.value === '반차') {
+   	      				timeLabelBox.style.visibility = 'visible';
+   	      			  } else {
+   	      				timeLabelBox.style.visibility = 'hidden';
+   	      			  }
+    	      			});
+    	        });
+    		  
+         
         }
         
     </script>
@@ -472,6 +523,16 @@
 		    -moz-user-select: none;
 		    -webkit-user-select: none;
 		    -ms-user-select: none;
+		}
+		/* 시간선택 */
+		.labelBox{
+			text-align: center;
+		}
+		.labelBox>label{
+			margin-bottom: 15px;
+		}
+		.labelBox>label>div{
+			color: var(--navy);
 		}
 </style>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
