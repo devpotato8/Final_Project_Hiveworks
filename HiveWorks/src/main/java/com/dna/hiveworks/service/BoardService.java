@@ -6,9 +6,10 @@ import com.dna.hiveworks.model.dto.Board;
 
 public interface BoardService {
 
-	public Board selectBoardByNo(int boardNo);
+	Board selectBoardByNo(int boardNo);
 	
 	List<Board> selectAllBoard();
 	
 	int insertBoard(Board b);
+	
 }
