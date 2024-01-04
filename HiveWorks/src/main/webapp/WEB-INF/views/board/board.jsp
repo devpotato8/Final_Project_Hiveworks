@@ -11,7 +11,7 @@
 
 <div class="hk-pg-wrapper">
 	<div class="container-xxl" style="margin-left: 0px;">
-		<h2>공지사항</h2>
+		
 		<a href="${path}/board/boardWrite">등록</a>
 	</div>
 	<div class="invoice-body">
@@ -41,7 +41,7 @@
 								<tr>
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
-											<c:out value="${b.boardNo}" />
+									<a href="${path}/board/boardView"><c:out value="${b.boardNo}" /></a>
 									<td><c:out value="${b.createDate}" /></td>
 									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
@@ -58,7 +58,7 @@
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
 													data-bs-toggle="tooltip" data-bs-placement="top" title=""
-													data-bs-original-title="수정" href="contact-details.html">
+													data-bs-original-title="수정" href="#">
 													<span class="btn-icon-wrap"><span
 														class="feather-icon"><i data-feather="edit"></i></span></span>
 												</a> <a

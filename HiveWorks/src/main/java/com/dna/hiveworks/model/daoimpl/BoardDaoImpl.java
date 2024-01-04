@@ -22,7 +22,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 	@Override
 	public int insertBoard(SqlSession session, Board b) {
+		System.out.println(b);
 		return session.insert("board.insertBoard",b);
 	}
-
+	
 }

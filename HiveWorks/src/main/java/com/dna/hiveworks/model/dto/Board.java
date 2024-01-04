@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Board {
     private int boardNo;
+    private String boardType;
     private String boardContent;
     private int boardCount;
     private String boardTitle;
@@ -24,8 +25,5 @@ public class Board {
     private int modifier;
     private Date modifyDate;
     private char useYN;
-    private String boardType;
     private List<Uploadfile> files;
-
-  
 }
