@@ -4,6 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
+
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="collapsed" name="style" />
+	<jsp:param value="data-hover='active'" name="hover" />
+</jsp:include>
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <!-- Sweetalert2 CSS -->
@@ -23,16 +29,8 @@
 <!-- CSS -->
 <link href="${path}/resources/css/style.css" rel="stylesheet"
 	type="text/css">
-<%-- <jsp:include page= "/WEB-INF/views/common/header.jsp"/> --%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="collapsed" name="style" />
-	<jsp:param value="data-hover='active'" name="hover" />
-</jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
 <link rel="shortcut icon" href="favicon.ico">
-<div class="hk-wrapper" data-layout="vertical"
-	data-layout-style="collapsed" data-menu="light" data-footer="simple"
-	data-hover="active">
 	<!-- 여기서 부터 시작 -->
 	<!-- Calendar Drawer -->
 	<div class="hk-drawer calendar-drawer drawer-right">
@@ -67,20 +65,11 @@
 						</div>
 						<ul class="event-detail">
 							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="calendar"></i></span></span> Aug
-								18,2020 - Aug 19, 2020</li>
+									class="feather-icon"><i data-feather="calendar"></i></span></span><span class="event-start-date">Aug
+								18,2020 - Aug 19, 2020</span></li>
 							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="clock"></i></span></span><span class="event=start-time">8:40
+									class="feather-icon"><i data-feather="clock"></i></span></span><span class="event-end-date">8:40
 								AM - 5:40 PM</span></li>
-							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="map-pin"></i></span></span>
-								Oslo, Canada</li>
-							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="check-square"></i></span></span>
-								Meetings</li>
-							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="eye"></i></span></span> Default
-								Visibility</li>
 							<li><span class="ev-icon-wrap"><span
 									class="feather-icon"><i data-feather="user-plus"></i></span></span>
 								<div class="d-flex flex-wrap">
@@ -104,12 +93,13 @@
 									</div>
 								</div></li>
 							<li><span class="ev-icon-wrap"><span
-									class="feather-icon"><i data-feather="menu"></i></span></span><span class="event-content"></span></li>
+									class="feather-icon"><i data-feather="menu"></i></span></span><span class="event-content">이벤트입니다</span></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
+		
 		<div class="d-none">
 			<div class="drawer-header">
 				<div class="drawer-header-action">
@@ -155,7 +145,7 @@
 									<span class="input-affix-wrapper"> <span
 										class="input-prefix"><span class="feather-icon"><i
 												data-feather="calendar"></i></span></span> <input
-										class="form-control form-wth-icon" name="datetimes"
+										class="form-control form-wth-icon event-start-date" name="datetimes"
 										value="Aug 18,2020 - Aug 19, 2020">
 										
 									</span>
@@ -166,17 +156,8 @@
 									<span class="input-affix-wrapper"> <span
 										class="input-prefix"><span class="feather-icon"><i
 												data-feather="clock"></i></span></span> <input type="text"
-										class="form-control form-wth-icon input-timepicker"
+										class="form-control form-wth-icon event-end-date input-timepicker"
 										value="8:40 AM - 5:40 PM">
-									</span>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-affix-wrapper"> <span
-										class="input-prefix"><span class="feather-icon"><i
-												data-feather="map-pin"></i></span></span> <input type="text"
-										class="form-control form-wth-icon" value="Oslo, Canada">
 									</span>
 								</div>
 							</div>
@@ -207,7 +188,7 @@
 							<div class="form-group">
 								<div class="input-group color-picker">
 									<span class="input-group-text colorpicker-input-addon"><i></i></span>
-									<input type="text" class="form-control" value="#007D88" />
+									<input type="text" class="form-control event-color" value="#007D88" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -721,24 +702,10 @@
 		<!-- /Page Body -->
 	</div>
 	<!-- /Main Content -->
-</div>
 <!-- /Wrapper -->
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
-<!-- jQuery -->
-<script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
-
-<!-- Bootstrap Core JS -->
-<script
-	src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- FeatherIcons JS -->
-<script src="${path}/resources/js/feather.min.js"></script>
-
 <!-- Fancy Dropdown JS -->
 <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
-
-<!-- Simplebar JS -->
-<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
 
 <!-- Bootstrap Colorpicker JavaScript -->
 <script src="${path}/resources/js/color-picker-data.js"></script>
@@ -758,7 +725,4 @@
 
 <!-- Bootstrap Notify JS -->
 <script src="${path}/resources/js/bootstrap-notify.min.js"></script>
-
-<!-- Init JS -->
-<script src="${path}/resources/js/init.js"></script>
 

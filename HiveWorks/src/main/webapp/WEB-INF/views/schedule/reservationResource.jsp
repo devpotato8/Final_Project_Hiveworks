@@ -136,17 +136,27 @@
                             </div>
                             <div style="width: 50%; display: block;">
                                 <form>
-                                    <div class="form-group">
+                       <!--              <div class="form-group">
                                         <select class="form-select">
                                             <option  selected="" value="1">가능 </option>
                                             <option value="2">Half Day</option>
                                             <option value="3">9 to 5</option>
                                         </select>
-                                        </div>
-                                    <div class="form-group">
-                                        <label class="form-label">종료일자</label>
-                                        <input class="form-control" name="single-date" type="text"/>
-                                    </div>
+                                        </div> -->
+                                        	<div class="row gx-3">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label class="form-label">시작일자</label> <input
+													class="form-control cal-event-date-start" name="single-date" type="text" />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label class="form-label">종료일자</label> <input
+													class="form-control cal-event-date-end" name="single-date" type="text" />
+											</div>
+										</div>
+									</div>
                                     <div class="form-group">
                                         <label class="form-label">참석자</label>
                                         <input class="form-control" type="text"/>
@@ -157,17 +167,10 @@
                                         <label class="form-check-label" for="flexCheckDefault">
                                           알림여부
                                         </label>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>10분전</option>
-                                            <option value="1">30분전</option>
-                                          </select>
                                 </div>
-                        </form>
-                        
-                       
-                   
-                    <button type="button" class="btn btn-secondary">취소</button>
+                                 <button type="button" class="btn btn-secondary">취소</button>
 					<button id="add_event" type="button" class="btn btn-primary fc-addEventButton-button">예약</button>
+                        </form>
                     <table class="table">
                         <thead>
                             <tr>
@@ -460,3 +463,24 @@ function calendarInit() {
 }
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<!-- Fancy Dropdown JS -->
+<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+<!-- Bootstrap Colorpicker JavaScript -->
+<script src="${path}/resources/js/color-picker-data.js"></script>
+
+<!-- Fullcalendar JS -->
+<script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
+<script src="${path}/resources/vendors/fullcalendar/index.global.min.js"></script>
+<script
+	src="${path}/resources/vendors/@fullcalendar/bootstrap5/index.global.min.js"></script>
+
+<script
+	src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
+<script src="${path}/resources/js/daterangepicker-data.js"></script>
+<script
+	src="${path}/resources/vendors/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="${path}/resources/js/fullcalendar-init.js"></script>
+
+<!-- Bootstrap Notify JS -->
+<script src="${path}/resources/js/bootstrap-notify.min.js"></script>

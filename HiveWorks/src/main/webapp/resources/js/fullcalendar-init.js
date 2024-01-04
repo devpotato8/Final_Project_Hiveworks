@@ -62,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
 								title: event.calSubject,
 								start: event.calStartDate,
 								end: event.calEndDate,
-								backgroundColor: event.calColor
+								backgroundColor: event.calColor,
+								content: event.calContent
 							};
 						});
 						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
@@ -87,7 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				// 이벤트 클릭 시 동작 정의
 				targetEvent = info.event;
 				// 모달 표시 또는 이벤트 상세 처리
-				 
+
+    // 모달창 내의 요소에 이벤트의 내용을 채웁니다.
 			}
 		});
 	calendar.render();

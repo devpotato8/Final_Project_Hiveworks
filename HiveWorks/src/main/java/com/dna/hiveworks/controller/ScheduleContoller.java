@@ -69,17 +69,17 @@ public class ScheduleContoller {
 		
 	//}
 
-	@GetMapping("reservationlist.do")
+	@GetMapping("/reservationlist.do")
 	public String reservationList() {
 		return "schedule/reservationList";
 	}
 
-	@GetMapping("projectlist.do")
+	@GetMapping("/projectlist.do")
 	public String projectList() {
 		return "schedule/projectList";
 	}
-
-	@GetMapping("reservationinsert.do")
+	
+	@GetMapping("/reservationinsert.do")
 	public String reservationInsert() {
 		return "schedule/reservationResource";
 	}
@@ -101,13 +101,22 @@ public class ScheduleContoller {
 		String calContent = (String) param.get("content");
 		String reminderYn = (String) param.get("reminder");
 		String calAlldayYn = (String) param.get("allday");
+		String calStatus = (String) param.get("status");
 
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
-		Schedule schedule = Schedule.builder().calSubject(calSubject).calStartDate(calStartDate).calEndDate(calEndDate)
-				.calColor(calColor).calCode(calCode).calContent(calContent).reminderYn(reminderYn)
-				.calAlldayYn(calAlldayYn).build();
+		Schedule schedule = Schedule.builder()
+				.calSubject(calSubject)
+				.calStartDate(calStartDate)
+				.calEndDate(calEndDate)
+				.calColor(calColor)
+				.calCode(calCode)
+				.calContent(calContent)
+				.reminderYn(reminderYn)
+				.calAlldayYn(calAlldayYn)
+				.calStatus(calStatus)
+				.build();
 
 		result = scheduleService.insertSchedule(schedule);
 
@@ -115,5 +124,6 @@ public class ScheduleContoller {
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 
 	}
+	
 
 }

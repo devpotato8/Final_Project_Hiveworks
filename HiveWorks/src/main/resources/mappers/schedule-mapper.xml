@@ -9,7 +9,7 @@
 	</resultMap>
 	
 	<insert id="insertSchedule" parameterType="schedule">
-		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},NULL,DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
 	</insert>
 	
 	<select id="selectScheduleAll" resultMap="scheduleMap">
