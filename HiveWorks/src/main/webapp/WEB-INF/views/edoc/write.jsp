@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%@ page import="com.dna.hiveworks.model.code.*" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
@@ -27,8 +28,6 @@
 							<h1 class="fmapp-title">기안하기</h1>
 						</div>
 						<div class="fm-options-wrap">	
-							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover disabled d-xl-inline-block d-none" href="#" ><span class="icon"><span class="feather-icon"><i data-feather="user-plus"></i></span></span></a>
-							
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
 								<span class="icon">
 									<span class="feather-icon"><i data-feather="chevron-up"></i></span>
@@ -41,6 +40,7 @@
 					<div class="fm-body">
 						<div data-simplebar class="nicescroll-bar">
 							<div class="file-list-view">
+								<!-- 탭 메뉴 -->
 								<ul class="nav nav-tabs nav-line nav-icon nav-light">
 									<li class="nav-item">
 										<a class="nav-link active" data-bs-toggle="tab" href="#write_doc">
@@ -49,25 +49,87 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" data-bs-toggle="tab" href="#approval_set">
-											<span class="nav-link-text">결재선 설정</span>
+											<span class="nav-link-text">결재선설정</span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" data-bs-toggle="tab" href="#attach_file">
+											<span class="nav-link-text">파일첨부</span>
 										</a>
 									</li>
 								</ul>
+								<!-- 탭 내용 -->
 								<div class="tab-content">
+									<!-- 문서 작성 탭 -->
 									<div class="tab-pane fade show active" id="write_doc">
-										<form class="form" action="${path }/edoc/write" method="post">
-											<div>
-												<span class="form-label">제목 : </span><input type="text" class="form-control"/>
+										<div class="table-responsive col-sm-8 justify-content-center d-flex">
+											<table class="table">
+												<tbody>
+													<tr>
+														<th scope="row">문서종류</th>
+														<td>
+															<select class="form-select" name="edocDotCode">
+																<optgroup label="문서종류">
+																	<c:forEach items="${dotcode }" var="t">
+																		<option value="${t }">${DotCode.valueOf(t).code }</option>
+																	</c:forEach>
+																</optgroup>
+															</select>
+														</td>
+														<th scope="row">작성자</th>
+														<td>
+															<c:out value="${emp.DEPTNAME }"/> <c:out value="${emp.JOBNAME }"/> <c:out value="${emp.EMPNAME }"/>
+															<input type="hidden" name="edocCreater" value="${emp.EMPNO }">
+														</td>
+													</tr>
+													<tr>
+														<th scope="row">보존연한</th>
+														<td>
+															<select class="form-select" name="edocPreservePeriod">
+																<optgroup label="보존연한">
+																	<option value="1">1년</option>
+																	<option value="3" selected="selected">3년</option>
+																	<option value="5">5년</option>
+																	<option value="10">10년</option>
+																</optgroup>
+															</select>
+														</td>
+														<th scope="row">보안등급</th>
+														<td>
+															<select class="form-select" name="edocDsgCode">
+																<optgroup label="보안등급">
+																	<c:forEach items="${dsgcode }" var="s">
+																		<option value="${s}"
+																			<c:if test="${s eq 'DSG003' }">selected</c:if>
+																		>${DsgCode.valueOf(s).code }</option>
+																	</c:forEach>
+																</optgroup>
+															</select>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="edoc-detail-container">
+											<div class="mb-3">
+												<span class="form-label">제목 : </span>
+												<input type="text" class="form-control"/>
 											</div>
-											<div class="editor">
-												<div class="editor-toolbar-container"></div>
-												<div class="editor-editable-container">
-													<div class="editor-editable"></div>
-												</div>
-											</div>
-										</form>
+										</div>
+										<span class="form-label">본문 : </span>
+										<div class="document-container">
+											<iframe class="doc-viewer" id="edoc">
+												${document }
+											</iframe>
+										</div>
 									</div>
+									<!-- 결재선 설정 탭 -->
 									<div class="tab-pane fade show active" id="approval_set">
+										<div id="">
+										</div>
+									</div>
+									<!-- 파일 첨부 탭 -->
+									<div class="tab-pane fade show active" id="attach_file">
 										<div id="">
 										</div>
 									</div>
@@ -82,20 +144,5 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
-<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js">
-</script>
-<script>
-	const path = '${path}';
-	DecoupledEditor
-		.create(document.querySelector(".editor .editor-editable"))
-		.then(editor =>{
-			const toolbarContainer = document.querySelector(".editor .editor-toolbar-container");
-			toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-			window.editor = editor;
-		})
-		.catch(error =>{
-			console.error(error);
-		})
-</script>
-<link href="${path }/resources/ckeditor/build/style.css" rel="stylesheet" type="text/css">
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
