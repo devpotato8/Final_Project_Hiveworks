@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -22,5 +23,5 @@ public interface DeptDao {
 	Department selectDeptByName(SqlSession session, String deptName);
 	int insertDept(SqlSession session, Department dept);
 	int deleteDept(SqlSession session, Department dept);
-	int updateDept(SqlSession session, Department dept);
+	int updateDept(SqlSession session, Map<String, String> response);
 }
