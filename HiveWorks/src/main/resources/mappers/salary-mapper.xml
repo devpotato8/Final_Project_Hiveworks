@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="salary">
+	<resultMap type="salary" id="salaryMap">
+		<id column="sal_no" property="sal_no"/>
+		<result column="emp_no" property="emp_no"/>
+		<result column="dedu_no" property="dedu_no"/>
+		<result column="sal_base" property="sal_base"/>
+		<result column="sal_meal" property="sal_meal"/>
+		<result column="sal_bonus" property="sal_bonus"/>
+		<result column="sal_actual_a" property="sal_actual"/>
+		<result column="sal_date" property="sal_date"/>
+		<result column="use_yn" property="use_yn"/>
+		<result column="creater" property="creater"/>
+		<result column="create_date" property="create_date"/>
+		<result column="modifier" property="modifier"/>
+		<result column="modify_date" property="modify_date"/>
+		<result column="overtime_pay" property="overtime_pay"/>
+		<result column="pp_add_pay" property="position_pay"/>
+		<association property="dedution" resultMap="dedutionMap"/>
+		<association property="employee" resultMap="employee.empMap"/>
+	</resultMap>
+ 	<resultMap type="dedution" id="dedutionMap">
+		<id column="dedu_no" property="dedu_no"/>
+		<result column="dedu_emp_insur_a" property="dedu_emp_insur"/>
+		<result column="dedu_health_insur_a" property="dedu_health_insur"/>
+		<result column="dedu_industry_insur_a" property="dedu_industry_insur"/>
+		<result column="dedu_national_pension_a" property="dedu_national_pension"/>
+		<result column="dedu_income_tax_a" property="dedu_income_tax"/>
+		<result column="dedu_local_income_tax_a" property="dedu_local_income_tax"/>
+		<result column="use_yn" property="use_yn"/>
+	</resultMap>
+
+  	<select id="selectSalaryListAll" resultMap="salaryMap">
+  		SELECT S.*, D.*, O.*, P.*, E1.*, 
+    SAL_BASE+SAL_MEAL+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1 AS SAL_ACTUAL_A, 
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_EMP_INSUR AS DEDU_EMP_INSUR_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_HEALTH_INSUR AS DEDU_HEALTH_INSUR_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INDUSTRY_INSUR AS DEDU_INDUSTRY_INSUR_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_NATIONAL_PENSION AS DEDU_NATIONAL_PENSION_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX AS DEDU_INCOME_TAX_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX*DEDU_LOCAL_INCOME_TAX AS DEDU_LOCAL_INCOME_TAX_A
+
+    FROM TBL_SALARY S
+        JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
+        JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
+        JOIN TBL_POSITION_PAY P ON P.SAL_NO = S.SAL_NO
+        JOIN
+        (SELECT E.*,SUBSTR(EMP_RESIDENT_NO,1,INSTR(EMP_RESIDENT_NO,'-')-1) AS EMP_BIRTH
+        FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
+  	</select>
+  	
+  	<select id="selectSalaryByNo" parameterType="_int" resultMap="salaryMap">
+  		SELECT S.*, D.*, O.*, P.*, E1.*, 
+    SAL_BASE+SAL_MEAL+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1 AS SAL_ACTUAL_A, 
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_EMP_INSUR AS DEDU_EMP_INSUR_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_HEALTH_INSUR AS DEDU_HEALTH_INSUR_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INDUSTRY_INSUR AS DEDU_INDUSTRY_INSUR_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_NATIONAL_PENSION AS DEDU_NATIONAL_PENSION_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX AS DEDU_INCOME_TAX_A,
+    (SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX*DEDU_LOCAL_INCOME_TAX AS DEDU_LOCAL_INCOME_TAX_A
+
+    FROM TBL_SALARY S
+        JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
+        JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
+        JOIN TBL_POSITION_PAY P ON P.SAL_NO = S.SAL_NO
+        JOIN
+        (SELECT E.*,SUBSTR(EMP_RESIDENT_NO,1,INSTR(EMP_RESIDENT_NO,'-')-1) AS EMP_BIRTH
+        FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
+        WHERE S.SAL_NO=#{no}
+  	</select>
+  	
+</mapper>

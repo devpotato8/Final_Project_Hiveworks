@@ -1,10 +1,16 @@
 package com.dna.hiveworks.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.dna.hiveworks.model.dto.salary.Salary;
+import com.dna.hiveworks.serviceimpl.SalaryServiceImpl;
 
 import lombok.AllArgsConstructor;
 
@@ -25,16 +31,27 @@ import lombok.AllArgsConstructor;
 public class SalaryController {
 
 	
-	//private final SalaryServiceImpl service;
+	private final SalaryServiceImpl service;
 	
 	@GetMapping("/salaryList")
-	public String selectSalaryListAll(Model model, @RequestParam(defaultValue="1") int cPage){
-		//List<Salary> list = service.selectSalaryListAll();
+	public String selectSalaryListAll(Model model, @RequestParam(defaultValue="1") int cPage, @RequestParam(defaultValue="10") int numPerpage){
+		List<Salary> list = service.selectSalaryListAll(Map.of("cPage",cPage,"numPerpage",numPerpage));
 		
-		//model.addAttribute(list);
+		model.addAttribute("list",list);
 		
 		return "salary/salaryList";
 	}
+	
+	@GetMapping("/salaryDetail")
+	public String selectSalaryByNo(int sal_no, Model model) {
+		
+		Salary sal = service.selectSalaryByNo(sal_no);
+		
+		model.addAttribute("salary",sal);
+		
+		return "salary/salaryDetail";
+	}
+	
 	
 	
 }

@@ -4,6 +4,7 @@
 package com.dna.hiveworks.model.dto.edoc;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
@@ -36,5 +37,10 @@ public class ElectronicDocument {
 	private Date edocStartDate;
 	private Date edocEndDate;
 	private String edocStatus;
+	private String empName;
+	private Date createDate;
 	
+	List<ElectronicDocumentComment> comments;
+	List<ElectronicDocumentHistory> history;
+	List<ElectronicDocumentApproval> approval;
 }

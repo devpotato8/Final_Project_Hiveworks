@@ -12,6 +12,8 @@
 <%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
+<%@ page import="com.dna.hiveworks.model.dto.edoc.status.*" %>
+<%@ page import="com.dna.hiveworks.model.code.DotCode" %>
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -19,20 +21,29 @@
 		<div class="fmapp-wrap">
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
-				<jsp:param value="${currentPage }" name=""/>
+			 	<jsp:param value="${currentPage }" name="currentPage"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
 							<a class="fmapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-								<h1>My Space</h1>
+								<h1>${title }</h1>
 							</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#"><span>전체</span></a>
-								<a class="dropdown-item" href="#"><span>All Files</span></a>
-								<a class="dropdown-item" href="#"><span>All Files</span></a>
-								<a class="dropdown-item" href="#"><span>All Files</span></a>
+								<c:forEach items="${category }" var="c">
+									<c:choose>
+										<c:when test="${category.getClass().name eq '[Lcom.dna.hiveworks.model.dto.edoc.status.ListStatus;'}">
+											<a class="dropdown-item" href="#"><span>${ListStatus.valueOf(c).status }</span></a>
+										</c:when>
+										<c:when test="${category.getClass().name eq '[Lcom.dna.hiveworks.model.dto.edoc.status.BoxStatus;'}">
+											<a class="dropdown-item" href="#"><span>${BoxStatus.valueOf(c).status }</span></a>
+										</c:when>
+										<c:when test="${category.getClass().name eq '[Lcom.dna.hiveworks.model.code.DotCode;'}">
+											<a class="dropdown-item" href="#"><span>${DotCode.valueOf(c).code }</span></a>
+										</c:when>
+									</c:choose>
+								</c:forEach>
 							</div>
 						</div>
 						<div class="fm-options-wrap">	
@@ -52,16 +63,39 @@
 							<div class="file-list-view">
 								<ul class="nav nav-tabs nav-line nav-icon nav-light">
 									<li class="nav-item">
-										<a class="nav-link active" data-bs-toggle="tab" href="#cloud_doc">
-											<span class="nav-link-text">Cloud Documents</span>
+										<a class="nav-link active" data-bs-toggle="tab" href="#doc_list">
+											<span class="nav-link-text">문서 목록</span>
 										</a>
 									</li>
 									
 								</ul>
 								<div class="tab-content">
-									<div class="tab-pane fade show active" id="cloud_doc">
+									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											
+											<table id="docTable" class="table nowrap">
+												<thead>
+													<tr>
+														<th>문서번호</th>
+														<th>제목</th>
+														<th>기안자</th>
+														<th>기안일</th>
+														<th>구분</th>
+														<th>상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${lists }" var="d">
+														<tr>
+															<td>${d.edocNo }</td>
+															<td>${d.edocTitle }</td>
+															<td>${d.empName }</td>
+															<td>${d.createDate }</td>
+															<td>${d.edocDotCode.code }</td>
+															<td>${d.edocStatus.status }</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
 										</div>
 									</div>
 								</div>
@@ -75,4 +109,39 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
+
+<!-- Data Table JS -->
+<script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="vendors/jszip/dist/jszip.min.js"></script>
+<script src="vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script>
+$('#docTable').DataTable( {
+	scrollX:  true,
+	autoWidth: true,
+	language: { search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+		paginate: {
+			next: '', // or '→'
+			previous: '' // or '←' 
+		}
+	},
+	"drawCallback": function () {
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+	}
+});
+</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

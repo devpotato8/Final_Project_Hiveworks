@@ -13,7 +13,7 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <!-- Main Content -->
-<div class="hk-pg-wrapper">
+<div class="hk-pg-wrapper" style="margin-left:300px;">
 	<div class="container-xxl">
 		
 	<!-- Page Header -->
@@ -47,20 +47,20 @@
 			<div class="tab-pane fade show active" id="tab_block_1">
 				<div class="row">
 					<div class="col-xl-10">
-					
-						<div class="title-lg fs-5"><span>부서 관리</span></div>
-						<p class="mb-4">#</p>
-						<input type="text" id="schName" value="" class="mb-4">
-	    				<button class="btn btn-primary btn-sm" onclick="deptsearch()">검색</button>
+						
+						<h3><b>조직도</b></h3>
+						<p class="mt-3">부서 추가,수정,삭제 등 변경사항은 즉시 적용됩니다. 작성에 주의하세요</p>
+						<div class="text-first mt-3">
+							<input type="text" id="schName" value="" class="mb-4">
+	    					<button class="btn btn-primary btn-sm" onclick="deptsearch()">검색</button>
+	    				</div>
+						
 
-			<!-- 조직도 jstree -->
 			<div id="jstree"></div>
 		
-
+						
 						<div class="text-end mt-5">
 							<button class="btn btn-primary">부서 일괄 등록</button>
-						
-							<button class="btn btn-primary">변경사항 저장</button>
 						</div>
 					
 					</div>
@@ -82,7 +82,7 @@
 										<span class="input-prefix">
 											<span class="avatar avatar-logo avatar-xs">
 												<span class="initial-wrap">
-													<img src="dist/img/symbol-avatar-17.png" alt="logo">
+													<img src="${path}resources/img/symbol-avatar-17.png" alt="logo">
 												</span>
 											</span>
 										</span>
@@ -101,7 +101,7 @@
 										<span class="input-prefix">
 											<span class="avatar avatar-logo avatar-xs">
 												<span class="initial-wrap">
-													<img src="dist/img/symbol-avatar-18.png" alt="logo">
+													<img src="${path}resources/img/symbol-avatar-18.png" alt="logo">
 												</span>
 											</span>
 										</span>
@@ -120,7 +120,7 @@
 										<span class="input-prefix">
 											<span class="avatar avatar-logo avatar-xs">
 												<span class="initial-wrap">
-													<img src="dist/img/symbol-avatar-19.png" alt="logo">
+													<img src="${path}resources/img/symbol-avatar-19.png" alt="logo">
 												</span>
 											</span>
 										</span>
@@ -142,7 +142,7 @@
 										<span class="input-prefix">
 											<span class="avatar avatar-logo avatar-xs">
 												<span class="initial-wrap">
-													<img src="dist/img/symbol-avatar-6.png" alt="logo">
+													<img src="${path}resources/img/symbol-avatar-6.png" alt="logo">
 												</span>
 											</span>
 										</span>
@@ -157,7 +157,7 @@
 										<span class="input-prefix">
 											<span class="avatar avatar-logo avatar-xs">
 												<span class="initial-wrap">
-													<img src="dist/img/symbol-avatar-5.png" alt="logo">
+													<img src="${path}resources/img/symbol-avatar-5.png" alt="logo">
 												</span>
 											</span>
 										</span>
@@ -202,7 +202,6 @@
 	<!-- Init JS -->
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
-	<script src="${path}/resources/js/dashboard-data.js"></script>
 	
 	
 	<!-- jstree -->
@@ -218,42 +217,189 @@ function deptsearch() {
 
 $.jstree.defaults.core.themes.variant = "large";
 
-
 function getJson(){
 	$.ajax({
-		type:'get',
+		type:'GET',
 		url:'/deptlist',
 		dataType:'JSON',
 		success: function(data){
 			var deptlist = new Array();
 			$.each(data, function(idx, item){
+				//id, parent, text는 jstree에서 지정된 키값으로 그대로 쓴다.
 				deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
 			});
 			
+			//서버에서 department테이블 불러와서 조직도로 구현
 			$('#jstree').jstree({
+				//js트리에서 사용할 plugin들 넣어주기
+				'plugins':['types','search','contextmenu','dnd','sort'],
 				'core':{
 					'data':deptlist,
-					'check_callback':true
+					'check_callback': function(operation,node,node_parent,node_position,more){	
+						if(operation==='create_node'||operation==='move_node'){
+							if(node_parent.id==='#'){
+								return false;
+							}
+						}
+						return true;
+					}
 				},
-				'plugins':['types','search','contextmenu','dnd'],
+				//우클릭하면 나오는 메뉴 설정
+				'contextmenu': {
+					'items': function(node) {
+						return {
+							"Create": {
+							    "label": "새 하위부서 생성",
+							    "action": function (data) {
+							        var inst = $.jstree.reference(data.reference),
+							        obj = inst.get_node(data.reference);
+							        
+							        //생성과 동시에 이름 변경할 수 있게 함.
+							        inst.create_node(obj, {}, "last", function (new_node) {
+							            setTimeout(function(){ inst.edit(new_node); },0);
+
+							            //이름 변경이 완료되면 ajax로 data보내는 이벤트
+							            $('#jstree').one('rename_node.jstree', function (e, data) {
+							                var parentNode = inst.get_parent(new_node);
+
+							                $.ajax({
+							                    type: 'POST',
+							                    url: '/insertdept',
+							                   
+							                    data: JSON.stringify({
+							                        'deptName': data.text,
+							                        'deptUpstair': parentNode
+							                    }),
+							                    contentType:'application/json',
+							                    dataType:'json',
+							                    success: function(response) {
+							                        inst.set_id(new_node, response.deptCode);
+							                        alert('부서 생성 성공');
+							                    },
+							                    error: function(error) {
+							                        alert('부서 생성 실패');
+							                    }
+							                });
+							                
+							                //rename메뉴쪽 이벤트와 충돌할수 있기때문에 이벤트 해제코드 넣어둠.
+							                $('#jstree').off('rename_node.jstree');
+							            });
+							        });
+							    }
+							},
+							"Rename": {
+								"label": "부서명 변경",
+								"action": function (data) {
+									var inst = $.jstree.reference(data.reference),
+									obj = inst.get_node(data.reference);
+									inst.edit(obj);
+									
+									$('#jstree').one('rename_node.jstree',function(e,data){
+										var code = data.node.id;
+										var upstair = data.node.parent;
+										var name = data.text;
+										
+										$.ajax({
+											type:'POST',
+											url: '/updatedept',
+											data: JSON.stringify({
+												'deptCode':code,
+												'deptUpstair':upstair,
+												'deptName':name
+											}),
+											contentType:'application/json',
+											dataType:'json',
+											success:function(response){
+												if(response.status==='success'){
+													alert('부서명 변경 성공');
+												}else{
+													alert('부서명 변경 실패');
+												}
+											},
+											error: function(){
+												alert('부서명 변경실패');
+											}
+										});
+									});
+								}
+							},
+							"Remove": {
+							    "label": "부서 삭제",
+							    "action": function (data) {
+							        var inst = $.jstree.reference(data.reference),
+							        obj = inst.get_node(data.reference);
+							        var deptCode = obj.id; //부서 코드
+							        var deptUpstair = obj.parent; //상위 부서 코드
+							        var deptName = obj.text; //부서 이름
+							        
+							        // 하위 부서 코드 가져오기
+							        var children = Array.from(inst.get_children_dom(obj)).map(function(child) {
+									    return inst.get_node(child).id; // 객체 전체가 아닌 id만 추출
+									});
+
+							        // 확인 창
+							        var result = confirm('이 부서의 하위부서들까지 함께 삭제됩니다. 정말 삭제하시겠습니까?');
+							        if(result) { //확인을 눌렀을 때만 삭제 로직 실행
+							        	var sendData = {
+							                    'deptCode': deptCode,
+							                    'deptUpstair': deptUpstair,
+							                    'deptName': deptName,
+							                    'children': children //하위 부서 정보도 같이 전송
+							                };
+							        	console.log(sendData);
+							            $.ajax({
+							                type: 'POST',
+							                url: '/deletedept', //부서 삭제 요청을 처리하는 서버 URL
+							                data: JSON.stringify(sendData),
+							                contentType: 'application/json',
+							                dataType: 'json',
+							                success: function(response) {
+							                    if(response.status==='success'){
+							                        alert('부서 삭제 성공');
+							                        inst.delete_node(obj); //서버에서 삭제 성공했을 때만 노드를 삭제
+							                    } else {
+							                        alert('부서 삭제 실패');
+							                    }
+							                },
+							                error: function(){
+							                    alert('부서 삭제 실패');
+							                }
+							            });
+							        }
+                                }
+                            }
+                        }
+                    }
+				},
+				
 				'types':{
 					'default':{
 						'icon':'fa-solid fa-book-open-reader'
 					}
 				},
-				'check_callback': true		
-			})
+				//노드 정렬 설정
+				'sort':function(a,b){
+					var a1 = this.get_node(a);
+					var b1 = this.get_node(b);
+					return a1.text > b1.text ? 1:-1;
+				}
+			}).on('ready.jstree', function() {
+			    $(this).jstree('open_all');	//항상 노드 전체 오픈
+			});
 			
 		},
 		error:function(data){
 			alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
 		}
 	});
+	
 }
-
+	
 $(document).ready(function(){
 	getJson();
 });
+
+
 
 </script>
 	

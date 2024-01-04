@@ -3,7 +3,7 @@ package com.dna.hiveworks.service;
 import java.util.List;
 import java.util.Map;
 
-import com.dna.hiveworks.model.dto.Salary;
+import com.dna.hiveworks.model.dto.salary.Salary;
 
 /**
  * @author : 김태하
@@ -19,7 +19,7 @@ public interface SalaryService {
 
 	List<Salary> selectSalaryListAll(Map<String,Integer> page);
 	
-	List<Salary> selectSalaryByNo(int salaryNo);
+	Salary selectSalaryByNo(int salaryNo);
 	
 	int insertSalary(Salary s);
 	int updateSalary(Salary s);

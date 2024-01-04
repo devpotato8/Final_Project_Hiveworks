@@ -1,6 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -33,4 +34,30 @@ public class DeptServiceImpl implements DeptService {
 		return dao.deptListAll(session);
 	}
 
+	@Override
+	public Department selectDeptByName(String deptName) {
+		return dao.selectDeptByName(session,deptName);
+	}
+
+	@Override
+	public int insertDept(Department dept) {
+		int result = dao.insertDept(session,dept);
+		return result;
+	}
+
+	@Override
+	public int updateDept(Map<String,String>response) {
+		int result = dao.updateDept(session,response);
+		return result;
+	}
+
+	@Override
+	public int deleteDept(Department dept) {
+		int result = dao.deleteDept(session, dept);
+		return result;
+	}
+
+
+	
+	
 }

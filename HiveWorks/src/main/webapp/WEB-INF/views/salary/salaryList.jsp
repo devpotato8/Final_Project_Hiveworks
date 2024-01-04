@@ -403,6 +403,7 @@
 								
 							</header>
 							<div class="invoice-body">
+							<c:out value="${list }" />
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
 										<table id="datable_1" class="table nowrap w-100 mb-5">
@@ -424,18 +425,35 @@
 												</tr>
 											</thead>
 											<tbody>
+												<c:forEach var="s" items="${list }">
 												<tr>
 													<td></td>
-													<td><a href="#">2023년 12월 27일</a></td>
-													<td><a href="#" class="table-link-text link-high-em">11234</a></td>
+													<td><a href="#"><c:out value="${s.sal_date }" /></a></td>
+													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
-														<div class="text-dark">홍길동</div>
+														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
-													<td><span>test1234</span></td>
-													<td>마케팅부</td>
-													<td>3,250,000원</td>
-													<td>480,520원</td>
-													<td>2,769,480원</td>
+													<td><span><c:out value="${s.employee.emp_id }" /></span></td>
+													<td><c:out value="${s.employee.dept_code }" /></td>
+													<td><c:out value="${s.sal_actual}" />원</td>
+													<td><c:out value="
+														${s.dedution.dedu_emp_insur
+															+s.dedution.dedu_health_insur
+															+s.dedution.dedu_industry_insur
+															+s.dedution.dedu_national_pension
+															+s.dedution.dedu_income_tax
+															+s.dedution.dedu_local_income_tax
+														}
+													" />원</td>
+													<td><c:out value="
+													${s.sal_actual-(s.dedution.dedu_emp_insur
+															+s.dedution.dedu_health_insur
+															+s.dedution.dedu_industry_insur
+															+s.dedution.dedu_national_pension
+															+s.dedution.dedu_income_tax
+															+s.dedution.dedu_local_income_tax)}
+													" />원</td>
+													
 													<td>
 															<div class="d-flex">
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
@@ -444,6 +462,7 @@
 														</div>
 													</td>
 												</tr>
+												</c:forEach>
 												<tr>
 													<td></td>
 													<td><a href="#">2023년 12월 27일</a></td>
