@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.daoimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -37,16 +38,17 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 	@Override
-	public int deleteDept(SqlSession session, Department dept) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateDept(SqlSession session, Map<String,String>response) {
+		
+		return session.update("department.updateDept",response);
 	}
 
 	@Override
-	public int updateDept(SqlSession session, Department dept) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteDept(SqlSession session, Department dept) {
+		
+		return session.delete("department.deleteDept",dept);
 	}
+
 
 	
 }

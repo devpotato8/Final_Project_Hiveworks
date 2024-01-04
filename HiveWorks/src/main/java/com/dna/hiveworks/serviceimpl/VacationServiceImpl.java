@@ -37,9 +37,9 @@ public class VacationServiceImpl implements VacationService {
 	}
 
 	@Override
-	public int updateVacation(Vacation v) {
+	public int updateVacation(Double vacCount) {
 		// TODO Auto-generated method stub
-		return dao.updateVacation(session, v);
+		return dao.updateVacation(session, vacCount);
 	}
 
 	@Override

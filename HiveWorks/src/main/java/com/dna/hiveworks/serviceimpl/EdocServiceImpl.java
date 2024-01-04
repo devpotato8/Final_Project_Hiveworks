@@ -4,13 +4,14 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.dao.EdocDao;
-import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
-import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.service.EdocService;
 
 /**
@@ -27,8 +28,18 @@ public class EdocServiceImpl implements EdocService{
 	@Autowired
 	private EdocDao dao;
 	
+	@Autowired
+	private SqlSession session;
+	
 	@Override
-	public List<ElectronicDocument> getEdocList(String empId, ListStatus status) {
-		return null;
+	public List<ElectronicDocumentList> getEdocList(Map<String, Object> param) {
+		
+		return dao.getEdocList(session, param);
+	}
+
+	@Override
+	public List<ElectronicDocumentList> getEdocBox(Map<String, Object> param) {
+		
+		return dao.getEdocBox(session,param);
 	}
 }

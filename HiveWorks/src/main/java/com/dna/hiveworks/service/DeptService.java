@@ -1,6 +1,8 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.dna.hiveworks.model.dto.Department;
 
 /**
@@ -19,5 +21,5 @@ public interface DeptService {
 	Department selectDeptByName(String deptName);
 	int insertDept(Department dept);
 	int deleteDept(Department dept);
-	int updateDept(Department dept);
+	int updateDept(Map<String, String> response);
 }

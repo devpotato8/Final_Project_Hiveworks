@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,24 +33,59 @@ public class DeptController {
 	@ResponseBody
 	public List<Department> deptList(Department dept, Model model) throws Exception{
 		List<Department> deptList = service.deptListAll();
-		
 		return deptList;
 	}
 	
 	@PostMapping("/insertdept")
 	@ResponseBody
-	public Department insertDept(@RequestBody Department dept){
+	public Map<String, String> insertDept(@RequestBody Department dept){
+	    
+	    int result = service.insertDept(dept);
+	    
+	    Map<String, String> response = new HashMap<>();
+	    if(result > 0) {
+	        response.put("status", "success");
+	        response.put("deptCode", dept.getDeptCode());
+	    } else {
+	        response.put("status", "fail");
+	    }
+	    return response;
+	}
+	
+	@PostMapping("/updatedept")
+	@ResponseBody
+	public Map<String, String> updateDept(@RequestBody Department dept){
 		
-		int result = service.insertDept(dept);
+		Map<String, String> response = new HashMap<>();
+		response.put("code",dept.getDeptCode());
+		response.put("name",dept.getDeptName());
 		
-		Department newDept = null;
+		int result = service.updateDept(response);
 		
-		if(result>0){
-			String deptName = dept.getDeptName();
-			newDept = service.selectDeptByName(deptName); 
-		}
+		if(result > 0) {
+	        response.put("status", "success");
+	    } else {
+	        response.put("status", "fail");
+	    }
+	    
+	    return response;
+	}
+	
+	@PostMapping("/deletedept")
+	@ResponseBody
+	public Map<String, String> deleteDept(@RequestBody Department dept){
 		
-		return newDept; 
+		Map<String, String> response = new HashMap<>();
+		
+		int result = service.deleteDept(dept);
+		
+		if(result > 0) {
+	        response.put("status", "success");
+	    } else {
+	        response.put("status", "fail");
+	    }
+	    
+	    return response;
 	}
 	
 }
