@@ -22,9 +22,14 @@
 		<!-- Page Header -->
 		<div class="hk-pg-header pg-header-wth-tab pt-7">
 			<div class="d-flex">
-				<div class="d-flex flex-wrap justify-content-between flex-1">
-					<div class="mb-lg-0 mb-2 me-8">
-						<h1 class="pg-title">안녕하세요 ${loginEmp.emp_name}님</h1>
+				<div class="d-flex flex-wrap flex-1 align-items-center">
+					<div class="mb-lg-0 mb-2 d-flex align-items-center">
+						<h1 class="pg-title m-0">안녕하세요 ${loginEmp.emp_name}님</h1>
+						<div id="weather" class="d-flex align-items-center justify-content-between" style="width: 240px; margin-left: 20px">
+						  <div class="badge badge-soft-violet my-1  me-2"></div>
+						  <div class="badge badge-soft-danger my-1  me-2"></div>
+						  <div style="width: 50px; height: 50px"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -71,14 +76,14 @@
 						<div>
 							<div>
 								<div class="d-flex justify-content-between p-3">
-									<p>출퇴근찍기</p>
-									<p>현재시간</p>
+									<p class="btn">출퇴근찍기</p>
+									<!-- <p class="btn">현재시간</p> -->
 								</div>
 
 							</div>
 							<div class="button-container d-flex justify-content-around">
-								<button class="commute-button-start btn btn-dark">출근하기</button>
-								<button class="commute-button-end btn btn-dark">퇴근하기</button>
+								<button class="btn btn-outline-dark">출근하기</button>
+								<button class="btn btn-outline-dark">퇴근하기</button>
 							</div>
 						</div>
 					</div>
@@ -195,7 +200,7 @@
 * {
 	box-sizing: border-box;
 }
-
+button{ border: none;}
 .container {
 	margin-top: 20px;
 	width: 100%;
@@ -346,6 +351,56 @@
 	color: #ddd;
 }
 </style>
+<!-- 날씨정보가져오기 -->
+<script>
+let weatherIcon = {
+		 'Clear': "${path}/resources/weatherimgs/production/fill/all/clear-day.svg",
+	   'Sun' : "${path}/resources/weatherimgs/production/fill/all/sun.svg",
+	   'Clouds' : "${path}/resources/weatherimgs/production/fill/all/cloudy.svg",
+	   'Rain' : "${path}/resources/weatherimgs/production/fill/all/rain.svg",
+	   'Snow' : "${path}/resources/weatherimgs/production/fill/all/snow.svg",
+	   'Thunderstorm':"${path}/resources/weatherimgs/production/fill/all/thunderstorm.svg",
+	   'Drizzle':"${path}/resources/weatherimgs/production/fill/all/dirzzle.svg",
+	   'Fog':"${path}/resources/weatherimgs/production/fill/all/fog.svg",
+	   'Smoke':"${path}/resources/weatherimgs/production/fill/all/smoke.svg",
+	   'Haze': "${path}/resources/weatherimgs/production/fill/all/haze.svg",
+	   'Mist': "${path}/resources/weatherimgs/production/fill/all/mist.svg"
+	  };
+const API_KEY = "99aa7d857c4cc6f52aeccac6d088bed1";
+
+function onGeoOk(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY + "&units=metric";
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            const weather = document.querySelector("#weather div:first-child")
+            const city = document.querySelector("#weather div:nth-child(2)")
+            const icon = document.querySelector("#weather div:last-child")
+            let wetherInfo = data.weather[0].main
+            weather.innerText = data.weather[0].main + " " +  data.main.temp + "℃";
+            city.innerText = data.name;
+            //icon.innerHTML = weatherIcon[wetherInfo];
+        	
+            const childElement = document.createElement("img");
+            childElement.setAttribute("src",weatherIcon[wetherInfo]);
+			icon.appendChild(childElement);
+            //icon.setAttribute("src",weatherIcon[wetherInfo]);
+            
+        });
+}
+
+function onGeoError() {
+    alert("Can't find you. No weather for you.")
+    
+}
+
+navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
+
+
+
+</script>
 <script>
 	$(document).ready(function() {
 		calendarInit();
