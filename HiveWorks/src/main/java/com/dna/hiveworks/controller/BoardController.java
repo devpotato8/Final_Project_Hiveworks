@@ -45,12 +45,20 @@ public class BoardController {
 	public String boardWrite() {
 	    return "board/boardWrite";
 	}
-	@GetMapping("/boardView")
-	public String boardView() {
-	    return "board/boardView";
+	@RequestMapping("/boardView")
+	public void selectBoardByNo(int boardNo, Model model) {
+		model.addAttribute("board",service.selectBoardByNo(boardNo));
+	}
+	@RequestMapping("/boardDelete")
+	public String boardDelete(@RequestParam("boardNo") int boardNo,Model model) {
+		Board board = service.boardDelete(boardNo);
+		log.debug("보드 번호{}",boardNo);
+		List<Board> boardList = service.selectAllBoard();
+	    model.addAttribute("boardList", boardList);
+	    return "board/board";
 	}
 	@GetMapping("/boardUpdate")
-	public String boardUpdate(@RequestParam("boardNo") int boardNo,Model model) throws Exception{
+	public String boardUpdate(@RequestParam("boardNo") int boardNo,Model model){
 		log.debug("보드 번호{}",boardNo);
 		Board board =  service.selectBoardByNo(boardNo);
 		log.debug("보드 정보{}",board);		
@@ -61,6 +69,7 @@ public class BoardController {
 	@PostMapping("/boardUpdate")
 	public String boardUpdate(Board b, Model model, HttpSession session) {
 	    log.debug("{}", b);
+	    
 	    String msg, loc;
 	   
 	    int result=service.boardUpdate(b);
