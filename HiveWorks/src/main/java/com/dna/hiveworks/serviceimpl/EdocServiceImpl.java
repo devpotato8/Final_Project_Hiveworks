@@ -42,4 +42,9 @@ public class EdocServiceImpl implements EdocService{
 		
 		return dao.getEdocBox(session,param);
 	}
+	
+	@Override
+	public Map<String, Object> getEmpData(int empNo) {
+		return dao.getEmpData(session, empNo);
+	}
 }

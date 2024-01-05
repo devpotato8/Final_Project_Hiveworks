@@ -1,20 +1,17 @@
 package com.dna.hiveworks.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.dna.hiveworks.model.dto.Board;
-import com.dna.hiveworks.model.dto.Uploadfile;
 import com.dna.hiveworks.service.BoardService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,8 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	
 	private BoardService service;
-	
-	
 	
 	@GetMapping("/board")
 	public String board(Model model) {
@@ -54,7 +49,36 @@ public class BoardController {
 	public String boardView() {
 	    return "board/boardView";
 	}
-	@PostMapping("insertBoard")
+	@GetMapping("/boardUpdate")
+	public String boardUpdate(@RequestParam("boardNo") int boardNo,Model model) throws Exception{
+		log.debug("보드 번호{}",boardNo);
+		Board board =  service.selectBoardByNo(boardNo);
+		log.debug("보드 정보{}",board);		
+		model.addAttribute("board",board);
+		return "board/boardUpdate";
+	}
+
+	@PostMapping("/boardUpdate")
+	public String boardUpdate(Board b, Model model, HttpSession session) {
+	    log.debug("{}", b);
+	    String msg, loc;
+	   
+	    int result=service.boardUpdate(b);
+	    System.out.println(result);
+	    if(result>0) {
+	    	msg = "게시글 수정 성공 :)";
+	    	loc = "board/board";
+	    } else {
+	    	msg = "게시글 수정 실패 :(";
+	    	loc = "board/boardUpdate";
+	    }
+	    model.addAttribute("msg", msg);
+	    model.addAttribute("loc", loc);
+
+	    return "board/msg";
+	}
+
+	@PostMapping("/insertBoard")
 	public String insertBoard(Board b, Model model, HttpSession session) {
 	    log.debug("{}", b);
 	    String msg, loc;

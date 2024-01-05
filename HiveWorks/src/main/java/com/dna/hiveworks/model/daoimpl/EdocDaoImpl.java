@@ -34,4 +34,9 @@ public class EdocDaoImpl implements EdocDao{
 		return session.selectList("edoc.getEdocBox", param);
 	}
 	
+	@Override
+	public Map<String, Object> getEmpData(SqlSession session, int empNo) {
+		return session.selectOne("edoc.getEmpData", empNo);
+	}
+	
 }
