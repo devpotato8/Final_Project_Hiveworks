@@ -2,6 +2,8 @@ package com.dna.hiveworks.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.dna.hiveworks.model.dto.Board;
 
 public interface BoardService {
@@ -12,4 +14,8 @@ public interface BoardService {
 	
 	int insertBoard(Board b);
 	
+	int boardUpdate(Board b);
+
+
+
 }

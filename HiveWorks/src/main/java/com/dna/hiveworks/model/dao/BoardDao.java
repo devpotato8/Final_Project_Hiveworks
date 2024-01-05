@@ -16,8 +16,8 @@ public interface BoardDao {
 
 	int insertBoard(SqlSession session, Board b);
 
+	int boardUpdate(SqlSession session, Board b);
 
-	
 	
 
 
