@@ -32,14 +32,30 @@ public class SalaryServiceImpl implements SalaryService {
 
 	@Override
 	public int insertSalary(Salary s) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		int result = dao.insertSalary(session, s);
+		if(result>0) {
+			int result2 = dao.insertPositionPay(session, s);
+			if(result2==0) new RuntimeException("업데이트 실패");
+		}else {
+			new RuntimeException("업데이트 실패");
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int updateSalary(Salary s) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		int result = dao.updateSalary(session, s);
+		if(result>0) {
+			int result2 = dao.updatePositionPay(session, s);
+			if(result2==0) new RuntimeException("업데이트 실패");
+		}else {
+			new RuntimeException("업데이트 실패");
+		}
+		
+		return result;
 	}
 
 	@Override

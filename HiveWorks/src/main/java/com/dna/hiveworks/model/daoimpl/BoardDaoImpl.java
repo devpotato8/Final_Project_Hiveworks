@@ -14,7 +14,7 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public Board selectBoardByNo(SqlSession session, int boardNo) {
-		return session.selectOne("selectBoardByNo",boardNo);
+		return session.selectOne("board.selectBoardByNo",boardNo);
 	}
 	@Override
 	public List<Board> selectAllBoard(SqlSession session) {
@@ -25,7 +25,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.insert("board.insertBoard",b);
 	}
 	@Override
-	public int insertUploadfile(SqlSession session, Uploadfile file) {
-		return session.insert("board.insertUploadfile",file);
+	public int boardUpdate(SqlSession session,Board b) {
+		return session.update("board.boardUpdate",b);
 	}
+	
+	
 }

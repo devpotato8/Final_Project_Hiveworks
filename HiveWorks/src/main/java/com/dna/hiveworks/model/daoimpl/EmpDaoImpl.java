@@ -1,7 +1,9 @@
 package com.dna.hiveworks.model.daoimpl;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,31 +28,38 @@ public class EmpDaoImpl implements EmpDao {
 	private SqlSession session;
 	
 	@Override
-	public Employee selectEmployeeById(String empId) {
+	public Employee selectEmployeeById(SqlSession session, String empId) {
 		return session.selectOne("employee.selectEmployeeById",empId);
 	}
 
 	@Override
-	public List<Employee> selectEmployeesListAll() {
-		return session.selectList("employee.selectEmployeesListAll", null, null);
+	public List<Employee> selectEmployeesListAll(SqlSession session) {
+
+		return session.selectList("employee.selectEmployeesListAll");
 	}
 
 	@Override
-	public int insertEmployee(Employee e) {
+	public int insertEmployee(SqlSession session, Employee e) {
 		return 0;
 	}
 
 	@Override
-	public int updateEmployee(Employee e) {
+	public int updateEmployee(SqlSession session, Employee e) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteEmployee(Employee e) {
+	public int deleteEmployee(SqlSession session, Employee e) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword) {
+		return session.selectList("employee.searchEmployeesByKeyword",keyword);
+	}
+	
 	
 	
 	

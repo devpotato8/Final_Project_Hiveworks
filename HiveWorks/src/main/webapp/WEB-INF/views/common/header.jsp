@@ -26,7 +26,9 @@
 
 	<!-- CSS -->
     <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
-
+	
+	<!-- jQuery -->
+    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 	
 </head>
 

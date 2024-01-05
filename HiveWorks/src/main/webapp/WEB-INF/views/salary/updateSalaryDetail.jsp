@@ -416,6 +416,8 @@ salary.dedution.dedu_local_income_tax
         margin-top: 24px
     }</style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
+<form action="${path }/salary/updateSalaryDetailEnd" method="post">
+<button class="btn btn-primary btn-rounded btn-block mb-4" >수정</button>
 <table width="740px">
     <tbody>
     <tr align="center">
@@ -506,11 +508,12 @@ salary.dedution.dedu_local_income_tax
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_base }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.overtime_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_meal }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.position_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_bonus }"/></td>
+                    <input type="hidden" name="sal_no" value="${salary.sal_no }"/>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_base" value="${salary.sal_base }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="overtime_pay" value="${salary.overtime_pay }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_meal" value="${salary.sal_meal }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="position_pay" value="${salary.position_pay }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_bonus" value="${salary.sal_bonus }"/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
@@ -682,6 +685,7 @@ salary.dedution.dedu_local_income_tax
     </tr>
     </tbody>
 </table>
+</form>
 <table class="calcrule_tbl">
     <caption>계산방법</caption>
     <colgroup>
@@ -725,4 +729,3 @@ salary.dedution.dedu_local_income_tax
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
-	

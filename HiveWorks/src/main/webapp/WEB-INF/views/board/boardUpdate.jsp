@@ -11,11 +11,12 @@
 
 <div class="hk-pg-wrapper">
     <div class="container-xxl" style="margin-left: 0px;">
-        <h2>등록</h2>
+        <h2>수정</h2>
     </div>
     <div id="board-container">
-        <form name="boardFrm" action="${path }/board/insertBoard" method="post" enctype="multipart/form-data">
-            <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
+        <form name="boardUpdate" action="${path}/board/boardUpdate" method="post">
+    <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required>
+    <input type="hidden" name="boardNo" value="${board.boardNo}"/>
             <div class="input-group mb-3" style="padding:0px;">
   <!--           	<div class="input-group-prepend" style="padding:0px;">
                     <button type="button" onclick="fn_addFileForm();">추가</button>
@@ -27,10 +28,10 @@
                      <input type="file" class="custom-file-input" >
                 </div>
             </div> -->
-            <textarea class="form-control" name="boardContent" placeholder="내용" required style="resize:none;"></textarea>
+            <textarea class="form-control" name="boardContent" placeholder="내용" required style="resize:none;">${board.boardContent }</textarea>
             <br />
-            <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
-        </form>
+              <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장">
+	</form>
     </div>
 <!--     <script type="text/javascript">
     document.getElementById('submit').addEventListener('click', handleSubmit);

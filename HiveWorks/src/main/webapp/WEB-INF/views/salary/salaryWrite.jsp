@@ -4,14 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<c:set var="allDedution" value="${
-salary.dedution.dedu_emp_insur+ 
-salary.dedution.dedu_health_insur+ 
-salary.dedution.dedu_industry_insur+ 
-salary.dedution.dedu_national_pension+ 
-salary.dedution.dedu_income_tax+ 
-salary.dedution.dedu_local_income_tax
-}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
 	<jsp:param value="default" name="style"/>
@@ -416,6 +408,51 @@ salary.dedution.dedu_local_income_tax
         margin-top: 24px
     }</style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<form action="${path }/salary/SalaryWriteEnd" method="post">
+<button>등록</button>
+<input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요."/>
+<button type="button" onclick="fn_changeEmployee()">검색</button>
+<datalist id="data"></datalist>
+<script>
+	$("#searchId").keyup(e=>{
+		const value=e.target.value;
+		$.ajax({
+			url:"${path}/employees/searchEmployees",
+			data:{"keyword":value},
+			success:data=>{
+				console.log(data);
+				const emp_ids=data.split(",");
+				$("#data").html("");
+				emp_ids.forEach(e=>{
+					const $op=$("<option>").attr("value",e).text(e);
+					$("#data").append($op);
+				});
+			}
+		})
+	});
+	
+	fn_changeEmployee=()=>{
+		let value = $("#searchId").val();
+		console.log(value);
+		$.ajax({
+			type:'post',
+			url:"${path}/employees/searchEmployees",
+			data:{"keyword":value},
+			success:data=>{
+				console.log(data);
+				
+				
+			}
+
+		})
+	};
+</script>
+
+
+
+
 <table width="740px">
     <tbody>
     <tr align="center">
@@ -431,7 +468,7 @@ salary.dedution.dedu_local_income_tax
     <tbody>
     <tr>
         <td class="txtlft"><p><em>회사명</em> (주)하이브웍스</p></td>
-        <td class="txtrgt"><p><em>지급일</em> <c:out value="${salary.sal_date }" /></p></td>
+        <td class="txtrgt"><p><em>지급일</em> <c:out value="" /></p></td>
     </tr>
     </tbody>
 </table><!--사원정보 테이블-->
@@ -447,17 +484,17 @@ salary.dedution.dedu_local_income_tax
     <tbody>
     <tr>
         <th><span>사원코드</span></th>
-        <td><c:out value="${salary.emp_no }"/></td>
+        <td><input type="text" id="emp_no" /></td>
         <th><span>사원명</span></th>
-        <td><c:out value="${salary.employee.emp_name }"/></td>
+        <td><input type="text" id="emp_name" /></td>
         <th><span>생년월일</span></th>
-        <td><c:out value="${salary.employee.emp_birth_date }"/></td>
+        <td><input type="text" id="emp_birth_date" /></td>
     </tr>
     <tr>
         <th><span>부서</span></th>
-        <td><c:out value="${salary.employee.dept_code }"/></td>
+        <td><input type="text" id="emp_birth_date" /></td>
         <th><span>직급</span></th>
-        <td><c:out value="${salary.employee.job_code }"/></td>
+        <td><input type="text" id="emp_birth_date" /></td>
         <th><span></span></th>
         <td></td>
     </tr>
@@ -506,11 +543,12 @@ salary.dedution.dedu_local_income_tax
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_base }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.overtime_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_meal }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.position_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_bonus }"/></td>
+                    <input type="hidden" name="sal_no" value=""/>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_base" value=""/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="overtime_pay" value=""/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_meal" value=""/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="position_pay" value=""/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_bonus" value=""/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
@@ -583,12 +621,12 @@ salary.dedution.dedu_local_income_tax
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_emp_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_health_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_industry_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_national_pension }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_income_tax }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_local_income_tax }"/></td>
+                    <td style="border-bottom:1px solid #eee;"></td>
+                    <td style="border-bottom:1px solid #eee;"></td>
+                    <td style="border-bottom:1px solid #eee;"></td>
+                    <td style="border-bottom:1px solid #eee;"></td>
+                    <td style="border-bottom:1px solid #eee;"></td>
+                    <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
@@ -671,10 +709,10 @@ salary.dedution.dedu_local_income_tax
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual }" /></td>
-                    <td width="14%"><c:out value="${allDedution }" /></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual-allDedution }" /></td>
+                    <td width="14%"></td>
+                    <td width="14%"></td>
+                    <td width="14%"></td>
                 </tr>
                 </tbody>
             </table>
@@ -682,6 +720,7 @@ salary.dedution.dedu_local_income_tax
     </tr>
     </tbody>
 </table>
+</form>
 <table class="calcrule_tbl">
     <caption>계산방법</caption>
     <colgroup>
@@ -725,4 +764,3 @@ salary.dedution.dedu_local_income_tax
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
-	

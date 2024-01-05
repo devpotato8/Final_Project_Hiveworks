@@ -41,9 +41,9 @@
 								<tr>
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
-											<c:out value="${b.boardNo}" />
-									</a></td>
+									<a href="${path}/board/boardView"><c:out value="${b.boardNo}" /></a>
 									<td><c:out value="${b.createDate}" /></td>
+									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
 									<td><c:out value="${b.creater}" /></td>
 									<td><c:out value="${b.createDate}" /></td>
@@ -58,7 +58,7 @@
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
 													data-bs-toggle="tooltip" data-bs-placement="top" title=""
-													data-bs-original-title="수정" href="contact-details.html">
+													data-bs-original-title="수정" href="/board/boardUpdate?boardNo=${b.boardNo}">
 													<span class="btn-icon-wrap"><span
 														class="feather-icon"><i data-feather="edit"></i></span></span>
 												</a> <a

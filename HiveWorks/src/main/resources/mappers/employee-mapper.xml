@@ -4,8 +4,11 @@
 	<resultMap id="empMap" type="employee">
 		<id property="emp_no" column="emp_no"/>
 		<result property="dept_code" column="dept_code"/>
+		<result property="dept_name" column="dept_name"/>
 		<result property="position_code" column="position_code"/>
+		<result property="position_name" column="position_name"/>
 		<result property="job_code" column="job_code"/>
+		<result property="job_name" column="job_name"/>
 		<result property="work_type_code" column="work_type_code"/>
 		<result property="work_status" column="work_status"/>
 		<result property="work_pattern" column="work_pattern"/>
@@ -18,6 +21,7 @@
 		<result property="emp_email" column="emp_email"/>
 		<result property="emp_address" column="emp_address"/>
 		<result property="emp_resident_no" column="emp_resident_no"/>
+		<result property="emp_birth_date" column="emp_birth_date"/>
 		<result property="emp_memo" column="emp_memo"/>
 		<result property="emp_hired_date" column="emp_hired_date"/>
 		<result property="emp_retired_date" column="emp_retired_date"/>
@@ -29,6 +33,17 @@
 	</select>
 	
 	<select id="selectEmployeesListAll" resultMap="empMap">
-		SELECT * FROM TBL_EMPLOYEE
+		SELECT D1.*, C.*,C.CODE_NAME AS JOB_NAME, O.CODE_NAME AS POSITION_NAME, E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+        FROM (SELECT * FROM TBL_EMPLOYEE) E
+        JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E.DEPT_CODE 
+        JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
+        JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
 	</select>
+	<select id="searchEmployeesByKeyword" parameterType="string" resultMap="empMap">
+		SELECT * FROM TBL_EMPLOYEE
+		<if test="keyword !=null and keyword !=''">
+		WHERE EMP_NO = #{keyword}
+		</if>
+	</select>
+	
 </mapper>

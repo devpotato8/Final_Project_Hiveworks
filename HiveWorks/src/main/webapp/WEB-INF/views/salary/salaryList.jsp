@@ -402,8 +402,8 @@
 								</div> -->
 								
 							</header>
+							<button class="btn btn-primary btn-rounded btn-block mb-4" onclick="location.replace('${path}/salary/salaryWrite')">등록</button>
 							<div class="invoice-body">
-							<c:out value="${list }" />
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
 										<table id="datable_1" class="table nowrap w-100 mb-5">
@@ -428,7 +428,7 @@
 												<c:forEach var="s" items="${list }">
 												<tr>
 													<td></td>
-													<td><a href="#"><c:out value="${s.sal_date }" /></a></td>
+													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
@@ -456,7 +456,7 @@
 													
 													<td>
 															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
@@ -477,7 +477,7 @@
 													<td>2,251,760원</td>
 													<td>
 															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>

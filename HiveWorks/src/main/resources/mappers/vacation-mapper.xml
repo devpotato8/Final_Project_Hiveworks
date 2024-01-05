@@ -14,6 +14,10 @@
 		<result property="useYN" column="USE_TN"/>
 	</resultMap>
 	
+	<select id="selectVacationListAll" resultMap="vacationMap">
+		SELECT * FROM TBL_VACATION WHERE EMP_NO = 1
+	</select>
+	
 	<select id="selectVacationByNo" parameterType="integer" 
 		resultMap="vacationMap">
 		SELECT * FROM TBL_VACATION WHERE EMP_NO = #{no}
