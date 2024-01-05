@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<div class="contact-list-view">
+		<section>
 			<!-- <table id="datable_1" class="table nowrap w-100 mb-5"> id="datable_1" 에 체크박스생성하는 js걸려있음-->
 			<table class="table nowrap w-100 mb-5"> 
 				<thead>
@@ -86,7 +86,7 @@
 					</c:if> --%>
 				</tbody>
 			</table>
-		</div>
+		</section>
 		
 	</div>
 </div>

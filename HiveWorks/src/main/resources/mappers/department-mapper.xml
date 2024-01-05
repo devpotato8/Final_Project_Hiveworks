@@ -30,16 +30,24 @@
 </insert>
  
  <update id="updateDept">
- 	UPDATE TBL_DEPARTMENT SET DEPT_NAME = #{name} WHERE DEPT_CODE = #{code}
+ 	UPDATE TBL_DEPARTMENT SET DEPT_NAME = #{name}, DEPT_UPSTAIR= #{upstair} WHERE DEPT_CODE = #{code}
  </update>
  
  <update id="deleteDept">
- 	UPDATE TBL_DEPARTMENT 
- 	SET USE_YN = 'N' 
- 	WHERE DEPT_CODE IN
- 	<foreach item="item" index="index" collection="children" open="(" separator="," close=")">
-        #{item},#{deptCode}
-    </foreach>
+ 	UPDATE TBL_DEPARTMENT
+    SET USE_YN = 'N'
+    <choose>
+        <when test="children != null and children.size() > 0">
+            WHERE DEPT_CODE IN
+            <foreach item="item" index="index" collection="children" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            OR DEPT_CODE = #{deptCode}
+        </when>
+        <otherwise>
+            WHERE DEPT_CODE = #{deptCode}
+        </otherwise>
+    </choose>
  </update>
  
 </mapper>

@@ -17,4 +17,8 @@ public interface SalaryDao {
 	int updateSalary(SqlSession session, Salary s);
 	int deleteSalary(SqlSession session, int salaryNo);
 	
+	int updatePositionPay(SqlSession session, Salary s);
+	
+	int insertPositionPay(SqlSession session, Salary s);
+	
 }

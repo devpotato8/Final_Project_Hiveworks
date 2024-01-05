@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.dna.hiveworks.model.dao.DeptDao;
 import com.dna.hiveworks.model.dto.Department;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author : 김태윤
  * @since : 2024. 01. 01.
@@ -49,6 +51,8 @@ public class DeptDaoImpl implements DeptDao {
 		return session.delete("department.deleteDept",dept);
 	}
 
+
+	
 
 	
 }
