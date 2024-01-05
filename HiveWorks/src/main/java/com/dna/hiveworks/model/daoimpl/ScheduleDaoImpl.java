@@ -20,5 +20,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	public List<Schedule> selectScheduleAll(SqlSession session) {
 		return session.selectList("schedule.selectScheduleAll");
 	}
+	
+	@Override
+	public int reserveResource(SqlSession session, Schedule schedule) {
+		return session.insert("schedule.insertSchedule");
+	}
 
 }

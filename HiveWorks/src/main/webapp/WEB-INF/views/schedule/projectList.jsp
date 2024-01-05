@@ -2037,7 +2037,7 @@
 													</div>
 												</div>
 											</div>
-										</div> -->${ }
+										</div> -->
 										<div
 											class="title title-xs title-wth-divider text-primary text-uppercase my-4">
 											<span>Assign to</span>

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -106,7 +107,7 @@ public class ScheduleContoller {
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
-		Schedule schedule = Schedule.builder()
+		Schedule schedule = Schedule.builder() 
 				.calSubject(calSubject)
 				.calStartDate(calStartDate)
 				.calEndDate(calEndDate)
@@ -122,8 +123,34 @@ public class ScheduleContoller {
 
 		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result)
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+		
+		
+		
+		
+		
 
 	}
 	
-
-}
+	@PostMapping("/reserveResource.do")
+	public String reserveResource(Schedule schedule, Model model){
+		int result=scheduleService.reserveResource(schedule);
+		
+		String msg, loc;
+		if(result>0) {
+			msg="예약성공";
+			loc="schedule/reservationinsert.do";
+		}else {
+			msg="예약실패";
+			loc="schdule/reserveResource.do";
+		}
+		
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+		
+		
+		return "schedule/msg";
+	}
+		
+		
+	}
+	

@@ -12,6 +12,7 @@
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
 	</insert>
 	
+	
 	<select id="selectScheduleAll" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR
 	</select>
