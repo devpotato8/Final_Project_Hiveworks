@@ -433,9 +433,9 @@
 													<td>
 														<div class="text-dark"><c:out value="${s.emp_name }" /></div>
 													</td>
-													<td><span><c:out value="${s.emp_id }" /></span></td>
-													<td><c:out value="${s.dept_code }" /></td>
-													<td><c:out value="${s.job_code}" /></td>
+													<td><span><c:out value="${s.dept_name }" /></span></td>
+													<td><c:out value="${s.position_name }" /></td>
+													<td><c:out value="${s.job_name}" /></td>
 													<td><c:out value="${s.emp_phone }"/></td>
 													<td><c:out value="${s.emp_cellphone }" /></td>
 													
