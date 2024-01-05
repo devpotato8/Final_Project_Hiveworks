@@ -38,34 +38,32 @@
 
 		<!-- Page Body -->
 		<div>
-			<div class="container">
+			<div class="container d-flex justify-content-center">
 				<div class="left-container">
 					<!-- 프로필부분 -->
 					<div class="card card-border contact-card">
 						<div class="card-body text-center">
 							<div class="card-action-wrap"></div>
 
-							<div class="avatar-xl avatar-rounded align-items-center mb-5" >
+							<div class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
 								<%-- <img src="${path }/resources/img/logo_bee.png" alt="user" class="avatar-img" width="100px" height="100px"> --%>
 								<img src="${path }/resources/img/logo_bee.png" alt="user" class="brand-img img-fluid " width="100px" height="100px">
 							</div>
 							<div class="user-name">
-								<span class="contact-star"><span class="feather-icon">
-										<i data-feather="star"></i>
-								</span></span>유저이름
+								나는 ${loginEmp.emp_name} 입니다
 							</div>
-							<div class="user-email">morgan@jampack.com</div>
+							<div class="user-email">부서 -  </div>
 							<div class="user-contact">+145 52 5689</div>
-							<div class="user-desg">
+							<!-- <div class="user-desg">
 								<span
 									class="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>
 								접속중
-							</div>
+							</div> -->
 						</div>
 						<div class="card-footer text-muted position-relative">
-							<a href="#" class="d-flex align-items-center"
-								data-bs-toggle="modal" data-bs-target="#contact_detail"> <span
-								class="feather-icon me-2"><i data-feather="user-check"></i></span>
+							<a href="${path }/mypage/myprofile" class="d-flex align-items-center"
+								data-bs-target="#contact_detail"> 
+								<span	class="feather-icon me-2"><i data-feather="user-check"></i></span>
 								<span class="fs-7 lh-1">Profile</span>
 							</a>
 						</div>
@@ -76,14 +74,14 @@
 						<div>
 							<div>
 								<div class="d-flex justify-content-between p-3">
-									<p class="btn">출퇴근찍기</p>
-									<!-- <p class="btn">현재시간</p> -->
+									<p>출퇴근찍기</p>
+									<p class="badge badge-soft-blue my-1  me-2" id="nowDate"></p>
 								</div>
 
 							</div>
 							<div class="button-container d-flex justify-content-around">
-								<button class="btn btn-outline-dark">출근하기</button>
-								<button class="btn btn-outline-dark">퇴근하기</button>
+								<button >출근하기</button>
+								<button >퇴근하기</button>
 							</div>
 						</div>
 					</div>
@@ -92,7 +90,7 @@
 				<div class="right-container">
 					<div>
 						<!-- 캘린더 -->
-						<div class="sec_cal">
+						<div class="sec_cal contact-card">
 
 							<div class="cal_nav">
 								<a href="javascript:;" class="nav-btn go-prev">prev</a>
@@ -114,9 +112,65 @@
 							</div>
 						</div>
 					</div>
-					<!-- 뉴스 -->
-					<div>
-						<table class="table">
+					<!-- 2 -->
+					<div class="d-flex justify-content-center">
+					<div style="width: 400px; height: 400px" class="d-flex justify-content-center">
+						<img alt="" src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium" style="width: 350px; height: 350px">
+					</div>
+					</div>
+
+					<!-- 3 -->
+					<div class="d-flex justify-content-center">
+					<div style="width: 400px; height: 350px" class="justify-content-center text-center">
+						<table class="table table table-hover table-sm">
+							<thead class="bg-navy">
+								<tr>
+									<th scope="col">번호</th>
+									<th scope="col">제목</th>
+									<th scope="col">조회수</th>
+									<th scope="col">날짜</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>1</th>
+									<td>제목</td>
+									<td>12</td>
+									<td>2024.01.03</td>
+								</tr>
+								<tr>
+									<th>2</th>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<th>3</th>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<th>4</th>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<th>5</th>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					</div>
+					<!--  -->
+					<!-- 게시판보여주기 -->
+					<div class="d-flex justify-content-center">
+					<div style="width: 400px; height: 350px" class="justify-content-center text-center">
+						<table class="table table-hover table-sm">
 							<thead>
 								<tr>
 									<th scope="col">번호</th>
@@ -150,43 +204,15 @@
 									<td></td>
 									<td></td>
 								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- 투두 -->
-					<div>
-						
-					</div>
-					<!-- 투두 -->
-					<!-- 게시판보여주기 -->
-					<div>
-						<table class="table">
-							<thead>
 								<tr>
-									<th scope="col">번호</th>
-									<th scope="col">제목</th>
-									<th scope="col">날짜</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>1</th>
-									<td>제목</td>
-									<td>2024.01.03</td>
-								</tr>
-								<tr>
-									<th>2</th>
+									<th>5</th>
 									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<th>3</th>
 									<td></td>
 									<td></td>
 								</tr>
 							</tbody>
 						</table>
+					</div>
 					</div>
 					<!-- 게시판보여주기 -->
 				</div>
@@ -197,10 +223,26 @@
 </div>
 
 <style>
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+:root {
+            --navy: rgba(14, 25, 90, 0.8);
+}
 * {
 	box-sizing: border-box;
+	font-family: 'Pretendard-Regular';
 }
-button{ border: none;}
+button{ 
+	border: none;
+	background-color: var(--navy);
+	color: white;
+	border-radius: 5px;
+	padding: 11px;
+}
 .container {
 	margin-top: 20px;
 	width: 100%;
@@ -225,23 +267,27 @@ button{ border: none;}
 }
 
 .right-container {
-	margin-left: 15px;
+	margin-left: 50px;
 	width: 70%;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 15px;
+	/* gap: 15px; */
 }
 
 .right-container>div {
-	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	/* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
 	border-radius: 5px;
-	width: 450px;
+	width: 470px;
 	height: 350px;
+}
+
+table>thead{
+	background-color: var(--navy);
 }
 
 /* section calendar */
 .sec_cal {
-	width: 300px;
+	width: 350px;
 	height: 0;
 	margin: 0 auto;
 	font-family: "NotoSansR";
@@ -280,8 +326,8 @@ button{ border: none;}
 .sec_cal .cal_nav .go-prev::before, .sec_cal .cal_nav .go-next::before {
 	content: "";
 	display: block;
-	width: 7px;
-	height: 7px;
+	width: 10px;
+	height: 10px;
 	border: 3px solid #000;
 	border-width: 3px 3px 0 0;
 	transition: border 0.1s;
@@ -324,13 +370,15 @@ button{ border: none;}
 	width: calc(100%/ 7);
 	text-align: left;
 	color: #999;
-	font-size: 10px;
+	font-size: 14px;
+	font-weight: 14px;
 	text-align: center;
 	border-radius: 5px
 }
 
 .current.today {
-	background: rgb(242, 242, 242);
+	background-color: var(--navy);
+	/* background: rgb(242, 242, 242); */
 }
 
 .sec_cal .cal_wrap .dates {
@@ -392,7 +440,7 @@ function onGeoOk(position) {
 }
 
 function onGeoError() {
-    alert("Can't find you. No weather for you.")
+    alert("위치정보를 찾을 수 없습니다.")
     
 }
 
@@ -402,6 +450,35 @@ navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
 
 </script>
 <script>
+  // 현재 시간을 가져오는 함수
+  function getCurrentTime() {
+    var date = new Date();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+
+    // 시, 분, 초를 2자리 숫자로 표시하기 위해 앞에 0을 붙임
+    hours = addLeadingZero(hours);
+    minutes = addLeadingZero(minutes);
+    seconds = addLeadingZero(seconds);
+
+    // 시간을 형식에 맞게 표시
+    var currentTime = hours + ":" + minutes + ":" + seconds;
+
+    // HTML 요소에 현재 시간을 표시
+    document.getElementById("nowDate").innerText = currentTime;
+  }
+
+  // 숫자 앞에 0을 붙이는 함수
+  function addLeadingZero(number) {
+    return number < 10 ? "0" + number : number;
+  }
+
+  // 1초마다 현재 시간 업데이트
+  setInterval(getCurrentTime, 1000);
+</script>
+<script>
+	
 	$(document).ready(function() {
 		calendarInit();
 	});
