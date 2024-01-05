@@ -408,10 +408,12 @@
         margin-top: 24px
     }</style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <form action="${path }/salary/SalaryWriteEnd" method="post">
 <button>등록</button>
 <input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요."/>
-<button>검색</button>
+<button type="button" onclick="fn_changeEmployee()">검색</button>
 <datalist id="data"></datalist>
 <script>
 	$("#searchId").keyup(e=>{
@@ -420,6 +422,7 @@
 			url:"${path}/employees/searchEmployees",
 			data:{"keyword":value},
 			success:data=>{
+				console.log(data);
 				const emp_ids=data.split(",");
 				$("#data").html("");
 				emp_ids.forEach(e=>{
@@ -429,8 +432,22 @@
 			}
 		})
 	});
+	
+	fn_changeEmployee=()=>{
+		let value = $("#searchId").val();
+		console.log(value);
+		$.ajax({
+			type:'post',
+			url:"${path}/employees/searchEmployees",
+			data:{"keyword":value},
+			success:data=>{
+				console.log(data);
+				
+				
+			}
 
-
+		})
+	};
 </script>
 
 
@@ -467,17 +484,17 @@
     <tbody>
     <tr>
         <th><span>사원코드</span></th>
-        <td></td>
+        <td><input type="text" id="emp_no" /></td>
         <th><span>사원명</span></th>
-        <td></td>
+        <td><input type="text" id="emp_name" /></td>
         <th><span>생년월일</span></th>
-        <td></td>
+        <td><input type="text" id="emp_birth_date" /></td>
     </tr>
     <tr>
         <th><span>부서</span></th>
-        <td></td>
+        <td><input type="text" id="emp_birth_date" /></td>
         <th><span>직급</span></th>
-        <td></td>
+        <td><input type="text" id="emp_birth_date" /></td>
         <th><span></span></th>
         <td></td>
     </tr>

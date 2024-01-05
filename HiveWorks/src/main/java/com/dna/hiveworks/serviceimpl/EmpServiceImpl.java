@@ -1,12 +1,12 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
-import com.dna.hiveworks.model.daoimpl.SalaryDaoImpl;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.service.EmpService;
 
@@ -55,7 +55,7 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
-	public List<Employee> selectEmployeesListAll(int cPage, int numPerpage) {
+	public List<Employee> selectEmployeesListAll() {
 		return dao.selectEmployeesListAll(session);
 	}
 

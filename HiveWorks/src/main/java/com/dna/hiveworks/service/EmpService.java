@@ -1,6 +1,7 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dna.hiveworks.model.dto.Employee;
 
@@ -19,7 +20,7 @@ public interface EmpService {
 	
 	Employee selectEmployeeById(String empId);
 	
-	List<Employee> selectEmployeesListAll(int cPage, int numPerpage);
+	List<Employee> selectEmployeesListAll();
 	
 	int insertEmployee(Employee e);
 	int updateEmployee(Employee e);

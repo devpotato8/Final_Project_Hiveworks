@@ -2,16 +2,21 @@ package com.dna.hiveworks.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.Employee;
-import com.dna.hiveworks.service.EmpService;
+import com.dna.hiveworks.serviceimpl.EmpServiceImpl;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmpController {
 	
-	private final EmpService service;
+	private final EmpServiceImpl service;
 	
 	
 	@GetMapping("/{empId}")
@@ -41,8 +46,14 @@ public class EmpController {
 	}
 	
 	@GetMapping("/employeeList")
-	public String selectEmployeesListAll() {
+	public String selectEmployeesListAll(Model model) {
 
+		
+		List<Employee> employees = service.selectEmployeesListAll();
+		
+		
+		model.addAttribute("employees",employees);
+		
 		
 		return "employees/employeeList";
 	}
@@ -61,6 +72,24 @@ public class EmpController {
 		
 		response.setContentType("text/csv;charset=utf-8");
 		response.getWriter().print(csv);
+		
+		
+	}
+	
+	@PostMapping("/searchEmployees")
+	@ResponseBody
+	public void searchEmployeesByKeywordSeach(String keyword, HttpServletResponse response) throws IOException {
+		
+		List<Employee> searchEmployee = service.searchEmployeesByKeyword(keyword);
+		
+//		String csv="";
+//		for(int i=0;i<searchEmployee.size();i++) {
+//			if(i!=0) csv+=",";
+//			csv+=searchEmployee.get(i).getEmp_no();
+//		}
+		
+		response.setContentType("text/csv;charset=utf-8");
+		response.getWriter().print(searchEmployee);
 		
 		
 	}

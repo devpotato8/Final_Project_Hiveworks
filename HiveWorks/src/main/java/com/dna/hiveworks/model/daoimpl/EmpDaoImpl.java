@@ -1,7 +1,9 @@
 package com.dna.hiveworks.model.daoimpl;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,7 +34,8 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public List<Employee> selectEmployeesListAll(SqlSession session) {
-		return session.selectList("employee.selectEmployeesListAll", null, null);
+
+		return session.selectList("employee.selectEmployeesListAll");
 	}
 
 	@Override

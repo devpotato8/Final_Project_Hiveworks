@@ -30,7 +30,16 @@
 	</select>
 	
 	<select id="selectEmployeesListAll" resultMap="empMap">
-		SELECT * FROM TBL_EMPLOYEE
+		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*
+    		FROM TBL_SALARY S
+		        JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
+		        JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
+		        JOIN TBL_POSITION_PAY P ON P.SAL_NO = S.SAL_NO
+		        JOIN
+		        (SELECT E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+		        FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
+		        JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E1.DEPT_CODE 
+		        JOIN TBL_CODE C ON E1.JOB_CODE = C.CODE_NO
 	</select>
 	<select id="searchEmployeesByKeyword" parameterType="string" resultMap="empMap">
 		SELECT * FROM TBL_EMPLOYEE
