@@ -15,6 +15,7 @@
 
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocument" alias="edoc"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList" alias="edocList"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicSample" alias="edocSample"/>
 	</typeAliases>
 	<typeHandlers>
 		<package name="com.dna.hiveworks.common.typehandler"/>

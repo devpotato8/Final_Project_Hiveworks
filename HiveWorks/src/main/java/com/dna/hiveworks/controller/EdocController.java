@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.dna.hiveworks.common.exception.HiveworksException;
@@ -20,6 +24,7 @@ import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
@@ -114,5 +119,16 @@ public class EdocController {
 	@GetMapping("/personalSetting")
 	public String personalSetting() {
 		return "edoc/personalSetting";
+	}
+	@GetMapping("/formatList")
+	public @ResponseBody ResponseEntity<List<ElectronicDocumentSample>> getEdocSampleList(@RequestParam String edocDotCode){
+		DotCode dotCode = null;
+		
+		try {
+			dotCode = DotCode.valueOf(edocDotCode);
+		}catch(IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(edocService.getEdocSampleList(dotCode));
 	}
 }

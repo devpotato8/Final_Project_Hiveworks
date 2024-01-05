@@ -62,19 +62,23 @@
 								<div class="tab-content">
 									<!-- 문서 작성 탭 -->
 									<div class="tab-pane fade show active" id="write_doc">
-										<div class="table-responsive col-sm-8 justify-content-center d-flex">
+										<div class="table-responsive col-sm-8">
 											<table class="table">
 												<tbody>
 													<tr>
 														<th scope="row">문서종류</th>
 														<td>
-															<select class="form-select" name="edocDotCode">
-																<optgroup label="문서종류">
+															<div class="input-group mb-3">
+																<select class="form-select" name="edocDotCode" id="edocType">
+																	<option disabled="disabled" selected="selected">문서종류</option>
 																	<c:forEach items="${dotcode }" var="t">
 																		<option value="${t }">${DotCode.valueOf(t).code }</option>
 																	</c:forEach>
-																</optgroup>
-															</select>
+																</select>
+																<select class="form-select" id="edocFormat">
+																	<option disabled="disabled" selected="selected">종류를 선택해주세요</option>
+																</select>
+															</div>
 														</td>
 														<th scope="row">작성자</th>
 														<td>
@@ -144,5 +148,8 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
-
+<script>
+	const path = "${path}";
+</script>
+<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

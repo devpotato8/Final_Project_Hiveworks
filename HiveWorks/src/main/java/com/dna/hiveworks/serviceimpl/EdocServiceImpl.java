@@ -10,8 +10,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.service.EdocService;
 
 /**
@@ -46,5 +48,10 @@ public class EdocServiceImpl implements EdocService{
 	@Override
 	public Map<String, Object> getEmpData(int empNo) {
 		return dao.getEmpData(session, empNo);
+	}
+	
+	@Override
+	public List<ElectronicDocumentSample> getEdocSampleList(DotCode edocDotCode) {
+		return dao.getEdocSampleList(session, edocDotCode);
 	}
 }
