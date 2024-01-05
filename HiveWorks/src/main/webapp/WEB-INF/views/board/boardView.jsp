@@ -1,42 +1,56 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="default" name="style" />
-	<jsp:param value="" name="hover" />
+    <jsp:param value="default" name="style" />
+    <jsp:param value="" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<div id="board-container">
-        <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle"
-        value="${board.boardTitle }"  required>
-        <input type="text" class="form-control" name="boardWriter"  
-        value="${board.writer.userId }" readonly required>
-		<!-- 첨부파일 -->
-		<c:if test="${board.files.size()>0 }">
-			<c:forEach var="file" items="${board.files }">
-	            <button type="button" 
-	                    class="btn btn-outline-success btn-block"
-	                    onclick="fn_filedownload('${file.originalFilename}','${file.renamedFilename }');">
-	                    ${file.originalFilename }
-	            </button> 
-            </c:forEach>
-        </c:if>
-        
-        <textarea class="form-control" name="boardContent" placeholder="내용" required>${board.boardContent}</textarea>
+<div class="hk-pg-wrapper">
+    <div class="container-xxl" style="margin-left: 0px;">
+        <h2>상세</h2>
     </div>
+    <div id="board-container">
+        <form name="boardUpdate" action="${path}/board/boardView" method="post">
+    <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required readonly="readonly">
+    <input type="hidden" name="boardNo" value="${board.boardNo}"/>
+            <div class="input-group mb-3" style="padding:0px;">
+  <!--           	<div class="input-group-prepend" style="padding:0px;">
+                    <button type="button" onclick="fn_addFileForm();">추가</button>
+                    <button type="button" onclick="fn_deleteFileForm();">삭제</button>
+                </div> -->
+            </div>
+            <!-- <div id="basicFileForm" class="input-group mb-3" style="padding:0px;">
+                <div class="custom-file">
+                     <input type="file" class="custom-file-input" >
+                </div>
+            </div> -->
+            <textarea class="form-control" name="boardContent" placeholder="내용" required style="resize:none;"readonly="readonly">${board.boardContent }</textarea>
+            <br />
+              <a href="${path}/board/board"><input type="button" value="확인"></a>
+	</form>
+    </div>
+<!--     <script type="text/javascript">
+    document.getElementById('submit').addEventListener('click', handleSubmit);
 
-     <style>
+
+    function handleSubmit() {
+      console.log('submit 버튼이 클릭되었습니다.');
+
+    }
+    </script> -->
+
+<style>
+    .ck-editor__editable {
+        height: 400px;
+    }
     div#board-container{width:400px; margin:0 auto; text-align:center;}
-    div#board-container input,div#board-container button{margin-bottom:15px;}
-    div#board-container label.custom-file-label{text-align:left;}
-    </style>
-    <script>
-    	const fn_filedownload=(oriname,rename)=>{
-    		location.assign("${path}/board/filedownload.do?oriname="+oriname+"&rename="+rename);	
-    	}
-    </script>
+    div#board-container input{margin-bottom:15px;}
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
-    
