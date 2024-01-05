@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
@@ -37,7 +38,7 @@ import com.dna.hiveworks.service.EdocService;
 public class EdocController {
 	
 	@Autowired
-	private EdocService service;
+	private EdocService edocService;
 	
 	@GetMapping("/lists/{status}")
 	public String pendingList(@PathVariable String status, Model model, @SessionAttribute Employee loginEmp) {
@@ -47,17 +48,16 @@ public class EdocController {
 		}catch(IllegalArgumentException e) {
 			throw new HiveworksException("부적절한 접근입니다.");
 		}
-		
 		if(loginEmp == null) {
 			throw new HiveworksException("로그인 정보가 없습니다.");
 		}
 		Map<String,Object> param = new HashMap<>();
 		
 		param.put("emp_id", loginEmp.getEmp_id());
-		param.put("status", listStatus);
+		param.put("status", listStatus.name());
 		
 		
-		List<ElectronicDocumentList> lists = service.getEdocList(param);
+		List<ElectronicDocumentList> lists = edocService.getEdocList(param);
 		if(listStatus == ListStatus.ALL) {
 			model.addAttribute("category",ListStatus.values());
 		}else {
@@ -85,7 +85,7 @@ public class EdocController {
 		
 		param.put("emp_id", loginEmp.getEmp_id());
 		
-		List<ElectronicDocumentList> lists = service.getEdocBox(param);
+		List<ElectronicDocumentList> lists = edocService.getEdocBox(param);
 		if(boxStatus == BoxStatus.ALL) {
 			model.addAttribute("category",BoxStatus.values());
 		}else {
@@ -99,7 +99,15 @@ public class EdocController {
 	}
 	
 	@GetMapping("/write")
-	public String writeDocument() {
+	public String writeDocument(Model model, @SessionAttribute Employee loginEmp) {
+		
+		Map<String,Object> emp = edocService.getEmpData(loginEmp.getEmp_no());
+		
+		model.addAttribute("emp",emp);
+		model.addAttribute("dsgcode", DsgCode.values());
+		model.addAttribute("dotcode", DotCode.values());
+		
+		
 		return "edoc/write";
 	}
 	

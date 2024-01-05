@@ -22,9 +22,6 @@
 	</div>
     <!-- /Wrapper -->
 
-	<!-- jQuery -->
-    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
-
     <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

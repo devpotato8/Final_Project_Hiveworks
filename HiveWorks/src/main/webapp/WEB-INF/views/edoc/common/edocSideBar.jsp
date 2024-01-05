@@ -102,7 +102,7 @@
 									</svg>
 								</span>
 							</span>
-							<span class="nav-link-text">진행중</span>
+							<span class="nav-link-text">진행중인 문서</span>
 							
 						</a>
 						<ul id="edoc_pending" class="nav flex-column collapse nav-children">

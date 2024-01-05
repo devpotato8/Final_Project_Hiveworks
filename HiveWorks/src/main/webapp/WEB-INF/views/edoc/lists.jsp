@@ -47,8 +47,6 @@
 							</div>
 						</div>
 						<div class="fm-options-wrap">	
-							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover disabled d-xl-inline-block d-none" href="#" ><span class="icon"><span class="feather-icon"><i data-feather="user-plus"></i></span></span></a>
-							
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
 								<span class="icon">
 									<span class="feather-icon"><i data-feather="chevron-up"></i></span>
@@ -111,25 +109,25 @@
 <!-- /Main Content -->
 
 <!-- Data Table JS -->
-<script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-<script src="vendors/jszip/dist/jszip.min.js"></script>
-<script src="vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="vendors/pdfmake/build/vfs_fonts.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-<script src="vendors/datatables.net-select/js/dataTables.select.min.js"></script>
-<script src="vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
-<script src="vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script src="${path }/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="${path }/resources/vendors/jszip/dist/jszip.min.js"></script>
+<script src="${path }/resources/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="${path }/resources/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="${path }/resources/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="${path }/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
 <script>
 $('#docTable').DataTable( {
 	scrollX:  true,
-	autoWidth: true,
+	autoWidth: false,
 	language: { search: "",
 		searchPlaceholder: "Search",
 		sLengthMenu: "_MENU_items",

@@ -49,4 +49,20 @@ public interface EdocService {
 	 * @return
 	 */
 	List<ElectronicDocumentList> getEdocBox(Map<String, Object> param);
+
+	/**
+	 * @param empNo 
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 4. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 임시로 사용자의 부서, 직위, 이름 정보를 가져오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 4., 설명 : 최초 작성
+	 *
+	 * @return
+	 */
+	Map<String, Object> getEmpData(int empNo);
+	
 }

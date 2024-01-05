@@ -18,6 +18,19 @@
                 JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
 	WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
     	AND E.EMP_ID = #{emp_id}
+    <if test="status != null">
+    	<choose>
+    		<when test='status.equals("WAIT")'>
+    			AND A.APRVL_STATUS = 'W'
+    		</when>
+    		<when test='status.equals("EXPECT")'>
+    			AND A.APRVL_STATUS = 'P'
+    		</when>
+    		<when test='status.equals("PROCESS")'>
+    			AND A.APRVL_STATUS = 'C'
+    		</when>
+    	</choose>
+    </if>
   </select>
   <select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
 	SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.FINALIZED_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
@@ -27,4 +40,25 @@
 	WHERE D.USE_YN = 'Y' AND NOT(D.EDOC_STATUS = 'DST100')
     	AND E.EMP_ID = #{emp_id}
   </select>
+  
+  <update id="processApprove" parameterType="hashmap" statementType="CALLABLE">
+  	{
+  		CALL PROC_APPROVAL(
+  			#{i_doc_no},
+  			#{i_empid},
+  			#{i_apv_code},
+  			#{i_apv_com},
+  			#{o_rtn_code,mode=OUT, jdbcType=VARCHAR},
+  			#{o_rtn_msg,mode=OUT, jdbcType=VARCHAR}
+  		)
+  	}
+  </update>
+  
+  <select id="getEmpData" resultType="hashmap" parameterType="int">
+  	SELECT E.EMP_NAME AS EMPNAME, D.DEPT_NAME AS DEPTNAME, C.CODE_NAME AS JOBNAME, E.EMP_NO AS EMPNO
+  	FROM TBL_EMPLOYEE E LEFT JOIN TBL_DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+  						LEFT JOIN TBL_CODE C ON E.POSITION_CODE = C.CODE_NO
+  	WHERE E.EMP_NO = #{empNo}
+  </select>
+  
 </mapper>

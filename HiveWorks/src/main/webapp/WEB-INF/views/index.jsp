@@ -40,8 +40,9 @@
 						<div class="card-body text-center">
 							<div class="card-action-wrap"></div>
 
-							<div class="avatar avatar-xl avatar-rounded">
-								<img src="" alt="user" class="avatar-img">
+							<div class="avatar-xl avatar-rounded align-items-center mb-5" >
+								<%-- <img src="${path }/resources/img/logo_bee.png" alt="user" class="avatar-img" width="100px" height="100px"> --%>
+								<img src="${path }/resources/img/logo_bee.png" alt="user" class="brand-img img-fluid " width="100px" height="100px">
 							</div>
 							<div class="user-name">
 								<span class="contact-star"><span class="feather-icon">
