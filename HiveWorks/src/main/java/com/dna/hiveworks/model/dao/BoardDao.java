@@ -18,6 +18,8 @@ public interface BoardDao {
 
 	int boardUpdate(SqlSession session, Board b);
 
+	Board boardDelete(SqlSession session, int boardNo);
+
 	
 
 

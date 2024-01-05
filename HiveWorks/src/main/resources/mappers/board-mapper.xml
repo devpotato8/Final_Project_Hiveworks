@@ -28,5 +28,7 @@
     BOARD_TITLE = #{boardTitle}
     WHERE BOARD_NO = #{boardNo}
 	</update>
-
+	<delete id="boardDelete" parameterType="board">
+		DELETE FROM TBL_BOARD WHERE BOARD_NO = #{boardNo}
+	</delete>
 </mapper>
