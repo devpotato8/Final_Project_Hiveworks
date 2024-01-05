@@ -22,4 +22,5 @@ public interface DeptService {
 	int insertDept(Department dept);
 	int deleteDept(Department dept);
 	int updateDept(Map<String, String> response);
+	
 }
