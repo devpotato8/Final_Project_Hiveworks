@@ -24,4 +24,5 @@ public interface DeptDao {
 	int insertDept(SqlSession session, Department dept);
 	int deleteDept(SqlSession session, Department dept);
 	int updateDept(SqlSession session, Map<String, String> response);
+	
 }

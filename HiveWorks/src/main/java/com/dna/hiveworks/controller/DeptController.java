@@ -59,6 +59,7 @@ public class DeptController {
 		Map<String, String> response = new HashMap<>();
 		response.put("code",dept.getDeptCode());
 		response.put("name",dept.getDeptName());
+		response.put("upstair",dept.getDeptUpstair());
 		
 		int result = service.updateDept(response);
 		
@@ -87,5 +88,6 @@ public class DeptController {
 	    
 	    return response;
 	}
+
 	
 }

@@ -11,9 +11,10 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.Dedution" alias="dedution"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Works" alias="works"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.salary.PositionPay" alias="positionpay"/>
+
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocument" alias="edoc"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList" alias="edocList"/>
-		
 	</typeAliases>
 	<typeHandlers>
 		<package name="com.dna.hiveworks.common.typehandler"/>
