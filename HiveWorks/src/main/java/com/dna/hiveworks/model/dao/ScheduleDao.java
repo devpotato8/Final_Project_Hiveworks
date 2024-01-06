@@ -13,9 +13,18 @@ public interface ScheduleDao {
 	
 	List<Schedule> selectScheduleAll(SqlSession session);
 	
-	int reserveResource(SqlSession session, Schedule schedule);
 	
 	int insertResource(SqlSession session, Resource resource);
 	
+	List<Resource> selectResourceAll(SqlSession session);
+	
+	//reservation
+	List<Schedule> selectReserveAll(SqlSession session);
+
+	List<Schedule> selectReserveByCode(SqlSession session, String calCode);
+	
+	int reserveResource(SqlSession session, Schedule schedule);
+	
+	int reserveResourceEnd(SqlSession session, int resourceNo);
 
 }

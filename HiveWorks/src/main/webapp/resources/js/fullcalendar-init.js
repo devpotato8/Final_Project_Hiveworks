@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			},
 			events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url: `/schedule/schedulelistend.do`,
+					url: `/schedule/schedulelistend.do?calCode=CAL001`,
 					type: "GET",
 					dataType: "JSON",
 					traditional: true,

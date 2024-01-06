@@ -1,6 +1,8 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -30,6 +32,29 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	@Override
 	public int insertResource(SqlSession session, Resource resource) {
 		return session.insert("schedule.insertResource",resource);
+	}
+	
+	@Override
+	public List<Resource> selectResourceAll(SqlSession session) {
+		return session.selectList("schedule.selectResourceAll");
+	}
+	
+	@Override
+	public List<Schedule> selectReserveAll(SqlSession session) {
+		return session.selectList("schedule.selectResourceAll");
+	}
+	
+	@Override
+	public List<Schedule> selectReserveByCode(SqlSession session, String calCode) {
+		return session.selectList("schedule.selectReserveByCode");
+	}
+	
+	
+	@Override
+	public int reserveResourceEnd(SqlSession session, int resourceNo) {
+		 Map<String, Object> parameters = new HashMap<>();
+		 parameters.put("resourceNo", resourceNo);
+		return session.insert("schedule.reserveResourceEnd",parameters);
 	}
 
 }

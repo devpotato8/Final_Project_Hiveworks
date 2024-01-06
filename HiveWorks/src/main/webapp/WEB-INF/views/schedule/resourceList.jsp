@@ -37,7 +37,7 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link link-badge-right"
-									href="${path }/schedule/reservationinsert.do"> <span
+									href="${path }/schedule/reserveResource.do"> <span
 										class="nav-link-text">본사4층회의실</span>
 								</a></li>
 								<li class="nav-item"><a class="nav-link link-badge-right"
@@ -187,10 +187,12 @@
 											</tr>
 										</thead>
 										<tbody>
+										<c:if test="${not empty reList }">
+											<c:forEach var="r" items="${reList}">
 											<tr>
 												<td></td>
-												<td>넘버</td>
-												<td class="mw-250p text-truncate text-high-em"><span>자산이름111</span>
+												<td>${r.resourceNo }</td>
+												<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
 												</td>
 												<td>
 													<div class="media align-items-center">
@@ -201,12 +203,12 @@
 															</div>
 														</div>
 														<div class="media-body">
-															<span class="d-block">예약자1111</span>
+															<span class="d-block">${r.resourceName }</span>
 														</div>
 													</div>
 												</td>
-												<td>자산종류1111</td>
-												<td>예약상태11</td>
+												<td>${r.resourceMax }</td>
+												<td>${r.resourceUseYn }</td>
 												<td>
 													<div class="d-flex align-items-center">
 														<div class="dropdown">
@@ -227,6 +229,8 @@
 													</div>
 												</td>
 											</tr>
+											</c:forEach>
+										</c:if>
 										</tbody>
 									</table>
 								</div>
@@ -335,6 +339,8 @@ const insertResource=(e)=>{
 		if(response.status!=200) throw new Error(response.status);
 		return response.json();
 	}).then(result=>{
+		
+		
 		console.log(result);
 	}).catch(e=>{
 		alert(e);

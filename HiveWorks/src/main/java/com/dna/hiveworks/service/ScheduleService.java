@@ -12,11 +12,19 @@ public interface ScheduleService {
 
 	int insertSchedule(Schedule schedule);
 
-
-	int reserveResource(Schedule schedule);
-	
+	//resource
 	int insertResource(Resource resource);
+	
+	List<Resource> selectResourceAll();
+	
+	//reservation 
+	List<Schedule> selectReserveAll();
 
+	List<Schedule> selectReserveByCode(String calCode);
+	
+	int reserveResource(Schedule schedule, int resourceNo);
+	
+	
 	
 	
 

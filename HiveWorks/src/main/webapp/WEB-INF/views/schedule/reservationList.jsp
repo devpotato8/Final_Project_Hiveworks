@@ -37,7 +37,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="${path }/schedule/reservationinsert.do">
+											<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do">
 												<span class="nav-link-text">본사4층회의실</span>
 											</a>
 										</li>
@@ -65,7 +65,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">	
 										<li class="nav-item">
-											<a class="nav-link" href="javascript:void(0);">
+											<a class="nav-link" href="${path }/schedule/reservationlist.do">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="flag"></i></span></span>
 												<span class="nav-link-text">전체 예약/대여 조회</span>
 											</a>
@@ -132,9 +132,11 @@
 														</tr>
 													</thead>
 													<tbody>
+														<c:if test="${not empty reserveList }">
+															<c:forEach var="res" items="${reserveList}">
 														<tr>
 															<td></td>
-															<td>넘버</td>
+															<td>예약넘버</td>
 															<td class="mw-250p text-truncate text-high-em">
 																<span>자산이름111</span>
 															</td>
@@ -169,6 +171,8 @@
 																</div>
 															</td>
 														</tr>
+														</c:forEach>
+														</c:if>
 													</tbody>
 												</table>
 											</div>

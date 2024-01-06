@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dna.hiveworks.model.dto.Board;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.ScheduleService;
@@ -48,26 +49,55 @@ public class ScheduleContoller {
 		return scheduleService.selectScheduleAll();
 	};
 	
+	//calcode별로 스케쥴러 나누기
+	/*
+	 * @GetMapping("/schedulelistend.do")
+	 * 
+	 * @ResponseBody public List<Schedule> scheduleListEnd(String calCode) { if
+	 * (calCode=="C") return scheduleService.selectScheduleAll(calCode); }
+	 */
+	
+	
 
 	@GetMapping("/reservationlist.do")
-	public String reservationList() {
-		return "schedule/reservationList";
-	}
-
-	@GetMapping("/projectlist.do")
-	public String projectList() {
-		return "schedule/projectList";
+	public String reservationList(String calCode,Model model) {
+		String result = "";
+		/* if(calCode==null) { */
+			List<Schedule> reserveList = scheduleService.selectReserveAll();
+			model.addAttribute("reseveList", reserveList);
+			 result = "schedule/reservationList";
+		/*}if(calCode=="CAL004") {
+			List<Schedule> reserveRoomList = scheduleService.selectReserveByCode(calCode);
+			model.addAttribute("roomList", reserveRoomList);
+			result = "schedule/roomReservationList";
+		}if(calCode=="CAL005") {
+			List<Schedule> reserveCarList = scheduleService.selectReserveByCode(calCode);
+			model.addAttribute("CarList", reserveCarList);
+			result = "schedule/carReservationList";
+		}if(calCode=="CAL006") {
+			List<Schedule> reserveBeamList = scheduleService.selectReserveByCode(calCode);
+			model.addAttribute("beamList", reserveBeamList);
+			result = "schedule/beamReservationList";
+		}*/
+		return result;
 	}
 	
+	/*
+	 * @GetMapping("/reservationlistend.do") public String reservationListEnd(String
+	 * calCode,Model model) { if(calCode==null) { List<Schedule> reservList =
+	 * scheduleService.selectReserveAll(); model.addAttribute("reList",
+	 * resourceList); return "" }if
+	 */
+	//}
+
+	
 	@GetMapping("/resourcelist.do")
-	public String resourceList() {
+	public String resourceList(Model model) {
+		List<Resource> resourceList = scheduleService.selectResourceAll();
+		model.addAttribute("reList", resourceList);
 		return "schedule/resourceList";
 	}
 	
-	@GetMapping("/reservationinsert.do")
-	public String reservationInsert() {
-		return "schedule/reservationResource";
-	}
 
 	@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -123,22 +153,20 @@ public class ScheduleContoller {
 		
 	}
 	
+	@GetMapping("/reserveResource.do")
+	public String reserveResource() {
+		return "schedule/reservationResource";
+	}
+	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	@PostMapping("/reserveResource.do")
-	public String reserveResource(@RequestParam Map<String, Object> param, Model model){
+	@PostMapping("/reserveResourceEnd.do")
+	public String reserveResourceEnd(@RequestParam Map<String, Object> param, Model model){
 		
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 		
 		int result = 0;
 		
+		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
 		String startDateString = (String) param.get("start");
 		String endDateString = (String) param.get("end");
 		//String calColor = (String) param.get("backgroundColor");
@@ -157,7 +185,7 @@ public class ScheduleContoller {
 		
 		System.out.println(schedule);
 		
-		result=scheduleService.reserveResource(schedule);
+		result=scheduleService.reserveResource(schedule,resourceNo);
 		
 		String msg, loc;
 		if(result>0) {

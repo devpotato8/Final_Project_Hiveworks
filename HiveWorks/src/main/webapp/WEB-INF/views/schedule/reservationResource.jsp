@@ -133,9 +133,10 @@
 									<div id="calendar" class="w-100"></div>
 								</div>
 								<div style="width: 50%; display: block;">
-									<form action="${path}/schedule/reserveResource.do"
+									<form action="${path}/schedule/reserveResourceEnd.do"
 										method="POST">
 										<input type="hidden" name="code" value="CAL004" />
+										<input type="hidden" name="resourceNo" value="1">
 									
 										<div class="row gx-3">
 											<div class="col-sm-6">

@@ -33,12 +33,32 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
-	public int reserveResource(Schedule schedule) {
-		return dao.reserveResource(session,schedule);
+	public int reserveResource(Schedule schedule, int resourceNo) {
+		int reserveResource = dao.reserveResource(session, schedule);
+		if (reserveResource > 0) {
+			int reserveResourceEnd = dao.reserveResourceEnd(session,resourceNo);
+		}
+		return reserveResource;
 	}
 	
 	@Override
 	public int insertResource(Resource resource) {
 		return dao.insertResource(session, resource);
 	}
+	
+	@Override
+	public List<Resource> selectResourceAll() {
+		return dao.selectResourceAll(session);
+	}
+	
+	@Override
+	public List<Schedule> selectReserveAll() {
+		return dao.selectReserveAll(session);
+	}
+	
+	@Override
+	public List<Schedule> selectReserveByCode(String calCode) {
+		return dao.selectReserveByCode(session, calCode);
+	}
+	
 }

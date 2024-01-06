@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Schedule {
 	private int calNo;
 	private String calCode;
-	private int empNo;
+	private String empNo;
 	private Timestamp calStartDate;
 	private Timestamp calEndDate;
 	private String calSubject;
