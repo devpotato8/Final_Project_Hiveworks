@@ -1,5 +1,6 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.DeptDao;
 import com.dna.hiveworks.model.dto.Department;
+import com.dna.hiveworks.model.dto.Employee;
 
 /**
  * @author : 김태윤
@@ -49,6 +51,24 @@ public class DeptDaoImpl implements DeptDao {
 		return session.delete("department.deleteDept",dept);
 	}
 
+	@Override
+	public List<Map<String, Object>> deptEmpList(SqlSession session, String deptCode) {
+	    return session.selectList("department.deptEmpList", deptCode);
+	}
+
+	@Override
+	public int deptLeaderOn(SqlSession session, Map<String, String> response) {
+		return session.update("department.deptLeaderOn",response);
+	}
+
+	@Override
+	public int deptLeaderOff(SqlSession session, String id) {
+		return session.update("department.deptLeaderOff",id);
+	}
+
+	
+
+	
 
 	
 }

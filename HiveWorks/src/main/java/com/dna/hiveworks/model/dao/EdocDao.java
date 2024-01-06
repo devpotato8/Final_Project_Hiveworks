@@ -52,5 +52,21 @@ public interface EdocDao {
 	 * @return
 	 */
 	List<ElectronicDocumentList> getEdocBox(SqlSession session, Map<String, Object> param);
+
+	/**
+	 * @Author : qrien 
+	 * @Since : 2024. 1. 4. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 메소드에 대한 설명을 적어주세요
+	 * 
+	 * History : 
+	 * - 작성자 : qrien, 날짜 : 2024. 1. 4., 설명 : 최초 작성
+	 *
+	 * @param session
+	 * @param empNo 
+	 * @return
+	 */
+	Map<String, Object> getEmpData(SqlSession session, int empNo);
 	
 }

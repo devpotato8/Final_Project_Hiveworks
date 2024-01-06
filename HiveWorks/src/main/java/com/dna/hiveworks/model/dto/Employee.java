@@ -34,8 +34,12 @@ public class Employee implements UserDetails{
 
 	private int emp_no;
 	private String dept_code;
+	private String dept_name;
+	private String dept_leader;
 	private String position_code;
+	private String position_name;
 	private String job_code;
+	private String job_name;
 	private String work_type_code;
 	private String work_status;
 	private String work_pattern;
@@ -48,6 +52,7 @@ public class Employee implements UserDetails{
 	private String emp_email;
 	private String emp_address;
 	private String emp_resident_no;
+	private String emp_birth_date;
 	private String emp_memo;
 	private String emp_hired_date;
 	private String emp_retired_date;

@@ -1,11 +1,13 @@
 package com.dna.hiveworks.model.dao;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.dna.hiveworks.model.dto.Department;
+import com.dna.hiveworks.model.dto.Employee;
 
 /**
  * @author : 김태윤
@@ -24,4 +26,7 @@ public interface DeptDao {
 	int insertDept(SqlSession session, Department dept);
 	int deleteDept(SqlSession session, Department dept);
 	int updateDept(SqlSession session, Map<String, String> response);
+	List<Map<String, Object>> deptEmpList (SqlSession session, String deptCode);
+	int deptLeaderOn(SqlSession session, Map<String, String> response);
+	int deptLeaderOff(SqlSession session, String id);
 }

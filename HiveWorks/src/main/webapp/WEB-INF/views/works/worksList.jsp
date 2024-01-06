@@ -27,10 +27,6 @@
 			<section>
 		        <div class="container">
 		            <div class="top-bar">
-		                <!-- <div class="first-line">
-		                    <div>근무관리</div>
-		                    <div>휴가관리</div>
-		                </div> -->
 		                <div class="second-line">
 		                    <div></div>
 		                    <div>
@@ -65,9 +61,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-pink">
-																					<span class="initial-wrap">J</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>평균 출근시간</span>
@@ -77,7 +70,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">3+</span>
 																				</div>
 																			</div>
@@ -93,9 +86,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-pumpkin">
-																					<span class="initial-wrap">A</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>평균 퇴근시간</span>
@@ -105,7 +95,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">3+</span>
 																				</div>
 																			</div>
@@ -126,9 +116,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-violet">
-																					<span class="initial-wrap">R</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>지각</span>
@@ -138,7 +125,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-orange avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">4+</span>
 																				</div>
 																			</div>
@@ -154,9 +141,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-orange">
-																					<span class="initial-wrap">G</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>조퇴</span>
@@ -166,7 +150,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-orange avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">W</span>
 																				</div>
 																			</div>
@@ -182,9 +166,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-primary">
-																					<span class="initial-wrap">P</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>결근</span>
@@ -194,7 +175,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-orange avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">3+</span>
 																				</div>
 																			</div>
@@ -210,9 +191,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-info">
-																					<span class="initial-wrap">D</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>근무시간 미달</span>
@@ -222,7 +200,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-orange avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">3+</span>
 																				</div>
 																			</div>
@@ -238,9 +216,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-info">
-																					<span class="initial-wrap">D</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>근무 시간 누락</span>
@@ -250,7 +225,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-orange avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">3+</span>
 																				</div>
 																			</div>
@@ -266,9 +241,6 @@
 																	<div class="card-body">
 																		<div class="media align-items-center">
 																			<div class="media-head">
-																				<div class="avatar avatar-sm avatar-info">
-																					<span class="initial-wrap">D</span>
-																				</div>
 																			</div>
 																			<div class="media-body">
 																				<span>근무 시간 초과</span>
@@ -278,7 +250,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-soft-orange avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
 																					<span class="initial-wrap">3+</span>
 																				</div>
 																			</div>

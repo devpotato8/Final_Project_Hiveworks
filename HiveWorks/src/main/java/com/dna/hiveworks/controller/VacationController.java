@@ -29,9 +29,7 @@ public class VacationController {
 	private final VacationService service;
 	
 	@GetMapping("vacationList")
-	public String worksList(Model m) {
-		List<Vacation> vacations = service.selectVacationByNo(1);
-		m.addAttribute("vacations", vacations);
+	public String worksList() {
 		return "vacation/vacationList";
 	}
 	
@@ -48,6 +46,9 @@ public class VacationController {
 		// 휴가를 신청하면 즉시승인되고 잔여연차가 1 줄어야함
 		if(vacation.getVacOption().equals("반차")) {
 			vacation.setVacCount(0.5);
+			
+			// 전자문서 insert로직 추가 해야할듯
+			
 			service.insertVacation(vacation);
 			service.updateVacation(vacation.getVacCount());
 		} else if(vacation.getVacOption().equals("연차")||vacation.getVacOption().equals("병가")||vacation.getVacOption().equals("공가")) {
@@ -84,6 +85,8 @@ public class VacationController {
 	
 	@GetMapping("vacationView")
 	public String vacationView(Model m) {
+		List<Vacation> vacations = service.selectVacationByNo(1);
+		m.addAttribute("vacations", vacations);
 		return "vacation/vacationView";
 	}
 	
