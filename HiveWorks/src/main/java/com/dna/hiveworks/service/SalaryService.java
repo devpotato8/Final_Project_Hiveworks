@@ -25,4 +25,6 @@ public interface SalaryService {
 	int updateSalary(Salary s);
 	int deleteSalary(int salaryNo);
 	
+	Map<String, Integer> calculateSalary(Map<String,Integer> data);
+	
 }

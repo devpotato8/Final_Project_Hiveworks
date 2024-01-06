@@ -52,6 +52,11 @@ public class SalaryDaoImpl implements SalaryDao {
 		
 		return session.insert("salary.insertPositionPay",s);
 	}
-	
+
+	@Override
+	public Map<String, Integer> calculateSalary(SqlSession session, Map<String, Integer> data) {
+		return session.selectOne("salary.calculateSalary",data);
+	}
+
 
 }

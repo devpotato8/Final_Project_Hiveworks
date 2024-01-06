@@ -21,4 +21,6 @@ public interface SalaryDao {
 	
 	int insertPositionPay(SqlSession session, Salary s);
 	
+	Map<String, Integer> calculateSalary (SqlSession session, Map<String, Integer> data);
+	
 }

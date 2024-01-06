@@ -30,6 +30,8 @@
 		<result column="dedu_local_income_tax_a" property="dedu_local_income_tax"/>
 		<result column="use_yn" property="use_yn"/>
 	</resultMap>
+	
+	<resultMap id="test" type="hashmap"></resultMap>
 
   	<select id="selectSalaryListAll" resultMap="salaryMap">
   		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*,
@@ -85,9 +87,29 @@
   		SET PP_ADD_PAY=#{position_pay} WHERE SAL_NO=#{sal_no}
   	</update>
   	
+  	<select id="calculateSalary" parameterType="hashmap" statementType="CALLABLE">
+  		{
+  			CALL SP_ACTUAL_SALARY(
+				
+				#{o_total, mode=OUT, jdbcType=INTEGER},
+  				#{o_actual, mode=OUT, jdbcType=INTEGER},
+  				#{o_pension, mode=OUT, jdbcType=INTEGER},
+  				#{o_insurance, mode=OUT, jdbcType=INTEGER},
+  				#{o_nursing, mode=OUT, jdbcType=INTEGER},
+  				#{o_employ, mode=OUT, jdbcType=INTEGER},
+  				#{o_income, mode=OUT, jdbcType=INTEGER},
+  				#{o_local, mode=OUT, jdbcType=INTEGER},
+  				#{i_total},
+  				#{i_non_tax}
+  			)
+  		}
+  	</select>
+  	
   	<insert id="">
   		
   	</insert>
+  	
+ 
   	
   	
 </mapper>
