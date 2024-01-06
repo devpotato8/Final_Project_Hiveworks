@@ -29,7 +29,7 @@ public class VacationController {
 	private final VacationService service;
 	
 	@GetMapping("vacationList")
-	public String worksList(Model m) {
+	public String worksList() {
 		return "vacation/vacationList";
 	}
 	
