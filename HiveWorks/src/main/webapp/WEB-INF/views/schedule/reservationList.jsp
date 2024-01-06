@@ -72,7 +72,7 @@
 										</li>
 										
 										<li class="nav-item">
-											<a class="nav-link" href="javascript:void(0);">
+											<a class="nav-link" href="${path}/schedule/resourcelist.do">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="grid"></i></span></span>
 												<span class="nav-link-text">전사자산 목록</span>
 											</a>

@@ -1,8 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
+import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.ScheduleService;
 
@@ -36,5 +35,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public int reserveResource(Schedule schedule) {
 		return dao.reserveResource(session,schedule);
+	}
+	
+	@Override
+	public int insertResource(Resource resource) {
+		return dao.insertResource(session, resource);
 	}
 }

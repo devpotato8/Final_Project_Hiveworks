@@ -89,7 +89,7 @@
 								</a></li>
 
 								<li class="nav-item"><a class="nav-link"
-									href="javascript:void(0);"> <span class="nav-icon-wrap"><span
+									href="${path}/schedule/resourcelist.do"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="grid"></i></span></span> <span
 										class="nav-link-text">전사자산 목록</span>
 								</a></li>
@@ -136,14 +136,7 @@
 									<form action="${path}/schedule/reserveResource.do"
 										method="POST">
 										<input type="hidden" name="code" value="CAL004" />
-										<!-- <input type="hidden" name="resNo" value="1"/> -->
-										<!--              <div class="form-group">
-                                        <select class="form-select">
-                                            <option  selected="" value="1">가능 </option>
-                                            <option value="2">Half Day</option>
-                                            <option value="3">9 to 5</option>
-                                        </select>
-                                        </div> -->
+									
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
@@ -167,8 +160,7 @@
 										</div>
 										<div class="form-group">
 											<input class="form-check-input" type="checkbox"
-												id="flexCheckDefault" name="reminder" value="N"
-												onchange="this.value=this.checked?'Y':'N'"> <label
+												id="flexCheckDefault" name="reminder"> <label
 												class="form-check-label" for="flexCheckDefault">
 												알림여부 </label>
 										</div>
@@ -305,15 +297,13 @@
         },
         select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
         	var clickedDate = arg.start;
-        console.log(clickedDate);
-        	
-          
+        
         	// 날짜 클릭 시 선택한 날짜로 시작일과 종료일을 설정합니다.
             $('.cal-event-date-start').daterangepicker({
                 "singleDatePicker": true,
                 "timePicker": true,
-                "maxDate": clickedDate,
-                "minDate": clickedDate,
+                "maxDate": clickedDate.endOf('day').add(9, 'hours'),
+                "minDate": clickedDate.startOf('day').add(9, 'hours'),
                 "timePicker24Hour": true,
                 locale:  {
           		  format: 'YYYY/MM/DD HH:mm'
@@ -324,8 +314,8 @@
             $('.cal-event-date-end').daterangepicker({
                 "singleDatePicker": true,
                 "timePicker": true,
-                "maxDate": clickedDate,
-                "minDate": clickedDate,
+                "maxDate": clickedDate.endOf('day'),
+                "minDate": clickedDate.startOf('day').add(9, 'hours'),
                 "timePicker24Hour": true,
                 locale:  {
           		  format: 'YYYY/MM/DD HH:mm'
@@ -405,8 +395,8 @@
   		singleDatePicker: true,
   		timePicker: true,
   		timePicker24Hour: true, // 24시간 형식 활성화
-  		maxDate: moment().startOf('hour'),
-        minDate: moment().startOf('hour'),
+  		maxDate: moment().startOf('day').add(18, 'hours'),
+        minDate: moment().startOf('day').add(9, 'hours'),
   		showDropdowns: true,
   		minYear: 1901,
   		"cancelClass": "btn-secondary",
@@ -419,8 +409,8 @@
   		singleDatePicker: true,
   		timePicker: true,
   		timePicker24Hour: true, // 24시간 형식 활성화
-  		maxDate: moment().startOf('hour'),
-        minDate: moment().startOf('hour'),
+  		maxDate: moment().startOf('day').add(18, 'hours'),
+        minDate: moment().startOf('day').add(9, 'hours'),
   		showDropdowns: true,
   		minYear: 1901,
   		"cancelClass": "btn-secondary",
@@ -530,7 +520,7 @@ function calendarInit() {
 }
 
 //reminder 스트링으로 보내기
-var remindercheck = document.getElementById('flexCheckDefault');
+ var remindercheck = document.getElementById('flexCheckDefault');
 
 remindercheck.addEventListener('change', function() {
   if (remindercheck.checked) {
@@ -538,7 +528,7 @@ remindercheck.addEventListener('change', function() {
   } else {
 	  remindercheck.value = 'N';
   }
-});
+}); 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <!-- Fancy Dropdown JS -->

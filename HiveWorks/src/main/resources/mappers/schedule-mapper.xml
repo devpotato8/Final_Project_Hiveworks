@@ -11,8 +11,12 @@
 	<insert id="insertSchedule" parameterType="schedule">
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
 	</insert>
-	
-	
+	<insert id="reserveResource" parameterType="schedule">
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},NULL,NULL,#{calColor},DEFAULT,#{reminderYn},NULL,#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
+	</insert>
+	<insert id="insertResource" parameterType="resource">
+		INSERT INTO TBL_RESOUCE VALUES (#{resourceNo},#{resourceType},#{resourceName},#{resourceMax},DEFAULT,DEFAULT,3333,3333,DEFAULT,NULL,NULL,DEFAULT)
+	</insert>
 	<select id="selectScheduleAll" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR
 	</select>

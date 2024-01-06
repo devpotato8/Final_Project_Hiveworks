@@ -1,8 +1,8 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
-import java.util.Map;
 
+import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 
 public interface ScheduleService {
@@ -14,6 +14,8 @@ public interface ScheduleService {
 
 
 	int reserveResource(Schedule schedule);
+	
+	int insertResource(Resource resource);
 
 	
 	

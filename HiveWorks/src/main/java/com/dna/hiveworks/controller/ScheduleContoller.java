@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.ScheduleService;
 
@@ -45,30 +47,7 @@ public class ScheduleContoller {
 	public List<Schedule> scheduleListEnd() {
 		return scheduleService.selectScheduleAll();
 	};
-	/*
-	 * public List<Schedule> selectScheduleAll() { return
-	 * scheduleService.selectScheduleAll();
-	 */
-		
-		/*
-		 * List<Schedule> listAll = scheduleService.selectSchduleAll();
-		 * 
-		 * JSONObject jsonObj = new JSONObject(); JSONArray jsonArr = new JSONArray();
-		 * 
-		 * HashMap<String, Object> hash = new HashMap<>();
-		 * 
-		 * 
-		 * for (int i = 0; i < listAll.size(); i++) { hash.put("title",
-		 * listAll.get(i).getCalSubject()); hash.put("start",
-		 * listAll.get(i).getCalStartDate()); hash.put("end",
-		 * listAll.get(i).getCalEndDate());
-		 * 
-		 * jsonObj = new JSONObject(hash); jsonArr.add(jsonObj);
-		 * 
-		 * log.info("jsonArrCheck: {}", jsonArr); return jsonArr;
-		 */
-		
-	//}
+	
 
 	@GetMapping("/reservationlist.do")
 	public String reservationList() {
@@ -78,6 +57,11 @@ public class ScheduleContoller {
 	@GetMapping("/projectlist.do")
 	public String projectList() {
 		return "schedule/projectList";
+	}
+	
+	@GetMapping("/resourcelist.do")
+	public String resourceList() {
+		return "schedule/resourceList";
 	}
 	
 	@GetMapping("/reservationinsert.do")
@@ -131,14 +115,54 @@ public class ScheduleContoller {
 
 	}
 	
+	@PostMapping(value = "/insertresource.do", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Resource insertResource(@RequestBody Resource resource) throws Exception {
+		int result = scheduleService.insertResource(resource);
+		return result>0?resource:null;
+		
+		
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
 	@PostMapping("/reserveResource.do")
-	public String reserveResource(Schedule schedule, Model model){
-		int result=scheduleService.reserveResource(schedule);
+	public String reserveResource(@RequestParam Map<String, Object> param, Model model){
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+		
+		int result = 0;
+		
+		String startDateString = (String) param.get("start");
+		String endDateString = (String) param.get("end");
+		//String calColor = (String) param.get("backgroundColor");
+		String calCode = (String) param.get("code");
+		String reminderYn = (String) param.get("reminder");
+
+		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
+
+		Schedule schedule = Schedule.builder() 
+				.calStartDate(calStartDate)
+				.calEndDate(calEndDate)
+				.calCode(calCode)
+				.reminderYn(reminderYn)
+				.build();
+		
+		System.out.println(schedule);
+		
+		result=scheduleService.reserveResource(schedule);
 		
 		String msg, loc;
 		if(result>0) {
 			msg="예약성공";
-			loc="schedule/reservationinsert.do";
+			loc="schedule/reservationlist.do";
 		}else {
 			msg="예약실패";
 			loc="schdule/reserveResource.do";

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
+import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 
 @Repository("scheduleDao")
@@ -23,7 +24,12 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public int reserveResource(SqlSession session, Schedule schedule) {
-		return session.insert("schedule.insertSchedule");
+		return session.insert("schedule.reserveResource",schedule);
+	}
+	
+	@Override
+	public int insertResource(SqlSession session, Resource resource) {
+		return session.insert("schedule.insertResource",resource);
 	}
 
 }
