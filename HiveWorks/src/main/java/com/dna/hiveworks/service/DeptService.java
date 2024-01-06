@@ -25,6 +25,5 @@ public interface DeptService {
 	int deleteDept(Department dept);
 	int updateDept(Map<String, String> response);
 	List<Map<String, Object>> deptEmpList(String deptCode);
-	int deptLeaderOn(Map<String, String> response);
-	int deptLeaderOff(String id);
+	int changeEmpDept(Map<String, String> response);
 }

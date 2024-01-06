@@ -64,16 +64,12 @@ public class DeptServiceImpl implements DeptService {
 	}
 
 	@Override
-	public int deptLeaderOn(Map<String,String>response) {
-		int result = dao.deptLeaderOn(session,response);
+	public int changeEmpDept(Map<String,String>response) {
+		int result = dao.changeEmpDept(session,response);
 		return result;
 	}
 
-	@Override
-	public int deptLeaderOff(String id) {
-		int result = dao.deptLeaderOff(session,id);
-		return result;
-	}
+	
 
 	
 	
