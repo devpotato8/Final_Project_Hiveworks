@@ -143,6 +143,7 @@ public class ScheduleContoller {
 		String reminderYn = (String) param.get("reminder");
 		String calAlldayYn = (String) param.get("allday");
 		String calStatus = (String) param.get("status");
+		String empNo = (String)param.get("empno");
 
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
@@ -157,6 +158,7 @@ public class ScheduleContoller {
 				.reminderYn(reminderYn)
 				.calAlldayYn(calAlldayYn)
 				.calStatus(calStatus)
+				.empNo(empNo)
 				.build();
 
 		result = scheduleService.insertSchedule(schedule);

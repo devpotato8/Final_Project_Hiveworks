@@ -25,6 +25,7 @@ $('input[name="calendar"]').trigger("click");
 var curYear = moment().format('YYYY'),
 	curMonth = moment().format('MM');
 
+
 document.addEventListener('DOMContentLoaded', function() {
 	var calendarEl = document.getElementById('calendar'),
 		calendar = new FullCalendar.Calendar(calendarEl, {
@@ -45,8 +46,47 @@ document.addEventListener('DOMContentLoaded', function() {
 			locale: 'ko', // 한국어 설정
 			select: function(selectionInfo) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
 				$('#create_new_event').modal('show');
-				/*$('.form-control cal-event-date-start').val(selectionInfo.startStr);*/
-
+				
+				var currentDate = new Date();
+			    var currentHours = ('0' + currentDate.getHours()).slice(-2); // 시간을 두 자리 숫자로 설정
+			    var currentMinutes = '00'; // 항상 00으로 설정
+			    
+			    var startTime = selectionInfo.startStr + ' ' + currentHours + ':' + currentMinutes;
+			    
+			    // 종료일자에서 하루를 빼기
+			    var endDate = new Date(selectionInfo.endStr);
+			    endDate.setDate(endDate.getDate() - 1);
+			    var endYear = endDate.getFullYear();
+			    var endMonth = ('0' + (endDate.getMonth() + 1)).slice(-2);
+			    var endDay = ('0' + endDate.getDate()).slice(-2);
+			    var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + currentHours + ':' + currentMinutes;
+			    
+			    $('.cal-event-date-start').val(startTime);
+			    $('.cal-event-date-end').val(endTime);
+			    
+			    // 달력도 해당 날짜 시각으로 바꾸는 코드 추가
+				$('.cal-event-date-start').daterangepicker({
+				    timePicker: true,
+				    singleDatePicker: true,
+				    timePicker24Hour: true,
+				    timePickerIncrement: 1,
+				    startDate: startTime,
+				    locale: {
+				        format: 'YYYY/MM/DD HH:mm'
+				    }
+				});
+				
+				$('.cal-event-date-end').daterangepicker({
+				    timePicker: true,
+				    singleDatePicker: true,
+				    timePicker24Hour: true,
+				    timePickerIncrement: 1,
+				    startDate: endTime,
+				    locale: {
+				        format: 'YYYY/MM/DD HH:mm'
+				    }
+				});
+			    
 			},
 			events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
@@ -56,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					traditional: true,
 					async: false, //동기
 					success: function(data) {
-						// data를 사용하여 이벤트 객체 배열을 생성
+						
 						var events = data.map(function(event) {
 							return {
 								title: event.calSubject,
@@ -67,6 +107,51 @@ document.addEventListener('DOMContentLoaded', function() {
 							};
 						});
 						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
+						
+						// 날짜 포맷을 변경하는 함수
+						function formatDate(date) {
+						  var formattedDate = new Date(date);
+						  var year = formattedDate.getFullYear();
+						  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
+						  var day = ("0" + formattedDate.getDate()).slice(-2);
+						  var hours = ("0" + formattedDate.getHours()).slice(-2);
+						  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
+						  
+						  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
+							}
+						
+						// 이벤트 정보를 HTML 코드에 적용
+						  for (var i = 0; i < events.length; i++) {
+						    var event = events[i];
+						    
+						    var $drawerBody0 = $('.drawer-body').eq(0); // 순서에 해당하는 .drawer-body 선택
+						    var $drawerBody1 = $('.drawer-body').eq(1); // 순서에 해당하는 .drawer-body 선택
+						    
+						    // .event-name 엘리먼트에 이벤트 이름 설정
+						   $drawerBody1.find('.event-name').val (event.title);
+						    
+						   $drawerBody0.find('.event-content').text(event.content);
+						   $drawerBody1.find('.event-content').val(event.content);
+						    
+						    // .event-start-date 엘리먼트에 시작 날짜와 종료 날짜 설정
+						    $drawerBody0.find('.event-end-date').text(formatDate(event.start))
+						    
+						    $drawerBody0.find('.event-start-date').text(formatDate(event.end));
+						    
+						    
+						    $drawerBody1.find('.cal-event-date-start').datetimepicker({
+							  format: 'YYYY/MM/DD HH:mm',
+							   defaultDate: moment(event.start, 'YYYY/MM/DD HH:mm')
+							});
+
+							$drawerBody1.find('.cal-event-date-end').datetimepicker({
+							  format: 'YYYY/MM/DD HH:mm',
+							  defaultDate: moment(event.end, 'YYYY/MM/DD HH:mm')
+							});
+						    
+						    // 기타 이벤트 정보에 해당하는 엘리먼트에 내용 설정
+						    // ...
+						  }
 					},
 					error: function(request, status, error) {
 						alert("code = " + request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -150,32 +235,28 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('.alert.alert-dismissible .close').addClass('btn-close').removeClass('close');
 		}, 100);
 		const addEvent = {
-			backgroundColor: $('.cal-event-color').val(),
 			title: $('.cal-event-name').val(),
 			code: $('.cal-event-code').val(),
+			empno: $('#cal-event-empno').val(),
+			backgroundColor: '',
 			allday: $('.cal-event-allday').is(':checked') ? 'Y' : 'N',
 			start: $('.cal-event-date-start').val(),
 			end: $('.cal-event-date-end').val(),
 			content: $('.cal-event-content').val(),
 			reminder: $('.cal-event-reminder').is(':checked') ? 'Y' : 'N'
 		};
-
-
-		//var allEvent = calendar.getEvents(); // .getEvents() 함수로 모든 이벤트를 Array 형식으로 가져온다. (FullCalendar 기능 참조)
-		/*
-					var events = new Array(); // Json 데이터를 받기 위한 배열 선언
-					for (var i = 0; i < allEvent.length; i++) {
-						var obj = new Object();     // Json 을 담기 위해 Object 선언
-						// alert(allEvent[i]._def.title); // 이벤트 명칭 알람
-						obj.title = allEvent[i]._def.title; // 이벤트 명칭  ConsoleLog 로 확인 가능.
-						obj.start = allEvent[i]._instance.range.start; // 시작
-						obj.end = allEvent[i]._instance.range.end; // 끝
 		
-						events.push(obj);
-					}
-					var jsondata = JSON.stringify(events);
-					console.log(jsondata);*/
-		// saveData(jsondata);
+		switch (addEvent.code) {
+	    case 'CAL001':
+	        addEvent.backgroundColor = '#FF1F1F';
+	        break;
+	    case 'CAL002':
+	        addEvent.backgroundColor = '#00AD14';
+	        break;
+	    case 'CAL003':
+	        addEvent.backgroundColor = '#000000';
+	        break;
+		};
 
 		$.ajax({
 			url: "/schedule/insertschedule.do",
@@ -184,30 +265,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			data: JSON.stringify(addEvent),
 			contentType: 'application/json',
 		})
-			.done(function(result) {
-				// alert(result);
+		.done(function(result) {
+				alert("일정 등록 성공");
 				calendar.addEvent(addEvent);
+				// 일정을 등록한 후에 캘린더를 새로고침하지 않고 변경된 일정이 보이도록 처리합니다.
+				calendar.refetchEvents();
 			})
 			.fail(function(request, status, error) {
-				alert("에러 발생" + error);
+				alert("일정 등록 실패" + error);
 				console.log(error);
 			});
 		calender.unselect();
-		$.notify({
-			icon: 'ri-checkbox-line mr-5',
-			message: "이벤트가 등록되었습니다",
-		}, {
-			type: "dismissible alert alert-inv alert-inv-primary",
-			placement: {
-				from: "bottom",
-				align: "center"
-			},
-			animate: {
-				enter: 'animated fadeInUp',
-				exit: 'animated fadeOutUp'
-			},
-			delay: 1000,
-		});
+		
 		
 		//return false;
 		$('.cal-event-name').val("");

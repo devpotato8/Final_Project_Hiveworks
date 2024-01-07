@@ -43,12 +43,12 @@
 							<div class="menu-group">
 								<ul class="nav nav-light navbar-nav flex-column">
 									<li class="nav-item active"><a class="nav-link"
-										href="javascript:void(0);"> <span class="nav-icon-wrap"><span
+										href="${path }/schedule/projectlist.do"> <span class="nav-icon-wrap"><span
 												class="feather-icon"><i data-feather="layout"></i></span></span> <span
 											class="nav-link-text">전체 프로젝트</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link"
-										href="javascript:void(0);"> <span class="nav-icon-wrap"><span
+										href="${path }/schedule/projectlistbyno.do?empNo=1234"> <span class="nav-icon-wrap"><span
 												class="feather-icon"><i data-feather="list"></i></span></span> <span
 											class="nav-link-text">내 프로젝트</span>
 									</a></li>
@@ -659,6 +659,8 @@
 								</div>
 							</div>
 						</div>
+						<c:if test="${not empty projectList }">
+						<c:forEach var="pro" items="${projectList}">
 						<div class="task-info">
 							<div data-simplebar class="nicescroll-bar">
 								<header class="task-header">
@@ -726,12 +728,12 @@
 									</div>
 								</header>
 								<div class="task-detail-body">
-									<div class="alert alert-primary alert-wth-icon fade show mb-4"
+								<!-- 	<div class="alert alert-primary alert-wth-icon fade show mb-4"
 										role="alert">
 										<span class="alert-icon-wrap"><span
 											class="feather-icon"><i class="zmdi zmdi-lock"></i></span></span>
 										This task is private for Jampack Team
-									</div>
+									</div> -->
 									<h4
 										class="d-flex align-items-center fw-bold mb-0 inline-editable-wrap">
 										<span class="editable">Framworking Building</span><a
@@ -788,18 +790,11 @@
 											<div class="title title-wth-divider my-4">
 												<span>진행 상태</span>
 											</div>
-											<div class="dropdown">
-												<button aria-expanded="false" data-bs-toggle="dropdown"
-													class="btn btn-warning btn-rounded dropdown-toggle"
-													type="button">In Progress</button>
-												<div role="menu" class="dropdown-menu">
-													<a class="dropdown-item" href="#">Action</a> <a
-														class="dropdown-item" href="#">Another action</a> <a
-														class="dropdown-item" href="#">Something else here</a>
-													<div class="dropdown-divider"></div>
-													<a class="dropdown-item" href="#">Separated link</a>
-												</div>
-											</div>
+											<select class="form-select" aria-label="Default select example">
+											  <option value="대기">대기</option>
+											  <option value="대기">진행중</option>
+											  <option value="대기">마감</option>
+											</select>
 										</div>
 										<div class="col-md-12">
 											<div class="title title-wth-divider my-4">
@@ -1656,6 +1651,8 @@
 								</div>
 							</div>
 						</div>
+						</c:forEach>
+						</c:if>
 					</div>
 					<!-- Edit Info -->
 					<div id="add_new_task" class="modal fade add-new-contact"
