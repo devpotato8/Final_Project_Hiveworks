@@ -15,7 +15,7 @@
 		$format.append($('<option disabled="disabled" selected="selected">').text('서식종류'));
 		
 		result.forEach((v,i)=>{
-			$format.append($('<option>').val(i.sampleNo).text(i.sampleName));
+			$format.append($('<option>').val(v.sampleNo).text(v.sampleName));
 		});
 	})
 	.catch(e=>{
@@ -25,5 +25,52 @@
 });
 
 $('#edocFormat').on('change',(e)=>{
-	
+	let processContinue = confirm('작성중인 내용이 전부 사라질 수 있습니다. 진행하시겠습니까?');
+	const $editable = $('#content');
+	const edocFormatNo = e.target.value;
+	if(processContinue){
+		fetch(path+"/edoc/formatData?formatNo="+edocFormatNo)
+		.then(response=>{
+			if(response.status != 200) throw new Error(response.status)
+			return response.json();
+		})
+		.then(data=>{
+			console.log(data);
+			document.getElementById('content').ckeditorInstance.data.set(data.sampleContent);
+		})
+		.catch(e=>{
+				alert(e);
+				console.log(e);
+			})
+	}
+});
+
+$('#submitButton').on('click',()=>{
+	const edoc  = {
+				edocTitle : $('#edocTitle').val(),
+				edocDotCode : $('#edocType').val(),
+				edocDsgCode : $('#edocDsgCode').val(),
+				creater : $('#edocCreter').val(),
+				period : $('#period').val(),
+				edocContent : $('#content').html()
+			};
+	fetch(path+'/edoc/write',{
+		method : 'post',
+		headers: {
+      		"Content-Type": "application/json",
+    	},
+    	body : JSON.stringify(edoc)
+	})
+	.then(response =>{
+		if(response.status != 200) throw new Error(response.status);
+		return response.json();
+	})
+	.then(data=>{
+		alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
+		location.replace(path+"/edoc/lists/process");
+	})
+	.catch(e=>{
+		alert(e);
+		console.log(e);
+	})
 });

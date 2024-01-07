@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
@@ -30,5 +31,11 @@ public interface EdocDao {
 	Map<String, Object> getEmpData(SqlSession session, int empNo);
 	
 	List<ElectronicDocumentSample> getEdocSampleList(SqlSession session, DotCode edocDotCode);
+
+	ElectronicDocumentSample getSample(SqlSession session, String sampleNo);
+	
+	int insertEdoc(SqlSession session, ElectronicDocument edoc);
+
+	ElectronicDocument getEdoc(SqlSession session, String edocNo);
 	
 }

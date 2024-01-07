@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +25,7 @@ import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
@@ -129,5 +132,32 @@ public class EdocController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(edocService.getEdocSampleList(dotCode));
+	}
+	
+	@GetMapping("/formatData")
+	public @ResponseBody ResponseEntity<ElectronicDocumentSample> getFormatData(@RequestParam String formatNo){
+		ElectronicDocumentSample result = edocService.getSample(formatNo);
+		if(result == null) {
+			System.out.println(result);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+		
+		
+	}
+	
+	
+	@PostMapping("/write")
+	public @ResponseBody ResponseEntity<ElectronicDocument> writeEdoc(@RequestBody ElectronicDocument edoc) {
+		
+		System.out.println(edoc);
+		
+		ElectronicDocument result = edocService.insertEdoc(edoc);
+		
+		if(result == null) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }
