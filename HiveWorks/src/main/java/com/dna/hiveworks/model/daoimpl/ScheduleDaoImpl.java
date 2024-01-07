@@ -61,5 +61,15 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		 parameters.put("resourceNo", resourceNo);
 		return session.insert("schedule.reserveResourceEnd",parameters);
 	}
+	
+	@Override
+	public List<Schedule> selectprojectAll(SqlSession session) {
+		return session.selectList("schedule.selectprojectAll");
+	}
+	
+	@Override
+	public List<Schedule> selectprojectByNo(SqlSession session, int empNo) {
+		return session.selectList("schedule.selectprojectByNo",empNo);
+	}
 
 }

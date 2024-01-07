@@ -49,7 +49,7 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item active"><a class="nav-link"
-									href="${path }/schedule/reservationlist.do"> <span class="nav-icon-wrap"><span
+									href="${path }/schedule/reservationlistbyno.do?empNo=16"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>

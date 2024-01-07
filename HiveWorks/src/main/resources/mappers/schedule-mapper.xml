@@ -15,12 +15,15 @@
 		<result property="calStatus" column="cal_status"/>
 		<result property="creater" column="creater"/>
 		<result property="modifier" column="modifier"/>
-		<result property="creater" column="creater"/>
-		<result property="modifier" column="modifier"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
 		<result property="useYn" column="use_yn"/>	
-		<association property="resourceName" resultMap="resource.resourceMap"/>
-		<association property="resourceType" resultMap="resource.resourceMap"/>
+		<association property="resource" resultMap="resourceMap"/>
 	</resultMap>
+	
+	
+	
+	
 	<resultMap id="resourceMap" type="resource">
 		<id property="resourceNo" column="resource_no"/>
 		<result property="resourceType" column="resource_type"/>
@@ -35,22 +38,8 @@
 		<result property="UseEndTime" column="use_end_time"/>
 		<result property="useYn" column="use_yn"/>
 	</resultMap>
-	
-	</resultMap>
-	<resultMap id="reservationMap" type="">
-		<id property="resourceNo" column="resource_no"/>
-		<result property="resourceType" column="resource_type"/>
-		<result property="resourceName" column="resource_name"/>
-		<result property="resourceMax" column="resource_max"/>
-		<result property="createDate" column="create_date"/>
-		<result property="modifyDate" column="modify_date"/>
-		<result property="creater" column="creater"/>
-		<result property="modifier" column="modifier"/>
-		<result property="resourceUseYn" column="resource_use_yn"/>
-		<result property="useStartTime" column="use_start_time"/>
-		<result property="UseEndTime" column="use_end_time"/>
-		<result property="useYn" column="use_yn"/>
-	</resultMap>
+
+
 	
 	<insert id="insertSchedule" parameterType="schedule">
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
@@ -74,6 +63,12 @@
 	<insert id="insertResource" parameterType="resource">
 		INSERT INTO TBL_RESOUCE VALUES (#{resourceNo},#{resourceType},#{resourceName},#{resourceMax},DEFAULT,DEFAULT,3333,3333,DEFAULT,NULL,NULL,DEFAULT)
 	</insert>
+	
+	
+	
+	
+	
+	
 	<select id="selectScheduleAll" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR
 	</select>
@@ -81,13 +76,11 @@
 		SELECT * FROM TBL_RESOUCE
 	</select>
 	<select id="selectReserveAll" resultMap="scheduleMap">
-		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal/
-left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006')
+		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') ORDER BY cal.cal_no DESC
 	</select>
 	
 	<select id="selectReserveByNo" resultMap="scheduleMap">
-		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal/
-left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') AND EMP_NO = #{empNo}
+		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') AND EMP_NO = #{empNo} ORDER BY cal.cal_no DESC
 	</select>
 	
 	
@@ -95,7 +88,13 @@ left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_res
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = #{calCode}
 	</select>
 	
+	<select id="selectprojectAll" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007'
+	</select>
 	
+	<select id="selectprojectByNo" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND EMP_NO = #{empNo}
+	</select>
 	
 	
 </mapper>

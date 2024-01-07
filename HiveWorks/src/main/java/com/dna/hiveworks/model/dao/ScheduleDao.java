@@ -28,5 +28,10 @@ public interface ScheduleDao {
 	int reserveResource(SqlSession session, Schedule schedule);
 	
 	int reserveResourceEnd(SqlSession session, int resourceNo);
+	
+	//project
+	List<Schedule> selectprojectAll(SqlSession session);
+	
+	List<Schedule> selectprojectByNo(SqlSession session, int empNo);
 
 }

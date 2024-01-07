@@ -66,4 +66,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return dao.selectReserveByCode(session, calCode);
 	}
 	
+	//project
+	@Override
+	public List<Schedule> selectprojectAll() {
+		return dao.selectprojectAll(session);
+	}
+	
+	@Override
+	public List<Schedule> selectprojectByNo(int empNo) {
+		return dao.selectprojectByNo(session,empNo);
+	}
+	
 }

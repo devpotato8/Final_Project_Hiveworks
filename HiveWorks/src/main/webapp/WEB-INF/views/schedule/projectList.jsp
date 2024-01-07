@@ -207,6 +207,8 @@
 											<div id="todo_collapse_1" class="collapse show">
 												<div class="card-body">
 													<ul id="todo_list" class="advance-list">
+													<c:if test="${not empty projectList}">
+															<c:forEach var="pro" items="${projectList}">
 														<li class="advance-list-item single-task-list active-todo">
 															<div
 																class="d-flex align-items-center justify-content-between">
@@ -221,8 +223,7 @@
 																			class="feather-icon"><i data-feather="star"></i></span></span>
 																		<span
 																			class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Video
-																			conference with Canada Team</span> <span
+																		<span class="todo-text text-dark text-truncate">${pro.calSubject}</span> <span
 																			class="badge badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
 																				class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
 																	</div>
@@ -256,289 +257,8 @@
 																</div>
 															</div>
 														</li>
-														<li class="advance-list-item single-task-list">
-															<div
-																class="d-flex align-items-center justify-content-between">
-																<div class="d-flex align-items-center">
-																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input"
-																			id="customCheckTodo2"> <label
-																			class="form-check-label" for="customCheckTodo2"></label>
-																	</div>
-																	<div>
-																		<span class="todo-star"><span
-																			class="feather-icon"><i data-feather="star"></i></span></span>
-																		<span
-																			class="badge badge-warning badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Client
-																			objective meeting</span> <span
-																			class="badge  badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																				class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
-																	</div>
-																</div>
-																<div
-																	class="d-flex flex-shrink-0 align-items-center ms-3">
-																	<span
-																		class="todo-time d-lg-inline-block d-none text-danger me-3">Yesterday</span>
-																	<div
-																		class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																		<img src="dist/img/avatar9.jpg" alt="user"
-																			class="avatar-img">
-																	</div>
-																	<span
-																		class="badge badge-violet ms-3 d-md-inline-block d-none">Conferences</span>
-																	<div class="dropdown">
-																		<button
-																			class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																			aria-expanded="false" data-bs-toggle="dropdown">
-																			<span class="icon"><span class="feather-icon"><i
-																					data-feather="more-vertical"></i></span></span>
-																		</button>
-																		<div role="menu"
-																			class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item edit-task" href="#">Edit
-																				Task</a> <a class="dropdown-item view-task" href="#">View
-																				Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																				Task</a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</li>
-														<li class="advance-list-item single-task-list">
-															<div
-																class="d-flex align-items-center justify-content-between">
-																<div class="d-flex align-items-center">
-																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input"
-																			id="customCheckTodo3"> <label
-																			class="form-check-label" for="customCheckTodo3"></label>
-																	</div>
-																	<div>
-																		<span class="todo-star"><span
-																			class="feather-icon"><i data-feather="star"></i></span></span>
-																		<span
-																			class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Target
-																			market trend analysis on the go</span>
-																	</div>
-																</div>
-																<div
-																	class="d-flex flex-shrink-0 align-items-center ms-3">
-																	<span
-																		class="todo-time d-lg-inline-block d-none text-primary me-3">Today</span>
-																	<div
-																		class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																		<img src="dist/img/avatar7.jpg" alt="user"
-																			class="avatar-img">
-																	</div>
-																	<span
-																		class="badge badge-pink ms-3 d-md-inline-block d-none">Meetings</span>
-																	<div class="dropdown">
-																		<button
-																			class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																			aria-expanded="false" data-bs-toggle="dropdown">
-																			<span class="icon"><span class="feather-icon"><i
-																					data-feather="more-vertical"></i></span></span>
-																		</button>
-																		<div role="menu"
-																			class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item edit-task" href="#">Edit
-																				Task</a> <a class="dropdown-item view-task" href="#">View
-																				Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																				Task</a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</li>
-														<li class="advance-list-item single-task-list">
-															<div
-																class="d-flex align-items-center justify-content-between">
-																<div class="d-flex align-items-center">
-																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input"
-																			id="customCheckTodo4"> <label
-																			class="form-check-label" for="customCheckTodo4"></label>
-																	</div>
-																	<div>
-																		<span class="todo-star marked"><span
-																			class="feather-icon"><i data-feather="star"></i></span></span>
-																		<span
-																			class="badge badge-gold badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Send
-																			revised proposal to Mr. Dow Jones</span> <span
-																			class="badge  badge-sm badge-outline badge-warning badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																				class="badge-dot ri-checkbox-blank-circle-fill"></i>Low</span></span>
-																	</div>
-																</div>
-																<div
-																	class="d-flex flex-shrink-0 align-items-center ms-3">
-																	<span class="todo-time d-lg-inline-block d-none me-3">Saturday</span>
-																	<div
-																		class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																		<img src="dist/img/avatar10.jpg" alt="user"
-																			class="avatar-img">
-																	</div>
-																	<span
-																		class="badge badge-orange ms-3 d-md-inline-block d-none">Project</span>
-																	<div class="dropdown">
-																		<button
-																			class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																			aria-expanded="false" data-bs-toggle="dropdown">
-																			<span class="icon"><span class="feather-icon"><i
-																					data-feather="more-vertical"></i></span></span>
-																		</button>
-																		<div role="menu"
-																			class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item edit-task" href="#">Edit
-																				Task</a> <a class="dropdown-item view-task" href="#">View
-																				Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																				Task</a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</li>
-														<li class="advance-list-item single-task-list">
-															<div
-																class="d-flex align-items-center justify-content-between">
-																<div class="d-flex align-items-center">
-																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input"
-																			id="customCheckTodo5"> <label
-																			class="form-check-label" for="customCheckTodo5"></label>
-																	</div>
-																	<div>
-																		<span class="todo-star"><span
-																			class="feather-icon"><i data-feather="star"></i></span></span>
-																		<span
-																			class="badge badge-warning badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Set
-																			up first call for demo</span>
-																	</div>
-																</div>
-																<div
-																	class="d-flex flex-shrink-0 align-items-center ms-3">
-																	<span class="todo-time d-lg-inline-block d-none me-3">Sunday</span>
-																	<div
-																		class="avatar avatar-xs avatar-primary avatar-rounded d-md-inline-block d-none">
-																		<span class="initial-wrap">H</span>
-																	</div>
-																	<div class="dropdown">
-																		<button
-																			class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																			aria-expanded="false" data-bs-toggle="dropdown">
-																			<span class="icon"><span class="feather-icon"><i
-																					data-feather="more-vertical"></i></span></span>
-																		</button>
-																		<div role="menu"
-																			class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item edit-task" href="#">Edit
-																				Task</a> <a class="dropdown-item view-task" href="#">View
-																				Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																				Task</a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</li>
-														<li class="advance-list-item single-task-list">
-															<div
-																class="d-flex align-items-center justify-content-between">
-																<div class="d-flex align-items-center">
-																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input"
-																			id="customCheckTodo6"> <label
-																			class="form-check-label" for="customCheckTodo6"></label>
-																	</div>
-																	<div>
-																		<span class="todo-star marked"><span
-																			class="feather-icon"><i data-feather="star"></i></span></span>
-																		<span
-																			class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Upgrade
-																			dependency on resouces</span> <span
-																			class="badge  badge-sm badge-outline badge-orange badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																				class="badge-dot ri-checkbox-blank-circle-fill"></i>Medium</span></span>
-																	</div>
-																</div>
-																<div
-																	class="d-flex flex-shrink-0 align-items-center ms-3">
-																	<span class="todo-time d-lg-inline-block d-none me-3">27
-																		Nov, 2020</span>
-																	<div
-																		class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																		<img src="dist/img/avatar15.jpg" alt="user"
-																			class="avatar-img">
-																	</div>
-																	<span
-																		class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span>
-																	<div class="dropdown">
-																		<button
-																			class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																			aria-expanded="false" data-bs-toggle="dropdown">
-																			<span class="icon"><span class="feather-icon"><i
-																					data-feather="more-vertical"></i></span></span>
-																		</button>
-																		<div role="menu"
-																			class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item edit-task" href="#">Edit
-																				Task</a> <a class="dropdown-item view-task" href="#">View
-																				Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																				Task</a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</li>
-														<li class="advance-list-item single-task-list">
-															<div
-																class="d-flex align-items-center justify-content-between">
-																<div class="d-flex align-items-center">
-																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input"
-																			id="customCheckTodo7"> <label
-																			class="form-check-label" for="customCheckTodo7"></label>
-																	</div>
-																	<div>
-																		<span class="todo-star"><span
-																			class="feather-icon"><i data-feather="star"></i></span></span>
-																		<span
-																			class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">Update
-																			contribution guidelines and licence</span>
-																	</div>
-																</div>
-																<div
-																	class="d-flex flex-shrink-0 align-items-center ms-3">
-																	<span
-																		class="todo-time d-lg-inline-block d-none text-primary me-3">Today</span>
-																	<div
-																		class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																		<img src="dist/img/avatar15.jpg" alt="user"
-																			class="avatar-img">
-																	</div>
-																	<span
-																		class="badge badge-pink ms-3 d-md-inline-block d-none">Meetings</span>
-																	<div class="dropdown">
-																		<button
-																			class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																			aria-expanded="false" data-bs-toggle="dropdown">
-																			<span class="icon"><span class="feather-icon"><i
-																					data-feather="more-vertical"></i></span></span>
-																		</button>
-																		<div role="menu"
-																			class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item edit-task" href="#">Edit
-																				Task</a> <a class="dropdown-item view-task" href="#">View
-																				Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																				Task</a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</li>
+														</c:forEach>
+														</c:if>
 													</ul>
 												</div>
 											</div>
@@ -950,12 +670,6 @@
 												class="form-check-label d-lg-inline d-none"
 												for="customCheckcTask">Mark as completed</label>
 										</div>
-										<button
-											class="btn btn-flush-light flush-outline-hover d-lg-inline-block d-none">
-											<span><span class="icon"><span
-													class="feather-icon"><i data-feather="link"></i></span></span><span>Copy
-													Link</span></span>
-										</button>
 										<button
 											class="btn btn-icon btn-light btn-rounded d-lg-none d-lg-inline-block ms-1">
 											<span><span class="icon"><span
@@ -2132,7 +1846,7 @@ const addTodolist=(e)=>{
 		headers:{
 			"Content-Type":"application/json"
 		},body:JSON.stringify({
-			code:"CAL006",
+			code:"CAL007",
 			title: projectName,
 			content: projectContent,
 			start: projectStart,

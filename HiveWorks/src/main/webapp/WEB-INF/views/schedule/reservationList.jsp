@@ -24,7 +24,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-											<a class="nav-link" href="${path }/schedule/reservationlist.do">
+											<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=16">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -137,7 +137,7 @@
 															<td></td>
 															<td>${res.calNo }</td>
 															<td class="mw-250p text-truncate text-high-em">
-																<span>${res.resourceName }</span>
+																<span>${res.resource.resourceName }</span>
 															</td>
 															<td>
 																<div class="media align-items-center">
@@ -151,7 +151,7 @@
 																	</div>
 																</div>													
 															</td>
-															<td>${res.resourceType }</td>
+															<td>${res.resource.resourceType }</td>
 															<td>${res.calStartDate }~${res.calEndDate }</td>
 															<td>승인완료</td>
 															<td>${res.createDate }</td>

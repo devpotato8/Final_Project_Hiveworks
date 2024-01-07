@@ -26,6 +26,10 @@ public interface ScheduleService {
 	
 	int reserveResource(Schedule schedule, int resourceNo);
 	
+	//project
+	List<Schedule> selectprojectAll();
+	
+	List<Schedule> selectprojectByNo(int empNo);
 	
 	
 	

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,21 @@ public class ScheduleContoller {
 		return scheduleService.selectScheduleAll();
 	};
 	
+	@GetMapping("/projectlist.do")
+	public String projectList(Model model) {
+		List<Schedule> projectList = scheduleService.selectprojectAll();
+		model.addAttribute("projectList", projectList);
+		return "schedule/projectList";
+	}
+	
+	@GetMapping("/projectlistbyno.do")
+	public String projectListByNo(@RequestParam int empNo, Model model) {
+		List<Schedule> myProjectList = scheduleService.selectprojectByNo(empNo);
+		model.addAttribute("myProjectList", myProjectList);
+		return "schedule/projectList";
+	}
+	
+
 	//calcode별로 스케쥴러 나누기
 	/*
 	 * @GetMapping("/schedulelistend.do")
@@ -64,6 +80,7 @@ public class ScheduleContoller {
 		String result = "";
 		/* if(calCode==null) { */
 			List<Schedule> reserveList = scheduleService.selectReserveAll();
+			System.out.println(reserveList);
 			model.addAttribute("reserveList", reserveList);
 			 result = "schedule/reservationList";
 		/*}if(calCode=="CAL004") {
@@ -83,7 +100,7 @@ public class ScheduleContoller {
 	}
 	
 	@GetMapping("/reservationlistbyno.do")
-	public String reservationListByNo(int empNo, Model model) {
+	public String reservationListByNo(@RequestParam int empNo, Model model) {
 		List<Schedule> MyReserveList = scheduleService.selectReserveByNo(empNo);
 		model.addAttribute("MyReserveList", MyReserveList);
 		return "schedule/reservationList";
