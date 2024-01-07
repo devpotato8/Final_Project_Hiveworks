@@ -112,7 +112,6 @@ public class EdocController {
 		model.addAttribute("dsgcode", DsgCode.values());
 		model.addAttribute("dotcode", DotCode.values());
 		
-		
 		return "edoc/write";
 	}
 	

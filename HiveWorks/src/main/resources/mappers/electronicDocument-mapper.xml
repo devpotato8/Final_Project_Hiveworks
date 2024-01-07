@@ -11,7 +11,16 @@
   	<result column="edoc_status" property="edocStatus"/>
   </resultMap>
   <resultMap type="edocSample" id="edocSampleMap">
-  	<id/>
+  	<id column="sample_no" property="sampleNo"/>
+  	<result column="sample_dot_code" property="sampleDotCode"/>
+  	<result column="SAMPLE_NAME" property="sampleName"/>
+  	<result column="SAMPLE_DESC" property="sampleDesc"/>
+  	<result column="SAMPLE_CONTENT" property="sampleContent"/>
+  	<result column="CREATER" property="creater"/>
+  	<result column="CREATE_DATE" property="createDate"/>
+  	<result column="MODIFIER" property="modifier"/>
+  	<result column="MODIFY_DATE" property="modifyDate"/>
+  	<result column="USE_YN" property="useYn"/>
   </resultMap>
   
   <select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
@@ -51,7 +60,7 @@
   			#{i_empid},
   			#{i_apv_code},
   			#{i_apv_com},
-  			#{o_rtn_code,mode=OUT, jdbcType=VARCHAR},
+  			#{salary,mode=OUT, jdbcType=VARCHAR},
   			#{o_rtn_msg,mode=OUT, jdbcType=VARCHAR}
   		)
   	}
@@ -64,7 +73,7 @@
   	WHERE E.EMP_NO = #{empNo}
   </select>
   
-  <select id="getEmpData" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
+  <select id="getEdocSampleList" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
   	SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE SAMPLE_DOT_CODE = #{edocDotCode}
   </select>
   

@@ -43,6 +43,6 @@ public class EdocDaoImpl implements EdocDao{
 	
 	@Override
 	public List<ElectronicDocumentSample> getEdocSampleList(SqlSession session, DotCode edocDotCode) {
-		return session.selectList("edoc.getEmpData", edocDotCode);
+		return session.selectList("edoc.getEdocSampleList", edocDotCode);
 	}
 }
