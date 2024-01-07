@@ -59,7 +59,9 @@ public class BoardController {
 	}
 	@RequestMapping("/boardView")
 	public void selectBoardByNo(int boardNo, Model model) {
-		model.addAttribute("board",service.selectBoardByNo(boardNo));
+		Board board = service.selectBoardByNo(boardNo);
+		   log.debug("Board Object: {}", board);
+		   model.addAttribute("board", board);
 	}
 	@RequestMapping("/boardDelete")
 	public String boardDelete(@RequestParam("boardNo") int boardNo,Model model) {
@@ -100,14 +102,14 @@ public class BoardController {
 	}
 
 	@PostMapping("/insertBoard")
-	public String insertBoard(MultipartFile[] upFile,Board b, Model model, HttpSession session) {
+	public String insertBoard(@RequestParam("upFile") MultipartFile[] upFiles,Board b, Model model, HttpSession session) {
 	    
-		String path=session.getServletContext().getRealPath("/resources/upload/board");
+		String path=session.getServletContext().getRealPath("/resources/upload/board/");
 		List<Uploadfile> files=new ArrayList<>();
 		
 	   
-	    if(upFile!=null) {
-			for(MultipartFile mf:upFile) {			
+	    if(upFiles!=null) {
+			for(MultipartFile mf:upFiles) {			
 				if(!mf.isEmpty()) {
 					String oriName=mf.getOriginalFilename();
 					String ext=oriName.substring(oriName.lastIndexOf("."));
@@ -122,6 +124,7 @@ public class BoardController {
 								.originalFileName(oriName)
 								.reNamefile(rename)
 								.build();
+						file.setBoardNo(b.getBoardNo());
 						files.add(file);
 					}catch(IOException e) {
 						e.printStackTrace();
@@ -149,38 +152,37 @@ public class BoardController {
 	}
 	@RequestMapping("/filedownload.do")
 	public void fileDownload(String oriname, String rename,
-			OutputStream out, HttpSession session, 
-			HttpServletResponse response,
-			@RequestHeader(value="user-agent") String header) {
-		
-		String path=session.getServletContext().getRealPath("/resources/upload/board/");
-		File downloadFile=new File(path+rename);
-		try(FileInputStream fis=new FileInputStream(downloadFile);
-			BufferedInputStream bis=new BufferedInputStream(fis);
-			BufferedOutputStream bos=new BufferedOutputStream(out);){
-			
-			boolean isMS=header.contains("Trident")||header.contains("MSIE");
-			String encodeFileName="";
-			if(isMS) {
-				encodeFileName=URLEncoder.encode(oriname,"UTF-8");
-				encodeFileName=encodeFileName.replaceAll("\\+", "%20");
-			}else {
-				encodeFileName=new String(oriname.getBytes("UTF-8"),"ISO-8859-1");
-			}
-			
-			response.setContentType("application/octet-stream;charset=utf-8");
-			response.setHeader("Content-Disposition", "attachment;filename=\""+encodeFileName+"\"");
-			int data=-1;
-			while((data=bis.read())!=-1) {
-				bos.write(data);
-			}
-			
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-		
-		
+	        OutputStream out, HttpSession session, 
+	        HttpServletResponse response,
+	        @RequestHeader(value="user-agent") String header) {
+	    
+	    String path=session.getServletContext().getRealPath("/resources/upload/board/");
+	    File downloadFile=new File(path+rename);
+	    try(FileInputStream fis=new FileInputStream(downloadFile);
+	        BufferedInputStream bis=new BufferedInputStream(fis);
+	        BufferedOutputStream bos=new BufferedOutputStream(out);){
+	        
+	        boolean isMS=header.contains("Trident")||header.contains("MSIE");
+	        String encodeFileName="";
+	        if(isMS) {
+	            encodeFileName=URLEncoder.encode(oriname,"UTF-8");
+	            encodeFileName=encodeFileName.replaceAll("\\+", "%20");
+	        }else {
+	            encodeFileName=new String(oriname.getBytes("UTF-8"),"ISO-8859-1");
+	        }
+	        
+	        response.setContentType("application/octet-stream;charset=utf-8");
+	        response.setHeader("Content-Disposition", "attachment;filename=\""+encodeFileName+"\"");
+	        int data=-1;
+	        while((data=bis.read())!=-1) {
+	            bos.write(data);
+	        }
+	        
+	    }catch(IOException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	
 }

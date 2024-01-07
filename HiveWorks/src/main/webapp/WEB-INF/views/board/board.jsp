@@ -49,6 +49,7 @@
 									<td><c:out value="${b.createDate}" /></td>
 									<td><c:out value="${b.modifyDate}" /></td>
 									<td>
+									<td>
 										<div class="d-flex align-items-center">
 											<div style="margin-right: 100px;">
 												<c:out value="${b.boardCount}" />

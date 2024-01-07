@@ -43,7 +43,7 @@
     </script> -->
 <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
 	<script>
-      ClassicEditor.create( document.querySelector( '#editor' ), );
+      ClassicEditor.create( document.querySelector( '#editor' ) );
     </script>
 <style>
     .ck-editor__editable {

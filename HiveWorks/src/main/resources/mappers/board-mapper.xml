@@ -13,20 +13,22 @@
         <result column="BOARD_TYPE" property="boardType"/>
 	        <collection property="files" ofType="uploadfile">
 				<id column="UPLOADFILE_NO" property="uploadfileNo"/>
-				<result column="UPLOADFILE_BOARD_NO" property="uploadfileBoardNo"/>
+				<result column="BOARD_NO" property="boardNo"/>
 				<result column="ORIGINAL_FILENAME" property="originalFileName"/>
 				<result column="RENAME_FILE" property="reNamefile"/>
 			</collection>
     </resultMap>
 	<select id="selectBoardByNo" parameterType="_int" resultMap="boardMap">
-		SELECT * FROM TBL_BOARD WHERE BOARD_NO=#{boardNo}
+		 SELECT * FROM TBL_BOARD B
+		 LEFT JOIN TBL_UPLOADFILE U ON B.BOARD_NO = U.BOARD_NO
+		 WHERE B.BOARD_NO = #{boardNo}
 	</select>
     <select id="selectAllBoard" resultMap="boardMap">
         SELECT * FROM TBL_BOARD WHERE BOARD_TYPE = 'BRD001'
     </select>
     <insert id="insertBoard" parameterType="board">
     	INSERT INTO TBL_BOARD VALUES 
-		(SEQ_BOARD_NO.NEXTVAL,'BRD001',#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,NULL,NULL,DEFAULT,DEFAULT,'Y')
+		(SEQ_BOARD_NO.NEXTVAL,'BRD001',#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
     UPDATE TBL_BOARD SET
@@ -38,7 +40,7 @@
 		DELETE FROM TBL_BOARD WHERE BOARD_NO = #{boardNo}
 	</delete>
 	<insert id="insertUploadfile" parameterType="uploadfile">
-		INSERT INTO TBL_UPLOADFILE VALUES(SEQ_UPLOADFILE_NO.NEXTVAL,#{uploadfileBoardNo},
-		 #{originalFileName},#{reNamefile})
-	</insert>
+    INSERT INTO TBL_UPLOADFILE
+    VALUES (SEQ_UPLOADFILE_NO.NEXTVAL, #{boardNo}, #{originalFileName}, #{reNamefile})
+</insert>
 </mapper>

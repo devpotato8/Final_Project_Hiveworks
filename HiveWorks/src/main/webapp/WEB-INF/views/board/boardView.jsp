@@ -20,7 +20,7 @@
 		<c:if test="${board.files.size()>0 }">
 			<c:forEach var="file" items="${board.files }">
 	            <button type="button" 
-	                    class="btn btn-outline-success btn-block"
+	                    class="btn btn-outline-success"
 	                    onclick="fn_filedownload('${file.originalFileName}','${file.reNamefile }');">
 	                    ${file.originalFileName }
 	            </button> 
@@ -49,10 +49,12 @@
     div#board-container input{margin-bottom:15px;}
 </style>
  <script>
-    	const fn_filedownload=(oriname,rename)=>{
-    		location.assign("${path}/board/filedownload.do?oriname="+oriname+"&rename="+rename);	
-    	}
-    </script>
+    const fn_filedownload = (oriname, rename) => {
+        const encodedOriname = encodeURIComponent(oriname);
+        location.assign("${path}/board/filedownload.do?oriname=" + encodedOriname + "&rename=" + rename);
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 

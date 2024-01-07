@@ -9,7 +9,10 @@ import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.Board;
 import com.dna.hiveworks.model.dto.Uploadfile;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class BoardDaoImpl implements BoardDao{
 	
 	@Override
@@ -34,6 +37,7 @@ public class BoardDaoImpl implements BoardDao{
 	}
 	@Override
 	public int insertUploadfile(SqlSession session, Uploadfile uploadfile) {
+		log.debug("Inserting upload file: {}", uploadfile);
 		return session.insert("board.insertUploadfile",uploadfile);
 	}
 	
