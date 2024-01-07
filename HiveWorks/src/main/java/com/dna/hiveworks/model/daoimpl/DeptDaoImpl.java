@@ -57,14 +57,11 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 	@Override
-	public int deptLeaderOn(SqlSession session, Map<String, String> response) {
+	public int changeEmpDept(SqlSession session, Map<String, String> response) {
 		return session.update("department.deptLeaderOn",response);
 	}
 
-	@Override
-	public int deptLeaderOff(SqlSession session, String id) {
-		return session.update("department.deptLeaderOff",id);
-	}
+	
 
 	
 

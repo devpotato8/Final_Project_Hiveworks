@@ -8,7 +8,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="default" name="style" />
 	<jsp:param value="" name="hover" />
-
 </jsp:include>
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
@@ -26,8 +25,8 @@
 					<div class="mb-lg-0 mb-2 d-flex align-items-center">
 						<h1 class="pg-title m-0">안녕하세요 ${loginEmp.emp_name}님</h1>
 						<div id="weather" class="d-flex align-items-center justify-content-between" style="width: 240px; margin-left: 20px">
-						  <div class="badge badge-soft-violet my-1  me-2"></div>
-						  <div class="badge badge-soft-danger my-1  me-2"></div>
+						  <div class="badge badge-soft-violet my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
+						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>
 						  <div style="width: 50px; height: 50px"></div>
 						</div>
 					</div>
@@ -61,7 +60,7 @@
 							</div> -->
 						</div>
 						<div class="card-footer text-muted position-relative">
-							<a href="${path }/mypage/myprofile" class="d-flex align-items-center"
+							<a href="${path }/mypage/myprofile" class="d-flex align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="프로필보기"
 								data-bs-target="#contact_detail"> 
 								<span	class="feather-icon me-2"><i data-feather="user-check"></i></span>
 								<span class="fs-7 lh-1">Profile</span>
@@ -75,13 +74,21 @@
 							<div>
 								<div class="d-flex justify-content-between p-3">
 									<p>출퇴근찍기</p>
-									<p class="badge badge-soft-blue my-1  me-2" id="nowDate"></p>
+									<p  class="badge badge-soft-blue my-1  me-2" id="currentTime"></p>
+									
+									<input type="hidden" id=workEndTime name="workEndTime" value=""/>
 								</div>
 
 							</div>
 							<div class="button-container d-flex justify-content-around">
-								<button >출근하기</button>
-								<button >퇴근하기</button>
+							<form action="${path}/work/insertStartWork" method="post">
+								<input class="btn" type="submit" value="출근하기"/>
+								<input type="hidden" id="workStartTime" name="workStartTime" value=""/>
+							</form>
+							<form action="${path}/work/updateEndWork" method="post">
+								<input class="btn" type="submit" value="퇴근하기"/>
+								<input type="hidden" id="workEndTime" name="workEndTime" value=""/>
+							</form>
 							</div>
 						</div>
 					</div>
@@ -93,9 +100,9 @@
 						<div class="sec_cal contact-card">
 
 							<div class="cal_nav">
-								<a href="javascript:;" class="nav-btn go-prev">prev</a>
+								<a href="javascript:;" class="nav-btn go-prev" data-bs-toggle="tooltip" data-bs-placement="top" title="이전달" >prev</a>
 								<div class="year-month"></div>
-								<a href="javascript:;" class="nav-btn go-next">next</a>
+								<a href="javascript:;" class="nav-btn go-next" data-bs-toggle="tooltip" data-bs-placement="top" title="다음달">next</a>
 							</div>
 
 							<div class="cal_wrap">
@@ -115,7 +122,7 @@
 					<!-- 2 -->
 					<div class="d-flex justify-content-center">
 					<div style="width: 400px; height: 400px" class="d-flex justify-content-center">
-						<img alt="" src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium" style="width: 350px; height: 350px">
+						<!-- <img alt="" src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium" style="width: 350px; height: 350px"> -->
 					</div>
 					</div>
 
@@ -399,6 +406,10 @@ table>thead{
 	color: #ddd;
 }
 </style>
+<script>
+
+</script>
+
 <!-- 날씨정보가져오기 -->
 <script>
 let weatherIcon = {
@@ -446,16 +457,14 @@ function onGeoError() {
 
 navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
 
-
-
 </script>
 <script>
   // 현재 시간을 가져오는 함수
   function getCurrentTime() {
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
+    let date = new Date();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
 
     // 시, 분, 초를 2자리 숫자로 표시하기 위해 앞에 0을 붙임
     hours = addLeadingZero(hours);
@@ -463,10 +472,12 @@ navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
     seconds = addLeadingZero(seconds);
 
     // 시간을 형식에 맞게 표시
-    var currentTime = hours + ":" + minutes + ":" + seconds;
+    let currentTime = hours + ":" + minutes + ":" + seconds;
 
     // HTML 요소에 현재 시간을 표시
-    document.getElementById("nowDate").innerText = currentTime;
+    document.getElementById("currentTime").innerText = currentTime;
+    document.getElementById("workStartTime").value=currentTime;
+    document.getElementById("workEndTime").value=currentTime;
   }
 
   // 숫자 앞에 0을 붙이는 함수
