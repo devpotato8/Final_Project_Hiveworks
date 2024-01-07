@@ -20,6 +20,8 @@ public interface ScheduleDao {
 	
 	//reservation
 	List<Schedule> selectReserveAll(SqlSession session);
+	
+	List<Schedule> selectReserveByNo(SqlSession session, int empNo);
 
 	List<Schedule> selectReserveByCode(SqlSession session, String calCode);
 	

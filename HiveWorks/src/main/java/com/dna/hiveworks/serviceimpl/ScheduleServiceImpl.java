@@ -52,6 +52,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
+	public List<Schedule> selectReserveByNo(int empNo) {
+		return dao.selectReserveByNo(session, empNo);
+	}
+	
+	@Override
 	public List<Schedule> selectReserveAll() {
 		return dao.selectReserveAll(session);
 	}

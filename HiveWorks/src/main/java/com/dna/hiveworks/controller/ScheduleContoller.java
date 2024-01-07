@@ -60,11 +60,11 @@ public class ScheduleContoller {
 	
 
 	@GetMapping("/reservationlist.do")
-	public String reservationList(String calCode,Model model) {
+	public String reservationList(Model model) {
 		String result = "";
 		/* if(calCode==null) { */
 			List<Schedule> reserveList = scheduleService.selectReserveAll();
-			model.addAttribute("reseveList", reserveList);
+			model.addAttribute("reserveList", reserveList);
 			 result = "schedule/reservationList";
 		/*}if(calCode=="CAL004") {
 			List<Schedule> reserveRoomList = scheduleService.selectReserveByCode(calCode);
@@ -81,6 +81,15 @@ public class ScheduleContoller {
 		}*/
 		return result;
 	}
+	
+	@GetMapping("/reservationlistbyno.do")
+	public String reservationListByNo(int empNo, Model model) {
+		List<Schedule> MyReserveList = scheduleService.selectReserveByNo(empNo);
+		model.addAttribute("MyReserveList", MyReserveList);
+		return "schedule/reservationList";
+	
+	}
+	
 	
 	/*
 	 * @GetMapping("/reservationlistend.do") public String reservationListEnd(String

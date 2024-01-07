@@ -23,7 +23,7 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item active"><a class="nav-link"
-									href="javascript:void(0);"> <span class="nav-icon-wrap"><span
+									href="${path }/schedule/reservationlist.do"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -58,7 +58,7 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link"
-									href="javascript:void(0);"> <span class="nav-icon-wrap"><span
+									href="${path }/schedule/reservationlist.do"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="flag"></i></span></span> <span
 										class="nav-link-text">전체 예약/대여 조회</span>
 								</a></li>

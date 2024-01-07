@@ -30,6 +30,8 @@ public class Schedule {
 	private int creater;
 	private int modifier;
 	private String useYn;
+	private Resource resourceName;
+	private Resource resourceType;
 	
 
 }

@@ -18,8 +18,26 @@
 		<result property="creater" column="creater"/>
 		<result property="modifier" column="modifier"/>
 		<result property="useYn" column="use_yn"/>	
+		<association property="resourceName" resultMap="resource.resourceMap"/>
+		<association property="resourceType" resultMap="resource.resourceMap"/>
 	</resultMap>
 	<resultMap id="resourceMap" type="resource">
+		<id property="resourceNo" column="resource_no"/>
+		<result property="resourceType" column="resource_type"/>
+		<result property="resourceName" column="resource_name"/>
+		<result property="resourceMax" column="resource_max"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="creater" column="creater"/>
+		<result property="modifier" column="modifier"/>
+		<result property="resourceUseYn" column="resource_use_yn"/>
+		<result property="useStartTime" column="use_start_time"/>
+		<result property="UseEndTime" column="use_end_time"/>
+		<result property="useYn" column="use_yn"/>
+	</resultMap>
+	
+	</resultMap>
+	<resultMap id="reservationMap" type="">
 		<id property="resourceNo" column="resource_no"/>
 		<result property="resourceType" column="resource_type"/>
 		<result property="resourceName" column="resource_name"/>
@@ -63,8 +81,16 @@
 		SELECT * FROM TBL_RESOUCE
 	</select>
 	<select id="selectReserveAll" resultMap="scheduleMap">
-		SELECT * FROM TBL_CALENDAR WHERE CALCODE IN ('CAL004','CAL005','CAL006')
+		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal/
+left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006')
 	</select>
+	
+	<select id="selectReserveByNo" resultMap="scheduleMap">
+		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal/
+left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') AND EMP_NO = #{empNo}
+	</select>
+	
+	
 	<select id="selectReserveByCode" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = #{calCode}
 	</select>

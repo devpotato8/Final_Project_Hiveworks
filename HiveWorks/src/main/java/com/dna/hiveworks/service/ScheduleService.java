@@ -19,6 +19,8 @@ public interface ScheduleService {
 	
 	//reservation 
 	List<Schedule> selectReserveAll();
+	
+	List<Schedule> selectReserveByNo(int empNo);
 
 	List<Schedule> selectReserveByCode(String calCode);
 	
