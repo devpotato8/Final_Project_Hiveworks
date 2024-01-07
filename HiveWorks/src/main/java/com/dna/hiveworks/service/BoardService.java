@@ -16,6 +16,8 @@ public interface BoardService {
 	
 	int boardUpdate(Board b);
 
+	Board boardDelete(int boardNo);
+
 
 
 }

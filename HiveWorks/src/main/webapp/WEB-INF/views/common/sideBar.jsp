@@ -149,7 +149,7 @@
 								</ul>	
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_works">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_work">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase">
@@ -160,14 +160,14 @@
 									</span>
 									<span class="nav-link-text">근태관리</span>
 								</a>
-								<ul id="dash_works" class="nav flex-column collapse  nav-children">
+								<ul id="dash_work" class="nav flex-column collapse  nav-children">
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/works/worksList"><span class="nav-link-text">근무현황</span></a>
+												<a class="nav-link" href="${path}/work/workList"><span class="nav-link-text">근무현황</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/works/worksView"><span class="nav-link-text">세부근무현황</span></a>
+												<a class="nav-link" href="${path}/work/workView"><span class="nav-link-text">세부근무현황</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -416,7 +416,7 @@
 					<div class="menu-gap"></div>
 					<div class="menu-group">
 						<div class="nav-header">
-							<span>Pages</span>
+							<span>관리자 메뉴</span>
 						</div>
 						<ul class="navbar-nav flex-column">
 							<li class="nav-item">
@@ -464,12 +464,8 @@
 													<li class="nav-item">
 														<ul class="nav flex-column">
 															<li class="nav-item">
-																<a class="nav-link" href="${path}/deptview"><span class="nav-link-text">조직구성</span></a>
+																<a class="nav-link" href="${path}/deptview"><span class="nav-link-text">조직도/구성원 관리</span></a>
 															</li>
-															<li class="nav-item">
-																<a class="nav-link" href="signup-simple.html"><span class="nav-link-text">구성원 관리</span></a>
-															</li>
-															
 														</ul>		
 													</li>	
 												</ul>	

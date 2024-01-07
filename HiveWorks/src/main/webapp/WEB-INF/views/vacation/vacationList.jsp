@@ -24,30 +24,224 @@
 				</div>
 			</div>
 				<!-- /Page Header -->
-		<section>
-	        <div class="container">
-	            <div class="top-bar">
-	                <div class="thrid-line">
-	                    <div class="day-filter"></div>
-	                    <div class="filter-right-part"><div>2023.12.26(화) 오전 08:00</div></div>
-	                </div>
-	            </div>
-	            <div class="main-container">
-	                <div class="first-container common-container">
-	                    <div><p>연차</p><button class="btn" name="vacOption" id="연차" value="연차">신청하기</button></div>
-	                    <div><p>반차</p><button class="btn" name="vacOption" id="반차" value="반차">신청하기</button></div>
-	                    <div><p>병가</p><button class="btn" name="vacOption" id="병가" value="병가">신청하기</button></div>
-	                    <div><p>공가</p><button class="btn" name="vacOption" id="공가" value="공가">신청하기</button></div>
-	                </div>
-	                <p></p>
-	                <div class="second-container common-container">
-	                    <div><p>조의 - 부모 / 배우자 / 자녀</p><p>신청시 지급 5일</p><button class="btn" name="vacOption" id="조의 (부모 / 배우자 / 자녀)" value="조의5일">신청하기</button></div>
-	                    <div><p>조의 - 조부모 / 형제 / 자매</p><p>신청시 지급 3일</p><button class="btn" name="vacOption" id="조의 (조부모 / 형제 / 자매)" value="조의3일">신청하기</button></div>
-	                    <div><p>결혼 - 본인</p><p>신청시 지급 3일</p><button class="btn" name="vacOption" id="결혼 (본인)" value="결혼본인">신청하기</button></div>
-	                    <div><p>결혼 - 자녀</p><p>신청시 지급 1일</p><button class="btn" name="vacOption" id="결혼 (자녀)" value="결혼자녀">신청하기</button></div>
-	                </div>
-	            </div>
-	        </div>
+					<section>
+        					<div class="taskboard-body">
+								<div data-simplebar class="nicescroll-bar">
+									<div class="container-fluid">
+										<div class="row justify-content-center board-team-wrap">
+											<div class="col-md-8 col-sm-12">
+												<div class="tab-content">
+													<div class="tab-pane fade show active" id="tab_boards">
+														<div class="d-flex justify-content-between align-items-center mb-5">
+														</div>
+														
+														<div class="row">
+															<div class="col-lg-3">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-body">
+																				<span>연차</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">1일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="연차" value="연차">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-3">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-body">
+																				<span>반차</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">0.5일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="반차" value="반차">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-3">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-body">
+																				<span>병가</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">1일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="병가" value="병가">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-3">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-body">
+																				<span>공가</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">1일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="연차" value="연차">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															
+														</div>
+														<div class="row">
+															
+															<div class="col-lg-6">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-head">
+																			</div>
+																			<div class="media-body">
+																				<span>조의 - (부모 / 배우자 / 자녀)</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">5일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="조의 (부모 / 배우자 / 자녀)" value="조의5일">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-6">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-head">
+																			</div>
+																			<div class="media-body">
+																				<span>조의 - (조부모 / 형제 / 자매)</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">3일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="조의 (조부모 / 형제 / 자매)" value="조의3일">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-6">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-head">
+																			</div>
+																			<div class="media-body">
+																				<span>결혼 - 본인</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">3일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="결혼 (본인)" value="결혼5일">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-6">
+																<div class="card board-card card-border">
+																	<div class="card-body">
+																		<div class="media align-items-center">
+																			<div class="media-head">
+																			</div>
+																			<div class="media-body">
+																				<span>결혼 - 자녀</span>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="card-footer text-muted justify-content-between">
+																		<div>
+																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																					<span class="initial-wrap">1일</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="d-flex align-items-center">
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="결혼 (자녀)" value="결혼자녀">신청하기</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+					</section>
         
           <!-- 모달 -->
           <form action="${path }/vacation/applyvacation" method="post">
@@ -135,8 +329,6 @@
           </div>
          </form>
 
-    </section>
-				
 			    
 	    </div>
     </div>
@@ -162,7 +354,7 @@
         const openModal = () =>
             $("#modal").modal("show");
 
-        const elements = document.querySelectorAll(".common-container>div>button");
+        const elements = document.querySelectorAll(".card-footer>div>button");
         elements.forEach(function(element) {
             element.addEventListener("click", openModal);
         });
@@ -171,7 +363,7 @@
         
         // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
-        $(".common-container>div>button").click(function(e){
+        $(".card-footer>div>button").click(function(e){
         	      console.log(e.target.id);
         	$("#exampleModalLabel").text("휴가신청 - " + e.target.id);
         	$("input[name='vacOption']").val(e.target.id);
@@ -309,7 +501,7 @@
     		var timeLabelBox = document.getElementById('timeLabelBox');
     		var btn = document.getElementsByClassName('btn');
     		
-    		  const elements = document.querySelectorAll(".common-container>div>button");
+    		  const elements = document.querySelectorAll(".card-footer>div>button");
     	        elements.forEach(function(element) {
     	            element.addEventListener("click", function() {
     	            	if (vacOption.value !== '반차') {
@@ -328,9 +520,16 @@
         
     </script>
     <style>
+	    @font-face {
+		    font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+		}
     	:root {
             --navy: rgba(14, 25, 90, 0.8);
         }
+        *{font-family: 'Pretendard-Regular';}
         .container{
             width: 100%;
             height: 100%;

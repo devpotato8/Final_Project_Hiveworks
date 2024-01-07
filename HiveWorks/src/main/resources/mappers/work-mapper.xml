@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="work">
+	<resultMap type="work" id="workMap">
+		<id property="workNo" column="WORK_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="workTypeCode" column="WORK_TYPE_CODE"/>
+		<result property="workDay" column="WORK_DAY"/>
+		<result property="workStartTime" column="WORK_START_TIME"/>
+		<result property="workEndTime" column="WORK_END_TIME"/>
+		<result property="workPermit" column="WORK_PERMIT"/>
+		<result property="creater" column="CREATER"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifier" column="MODIFIER"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="useYN" column="USE_YN"/>
+	</resultMap>
+	
+	<insert id="insertStartWork">
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,1,'WOT001',SYSDATE,SYSDATE,NULL,'승인',1,SYSDATE,1,SYSDATE,'Y')
+	</insert>
+	<update id="updateEndWork" parameterType="string">
+		UPDATE TBL_WORK SET
+		WORK_END_TIME = #{workEndTime}
+		WHERE EMP_NO = 1
+	</update>
+</mapper>
