@@ -24,7 +24,6 @@
 	#searchWrapper {
 	    position: relative; /* 부모 요소 위치 설정 */
 	}
-	
 	.autocomplete-dropdown {
 		background-color: lightgray;
 	    position: absolute; /* 절대 위치 설정 */
@@ -32,14 +31,12 @@
 	    left: 0; /* 부모 요소의 왼쪽 경계에 위치 */
 	    z-index: 100; /* 다른 요소 위에 위치 */
 	}
-	
 	.autocomplete-dropdown li:hover {
     	background-color: #f2f2f2;
     	cursor: pointer;
     	width:auto;
     	max-width:200px;
 	}
-	
 	.autocomplete-dropdown-item.selected {
 	    background-color: #f2f2f2;
 	}
