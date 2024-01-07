@@ -290,6 +290,9 @@
 <!-- 체크박스 JS -->
 <script src="${path}/resources/js/checkbox.js"></script>
 
+<!-- 조직도관리 JS -->
+<script src="${path}/resources/js/deptTree.js"></script>
+
 <!-- 구성원관리 조직도, List 출력 JS -->
 <script>
 
@@ -405,8 +408,7 @@ function loadDeptEmpList(nodeId) {
 <!-- 구성원관리 버튼이벤트, 검색창이벤트 JS -->
 <script src="${path}/resources/js/deptTreeEmpBtns.js"></script>
 
-<!-- 조직도 관리 JS -->
-<script src="${path}/resources/js/deptTree.js"></script>
+
 
 
 	
