@@ -1,5 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,20 @@ public class DeptServiceImpl implements DeptService {
 		return result;
 	}
 
+	@Override
+	public List<Map<String, Object>> deptEmpList(String deptCode) {
+	    return dao.deptEmpList(session,deptCode);
+	}
 
+	@Override
+	public int changeEmpDept(Map<String,String>response) {
+		int result = dao.changeEmpDept(session,response);
+		return result;
+	}
+
+	
+
+	
 	
 	
 	

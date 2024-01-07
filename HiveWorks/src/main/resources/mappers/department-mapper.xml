@@ -5,7 +5,15 @@
 		<id property="deptCode" column="dept_code"/>
 		<result property="deptName" column="dept_name"/>
 		<result property="deptUpstair" column="dept_upstair"/>
-		
+	</resultMap>
+	
+	<resultMap id="empMap" type="map">
+		<result property="id" column="EMP_ID"/>
+	    <result property="name" column="EMP_NAME"/>
+	    <result property="leader" column="DEPT_LEADER"/>
+	    <result property="position" column="POSITION"/>
+	    <result property="job" column="JOB"/>
+	    <result property="deptName" column="DEPTNAME"/>
 	</resultMap>
  
  <select id="deptListAll" resultMap="deptMap">
@@ -48,6 +56,39 @@
             WHERE DEPT_CODE = #{deptCode}
         </otherwise>
     </choose>
+ </update>
+ 
+ <select id="deptEmpList" resultMap="empMap">
+<!--  	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB
+	FROM TBL_EMPLOYEE e
+		JOIN (
+		    SELECT DEPT_CODE
+		    FROM TBL_DEPARTMENT
+		    START WITH DEPT_CODE = #{deptCode}
+		    CONNECT BY PRIOR DEPT_CODE = DEPT_UPSTAIR
+		) d ON e.DEPT_CODE = d.DEPT_CODE
+		LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
+		LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO -->
+ 	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
+	FROM TBL_EMPLOYEE e
+		JOIN (
+		    SELECT DEPT_CODE, DEPT_NAME
+		    FROM TBL_DEPARTMENT
+		    WHERE DEPT_CODE = #{deptCode}
+		) d ON e.DEPT_CODE = d.DEPT_CODE
+		LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
+		LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
+ </select>
+ 
+ <update id="deptLeaderOn">
+	BEGIN
+		UPDATE TBL_EMPLOYEE SET DEPT_LEADER='Y' WHERE EMP_ID = #{id}
+		UPDATE TBL_EMPLOYEE SET DEPT_LEADER='N' WHERE EMP_ID = #{oldId}
+	END
+ </update>
+ 
+ <update id="deptLeaderOff">
+ 	UPDATE TBL_EMPLOYEE SET DEPT_LEADER='N' WHERE EMP_ID = #{id}
  </update>
  
 </mapper>

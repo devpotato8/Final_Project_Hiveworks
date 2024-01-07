@@ -416,7 +416,7 @@
 					<div class="menu-gap"></div>
 					<div class="menu-group">
 						<div class="nav-header">
-							<span>Pages</span>
+							<span>관리자 메뉴</span>
 						</div>
 						<ul class="navbar-nav flex-column">
 							<li class="nav-item">
@@ -464,12 +464,8 @@
 													<li class="nav-item">
 														<ul class="nav flex-column">
 															<li class="nav-item">
-																<a class="nav-link" href="${path}/deptview"><span class="nav-link-text">조직구성</span></a>
+																<a class="nav-link" href="${path}/deptview"><span class="nav-link-text">조직도/구성원 관리</span></a>
 															</li>
-															<li class="nav-item">
-																<a class="nav-link" href="signup-simple.html"><span class="nav-link-text">구성원 관리</span></a>
-															</li>
-															
 														</ul>		
 													</li>	
 												</ul>	
