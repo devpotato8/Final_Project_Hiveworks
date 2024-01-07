@@ -101,13 +101,13 @@ public class DeptController {
 	    return employees;
 	}
 	
-	@PostMapping("/deptLeaderOn")
+	@PostMapping("/changeEmpDept")
 	@ResponseBody
-	public Map<String, String> deptLeaderOn(@RequestParam String id, @RequestParam String oldMasterId){
+	public Map<String, String> deptLeaderOn(@RequestParam String empId, @RequestParam String deptCode){
 		Map<String, String> response = new HashMap<>();
-		response.put("id", id);
-		response.put("oldId", oldMasterId);
-		int result = service.deptLeaderOn(response);
+		response.put("empId", empId);
+		response.put("deptCode", deptCode);
+		int result = service.changeEmpDept(response);
 		
 		if(result > 0) {
 	        response.put("status", "success");
@@ -118,19 +118,5 @@ public class DeptController {
 	    return response;
 	}
 	
-	@PostMapping("/deptLeaderOff")
-	@ResponseBody
-	public Map<String, String> deptLeaderOff(@RequestParam String id){
-		Map<String, String> response = new HashMap<>();
-		
-		int result = service.deptLeaderOff(id);
-		
-		if(result > 0) {
-	        response.put("status", "success");
-	    } else {
-	        response.put("status", "fail");
-	    }
-	    
-	    return response;
-	}
+	
 }

@@ -120,6 +120,7 @@
 					
 					<div class="col-xl-9">
 						<h5 class="deptName"></h5>
+						
 						<table class="table table-hover deptTable">
 							<thead>
 								<tr>
@@ -133,17 +134,43 @@
 							<tbody>
 								<!-- 조직도에서 선택된 node값에 따라서 사원 테이블을 여기에 표시 -->
 							</tbody>
-									
 						</table>
 						<div class="text-end mt-5">
-							<button class="btn btn-primary btn-sm deptMove" >부서이동</button>&nbsp
+							<button class="btn btn-primary btn-sm deptMove">부서이동</button>&nbsp
 							<button class="btn btn-primary btn-sm deptLeaderOn">조직장 설정</button>&nbsp
 							<button class="btn btn-primary btn-sm deptLeaderOff">조직장 해제</button>&nbsp
 							<button class="btn btn-primary btn-sm deptOut">소속제외</button>
-						</div>
+						</div>		
 					</div>
 				</div>
 			</div>
+	
+			<!-- 부서이동 Modal -->
+			<div class="modal fade" id="changeDept" tabindex="-1" aria-labelledby="changeDeptLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h1 class="modal-title fs-5" id="changeDeptLabel">이동시킬 부서를 선택해주세요</h1>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <form class="form-inline">
+				      <div class="modal-body">
+				      	<p class="deptNow"></p>
+				      		<label for="deptSelect">이동시킬 부서 ▶</label>
+				      		<select id="deptSelect">
+				      			<option selected>부서 선택</option>
+				      		</select>
+				      		<span>으로 이동시킵니다.</span>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				        <button type="button" class="btn btn-primary deptChangeSaveBtn">변경사항 저장</button>
+				      </div>
+			      </form>
+			    </div>
+			  </div>
+			</div>
+
 	<!-- /Page Body -->		
 			</div>
 		</div>
@@ -154,7 +181,6 @@
 <script src="${path}/resources/js/checkbox.js"></script>
 
 <script>
-
 <!-- 구성원관리 list up, js code -->
 $(document).ready(function(){
 	getDeptList();
@@ -198,7 +224,7 @@ function getDeptList(){
 					success: function(response) {
 						// 테이블의 기존 내용을 비우기
 						$('.deptTable tbody').empty();
-
+						$('.deptName').empty();
 						// 서버에서 받아온 데이터로 테이블 만들기
 						$.each(response, function(idx, item){
 							
@@ -214,7 +240,12 @@ function getDeptList(){
 								'<td>' + item.job + '</td>' +
 							'</tr>';
 							$('.deptTable tbody').append(row);
+							
 						});
+						if (response.length > 0) {
+				            var deptName = response[0].deptName + ' 구성원 목록'
+				            $('.deptName').append(deptName);
+				        }
 					},
 					error: function() {
 						alert("구성원 정보 로딩 실패. 관리자에게 문의하세요");
@@ -227,113 +258,102 @@ function getDeptList(){
 		}
 	})
 }
+</script>
 
-<!-- 버튼 이벤트 JS -->
-
-$(document).ready(function() {
-    // 페이지 로딩 시 버튼들 숨기기
-    $('.deptMove, .deptLeaderOn, .deptLeaderOff, .deptOut').hide();
-
-    // 체크박스가 변화했을 때 동작
-    $(document).on('change', 'input[type="checkbox"]', function(){
-        // 체크된 체크박스가 하나 이상 있다면 버튼을 보여주고, 그렇지 않다면 버튼을 숨김.
-        if($('input[type="checkbox"]:checked').length > 0){
-            $('.deptMove, .deptOut').show();
-
-            // 체크된 체크박스 중 하나라도 'isdeptLeaderOn' 클래스를 가진 행이 있다면 '조직장 해제' 버튼을 보여주고 '조직장 설정' 버튼을 숨김
-            if($('input[type="checkbox"]:checked').closest('tr').hasClass('isdeptLeaderOn')){
-                $('.deptLeaderOn').hide();
-                $('.deptLeaderOff').show();
-            } else {
-                // 체크된 체크박스 중 'isdeptLeaderOn' 클래스를 가진 행이 없으면 '조직장 설정' 버튼을 보여주고 '조직장 해제' 버튼을 숨김
-                $('.deptLeaderOn').show();
-                $('.deptLeaderOff').hide();
-            }
-        } else {
-            $('.deptMove, .deptLeaderOn, .deptLeaderOff, .deptOut').hide();
+<!-- 부서이동 버튼 클릭시 -->
+<script>
+$('.btn.deptMove').off('click').on('click', function() {
+    var selectedIds = [];
+    var selectedNames = [];
+    var isLeader = false;
+	
+    // 체크박스가 선택된 row의 id를 가져옴
+    $('input[name="chkRow"]:checked').each(function() {
+        var id = $(this).closest('tr').find('td:nth-child(2)').text();
+        var name = $(this).closest('tr').find('td:nth-child(3)').text();
+        var leader = $(this).closest('tr').find('img').length > 0; // leader 정보 확인
+        if (leader) {
+            isLeader = true;
+            return false; // each 함수 종료
         }
+        selectedIds.push(id);
+        selectedNames.push(name);
     });
-});
 
-// 조직장 설정 버튼 클릭 시
-$('.deptLeaderOn').on('click', function(){
-    var checkedRows = $('input[type="checkbox"]:checked');
-    if(checkedRows.length > 1){
-        alert("조직장은 1명만 가능합니다.");
-        checkedRows.prop('checked', false); // 모든 체크박스의 체크를 해제
-        $('.deptMove, .deptLeaderOn, .deptLeaderOff, .deptOut').hide(); // 모든 버튼을 숨김
-    } else {
-        checkedRows.each(function(){
-            var row = $(this).closest('tr');
-            var id = row.children().eq(1).text(); // 행에서 2번째 값을 가져온다.
-            
-            // 기존에 조직장이 설정된 행이 있으면, 그 행의 조직장 설정을 해제.
-            var oldMasterRow = $('tr.isdeptLeaderOn');
-            var oldMasterId = '';
-            if(oldMasterRow.length > 0){
-                oldMasterId = oldMasterRow.children().eq(1).text();
-            }
+    // leader인 경우
+    if (isLeader) {
+        alert("조직장은 이동시킬 수 없습니다. 조직장 설정을 먼저 변경하세요.");
+    }
+    // 선택된 row가 없는 경우
+    else if (selectedIds.length === 0) {
+        alert("선택된 구성원이 없습니다.");
+    } 
+    // 그 외 경우, 모달창 띄우기
+    else {
+    	
+    	$.ajax({
+    		type:'GET',
+    		url:'/deptlist',
+    		dataType:'JSON',
+    		success: function(response){
+    			 // 가져온 부서 목록으로 select 요소의 option들 생성
+    		    var options = response.map(function(dept) {
+    		      return '<option value="' + dept.deptCode + '">' + dept.deptName + '</option>'; // deptCode와 deptName는 실제 필드명으로 변경해야 합니다.
+    		    });
 
-            $.ajax({
-                type: 'POST',
-                url: '/deptLeaderOn',
-                data: { 
-                	id: id,
-                	oldMasterId: oldMasterId		
-                },
-                success: function(response) {
-                    if(response.success) {
-                        // 응답을 받은 후에 화면을 업데이트
-                        if(oldMasterRow.length > 0){
-                            oldMasterRow.removeClass('isdeptLeaderOn');
-                            oldMasterRow.children().eq(2).text(oldMasterRow.children().eq(2).text().replace(' [조직장]', ''));
-                        }
-                        var nameCell = row.children().eq(2); 
-                        nameCell.append(' [조직장]');
-                        row.addClass('isdeptLeaderOn'); // 새로 조직장이 된 행에 표시를 추가
-                        alert("조직장 설정이 완료되었습니다.");
-                    } else {
-                        alert("조직장 설정에 실패했습니다. 관리자에게 문의하세요");
-                    }
-                }
-            });
-        });
+    		    // select 요소에 option들 추가
+    		    $('#deptSelect').html(options.join(''));
+    		  },
+    		  error: function(err) {
+    		    console.error(err);
+    		  }
+   		});
+    	
+    	
+    	// 현재 소속 부서 이름 가져오기
+        var deptName = $('.deptName').text(); // h5 태그의 텍스트 가져오기
+        var currentDept = deptName.replace(" 구성원 목록", ""); // " 구성원 목록" 문자열 제거
+     	
+        // 모달창에 현재 소속 부서 표시
+        $('#changeDept .modal-header .modal-title').text('선택된 구성원 ▶' + selectedNames.join(', '));
+        $('.deptNow').text('현재 부서 ▶ '+ currentDept);
+		
+        // 모달창 표시
+        $('#changeDept').modal('show');
     }
 });
 
-//조직장 해제버튼 클릭 시
-$('.deptLeaderOff').on('click', function(){
-    
-    $('input[type="checkbox"]:checked').each(function(){
-        var row = $(this).closest('tr');
-        var id = row.children().eq(1).text(); 
-
-        // id가 'emp001'인 경우 경고창을 띄우고 체크박스를 해제합니다.
-        if(id === 'emp001'){
-            alert('최고 레벨 조직장 설정은 변경할 수 없습니다');
-            $('input[type="checkbox"]').prop('checked', false);
-            return false; 
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: '/deptLeaderOff',
-            data: { id: id },
-            success: function(response) {
-                if(response.success) {
-                    var nameCell = row.children().eq(2);
-                    nameCell.text(nameCell.text().replace(' [조직장]', ''));
-                    alert("조직장 설정이 해제되었습니다.");
-                } else {
-                    alert("조직장 해제에 실패했습니다. 관리자에게 문의하세요");
-                }
-            }
-        });
-    });
+//변경사항 저장 버튼 클릭 이벤트
+$('#changeDept').on('shown.bs.modal', function () {
+	$('.deptChangeSaveBtn').off('click').on('click', function() {
+	    var deptCode = $('#deptSelect').val(); // 선택된 부서 코드
+	    var selectedIds = []; // 선택된 구성원 id 배열
+	
+	    // 체크박스가 선택된 row의 id를 가져옴
+	    $('input[name="chkRow"]:checked').each(function() {
+	        var id = $(this).closest('tr').find('td:nth-child(2)').text();
+	        selectedIds.push(id);
+	    });
+	
+	    // 서버로 전송
+	    $.ajax({
+	        type: 'POST',
+	        url: '/changeEmpDept', // 실제 처리를 담당할 서버 주소로 변경해야 합니다.
+	        data: {
+	            deptCode: deptCode,
+	            empId: selectedIds
+	        },
+	        success: function(response){
+	            alert('부서 이동이 성공적으로 처리되었습니다.');
+	            // 필요에 따라 추가 처리를 여기에 작성하실 수 있습니다.
+	        },
+	        error: function(err) {
+	            console.error(err);
+	        }
+	    });
+	});
 });
-
 </script>
-
 
 <!-- 조직도 관리 JS -->
 <script src="${path}/resources/js/deptTree.js"></script>

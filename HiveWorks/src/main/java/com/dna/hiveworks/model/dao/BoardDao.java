@@ -20,6 +20,8 @@ public interface BoardDao {
 
 	Board boardDelete(SqlSession session, int boardNo);
 
+	int insertUploadfile(SqlSession session, Uploadfile uploadfile);
+
 	
 
 

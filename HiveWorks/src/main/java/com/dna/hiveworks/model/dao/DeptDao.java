@@ -27,6 +27,6 @@ public interface DeptDao {
 	int deleteDept(SqlSession session, Department dept);
 	int updateDept(SqlSession session, Map<String, String> response);
 	List<Map<String, Object>> deptEmpList (SqlSession session, String deptCode);
-	int deptLeaderOn(SqlSession session, Map<String, String> response);
-	int deptLeaderOff(SqlSession session, String id);
+	int changeEmpDept(SqlSession session, Map<String, String> response);
+	
 }
