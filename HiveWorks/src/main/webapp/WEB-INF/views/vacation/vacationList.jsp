@@ -36,8 +36,7 @@
 														</div>
 														
 														<div class="row">
-														
-															<div class="col-lg-6">
+															<div class="col-lg-3">
 																<div class="card board-card card-border">
 																	<div class="card-body">
 																		<div class="media align-items-center">
@@ -55,12 +54,12 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="연차" value="연차">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="연차" value="연차">신청하기</button>
 																		</div>
 																	</div>
 																</div>
 															</div>
-															<div class="col-lg-6">
+															<div class="col-lg-3">
 																<div class="card board-card card-border">
 																	<div class="card-body">
 																		<div class="media align-items-center">
@@ -78,15 +77,12 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="반차" value="반차">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="반차" value="반차">신청하기</button>
 																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
-														</div>
-														<div class="row">
-															<div class="col-lg-6">
+															<div class="col-lg-3">
 																<div class="card board-card card-border">
 																	<div class="card-body">
 																		<div class="media align-items-center">
@@ -104,12 +100,12 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="병가" value="병가">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="병가" value="병가">신청하기</button>
 																		</div>
 																	</div>
 																</div>
 															</div>
-															<div class="col-lg-6">
+															<div class="col-lg-3">
 																<div class="card board-card card-border">
 																	<div class="card-body">
 																		<div class="media align-items-center">
@@ -127,11 +123,15 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="연차" value="연차">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="연차" value="연차">신청하기</button>
 																		</div>
 																	</div>
 																</div>
 															</div>
+															
+														</div>
+														<div class="row">
+															
 															<div class="col-lg-6">
 																<div class="card board-card card-border">
 																	<div class="card-body">
@@ -152,7 +152,7 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="조의 (부모 / 배우자 / 자녀)" value="조의5일">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="조의 (부모 / 배우자 / 자녀)" value="조의5일">신청하기</button>
 																		</div>
 																	</div>
 																</div>
@@ -177,7 +177,7 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="조의 (조부모 / 형제 / 자매)" value="조의3일">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="조의 (조부모 / 형제 / 자매)" value="조의3일">신청하기</button>
 																		</div>
 																	</div>
 																</div>
@@ -202,7 +202,7 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="결혼 (본인)" value="결혼5일">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="결혼 (본인)" value="결혼5일">신청하기</button>
 																		</div>
 																	</div>
 																</div>
@@ -227,7 +227,7 @@
 																			</div>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn" name="vacOption" id="결혼 (자녀)" value="결혼자녀">신청하기</button>
+																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="결혼 (자녀)" value="결혼자녀">신청하기</button>
 																		</div>
 																	</div>
 																</div>
@@ -520,9 +520,16 @@
         
     </script>
     <style>
+	    @font-face {
+		    font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+		}
     	:root {
             --navy: rgba(14, 25, 90, 0.8);
         }
+        *{font-family: 'Pretendard-Regular';}
         .container{
             width: 100%;
             height: 100%;
