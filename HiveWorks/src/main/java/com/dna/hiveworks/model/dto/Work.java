@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Works {
+public class Work {
 	private int workNo;
 	private int empNo;
 	private String workTypeCode;
