@@ -6,7 +6,10 @@ package com.dna.hiveworks.service;
 import java.util.List;
 import java.util.Map;
 
+import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
 /**
  * @author : 이재연
@@ -64,5 +67,49 @@ public interface EdocService {
 	 * @return
 	 */
 	Map<String, Object> getEmpData(int empNo);
-	
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 5. 
+	 * @Return : List<ElectronicDocumentSample>
+	 * 
+	 * Description : DotCode에 해당하는 문서양식 목록을 가져오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 5., 설명 : 최초 작성
+	 *
+	 * @param edocDotCode
+	 * @return
+	 */
+	List<ElectronicDocumentSample> getEdocSampleList(DotCode edocDotCode);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 8. 
+	 * @Return : String
+	 * 
+	 * Description : 선택한 샘플양식을 불러오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 8., 설명 : 최초 작성
+	 *
+	 * @param formatNo
+	 * @return
+	 */
+	ElectronicDocumentSample getSample(String formatNo);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 8. 
+	 * @Return : ElectronicDocument
+	 * 
+	 * Description : 전자문서를 등록하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 8., 설명 : 최초 작성
+	 *
+	 * @param edoc
+	 * @return
+	 */
+	ElectronicDocument insertEdoc(ElectronicDocument edoc);
 }
