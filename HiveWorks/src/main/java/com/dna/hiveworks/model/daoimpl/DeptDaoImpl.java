@@ -1,6 +1,5 @@
 package com.dna.hiveworks.model.daoimpl;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +29,8 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 	@Override
-	public Department selectDeptByName(SqlSession session, String deptName) {
-		return session.selectOne("department.selectDeptByName",deptName);
+	public String searchDeptName(SqlSession session, String deptCode) {
+		return session.selectOne("department.searchDeptName",deptCode);
 	}
 
 	@Override
@@ -57,10 +56,46 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 	@Override
-	public int changeEmpDept(SqlSession session, Map<String, String> response) {
-		return session.update("department.deptLeaderOn",response);
+	public int changeEmpDept(SqlSession session, Map<String, Object> params) {
+		return session.update("department.changeEmpDept",params);
 	}
 
+	@Override
+	public int changeDeptLeader(SqlSession session, String id) {
+		return session.update("department.changeDeptLeader",id);
+	}
+	
+	@Override
+	public int changeDeptLeaderOld(SqlSession session, String id) {
+		return session.update("department.changeDeptLeaderOld",id);
+	}
+
+	@Override
+	public int removeDeptLeader(SqlSession session, String id) {
+		return session.update("department.removeDeptLeader",id);
+	}
+
+	@Override
+	public int deptEmpOut(SqlSession session, Map<String, Object> params) {
+		return session.update("department.deptEmpOut",params);
+	}
+
+	@Override
+	public List<Employee> searchEmpByName(SqlSession session, String name) {
+		return session.selectList("department.searchEmpByName",name);
+	}
+
+	@Override
+	public int addEmpDept(SqlSession session, Employee emp) {
+		return session.update("department.addEmpDept",emp);
+	}
+
+	
+	
+	
+	
+	
+	
 	
 
 	
