@@ -48,14 +48,12 @@
 									<td><c:out value="${b.creater}" /></td>
 									<td><c:out value="${b.createDate}" /></td>
 									<td><c:out value="${b.modifyDate}" /></td>
-									<td><c:out value="${b.modifyDate}" /></td>
-									<td>
 									<td>
 										<div class="d-flex align-items-center">
 											<div style="margin-right: 100px;">
 												<c:out value="${b.boardCount}" />
 											</div>
-
+									
 											<div class="d-flex">
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"

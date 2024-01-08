@@ -16,24 +16,26 @@
     <div id="board-container">   	
         <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle"
         value="${board.boardTitle }"  required readonly="readonly">
+        <div id="boardContent" class="form-control" name="boardContent" placeholder="내용" required readonly="readonly">${board.boardContent}</div>
+        <br>
 		<c:if test="${board.files.size()>0 }">
             <c:forEach var="file" items="${board.files }">
                 <button type="button" 
-                    class="btn btn-outline-success"
+                    class="btn btn-dark"
                     onclick="fn_filedownload('${file.originalFileName}','${file.reNamefile }');">
                     ${file.originalFileName }
                 </button> 
             </c:forEach>
         </c:if>
-
-        <div class="form-control" name="boardContent" placeholder="내용" required readonly="readonly">${board.boardContent}</div>
         <a href="${path}/board/board"><input type="button" value="확인"></a>
     </div>
 </div>
 
 <style>
-    .ck-editor__editable {
-        height: 400px;
+   
+    #boardContent{
+    width:400px;
+    height:300px;
     }
     div#board-container{width:400px; margin:0 auto; text-align:center;}
     div#board-container input{margin-bottom:15px;}
