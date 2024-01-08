@@ -1,7 +1,5 @@
 package com.dna.hiveworks.controller;
 
-import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.stereotype.Controller;
@@ -51,23 +49,23 @@ public class WorkController {
 		return "common/msg";
 	}
 	
-//	@PutMapping("updateEndWork")
-//	public String updateEndWork(Model m) {
-//		
-//		int result = service.insertWork();
-//		
-//		String msg,loc;
-//		if(result>0) {
-//			msg = "오늘 하루도 고생하셨습니다! :)";
-//			loc = "/";
-//		} else {
-//			msg = "실패 :(";
-//			loc = "/";
-//		}
-//		m.addAttribute(msg);
-//		m.addAttribute(loc);
-//		return "common/msg";
-//	}
+	@RequestMapping("updateEndWork")
+	public String updateEndWork(Model m) {
+		
+		int result = service.updateWork();
+		
+		String msg,loc;
+		if(result>0) {
+			msg = "오늘 하루도 고생하셨습니다! :)";
+			loc = "";
+		} else {
+			msg = "실패 :(";
+			loc = "";
+		}
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		return "common/msg";
+	}
 	
 	
 	

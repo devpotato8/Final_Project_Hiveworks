@@ -10,7 +10,7 @@ public interface WorkService {
 	List<Work> selectWorkByNo(int no);
 	
 	int insertWork();
-	int updateWork(Work w);
+	int updateWork();
 	int deleteWork(int empNo);
 	
 }
