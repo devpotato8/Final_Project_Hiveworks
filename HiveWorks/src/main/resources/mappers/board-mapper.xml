@@ -21,7 +21,7 @@
 	<select id="selectBoardByNo" parameterType="_int" resultMap="boardMap">
 		 SELECT * FROM TBL_BOARD
 		 LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
-		 WHERE BOARD_NO = 81
+		 WHERE BOARD_NO = ${boardNo}
 	</select>
     <select id="selectAllBoard" resultMap="boardMap">
         SELECT * FROM TBL_BOARD 
@@ -29,8 +29,11 @@
         WHERE BOARD_TYPE = 'BRD001'
     </select>
     <insert id="insertBoard" parameterType="board">
+    	<selectKey keyProperty="boardNo" resultType="int" keyColumn="BOARD_NO" order="BEFORE">
+    		SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+    	</selectKey>
     	INSERT INTO TBL_BOARD VALUES 
-		(SEQ_BOARD_NO.NEXTVAL,'BRD001',#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
+		(#{boardNo},'BRD001',#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
     UPDATE TBL_BOARD SET

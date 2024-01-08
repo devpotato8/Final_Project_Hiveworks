@@ -48,6 +48,7 @@
 									<td><c:out value="${b.creater}" /></td>
 									<td><c:out value="${b.createDate}" /></td>
 									<td><c:out value="${b.modifyDate}" /></td>
+									<td><c:out value="${b.modifyDate}" /></td>
 									<td>
 									<td>
 										<div class="d-flex align-items-center">

@@ -60,8 +60,7 @@ public class BoardController {
 	@RequestMapping("/boardView")
 	public void selectBoardByNo(int boardNo, Model model) {
 		Board board = service.selectBoardByNo(boardNo);
-		   log.debug("Board Object: {}", board);
-		   
+		   log.debug("Board Object: {}", board);	   
 		   model.addAttribute("board", board);
 	}
 	@RequestMapping("/boardDelete")
@@ -124,9 +123,7 @@ public class BoardController {
 						Uploadfile file=Uploadfile.builder()
 								.originalFileName(oriName)
 								.reNamefile(rename)
-								.boardNo(b.getBoardNo())
 								.build();
-						file.setBoardNo(b.getBoardNo());
 						files.add(file);
 					}catch(IOException e) {
 						e.printStackTrace();
@@ -139,6 +136,12 @@ public class BoardController {
 		log.debug("{}", b);
 		String msg, loc;
 	    int result=service.insertBoard(b);
+		/*
+		 * b.getFiles().forEach(f -> { f.setBoardNo(b.getBoardNo()); });람다
+		 */ 
+	    b.getFiles().forEach(f -> {
+	    	f.setBoardNo(b.getBoardNo());
+	    }); 
 	    log.debug("Insert result: {}", result);
 	    System.out.println(result);
 	    if(result>0) {
