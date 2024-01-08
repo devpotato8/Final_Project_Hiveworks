@@ -292,6 +292,7 @@
 
 <!-- 구성원관리 조직도, List 출력 JS -->
 <script>
+const path = '${path}';
 
 $(document).ready(function(){
 	getDeptList();
@@ -305,7 +306,7 @@ function getDeptList(){
 	
 	$.ajax({
 		type:'GET',
-		url:'/deptlist',
+		url:'${path}/deptlist',
 		dataType:'JSON',
 		success: function(data){
 			var deptlist = new Array();
@@ -339,7 +340,7 @@ function getDeptList(){
 function loadDeptEmpList(nodeId) {
     $.ajax({
         type: 'GET',
-        url: '/deptemplist',
+        url: '${path}/deptemplist',
         data: { deptCode : nodeId },
         dataType: 'JSON',
         success: function(response) {
@@ -384,7 +385,7 @@ function loadDeptEmpList(nodeId) {
             }else{
             	$.ajax({
                     type: 'GET',
-                    url: '/searchDeptName',
+                    url: '${path}/searchDeptName',
                     data: { deptCode : nodeId },
                     dataType: 'text',
                     success: function(response) {
