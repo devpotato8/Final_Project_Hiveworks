@@ -455,9 +455,9 @@ salary.dedution.dedu_local_income_tax
     </tr>
     <tr>
         <th><span>부서</span></th>
-        <td><c:out value="${salary.employee.dept_code }"/></td>
+        <td><c:out value="${salary.employee.dept_name }"/></td>
         <th><span>직급</span></th>
-        <td><c:out value="${salary.employee.job_code }"/></td>
+        <td><c:out value="${salary.employee.job_name }"/></td>
         <th><span></span></th>
         <td></td>
     </tr>

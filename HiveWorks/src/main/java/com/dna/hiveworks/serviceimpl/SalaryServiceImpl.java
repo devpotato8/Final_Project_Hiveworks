@@ -21,8 +21,8 @@ public class SalaryServiceImpl implements SalaryService {
 	private final SqlSession session;
 	
 	@Override
-	public List<Salary> selectSalaryListAll(Map<String, Integer> page) {
-		return dao.selectSalaryListAll(session, page);
+	public List<Salary> selectSalaryListAll() {
+		return dao.selectSalaryListAll(session);
 	}
 
 	@Override

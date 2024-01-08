@@ -38,8 +38,8 @@ public class SalaryController {
 	private final SalaryServiceImpl service;
 	
 	@GetMapping("/salaryList")
-	public String selectSalaryListAll(Model model, @RequestParam(defaultValue="1") int cPage, @RequestParam(defaultValue="10") int numPerpage){
-		List<Salary> list = service.selectSalaryListAll(Map.of("cPage",cPage,"numPerpage",numPerpage));
+	public String selectSalaryListAll(Model model){
+		List<Salary> list = service.selectSalaryListAll();
 		
 		model.addAttribute("list",list);
 		

@@ -17,7 +17,7 @@ import com.dna.hiveworks.model.dto.salary.Salary;
 
 public interface SalaryService {
 
-	List<Salary> selectSalaryListAll(Map<String,Integer> page);
+	List<Salary> selectSalaryListAll();
 	
 	Salary selectSalaryByNo(int salaryNo);
 	

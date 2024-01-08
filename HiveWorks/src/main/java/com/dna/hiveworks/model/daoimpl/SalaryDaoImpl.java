@@ -14,11 +14,8 @@ import com.dna.hiveworks.model.dto.salary.Salary;
 public class SalaryDaoImpl implements SalaryDao {
 
 	@Override
-	public List<Salary> selectSalaryListAll(SqlSession session, Map<String, Integer> page) {
-		int cPage =(Integer)page.get("cPage");
-		int numPerpage = (Integer)page.get("numPerpage");
-		RowBounds rb = new RowBounds((cPage-1)*numPerpage,numPerpage);
-		return session.selectList("salary.selectSalaryListAll",null,rb);
+	public List<Salary> selectSalaryListAll(SqlSession session) {
+		return session.selectList("salary.selectSalaryListAll");
 	}
 
 	@Override

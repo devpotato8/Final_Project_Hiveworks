@@ -402,7 +402,7 @@
 								</div> -->
 								
 							</header>
-							<button class="btn btn-primary btn-sm" onclick="location.replace('${path}/salary/salaryWrite')">등록</button>
+							<button class="btn btn-primary btn-sm" onclick="location.assign('${path}/salary/salaryWrite')" style="width:100px">등록</button>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
@@ -434,7 +434,7 @@
 														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
 													<td><span><c:out value="${s.employee.emp_id }" /></span></td>
-													<td><c:out value="${s.employee.dept_code }" /></td>
+													<td><c:out value="${s.employee.dept_name }" /></td>
 													<td><c:out value="${s.sal_actual}" />원</td>
 													<td><c:out value="
 														${s.dedution.dedu_emp_insur
