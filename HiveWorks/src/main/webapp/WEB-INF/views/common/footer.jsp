@@ -31,9 +31,6 @@
     <!-- Fancy Dropdown JS -->
     <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
 
-	<!-- Simplebar JS -->
-	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
-
 	<!-- Init JS -->
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
