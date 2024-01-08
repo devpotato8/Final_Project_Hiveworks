@@ -61,6 +61,7 @@ public class BoardController {
 	public void selectBoardByNo(int boardNo, Model model) {
 		Board board = service.selectBoardByNo(boardNo);
 		   log.debug("Board Object: {}", board);
+		   
 		   model.addAttribute("board", board);
 	}
 	@RequestMapping("/boardDelete")
@@ -123,6 +124,7 @@ public class BoardController {
 						Uploadfile file=Uploadfile.builder()
 								.originalFileName(oriName)
 								.reNamefile(rename)
+								.boardNo(b.getBoardNo())
 								.build();
 						file.setBoardNo(b.getBoardNo());
 						files.add(file);
@@ -137,6 +139,7 @@ public class BoardController {
 		log.debug("{}", b);
 		String msg, loc;
 	    int result=service.insertBoard(b);
+	    log.debug("Insert result: {}", result);
 	    System.out.println(result);
 	    if(result>0) {
 	    	msg = "게시글 등록 성공 :)";
@@ -150,12 +153,12 @@ public class BoardController {
 
 	    return "board/msg";
 	}
-	@RequestMapping("/filedownload.do")
+	@RequestMapping("/filedownload")
 	public void fileDownload(String oriname, String rename,
 	        OutputStream out, HttpSession session, 
 	        HttpServletResponse response,
 	        @RequestHeader(value="user-agent") String header) {
-	    
+		 log.debug("Download request - oriname: {}, rename: {}", oriname, rename);
 	    String path=session.getServletContext().getRealPath("/resources/upload/board/");
 	    File downloadFile=new File(path+rename);
 	    try(FileInputStream fis=new FileInputStream(downloadFile);

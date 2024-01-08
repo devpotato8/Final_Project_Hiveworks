@@ -32,6 +32,8 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	@Transactional
 	public int insertBoard(Board b) {
+		
+		log.debug("Board files: {}", b.getFiles());
 		int result=dao.insertBoard(session,b);
 		if(result>0) {
 			if(b.getFiles().size()>0) {

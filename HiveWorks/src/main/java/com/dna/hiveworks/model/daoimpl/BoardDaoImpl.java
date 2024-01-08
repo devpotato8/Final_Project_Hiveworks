@@ -40,5 +40,4 @@ public class BoardDaoImpl implements BoardDao{
 		log.debug("Inserting upload file: {}", uploadfile);
 		return session.insert("board.insertUploadfile",uploadfile);
 	}
-	
 }

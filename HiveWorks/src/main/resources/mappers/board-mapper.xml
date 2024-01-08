@@ -19,12 +19,14 @@
 			</collection>
     </resultMap>
 	<select id="selectBoardByNo" parameterType="_int" resultMap="boardMap">
-		 SELECT * FROM TBL_BOARD B
-		 LEFT JOIN TBL_UPLOADFILE U ON B.BOARD_NO = U.BOARD_NO
-		 WHERE B.BOARD_NO = #{boardNo}
+		 SELECT * FROM TBL_BOARD
+		 LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
+		 WHERE BOARD_NO = 81
 	</select>
     <select id="selectAllBoard" resultMap="boardMap">
-        SELECT * FROM TBL_BOARD WHERE BOARD_TYPE = 'BRD001'
+        SELECT * FROM TBL_BOARD 
+        LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
+        WHERE BOARD_TYPE = 'BRD001'
     </select>
     <insert id="insertBoard" parameterType="board">
     	INSERT INTO TBL_BOARD VALUES 
