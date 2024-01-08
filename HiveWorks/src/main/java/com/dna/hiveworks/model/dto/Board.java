@@ -18,8 +18,6 @@ public class Board {
     private String boardContent;
     private int boardCount;
     private String boardTitle;
-    private String boardOriginalFilename;
-    private String boardRenameFilename;
     private int creater;
     private Date createDate;
     private int modifier;

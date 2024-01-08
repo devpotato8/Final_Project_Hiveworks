@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
 	<typeAliases>
 		<typeAlias type="com.dna.hiveworks.model.dto.Employee" alias="employee"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Schedule" alias="schedule"/>
@@ -12,9 +15,12 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Work" alias="work"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.PositionPay" alias="positionpay"/>
-
+		<typeAlias type="com.dna.hiveworks.model.dto.salary.Dedution" alias="dedution"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Work" alias="work"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocument" alias="edoc"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList" alias="edocList"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Resource" alias="resource"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample" alias="edocSample"/>
 	</typeAliases>
 	

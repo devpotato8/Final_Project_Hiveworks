@@ -11,6 +11,7 @@
 	<jsp:param value="data-hover='active'" name="hover"/>	
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<div>
 			<div class="hk-pg-wrapper pb-0">
 			<div class="hk-pg-body py-0">
 				<div class="blogapp-wrap">
@@ -23,7 +24,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-											<a class="nav-link" href="javascript:void(0);">
+											<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=16">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -37,7 +38,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="${path }/schedule/reservationinsert.do">
+											<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do">
 												<span class="nav-link-text">본사4층회의실</span>
 											</a>
 										</li>
@@ -65,23 +66,21 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">	
 										<li class="nav-item">
-											<a class="nav-link" href="javascript:void(0);">
+											<a class="nav-link" href="${path }/schedule/reservationlist.do">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="flag"></i></span></span>
 												<span class="nav-link-text">전체 예약/대여 조회</span>
 											</a>
 										</li>
 										
 										<li class="nav-item">
-											<a class="nav-link" href="javascript:void(0);">
+											<a class="nav-link" href="${path}/schedule/resourcelist.do">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="grid"></i></span></span>
 												<span class="nav-link-text">전사자산 목록</span>
 											</a>
 										</li>
 									</ul>
 								</div>
-								
-		
-				
+
 					</nav>
 					<div class="blogapp-content">
 						<div class="blogapp-detail-wrap">
@@ -132,11 +131,13 @@
 														</tr>
 													</thead>
 													<tbody>
+														<c:if test="${not empty reserveList }">
+															<c:forEach var="res" items="${reserveList}">
 														<tr>
 															<td></td>
-															<td>넘버</td>
+															<td>${res.calNo }</td>
 															<td class="mw-250p text-truncate text-high-em">
-																<span>자산이름111</span>
+																<span>${res.resource.resourceName }</span>
 															</td>
 															<td>
 																<div class="media align-items-center">
@@ -146,14 +147,14 @@
 																		</div>
 																	</div>
 																	<div class="media-body">
-																		<span class="d-block">예약자1111</span> 
+																		<span class="d-block">${res.empNo }</span> 
 																	</div>
 																</div>													
 															</td>
-															<td>자산종류1111</td>
-															<td>예약시간11~예약시간11</td>
-															<td>예약상태11</td>
-															<td>등록일자11</td>
+															<td>${res.resource.resourceType }</td>
+															<td>${res.calStartDate }~${res.calEndDate }</td>
+															<td>승인완료</td>
+															<td>${res.createDate }</td>
 															<td>
 																<div class="d-flex align-items-center">
 																	<div class="dropdown">
@@ -169,6 +170,8 @@
 																</div>
 															</td>
 														</tr>
+														</c:forEach>
+														</c:if>
 													</tbody>
 												</table>
 											</div>

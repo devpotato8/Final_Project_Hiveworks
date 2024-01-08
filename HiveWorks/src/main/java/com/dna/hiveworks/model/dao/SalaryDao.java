@@ -9,7 +9,7 @@ import com.dna.hiveworks.model.dto.salary.Salary;
 
 public interface SalaryDao {
 
-	List<Salary> selectSalaryListAll(SqlSession session, Map<String, Integer> page);
+	List<Salary> selectSalaryListAll(SqlSession session);
 	
 	Salary selectSalaryByNo(SqlSession session, int no);
 	
@@ -20,5 +20,7 @@ public interface SalaryDao {
 	int updatePositionPay(SqlSession session, Salary s);
 	
 	int insertPositionPay(SqlSession session, Salary s);
+	
+	Map<String, Integer> calculateSalary (SqlSession session, Map<String, Integer> data);
 	
 }

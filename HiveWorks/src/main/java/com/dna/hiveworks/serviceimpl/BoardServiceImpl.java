@@ -11,8 +11,10 @@ import com.dna.hiveworks.model.dto.Board;
 import com.dna.hiveworks.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardServiceImpl implements BoardService{
 	
 	private final SqlSession session;
@@ -28,25 +30,24 @@ public class BoardServiceImpl implements BoardService{
 	    return dao.selectAllBoard(session);
 	}
 	@Override
+	@Transactional
 	public int insertBoard(Board b) {
-	  if (b.getFiles().size() > 0) {
-	    b.getFiles().forEach(file -> {
-	      file.setUploadfileBoardNo(b.getBoardNo()); // 게시글 번호 설정
-	      int fileResult = dao.insertUploadfile(session, file);
-	      if (fileResult == 0) {
-	        session.rollback();
-	        throw new RuntimeException("첨부파일 등록 실패!");
-	      }
-	    });
-	  }
-	  int result = dao.insertBoard(session, b);
-	  if (result <= 0) {
-	    session.rollback();
-	    throw new RuntimeException("게시글 등록 실패!");
-	  } else {
-	  }
-
-	  return result;
+		
+		log.debug("Board files: {}", b.getFiles());
+		int result=dao.insertBoard(session,b);
+		if(result>0) {
+			if(b.getFiles().size()>0) {
+				b.getFiles().forEach(file->{
+					file.setBoardNo(b.getBoardNo());
+					int fileResult=dao.insertUploadfile(session,file);
+					if(fileResult==0) throw new RuntimeException("첨부파일등록실패!");
+				});
+			}
+		}else {
+			throw new RuntimeException("첨부파일등록실패!");
+		}
+		return result;
+		
 	}
 
 	@Override

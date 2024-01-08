@@ -23,9 +23,9 @@
 			<div class="d-flex">
 				<div class="d-flex flex-wrap flex-1 align-items-center">
 					<div class="mb-lg-0 mb-2 d-flex align-items-center">
-						<h1 class="pg-title m-0">안녕하세요 ${loginEmp.emp_name}님</h1>
+						<h1 class="pg-title m-0">안녕하세요 ${c}님</h1>
 						<div id="weather" class="d-flex align-items-center justify-content-between" style="width: 240px; margin-left: 20px">
-						  <div class="badge badge-soft-violet my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
+						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
 						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>
 						  <div style="width: 50px; height: 50px"></div>
 						</div>
@@ -51,7 +51,7 @@
 							<div class="user-name">
 								나는 ${loginEmp.emp_name} 입니다
 							</div>
-							<div class="user-email">부서 -  </div>
+							<div class="user-email">부서 </div>
 							<div class="user-contact">+145 52 5689</div>
 							<!-- <div class="user-desg">
 								<span
@@ -59,11 +59,11 @@
 								접속중
 							</div> -->
 						</div>
-						<div class="card-footer text-muted position-relative">
+						<div class="card-footer text-muted position-relative" >
 							<a href="${path }/mypage/myprofile" class="d-flex align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="프로필보기"
 								data-bs-target="#contact_detail"> 
-								<span	class="feather-icon me-2"><i data-feather="user-check"></i></span>
-								<span class="fs-7 lh-1">Profile</span>
+								<span	class="feather-icon me-2" style="color: navy;"><i data-feather="user-check"></i></span>
+								<span class="fs-7 lh-1" style="color: navy;">Profile</span>
 							</a>
 						</div>
 					</div>
@@ -71,24 +71,24 @@
 					<div>
 						<div></div>
 						<div>
-							<div>
-								<div class="d-flex justify-content-between p-3">
-									<p>출퇴근찍기</p>
-									<p  class="badge badge-soft-blue my-1  me-2" id="currentTime"></p>
-									
-									<input type="hidden" id=workEndTime name="workEndTime" value=""/>
-								</div>
-
+							<div class="d-flex flex-column align-items-center clockAndCheck">
+								<div class="btn btn-block" id="currentTime" ></div>
+								<div class="btn btn-block" >출퇴근찍기</div>
+								<input type="hidden" id=workEndTime name="workEndTime" value=""/>
 							</div>
-							<div class="button-container d-flex justify-content-around">
-							<form action="${path}/work/insertStartWork" method="post">
-								<input class="btn" type="submit" value="출근하기"/>
-								<input type="hidden" id="workStartTime" name="workStartTime" value=""/>
-							</form>
-							<form action="${path}/work/updateEndWork" method="post">
-								<input class="btn" type="submit" value="퇴근하기"/>
-								<input type="hidden" id="workEndTime" name="workEndTime" value=""/>
-							</form>
+							<div class="button-container d-flex justify-content-center mt-3">
+								<form action="${path}/work/insertStartWork" method="post">
+									<input class="btn btn-flush-light btn-animated" type="submit" value="출근하기"/>
+									<input type="hidden" id="workStartTime" name="workStartTime" value=""/>
+								</form>
+								<form action="${path}/work/updateEndWork" method="post">
+									<input class="btn btn-flush-light btn-animated" type="submit" value="퇴근하기"/>
+									<input type="hidden" id="workEndTime" name="workEndTime" value=""/>
+								</form>
+							</div>
+							<div class="SEWork">
+								<p></p>
+								<p></p>
 							</div>
 						</div>
 					</div>
@@ -122,7 +122,7 @@
 					<!-- 2 -->
 					<div class="d-flex justify-content-center">
 					<div style="width: 400px; height: 400px" class="d-flex justify-content-center">
-						<!-- <img alt="" src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium" style="width: 350px; height: 350px"> -->
+						<img alt="" src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium" style="width: 350px; height: 350px">
 					</div>
 					</div>
 
@@ -290,6 +290,11 @@ button{
 
 table>thead{
 	background-color: var(--navy);
+}
+
+.clockAndCheck > div {
+	background-color: var(--navy);
+	color: white;
 }
 
 /* section calendar */
@@ -476,8 +481,8 @@ navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
 
     // HTML 요소에 현재 시간을 표시
     document.getElementById("currentTime").innerText = currentTime;
-    document.getElementById("workStartTime").value=currentTime;
-    document.getElementById("workEndTime").value=currentTime;
+    //document.getElementById("workStartTime").value=currentTime;
+    //document.getElementById("workEndTime").value=currentTime;
   }
 
   // 숫자 앞에 0을 붙이는 함수

@@ -77,22 +77,14 @@ public class EmpController {
 	}
 	
 	@PostMapping("/searchEmployees")
-	@ResponseBody
-	public void searchEmployeesByKeywordSeach(String keyword, HttpServletResponse response) throws IOException {
+	public @ResponseBody List<Employee> searchEmployeesByKeywordSeach(String keyword){
 		
 		List<Employee> searchEmployee = service.searchEmployeesByKeyword(keyword);
 		
-//		String csv="";
-//		for(int i=0;i<searchEmployee.size();i++) {
-//			if(i!=0) csv+=",";
-//			csv+=searchEmployee.get(i).getEmp_no();
-//		}
-		
-		response.setContentType("text/csv;charset=utf-8");
-		response.getWriter().print(searchEmployee);
-		
-		
+		return searchEmployee;
 	}
+	
+	
 	
 	
 }
