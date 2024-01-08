@@ -39,6 +39,7 @@ public class Employee implements UserDetails{
 	private String dept_leader;
 	private String position_code;
 	private String position_name;
+	private int pp_add_pay;
 	private String job_code;
 	private String job_name;
 	private String work_type_code;

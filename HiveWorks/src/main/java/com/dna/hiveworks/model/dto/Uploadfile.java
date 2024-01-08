@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Uploadfile {
 
 	private int uploadfileNo;
-	private int uploadfileBoardNo;
+	private int boardNo;
 	private String originalFileName;
 	private String reNamefile;
 }

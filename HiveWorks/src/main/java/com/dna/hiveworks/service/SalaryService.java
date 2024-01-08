@@ -17,12 +17,14 @@ import com.dna.hiveworks.model.dto.salary.Salary;
 
 public interface SalaryService {
 
-	List<Salary> selectSalaryListAll(Map<String,Integer> page);
+	List<Salary> selectSalaryListAll();
 	
 	Salary selectSalaryByNo(int salaryNo);
 	
 	int insertSalary(Salary s);
 	int updateSalary(Salary s);
 	int deleteSalary(int salaryNo);
+	
+	Map<String, Integer> calculateSalary(Map<String,Integer> data);
 	
 }

@@ -48,7 +48,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">1일</span>
 																				</div>
 																			</div>
@@ -71,7 +71,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">0.5일</span>
 																				</div>
 																			</div>
@@ -94,7 +94,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">1일</span>
 																				</div>
 																			</div>
@@ -117,7 +117,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">1일</span>
 																				</div>
 																			</div>
@@ -146,7 +146,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">5일</span>
 																				</div>
 																			</div>
@@ -171,7 +171,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">3일</span>
 																				</div>
 																			</div>
@@ -196,7 +196,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">3일</span>
 																				</div>
 																			</div>
@@ -221,7 +221,7 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip text">
+																				<div class="avatar avatar-blue avatar-rounded" >
 																					<span class="initial-wrap">1일</span>
 																				</div>
 																			</div>
