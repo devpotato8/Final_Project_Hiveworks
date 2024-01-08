@@ -13,47 +13,40 @@
     <div class="container-xxl" style="margin-left: 0px;">
         <h2>상세</h2>
     </div>
-    <div id="board-container">
+    <div id="board-container">   	
         <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle"
         value="${board.boardTitle }"  required readonly="readonly">
-		<!-- 첨부파일 -->
+        <div id="boardContent" class="form-control" name="boardContent" placeholder="내용" required readonly="readonly">${board.boardContent}</div>
+        <br>
 		<c:if test="${board.files.size()>0 }">
-			<c:forEach var="file" items="${board.files }">
-	            <button type="button" 
-	                    class="btn btn-outline-success btn-block"
-	                    onclick="fn_filedownload('${file.originalFileName}','${file.reNamefile }');">
-	                    ${file.originalFileName }
-	            </button> 
+            <c:forEach var="file" items="${board.files }">
+                <button type="button" 
+                    class="btn btn-dark"
+                    onclick="fn_filedownload('${file.originalFileName}','${file.reNamefile }');">
+                    ${file.originalFileName }
+                </button> 
             </c:forEach>
         </c:if>
-        
-        <textarea class="form-control" name="boardContent" placeholder="내용" required readonly="readonly">${board.boardContent}</textarea>
-              <a href="${path}/board/board"><input type="button" value="확인"></a>
+        <a href="${path}/board/board"><input type="button" value="확인"></a>
     </div>
- </div>
-<!--     <script type="text/javascript">
-    document.getElementById('submit').addEventListener('click', handleSubmit);
-
-
-    function handleSubmit() {
-      console.log('submit 버튼이 클릭되었습니다.');
-
-    }
-    </script> -->
+</div>
 
 <style>
-    .ck-editor__editable {
-        height: 400px;
+   
+    #boardContent{
+    width:400px;
+    height:300px;
     }
     div#board-container{width:400px; margin:0 auto; text-align:center;}
     div#board-container input{margin-bottom:15px;}
 </style>
- <script>
-    	const fn_filedownload=(oriname,rename)=>{
-    		location.assign("${path}/board/filedownload.do?oriname="+oriname+"&rename="+rename);	
-    	}
-    </script>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
+<script>
+    const fn_filedownload = (oriname, rename) => {
+        location.assign("${path}/board/filedownload?oriname=" + oriname + "&rename=" + rename);	
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

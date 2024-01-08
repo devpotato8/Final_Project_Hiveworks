@@ -2,13 +2,103 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="schedule">
 	<resultMap id="scheduleMap" type="schedule">
-		<result property="calSubject" column="cal_subject"/>
+		<id property="calNo" column="cal_no"/>
+		<result property="calCode" column="cal_code"/>
+		<result property="empNo" column="emp_no"/>
 		<result property="calStartDate" column="cal_start_date"/>
 		<result property="calEndDate" column="cal_end_date"/>
+		<result property="calSubject" column="cal_subject"/>
+		<result property="calColor" column="cal_color"/>
+		<result property="calImportYn" column="cal_import_yn"/>
+		<result property="reminderYn" column="reminder_yn"/>
+		<result property="calAlldayYn" column="cal_allday_yn"/>
+		<result property="calStatus" column="cal_status"/>
+		<result property="creater" column="creater"/>
+		<result property="modifier" column="modifier"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="useYn" column="use_yn"/>	
+		<association property="resource" resultMap="resourceMap"/>
 	</resultMap>
 	
-	<insert id="insertSchdule" parameterType="schedule">
-		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,"CAL001","user01",#{calStartDate},
-		 #{calEndDate},#{calSubject},"일정테스트","빨강색",DEFAULT,DEFAULT,DEFAULT,NULL,DEFAULT,DEFAULT,"user01","user01",DEFAULT)
+	
+	
+	
+	<resultMap id="resourceMap" type="resource">
+		<id property="resourceNo" column="resource_no"/>
+		<result property="resourceType" column="resource_type"/>
+		<result property="resourceName" column="resource_name"/>
+		<result property="resourceMax" column="resource_max"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="creater" column="creater"/>
+		<result property="modifier" column="modifier"/>
+		<result property="resourceUseYn" column="resource_use_yn"/>
+		<result property="useStartTime" column="use_start_time"/>
+		<result property="UseEndTime" column="use_end_time"/>
+		<result property="useYn" column="use_yn"/>
+	</resultMap>
+
+
+	
+	<insert id="insertSchedule" parameterType="schedule">
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
 	</insert>
+	<insert id="reserveResource" parameterType="schedule">
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},NULL,NULL,#{calColor},DEFAULT,#{reminderYn},NULL,#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
+	</insert>
+	
+	<insert id="reserveResourceEnd">
+		INSERT INTO TBL_RESOURCE_RESERVATION VALUES (#{resourceNo},SEQ_CAL_NO.CURRVAL)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="insertResource" parameterType="resource">
+		INSERT INTO TBL_RESOUCE VALUES (#{resourceNo},#{resourceType},#{resourceName},#{resourceMax},DEFAULT,DEFAULT,3333,3333,DEFAULT,NULL,NULL,DEFAULT)
+	</insert>
+	
+	
+	
+	
+	
+	
+	<select id="selectScheduleAll" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR
+	</select>
+	<select id="selectResourceAll" resultMap="resourceMap">
+		SELECT * FROM TBL_RESOUCE
+	</select>
+	<select id="selectReserveAll" resultMap="scheduleMap">
+		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') ORDER BY cal.cal_no DESC
+	</select>
+	
+	<select id="selectReserveByNo" resultMap="scheduleMap">
+		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') AND EMP_NO = #{empNo} ORDER BY cal.cal_no DESC
+	</select>
+	
+	
+	<select id="selectReserveByCode" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = #{calCode}
+	</select>
+	
+	<select id="selectprojectAll" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007'
+	</select>
+	
+	<select id="selectprojectByCalNo" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND CAL_NO = #{calNo}
+	</select>
+	
+	<select id="selectprojectByEmpNo" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND EMP_NO = #{empNo}
+	</select>
+	
+	
 </mapper>

@@ -28,6 +28,7 @@
             </div>
             <textarea class="form-control" id="editor" name="boardContent" placeholder="내용" required style="resize:none;">
             ${data.editor }</textarea>
+            <span id="messagebyte">0</span><span>/ 2000 Byte</span>
             <br />
             <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
         </form>
@@ -43,7 +44,7 @@
     </script> -->
 <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
 	<script>
-      ClassicEditor.create( document.querySelector( '#editor' ), );
+      ClassicEditor.create( document.querySelector( '#editor' ) );
     </script>
 <style>
     .ck-editor__editable {
@@ -86,6 +87,40 @@
     		$(e.target).next(".custom-file-label").text(fileName);
     	});
     </script>
+    <script>
+    var limitByte = 2000;
+    var totalByte = 0;
+
+    function fn_chk_byte(obj) {
+        totalByte = 0;
+        var message = $(obj).val();
+
+        for (var i = 0; i < message.length; i++) {
+            var currentByte = message.charCodeAt(i);
+            if (currentByte > 128) {
+                totalByte += 2;
+            } else {
+                totalByte++;
+            }
+        }
+
+        $("#messagebyte").text(totalByte);
+
+        // 총 바이트 수가 제한을 초과하는지 확인
+        if (totalByte > limitByte) {
+            alert(limitByte + "Byte 까지 전송 가능합니다.");
+            // 필요에 따라 여기에 추가 작업을 추가할 수 있습니다.
+        }
+    }
+
+    function sms_send() {
+        if (totalByte > limitByte) {
+            alert(limitByte + "Byte 까지 전송 가능합니다.");
+            return;
+        }
+    }
+
+</script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 
