@@ -30,9 +30,9 @@ public class WorkDaoImpl implements WorkDao {
 	}
 
 	@Override
-	public int updateWork(SqlSession session, Work w) {
+	public int updateWork(SqlSession session) {
 		// TODO Auto-generated method stub
-		return session.update("work.updateEndWork", w);
+		return session.update("work.updateEndWork");
 	}
 
 	@Override
