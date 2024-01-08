@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/DTD/mybatis-3-mapper.dtd" >
 <mapper namespace="edoc">
+	<resultMap type="edoc" id="edocMap">
+		<id column="edoc_no" property="edocNo"/>
+		<result column="EDOC_DOT_CODE" property="edocDotCode"/>
+		<result column="EDOC_TITLE" property="edocTitle"/>
+		<result column="EDOC_PRESERVE_PERIOD" property="edocPreservePeriod"/>
+		<result column="EDOC_DSG_CODE" property="edocDsgCode"/>
+		<result column="EDOC_CONTENT" property="edocContent"/>
+		<result column="EDOC_STARTDATE" property="edocStartDate"/>
+		<result column="EDOC_ENDDATE" property="edocEndDate"/>
+		<result column="EDOC_STATUS" property="edocStatus"/>
+		<result column="CREATER" property="creater"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="FINALIZED_DATE" property="finalizedDate"/>
+	</resultMap>
   <resultMap type="edocList" id="edocListMap">
   	<result column="edoc_no" property="edocNo"/>
   	<result column="edoc_title" property="edocTitle"/>
@@ -9,6 +23,18 @@
   	<result column="finalized_date" property="finalizedDate"/>
   	<result column="edoc_dot_code" property="edocDotCode"/>
   	<result column="edoc_status" property="edocStatus"/>
+  </resultMap>
+  <resultMap type="edocSample" id="edocSampleMap">
+  	<id column="sample_no" property="sampleNo"/>
+  	<result column="sample_dot_code" property="sampleDotCode"/>
+  	<result column="SAMPLE_NAME" property="sampleName"/>
+  	<result column="SAMPLE_DESC" property="sampleDesc"/>
+  	<result column="SAMPLE_CONTENT" property="sampleContent" jdbcType="CLOB"/>
+  	<result column="CREATER" property="creater"/>
+  	<result column="CREATE_DATE" property="createDate"/>
+  	<result column="MODIFIER" property="modifier"/>
+  	<result column="MODIFY_DATE" property="modifyDate"/>
+  	<result column="USE_YN" property="useYn"/>
   </resultMap>
   
   <select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
@@ -48,7 +74,7 @@
   			#{i_empid},
   			#{i_apv_code},
   			#{i_apv_com},
-  			#{o_rtn_code,mode=OUT, jdbcType=VARCHAR},
+  			#{salary,mode=OUT, jdbcType=VARCHAR},
   			#{o_rtn_msg,mode=OUT, jdbcType=VARCHAR}
   		)
   	}
@@ -60,5 +86,40 @@
   						LEFT JOIN TBL_CODE C ON E.POSITION_CODE = C.CODE_NO
   	WHERE E.EMP_NO = #{empNo}
   </select>
+  
+  <select id="getEdocSampleList" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
+  	SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE SAMPLE_DOT_CODE = #{edocDotCode}
+  </select>
+  
+  <select id="getSample" resultMap="edocSampleMap" parameterType="string" >
+  	SELECT * FROM TBL_EDOC_SAMPLE WHERE SAMPLE_NO = #{sampleNo}
+  </select>
+  
+  <select id="getEdoc" resultMap="edocMap" parameterType="string">
+  	SELECT * FROM TBL_EDOC WHERE EDOC_NO = #{edocNo}
+  </select>
+  
+  <insert id="insertEdoc" parameterType="edoc">
+  	<selectKey keyProperty="edocNo" keyColumn="EDOC_NO" resultType="string" order="BEFORE">
+  		SELECT 'HI-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE '%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
+  	</selectKey>
+  	INSERT INTO TBL_EDOC VALUES(
+  	#{edocNo},<!-- EDOC_NO -->
+	#{edocDotCode},<!-- EDOC_DOT_CODE -->
+	#{edocTitle},<!-- EDOC_TITLE -->
+	#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
+	#{edocDsgCode},<!-- EDOC_DSG_CODE -->
+	#{edocContent},<!-- EDOC_CONTENT -->
+	null,<!-- EDOC_STARTDATE -->
+	null,<!-- EDOC_ENDDATE -->
+	'DST100',<!-- EDOC_STATUS -->
+	#{creater},<!-- CREATER -->
+	SYSDATE,<!-- CREATE_DATE -->
+	NULL,<!-- MODIFIER -->
+	NULL,<!-- MODIFY_DATE -->
+	DEFAULT,<!-- USE_YN -->
+	NULL<!-- FINALIZED_DATE -->
+  	)
+  </insert>
   
 </mapper>
