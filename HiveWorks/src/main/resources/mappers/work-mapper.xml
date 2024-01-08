@@ -17,11 +17,12 @@
 	</resultMap>
 	
 	<insert id="insertStartWork">
-		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,1,'WOT001',SYSDATE,SYSDATE,NULL,'승인',1,SYSDATE,1,SYSDATE,'Y')
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,2,'WOT001',SYSDATE,SYSDATE,NULL,'승인',2,SYSDATE,2,SYSDATE,'Y')
 	</insert>
-	<update id="updateEndWork" parameterType="string">
+	<update id="updateEndWork">
 		UPDATE TBL_WORK SET
-		WORK_END_TIME = #{workEndTime}
-		WHERE EMP_NO = 1
+		WORK_END_TIME = SYSDATE
+		WHERE EMP_NO = 2
+		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</update>
 </mapper>

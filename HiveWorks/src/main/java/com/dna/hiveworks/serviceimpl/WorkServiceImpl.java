@@ -37,9 +37,9 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public int updateWork(Work w) {
+	public int updateWork() {
 		// TODO Auto-generated method stub
-		return dao.updateWork(session, w);
+		return dao.updateWork(session);
 	}
 
 	@Override

@@ -21,8 +21,8 @@ public class SalaryServiceImpl implements SalaryService {
 	private final SqlSession session;
 	
 	@Override
-	public List<Salary> selectSalaryListAll(Map<String, Integer> page) {
-		return dao.selectSalaryListAll(session, page);
+	public List<Salary> selectSalaryListAll() {
+		return dao.selectSalaryListAll(session);
 	}
 
 	@Override
@@ -34,10 +34,7 @@ public class SalaryServiceImpl implements SalaryService {
 	public int insertSalary(Salary s) {
 		
 		int result = dao.insertSalary(session, s);
-		if(result>0) {
-			int result2 = dao.insertPositionPay(session, s);
-			if(result2==0) new RuntimeException("업데이트 실패");
-		}else {
+		if(result<=0) {
 			new RuntimeException("업데이트 실패");
 		}
 		
@@ -49,8 +46,7 @@ public class SalaryServiceImpl implements SalaryService {
 		
 		int result = dao.updateSalary(session, s);
 		if(result>0) {
-			int result2 = dao.updatePositionPay(session, s);
-			if(result2==0) new RuntimeException("업데이트 실패");
+			
 		}else {
 			new RuntimeException("업데이트 실패");
 		}
@@ -63,6 +59,13 @@ public class SalaryServiceImpl implements SalaryService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Map<String, Integer> calculateSalary(Map<String,Integer> data) {
+		return dao.calculateSalary(session, data);
+	}
+	
+	
 
 	
 }
