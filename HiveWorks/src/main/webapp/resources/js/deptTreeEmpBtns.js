@@ -1,5 +1,9 @@
 
+/* 버튼 이벤트 JS */
+
+
 /*<!-- 부서이동 버튼 이벤트 -->*/
+
 
 $('.btn.deptMove').off('click').on('click', function() {
     var selectedIds = [];
@@ -32,7 +36,7 @@ $('.btn.deptMove').off('click').on('click', function() {
     	
     	$.ajax({
     		type:'GET',
-    		url:'/deptlist',
+    		url: path+'/deptlist',
     		dataType:'JSON',
     		success: function(response){
     			 // 가져온 부서 목록으로 select 요소의 option들 생성
@@ -76,7 +80,7 @@ $('#changeDept').on('shown.bs.modal', function () {
 	    // 서버로 전송
 	    $.ajax({
 	        type: 'POST',
-	        url: '/changeEmpDept', 
+	        url: path+'/changeEmpDept', 
 	        traditional: true,
 	        data: {
 	            deptCode: deptCode,
@@ -190,7 +194,7 @@ $('.deptLeaderOn').on('click', function() {
 	// 서버로 정보 전송
     $.ajax({
         type: 'POST',
-        url: '/setleader',
+        url: path+'/setleader',
         data: JSON.stringify({oldLeaderId: oldLeaderId, newLeaderId: newLeaderId}),
         contentType: 'application/json',
         success: function(response) {
@@ -290,7 +294,7 @@ $('.deptLeaderOff').on('click', function() {
     // 서버로 정보 전송
     $.ajax({
         type: 'POST',
-        url: '/removeleader',
+        url: path+'/removeleader',
         data: {id: selectedPerson.id},
         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
         success: function(response) {
@@ -357,7 +361,7 @@ $('.deptOutBtn').on('click', function() {
         $('#deptOut').modal('hide'); // 모달창 닫기
         $.ajax({
             type: 'POST',
-            url: '/deptout',
+            url: path+'/deptout',
             data: JSON.stringify(selectedPeople),
             contentType: 'application/json',
             success: function(response) {
@@ -402,7 +406,7 @@ $(document).ready(function(){
             ajaxRequest=true;
             $.ajax({
                 type:'GET',
-                url:'/searchEmp',
+                url:path+'/searchEmp',
                 data:{ name : searchText },
                 dataType:'JSON',
                 success: function(response){
@@ -511,7 +515,7 @@ $('.addEmpDeptBtn').click(function(){
 	}
 	
 	$.ajax({
-		url: '/addEmpDept',
+		url: path+'/addEmpDept',
 		type:'POST',
 		contentType:'application/json',
 		data: JSON.stringify({

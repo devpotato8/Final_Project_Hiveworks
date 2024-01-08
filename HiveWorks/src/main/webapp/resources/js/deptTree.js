@@ -8,7 +8,7 @@ $.jstree.defaults.core.themes.variant = "large";
 function getJson(){
 	$.ajax({
 		type:'GET',
-		url:'/deptlist',
+		url:path+'/deptlist',
 		dataType:'JSON',
 		success: function(data){
 			var deptlist = new Array();
@@ -52,7 +52,7 @@ function getJson(){
 
 							                $.ajax({
 							                    type: 'POST',
-							                    url: '/insertdept',
+							                    url: path+'/insertdept',
 							                    data: JSON.stringify({
 							                        'deptName': data.text,
 							                        'deptUpstair': parentNode
@@ -89,7 +89,7 @@ function getJson(){
 										
 										$.ajax({
 											type:'POST',
-											url: '/updatedept',
+											url: path+'/updatedept',
 											data: JSON.stringify({
 												'deptCode':code,
 												'deptUpstair':upstair,
@@ -147,7 +147,7 @@ function getJson(){
 							        	
 							            $.ajax({
 							                type: 'POST',
-							                url: '/deletedept', //부서 삭제 요청을 처리하는 서버 URL
+							                url: path+'/deletedept', //부서 삭제 요청을 처리하는 서버 URL
 							                data: JSON.stringify(sendData),
 							                contentType: 'application/json',
 							                dataType: 'json',
@@ -207,7 +207,7 @@ function getJson(){
 					    // 서버에 데이터를 전송
 					    $.ajax({
 					        type: 'POST',
-					        url: '/updatedept', 
+					        url: path+'/updatedept', 
 					        data: JSON.stringify(sendData),
 					        contentType: 'application/json',
 					        dataType: 'json',

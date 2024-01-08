@@ -358,7 +358,7 @@
 										</div>
 										<div class="media-body">
 											<div class="dropdown">
-												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside">Hencework</a>
+												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside">${loginEmp.emp_name}</a>
 												<div class="dropdown-menu dropdown-menu-end">
 													<div class="p-2">
 														<div class="media align-items-center active-user mb-3">
@@ -368,7 +368,7 @@
 																</div>
 															</div>
 															<div class="media-body">
-																<a href="#" class="d-flex align-items-center link-dark">Hencework <i class="ri-checkbox-circle-fill fs-7 text-primary ms-1"></i></a>
+																<a href="#" class="d-flex align-items-center link-dark">${loginEmp.emp_name}<i class="ri-checkbox-circle-fill fs-7 text-primary ms-1"></i></a>
 																<a href="#" class="d-block fs-8 link-secondary"><u>Manage your account</u></a>
 															</div>
 														</div>

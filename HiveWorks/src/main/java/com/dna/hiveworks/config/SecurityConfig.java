@@ -18,8 +18,7 @@ public class SecurityConfig {
 	
 	@Bean
 	SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception{
-		return http
-				.csrf(csrf->csrf.disable())
+		return http.csrf(csrf->csrf.disable())
 				.authorizeHttpRequests(request->{
 					request.requestMatchers("/").permitAll()
 							.requestMatchers("/WEB-INF/views/**").permitAll()
