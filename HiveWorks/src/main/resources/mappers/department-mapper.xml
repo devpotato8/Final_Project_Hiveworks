@@ -15,80 +15,131 @@
 	    <result property="job" column="JOB"/>
 	    <result property="deptName" column="DEPTNAME"/>
 	</resultMap>
+ 	
+ 	<!-- 조직도jstree 구성할 depet목록 -->
+	<select id="deptListAll" resultMap="deptMap">
+	 	SELECT t1.DEPT_CODE, t1.DEPT_NAME, LEVEL, t1.DEPT_UPSTAIR
+	    FROM (
+	        SELECT * FROM TBL_DEPARTMENT
+	        WHERE USE_YN = 'Y'
+	    ) t1
+	    START WITH t1.DEPT_UPSTAIR = '#'
+	    CONNECT BY PRIOR t1.DEPT_CODE = t1.DEPT_UPSTAIR
+	</select>
+
+
+	<!-- jstree에서 하위부서 생성했을 때, 저장되는 부서코드와 일치시키기 위해서 사용 -->	
+	<!-- useGeneratedKeys를 사용해서 시퀀스로 생성된 deptCode를 다시 jstree ajax로 돌려보낸다 -->
+    <!-- selectKey 구문을 이용해서 반환되는 키의 타입을 지정하고 키로 쓸 값을 선택한다 -->
+	<insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
+	    INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{deptUpstair}, #{deptName}, DEFAULT)
+	    <selectKey resultType="string" keyProperty="deptCode" order="AFTER">
+	        SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_CODE = (SELECT MAX(DEPT_CODE) FROM TBL_DEPARTMENT)
+	    </selectKey>
+	</insert>
  
- <select id="deptListAll" resultMap="deptMap">
- 	SELECT t1.DEPT_CODE, t1.DEPT_NAME, LEVEL, t1.DEPT_UPSTAIR
-    FROM (
-        SELECT * FROM TBL_DEPARTMENT
-        WHERE USE_YN = 'Y'
-    ) t1
-    START WITH t1.DEPT_UPSTAIR = '#'
-    CONNECT BY PRIOR t1.DEPT_CODE = t1.DEPT_UPSTAIR
- </select>
+ 	<!-- jstree에서 부서명 변경 시 -->
+	<update id="updateDept">
+ 		UPDATE TBL_DEPARTMENT SET DEPT_NAME = #{name}, DEPT_UPSTAIR= #{upstair} WHERE DEPT_CODE = #{code}
+	</update>
  
- <select id="selectDeptByName" resultMap="deptMap">
- 	SELECT * FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{deptName}
- </select>
+ 	<!-- jstree에서 부서 삭제 시 -->
+	<update id="deleteDept">
+	 	UPDATE TBL_DEPARTMENT
+	    SET USE_YN = 'N'
+	    <choose>
+	    	<!-- 삭제하는 부서의 하위 부서들이 있는 경우 -->
+	        <when test="children != null and children.size() > 0">
+	            WHERE DEPT_CODE IN
+	            <foreach item="item" index="index" collection="children" open="(" separator="," close=")">
+	                #{item}
+	            </foreach>
+	            OR DEPT_CODE = #{deptCode}
+	        </when>
+	        <!-- 단일 부서 삭제 시 -->
+	        <otherwise>
+	            WHERE DEPT_CODE = #{deptCode}
+	        </otherwise>
+	    </choose>
+	</update>
  
- <insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
-    INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{deptUpstair}, #{deptName}, DEFAULT)
-    <selectKey resultType="string" keyProperty="deptCode" order="AFTER">
-        SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_CODE = (SELECT MAX(DEPT_CODE) FROM TBL_DEPARTMENT)
-    </selectKey>
-</insert>
+ 	<!-- 구성원 관리페이지에서 구성원목록 출력 시 -->
+	<select id="deptEmpList" resultMap="empMap">
+	 	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
+		FROM TBL_EMPLOYEE e
+			JOIN (
+			    SELECT DEPT_CODE, DEPT_NAME
+			    FROM TBL_DEPARTMENT
+			    WHERE DEPT_CODE = #{deptCode}
+			) d ON e.DEPT_CODE = d.DEPT_CODE
+			LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
+			LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
+	</select>	
+	
+	<!-- 구성원 관리페이지에 표시할 부서명 -->
+ 	<select id="searchDeptName" resultType="string">
+ 		SELECT DEPT_NAME FROM TBL_DEPARTMENT WHERE DEPT_CODE = #{deptCode}
+ 	</select>
+ 	
+ 	<!-- 구성원 관리에서 부서이동 했을 때 -->
+	<update id="changeEmpDept">
+		UPDATE TBL_EMPLOYEE 
+		SET DEPT_CODE=#{deptCode} 
+		WHERE EMP_ID IN
+		<foreach item="item" index="index" collection="empIds" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</update>
  
- <update id="updateDept">
- 	UPDATE TBL_DEPARTMENT SET DEPT_NAME = #{name}, DEPT_UPSTAIR= #{upstair} WHERE DEPT_CODE = #{code}
- </update>
- 
- <update id="deleteDept">
- 	UPDATE TBL_DEPARTMENT
-    SET USE_YN = 'N'
-    <choose>
-        <when test="children != null and children.size() > 0">
-            WHERE DEPT_CODE IN
-            <foreach item="item" index="index" collection="children" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-            OR DEPT_CODE = #{deptCode}
-        </when>
-        <otherwise>
-            WHERE DEPT_CODE = #{deptCode}
-        </otherwise>
-    </choose>
- </update>
- 
- <select id="deptEmpList" resultMap="empMap">
-<!--  	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB
-	FROM TBL_EMPLOYEE e
-		JOIN (
-		    SELECT DEPT_CODE
-		    FROM TBL_DEPARTMENT
-		    START WITH DEPT_CODE = #{deptCode}
-		    CONNECT BY PRIOR DEPT_CODE = DEPT_UPSTAIR
-		) d ON e.DEPT_CODE = d.DEPT_CODE
-		LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
-		LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO -->
- 	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
-	FROM TBL_EMPLOYEE e
-		JOIN (
-		    SELECT DEPT_CODE, DEPT_NAME
-		    FROM TBL_DEPARTMENT
-		    WHERE DEPT_CODE = #{deptCode}
-		) d ON e.DEPT_CODE = d.DEPT_CODE
-		LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
-		LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
- </select>
- 
- <update id="deptLeaderOn">
-	BEGIN
-		UPDATE TBL_EMPLOYEE SET DEPT_LEADER='Y' WHERE EMP_ID = #{id}
-		UPDATE TBL_EMPLOYEE SET DEPT_LEADER='N' WHERE EMP_ID = #{oldId}
-	END
- </update>
- 
- <update id="deptLeaderOff">
- 	UPDATE TBL_EMPLOYEE SET DEPT_LEADER='N' WHERE EMP_ID = #{id}
- </update>
+ 	<!-- 구성원 관리에서 조직장 설정 시 -->
+<!-- case문을 사용해서 이전 조직장을 해제하고 현재 선택한 사람을 조직장으로 동시에 수정
+	<update id="changeDeptLeader">
+		UPDATE TBL_EMPLOYEE
+		SET DEPT_LEADER = 
+			CASE 
+	          WHEN EMP_ID = #{oldLeaderId} THEN 'N'
+	          WHEN EMP_ID = #{newLeaderId} THEN 'Y'
+		    END
+		WHERE EMP_ID IN (${oldLeaderId}, ${newLeaderId})
+	</update> -->
+	
+	<update id="changeDeptLeaderOld">
+	    UPDATE TBL_EMPLOYEE
+	    SET DEPT_LEADER = 'N'
+	    WHERE EMP_ID = #{id}
+	</update>
+	
+	<update id="changeDeptLeader">
+	    UPDATE TBL_EMPLOYEE
+	    SET DEPT_LEADER = 'Y'
+	    WHERE EMP_ID = #{id}
+	</update>
+	
+	<!-- 구성원 관리에서 조직장 해제 시 -->
+	<update id="removeDeptLeader" parameterType="string">
+		UPDATE TBL_EMPLOYEE SET DEPT_LEADER = 'N' WHERE EMP_ID = #{id}
+	</update>
+	
+	<!-- 구성원 관리에서 소속 제외 시 -->	
+	<update id="deptEmpOut">
+		UPDATE TBL_EMPLOYEE 
+		SET DEPT_CODE = NULL
+		WHERE EMP_ID IN
+		<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</update>
+	
+	<select id="searchEmpByName" resultType="employee">
+		SELECT E.*, COALESCE(PC.CODE_NAME, '직책없음') AS POSITION_NAME, COALESCE(DC.DEPT_NAME, '소속없음') AS DEPT_NAME, DC.DEPT_CODE 
+		FROM TBL_EMPLOYEE E 
+		LEFT JOIN TBL_CODE PC ON E.POSITION_CODE = PC.CODE_NO 
+		LEFT JOIN TBL_DEPARTMENT DC ON E.DEPT_CODE = DC.DEPT_CODE
+		WHERE E.EMP_NAME LIKE '%'||#{name}||'%'
+	</select>
+	
+	<update id="addEmpDept" parameterType="employee">
+		UPDATE TBL_EMPLOYEE SET DEPT_CODE = #{dept_code} WHERE EMP_NO = #{emp_no} AND EMP_NAME = #{emp_name}
+	</update>
  
 </mapper>

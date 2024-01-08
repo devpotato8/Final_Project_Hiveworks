@@ -62,30 +62,34 @@
 								<div class="tab-content">
 									<!-- 문서 작성 탭 -->
 									<div class="tab-pane fade show active" id="write_doc">
-										<div class="table-responsive col-sm-8 justify-content-center d-flex">
+										<div class="table-responsive col-sm-8">
 											<table class="table">
 												<tbody>
 													<tr>
 														<th scope="row">문서종류</th>
 														<td>
-															<select class="form-select" name="edocDotCode">
-																<optgroup label="문서종류">
+															<div class="input-group mb-3">
+																<select class="form-select" name="edocDotCode" id="edocType">
+																	<option disabled="disabled" selected="selected">문서종류</option>
 																	<c:forEach items="${dotcode }" var="t">
 																		<option value="${t }">${DotCode.valueOf(t).code }</option>
 																	</c:forEach>
-																</optgroup>
-															</select>
+																</select>
+																<select class="form-select" id="edocFormat">
+																	<option disabled="disabled" selected="selected">종류를 선택해주세요</option>
+																</select>
+															</div>
 														</td>
 														<th scope="row">작성자</th>
 														<td>
 															<c:out value="${emp.DEPTNAME }"/> <c:out value="${emp.JOBNAME }"/> <c:out value="${emp.EMPNAME }"/>
-															<input type="hidden" name="edocCreater" value="${emp.EMPNO }">
+															<input type="hidden" name="edocCreater" value="${emp.EMPNO }" id="edocCreter">
 														</td>
 													</tr>
 													<tr>
 														<th scope="row">보존연한</th>
 														<td>
-															<select class="form-select" name="edocPreservePeriod">
+															<select class="form-select" name="period" id="period">
 																<optgroup label="보존연한">
 																	<option value="1">1년</option>
 																	<option value="3" selected="selected">3년</option>
@@ -96,7 +100,7 @@
 														</td>
 														<th scope="row">보안등급</th>
 														<td>
-															<select class="form-select" name="edocDsgCode">
+															<select class="form-select" name="edocDsgCode" id="edocDsgCode">
 																<optgroup label="보안등급">
 																	<c:forEach items="${dsgcode }" var="s">
 																		<option value="${s}"
@@ -110,17 +114,23 @@
 												</tbody>
 											</table>
 										</div>
+										<div class="col-sm-2">
+											<button type="button" class="btn btn-primary" id="submitButton">기안하기</button>
+										</div>
 										<div class="edoc-detail-container">
 											<div class="mb-3">
 												<span class="form-label">제목 : </span>
-												<input type="text" class="form-control"/>
+												<input type="text" class="form-control" name="edocTitle" id="edocTitle"/>
 											</div>
 										</div>
 										<span class="form-label">본문 : </span>
-										<div class="document-container">
-											<iframe class="doc-viewer" id="edoc">
-												${document }
-											</iframe>
+										<div class="editor">
+											<div class="editor-toolbar-container">
+											</div>
+											<div class="editor-editable-container">
+												<div class="editor-editable"  id="content">
+												</div>
+											</div>
 										</div>
 									</div>
 									<!-- 결재선 설정 탭 -->
@@ -144,5 +154,22 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
+<link type="text/css" rel="stylesheet" href="${path }/resources/ckeditor/build/style.css">
+<script>
+	const path = "${path}";
+</script>
+<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
+<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
+<script type="text/javascript">
+DecoupledEditor
+.create( document.querySelector("#content"),{})
+	.then( editor => {
+            const toolbarContainer = document.querySelector( '.editor-toolbar-container' );
 
+            toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

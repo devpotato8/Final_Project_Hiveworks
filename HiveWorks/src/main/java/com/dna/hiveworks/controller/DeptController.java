@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dna.hiveworks.model.dto.Department;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.service.DeptService;
 
 @Controller
@@ -94,6 +95,7 @@ public class DeptController {
 	}
 
 	//🔻🔻 구성원관리 controller 🔻🔻	
+	//구성원리스트
 	@GetMapping("/deptemplist")
 	@ResponseBody
 	public List<Map<String, Object>> deptEmplist(@RequestParam String deptCode){
@@ -101,15 +103,81 @@ public class DeptController {
 	    return employees;
 	}
 	
+	//부서명 찾기
+	@GetMapping("/searchDeptName")
+	@ResponseBody
+	public String searchDeptName(@RequestParam String deptCode) {
+		String response = service.searchDeptName(deptCode);
+		return response;
+	}
+	
+	//부서이동
 	@PostMapping("/changeEmpDept")
 	@ResponseBody
-	public Map<String, String> deptLeaderOn(@RequestParam String empId, @RequestParam String deptCode){
-		Map<String, String> response = new HashMap<>();
-		response.put("empId", empId);
-		response.put("deptCode", deptCode);
-		int result = service.changeEmpDept(response);
+	public Map<String, String> changeEmpDept(@RequestParam String deptCode, @RequestParam List<String> empIds ){
+		Map<String,Object>params = new HashMap<>();
+		params.put("empIds", empIds);
+		params.put("deptCode", deptCode);
+		int result = service.changeEmpDept(params);
 		
+		Map<String, String> response = new HashMap<>();
 		if(result > 0) {
+			response.put("status", "success");
+	    } else {
+	    	response.put("status", "fail");
+	    }
+	    
+	    return response;
+	}
+	
+	@PostMapping("/setleader")
+	@ResponseBody
+	public Map<String, String> setLeader(@RequestBody Map<String, String> leaderIds){
+				
+		String newLeaderId = leaderIds.get("newLeaderId");
+		String oldLeaderId = leaderIds.get("oldLeaderId");
+		
+	    int resultNew = service.changeDeptLeader(newLeaderId);
+	    int resultOld = 0;
+	    if(oldLeaderId!=null) {
+	    	resultOld = service.changeDeptLeaderOld(oldLeaderId);
+	    }
+		Map<String, String> response = new HashMap<>();
+		if(resultNew > 0 || resultOld > 0) {
+			response.put("status", "success");
+	    } else {
+	    	response.put("status", "fail");
+	    }
+	    
+	    return response;
+	}
+	
+	@PostMapping("/removeleader")
+	@ResponseBody
+	public Map<String, String> removeLeader(@RequestParam String id){
+		
+	    int result = service.removeDeptLeader(id);
+		
+		Map<String, String> response = new HashMap<>();
+		if(result > 0) {
+			response.put("status", "success");
+	    } else {
+	    	response.put("status", "fail");
+	    }
+	    
+	    return response;
+	}
+	
+	@PostMapping("/deptout")
+	@ResponseBody
+	public Map<String, String> deptEmpOut(@RequestBody List<String> ids){
+		Map<String, Object> params = new HashMap<>();
+	    params.put("ids", ids);
+
+	    int result = service.deptEmpOut(params);
+	    
+	    Map<String, String> response = new HashMap<>();
+	    if(result > 0) {
 	        response.put("status", "success");
 	    } else {
 	        response.put("status", "fail");
@@ -118,5 +186,26 @@ public class DeptController {
 	    return response;
 	}
 	
+	@GetMapping("/searchEmp")
+	@ResponseBody
+	public List<Employee> searchEmpByName (@RequestParam String name){
+		List<Employee> response = service.searchEmpByName(name);
+		return response;
+	}
 	
+	@PostMapping("/addEmpDept")
+	@ResponseBody
+	public Map<String, String> addEmpDept(@RequestBody Employee emp){
+		
+		int result = service.addEmpDept(emp);
+		
+		Map<String, String> response = new HashMap<>();
+	    if(result > 0) {
+	        response.put("status", "success");
+	    } else {
+	        response.put("status", "fail");
+	    }
+	    
+	    return response;
+	}
 }

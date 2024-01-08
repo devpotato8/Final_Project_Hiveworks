@@ -38,9 +38,13 @@ public class ElectronicDocument {
 	private Date edocEndDate;
 	private String edocStatus;
 	private String empName;
+	private int creater;
 	private Date createDate;
+	private Date finalizedDate;
 	
 	List<ElectronicDocumentComment> comments;
 	List<ElectronicDocumentHistory> history;
 	List<ElectronicDocumentApproval> approval;
+	
+	private int period;
 }

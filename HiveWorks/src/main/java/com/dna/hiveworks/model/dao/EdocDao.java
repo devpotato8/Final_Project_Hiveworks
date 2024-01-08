@@ -8,7 +8,10 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
 /**
  * @author : 이재연
@@ -21,52 +24,18 @@ import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
  */
 public interface EdocDao {
 
-	/**
-	 * @Author : 이재연 
-	 * @Since : 2024. 1. 3. 
-	 * @Return : List<ElectronicDocument>
-	 * 
-	 * Description : DB에서 전자문서 목록을 받아오는 메소드
-	 * 
-	 * History : 
-	 * - 작성자 : 이재연, 날짜 : 2024. 1. 3., 설명 : 최초 작성
-	 *
-	 * @param session
-	 * @param param
-	 * @return
-	 */
 	List<ElectronicDocumentList> getEdocList(SqlSession session, Map<String, Object> param);
 
-	/**
-	 * @Author : 이재연 
-	 * @Since : 2024. 1. 3. 
-	 * @Return : List<ElectronicDocument>
-	 * 
-	 * Description : DB에서 전자문서 목록을 받아오는 메소드
-	 * 
-	 * History : 
-	 * - 작성자 : 이재연, 날짜 : 2024. 1. 3., 설명 : 최초 작성
-	 *
-	 * @param session
-	 * @param param
-	 * @return
-	 */
 	List<ElectronicDocumentList> getEdocBox(SqlSession session, Map<String, Object> param);
 
-	/**
-	 * @Author : qrien 
-	 * @Since : 2024. 1. 4. 
-	 * @Return : Map<String,Object>
-	 * 
-	 * Description : 메소드에 대한 설명을 적어주세요
-	 * 
-	 * History : 
-	 * - 작성자 : qrien, 날짜 : 2024. 1. 4., 설명 : 최초 작성
-	 *
-	 * @param session
-	 * @param empNo 
-	 * @return
-	 */
 	Map<String, Object> getEmpData(SqlSession session, int empNo);
+	
+	List<ElectronicDocumentSample> getEdocSampleList(SqlSession session, DotCode edocDotCode);
+
+	ElectronicDocumentSample getSample(SqlSession session, String sampleNo);
+	
+	int insertEdoc(SqlSession session, ElectronicDocument edoc);
+
+	ElectronicDocument getEdoc(SqlSession session, String edocNo);
 	
 }
