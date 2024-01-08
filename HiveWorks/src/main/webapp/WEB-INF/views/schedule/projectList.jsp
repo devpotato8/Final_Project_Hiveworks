@@ -48,7 +48,7 @@
 											class="nav-link-text">전체 프로젝트</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link"
-										href="${path }/schedule/projectlistbyno.do?empNo=1234"> <span class="nav-icon-wrap"><span
+										href="${path }/schedule/projectlistbyempno.do?empNo=1234"> <span class="nav-icon-wrap"><span
 												class="feather-icon"><i data-feather="list"></i></span></span> <span
 											class="nav-link-text">내 프로젝트</span>
 									</a></li>
@@ -114,7 +114,7 @@
 								<a class="todoapp-title dropdown-toggle link-dark"
 									data-bs-toggle="dropdown" href="#" role="button"
 									aria-haspopup="true" aria-expanded="false">
-									<h1>All Tasks</h1>
+									<h1>전체 프로젝트</h1>
 								</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="#"><span
@@ -122,10 +122,7 @@
 											data-feather="align-center"></i></span><span>전체 프로젝트</span></a> <a
 										class="dropdown-item" href="#"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="list"></i></span><span>내 프로젝트</span></a> <a
-										class="dropdown-item" href="#"><span
-										class="feather-icon dropdown-icon"><i
-											data-feather="clock"></i></span><span>진행중인 프로젝트</span></a> <a
+											data-feather="list"></i></span><span>진행중인 프로젝트</span></a><a
 										class="dropdown-item" href="#"><span
 										class="feather-icon dropdown-icon"><i
 											data-feather="droplet"></i></span><span>마감된 프로젝트</span></a>
@@ -223,8 +220,8 @@
 																			class="feather-icon"><i data-feather="star"></i></span></span>
 																		<span
 																			class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																		<span class="todo-text text-dark text-truncate">${pro.calSubject}</span> <span
-																			class="badge badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
+																				    <span class="todo-text text-dark text-truncate" id="projectView" data-projectNo="${pro.calNo }">${pro.calSubject}</span>
+																		<span class="badge badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
 																				class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
 																	</div>
 																</div>
@@ -257,8 +254,6 @@
 																</div>
 															</div>
 														</li>
-														</c:forEach>
-														</c:if>
 													</ul>
 												</div>
 											</div>
@@ -659,19 +654,11 @@
 								</div>
 							</div>
 						</div>
-						<c:if test="${not empty projectList }">
-						<c:forEach var="pro" items="${projectList}">
 						<div class="task-info">
 							<div data-simplebar class="nicescroll-bar">
 								<header class="task-header">
 									<div class="d-flex align-items-center">
 										<div id="sparkline_chart_7"></div>
-										<div class="form-check mx-lg-3 ms-3">
-											<input type="checkbox" class="form-check-input"
-												id="customCheckcTask" checked> <label
-												class="form-check-label d-lg-inline d-none"
-												for="customCheckcTask">Mark as completed</label>
-										</div>
 										<button
 											class="btn btn-icon btn-light btn-rounded d-lg-none d-lg-inline-block ms-1">
 											<span><span class="icon"><span
@@ -736,14 +723,13 @@
 									</div> -->
 									<h4
 										class="d-flex align-items-center fw-bold mb-0 inline-editable-wrap">
-										<span class="editable">Framworking Building</span><a
+										<span class="editable" id="proName">${project.calSubject }</span><a
 											class="btn btn-sm btn-icon btn-flush-light btn-rounded flush-soft-hover edit-tyn ms-1"
 											href="#"><span class="icon"><span
 												class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
 									</h4>
 									<p class="d-flex align-items-center inline-editable-wrap">
-										<span class="editable">Instant rebuilding of assets
-											during development</span><a
+										<span class="editable" id="proContent">${project.calContent }</span><a
 											class="btn btn-sm btn-icon btn-flush-light btn-rounded flush-soft-hover edit-tyn ms-1"
 											href="#"><span class="icon"><span
 												class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
@@ -755,22 +741,11 @@
 											data-bs-original-title="Katharine">
 											<img src="dist/img/avatar8.jpg" alt="user" class="avatar-img">
 										</div>
-										<div class="avatar avatar-rounded" data-bs-toggle="tooltip"
-											data-bs-placement="top" title=""
-											data-bs-original-title="Dean">
-											<img src="dist/img/avatar13.jpg" alt="user"
-												class="avatar-img">
-										</div>
 										<div
 											class="avatar avatar-xs avatar-soft-danger avatar-rounded"
 											data-bs-toggle="tooltip" data-bs-placement="top" title=""
 											data-bs-original-title="Tom">
 											<span class="initial-wrap">T</span>
-										</div>
-										<div class="avatar avatar-rounded" data-bs-toggle="tooltip"
-											data-bs-placement="top" title=""
-											data-bs-original-title="Morgan">
-											<img src="dist/img/avatar2.jpg" alt="user" class="avatar-img">
 										</div>
 										<div class="avatar avatar-icon avatar-primary avatar-rounded"
 											data-bs-toggle="tooltip" data-bs-placement="top" title=""
@@ -782,27 +757,25 @@
 									<form class="row">
 										<div class="col-md-6">
 											<div class="title title-wth-divider my-4">
-												<span>마감 일자</span>
+												<span>시작 일자</span>
 											</div>
-											<input class="form-control" type="text" name="single-date" />
+											<input class="form-control" type="text" name="single-date" id="proStartDate" />
 										</div>
 										<div class="col-md-6">
 											<div class="title title-wth-divider my-4">
-												<span>진행 상태</span>
+												<span>마감 일자</span>
 											</div>
-											<select class="form-select" aria-label="Default select example">
-											  <option value="대기">대기</option>
-											  <option value="대기">진행중</option>
-											  <option value="대기">마감</option>
-											</select>
+											<input class="form-control" type="text" name="single-date" id="proEndDate" />
 										</div>
 										<div class="col-md-12">
 											<div class="title title-wth-divider my-4">
-												<span>Labels</span>
+												<span>진행 상태</span>
 											</div>
-											<input type="text" id="exist_values1"
-												class="user-input-tagged form-control" name="tag-3"
-												value="Framework,Html" placeholder="Add Chips">
+											<select class="form-select" id="proStatus" aria-label="Default select example">
+											  <option value="대기">대기</option>
+											  <option value="진행중">진행중</option>
+											  <option value="마감">마감</option>
+											</select>
 										</div>
 									</form>
 									<ul
@@ -1719,36 +1692,6 @@
 												</div>
 											</div>
 										</div>
-							<!-- 			<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-inline">
-													<div class="form-group">
-														<label class="form-label">Set priority:</label>
-														<div class="form-check form-check-inline ms-2">
-															<div class="custom-control custom-radio radio-primary">
-																<input type="radio" id="customRadioc2"
-																	name="customRadioc2" class="form-check-input">
-																<label class="form-check-label" for="customRadioc2">High</label>
-															</div>
-														</div>
-														<div class="form-check form-check-inline">
-															<div class="custom-control custom-radio radio-primary">
-																<input type="radio" id="customRadioc3"
-																	name="customRadioc2" class="form-check-input">
-																<label class="form-check-label" for="customRadioc3">Medium</label>
-															</div>
-														</div>
-														<div class="form-check form-check-inline">
-															<div class="custom-control custom-radio radio-primary">
-																<input type="radio" id="customRadioc4"
-																	name="customRadioc2" class="form-check-input">
-																<label class="form-check-label" for="customRadioc4">Low</label>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div> -->
 										<div
 											class="title title-xs title-wth-divider text-primary text-uppercase my-4">
 											<span>Assign to</span>
@@ -1861,6 +1804,59 @@ const addTodolist=(e)=>{
 		console.log(e);
 	})
 }
+
+
+document.getElementById("projectView").onclick=(e)=>{
+	const $project = e.currentTarget
+	$('#task-info').modal('show');
+	searchProjectbyCalNo($project.getAttribute('data-projectNo'));	
+}
+
+function searchProjectbyCalNo(calNo) {
+    fetch('${path}/schedule/projectlistbycalno.do?calNo='+calNo)
+    .then(response => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+    })
+    .then(data => {
+    	function formatDate(date) {
+			  var formattedDate = new Date(date);
+			  var year = formattedDate.getFullYear();
+			  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
+			  var day = ("0" + formattedDate.getDate()).slice(-2);
+			  var hours = ("0" + formattedDate.getHours()).slice(-2);
+			  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
+			  
+			  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
+				}
+    	
+    	
+    	
+        console.log(data);
+        document.querySelector('#proName').textContent = data.calSubject;
+        document.querySelector('#proContent').textContent = data.calContent;
+        document.getElementById('proEndDate').value = formatDate(data.calEndDate);
+        document.getElementById('proStartDate').value = formatDate(data.calStartDate);
+        
+        const selectElement = document.getElementById('proStatus');
+
+     // select 요소의 options를 순회하면서 서버로부터 받아온 'calStatus' 값과 일치하는 
+     // option을 찾아 'selected' 속성을 true로 설정합니다.
+     Array.from(selectElement.options).forEach(option => {
+         if (option.value === data.calStatus) {
+             option.selected = true;
+         };  
+     });
+        
+    })
+    .catch(e => {
+        alert("요청실패! 에러!");
+        console.log(e);
+    });
+}
+
+
+
 </script>
 
 

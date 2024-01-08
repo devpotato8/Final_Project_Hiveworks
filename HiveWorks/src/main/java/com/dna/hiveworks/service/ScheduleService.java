@@ -29,7 +29,9 @@ public interface ScheduleService {
 	//project
 	List<Schedule> selectprojectAll();
 	
-	List<Schedule> selectprojectByNo(int empNo);
+	List<Schedule> selectprojectByEmpNo(int empNo);
+	
+	Schedule selectprojectByCalNo(int calNo);
 	
 	
 	

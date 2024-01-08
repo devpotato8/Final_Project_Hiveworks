@@ -92,7 +92,11 @@
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007'
 	</select>
 	
-	<select id="selectprojectByNo" resultMap="scheduleMap">
+	<select id="selectprojectByCalNo" resultMap="scheduleMap">
+		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND CAL_NO = #{calNo}
+	</select>
+	
+	<select id="selectprojectByEmpNo" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND EMP_NO = #{empNo}
 	</select>
 	

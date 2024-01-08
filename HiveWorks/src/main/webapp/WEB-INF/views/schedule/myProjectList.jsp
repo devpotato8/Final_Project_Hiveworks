@@ -48,7 +48,7 @@
 											class="nav-link-text">전체 프로젝트</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link"
-										href="${path }/schedule/projectlistbyno.do?empNo=1234"> <span class="nav-icon-wrap"><span
+										href="${path }/schedule/projectlistbyempno.do?empNo=1234"> <span class="nav-icon-wrap"><span
 												class="feather-icon"><i data-feather="list"></i></span></span> <span
 											class="nav-link-text">내 프로젝트</span>
 									</a></li>
@@ -114,15 +114,12 @@
 								<a class="todoapp-title dropdown-toggle link-dark"
 									data-bs-toggle="dropdown" href="#" role="button"
 									aria-haspopup="true" aria-expanded="false">
-									<h1>All Tasks</h1>
+									<h1>내 프로젝트</h1>
 								</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="#"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="align-center"></i></span><span>전체 프로젝트</span></a> <a
-										class="dropdown-item" href="#"><span
-										class="feather-icon dropdown-icon"><i
-											data-feather="list"></i></span><span>내 프로젝트</span></a> <a
+											data-feather="align-center"></i></span><span>내 프로젝트</span></a><a
 										class="dropdown-item" href="#"><span
 										class="feather-icon dropdown-icon"><i
 											data-feather="clock"></i></span><span>진행중인 프로젝트</span></a> <a

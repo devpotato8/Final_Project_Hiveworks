@@ -50,6 +50,7 @@ public class ScheduleContoller {
 		return scheduleService.selectScheduleAll();
 	};
 	
+	
 	@GetMapping("/projectlist.do")
 	public String projectList(Model model) {
 		List<Schedule> projectList = scheduleService.selectprojectAll();
@@ -57,11 +58,18 @@ public class ScheduleContoller {
 		return "schedule/projectList";
 	}
 	
-	@GetMapping("/projectlistbyno.do")
-	public String projectListByNo(@RequestParam int empNo, Model model) {
-		List<Schedule> myProjectList = scheduleService.selectprojectByNo(empNo);
+	@GetMapping("/projectlistbycalno.do")
+	@ResponseBody
+	public Schedule projectListByCalNo(@RequestParam int calNo) {
+		Schedule project = scheduleService.selectprojectByCalNo(calNo);
+		return project;
+	}
+	
+	@GetMapping("/projectlistbyempno.do")
+	public String projectListByEmpNo(@RequestParam int empNo, Model model) {
+		List<Schedule> myProjectList = scheduleService.selectprojectByEmpNo(empNo);
 		model.addAttribute("myProjectList", myProjectList);
-		return "schedule/projectList";
+		return "schedule/myProjectList";
 	}
 	
 

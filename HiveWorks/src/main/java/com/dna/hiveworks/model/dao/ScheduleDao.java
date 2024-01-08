@@ -32,6 +32,8 @@ public interface ScheduleDao {
 	//project
 	List<Schedule> selectprojectAll(SqlSession session);
 	
-	List<Schedule> selectprojectByNo(SqlSession session, int empNo);
+	List<Schedule> selectprojectByEmpNo(SqlSession session, int empNo);
+	
+	Schedule selectprojectByCalNo(SqlSession session, int calNo);
 
 }

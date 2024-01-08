@@ -73,8 +73,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
-	public List<Schedule> selectprojectByNo(int empNo) {
-		return dao.selectprojectByNo(session,empNo);
+	public Schedule selectprojectByCalNo(int calNo) {
+		return dao.selectprojectByCalNo(session, calNo);
 	}
+	
+	@Override
+	public List<Schedule> selectprojectByEmpNo(int empNo) {
+		return dao.selectprojectByEmpNo(session,empNo);
+	}
+	
+	
 	
 }

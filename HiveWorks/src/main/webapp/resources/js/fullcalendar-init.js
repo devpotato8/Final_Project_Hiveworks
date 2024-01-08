@@ -29,7 +29,7 @@ var curYear = moment().format('YYYY'),
 document.addEventListener('DOMContentLoaded', function() {
 	var calendarEl = document.getElementById('calendar'),
 		calendar = new FullCalendar.Calendar(calendarEl, {
-			googleCalendarApiKey: 'AIzaSyDTmzIpCFcBNK5_MAtLBPVD-j7O9mkXb_c',
+			//googleCalendarApiKey: 'AIzaSyDTmzIpCFcBNK5_MAtLBPVD-j7O9mkXb_c',
 			initialView: 'dayGridMonth',
 			initialDate: curYear + '-' + curMonth + '-07',
 			headerToolbar: {
@@ -99,59 +99,18 @@ document.addEventListener('DOMContentLoaded', function() {
 						
 						var events = data.map(function(event) {
 							return {
+								id: event.calNo,
 								title: event.calSubject,
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
-								content: event.calContent
+								content: event.calContent,
+								allday:event.calAlldayYn
 							};
 						});
 						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
 						
-						// 날짜 포맷을 변경하는 함수
-						function formatDate(date) {
-						  var formattedDate = new Date(date);
-						  var year = formattedDate.getFullYear();
-						  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
-						  var day = ("0" + formattedDate.getDate()).slice(-2);
-						  var hours = ("0" + formattedDate.getHours()).slice(-2);
-						  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
-						  
-						  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
-							}
-						
-						// 이벤트 정보를 HTML 코드에 적용
-						  for (var i = 0; i < events.length; i++) {
-						    var event = events[i];
-						    
-						    var $drawerBody0 = $('.drawer-body').eq(0); // 순서에 해당하는 .drawer-body 선택
-						    var $drawerBody1 = $('.drawer-body').eq(1); // 순서에 해당하는 .drawer-body 선택
-						    
-						    // .event-name 엘리먼트에 이벤트 이름 설정
-						   $drawerBody1.find('.event-name').val (event.title);
-						    
-						   $drawerBody0.find('.event-content').text(event.content);
-						   $drawerBody1.find('.event-content').val(event.content);
-						    
-						    // .event-start-date 엘리먼트에 시작 날짜와 종료 날짜 설정
-						    $drawerBody0.find('.event-end-date').text(formatDate(event.start))
-						    
-						    $drawerBody0.find('.event-start-date').text(formatDate(event.end));
-						    
-						    
-						    $drawerBody1.find('.cal-event-date-start').datetimepicker({
-							  format: 'YYYY/MM/DD HH:mm',
-							   defaultDate: moment(event.start, 'YYYY/MM/DD HH:mm')
-							});
-
-							$drawerBody1.find('.cal-event-date-end').datetimepicker({
-							  format: 'YYYY/MM/DD HH:mm',
-							  defaultDate: moment(event.end, 'YYYY/MM/DD HH:mm')
-							});
-						    
-						    // 기타 이벤트 정보에 해당하는 엘리먼트에 내용 설정
-						    // ...
-						  }
+						 
 					},
 					error: function(request, status, error) {
 						alert("code = " + request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -171,7 +130,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			eventClick: function(info) {
 				// 이벤트 클릭 시 동작 정의
-				targetEvent = info.event;
+				targetE = info.event;
+				
+					function formatDate(date) {
+						  var formattedDate = new Date(date);
+						  var year = formattedDate.getFullYear();
+						  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
+						  var day = ("0" + formattedDate.getDate()).slice(-2);
+						  var hours = ("0" + formattedDate.getHours()).slice(-2);
+						  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
+						  
+						  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
+							};
+				
+				    var $drawerBody0 = $('.drawer-body').eq(0); // 순서에 해당하는 .drawer-body 선택
+					var $drawerBody1 = $('.drawer-body').eq(1); // 순서에 해당하는 .drawer-body 선택
+					
+					 $drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))
+						    
+					$drawerBody0.find('.event-end-date').text("종료 : "+formatDate(targetE.end));
+				
 				// 모달 표시 또는 이벤트 상세 처리
 
     // 모달창 내의 요소에 이벤트의 내용을 채웁니다.
@@ -277,13 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		calender.unselect();
 		
-		
-		//return false;
-		$('.cal-event-name').val("");
-		$('.cal-event-date-start').val("");
-		$('.cal-event-date-end').val("");
-		$('.cal-event-content').val("");
-
 	});
 });
 

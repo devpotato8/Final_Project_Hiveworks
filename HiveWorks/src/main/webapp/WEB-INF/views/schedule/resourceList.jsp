@@ -145,11 +145,6 @@
 							</div>
 							
 					</div>
-
-
-
-
-
 					<div class="blog-body">
 						<div data-simplebar class="nicescroll-bar">
 							<div class="dropdown">

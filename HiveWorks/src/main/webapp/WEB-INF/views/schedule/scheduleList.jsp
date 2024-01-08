@@ -65,7 +65,7 @@
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="calendar"></i></span></span><span
 							class="event-start-date">Aug 18,2020 - Aug 19, 2020</span></li>
-							<li><span class="ev-icon-wrap"><span
+						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="calendar"></i></span></span><span
 							class="event-end-date">Aug 18,2020 - Aug 19, 2020</span></li>
 						<li><span class="ev-icon-wrap"><span
@@ -98,10 +98,10 @@
 		<div class="drawer-body">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
+				<form>
 					<div class="event-head mb-4">
 						<span
 							class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
-						<form>
 							<div class="form-group">
 								<div class="input-group">
 									<input type="text" class="event-name" />
@@ -117,6 +117,7 @@
 									<option value="CAL002">부서일정</option>
 									<option value="CAL003">전사일정</option>
 							</select>
+							</span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -171,7 +172,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<textarea class="form-control event-content" rows="4">Annual meeting with global branch teams & bosses about growth planning and fiscal year reports</textarea>
+						<textarea class="form-control event-content" rows="4">Annual meeting</textarea>
 					</div>
 					<div class="drawer-footer d-flex justify-content-end">
 						<button class="btn btn-secondary drawer-edit-close me-2">취소</button>
@@ -205,44 +206,11 @@
 									type="text" name="calendar" value="" />
 							</div>
 						</div>
-						<!-- <div class="separator separator-light"></div> -->
-						<!-- <div class="title-sm text-primary">Upcoming Events</div>
-								<div class="upcoming-event-wrap">
-									<ul class="nav nav-light navbar-nav flex-column">
-										<li class="nav-item">
-											<a class="nav-link" href="#">
-												<div class="d-flex align-items-center">
-													<span class="badge badge-violet badge-indicator badge-indicator-lg me-2"></span>
-													<span class="event-time">Today, 5:00 onwards</span>
-												</div>
-												<div class="event-name">Jampack Team Meet</div>
-											</a>
-										</li>	
-										<li class="nav-item">
-											<a class="nav-link" href="#">
-												<div class="d-flex align-items-center">
-													<span class="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>
-													<span class="event-time">Tomorrow, 2:35 PM</span>
-												</div>
-												<div class="event-name">Indigo Flight to Indonesia</div>
-											</a>
-										</li>	
-										<li class="nav-item">
-											<a class="nav-link" href="#">
-												<div class="d-flex align-items-center">
-													<span class="badge badge-warning badge-indicator badge-indicator-lg me-2"></span>
-													<span class="event-time">24 Jul, 9:30 AM</span>
-												</div>
-												<div class="event-name">Awwwards Conference</div>
-											</a>
-										</li>	
-									</ul>	
-								</div> -->
 						<div class="separator separator-light"></div>
 						<div class="categories-wrap">
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc1" checked=""> <label
+									id="customChecksc1"> <label
 									class="form-check-label" for="customChecksc1">전체일정보기</label>
 							</div>
 							<div class="separator separator-light"></div>
@@ -252,7 +220,7 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc2" checked=""> <label
+									id="customChecksc2"> <label
 									class="form-check-label" for="customChecksc2"
 									style="padding-right: 116px">내일정</label> <a href="#"
 									class="btn btn-xs btn-icon btn-rounded btn-light"
@@ -265,7 +233,7 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc3" checked=""> <label
+									id="customChecksc3"> <label
 									class="form-check-label" for="customChecksc3">내부서일정</label>
 							</div>
 							<div
@@ -393,21 +361,21 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">시작일자</label> <input
-												class="form-control cal-event-date-start" name="single-date"
+												class="form-control cal-event-date-start" id="startDate" name="single-date"
 												type="text" />
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">종료일자</label> <input
-												class="form-control cal-event-date-end" name="single-date"
+												class="form-control cal-event-date-end" id="endDate" name="single-date"
 												type="text" />
 										</div>
 									</div>
 								</div>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
-										<input class="form-check-input cal-event-allday"
+										<input class="form-check-input cal-event-allday" id="alldaycheck"
 											type="checkbox" id="flexCheckDefault"> <label
 											class="form-check-label" for="flexCheckDefault"> 종일여부</label>
 									</div>
@@ -434,6 +402,7 @@
 											<button type="button" class="btn btn-light btn-floating">추가</button>
 										</div>
 									</div>
+								</div>
 									<div class="row gx-3">
 										<div class="col-sm-12 form-group">
 											<div class="form-label-group">
@@ -518,6 +487,7 @@
 												name="single-date-pick" type="text" />
 										</div>
 									</div>
+								</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">End Time</label> <input
@@ -553,101 +523,6 @@
 				</div>
 			</div>
 			<!-- /New Event -->
-
-			<!-- Set Reminder -->
-			<div id="set_new_reminder" class="modal fade" tabindex="-1"
-				role="dialog" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-body">
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-							<h5 class="mb-4">Create a Reminder</h5>
-							<form>
-								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<label class="form-label">Name</label> <input
-											class="form-control" type="text" />
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<div class="form-label-group">
-											<label>Note/Description</label> <small class="text-muted">200</small>
-										</div>
-										<textarea class="form-control" rows="3"></textarea>
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label class="form-label">Start Date</label> <input
-												class="form-control" name="single-date-pick" type="text" />
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label class="form-label">Start Time</label> <input
-												class="form-control input-single-timepicker" type="text" />
-										</div>
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="form-label">Remind</label> <select
-												class="form-control form-select me-20">
-												<option selected="">Daily</option>
-												<option value="1">Monthly</option>
-												<option value="2">Weekly</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer align-items-center">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Discard</button>
-							<button type="button" class="btn btn-primary"
-								data-bs-dismiss="modal">Add</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /Set Reminder -->
-
-			<!-- Add Category -->
-			<div id="add_new_cat" class="modal fade" tabindex="-1" role="dialog"
-				aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-sm"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-body">
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-							<h6 class="text-uppercase fw-bold mb-3">Add Category</h6>
-							<form>
-								<div class="row gx-3">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<input class="form-control" type="text"
-												placeholder="Category Name" />
-										</div>
-									</div>
-								</div>
-								<button type="button" class="btn btn-primary float-end"
-									data-bs-dismiss="modal">Add</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /Add Category -->
 		</div>
 	</div>
 	<!-- /Page Body -->
@@ -655,22 +530,27 @@
 <!-- /Main Content -->
 <!-- /Wrapper -->
 <script>
-	$('.cal-event-allday').on(
+	$('#alldaycheck').on(
 			'click',
 			function() {
+				console.log(this);
 				if ($(this).is(':checked')) {
-					var clickedDate = $('.cal-event-date-start').data(
+					console.log('종일여부 체크됨');
+					var clickedDate = $('#startDate').data(
 							'daterangepicker').startDate;
+				
 					clickedDate.set({
 						hour : 0,
 						minute : 0,
 						second : 0,
 						millisecond : 0
 					});
-					$('.cal-event-date-start').data('daterangepicker')
+					$('#startDate').data('daterangepicker')
 							.setStartDate(clickedDate);
-
-					clickedDate = $('.cal-event-date-end').data(
+					
+					
+					
+					clickedDate = $('#endDate').data(
 							'daterangepicker').startDate;
 					clickedDate.set({
 						hour : 23,
@@ -678,10 +558,14 @@
 						second : 59,
 						millisecond : 999
 					});
-					$('.cal-event-date-end').data('daterangepicker')
+					
+
+					$('#endDate').data('daterangepicker')
 							.setEndDate(clickedDate);
+					
 				} else {
-					var clickedDate = $('.cal-event-date-start').data(
+					console.log('종일 체크 안됨');
+					var clickedDate = $('#startDate').data(
 							'daterangepicker').startDate;
 					clickedDate.set({
 						hour : 0,
@@ -689,10 +573,10 @@
 						second : 0,
 						millisecond : 0
 					});
-					$('.cal-event-date-start').data('daterangepicker')
+					$('#startDate').data('daterangepicker')
 							.setStartDate(clickedDate);
 
-					clickedDate = $('.cal-event-date-start').data(
+					clickedDate = $('#endDate').data(
 							'daterangepicker').startDate;
 					clickedDate.set({
 						hour : 0,
@@ -700,14 +584,15 @@
 						second : 0,
 						millisecond : 0
 					});
-					$('.cal-event-date-end').data('daterangepicker')
+					$('#endDate').data('daterangepicker')
 							.setEndDate(clickedDate);
 				}
 			});
 
-	document.querySelector('#closeBtn').addEventListener('click', function() {
+	 document.querySelector('#closeBtn').addEventListener('click', function() {
 		resetForm();
-	});
+	 });
+	
 
 	// 취소 버튼 클릭 이벤트 처리
 	document.querySelector('#cancelBtn').addEventListener('click', function() {
@@ -720,7 +605,7 @@
 		document.querySelector('.cal-event-code').selectedIndex = "CAL001";
 		document.querySelector('.cal-event-date-start').value = getCurrentDateTime();
 		document.querySelector('.cal-event-date-end').value = getCurrentDateTime();
-		document.getElementById('flexCheckDefault').checked = false;
+		document.getElementById('alldaycheck').checked = false;
 		document.querySelector('.cal-event-content').value = '';
 		document.getElementById('flexCheckDefault').checked = false;
 	}
@@ -738,7 +623,6 @@
 				+ ':' + seconds;
 	}
 </script>
-
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <!-- Fancy Dropdown JS -->
 <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
