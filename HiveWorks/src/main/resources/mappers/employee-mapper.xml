@@ -7,6 +7,7 @@
 		<result property="dept_name" column="dept_name"/>
 		<result property="position_code" column="position_code"/>
 		<result property="position_name" column="position_name"/>
+		<result property="pp_add_pay" column="pp_add_pay"/>
 		<result property="job_code" column="job_code"/>
 		<result property="job_name" column="job_name"/>
 		<result property="work_type_code" column="work_type_code"/>
@@ -41,10 +42,12 @@
 	</select>
 	<select id="searchEmployeesByKeyword" parameterType="string" resultMap="empMap">
 		SELECT D1.*, C.*,C.CODE_NAME AS JOB_NAME, O.CODE_NAME AS POSITION_NAME, E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+        , P.*
         FROM (SELECT * FROM TBL_EMPLOYEE) E
         JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E.DEPT_CODE 
         JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
         JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
+        LEFT JOIN TBL_POSITION_PAY P ON E.POSITION_CODE = P.POS_CODE
 		<if test="keyword !=null and keyword !=''">
 		WHERE E.EMP_NO = #{keyword}
 		</if>

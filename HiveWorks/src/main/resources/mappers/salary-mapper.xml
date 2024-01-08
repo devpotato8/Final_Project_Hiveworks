@@ -105,11 +105,13 @@
   		}
   	</select>
   	
-  	<insert id="">
-  		
+  	<insert id="insertSalary" parameterType="salary">
+<!--   		<selectKey keyProperty="sal_no" resultType="int" order="BEFORE">
+  			SELECT SEQ_SAL_NO.NEXTVAL FROM DUAL
+  		</selectKey> -->
+  		INSERT INTO TBL_SALARY VALUES(
+  		SEQ_SAL_NO.NEXTVAL,#{emp_no},SEQ_DEDU_NO.NEXTVAL,#{sal_base},
+  		#{sal_meal},#{sal_bonus},#{sal_actual},#{sal_date},DEFAULT,1,SYSDATE,1,SYSDATE)
   	</insert>
-  	
- 
-  	
   	
 </mapper>

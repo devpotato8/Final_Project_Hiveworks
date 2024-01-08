@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.salary.Salary;
 import com.dna.hiveworks.serviceimpl.SalaryServiceImpl;
 
@@ -93,10 +94,14 @@ public class SalaryController {
 		return "salary/salaryWrite";
 	}
 	
-	@GetMapping("/SalaryWriteEnd")
-	public String insertSalary(Salary s, Model model) {
+	@PostMapping("/SalaryWriteEnd")
+	public String insertSalary(Salary s, Model model, Employee emp) {
+		
+		s.setEmployee(emp);
 		
 		String msg, loc;
+		
+		System.out.println(s);
 		
 		try {
 			int result = service.insertSalary(s);
@@ -135,7 +140,7 @@ public class SalaryController {
 		data.put("i_non_tax", notax);
 		
 		service.calculateSalary(data);
-
+		
 		return data;
 	}
 	

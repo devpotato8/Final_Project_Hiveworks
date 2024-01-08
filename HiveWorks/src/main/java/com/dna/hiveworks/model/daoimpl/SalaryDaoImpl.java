@@ -28,7 +28,7 @@ public class SalaryDaoImpl implements SalaryDao {
 
 	@Override
 	public int insertSalary(SqlSession session, Salary s) {
-		return session.insert("session.insertSalary",s);
+		return session.insert("salary.insertSalary",s);
 	}
 
 	@Override

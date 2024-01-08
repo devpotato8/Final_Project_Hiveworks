@@ -427,7 +427,6 @@
 			url:"${path}/employees/searchEmployees",
 			data:{"keyword":value},
 			success:data=>{
-				console.log(data);
 				const emp_ids=data.split(",");
 				$("#data").html("");
 				emp_ids.forEach(e=>{
@@ -446,12 +445,14 @@
 			url:"${path}/employees/searchEmployees",
 			data:{"keyword":value},
 			success:data=>{
+				console.log(data);
 				$("#emp_no").val(data[0].emp_no);
 				$("#emp_name").val(data[0].emp_name);
 				$("#emp_birth_date").val(data[0].emp_birth_date);
 				$("#dept_name").val(data[0].dept_name);
 				$("#job_name").val(data[0].job_name);
 				$("#position_name").val(data[0].position_name);
+				$("#position_pay").val(data[0].pp_add_pay);
 			},
 			error:function(){
                 alert("사원을 찾을 수 없습니다.");
@@ -467,19 +468,31 @@
 					+Number($("#sal_bonus").val());
 		
 		let notax = Number($("#sal_meal").val());
-		
+		console.log(total);
+		console.log(notax);
 		
 		$.ajax({
 			type:'get',
 			url:"${path}/salary/calculateSalary",
 			data:{"total":total,"notax":notax},
-			success:data=>{
-				$("#emp_no").val(data[0].emp_no);
-				$("#emp_name").val(data[0].emp_name);
-				$("#emp_birth_date").val(data[0].emp_birth_date);
-				$("#dept_name").val(data[0].dept_name);
-				$("#job_name").val(data[0].job_name);
-				$("#position_name").val(data[0].position_name);
+			success:function(data){
+				$("#dedu_national_pension").val(data.o_pension);
+				$("#dedu_health_insur").val(data.o_insurance);
+				$("#dedu_longterm_care_insur").val(data.o_nursing);
+				$("#dedu_emp_insur").val(data.o_employ);
+				$("#dedu_income_tax").val(data.o_income);
+				$("#dedu_local_income_tax").val(data.o_local);
+				$("#sal_total").val(data.i_total);
+				
+				let $dedu_total =Number(data.o_pension)
+								+Number(data.o_insurance+data.o_nursing)
+								+Number(data.o_employ)
+								+Number(data.o_income)
+								+Number(data.o_local);
+				$("#dedu_total").val($dedu_total);
+				let $actual = Number(data.i_total)-$dedu_total;
+				
+				$("#sal_actual").val($actual);
 			},
 			error:function(){
                 alert("계산 실패");
@@ -487,6 +500,11 @@
 		})
 
 	};
+	
+	//document.getElementById('sal_date').value = new Date().toISOString().substring(0, 10);
+	
+	
+	
 	
 </script>
 
@@ -570,12 +588,12 @@
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <input type="hidden" name="sal_no" value=""/>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value=""/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value=""/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value=""/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value=""/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value=""/></td>
+                    
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value="0"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="0"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="0"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="0" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="0"/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
@@ -641,23 +659,23 @@
                     </td>
                     <th width="14%">국민연금</th>
                     <th width="14%">건강보험</th>
+                    <th width="14%">장기요양보험</th>
                     <th width="14%">고용보험</th>
-                    <th width="14%">산재보험</th>
                     <th width="14%">소득세</th>
                     <th width="14%">지방소득세</th>
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"></td>
-                    <td style="border-bottom:1px solid #eee;"></td>
-                    <td style="border-bottom:1px solid #eee;"></td>
-                    <td style="border-bottom:1px solid #eee;"></td>
-                    <td style="border-bottom:1px solid #eee;"></td>
-                    <td style="border-bottom:1px solid #eee;"></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly"/></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
-                    <th><input type="text" id="" readonly="readonly"/></th>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -737,10 +755,10 @@
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
+                    <td width="14%"><input type="text" id="sal_total" name="sal_total" readonly="readonly"/></td>
+                    <td width="14%"><input type="text" id="dedu_total" name="dedu_total" readonly="readonly"/></td>
                     <td width="14%"></td>
-                    <td width="14%"></td>
-                    <td width="14%"></td>
-                    <td width="14%"></td>
+                    <td width="14%"><input type="text" id="sal_actual" name="sal_actual" readonly="readonly"/></td>
                 </tr>
                 </tbody>
             </table>
@@ -792,3 +810,5 @@
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
+	<script>
+	$('#sal_date').val(new Date().toISOString().substring(0,10));</script>

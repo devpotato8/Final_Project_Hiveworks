@@ -402,7 +402,7 @@
 								</div> -->
 								
 							</header>
-							<button class="btn btn-primary btn-rounded btn-block mb-4" onclick="location.replace('${path}/salary/salaryWrite')">등록</button>
+							<button class="btn btn-primary btn-sm" onclick="location.replace('${path}/salary/salaryWrite')">등록</button>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
