@@ -8,6 +8,7 @@
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<link href="vendors/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css"/>
 <div class="hk-pg-wrapper">
     <div class="container-xxl" style="margin-left: 0px;">
         <h2>등록</h2>
@@ -21,11 +22,13 @@
                     <button type="button" onclick="fn_deleteFileForm();">삭제</button>
                 </div>
             </div>
-            <div id="basicFileForm" class="input-group mb-3" style="padding:0px;">
-                <div class="custom-file">
-                     <input type="file" name="upFile" class="custom-file-input" >
-                </div>
-            </div>
+            <div class="row">
+												
+													<div class="upload-logo">
+														<input type="file" class="dropify-2" name="upFile"/>
+													</div>
+												</div>	
+												
             <textarea class="form-control" id="editor" name="boardContent" placeholder="내용" required style="resize:none;">
             ${data.editor }</textarea>
             <span id="messagebyte">0</span><span>/ 2000 Byte</span>
@@ -33,15 +36,7 @@
             <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
         </form>
     </div>
-<!--     <script type="text/javascript">
-    document.getElementById('submit').addEventListener('click', handleSubmit);
 
-
-    function handleSubmit() {
-      console.log('submit 버튼이 클릭되었습니다.');
-
-    }
-    </script> -->
 <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
 	<script>
       ClassicEditor.create( document.querySelector( '#editor' ) );
@@ -123,5 +118,41 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+	
+	<!-- Repeater JS -->
+	<script src="${path}/resources/vendors/jquery.repeater/jquery.repeater.min.js"></script>
 
+	<!-- Daterangepicker JS -->
+    <script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
+    <script src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
+    <script src="${path}/resources/js/daterangepicker-data.js"></script>
+	
+	<!-- Bootstrap Colorpicker JS -->
+	<script src="${path}/resources/js/color-picker-data.js"></script>
+	
+	<!-- Tinymce JS -->
+    <script src="${path}/resources/vendors/tinymce/tinymce.min.js"></script>
+	
+	<!-- Dropify JS -->
+	<script src="${path}/resources/vendors/dropify/dist/js/dropify.min.js"></script>
+	<script src="${path}/resources/js/dropify-data.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/create-invoice-data.js"></script>
+	
+
+<script>
+$(function() {	
+	$('.dropify-2').dropify({
+		  messages: {
+			'default': '파일 업로드',
+		},
+		tpl: {
+			message:'<div class="dropify-message"><span class="file-icon"></span> <p>{{ default }}</p></div>',
+		}
+	});
+});
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
