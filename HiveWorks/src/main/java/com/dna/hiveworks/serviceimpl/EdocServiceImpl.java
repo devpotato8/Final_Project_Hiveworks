@@ -74,4 +74,9 @@ public class EdocServiceImpl implements EdocService{
 		if(result >0) return dao.getEdoc(session,edoc.getEdocNo());
 		else return null;
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(String deptCode) {
+		return dao.selectEmployeeInSubDepartmentByDeptCode(session, deptCode);
+	}
 }

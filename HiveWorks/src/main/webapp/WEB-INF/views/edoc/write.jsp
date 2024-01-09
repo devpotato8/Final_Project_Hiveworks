@@ -144,26 +144,10 @@
 											<div class="col-xl-3" id="deptTree"> </div>
 											
 											<div class="col-xl-9">
-												<div class="mb-3 title-container">	
-													<div>
-														<h5 class="deptName"></h5>
-													</div>							
+												<label for="employee-list-container">소속사원</label>
+												<div id="employee-list-containter">
+													
 												</div>
-												<table class="table table-hover deptTable">
-													<thead>
-														<tr>
-															<th><input type="checkbox" name="" id="chkRowAll"></th>
-															<th>사원ID</th>
-															<th>사원명</th>
-															<th>직위</th>
-															<th>직무</th>
-															<th id="currentDeptCode" style="display:none;">현재부서</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!-- 조직도에서 선택된 node값에 따라서 사원 테이블을 여기에 표시 -->
-													</tbody>
-												</table>
 											</div>
 										</div>
 									</div>
@@ -248,9 +232,17 @@ function getDeptList(){
 }
 //선택된 부서의 구성원 목록을 가져오는 ajax함수
 function loadDeptEmpList(nodeId) {
+	fetch('${path}/edoc/approvalList?deptCode='+nodeId)
+	.then(response=>{
+		if(response.status != 200) throw new Error(response.status)
+		return response.json();
+	})
+	.then(data=>{
+		const 
+	})
   $.ajax({
       type: 'GET',
-      url: '${path}/deptemplist',
+      url: '${path}/edoc/approvalList',
       data: { deptCode : nodeId },
       dataType: 'JSON',
       success: function(response) {

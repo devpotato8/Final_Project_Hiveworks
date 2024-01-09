@@ -38,4 +38,6 @@ public interface EdocDao {
 
 	ElectronicDocument getEdoc(SqlSession session, String edocNo);
 	
+	List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(SqlSession session, String deptCode);
+	
 }
