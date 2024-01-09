@@ -135,7 +135,36 @@
 									</div>
 									<!-- 결재선 설정 탭 -->
 									<div class="tab-pane fade show active" id="approval_set">
-										<div id="">
+										<div class="row">
+											<div class="text-first mt-3">
+												<input type="text" id="schDept" value="" class="mb-4">
+						    					<button class="btn btn-primary btn-sm" onclick="dsearch()">부서검색</button>	
+							    			</div>
+							    			<p><b>조직도</b></p>
+											<div class="col-xl-3" id="deptTree"> </div>
+											
+											<div class="col-xl-9">
+												<div class="mb-3 title-container">	
+													<div>
+														<h5 class="deptName"></h5>
+													</div>							
+												</div>
+												<table class="table table-hover deptTable">
+													<thead>
+														<tr>
+															<th><input type="checkbox" name="" id="chkRowAll"></th>
+															<th>사원ID</th>
+															<th>사원명</th>
+															<th>직위</th>
+															<th>직무</th>
+															<th id="currentDeptCode" style="display:none;">현재부서</th>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- 조직도에서 선택된 node값에 따라서 사원 테이블을 여기에 표시 -->
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 									<!-- 파일 첨부 탭 -->
@@ -154,22 +183,142 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
-<link type="text/css" rel="stylesheet" href="${path }/resources/ckeditor/build/style.css">
 <script>
 	const path = "${path}";
 </script>
-<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
-<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
-<script type="text/javascript">
-DecoupledEditor
-.create( document.querySelector("#content"),{})
-	.then( editor => {
-            const toolbarContainer = document.querySelector( '.editor-toolbar-container' );
+<!-- Bootstrap Core JS -->
+<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FeatherIcons JS -->
+<script src="${path}/resources/js/feather.min.js"></script>
+<!-- Fancy Dropdown JS -->
+<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+<!-- Simplebar JS -->
+<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<!-- Init JS -->
+<script src="${path}/resources/js/init.js"></script>
+<script src="${path}/resources/js/chips-init.js"></script>
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            toolbarContainer.appendChild( editor.ui.view.toolbar.element );
-        } )
-        .catch( error => {
-            console.error( error );
-        } );
+<!-- 체크박스 JS -->
+<script src="${path}/resources/js/checkbox.js"></script>
+
+<!-- 조직도관리 JS -->
+<script src="${path}/resources/js/deptTree.js"></script>
+
+<!-- 구성원관리 조직도, List 출력 JS -->
+<script>
+
+$(document).ready(function(){
+	getDeptList();
+});
+var nodeId;
+function getDeptList(){
+	
+	$.ajax({
+		type:'GET',
+		url:'${path}/deptlist',
+		dataType:'JSON',
+		success: function(data){
+			var deptlist = new Array();
+			$.each(data, function(idx, item){
+				deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
+			});
+			
+			$('#deptTree').jstree({
+				'plugins':['types','sort','search'],
+				'core':{
+					'data':deptlist,
+					'check_callback': true
+				},
+				'types':{
+					'default':{
+						'icon':'fa-solid fa-book-open-reader'
+					}
+				}
+			}).bind("select_node.jstree", function (e, data) {
+				nodeId = data.node.id;
+				loadDeptEmpList(nodeId)
+			});
+			
+		},error:function(data){
+			alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
+		}
+	})
+}
+//선택된 부서의 구성원 목록을 가져오는 ajax함수
+function loadDeptEmpList(nodeId) {
+  $.ajax({
+      type: 'GET',
+      url: '${path}/deptemplist',
+      data: { deptCode : nodeId },
+      dataType: 'JSON',
+      success: function(response) {
+          // 테이블의 기존 내용을 비우기
+          $('.deptTable tbody').empty();
+          $('.deptName').empty();
+          
+          //서버에서 받아온 데이터 정렬
+          response.sort(function(a, b) {
+              // leader가 붙은 사람을 먼저 나열
+              if (a.leader === 'Y' && b.leader !== 'Y') return -1;
+              if (a.leader !== 'Y' && b.leader === 'Y') return 1;
+
+              // leader가 동일하면 id로 오름차순 정렬
+              if (a.id < b.id) return -1;
+              if (a.id > b.id) return 1;
+
+              return 0;
+          });
+          
+          // 서버에서 받아온 데이터로 테이블 만들기
+          $.each(response, function(idx, item){
+
+              var name = item.name;
+              if(item.leader==='Y'){
+                  name += '&nbsp<img src="${path}/resources/img/dept-leader.png" width="50px", height="25px">';
+              }
+              var row = '<tr>' +
+                  '<td><input type="checkbox" name="chkRow" id=""></td>' +
+                  '<td>' + item.id + '</td>' +
+                  '<td>' + name + '</td>' +
+                  '<td>' + item.position + '</td>' +
+                  '<td>' + item.job + '</td>' +
+                  '<td style="display:none;">' + nodeId + '</td>' +
+              '</tr>';
+              $('.deptTable tbody').append(row);
+
+          });
+          if (response.length > 0) {
+              var deptName = response[0].deptName + ' 구성원 목록'
+              $('.deptName').append(deptName);
+          }else{
+          	$.ajax({
+                  type: 'GET',
+                  url: '${path}/searchDeptName',
+                  data: { deptCode : nodeId },
+                  dataType: 'text',
+                  success: function(response) {
+                  	
+                  	var thisDeptName = response + ' 구성원 목록';
+                      $('.deptName').append(thisDeptName);
+                  }
+          	});
+          }
+      },
+      error: function() {
+          alert("구성원 정보 로딩 실패. 관리자에게 문의하세요");
+      }
+  });
+}
 </script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+	
+<link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
+
+<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
+<script type="module" src="${path }/resources/js/edoc/edoc-write.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

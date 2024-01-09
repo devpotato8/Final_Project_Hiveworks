@@ -23,7 +23,7 @@
 			<div class="d-flex">
 				<div class="d-flex flex-wrap flex-1 align-items-center">
 					<div class="mb-lg-0 mb-2 d-flex align-items-center">
-						<h1 class="pg-title m-0">안녕하세요 ${loginEmp.emp_name}님</h1>
+						<h1 class="pg-title m-0">안녕하세요 ${c}님</h1>
 						<div id="weather" class="d-flex align-items-center justify-content-between" style="width: 240px; margin-left: 20px">
 						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
 						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>

@@ -65,7 +65,7 @@
  
  	<!-- 구성원 관리페이지에서 구성원목록 출력 시 -->
 	<select id="deptEmpList" resultMap="empMap">
-	 	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
+	 	SELECT e.EMP_NO, e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
 		FROM TBL_EMPLOYEE e
 			JOIN (
 			    SELECT DEPT_CODE, DEPT_NAME
@@ -74,7 +74,7 @@
 			) d ON e.DEPT_CODE = d.DEPT_CODE
 			LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
 			LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
-	</select>	
+	</select>
 	
 	<!-- 구성원 관리페이지에 표시할 부서명 -->
  	<select id="searchDeptName" resultType="string">
