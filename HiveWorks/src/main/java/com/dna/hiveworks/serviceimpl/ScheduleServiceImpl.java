@@ -14,74 +14,86 @@ import com.dna.hiveworks.service.ScheduleService;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
-	
+
 	@Autowired
 	private SqlSession session;
-	
+
 	@Autowired
 	@Qualifier("scheduleDao")
 	private ScheduleDao dao;
-	
+
 	@Override
-	public int insertSchedule(Schedule schedule) {
-		return dao.insertSchedule(session,schedule);
+	public int insertSchedule(Schedule schedule, List<Integer> empList) {
+		int scheduleResult = dao.insertSchedule(session, schedule);
+		if (scheduleResult > 0) {
+			if (empList.size() > 0) {
+				int inviresult = dao.insertInvitation(session, empList);
+				if (inviresult == 0) {
+					throw new RuntimeException("일정 등록 실패");
+				}
+			}
+
+		} else {
+			throw new RuntimeException("일정 등록 실패");
+
+		}
+		return scheduleResult;
 	}
+
 	
 	@Override
 	public List<Schedule> selectScheduleAll() {
 		return dao.selectScheduleAll(session);
 	}
-	
+
 	@Override
 	public int reserveResource(Schedule schedule, int resourceNo) {
 		int reserveResource = dao.reserveResource(session, schedule);
 		if (reserveResource > 0) {
-			int reserveResourceEnd = dao.reserveResourceEnd(session,resourceNo);
+			int reserveResourceEnd = dao.reserveResourceEnd(session, resourceNo);
 		}
 		return reserveResource;
 	}
-	
+
 	@Override
 	public int insertResource(Resource resource) {
 		return dao.insertResource(session, resource);
 	}
-	
+
 	@Override
 	public List<Resource> selectResourceAll() {
 		return dao.selectResourceAll(session);
 	}
-	
+
 	@Override
 	public List<Schedule> selectReserveByNo(int empNo) {
 		return dao.selectReserveByNo(session, empNo);
 	}
-	
+
 	@Override
 	public List<Schedule> selectReserveAll() {
 		return dao.selectReserveAll(session);
 	}
-	
+
 	@Override
 	public List<Schedule> selectReserveByCode(String calCode) {
 		return dao.selectReserveByCode(session, calCode);
 	}
-	
-	//project
+
+	// project
 	@Override
 	public List<Schedule> selectprojectAll() {
 		return dao.selectprojectAll(session);
 	}
-	
+
 	@Override
 	public Schedule selectprojectByCalNo(int calNo) {
 		return dao.selectprojectByCalNo(session, calNo);
 	}
-	
+
 	@Override
 	public List<Schedule> selectprojectByEmpNo(int empNo) {
-		return dao.selectprojectByEmpNo(session,empNo);
+		return dao.selectprojectByEmpNo(session, empNo);
 	}
-	
-	
-	
+
 }

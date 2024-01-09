@@ -11,6 +11,8 @@ public interface ScheduleDao {
 	
 	int insertSchedule(SqlSession session, Schedule schedule);
 	
+	int insertInvitation(SqlSession session, List<Integer> empList);
+	
 	List<Schedule> selectScheduleAll(SqlSession session);
 	
 	

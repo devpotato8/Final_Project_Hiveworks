@@ -10,7 +10,7 @@ public interface ScheduleService {
 	
 	List<Schedule> selectScheduleAll();
 
-	int insertSchedule(Schedule schedule);
+	int insertSchedule(Schedule schedule, List<Integer> empList);
 
 	//resource
 	int insertResource(Resource resource);

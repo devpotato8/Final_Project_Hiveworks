@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			},
 			events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url: `/schedule/schedulelistend.do?calCode=CAL001`,
+					url: `/schedule/schedulelistend.do`,
 					type: "GET",
 					dataType: "JSON",
 					traditional: true,
@@ -104,11 +104,22 @@ document.addEventListener('DOMContentLoaded', function() {
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
-								content: event.calContent,
-								allday:event.calAlldayYn
+								allday:event.calAlldayYn,
+								extendedProps: {
+	                                content: event.calContent,   // 추가
+	                                empName: event.calEmpName,// 추가
+	                                calCode: event.calCode,//추가
+	                                important: event.calImportYn,
+	                                status: event.calStatus,
+	                                reminder: event.reminderYn;
+                              }
+
+								
 							};
 						});
 						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
+						console.log(content);
+							console.log(events);
 						
 						 
 					},
@@ -143,12 +154,63 @@ document.addEventListener('DOMContentLoaded', function() {
 						  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
 							};
 				
-				    var $drawerBody0 = $('.drawer-body').eq(0); // 순서에 해당하는 .drawer-body 선택
-					var $drawerBody1 = $('.drawer-body').eq(1); // 순서에 해당하는 .drawer-body 선택
+					//조회 부분
+					$('#viewContainer').find('.event-start-date').text("시작 : "+formatDate(targetE.start));
+					$('#viewContainer').find('.event-end-date').text("종료 : "+formatDate(targetE.end));
+					var content = targetE.extendedProps.content || "내용이 없습니다.";
+					$('#viewContainer').find('.event-content').html(content);
+					var type = targetE.extendedProps.calCode;
+					var typeval;
+					switch(type) {
+					    case 'CAL001':
+					        typeval = "내일정";
+					        break;
+					    case 'CAL002':
+					        typeval = "부서일정";
+					        break;
+					    case 'CAL003':
+					        typeval = "전사일정";
+					    default:
+					        typeval = "미정인 일정";
+					}
 					
-					 $drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))
-						    
+					$('#viewContainer').find('.event-code').html(typeval);
+					
+					var reminder = targetE.extendedProps.reminder;
+					var reminderval;
+					switch(reminder) {
+					    case 'Y':
+					        reminderval = "시작 30분전 알림 예정입니다";
+					        break;
+					    case 'N':
+					        reminderval = "알림 예정이 없습니다";
+					        break;
+					}
+					$('#viewContainer').find('.event-reminder').html(reminderval);
+					
+					
+					//변경 부분
+					//$('#modifyContainer').find('.event-start-date').val("시작 : "+formatDate(targetE.start));
+					//$('#modifyContainer').find('.event-end-date').val("종료 : "+formatDate(targetE.end));
+					$('#modifyContainer').find('.event-name').val(targetE.title);
+					$('#modifyContainer').find('.event-content').val(targetE.extendedProps.content);
+					$('#modifyContainer').find('.cal-event-code').val(targetE.extendedProps.calCode);
+					
+					
+					
+				    var $drawerBody0 = $('#viewConctainer')
+					var $drawerBody1 = $('#modifyConctaine')
+					
+					$drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))	    
 					$drawerBody0.find('.event-end-date').text("종료 : "+formatDate(targetE.end));
+					
+					$drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))	 
+					/*$drawerBody1.find('.event-start-date').val(formatDate(targetE.start))	    
+					$drawerBody1.find('.event-end-date').val(formatDate(targetE.end));
+					
+					$drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))
+						    
+					$drawerBody0.find('.event-end-date').text("종료 : "+formatDate(targetE.end));*/
 				
 				// 모달 표시 또는 이벤트 상세 처리
 
@@ -212,10 +274,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		setTimeout(function() {
 			$('.alert.alert-dismissible .close').addClass('btn-close').removeClass('close');
 		}, 100);
+		
+		const empList = [];
+		const count = $('.invitecontainer').length;
+		console.log(count);
+		
+		for (let i = 1; i <= count; i++) {
+		  const empValue = $('#calEmp' + i).val();
+		  empList.push(empValue);
+		}
+					
 		const addEvent = {
 			title: $('.cal-event-name').val(),
 			code: $('.cal-event-code').val(),
 			empno: $('#cal-event-empno').val(),
+			empList: empList, // empList를 addEvent 객체의 속성으로 추가
 			backgroundColor: '',
 			allday: $('.cal-event-allday').is(':checked') ? 'Y' : 'N',
 			start: $('.cal-event-date-start').val(),

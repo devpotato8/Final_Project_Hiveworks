@@ -20,6 +20,17 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public int insertInvitation(SqlSession session, List<Integer> empList) {
+	    int count = 0;
+	    for (int empNo : empList) {
+	        if (empNo != 0) { // null 체크 추가
+	            count += session.insert("schedule.insertInvitation", empNo);
+	        }
+	    }
+	    return count;
+	}
+	
+	@Override
 	public List<Schedule> selectScheduleAll(SqlSession session) {
 		return session.selectList("schedule.selectScheduleAll");
 	}

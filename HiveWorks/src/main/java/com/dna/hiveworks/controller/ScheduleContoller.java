@@ -3,6 +3,7 @@ package com.dna.hiveworks.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.Department;
-import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.DeptService;
@@ -56,7 +56,10 @@ public class ScheduleContoller {
 	@GetMapping("/schedulelistend.do")
 	@ResponseBody
 	public List<Schedule> scheduleListEnd() {
-		return scheduleService.selectScheduleAll();
+		List<Schedule> s = scheduleService.selectScheduleAll();
+		System.out.println(s);
+		return s;
+		
 	};
 	
 	
@@ -80,6 +83,16 @@ public class ScheduleContoller {
 			String calAlldayYn = (String) param.get("allday");
 			String calStatus = (String) param.get("status");
 			String empNo = (String)param.get("empno");
+			List<String> empStrList = (List<String>)param.get("empList");
+			List<Integer> empList = new ArrayList<>();
+			if(empStrList.size() > 0) {    
+			    for (String emp : empStrList) {
+			        if (!emp.isEmpty()) {  // emp가 빈 문자열이 아닌 경우에만 parseInt 실행
+			            int empInt = Integer.parseInt(emp);
+			            empList.add(empInt);
+			        }
+			    }
+			}
 
 			Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 			Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
@@ -97,7 +110,7 @@ public class ScheduleContoller {
 					.empNo(empNo)
 					.build();
 
-			result = scheduleService.insertSchedule(schedule);
+			result = scheduleService.insertSchedule(schedule, empList);
 
 			return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result)
 					: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);

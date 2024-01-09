@@ -50,7 +50,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="drawer-body">
+		<div class="drawer-body" id="viewContainer">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
 					<div class="event-head mb-4">
@@ -58,7 +58,7 @@
 							class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
 						<div>
 							<div class="event-name">Jampack Team Meet</div>
-							<span class="cal-type">내일정</span>
+							<span class="event-code">내일정</span>
 						</div>
 					</div>
 					<ul class="event-detail">
@@ -81,6 +81,9 @@
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
 							class="event-content">이벤트입니다</span></li>
+						<li><span class="ev-icon-wrap"><span
+							class="feather-icon"><i data-feather="bell"></i></span></span><span
+						class="event-reminder">알림여부</span></li>
 					</ul>
 				</div>
 			</div>
@@ -95,7 +98,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="drawer-body">
+		<div class="drawer-body" id="modifyContainer">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
 					<form>
@@ -387,19 +390,19 @@
 										</div>
 										<div class="col-sm-5">
 											<div class="form-group">
-												<button type="button" id="addBtn" class="btn btn-light btn-floating">추가</button>
-												<button type="button" id="delBtn" class="btn btn-light btn-floating">삭제</button>
+												  <button type="button" onclick="fn_addFileForm();" id="delBtn">추가</button>
+                   								<button type="button" onclick="fn_deleteFileForm();" id="addBtn">삭제</button>
 										</div>
 								</div>
 								</div>
 									<div class="row gx-3">
-									<div id="invitecontainer" style="display:flex">
+									<div class="invitecontainer" style="display:flex">
 										<div class="col-sm-4">
 											<div class="form-group">
 												<label class="form-label">부서</label>
 												<div class="d-flex">
 													<select class="form-select me-3" name="calDept"
-														id="calDept">
+														id="calDept1">
 														<c:if test="${not empty deptList}">
 															<c:forEach var="dept" items="${deptList}">
 																<option value="${dept.deptCode}">${dept.deptName}</option>
@@ -413,17 +416,17 @@
 											<div class="form-group">
 												<label class="form-label">직원</label>
 												<div class="d-flex">
-													<select class="form-select me-3" name="calEmp" id="calEmp">
+													<select class="form-select me-3" name="calEmp" id="calEmp1">
 														<option value=""></option>
 													</select>
 												</div>
 											</div>
 										</div>
-										</div>
-										
+									</div>
+									<div id="someContainer"></div>
 									</div>
 								</div>
-								<div class="row gx-3">
+								<div class="row gx-3" id="contentContainer">
 									<div class="col-sm-12 form-group">
 										<div class="form-label-group">
 											<label>일정 내용</label> <small class="text-muted">200</small>
@@ -642,8 +645,8 @@
 				+ ':' + seconds;
 	};
 	
-	// 부서 선택 시 직원 표시
-document.getElementById('calDept').addEventListener('change', function() {
+// 부서 선택 시 직원 표시
+ document.getElementById('calDept1').addEventListener('change', function() {
   var selectedDeptCode = this.value;
   
   fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
@@ -655,12 +658,12 @@ document.getElementById('calDept').addEventListener('change', function() {
       }
     })
     .then(function(employeeList) {
-      var employeeSelect = document.getElementById('calEmp');
+      var employeeSelect = document.getElementById('calEmp1');
       employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
       
       employeeList.forEach(function(employee) {
         var option = document.createElement('option');
-        option.value = employee.id;
+        option.value = employee.EMP_NO;
         option.textContent = employee.name;
         employeeSelect.appendChild(option);
       });
@@ -668,31 +671,67 @@ document.getElementById('calDept').addEventListener('change', function() {
     .catch(function(error) {
       console.error(error);
     });
-});
+}); 
+
+//부서 직원 추가
+const adddelFunction=(function(){
+	let count = 2;
+	const addFile=()=>{
+		if(count<=5){
+			const fileForm = $(".invitecontainer").clone(true);
+		      const deptId = "calDept" + count;
+		      const empId = "calEmp" + count;
+		      
+		      fileForm.find("#calDept1").attr("id", deptId).val("").change(); // 부서 선택 시 직원 표시
+		      fileForm.find("#calEmp1").attr("id", empId).val(""); // 초기화
+		      
+		      // 부서 선택 시 해당 부서의 직원 표시
+		      fileForm.find("#" + deptId).on("change", function() {
+		        var selectedDeptCode = $(this).val();
+		        
+		        fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+		          .then(function(response) {
+		            if (response.ok) {
+		              return response.json();
+		            } else {
+		              throw new Error('요청이 실패하였습니다.');
+		            }
+		          })
+		          .then(function(employeeList) {
+		            var employeeSelect = document.getElementById(empId);
+		      
+		            employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+		      
+		            employeeList.forEach(function(employee) {
+		              var option = document.createElement('option');
+		              option.value = employee.EMP_NO;
+		              option.textContent = employee.name;
+		              employeeSelect.appendChild(option);
+		            });
+		          })
+		          .catch(function(error) {
+		            console.error(error);
+		          });
+		      });
+		      
+		      $("#someContainer").before(fileForm);
+		      count++;
+		    } else {
+		      alert("공유인원은 5명까지 가능합니다.");
+		    }
+	};
+	const delFile=()=>{
+		if(count!=2){
+			$("#someContainer").prev().remove();
+			count--;
+		}
+	};
 	
-//추가 버튼 클릭 시 invitecontainer 복제
-document.getElementById("addBtn").addEventListener("click", function() {
-  var inviteContainer = document.getElementById("invitecontainer");
-  var clonedInviteContainer = inviteContainer.cloneNode(true);
+	return [addFile,delFile];
+})();
 
-  // calDept 요소의 id 속성에 1씩 더하기
-  var calDept = clonedInviteContainer.querySelector(".form-select[name='calDept']");
-  var calDeptId = parseInt(calDept.getAttribute("id").replace("calDept", "")) + 1;
-  calDept.setAttribute("id", "calDept" + calDeptId);
-
-  // calEmp 요소의 id 속성에 1씩 더하기
-  var calEmp = clonedInviteContainer.querySelector(".form-select[name='calEmp']");
-  var calEmpId = parseInt(calEmp.getAttribute("id").replace("calEmp", "")) + 1;
-  calEmp.setAttribute("id", "calEmp" + calEmpId);
-
-  // 삭제 버튼 클릭 시 해당 invitecontainer 삭제
-  var deleteBtn = clonedInviteContainer.querySelector(".deleteBtn");
-  deleteBtn.addEventListener("click", function() {
-    clonedInviteContainer.parentNode.removeChild(clonedInviteContainer);
-  });
-
-  inviteContainer.parentNode.appendChild(clonedInviteContainer);
-});	
+const fn_addFileForm=adddelFunction[0];
+const fn_deleteFileForm=adddelFunction[1]; 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <!-- Fancy Dropdown JS -->
