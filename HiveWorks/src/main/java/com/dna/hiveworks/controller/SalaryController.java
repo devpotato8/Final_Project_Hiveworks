@@ -49,9 +49,30 @@ public class SalaryController {
 	@GetMapping("/salaryDetail")
 	public String selectSalaryByNo(int sal_no, Model model) {
 		
+		
 		Salary sal = service.selectSalaryByNo(sal_no);
 		
+		Map<String, Integer> data = new HashMap<>(); 
+		
+		int total = sal.getSal_base()+sal.getSal_bonus()+sal.getSal_meal()+sal.getPosition_pay()+sal.getOvertime_pay();
+		int nontax = sal.getSal_meal();
+		
+		
+		data.put("o_total", null);
+		data.put("o_actual", null);
+		data.put("o_pension", null);
+		data.put("o_insurance", null);
+		data.put("o_nursing", null);
+		data.put("o_employ", null);
+		data.put("o_income", null);
+		data.put("o_local", null);
+		data.put("i_total", total);
+		data.put("i_non_tax", nontax);
+
+		service.calculateSalary(data);
+		
 		model.addAttribute("salary",sal);
+		model.addAttribute("dedution",data);
 		
 		return "salary/salaryDetail";
 	}
@@ -60,8 +81,27 @@ public class SalaryController {
 	public String updateSalaryDetailByNo(int sal_no, Model model) {
 		
 		Salary sal = service.selectSalaryByNo(sal_no);
+		Map<String, Integer> data = new HashMap<>(); 
+		
+		int total = sal.getSal_base()+sal.getSal_bonus()+sal.getSal_meal()+sal.getPosition_pay()+sal.getOvertime_pay();
+		int nontax = sal.getSal_meal();
+		
+		
+		data.put("o_total", null);
+		data.put("o_actual", null);
+		data.put("o_pension", null);
+		data.put("o_insurance", null);
+		data.put("o_nursing", null);
+		data.put("o_employ", null);
+		data.put("o_income", null);
+		data.put("o_local", null);
+		data.put("i_total", total);
+		data.put("i_non_tax", nontax);
+
+		service.calculateSalary(data);
 		
 		model.addAttribute("salary",sal);
+		model.addAttribute("dedution",data);
 		
 		return "salary/updateSalaryDetail";
 	}
@@ -112,6 +152,31 @@ public class SalaryController {
 			
 		}catch(RuntimeException e) {
 			msg="급여 추가 실패";
+			loc="salary/salaryList";
+	
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+
+		
+		return "common/msg";
+	}
+	
+	@GetMapping("/deleteSalary")
+	public String deleteSalary(int sal_no, Model model) {
+		
+		String msg, loc;
+		
+		
+		try {
+			int result = service.deleteSalary(sal_no);
+			
+			msg="급여 삭제 성공";
+			loc="salary/salaryList";
+			
+			
+		}catch(RuntimeException e) {
+			msg="급여 삭제 실패";
 			loc="salary/salaryList";
 	
 		}
