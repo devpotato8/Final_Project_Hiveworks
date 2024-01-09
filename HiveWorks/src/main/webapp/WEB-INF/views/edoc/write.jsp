@@ -134,20 +134,41 @@
 										</div>
 									</div>
 									<!-- 결재선 설정 탭 -->
-									<div class="tab-pane fade show active" id="approval_set">
+									<div class="tab-pane fade" id="approval_set">
 										<div class="row">
-											<div class="text-first mt-3">
-												<input type="text" id="schDept" value="" class="mb-4">
-						    					<button class="btn btn-primary btn-sm" onclick="dsearch()">부서검색</button>	
-							    			</div>
-							    			<p><b>조직도</b></p>
 											<div class="col-xl-3" id="deptTree"> </div>
 											
-											<div class="col-xl-9">
-												<div class="col-xl-3">
-													<label for="employee-list-container">소속사원</label>
-													<div id="employee-list-containter">
-														<select class="form-select" size="10" id="employee-list">
+											<div class="col-xl-3">
+												<label for="employee-list-container">소속사원</label>
+												<div id="employee-list-containter">
+													<select class="form-select form-select-lg" multiple size="10" id="employee-list">
+													</select>
+												</div>
+												<div class="d-flex justify-content-evenly">
+													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeSelectAllBtn">전체선택</button>
+													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeDeselectAllBtn">선택해제</button>
+												</div>
+											</div>
+											<div class="col-xl-3 d-flex flex-column">
+												<label for="approvalList" class="px-10">결재</label>
+												<div class="d-flex flex-row mb-3">
+													<div class="d-flex flex-column justify-content-center">
+														<button type="button" class="btn btn-sm btn-outline mb-3" id="addApprovalList"><span><i class="ti-angle-right"></i></span></button>
+														<button type="button" class="btn btn-sm btn-outline" id="removeApprovalList"><span><i class="ti-angle-left"></i></span></button>
+													</div>
+													<div class="container">
+														<select class="form-select" size="5" name="approvalList" id="approvalList">
+														</select>
+													</div>
+												</div>
+												<label for="referenceList" class="px-10">참조</label>
+												<div class="d-flex flex-row mb-3">
+													<div class="d-flex flex-column justify-content-center">
+														<button type="button" class="btn btn-sm btn-outline mb-3" id="addReferenceList"><span><i class="ti-angle-right"></i></span></button>
+														<button type="button" class="btn btn-sm btn-outline" id="removeReferenceList"><span><i class="ti-angle-left"></i></span></button>
+													</div>
+													<div class="container">
+														<select class="form-select" size="5" name="referenceList" id="referenceList">
 														</select>
 													</div>
 												</div>
@@ -155,7 +176,7 @@
 										</div>
 									</div>
 									<!-- 파일 첨부 탭 -->
-									<div class="tab-pane fade show active" id="attach_file">
+									<div class="tab-pane fade" id="attach_file">
 										<div id="">
 										</div>
 									</div>
@@ -193,83 +214,48 @@
 <!-- 조직도관리 JS -->
 <script src="${path}/resources/js/deptTree.js"></script>
 
-<!-- 구성원관리 조직도, List 출력 JS -->
-<script>
-const approvalList = [];
-const circularizeList = [];
-
-const isExistInLists = (empNo)=>{
-	return approvalList.some((e)=>e.empNo == empNo)||circularizeList.some((e)=>e.empNo == empNo);
-}
-
-
-$(document).ready(function(){
-	getDeptList();
-});
-var nodeId;
-function getDeptList(){
-	fetch('${path}/deptlist')
-	.then(response=>{
-		if(response.status != 200) throw new Error(response.status)
-		return response.json();
-	})
-	.then(data=>{
-		var deptlist = new Array();
-		$.each(data, function(idx, item){
-			deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
-		});
-		
-		$('#deptTree').jstree({
-			'plugins':['types','sort','search'],
-			'core':{
-				'data':deptlist,
-				'check_callback': true
-			},
-			'types':{
-				'default':{
-					'icon':'fa-solid fa-book-open-reader'
-				}
-			}
-		}).bind("select_node.jstree", function (e, data) {
-			nodeId = data.node.id;
-			loadDeptEmpList(nodeId);
-		});
-	})
-	.catch(
-		alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
-		console.log(e)
-	);
-}
-//선택된 부서의 구성원 목록을 가져오는 ajax함수
-function loadDeptEmpList(nodeId) {
-	fetch('${path}/edoc/approvalList?deptCode='+nodeId)
-	.then(response=>{
-		if(response.status != 200) throw new Error(response.status)
-		return response.json();
-	})
-	.then(data=>{
-		const $employee-list = $('#employee-list');
-		console.log(data);
-		// 선택목록 내용 비우기
-		$employee-list.empty();
-		
-		
-		
-	})
-	.catch(
-		alert("구성원 정보 로딩 실패. 관리자에게 문의하세요");
-	);
-}
-  });
-}
-</script>
-
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 	
 <link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
 
 <script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
-<script type="module" src="${path }/resources/js/edoc/edoc-write.js"></script>
+<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
+<script>
+$(function(){
+	jampack();
+	horizontalMenu();
+	navheadMenu();
+
+	/*App Functions */
+	//emailApp();
+	//contactApp();
+	//chatApp();
+	//calendarApp();
+	fmApp();
+	//blogApp();
+	//invoiceApp();
+	//galleryApp();
+	//integrationsApp();
+	//taskboardApp();
+	//checklistApp();
+	//todoApp();
+	getDeptList();
+
+	/*Table Search*/
+	$(".table-search").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$(".table-filter tbody tr").filter(function() {
+		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
+	
+	/*Disabled*/
+	$(document).on("click", "a.disabled,a:disabled",function(e) {
+		 return false;
+	});
+	
+});
+
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
