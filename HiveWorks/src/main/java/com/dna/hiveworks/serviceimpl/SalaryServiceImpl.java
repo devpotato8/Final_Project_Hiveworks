@@ -26,8 +26,8 @@ public class SalaryServiceImpl implements SalaryService {
 	}
 
 	@Override
-	public Salary selectSalaryByNo(int salaryNo) {
-		return dao.selectSalaryByNo(session, salaryNo);
+	public Salary selectSalaryByNo(int sal_no) {
+		return dao.selectSalaryByNo(session, sal_no);
 	}
 
 	@Override
@@ -55,9 +55,8 @@ public class SalaryServiceImpl implements SalaryService {
 	}
 
 	@Override
-	public int deleteSalary(int salaryNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteSalary(int sal_No) {
+		return dao.deleteSalary(session, sal_No);
 	}
 
 	@Override

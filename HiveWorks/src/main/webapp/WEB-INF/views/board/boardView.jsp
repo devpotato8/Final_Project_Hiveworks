@@ -34,11 +34,12 @@
 <style>
    
     #boardContent{
-    width:400px;
-    height:300px;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column-reverse;
+    
     }
-    div#board-container{width:400px; margin:0 auto; text-align:center;}
-    div#board-container input{margin-bottom:15px;}
 </style>
 
 <script>

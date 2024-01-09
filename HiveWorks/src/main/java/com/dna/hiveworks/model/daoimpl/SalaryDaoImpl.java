@@ -19,8 +19,8 @@ public class SalaryDaoImpl implements SalaryDao {
 	}
 
 	@Override
-	public Salary selectSalaryByNo(SqlSession session, int no) {
-		return session.selectOne("salary.selectSalaryByNo", no);
+	public Salary selectSalaryByNo(SqlSession session, int sal_no) {
+		return session.selectOne("salary.selectSalaryByNo", sal_no);
 	}
 
 	@Override
@@ -34,9 +34,8 @@ public class SalaryDaoImpl implements SalaryDao {
 	}
 
 	@Override
-	public int deleteSalary(SqlSession session, int salaryNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteSalary(SqlSession session, int sal_no) {
+		return session.delete("salary.deleteSalary",sal_no);
 	}
 
 	@Override

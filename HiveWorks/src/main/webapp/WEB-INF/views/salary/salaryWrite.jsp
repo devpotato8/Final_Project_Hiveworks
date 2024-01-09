@@ -407,8 +407,12 @@
         text-align: center;
         margin-top: 24px
     }
+    /* css 추가 */
     input[type=text]{
-    	width:100px;
+    background: transparent; 
+    text-align: center; 
+    width:80px;
+    
     }
     
     </style>
@@ -416,9 +420,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <form action="${path }/salary/SalaryWriteEnd" method="post">
-<button>등록</button>
+<button class="btn btn-primary btn-sm" style="width:100px">등록</button>
 <input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요."/>
-<button type="button" onclick="fn_changeEmployee()">검색</button>
+<button type="button" class="btn btn-primary btn-sm" style="width:100px" onclick="fn_changeEmployee()">검색</button>
 <datalist id="data"></datalist>
 <script>
 	$("#searchId").keyup(e=>{
@@ -439,13 +443,11 @@
 	
 	fn_changeEmployee=()=>{
 		let value = $("#searchId").val();
-		console.log(value);
 		$.ajax({
 			type:'post',
 			url:"${path}/employees/searchEmployees",
 			data:{"keyword":value},
 			success:data=>{
-				console.log(data);
 				$("#emp_no").val(data[0].emp_no);
 				$("#emp_name").val(data[0].emp_name);
 				$("#emp_birth_date").val(data[0].emp_birth_date);
@@ -468,8 +470,6 @@
 					+Number($("#sal_bonus").val());
 		
 		let notax = Number($("#sal_meal").val());
-		console.log(total);
-		console.log(notax);
 		
 		$.ajax({
 			type:'get',
@@ -502,10 +502,22 @@
 	};
 	
 	//document.getElementById('sal_date').value = new Date().toISOString().substring(0, 10);
-	
-	
-	
-	
+
+	fn_change_date=()=>{
+		// input 태그에서 선택한 날짜 가져오기
+		let changeDate = document.getElementById('sal_date').value;
+		
+		// Date 객체로 변환하기
+		let date = new Date(changeDate);
+		
+		// 연도와 월 가져오기
+		let year = date.getFullYear();
+		let month = date.getMonth()+1;
+		
+		let payday = document.getElementById('payday');
+		
+		payday.innerHTML = year + "년 " + month + "월 급여명세서";
+	};
 </script>
 
 
@@ -514,8 +526,11 @@
 <table width="740px">
     <tbody>
     <tr align="center">
+        <c:set var="test1" value="${salary.sal_date }"/>
         <td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;">
-        <b>2023년 12월 급여명세서</b>
+        <b id="payday">
+        	0000년 00월 급여명세서
+        </b>
         </td>
     </tr>
     </tbody>
@@ -528,7 +543,7 @@
     <tbody>
     <tr>
         <td class="txtlft"><p><em>회사명</em> (주)하이브웍스</p></td>
-        <td class="txtrgt"><p><em>지급일</em><input type="date" id="sal_date" name="sal_date"/></p></td>
+        <td class="txtrgt"><p><em>지급일</em><input type="date" id="sal_date" name="sal_date" onchange="fn_change_date();"/></p></td>
     </tr>
     </tbody>
 </table><!--사원정보 테이블-->
@@ -544,19 +559,19 @@
     <tbody>
     <tr>
         <th><span>사원코드</span></th>
-        <td><input type="text" id="emp_no" name="emp_no" readonly="readonly"/></td>
+        <td><input type="text" id="emp_no" name="emp_no" readonly="readonly" style="border: none;"/></td>
         <th><span>사원명</span></th>
-        <td><input type="text" id="emp_name" name="emp_name" readonly="readonly"/></td>
+        <td><input type="text" id="emp_name" name="emp_name" readonly="readonly" style="border: none;"/></td>
         <th><span>생년월일</span></th>
-        <td><input type="text" id="emp_birth_date" name="emp_birth_date" readonly="readonly"/></td>
+        <td><input type="text" id="emp_birth_date" name="emp_birth_date" readonly="readonly" style="border: none;"/></td>
     </tr>
     <tr>
         <th><span>부서</span></th>
-        <td><input type="text" id="dept_name" name="dept_name" readonly="readonly"/></td>
+        <td><input type="text" id="dept_name" name="dept_name" readonly="readonly" style="border: none;"/></td>
         <th><span>직급</span></th>
-        <td><input type="text" id="job_name" name="job_name" readonly="readonly"/></td>
+        <td><input type="text" id="job_name" name="job_name" readonly="readonly" style="border: none;"/></td>
         <th><span>직위</span></th>
-        <td><input type="text" id="position_name" name="position_name" readonly="readonly"/></td>
+        <td><input type="text" id="position_name" name="position_name" readonly="readonly" style="border: none;"/></td>
     </tr>
     </tbody>
 </table><!--근로일수 및 시간 -->
@@ -590,9 +605,9 @@
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value="0"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="0"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="0" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="0"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="0" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="0" readonly="readonly" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="0"/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
@@ -666,12 +681,12 @@
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" readonly="readonly"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly" style="border: none;"/></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
@@ -755,10 +770,10 @@
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
-                    <td width="14%"><input type="text" id="sal_total" name="sal_total" readonly="readonly"/></td>
-                    <td width="14%"><input type="text" id="dedu_total" name="dedu_total" readonly="readonly"/></td>
+                    <td width="14%"><input type="text" id="sal_total" name="sal_total" readonly="readonly" style="border: none;"/></td>
+                    <td width="14%"><input type="text" id="dedu_total" name="dedu_total" readonly="readonly" style="border: none;"/></td>
                     <td width="14%"></td>
-                    <td width="14%"><input type="text" id="sal_actual" name="sal_actual" readonly="readonly"/></td>
+                    <td width="14%"><input type="text" id="sal_actual" name="sal_actual" readonly="readonly" style="border: none;"/></td>
                 </tr>
                 </tbody>
             </table>
@@ -810,5 +825,3 @@
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
-	<script>
-	$('#sal_date').val(new Date().toISOString().substring(0,10));</script>
