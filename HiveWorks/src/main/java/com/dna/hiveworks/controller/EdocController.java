@@ -56,7 +56,7 @@ public class EdocController {
 	@Autowired
 	private EdocService edocService;
 	
-	@GetMapping("/lists.do?{status}")
+	@GetMapping("/lists/{status}")
 	public String pendingList(@PathVariable String status, Model model, @SessionAttribute Employee loginEmp) {
 		ListStatus listStatus;
 		try {

@@ -144,9 +144,12 @@
 											<div class="col-xl-3" id="deptTree"> </div>
 											
 											<div class="col-xl-9">
-												<label for="employee-list-container">소속사원</label>
-												<div id="employee-list-containter">
-													
+												<div class="col-xl-3">
+													<label for="employee-list-container">소속사원</label>
+													<div id="employee-list-containter">
+														<select class="form-select" size="10" id="employee-list">
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -192,43 +195,50 @@
 
 <!-- 구성원관리 조직도, List 출력 JS -->
 <script>
+const approvalList = [];
+const circularizeList = [];
+
+const isExistInLists = (empNo)=>{
+	return approvalList.some((e)=>e.empNo == empNo)||circularizeList.some((e)=>e.empNo == empNo);
+}
+
 
 $(document).ready(function(){
 	getDeptList();
 });
 var nodeId;
 function getDeptList(){
-	
-	$.ajax({
-		type:'GET',
-		url:'${path}/deptlist',
-		dataType:'JSON',
-		success: function(data){
-			var deptlist = new Array();
-			$.each(data, function(idx, item){
-				deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
-			});
-			
-			$('#deptTree').jstree({
-				'plugins':['types','sort','search'],
-				'core':{
-					'data':deptlist,
-					'check_callback': true
-				},
-				'types':{
-					'default':{
-						'icon':'fa-solid fa-book-open-reader'
-					}
-				}
-			}).bind("select_node.jstree", function (e, data) {
-				nodeId = data.node.id;
-				loadDeptEmpList(nodeId)
-			});
-			
-		},error:function(data){
-			alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
-		}
+	fetch('${path}/deptlist')
+	.then(response=>{
+		if(response.status != 200) throw new Error(response.status)
+		return response.json();
 	})
+	.then(data=>{
+		var deptlist = new Array();
+		$.each(data, function(idx, item){
+			deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
+		});
+		
+		$('#deptTree').jstree({
+			'plugins':['types','sort','search'],
+			'core':{
+				'data':deptlist,
+				'check_callback': true
+			},
+			'types':{
+				'default':{
+					'icon':'fa-solid fa-book-open-reader'
+				}
+			}
+		}).bind("select_node.jstree", function (e, data) {
+			nodeId = data.node.id;
+			loadDeptEmpList(nodeId);
+		});
+	})
+	.catch(
+		alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
+		console.log(e)
+	);
 }
 //선택된 부서의 구성원 목록을 가져오는 ajax함수
 function loadDeptEmpList(nodeId) {
@@ -238,69 +248,18 @@ function loadDeptEmpList(nodeId) {
 		return response.json();
 	})
 	.then(data=>{
-		const 
+		const $employee-list = $('#employee-list');
+		console.log(data);
+		// 선택목록 내용 비우기
+		$employee-list.empty();
+		
+		
+		
 	})
-  $.ajax({
-      type: 'GET',
-      url: '${path}/edoc/approvalList',
-      data: { deptCode : nodeId },
-      dataType: 'JSON',
-      success: function(response) {
-          // 테이블의 기존 내용을 비우기
-          $('.deptTable tbody').empty();
-          $('.deptName').empty();
-          
-          //서버에서 받아온 데이터 정렬
-          response.sort(function(a, b) {
-              // leader가 붙은 사람을 먼저 나열
-              if (a.leader === 'Y' && b.leader !== 'Y') return -1;
-              if (a.leader !== 'Y' && b.leader === 'Y') return 1;
-
-              // leader가 동일하면 id로 오름차순 정렬
-              if (a.id < b.id) return -1;
-              if (a.id > b.id) return 1;
-
-              return 0;
-          });
-          
-          // 서버에서 받아온 데이터로 테이블 만들기
-          $.each(response, function(idx, item){
-
-              var name = item.name;
-              if(item.leader==='Y'){
-                  name += '&nbsp<img src="${path}/resources/img/dept-leader.png" width="50px", height="25px">';
-              }
-              var row = '<tr>' +
-                  '<td><input type="checkbox" name="chkRow" id=""></td>' +
-                  '<td>' + item.id + '</td>' +
-                  '<td>' + name + '</td>' +
-                  '<td>' + item.position + '</td>' +
-                  '<td>' + item.job + '</td>' +
-                  '<td style="display:none;">' + nodeId + '</td>' +
-              '</tr>';
-              $('.deptTable tbody').append(row);
-
-          });
-          if (response.length > 0) {
-              var deptName = response[0].deptName + ' 구성원 목록'
-              $('.deptName').append(deptName);
-          }else{
-          	$.ajax({
-                  type: 'GET',
-                  url: '${path}/searchDeptName',
-                  data: { deptCode : nodeId },
-                  dataType: 'text',
-                  success: function(response) {
-                  	
-                  	var thisDeptName = response + ' 구성원 목록';
-                      $('.deptName').append(thisDeptName);
-                  }
-          	});
-          }
-      },
-      error: function() {
-          alert("구성원 정보 로딩 실패. 관리자에게 문의하세요");
-      }
+	.catch(
+		alert("구성원 정보 로딩 실패. 관리자에게 문의하세요");
+	);
+}
   });
 }
 </script>
