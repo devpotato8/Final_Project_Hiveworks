@@ -65,7 +65,7 @@
  
  	<!-- 구성원 관리페이지에서 구성원목록 출력 시 -->
 	<select id="deptEmpList" resultMap="empMap">
-	 	SELECT e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
+	 	SELECT e.EMP_NO, e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
 		FROM TBL_EMPLOYEE e
 			JOIN (
 			    SELECT DEPT_CODE, DEPT_NAME
@@ -74,7 +74,7 @@
 			) d ON e.DEPT_CODE = d.DEPT_CODE
 			LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
 			LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
-	</select>	
+	</select>
 	
 	<!-- 구성원 관리페이지에 표시할 부서명 -->
  	<select id="searchDeptName" resultType="string">
@@ -141,5 +141,30 @@
 	<update id="addEmpDept" parameterType="employee">
 		UPDATE TBL_EMPLOYEE SET DEPT_CODE = #{dept_code} WHERE EMP_NO = #{emp_no} AND EMP_NAME = #{emp_name}
 	</update>
- 
+ 	
+ 	
+ 	<!-- 
+ 		- 추가 24/01/09 이재연 : 하위 조직에 속한 사원목록 가져오는 쿼리 
+ 	 -->
+ 	<select id="searchEmployeeInSubDepartmentByDeptCode" parameterType="string" resultType="hashmap">
+ 		SELECT E.EMP_NO AS "empNo", E.EMP_ID as "id", E.EMP_NAME as "name", E.DEPT_LEADER as "leader", P.CODE_NAME as "position", J.CODE_NAME as "job", D.DEPT_NAME as "dept"
+		FROM TBL_EMPLOYEE E,
+            TBL_DEPARTMENT D,
+            TBL_CODE P,
+            TBL_CODE J
+ 		WHERE 
+        E.DEPT_CODE = D.DEPT_CODE
+        AND E.POSITION_CODE = P.CODE_NO
+        AND E.JOB_CODE = J.CODE_NO 
+ 		AND E.DEPT_CODE IN(SELECT DEPT_CODE FROM(SELECT T1.DEPT_CODE, T1.DEPT_NAME, (LEVEL+1) AS "LEVEL", T1.DEPT_UPSTAIR
+                            FROM (SELECT * FROM TBL_DEPARTMENT WHERE USE_YN = 'Y') T1
+                            START WITH T1.DEPT_UPSTAIR = #{deptCode}
+                            CONNECT BY PRIOR T1.DEPT_CODE = T1.DEPT_UPSTAIR
+                            UNION
+                            SELECT DEPT_CODE, DEPT_NAME, 1, DEPT_UPSTAIR
+                            FROM TBL_DEPARTMENT
+                            WHERE DEPT_CODE = #{deptCode}
+                            ))
+		order by e.dept_code,e.position_code
+ 	</select>
 </mapper>

@@ -18,5 +18,6 @@ public class Dedution {
 	private int dedu_national_pension;
 	private int dedu_income_tax;
 	private int dedu_local_income_tax;
+	private int dedu_longterm_care_insur;
 	private String use_yn;
 }

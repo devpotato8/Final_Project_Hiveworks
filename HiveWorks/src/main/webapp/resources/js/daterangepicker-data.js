@@ -22,12 +22,13 @@ $(function() {
 	$('input[name="single-date"]').daterangepicker({
 		singleDatePicker: true,
 		timePicker: true,
+		timePicker24Hour: true, // 24시간 형식 활성화
 		startDate: moment().startOf('hour'),
 		showDropdowns: true,
 		minYear: 1901,
 		"cancelClass": "btn-secondary",
-		locale: {
-		  format: 'MM/DD/YYYY hh:mm A'
+		locale:  {
+		  format: 'YYYY/MM/DD HH:mm'
 		}
 	});
 	

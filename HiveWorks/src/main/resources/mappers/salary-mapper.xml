@@ -8,7 +8,7 @@
 		<result column="sal_base" property="sal_base"/>
 		<result column="sal_meal" property="sal_meal"/>
 		<result column="sal_bonus" property="sal_bonus"/>
-		<result column="sal_actual_a" property="sal_actual"/>
+		<result column="sal_actual" property="sal_actual"/>
 		<result column="sal_date" property="sal_date"/>
 		<result column="use_yn" property="use_yn"/>
 		<result column="creater" property="creater"/>
@@ -22,62 +22,51 @@
 	</resultMap>
  	<resultMap type="dedution" id="dedutionMap">
 		<id column="dedu_no" property="dedu_no"/>
-		<result column="dedu_emp_insur_a" property="dedu_emp_insur"/>
-		<result column="dedu_health_insur_a" property="dedu_health_insur"/>
-		<result column="dedu_industry_insur_a" property="dedu_industry_insur"/>
-		<result column="dedu_national_pension_a" property="dedu_national_pension"/>
-		<result column="dedu_income_tax_a" property="dedu_income_tax"/>
-		<result column="dedu_local_income_tax_a" property="dedu_local_income_tax"/>
+		<result column="dedu_emp_insur" property="dedu_emp_insur"/>
+		<result column="dedu_health_insur" property="dedu_health_insur"/>
+		<result column="dedu_industry_insur" property="dedu_industry_insur"/>
+		<result column="dedu_national_pension" property="dedu_national_pension"/>
+		<result column="dedu_income_tax" property="dedu_income_tax"/>
+		<result column="dedu_local_income_tax" property="dedu_local_income_tax"/>
 		<result column="use_yn" property="use_yn"/>
 	</resultMap>
+	
+	<resultMap id="test" type="hashmap"></resultMap>
 
   	<select id="selectSalaryListAll" resultMap="salaryMap">
-  		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*,
-    SAL_BASE+SAL_MEAL+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1 AS SAL_ACTUAL_A, 
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_EMP_INSUR) AS DEDU_EMP_INSUR_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_HEALTH_INSUR) AS DEDU_HEALTH_INSUR_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INDUSTRY_INSUR) AS DEDU_INDUSTRY_INSUR_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_NATIONAL_PENSION) AS DEDU_NATIONAL_PENSION_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX) AS DEDU_INCOME_TAX_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX*DEDU_LOCAL_INCOME_TAX) AS DEDU_LOCAL_INCOME_TAX_A
-
-    FROM TBL_SALARY S
-        JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
-        JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
-        JOIN TBL_POSITION_PAY P ON P.SAL_NO = S.SAL_NO
-        JOIN
-        (SELECT E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
-        FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
-        JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E1.DEPT_CODE 
-        JOIN TBL_CODE C ON E1.JOB_CODE = C.CODE_NO 
+  		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*
+    	FROM TBL_SALARY S
+	       LEFT JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
+	       LEFT JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
+	       LEFT JOIN
+        	(SELECT E.*, EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+	        	FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
+	       LEFT JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E1.DEPT_CODE 
+	       LEFT JOIN TBL_CODE C ON E1.JOB_CODE = C.CODE_NO
+	       LEFT JOIN TBL_POSITION_PAY P ON P.POS_CODE = E1.POSITION_CODE
+	    WHERE S.USE_YN ='Y' 
   	</select>
   	
   	<select id="selectSalaryByNo" parameterType="_int" resultMap="salaryMap">
-  		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*,
-    SAL_BASE+SAL_MEAL+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1 AS SAL_ACTUAL_A, 
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_EMP_INSUR) AS DEDU_EMP_INSUR_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_HEALTH_INSUR) AS DEDU_HEALTH_INSUR_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INDUSTRY_INSUR) AS DEDU_INDUSTRY_INSUR_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_NATIONAL_PENSION) AS DEDU_NATIONAL_PENSION_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX) AS DEDU_INCOME_TAX_A,
-    ROUND((SAL_BASE+PP_ADD_PAY+SAL_BONUS+OT_PAY_PER_TIME*1)*DEDU_INCOME_TAX*DEDU_LOCAL_INCOME_TAX) AS DEDU_LOCAL_INCOME_TAX_A
-
-    FROM TBL_SALARY S
-        JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
-        JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
-        JOIN TBL_POSITION_PAY P ON P.SAL_NO = S.SAL_NO
-        JOIN
-        (SELECT E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
-        FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
-        JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E1.DEPT_CODE 
-        JOIN TBL_CODE C ON E1.JOB_CODE = C.CODE_NO 
-        WHERE S.SAL_NO=#{no}
+  		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*, C.CODE_NAME AS JOB_NAME, B.CODE_NAME AS POSITION_NAME 
+    	FROM TBL_SALARY S
+        	LEFT JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
+        	LEFT JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
+        	LEFT JOIN
+        		(SELECT E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+        		FROM (SELECT * FROM TBL_EMPLOYEE) E
+                ) E1 ON S.EMP_NO=E1.EMP_NO
+            LEFT JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E1.DEPT_CODE 
+        	LEFT JOIN TBL_CODE C ON E1.JOB_CODE = C.CODE_NO
+            LEFT JOIN TBL_CODE B ON E1.POSITION_CODE = B.CODE_NO
+        	LEFT JOIN TBL_POSITION_PAY P ON P.POS_CODE = E1.POSITION_CODE
+        	WHERE S.SAL_NO=#{sal_no}
   	</select>
   	
   	
   	<update id="updateSalary" parameterType="salary">
   		UPDATE TBL_SALARY 
-  		SET SAL_BASE=#{sal_base}, SAL_MEAL=#{sal_meal}, SAL_BONUS=#{sal_bonus} WHERE SAL_NO=#{sal_no}
+  		SET SAL_BASE=#{sal_base}, SAL_MEAL=#{sal_meal}, SAL_BONUS=#{sal_bonus}, SAL_DATE=#{sal_date} WHERE SAL_NO=#{sal_no}
   	</update>
   	
   	<update id="updatePositionPay" parameterType="positionpay">
@@ -85,9 +74,34 @@
   		SET PP_ADD_PAY=#{position_pay} WHERE SAL_NO=#{sal_no}
   	</update>
   	
-  	<insert id="">
-  		
+  	<select id="calculateSalary" parameterType="hashmap" statementType="CALLABLE">
+  		{
+  			CALL SP_ACTUAL_SALARY(
+				#{o_total, mode=OUT, jdbcType=INTEGER},
+  				#{o_actual, mode=OUT, jdbcType=INTEGER},
+  				#{o_pension, mode=OUT, jdbcType=INTEGER},
+  				#{o_insurance, mode=OUT, jdbcType=INTEGER},
+  				#{o_nursing, mode=OUT, jdbcType=INTEGER},
+  				#{o_employ, mode=OUT, jdbcType=INTEGER},
+  				#{o_income, mode=OUT, jdbcType=INTEGER},
+  				#{o_local, mode=OUT, jdbcType=INTEGER},
+  				#{i_total},
+  				#{i_non_tax}
+  			)
+  		}
+  	</select>
+  	
+  	<insert id="insertSalary" parameterType="salary">
+<!--   		<selectKey keyProperty="sal_no" resultType="int" order="BEFORE">
+  			SELECT SEQ_SAL_NO.NEXTVAL FROM DUAL
+  		</selectKey> -->
+  		INSERT INTO TBL_SALARY VALUES(
+  		SEQ_SAL_NO.NEXTVAL,#{emp_no},SEQ_DEDU_NO.NEXTVAL,#{sal_base},
+  		#{sal_meal},#{sal_bonus},#{sal_actual},#{sal_date},DEFAULT,1,SYSDATE,1,SYSDATE)
   	</insert>
   	
+  	<delete id="deleteSalary" parameterType="_int">
+  		UPDATE TBL_SALARY SET USE_YN='N' WHERE SAL_NO = #{sal_no}
+  	</delete>
   	
 </mapper>

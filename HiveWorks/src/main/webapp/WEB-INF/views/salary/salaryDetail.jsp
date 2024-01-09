@@ -4,14 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<c:set var="allDedution" value="${
-salary.dedution.dedu_emp_insur+ 
-salary.dedution.dedu_health_insur+ 
-salary.dedution.dedu_industry_insur+ 
-salary.dedution.dedu_national_pension+ 
-salary.dedution.dedu_income_tax+ 
-salary.dedution.dedu_local_income_tax
-}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
 	<jsp:param value="default" name="style"/>
@@ -455,11 +447,11 @@ salary.dedution.dedu_local_income_tax
     </tr>
     <tr>
         <th><span>부서</span></th>
-        <td><c:out value="${salary.employee.dept_code }"/></td>
+        <td><c:out value="${salary.employee.dept_name }"/></td>
         <th><span>직급</span></th>
-        <td><c:out value="${salary.employee.job_code }"/></td>
-        <th><span></span></th>
-        <td></td>
+        <td><c:out value="${salary.employee.job_name }"/></td>
+        <th><span>직위</span></th>
+        <td><c:out value="${salary.employee.position_name }"/></td>
     </tr>
     </tbody>
 </table><!--근로일수 및 시간 -->
@@ -576,19 +568,19 @@ salary.dedution.dedu_local_income_tax
                     </td>
                     <th width="14%">국민연금</th>
                     <th width="14%">건강보험</th>
+                    <th width="14%">장기요양보험</th>
                     <th width="14%">고용보험</th>
-                    <th width="14%">산재보험</th>
                     <th width="14%">소득세</th>
                     <th width="14%">지방소득세</th>
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_emp_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_health_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_industry_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_national_pension }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_income_tax }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_local_income_tax }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_pension }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_insurance }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_nursing }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_employ }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_income }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_local }"/></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
@@ -671,10 +663,11 @@ salary.dedution.dedu_local_income_tax
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual }" /></td>
-                    <td width="14%"><c:out value="${allDedution }" /></td>
+                    <td width="14%"><c:out value="${dedution.i_total }" /></td>
+                    <td width="14%"><c:out value="${dedution.o_pension+dedution.o_insurance
+                    				 +dedution.o_nursing+dedution.o_employ+dedution.o_income+dedution.o_local}" /></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual-allDedution }" /></td>
+                    <td width="14%"><c:out value="${salary.sal_actual }" /></td>
                 </tr>
                 </tbody>
             </table>

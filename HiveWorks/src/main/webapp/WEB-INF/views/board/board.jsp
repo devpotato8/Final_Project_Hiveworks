@@ -53,7 +53,7 @@
 											<div style="margin-right: 100px;">
 												<c:out value="${b.boardCount}" />
 											</div>
-
+									
 											<div class="d-flex">
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"

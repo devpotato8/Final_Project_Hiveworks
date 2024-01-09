@@ -1,5 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,20 @@ public class EmpServiceImpl implements EmpService {
 	public List<Employee> searchEmployeesByKeyword(String keyword) {
 		
 		return dao.searchEmployeesByKeyword(session, keyword);
+	}
+
+	@Override
+	public Map<String,List<Map<String,Object>>> selectDataListForEmployee() {
+		Map<String, List<Map<String,Object>>> data = new HashMap<>();
+		
+		data.put("deptList",dao.selectDeptList(session));
+		data.put("positionList",dao.selectPositionList(session));
+		data.put("jobList",dao.selectJobList(session));
+		data.put("workStatusList",dao.selectWorkStatusList(session));
+		data.put("workPatternList",dao.selectWorkPatternList(session));
+		
+		return data;
+		
 	}
 	
 	

@@ -28,4 +28,11 @@ public interface EmpDao {
 	int deleteEmployee(SqlSession session,Employee e);
 	
 	List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword);
+	
+	List<Map<String,Object>> selectDeptList(SqlSession session);
+	List<Map<String,Object>> selectPositionList(SqlSession session);
+	List<Map<String,Object>> selectJobList(SqlSession session);
+	List<Map<String,Object>> selectWorkStatusList(SqlSession session);
+	List<Map<String,Object>> selectWorkPatternList(SqlSession session);
+
 }

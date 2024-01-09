@@ -21,23 +21,20 @@ public class SalaryServiceImpl implements SalaryService {
 	private final SqlSession session;
 	
 	@Override
-	public List<Salary> selectSalaryListAll(Map<String, Integer> page) {
-		return dao.selectSalaryListAll(session, page);
+	public List<Salary> selectSalaryListAll() {
+		return dao.selectSalaryListAll(session);
 	}
 
 	@Override
-	public Salary selectSalaryByNo(int salaryNo) {
-		return dao.selectSalaryByNo(session, salaryNo);
+	public Salary selectSalaryByNo(int sal_no) {
+		return dao.selectSalaryByNo(session, sal_no);
 	}
 
 	@Override
 	public int insertSalary(Salary s) {
 		
 		int result = dao.insertSalary(session, s);
-		if(result>0) {
-			int result2 = dao.insertPositionPay(session, s);
-			if(result2==0) new RuntimeException("업데이트 실패");
-		}else {
+		if(result<=0) {
 			new RuntimeException("업데이트 실패");
 		}
 		
@@ -49,8 +46,7 @@ public class SalaryServiceImpl implements SalaryService {
 		
 		int result = dao.updateSalary(session, s);
 		if(result>0) {
-			int result2 = dao.updatePositionPay(session, s);
-			if(result2==0) new RuntimeException("업데이트 실패");
+			
 		}else {
 			new RuntimeException("업데이트 실패");
 		}
@@ -59,10 +55,16 @@ public class SalaryServiceImpl implements SalaryService {
 	}
 
 	@Override
-	public int deleteSalary(int salaryNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteSalary(int sal_No) {
+		return dao.deleteSalary(session, sal_No);
 	}
+
+	@Override
+	public Map<String, Integer> calculateSalary(Map<String,Integer> data) {
+		return dao.calculateSalary(session, data);
+	}
+	
+	
 
 	
 }

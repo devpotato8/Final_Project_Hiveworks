@@ -3,9 +3,15 @@
  */
 package com.dna.hiveworks.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.DotCode;
@@ -160,4 +168,39 @@ public class EdocController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+	
+	@PostMapping("/imgupload")
+	public @ResponseBody ResponseEntity<Map<String,Object>> imgUpload(MultipartHttpServletRequest request){
+		Map<String,Object> response = null;
+		try {
+		MultipartFile uploadFile = request.getFile("upload");
+		
+		String originalFileName = uploadFile.getOriginalFilename();
+		String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+		String renamedFileName = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuuMMdd"))+UUID.randomUUID()+ext;
+		
+		String realPath = request.getServletContext().getRealPath("/resources/img/edoc/");
+		String uploadPath = request.getServletContext().getContextPath()+"/resources/img/edoc/"+renamedFileName;
+		
+		File upFIle = new File(realPath+renamedFileName);
+		
+		uploadFile.transferTo(upFIle);
+		
+		response = Map.of("uploaded",true,"url",uploadPath);
+		}catch(IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+		
+	}
+	
+	@GetMapping("/approvalList")
+	public @ResponseBody ResponseEntity<List<Map<String,Object>>> selectEmplyeeInSubDepartmentByDeptCode(@RequestParam String deptCode){
+		System.out.println(deptCode);
+		List<Map<String,Object>> employees = edocService.selectEmployeeInSubDepartmentByDeptCode(deptCode);
+		if(employees == null) employees = new ArrayList<>();
+		return ResponseEntity.status(HttpStatus.OK).body(employees);
+	}
+	
 }

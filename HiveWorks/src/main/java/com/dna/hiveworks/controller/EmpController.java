@@ -1,6 +1,7 @@
 package com.dna.hiveworks.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.Employee;
@@ -77,21 +77,22 @@ public class EmpController {
 	}
 	
 	@PostMapping("/searchEmployees")
-	@ResponseBody
-	public void searchEmployeesByKeywordSeach(String keyword, HttpServletResponse response) throws IOException {
+	public @ResponseBody List<Employee> searchEmployeesByKeywordSeach(String keyword){
 		
 		List<Employee> searchEmployee = service.searchEmployeesByKeyword(keyword);
 		
-//		String csv="";
-//		for(int i=0;i<searchEmployee.size();i++) {
-//			if(i!=0) csv+=",";
-//			csv+=searchEmployee.get(i).getEmp_no();
-//		}
+		return searchEmployee;
+	}
+	
+	@GetMapping("/enrollEmployee")
+	public String enrollEmployee(Model model) {
 		
-		response.setContentType("text/csv;charset=utf-8");
-		response.getWriter().print(searchEmployee);
-		
-		
+				
+		Map<String,List<Map<String,Object>>> data = service.selectDataListForEmployee();
+		System.out.println(data);
+		model.addAttribute("data",data);
+
+		return "employees/enrollEmployee";
 	}
 	
 	

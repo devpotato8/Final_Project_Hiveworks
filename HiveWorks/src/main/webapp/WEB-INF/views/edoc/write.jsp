@@ -134,12 +134,49 @@
 										</div>
 									</div>
 									<!-- 결재선 설정 탭 -->
-									<div class="tab-pane fade show active" id="approval_set">
-										<div id="">
+									<div class="tab-pane fade" id="approval_set">
+										<div class="row">
+											<div class="col-xl-3" id="deptTree"> </div>
+											
+											<div class="col-xl-3">
+												<label for="employee-list-container">소속사원</label>
+												<div id="employee-list-containter">
+													<select class="form-select form-select-lg" multiple size="10" id="employee-list">
+													</select>
+												</div>
+												<div class="d-flex justify-content-evenly">
+													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeSelectAllBtn">전체선택</button>
+													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeDeselectAllBtn">선택해제</button>
+												</div>
+											</div>
+											<div class="col-xl-3 d-flex flex-column">
+												<label for="approvalList" class="px-10">결재</label>
+												<div class="d-flex flex-row mb-3">
+													<div class="d-flex flex-column justify-content-center">
+														<button type="button" class="btn btn-sm btn-outline mb-3" id="addApprovalList"><span><i class="ti-angle-right"></i></span></button>
+														<button type="button" class="btn btn-sm btn-outline" id="removeApprovalList"><span><i class="ti-angle-left"></i></span></button>
+													</div>
+													<div class="container">
+														<select class="form-select" size="5" name="approvalList" id="approvalList">
+														</select>
+													</div>
+												</div>
+												<label for="referenceList" class="px-10">참조</label>
+												<div class="d-flex flex-row mb-3">
+													<div class="d-flex flex-column justify-content-center">
+														<button type="button" class="btn btn-sm btn-outline mb-3" id="addReferenceList"><span><i class="ti-angle-right"></i></span></button>
+														<button type="button" class="btn btn-sm btn-outline" id="removeReferenceList"><span><i class="ti-angle-left"></i></span></button>
+													</div>
+													<div class="container">
+														<select class="form-select" size="5" name="referenceList" id="referenceList">
+														</select>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 									<!-- 파일 첨부 탭 -->
-									<div class="tab-pane fade show active" id="attach_file">
+									<div class="tab-pane fade" id="attach_file">
 										<div id="">
 										</div>
 									</div>
@@ -154,22 +191,71 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
-<link type="text/css" rel="stylesheet" href="${path }/resources/ckeditor/build/style.css">
 <script>
 	const path = "${path}";
 </script>
-<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
-<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
-<script type="text/javascript">
-DecoupledEditor
-.create( document.querySelector("#content"),{})
-	.then( editor => {
-            const toolbarContainer = document.querySelector( '.editor-toolbar-container' );
+<!-- Bootstrap Core JS -->
+<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FeatherIcons JS -->
+<script src="${path}/resources/js/feather.min.js"></script>
+<!-- Fancy Dropdown JS -->
+<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+<!-- Simplebar JS -->
+<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<!-- Init JS -->
+<script src="${path}/resources/js/init.js"></script>
+<script src="${path}/resources/js/chips-init.js"></script>
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            toolbarContainer.appendChild( editor.ui.view.toolbar.element );
-        } )
-        .catch( error => {
-            console.error( error );
-        } );
+<!-- 체크박스 JS -->
+<script src="${path}/resources/js/checkbox.js"></script>
+
+<!-- 조직도관리 JS -->
+<script src="${path}/resources/js/deptTree.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+	
+<link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
+
+<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
+<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
+<script>
+$(function(){
+	jampack();
+	horizontalMenu();
+	navheadMenu();
+
+	/*App Functions */
+	//emailApp();
+	//contactApp();
+	//chatApp();
+	//calendarApp();
+	fmApp();
+	//blogApp();
+	//invoiceApp();
+	//galleryApp();
+	//integrationsApp();
+	//taskboardApp();
+	//checklistApp();
+	//todoApp();
+	getDeptList();
+
+	/*Table Search*/
+	$(".table-search").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$(".table-filter tbody tr").filter(function() {
+		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
+	
+	/*Disabled*/
+	$(document).on("click", "a.disabled,a:disabled",function(e) {
+		 return false;
+	});
+	
+});
+
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

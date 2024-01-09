@@ -59,9 +59,36 @@ public class EmpDaoImpl implements EmpDao {
 	public List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword) {
 		return session.selectList("employee.searchEmployeesByKeyword",keyword);
 	}
-	
-	
-	
+
+	@Override
+	public List<Map<String, Object>> selectDeptList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectDeptList");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectPositionList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectPositionList");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectJobList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectJobList");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectWorkStatusList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectWorkStatusList");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectWorkPatternList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectWorkPatternList");
+	}
 	
 	
 }
