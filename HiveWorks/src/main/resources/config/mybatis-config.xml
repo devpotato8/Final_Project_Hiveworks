@@ -11,6 +11,7 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.Dedution" alias="dedution"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Work" alias="work"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.WorkRealtime" alias="workRealtime"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.PositionPay" alias="positionpay"/>
 
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocument" alias="edoc"/>

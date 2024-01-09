@@ -20,7 +20,8 @@
 	
 	<select id="selectVacationByNo" parameterType="integer" 
 		resultMap="vacationMap">
-		SELECT * FROM TBL_VACATION WHERE EMP_NO = #{no}
+		SELECT * FROM TBL_VACATION WHERE EMP_NO = ${no} ORDER BY MODIFY_DATE DESC
+		
 	</select>
 	
 	<insert id="insertVacation" parameterType="vacation" >

@@ -5,7 +5,9 @@ import java.util.List;
 import com.dna.hiveworks.model.dto.Work;
 
 public interface WorkService {
-	List<Work> selectWorkListAll();
+	int workScheduled();
+	
+	List<Work> selectWorkListAllByEmp();
 	
 	List<Work> selectWorkByNo(int no);
 	
@@ -13,4 +15,12 @@ public interface WorkService {
 	int updateWork();
 	int deleteWork(int empNo);
 	
+	Work selectRealtime();
+	
+	String avgStartWork();
+	String avgEndWork();
+	int lateWork();
+	int fastEnd();
+	int absence();
+	int overWork();
 }
