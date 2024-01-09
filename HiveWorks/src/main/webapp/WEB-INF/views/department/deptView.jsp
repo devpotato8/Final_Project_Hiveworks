@@ -294,7 +294,7 @@
 <script>
 const path = '${path}';
 
-$(document).ready(function(){
+$('.nav-link').on('click', function() {
 	getDeptList();
 });
 
@@ -313,6 +313,9 @@ function getDeptList(){
 			$.each(data, function(idx, item){
 				deptlist[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName};
 			});
+			
+			// 기존 jstree 인스턴스 삭제
+            $('#deptTree').jstree('destroy');
 			
 			$('#deptTree').jstree({
 				'plugins':['types','sort','search'],

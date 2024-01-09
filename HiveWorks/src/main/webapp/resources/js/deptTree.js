@@ -62,11 +62,11 @@ function getJson(){
 							                    success: function(response) {
 							                        inst.set_id(new_node, response.deptCode);
 							                        alert('부서 생성 성공');
-							                        location.reload();
+							                        getJson();
 							                    },
 							                    error: function(error) {
 							                        alert('부서 생성 실패');
-							                        inst.refresh();
+							                        getJson();
 							                    }
 							                });
 							                //rename메뉴쪽 이벤트와 충돌할수 있기때문에 이벤트 해제코드 넣어둠.
@@ -100,15 +100,15 @@ function getJson(){
 											success:function(response){
 												if(response.status==='success'){
 													alert('부서명 변경 성공');
-													
+													getJson();
 												}else{
 													alert('부서명 변경 실패');
-													inst.refresh(); //변경시도 전 상태로 새로고침
+													getJson(); //변경시도 전 상태로 새로고침
 												}
 											},
 											error: function(){
 												alert('부서명 변경실패');
-												inst.refresh();
+												getJson();
 											}
 										});
 									});
@@ -155,13 +155,15 @@ function getJson(){
 							                    if(response.status==='success'){
 							                        alert('부서 삭제 성공');
 							                        inst.delete_node(obj); //서버에서 삭제 성공했을 때만 노드를 삭제
-							                        location.reload();
+							                        getJson();
 							                    } else {
 							                        alert('부서 삭제 실패');
+							                        getJson();
 							                    }
 							                },
 							                error: function(){
 							                    alert('부서 삭제 실패');
+							                    getJson();
 							                }
 							            });
 							        }
@@ -214,19 +216,20 @@ function getJson(){
 					        success: function(response) {
 					            if(response.status==='success'){
 					                alert('부서 이동 성공');
-					                location.reload();
+					                getJson();
+					                getDeptList();
 					            } else {
 					                alert('부서 이동 실패');
-					                $('#jstree').jstree(true).refresh();
+					                getJson();
 					            }
 					        },
 					        error: function(){
 					            alert('부서 이동 실패');
-					            $('#jstree').jstree(true).refresh();
+					            getJson();
 					        }
 					    });
 			        }else{
-			        	$('#jstree').jstree(true).refresh();  //사용자가 확인창에서 취소를 누른경우, 화면 새로고침
+			        	getJson();  //사용자가 확인창에서 취소를 누른경우, 화면 새로고침
 			        	return;
 			        }
 		    	
