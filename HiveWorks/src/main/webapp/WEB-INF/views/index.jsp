@@ -25,8 +25,8 @@
 					<div class="mb-lg-0 mb-2 d-flex align-items-center">
 						<h1 class="pg-title m-0">안녕하세요 ${c}님</h1>
 						<div id="weather" class="d-flex align-items-center justify-content-between" style="width: 240px; margin-left: 20px">
-						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
-						  <div class="badge badge-soft-danger my-1  me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>
+						  <div class="badge badge-soft-danger my-1  me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
+						  <div class="badge badge-soft-danger my-1  me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>
 						  <div style="width: 50px; height: 50px"></div>
 						</div>
 					</div>
@@ -72,8 +72,8 @@
 						<div></div>
 						<div>
 							<div class="d-flex flex-column align-items-center clockAndCheck">
+								<div class="btn btn-block" >출퇴근 눌러주세요</div>
 								<div class="btn btn-block" id="currentTime" ></div>
-								<div class="btn btn-block" >출퇴근찍기</div>
 								<input type="hidden" id=workEndTime name="workEndTime" value=""/>
 							</div>
 							<div class="button-container d-flex justify-content-center mt-3">
@@ -87,8 +87,12 @@
 								</form>
 							</div>
 							<div class="SEWork">
-								<p></p>
-								<p></p>
+								<c:if test="${not empty workRealtime }">
+									<fmt:formatDate value="${workRealtime.workStartTime}" pattern="HH:mm:ss" var="workStartTime" />
+									<fmt:formatDate value="${workRealtime.workEndTime}" pattern="HH:mm:ss" var="workEndTime" />
+	        						<p>출근시간 - ${workStartTime}</p> <!-- 포맷팅된 날짜와 시간을 출력 -->
+	        						<p>퇴근시간 - ${workEndTime }</p>
+								</c:if>
 							</div>
 						</div>
 					</div>

@@ -10,11 +10,16 @@ import com.dna.hiveworks.model.dto.Work;
 
 @Repository
 public class WorkDaoImpl implements WorkDao {
+	
+	@Override
+	public int workScheduled(SqlSession session) {
+		return session.insert("work.workScheduled");
+	}
 
 	@Override
-	public List<Work> selectWorkListAll(SqlSession session) {
+	public List<Work> selectWorkListAllByEmp(SqlSession session) {
 		// TODO Auto-generated method stub
-		return session.selectList(null);
+		return session.selectList("work.selectWorkListAllByEmp");
 	}
 
 	@Override
@@ -40,5 +45,49 @@ public class WorkDaoImpl implements WorkDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Work selectRealtime(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.selectRealtime");
+	}
+
+	@Override
+	public String avgStartWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.avgStartWork");
+	}
+
+	@Override
+	public String avgEndWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.avgEndWork");
+	}
+
+	@Override
+	public int lateWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.lateWork");
+	}
+
+	@Override
+	public int fastEnd(SqlSession session) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int absence(SqlSession session) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int overWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 
 }

@@ -14,15 +14,81 @@
 		<result property="modifier" column="MODIFIER"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="useYN" column="USE_YN"/>
+		
+		<collection property="workRealtime" ofType="workRealtime" >
+			<id property="workNo" column="WORK_NO"/>
+			<result property="workLate" column="WORK_LATE"/>
+			<result property="workFastEnd" column="WORK_FAST_END"/>
+			<result property="workAbsence" column="WORK_ABSENCE"/>
+		</collection>
+		
 	</resultMap>
 	
-	<insert id="insertStartWork">
-		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,2,'WOT001',SYSDATE,SYSDATE,NULL,'승인',2,SYSDATE,2,SYSDATE,'Y')
+	<!-- <resultMap type="workRealtime" id="workRealtimeMap">
+		<id property="workNo" column="WORK_NO"/>
+		<result property="workLate" column="WORK_LATE"/>
+		<result property="workFastEnd" column="WORK_FAST_END"/>
+		<result property="workAbsence" column="WORK_ABSENCE"/>
+	</resultMap> -->
+	
+	<insert id="workScheduled">
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,3,'WOT001',SYSDATE,SYSDATE,NULL,'승인',3,SYSDATE,3,SYSDATE,'Y')
+		INSERT INTO TBL_WORK_REALTIME VALUES(SEQ_WORK_NO.NEXTVAL,3,'WOT001',SYSDATE,SYSDATE,NULL,'승인',3,SYSDATE,3,SYSDATE,'Y')
 	</insert>
+	
+	<insert id="insertStartWork">
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,3,'WOT001',SYSDATE,SYSDATE,NULL,'승인',3,SYSDATE,3,SYSDATE,'Y')
+	</insert>
+	<!-- 배치처리 -->
+	<!-- <insert id="insertStartWork">
+		UPDATE TBL_WORK SET
+		WORK_START_TIME = SYSDATE
+		WHERE EMP_NO = 3
+		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</insert> -->
 	<update id="updateEndWork">
 		UPDATE TBL_WORK SET
 		WORK_END_TIME = SYSDATE
-		WHERE EMP_NO = 2
+		WHERE EMP_NO = 3
 		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</update>
+	
+	<select id="selectWorkListAllByEmp" resultMap="work.workMap">
+		SELECT * FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE EMP_NO = 1
+		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<select id="avgStartWork" resultType="String">
+		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
+               AVG(TO_NUMBER(TO_CHAR(WORK_START_TIME, 'SSSSS')))/86400, 
+               'HH24:MI:SS') 
+		FROM TBL_WORK
+	</select>
+	<select id="avgEndWork" resultType="String">
+		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
+               AVG(TO_NUMBER(TO_CHAR(WORK_END_TIME, 'SSSSS')))/86400, 
+               'HH24:MI:SS') 
+				FROM TBL_WORK
+	</select>
+	<select id="lateWork" resultType="_int">
+		SELECT COUNT(*) FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE WORK_LATE = 'Y' AND EMP_NO = 1
+	</select>
+	<select id="fastEnd" resultType="_int">
+		SELECT COUNT(*) FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE WORK_FAST_END = 'Y' AND EMP_NO = 1
+	</select>
+	<select id="absence" resultType="_int">
+		SELECT COUNT(*) FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = 1
+	</select>
+	<select id="overWork" resultType="_int">
+		
+	</select>
+	
 </mapper>

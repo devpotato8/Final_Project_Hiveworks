@@ -25,7 +25,7 @@ public class Work {
 	private Date modifyDate;
 	private char useYN;
 	
-	
+	private WorkRealtime workRealtime;
 	
 	
 	
