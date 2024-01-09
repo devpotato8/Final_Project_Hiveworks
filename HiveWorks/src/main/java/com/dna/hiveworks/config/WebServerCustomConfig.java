@@ -11,9 +11,10 @@ public class WebServerCustomConfig implements WebServerFactoryCustomizer<Configu
 
 	 @Override
 	    public void customize(ConfigurableServletWebServerFactory factory) {
-	        ErrorPage custom404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/not-found");
-	        
-	        factory.addErrorPages(custom404Page);
-	        
+//	        ErrorPage custom404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/not-found");
+//	        ErrorPage custom500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/error-500");
+//	        factory.addErrorPages(custom404Page,custom500Page);
+	        ErrorPage customErrorPage = new ErrorPage("/error");
+	        factory.addErrorPages(customErrorPage);
 	    }
 }
