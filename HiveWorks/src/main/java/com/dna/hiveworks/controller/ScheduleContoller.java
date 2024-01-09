@@ -15,16 +15,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dna.hiveworks.model.dto.Board;
+import com.dna.hiveworks.model.dto.Department;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.service.DeptService;
 import com.dna.hiveworks.service.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,20 @@ public class ScheduleContoller {
 
 	private final ScheduleService scheduleService;
 	
+	private final DeptService deptservice;
 	
+	
+	//일정 조회 페이지 연결
 	@GetMapping("/schedulelist.do")
-	public String scheduleList() {
+	public String scheduleList(Model model) {
+		List<Department> deptList = deptservice.deptListAll();
+		model.addAttribute("deptList", deptList);
+		System.out.println(deptList);
 		return "schedule/scheduleList";
 	}
 	
+	
+	 //일정 조회
 	@GetMapping("/schedulelistend.do")
 	@ResponseBody
 	public List<Schedule> scheduleListEnd() {
@@ -51,6 +60,52 @@ public class ScheduleContoller {
 	};
 	
 	
+	//프로젝트 & 일정 등록
+		@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		public ResponseEntity<Integer> insertSchedule(@RequestBody Map<String, Object> param) throws Exception {
+
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+
+			System.out.println(param.get("start"));
+
+			int result = 0;
+			String calSubject = (String) param.get("title");
+			String startDateString = (String) param.get("start");
+			String endDateString = (String) param.get("end");
+			String calColor = (String) param.get("backgroundColor");
+			String calCode = (String) param.get("code");
+			String calContent = (String) param.get("content");
+			String reminderYn = (String) param.get("reminder");
+			String calAlldayYn = (String) param.get("allday");
+			String calStatus = (String) param.get("status");
+			String empNo = (String)param.get("empno");
+
+			Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+			Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
+
+			Schedule schedule = Schedule.builder() 
+					.calSubject(calSubject)
+					.calStartDate(calStartDate)
+					.calEndDate(calEndDate)
+					.calColor(calColor)
+					.calCode(calCode)
+					.calContent(calContent)
+					.reminderYn(reminderYn)
+					.calAlldayYn(calAlldayYn)
+					.calStatus(calStatus)
+					.empNo(empNo)
+					.build();
+
+			result = scheduleService.insertSchedule(schedule);
+
+			return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result)
+					: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+			
+		}
+	
+	
+	//프로젝트 조회
 	@GetMapping("/projectlist.do")
 	public String projectList(Model model) {
 		List<Schedule> projectList = scheduleService.selectprojectAll();
@@ -58,6 +113,7 @@ public class ScheduleContoller {
 		return "schedule/projectList";
 	}
 	
+	//프로젝트 상세조회
 	@GetMapping("/projectlistbycalno.do")
 	@ResponseBody
 	public Schedule projectListByCalNo(@RequestParam int calNo) {
@@ -65,6 +121,7 @@ public class ScheduleContoller {
 		return project;
 	}
 	
+	//사원번호별 프로젝트 조회
 	@GetMapping("/projectlistbyempno.do")
 	public String projectListByEmpNo(@RequestParam int empNo, Model model) {
 		List<Schedule> myProjectList = scheduleService.selectprojectByEmpNo(empNo);
@@ -82,7 +139,7 @@ public class ScheduleContoller {
 	 */
 	
 	
-
+	//자산 예약 조회
 	@GetMapping("/reservationlist.do")
 	public String reservationList(Model model) {
 		String result = "";
@@ -107,6 +164,7 @@ public class ScheduleContoller {
 		return result;
 	}
 	
+	//사원번호별 자산 예약 조회
 	@GetMapping("/reservationlistbyno.do")
 	public String reservationListByNo(@RequestParam int empNo, Model model) {
 		List<Schedule> MyReserveList = scheduleService.selectReserveByNo(empNo);
@@ -125,6 +183,7 @@ public class ScheduleContoller {
 	//}
 
 	
+	//자산 목록 조회
 	@GetMapping("/resourcelist.do")
 	public String resourceList(Model model) {
 		List<Resource> resourceList = scheduleService.selectResourceAll();
@@ -132,55 +191,60 @@ public class ScheduleContoller {
 		return "schedule/resourceList";
 	}
 	
+	
+	//자산 예약 
+		@PostMapping("/reserveResourceEnd.do")
+		public String reserveResourceEnd(@RequestParam Map<String, Object> param, Model model){
+			
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+			
+			int result = 0;
+			
+			int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
+			String startDateString = (String) param.get("start");
+			String endDateString = (String) param.get("end");
+			//String calColor = (String) param.get("backgroundColor");
+			String calCode = (String) param.get("code");
+			String reminderYn = (String) param.get("reminder");
 
-	@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Integer> insertSchedule(@RequestBody Map<String, Object> param) throws Exception {
+			Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+			Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
-
-		System.out.println(param.get("start"));
-
-		int result = 0;
-		String calSubject = (String) param.get("title");
-		String startDateString = (String) param.get("start");
-		String endDateString = (String) param.get("end");
-		String calColor = (String) param.get("backgroundColor");
-		String calCode = (String) param.get("code");
-		String calContent = (String) param.get("content");
-		String reminderYn = (String) param.get("reminder");
-		String calAlldayYn = (String) param.get("allday");
-		String calStatus = (String) param.get("status");
-		String empNo = (String)param.get("empno");
-
-		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
-		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
-
-		Schedule schedule = Schedule.builder() 
-				.calSubject(calSubject)
-				.calStartDate(calStartDate)
-				.calEndDate(calEndDate)
-				.calColor(calColor)
-				.calCode(calCode)
-				.calContent(calContent)
-				.reminderYn(reminderYn)
-				.calAlldayYn(calAlldayYn)
-				.calStatus(calStatus)
-				.empNo(empNo)
-				.build();
-
-		result = scheduleService.insertSchedule(schedule);
-
-		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result)
-				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
-		
-		
-		
-		
-		
-
+			Schedule schedule = Schedule.builder() 
+					.calStartDate(calStartDate)
+					.calEndDate(calEndDate)
+					.calCode(calCode)
+					.reminderYn(reminderYn)
+					.build();
+			
+			System.out.println(schedule);
+			
+			result=scheduleService.reserveResource(schedule,resourceNo);
+			
+			String msg, loc;
+			if(result>0) {
+				msg="예약성공";
+				loc="schedule/reservationlist.do";
+			}else {
+				msg="예약실패";
+				loc="schdule/reserveResource.do";
+			}
+			
+			model.addAttribute("msg",msg);
+			model.addAttribute("loc",loc);
+			
+			
+			return "schedule/msg";
+		}
+	
+	
+	//자산 예약 페이지 연결
+	@GetMapping("/reserveResource.do")
+	public String reserveResource() {
+		return "schedule/reservationResource";
 	}
 	
+	//자산 등록
 	@PostMapping(value = "/insertresource.do", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Resource insertResource(@RequestBody Resource resource) throws Exception {
 		int result = scheduleService.insertResource(resource);
@@ -189,55 +253,9 @@ public class ScheduleContoller {
 		
 	}
 	
-	@GetMapping("/reserveResource.do")
-	public String reserveResource() {
-		return "schedule/reservationResource";
-	}
 	
-
-	@PostMapping("/reserveResourceEnd.do")
-	public String reserveResourceEnd(@RequestParam Map<String, Object> param, Model model){
-		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
-		
-		int result = 0;
-		
-		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
-		String startDateString = (String) param.get("start");
-		String endDateString = (String) param.get("end");
-		//String calColor = (String) param.get("backgroundColor");
-		String calCode = (String) param.get("code");
-		String reminderYn = (String) param.get("reminder");
-
-		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
-		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
-
-		Schedule schedule = Schedule.builder() 
-				.calStartDate(calStartDate)
-				.calEndDate(calEndDate)
-				.calCode(calCode)
-				.reminderYn(reminderYn)
-				.build();
-		
-		System.out.println(schedule);
-		
-		result=scheduleService.reserveResource(schedule,resourceNo);
-		
-		String msg, loc;
-		if(result>0) {
-			msg="예약성공";
-			loc="schedule/reservationlist.do";
-		}else {
-			msg="예약실패";
-			loc="schdule/reserveResource.do";
-		}
-		
-		model.addAttribute("msg",msg);
-		model.addAttribute("loc",loc);
-		
-		
-		return "schedule/msg";
-	}
+	
+	
 		
 		
 	}

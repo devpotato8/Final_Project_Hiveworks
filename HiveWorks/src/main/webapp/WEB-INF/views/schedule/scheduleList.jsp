@@ -98,86 +98,86 @@
 		<div class="drawer-body">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
-				<form>
-					<div class="event-head mb-4">
-						<span
-							class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
+					<form>
+						<div class="event-head mb-4">
+							<span
+								class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
 							<div class="form-group">
 								<div class="input-group">
 									<input type="text" class="event-name" />
 								</div>
 							</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-affix-wrapper"> <select
-								class="form-select cal-event-code"
-								aria-label="Default select example">
-									<option selected value="CAL001">내일정</option>
-									<option value="CAL002">부서일정</option>
-									<option value="CAL003">전사일정</option>
-							</select>
-							</span>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-affix-wrapper"> <span
-								class="input-prefix"><span class="feather-icon"><i
-										data-feather="calendar"></i></span></span> <input
-								class="form-control cal-event-date-start" name="single-date"
-								type="text">
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-affix-wrapper"> <select
+									class="form-select cal-event-code"
+									aria-label="Default select example">
+										<option selected value="CAL001">내일정</option>
+										<option value="CAL002">부서일정</option>
+										<option value="CAL003">전사일정</option>
+								</select>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-affix-wrapper"> <span
+									class="input-prefix"><span class="feather-icon"><i
+											data-feather="calendar"></i></span></span> <input
+									class="form-control cal-event-date-start" name="single-date"
+									type="text">
 
-							</span>
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-affix-wrapper"> <span
-								class="input-prefix"><span class="feather-icon"><i
-										data-feather="calendar"></i></span></span> <input
-								class="form-control cal-event-date-end" name="single-date"
-								type="text">
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-affix-wrapper"> <span
+									class="input-prefix"><span class="feather-icon"><i
+											data-feather="calendar"></i></span></span> <input
+									class="form-control cal-event-date-end" name="single-date"
+									type="text">
 
-							</span>
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="d-flex flex-wrap">
-							<div class="row gx-3">
-								<div class="col-sm-12 form-group">
-									<input class="form-check-input cal-event-allday"
-										type="checkbox" id="flexCheckDefault"> <label
-										class="form-check-label" for="flexCheckDefault"> 종일여부</label>
+						<div class="form-group">
+							<div class="d-flex flex-wrap">
+								<div class="row gx-3">
+									<div class="col-sm-12 form-group">
+										<input class="form-check-input cal-event-allday"
+											type="checkbox" id="flexCheckDefault"> <label
+											class="form-check-label" for="flexCheckDefault"> 종일여부</label>
+									</div>
+								</div>
+								<div class="row gx-3">
+									<div class="col-sm-12 form-group">
+										<input class="form-check-input cal-event-reminder"
+											type="checkbox" value="" id="flexCheckDefault"> <label
+											class="form-check-label" for="flexCheckDefault"> 알림여부
+										</label>
+									</div>
 								</div>
 							</div>
-							<div class="row gx-3">
-								<div class="col-sm-12 form-group">
-									<input class="form-check-input cal-event-reminder"
-										type="checkbox" value="" id="flexCheckDefault"> <label
-										class="form-check-label" for="flexCheckDefault"> 알림여부
-									</label>
+						</div>
+						<div class="form-group">
+							<div class="d-flex flex-wrap">
+								<div
+									class="chip chip-primary chip-dismissable user-chip mb-2 me-2">
+									<img src="dist/img/avatar11.jpg" alt="user" class="avatar-img">
+									<input class="form-control" type="text" />
+									<button type="button" class="btn btn-light btn-floating">추가</button>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="d-flex flex-wrap">
-							<div
-								class="chip chip-primary chip-dismissable user-chip mb-2 me-2">
-								<img src="dist/img/avatar11.jpg" alt="user" class="avatar-img">
-								<input class="form-control" type="text" />
-								<button type="button" class="btn btn-light btn-floating">추가</button>
-							</div>
+						<div class="form-group">
+							<textarea class="form-control event-content" rows="4">Annual meeting</textarea>
 						</div>
-					</div>
-					<div class="form-group">
-						<textarea class="form-control event-content" rows="4">Annual meeting</textarea>
-					</div>
-					<div class="drawer-footer d-flex justify-content-end">
-						<button class="btn btn-secondary drawer-edit-close me-2">취소</button>
-						<button type="submit" class="btn btn-primary drawer-edit-close">저장</button>
-					</div>
+						<div class="drawer-footer d-flex justify-content-end">
+							<button class="btn btn-secondary drawer-edit-close me-2">취소</button>
+							<button type="submit" class="btn btn-primary drawer-edit-close">저장</button>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -210,8 +210,8 @@
 						<div class="categories-wrap">
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc1"> <label
-									class="form-check-label" for="customChecksc1">전체일정보기</label>
+									id="customChecksc1"> <label class="form-check-label"
+									for="customChecksc1">전체일정보기</label>
 							</div>
 							<div class="separator separator-light"></div>
 							<div
@@ -220,10 +220,9 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc2"> <label
-									class="form-check-label" for="customChecksc2"
-									style="padding-right: 116px">내일정</label> <a href="#"
-									class="btn btn-xs btn-icon btn-rounded btn-light"
+									id="customChecksc2"> <label class="form-check-label"
+									for="customChecksc2" style="padding-right: 116px">내일정</label> <a
+									href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
 									data-bs-toggle="modal" data-bs-target="#add_new_cat"><span
 									class="icon" data-bs-toggle="tooltip" data-bs-placement="top"
 									title="" data-bs-original-title="내일정 공유"><span
@@ -233,8 +232,8 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc3"> <label
-									class="form-check-label" for="customChecksc3">내부서일정</label>
+									id="customChecksc3"> <label class="form-check-label"
+									for="customChecksc3">내부서일정</label>
 							</div>
 							<div
 								class="d-flex align-items-center justify-content-between mb-2">
@@ -357,68 +356,89 @@
 
 									</div>
 								</div>
+								
+								
 								<div class="row gx-3">
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">시작일자</label> <input
-												class="form-control cal-event-date-start" id="startDate" name="single-date"
-												type="text" />
+												class="form-control cal-event-date-start" id="startDate"
+												name="single-date" type="text" />
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">종료일자</label> <input
-												class="form-control cal-event-date-end" id="endDate" name="single-date"
-												type="text" />
+												class="form-control cal-event-date-end" id="endDate"
+												name="single-date" type="text" />
 										</div>
+									</div>
+								</div>
+								<div class="row gx-3" style="display:flex">
+									<div class="col-sm-12 form-group">
+										<input class="form-check-input cal-event-allday"
+											id="alldaycheck" type="checkbox" id="flexCheckDefault">
+										<label class="form-check-label" for="flexCheckDefault">
+											종일여부</label>
+									</div>
+									<div class="row gx-3">
+										<div class="col-sm-3">
+											<span>일정 공유</span>
+										</div>
+										<div class="col-sm-5">
+											<div class="form-group">
+												<button type="button" id="addBtn" class="btn btn-light btn-floating">추가</button>
+												<button type="button" id="delBtn" class="btn btn-light btn-floating">삭제</button>
+										</div>
+								</div>
+								</div>
+									<div class="row gx-3">
+									<div id="invitecontainer" style="display:flex">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">부서</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calDept"
+														id="calDept">
+														<c:if test="${not empty deptList}">
+															<c:forEach var="dept" items="${deptList}">
+																<option value="${dept.deptCode}">${dept.deptName}</option>
+															</c:forEach>
+														</c:if>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">직원</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calEmp" id="calEmp">
+														<option value=""></option>
+													</select>
+												</div>
+											</div>
+										</div>
+										</div>
+										
 									</div>
 								</div>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
-										<input class="form-check-input cal-event-allday" id="alldaycheck"
-											type="checkbox" id="flexCheckDefault"> <label
-											class="form-check-label" for="flexCheckDefault"> 종일여부</label>
+										<div class="form-label-group">
+											<label>일정 내용</label> <small class="text-muted">200</small>
+										</div>
+										<textarea class="form-control cal-event-content" rows="3"></textarea>
 									</div>
 								</div>
-								<!-- 			<div class="col-sm-7">
-												<div class="form-group">
-													<label class="form-label">Visibility</label>
-													<div class="d-flex">
-														<select class="form-select me-3">
-															<option selected="" value="2">Public</option>
-															<option value="1">Private</option>
-														</select>
-														<div class="">
-															<input type="color" class="form-control form-control-color p-0 cal-event-color" title="Choose your color">
-														</div>
-													</div>
-												</div>
-											</div> -->
 								<div class="row gx-3">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label class="form-label">참석자</label> <input
-												class="form-control" type="text" />
-											<button type="button" class="btn btn-light btn-floating">추가</button>
-										</div>
+									<div class="col-sm-12 form-group">
+										<input class="form-check-input cal-event-reminder"
+											type="checkbox" value="" id="flexCheckDefault"> <label
+											class="form-check-label" for="flexCheckDefault"> 알림여부
+										</label>
 									</div>
 								</div>
-									<div class="row gx-3">
-										<div class="col-sm-12 form-group">
-											<div class="form-label-group">
-												<label>일정 내용</label> <small class="text-muted">200</small>
-											</div>
-											<textarea class="form-control cal-event-content" rows="3"></textarea>
-										</div>
-									</div>
-									<div class="row gx-3">
-										<div class="col-sm-12 form-group">
-											<input class="form-check-input cal-event-reminder"
-												type="checkbox" value="" id="flexCheckDefault"> <label
-												class="form-check-label" for="flexCheckDefault">
-												알림여부 </label>
-										</div>
-									</div>
 							</form>
 						</div>
 						<div class="modal-footer align-items-center">
@@ -488,28 +508,27 @@
 										</div>
 									</div>
 								</div>
-									<div class="col-sm-6">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="form-label">End Time</label> <input
+											class="form-control input-single-timepicker" type="text" />
+									</div>
+								</div>
+								<div class="row gx-3">
+									<div class="col-sm-12 form-group">
+										<input class="form-check-input" type="checkbox" value=""
+											id="flexCheckDefault"> <label
+											class="form-check-label" for="flexCheckDefault"> 종일 </label>
+									</div>
+								</div>
+								<div class="row gx-3">
+									<div class="col-sm-12">
+										<label class="form-label">장소</label>
 										<div class="form-group">
-											<label class="form-label">End Time</label> <input
-												class="form-control input-single-timepicker" type="text" />
+											<input class="form-control" type="text" />
 										</div>
 									</div>
-									<div class="row gx-3">
-										<div class="col-sm-12 form-group">
-											<input class="form-check-input" type="checkbox" value=""
-												id="flexCheckDefault"> <label
-												class="form-check-label" for="flexCheckDefault"> 종일
-											</label>
-										</div>
-									</div>
-									<div class="row gx-3">
-										<div class="col-sm-12">
-											<label class="form-label">장소</label>
-											<div class="form-group">
-												<input class="form-control" type="text" />
-											</div>
-										</div>
-									</div>
+								</div>
 							</form>
 						</div>
 						<div class="modal-footer align-items-center">
@@ -621,7 +640,59 @@
 		var seconds = ('0' + now.getSeconds()).slice(-2);
 		return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
 				+ ':' + seconds;
-	}
+	};
+	
+	// 부서 선택 시 직원 표시
+document.getElementById('calDept').addEventListener('change', function() {
+  var selectedDeptCode = this.value;
+  
+  fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+    .then(function(response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('요청이 실패하였습니다.');
+      }
+    })
+    .then(function(employeeList) {
+      var employeeSelect = document.getElementById('calEmp');
+      employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+      
+      employeeList.forEach(function(employee) {
+        var option = document.createElement('option');
+        option.value = employee.id;
+        option.textContent = employee.name;
+        employeeSelect.appendChild(option);
+      });
+    })
+    .catch(function(error) {
+      console.error(error);
+    });
+});
+	
+//추가 버튼 클릭 시 invitecontainer 복제
+document.getElementById("addBtn").addEventListener("click", function() {
+  var inviteContainer = document.getElementById("invitecontainer");
+  var clonedInviteContainer = inviteContainer.cloneNode(true);
+
+  // calDept 요소의 id 속성에 1씩 더하기
+  var calDept = clonedInviteContainer.querySelector(".form-select[name='calDept']");
+  var calDeptId = parseInt(calDept.getAttribute("id").replace("calDept", "")) + 1;
+  calDept.setAttribute("id", "calDept" + calDeptId);
+
+  // calEmp 요소의 id 속성에 1씩 더하기
+  var calEmp = clonedInviteContainer.querySelector(".form-select[name='calEmp']");
+  var calEmpId = parseInt(calEmp.getAttribute("id").replace("calEmp", "")) + 1;
+  calEmp.setAttribute("id", "calEmp" + calEmpId);
+
+  // 삭제 버튼 클릭 시 해당 invitecontainer 삭제
+  var deleteBtn = clonedInviteContainer.querySelector(".deleteBtn");
+  deleteBtn.addEventListener("click", function() {
+    clonedInviteContainer.parentNode.removeChild(clonedInviteContainer);
+  });
+
+  inviteContainer.parentNode.appendChild(clonedInviteContainer);
+});	
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <!-- Fancy Dropdown JS -->
