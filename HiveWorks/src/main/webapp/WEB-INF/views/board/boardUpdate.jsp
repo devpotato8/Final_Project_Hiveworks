@@ -14,14 +14,12 @@
         <h2>수정</h2>
     </div>
     <div id="board-container">
-        <form name="boardUpdate" action="${path}/board/boardUpdate" method="post">
-    <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required>
-    <input type="hidden" name="boardNo" value="${board.boardNo}"/>
-            <div class="input-group mb-3" style="padding:0px;">
-            </div>
+        <form id="userForm" name="boardUpdate" action="${path}/board/boardUpdate" method="post" enctype="multipart/form-data">
+            <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required>
+            <input type="hidden" name="boardNo" value="${board.boardNo}"/>
             <div class="input-group mb-3" style="padding:0px;">
   				<div class="input-group-prepend" style="padding:0px;">
-                    <button type="button" onclick="fn_addFileForm();">추가</button>                    
+                    <button type="button" onclick="fn_addFileForm();">추가</button>
                 </div>
             </div>
             <div id="basicFileForm" class="input-group mb-3">
@@ -30,13 +28,14 @@
 			        <button type="button" onclick="fn_deleteFileForm();" id="deleteBtn">삭제</button>
 			    </div>
 			</div>
-
-            <textarea class="form-control" id="editor" value="${data.editor }" name="boardContent" placeholder="내용을입력해주세요" required style="resize:none;">
+												
+             <textarea class="form-control" id="editor" value="${data.editor }" name="boardContent" placeholder="내용을입력해주세요" required style="resize:none;">
             ${board.boardContent}</textarea>
+            <span id="messagebyte">0</span><span>/ 2000 Byte</span>
             <br />
-              <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장">
-              <input type="button" onclick="resetForm()" id="resetButton" value="초기화"/>
-	</form>
+            <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
+        	<input type="button" onclick="resetForm()" id="resetButton" value="초기화"/>
+        </form>
     </div>
 
 <style>
@@ -63,6 +62,7 @@
 		ckeditor.data.set('');
 }
 </script>
+<script></script>
 <script>
      const adddelFunction=(function(){
     		let count=2;
@@ -215,6 +215,7 @@ function ElectronicDocumentImageUploadAdapterPlugin( editor ) {
     };
 }
 </script>
+
 <script>
 	let ckeditor;
     ClassicEditor.create(document.querySelector('#editor'),{
@@ -254,6 +255,4 @@ function ElectronicDocumentImageUploadAdapterPlugin( editor ) {
 
 	<!-- Init JS -->
 	<script src="${path}/resources/js/create-invoice-data.js"></script>
-
-
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

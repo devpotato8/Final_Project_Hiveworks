@@ -8,7 +8,7 @@
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link href="vendors/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css"/>
+
 <div class="hk-pg-wrapper">
     <div class="container-xxl" style="margin-left: 0px;">
         <h2>등록</h2>

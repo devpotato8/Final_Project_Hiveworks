@@ -27,6 +27,9 @@
                 </button> 
             </c:forEach>
         </c:if>
+        <c:if test="${empty board.files}">
+   			<p>첨부된 파일이 없습니다.</p>
+		</c:if>
         <a href="${path}/board/board"><input type="button" value="확인"></a>
     </div>
 </div>
@@ -41,6 +44,7 @@
     
     }
 </style>
+
 
 <script>
     const fn_filedownload = (oriname, rename) => {

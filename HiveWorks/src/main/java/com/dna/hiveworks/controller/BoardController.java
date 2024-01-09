@@ -61,6 +61,10 @@ public class BoardController {
 	public String blind() {
 		return "board/blind";
 	}
+	@GetMapping("/survey")
+	public String survey() {
+		return "board/survey";
+	}
 	@GetMapping("/boardWrite")
 	public String boardWrite() {
 	    return "board/boardWrite";
