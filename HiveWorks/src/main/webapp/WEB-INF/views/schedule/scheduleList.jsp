@@ -82,8 +82,8 @@
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
 							class="event-content">이벤트입니다</span></li>
 						<li><span class="ev-icon-wrap"><span
-							class="feather-icon"><i data-feather="bell"></i></span></span><span
-						class="event-reminder">알림여부</span></li>
+								class="feather-icon"><i data-feather="bell"></i></span></span><span
+							class="event-reminder">알림여부</span></li>
 					</ul>
 				</div>
 			</div>
@@ -128,7 +128,7 @@
 								<span class="input-affix-wrapper"> <span
 									class="input-prefix"><span class="feather-icon"><i
 											data-feather="calendar"></i></span></span> <input
-									class="form-control cal-event-date-start" name="single-date"
+									class="form-control cal-event-date-start" name="single-date" id="reStartDate"
 									type="text">
 
 								</span>
@@ -139,7 +139,7 @@
 								<span class="input-affix-wrapper"> <span
 									class="input-prefix"><span class="feather-icon"><i
 											data-feather="calendar"></i></span></span> <input
-									class="form-control cal-event-date-end" name="single-date"
+									class="form-control cal-event-date-end" name="single-date" id="reEndDate"
 									type="text">
 
 								</span>
@@ -149,16 +149,16 @@
 							<div class="d-flex flex-wrap">
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
-										<input class="form-check-input cal-event-allday"
+										<input class="form-check-input cal-event-allday" id="alldayrecheck"
 											type="checkbox" id="flexCheckDefault"> <label
-											class="form-check-label" for="flexCheckDefault"> 종일여부</label>
+											class="form-check-label" for="flexCheckDefault">종일여부</label>
 									</div>
 								</div>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-reminder"
 											type="checkbox" value="" id="flexCheckDefault"> <label
-											class="form-check-label" for="flexCheckDefault"> 알림여부
+											class="form-check-label" for="flexCheckDefault">알림여부
 										</label>
 									</div>
 								</div>
@@ -359,8 +359,8 @@
 
 									</div>
 								</div>
-								
-								
+
+
 								<div class="row gx-3">
 									<div class="col-sm-6">
 										<div class="form-group">
@@ -377,7 +377,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row gx-3" style="display:flex">
+								<div class="row gx-3" style="display: flex">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-allday"
 											id="alldaycheck" type="checkbox" id="flexCheckDefault">
@@ -390,40 +390,43 @@
 										</div>
 										<div class="col-sm-5">
 											<div class="form-group">
-												  <button type="button" onclick="fn_addFileForm();" id="delBtn">추가</button>
-                   								<button type="button" onclick="fn_deleteFileForm();" id="addBtn">삭제</button>
-										</div>
-								</div>
-								</div>
-									<div class="row gx-3">
-									<div class="invitecontainer" style="display:flex">
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="form-label">부서</label>
-												<div class="d-flex">
-													<select class="form-select me-3" name="calDept"
-														id="calDept1">
-														<c:if test="${not empty deptList}">
-															<c:forEach var="dept" items="${deptList}">
-																<option value="${dept.deptCode}">${dept.deptName}</option>
-															</c:forEach>
-														</c:if>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="form-label">직원</label>
-												<div class="d-flex">
-													<select class="form-select me-3" name="calEmp" id="calEmp1">
-														<option value=""></option>
-													</select>
-												</div>
+												<button type="button" onclick="fn_addFileForm();"
+													id="delBtn">추가</button>
+												<button type="button" onclick="fn_deleteFileForm();"
+													id="addBtn">삭제</button>
 											</div>
 										</div>
 									</div>
-									<div id="someContainer"></div>
+									<div class="row gx-3">
+										<div class="invitecontainer" style="display: flex">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label class="form-label">부서</label>
+													<div class="d-flex">
+														<select class="form-select me-3" name="calDept"
+															id="calDept1">
+															<c:if test="${not empty deptList}">
+																<c:forEach var="dept" items="${deptList}">
+																	<option value="${dept.deptCode}">${dept.deptName}</option>
+																</c:forEach>
+															</c:if>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label class="form-label">직원</label>
+													<div class="d-flex">
+														<select class="form-select me-3" name="calEmp"
+															id="calEmp1">
+															<option value=""></option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div id="someContainer"></div>
 									</div>
 								</div>
 								<div class="row gx-3" id="contentContainer">

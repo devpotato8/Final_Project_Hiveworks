@@ -104,14 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
-								allday:event.calAlldayYn,
 								extendedProps: {
 	                                content: event.calContent,   // 추가
 	                                empName: event.calEmpName,// 추가
 	                                calCode: event.calCode,//추가
 	                                important: event.calImportYn,
 	                                status: event.calStatus,
-	                                reminder: event.reminderYn;
+	                                reminder: event.reminderYn,
+	                                allday: event.calAlldayYn
                               }
 
 								
@@ -195,22 +195,87 @@ document.addEventListener('DOMContentLoaded', function() {
 					$('#modifyContainer').find('.event-name').val(targetE.title);
 					$('#modifyContainer').find('.event-content').val(targetE.extendedProps.content);
 					$('#modifyContainer').find('.cal-event-code').val(targetE.extendedProps.calCode);
+					switch(reminder) {
+					    case 'Y':
+					       $('#modifyContainer').find('.cal-event-reminder').prop('checked', true);
+					        break;
+					    case 'N':
+					        $('#modifyContainer').find('.cal-event-reminder').prop('checked', false);
+					        break;
+					}
+					
+					
+					var allday = targetE.extendedProps.calAlldayYn;
+					switch(allday) {
+					    case 'Y':
+					       $('#modifyContainer').find('.cal-event-allday').prop('checked', true);
+					        break;
+					    case 'N':
+					        $('#modifyContainer').find('.cal-event-allday').prop('checked', false);
+					        break;
+					}
+					
+
+
+					$('#modifyContainer').find('.cal-event-date-start').daterangepicker({
+						timePicker: true,
+					    singleDatePicker: true,
+					    timePicker24Hour: true,
+					    timePickerIncrement: 1,
+					    startDate: targetE.start,
+					    locale: {
+					        format: 'YYYY/MM/DD HH:mm'
+					    }
+					});
+						
+						
+					   
+					
+					$('#modifyContainer').find('.cal-event-date-end').daterangepicker({
+					   timePicker: true,
+					    singleDatePicker: true,
+					    timePicker24Hour: true,
+					    timePickerIncrement: 1,
+					    startDate: targetE.end,
+					    locale: {
+					        format: 'YYYY/MM/DD HH:mm'
+					    }
+					});
+					
+					$('#alldayrecheck').on('click', function() {
+				    var startPicker =  $('#modifyContainer').find('.cal-event-date-start').data('daterangepicker');
+				    var endPicker = $('#modifyContainer').find('.cal-event-date-end').data('daterangepicker');
+				
+				    if ($(this).is(':checked')) {
+				        console.log('종일여부 수정 체크됨');
+				
+				        var startDate = moment(startPicker.startDate);
+				        startDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+				        startPicker.setStartDate(startDate);
+				
+				        var endDate = moment(endPicker.endDate);
+				        endDate.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+				        endPicker.setEndDate(endDate);
+				    
+				    }
+				});
+				
+				
 					
 					
 					
-				    var $drawerBody0 = $('#viewConctainer')
-					var $drawerBody1 = $('#modifyConctaine')
 					
-					$drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))	    
-					$drawerBody0.find('.event-end-date').text("종료 : "+formatDate(targetE.end));
 					
-					$drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))	 
-					/*$drawerBody1.find('.event-start-date').val(formatDate(targetE.start))	    
-					$drawerBody1.find('.event-end-date').val(formatDate(targetE.end));
 					
-					$drawerBody0.find('.event-start-date').text("시작 : "+formatDate(targetE.start))
-						    
-					$drawerBody0.find('.event-end-date').text("종료 : "+formatDate(targetE.end));*/
+					
+					
+		
+					
+					
+					
+				    
+					
+					
 				
 				// 모달 표시 또는 이벤트 상세 처리
 
