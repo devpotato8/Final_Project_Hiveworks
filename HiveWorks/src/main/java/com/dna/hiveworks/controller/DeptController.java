@@ -100,7 +100,6 @@ public class DeptController {
 	@ResponseBody
 	public List<Map<String, Object>> deptEmplist(@RequestParam String deptCode){
 		List<Map<String, Object>> employees = service.deptEmpList(deptCode);
-		System.out.println(employees);
 	    return employees;
 	}
 	
