@@ -10,7 +10,7 @@ package com.dna.hiveworks.common.exception;
  * 
  * History :
  * - 작성자 : 이재연, 날짜 : 2024. 1. 2., 설명 : 최초작성
- * 
+ * - 수정자 : 김태윤, 날짜 : 2024. 1. 9., 설명 : exception controller로 수정
  */
 public class HiveworksException extends RuntimeException {
 	
