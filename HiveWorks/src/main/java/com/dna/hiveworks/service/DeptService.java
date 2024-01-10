@@ -1,7 +1,10 @@
 package com.dna.hiveworks.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
@@ -31,4 +34,5 @@ public interface DeptService {
 	String searchDeptName(String deptCode);
 	List<Employee>searchEmpByName(String name);
 	int addEmpDept(Employee emp);
+	boolean parseAndSaveExcel(MultipartFile file) throws IOException;
 }

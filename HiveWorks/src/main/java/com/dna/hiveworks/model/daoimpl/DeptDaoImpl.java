@@ -90,6 +90,27 @@ public class DeptDaoImpl implements DeptDao {
 		return session.update("department.addEmpDept",emp);
 	}
 
+	// ▼ excel부서 업로드 관련
+	
+	@Override
+	public void insertDeptExcel(SqlSession session, Map<String, Object> dataMap) {
+		session.insert("department.insertDeptExcel",dataMap);
+	}
+
+	@Override
+	public String selectLastDepCode(SqlSession session) {
+		return session.selectOne("department.selectLastDepCode");
+	}
+
+	@Override
+	public String selectDeptCodeByName(SqlSession session, String deptName) {
+		return session.selectOne("department.selectDeptCodeByName",deptName);
+	}
+	
+	
+	
+	
+
 	
 	
 	
