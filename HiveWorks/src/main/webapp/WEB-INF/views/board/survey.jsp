@@ -7,285 +7,439 @@
     <jsp:param value="" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<body>
-	    	<h2> 설문 응답하기</h2>
-			
-	      		
-	      		<div class="surv-container">
-		    	<!-- 설문 기본정보 START -->
-				<div class="form-table-title-continer">
-					<table class="form-tbl" style="width:1000px;">
-				       <tr>
-				           <td class="form-tbl-col">제목</td>
-				           <td><input name="" id="" size="80" maxlength="100" /></td>
-				       </tr>
-				       <tr>
-				       <td class="form-tbl-col" >등록자</td>
-				           <td></td>
-				       </tr>
-				   </table>
+<div class="hk-wrapper" data-layout="vertical" data-layout-style="collapsed" data-menu="light" data-footer="simple" data-hover="active">
+								<div class="integrations-options-wrap">	
+									<select class="form-select">
+										<option selected="">진행중</option>
+										<option value="1">완료</option>
+									</select>
+									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable flex-shrink-0 d-sm-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
+										<span class="icon">
+											<span class="feather-icon"><i data-feather="chevron-up"></i></span>
+											<span class="feather-icon d-none"><i data-feather="chevron-down"></i></span>
+										</span>
+									</a>
+								</div>
+								<div class="hk-sidebar-togglable"></div>
+							</header>
+							<div class="integrations-body">
+								<div data-simplebar class="nicescroll-bar">
+									<div class="container mt-md-7 mt-3">
+										<div class="d-flex flex-md-nowrap flex-wrap align-items-center justify-content-between mb-5">
+											<div>
+												<h5>Recommended for you</h5>
+												<p>Because you installed Jampack template these are your recommendations.</p>
+											</div>
+											<a href="#" class="fs-7 flex-shrink-0"><u>View All</u></a>
+										</div>
+										<div class="row">
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span>
+																
+															</span>
+														</div>
+														<div class="app-name">Intercom</div>
+														<div class="app-cat">Chat Application</div>
+														<p class="p-sm multine-ellipsis">Venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm mb-3">
+															<img src="dist/img/logo-avatar-2.png" alt="user" class="avatar-img">
+														</div>
+														<div class="app-name">Swiggy</div>
+														<div class="app-cat">Food Delivery</div>
+														<p class="p-sm multine-ellipsis">Facilisi nullam vehicula ipsum a arcu cursus vitae congue. Dictum fusce ut placerat orci. Semper viverra nam libero justo laoreet sit amet.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm mb-3">
+															<img src="dist/img/logo-avatar-10.png" alt="user" class="avatar-img">
+														</div>
+														<div class="app-name">Medium</div>
+														<div class="app-cat">Blog</div>
+														<p class="p-sm multine-ellipsis">Purus viverra accumsan in nisl nisi scelerisque. Quam vulputate dignissim suspendisse in est ante. Est ultricies integer quis auctor elit sed.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap bg-dark">
+																<img src="dist/img/symbol-avatar-12.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Figma</div>
+														<div class="app-cat">Design Tool</div>
+														<p class="p-sm multine-ellipsis">Viverra nam libero justo laoreet sit amet cursus sit amet. Faucibus vitae aliquet nec ullamcorper.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center justify-content-between mt-6 mb-5">
+											<div>
+												<h5>Popular Apps</h5>
+												<p>Used by millions of people around the globe and liked them.</p>
+											</div>
+											<a href="#" class="fs-7 flex-shrink-0"><u>View All</u></a>
+										</div>
+										<div class="row">
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-violet mb-3">
+															<span class="initial-wrap">H</span>
+														</div>
+														<div class="app-name">Hencework</div>
+														<div class="app-cat">Design Agency</div>
+														<p class="p-sm multine-ellipsis">Id diam maecenas ultricies mi eget mauris. At consectetur lorem donec massa sapien faucibus et.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>70.2K Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-4.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Jampack</div>
+														<div class="app-cat">Dashboard Template</div>
+														<p class="p-sm multine-ellipsis">Ac ut consequat semper viverra nam libero justo laoreet sit. Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>4,537 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-1.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Tinder</div>
+														<div class="app-cat">Dating App</div>
+														<p class="p-sm multine-ellipsis">Laoreet suspendisse interdum consectetur libero id faucibus. Egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris. </p>
+													
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-16.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Github</div>
+														<div class="app-cat">Developer Geek</div>
+														<p class="p-sm multine-ellipsis">Tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Elit at imperdiet dui accumsan sit. Condimentum lacinia.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>24.8M Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-5.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Dribbble</div>
+														<div class="app-cat">Inspiration</div>
+														<p class="p-sm multine-ellipsis">Venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm mb-3">
+															<img src="dist/img/logo-avatar-1.png" class="avatar-img" alt="logo">
+														</div>
+														<div class="app-name">Phone Pay</div>
+														<div class="app-cat">Payment</div>
+														<p class="p-sm multine-ellipsis">Facilisi nullam vehicula ipsum a arcu cursus vitae congue. Dictum fusce ut placerat orci. Semper viverra nam libero justo laoreet sit amet. </p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>234 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm mb-3">
+															<img src="dist/img/logo-avatar-3.png" class="avatar-img" alt="logo">
+														</div>
+														<div class="app-name">Coursera</div>
+														<div class="app-cat">Online Courses</div>
+														<p class="p-sm multine-ellipsis">Purus viverra accumsan in nisl nisi scelerisque. Quam vulputate dignissim suspendisse in est ante. Est ultricies integer quis auctor elit sed. </p>
+													
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>8,769 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-15.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Kickstarter</div>
+														<div class="app-cat">Fundraiser</div>
+														<p class="p-sm multine-ellipsis">Viverra nam libero justo laoreet sit amet cursus sit amet. Faucibus vitae aliquet nec ullamcorper. </p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>9K Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center justify-content-between mt-6 mb-5">
+											<div>
+												<h5>Developer Tools</h5>
+												<p>For developer geek in you don't care for others are doing.</p>
+											</div>
+											<a href="#" class="fs-7 flex-shrink-0"><u>View All</u></a>
+										</div>
+										<div class="row">
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-9.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Propswala</div>
+														<div class="app-cat">Toys & Tents</div>
+														<p class="p-sm multine-ellipsis">Ac ut consequat semper viverra nam libero justo laoreet sit. Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>754 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-7.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Icons8</div>
+														<div class="app-cat">Icons</div>
+														<p class="p-sm multine-ellipsis">Laoreet suspendisse interdum consectetur libero id faucibus. Egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris. </p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>842 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-6.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Behance</div>
+														<div class="app-cat">Collaboration</div>
+														<p class="p-sm multine-ellipsis">Tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Elit at imperdiet dui accumsan sit. Condimentum lacinia.</p>
+													
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>10.6K Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap bg-green-light-5">
+																<img src="dist/img/symbol-avatar-10.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Medium</div>
+														<div class="app-cat">Publication</div>
+														<p class="p-sm multine-ellipsis">Venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,245 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-11.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Node Js</div>
+														<div class="app-cat">javascript</div>
+														<p class="p-sm multine-ellipsis">Facilisi nullam vehicula ipsum a arcu cursus vitae congue. Dictum fusce ut placerat orci. Semper viverra nam libero justo laoreet sit amet. </p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>9K Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm mb-3">
+															<img src="dist/img/logo-avatar-8.png" class="avatar-img" alt="logo">
+														</div>
+														<div class="app-name">Indian Type Factory</div>
+														<div class="app-cat">Fonts</div>
+														<p class="p-sm multine-ellipsis">Purus viverra accumsan in nisl nisi scelerisque. Quam vulputate dignissim suspendisse in est ante. Est ultricies integer quis auctor elit sed. </p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>8,768 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm mb-3">
+															<img src="dist/img/logo-avatar-5.png" class="avatar-img" alt="logo">
+														</div>
+														<div class="app-name">City Deals</div>
+														<div class="app-cat">Deals</div>
+														<p class="p-sm multine-ellipsis">Viverra nam libero justo laoreet sit amet cursus sit amet. Faucibus vitae aliquet nec ullamcorper. </p>
+													
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>1,478 Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+											<div class="col-xxl-3 col-xl-4 col-md-6">
+												<div class="card card-border card-int mb-4">
+													<div class="card-body">
+														<div class="avatar avatar-sm avatar-logo mb-3">
+															<span class="initial-wrap">
+																<img src="dist/img/symbol-avatar-13.png" alt="logo">
+															</span>
+														</div>
+														<div class="app-name">Sketch</div>
+														<div class="app-cat">Design Tool</div>
+															<p class="p-sm multine-ellipsis">Id diam maecenas ultricies mi eget mauris. At consectetur lorem donec massa sapien faucibus et.</p>
+													</div>
+													<div class="card-footer justify-content-between border-0">
+														<span class="d-flex align-items-center fs-8"><i class="ri-download-cloud-2-line fs-7 me-2"></i>5.4M Downloads</span>
+														<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			<!-- 설문 기본정보 END -->
-			
-			<!-- 설문지 소개 START -->
-			<div>
-			<input type="hidden" >
-				<table style="width: 524px;height: 74px;">
-				   <tr>
-				       <td>소개</td>
-				       <td style="width:80%;" ></td>
-				   </tr>
-				</table>
 			</div>
-			
-			<!-- 설문지 소개 END -->
-			<div>
-			<table style="width: 1044px;">
-			<thead>		
-				<tr>
-				    <th>질문</th>
-				 </tr>
-			</thead>
-		    <tbody>
-		         <tr>
-	            	
-	            	<!-- 단답형 -->
-	            	<td>
-	            	 	<div>
-		            		<span></span><span></span>
-		            		<br/>
-		            		<br/>
-		            		<input >
-	            		</div>
-	            	</td>
-	            	
-	            	<!-- 장문형 -->
-		            <td>
-		                <div>
-		                	<span> </span><span></span>
-		                	<br/>
-		                	<br/>
-		                	<textarea style="resize:none"></textarea>
-		                </div>
-		            </td>
-		            
-		            <!-- 셀릭트 형 -->
-	            	<td>
-		                <div>		
-		                <span></span><span></span>       
-		                <br/>
-		                 <br/>
-		                <select>
-							<option></option>					
-						</select>
-		                </div>
-	            	</td>
-	            	
-	            	<!-- 라디오 -->
-		            <td>
-		                <div>
-		                	<span></span><span></span>
-		                	<br/>
-		                	<br/>
-		                	<th:block>
-		                    	<input type="radio"></input>  
-		                    <br>
-		                	</th:block>	
-		                </div>
-		            </td>
-		            
-		            <!-- 체크박스 -->
-		            <td >
-		                <div>
-		                	<span></span><span></span>
-		                	<br/>
-		                	<br/>
-		                	<th:block>
-		                		<input type="checkbox"/>
-		                		<br>
-		                	</th:block>
-		                </div>
-		            </td>
-		         </tr>
-		         
-		       </tbody>
-		    </table>
-		    </div>
-			</div>
-			<br>
-			<!-- <button type="submit" class="btn btn-dark " >제출하기</button> -->
-			
-
-			<!-- currentPage, cntPerPage, pageSize, srchTyp, keyword -->
-			  <button>제출하기</button>
-			  <button>목록 보기</button>
-						<!-- 설문지 질문 END -->
-	    </body>
-	     <style>
-		  button {
-			  -webkit-appearance: none;
-			  -moz-appearance: none;
-			  appearance: none;
-			  
-			  margin:10px;
-			  margin-left:0;
-			  padding: 0.5rem 1rem;
-			
-			  font-size: 1rem;
-			  font-weight: 400;
-			  text-align: center;
-			  text-decoration: none;
-			
-			  display: inline-block;
-			  width: auto;
-			
-			  border: none;
-			  border-radius: 4px;
-		  
-		}
-		  
-		button:hover {
-			background-color:black;
-			color:white;
-		}
-		h2 {
-	margin-bottom:30px;	
+			<!-- /Page Body -->
+		</div>
+		<!-- /Main Content -->
+	</div>
+    <!-- /Wrapper -->
+<style>
+.form-select{
     margin-top: 100px;
+    width: 350px;
     margin-left: 300px;
 	
 }
-table,th,td {
-	border: 2px solid #d4d2d2;
-	border-collapse: collapse;
-	padding: 10px;
-}
-.form-table-title-continer .form-tbl-col{
-	width:15%;
-}
-.form-table-title-continer td {
-	width:40%;
-}
-.form-table-intro-container .form-tbl-col{
-	width:15%;
-}
-#survTitle, #useYn{
-	width:97%;
-}
 
-/*설문 기본정보 테이블 caption*/
-.surv-container{
-margin-left: 300px;
-margin-top: 150px;
-margin-bottom: 235px;
-}
-.surv-container body{
-	font-size:small;
-}
-.form-tbl-caption {
-	caption-side: top;
-}
-.form-tbl-caption span{
-    font-weight:bold;
-}
-.form-tbl-caption button {
-	width:7%;
-	float:right;
-	border-width: 1px;
-	margin:0;
-	font-size: small;
-}
-/*설문 기본정보 테이블*/
-.form-tbl {
-	margin-top: 20px;
-	padding: 20px;
-    border-collapse: collapse;
-}
-/*설문 기본정보 테이블 td*/
-.form-tbl td {
-    padding: 2px;
-    cellpadding:7px;
-}
-/*설문 기본정보 테이블 컬럼*/
-.form-tbl-col {
-    text-align: center;
-    background-color: #EEEEEE;
-    font-weight:bold;
-   
-}
-.form-tbl textarea {
-	overflow:auto;
-	max-height:100px;
-}
-[class*='item'] td:nth-child(1) {
-	text-align:center;
-	width:5%;
-}
-[class*='item'] td:nth-child(2) {
-	width:15%;
-}
-[class*='item'] td:nth-child(3) {
-	width:25%;
-}
-[class*='item'] td:nth-child(4) {
-	width:50%;
-}
-[class*='item'] select{
-	box-sizing:content-box;
-	width:97%;
-}
-[class*='item'] #qustCont{
-	box-sizing:content-box;
-	width:97%;
-	margin-bottom:3%;
-}
-/*질문내용 td 안 내용*/
-.surv_opt_box {
-	vertical-align: middle;
-	padding: 5px;
-	width: 200;
-}
-/*질문번호 컬럼*/
-.questNo {
-	text-align:center;
-}
-[name=multi-opt] {
-	width:85%;
-}
-[name=opt_delete] {
-	padding-left:6%;
 
-}
+</style>
+	<!-- jQuery -->
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
 
-#addQuestRow, #regSurvBtn, #uptSurvBtn, #delSurvBtn{
- 	height:7%;
- 	width:10%;
- 	border: 2px solid #d4d2d2;
-	border-collapse: collapse;
-	font-size: small;
-	font-weight: bold;
-	margin-right:5px;
-}
-.surv-container button:hover {
-	background-color:black;
-	color:white;
-}
-#delQuestRow {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent; 
-  border: none;
-  font-size:large;
-  
-}
-/*설문 소개보 테이블의 div
-.form-table-intro-container{
+    <!-- Bootstrap Core JS -->
+   	<script src="vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-}*/
+    <!-- FeatherIcons JS -->
+    <script src="dist/js/feather.min.js"></script>
 
-.qustCont {
-	font-weight: bold;
-}
-		
-	   </style>
+    <!-- Fancy Dropdown JS -->
+    <script src="dist/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Simplebar JS -->
+	<script src="vendors/simplebar/dist/simplebar.min.js"></script>
+	
+	<!-- Init JS -->
+	<script src="dist/js/init.js"></script>
+	<script src="dist/js/chips-init.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
