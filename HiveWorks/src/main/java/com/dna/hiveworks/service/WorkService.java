@@ -9,13 +9,13 @@ public interface WorkService {
 	
 	List<Work> selectWorkListAllByEmp();
 	
-	List<Work> selectWorkByNo(int no);
+	String selectWorkByEmpNo(int empNo);
 	
-	int insertWork();
-	int updateWork();
+	int insertWork(int empNo);
+	int updateWork(int empNo);
 	int deleteWork(int empNo);
 	
-	Work selectRealtime();
+	Work selectCommute(int empNo);
 	
 	String avgStartWork();
 	String avgEndWork();

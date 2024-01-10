@@ -15,6 +15,7 @@
 		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="useYN" column="USE_YN"/>
 		
+		<!-- 다 대 다 관계 -->
 		<collection property="workRealtime" ofType="workRealtime" >
 			<id property="workNo" column="WORK_NO"/>
 			<result property="workLate" column="WORK_LATE"/>
@@ -31,14 +32,27 @@
 		<result property="workAbsence" column="WORK_ABSENCE"/>
 	</resultMap> -->
 	
-	<insert id="workScheduled">
+	<!-- <insert id="workScheduled">
 		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,3,'WOT001',SYSDATE,SYSDATE,NULL,'승인',3,SYSDATE,3,SYSDATE,'Y')
 		INSERT INTO TBL_WORK_REALTIME VALUES(SEQ_WORK_NO.NEXTVAL,3,'WOT001',SYSDATE,SYSDATE,NULL,'승인',3,SYSDATE,3,SYSDATE,'Y')
-	</insert>
+	</insert> -->
 	
-	<insert id="insertStartWork">
-		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,3,'WOT001',SYSDATE,SYSDATE,NULL,'승인',3,SYSDATE,3,SYSDATE,'Y')
+	<select id="selectCommute" parameterType="_int" resultMap="work.workMap">
+		SELECT * FROM TBL_WORK
+		WHERE EMP_NO = #{empNo}
+		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<insert id="insertStartWork" parameterType="_int">
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',SYSDATE,SYSDATE,NULL,'승인',#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
 	</insert>
+	<select id="selectWorkByEmpNo" parameterType="_int" resultType="String">
+		SELECT WORK_START_TIME FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE EMP_NO = #{empNo}
+		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
 	<!-- 배치처리 -->
 	<!-- <insert id="insertStartWork">
 		UPDATE TBL_WORK SET
@@ -46,12 +60,18 @@
 		WHERE EMP_NO = 3
 		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</insert> -->
-	<update id="updateEndWork">
+	<update id="updateEndWork" parameterType="_int">
 		UPDATE TBL_WORK SET
 		WORK_END_TIME = SYSDATE
-		WHERE EMP_NO = 3
+		WHERE EMP_NO = #{empNo}
 		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</update>
+	<select id="selectWorkByEmpNoEND" parameterType="_int" resultType="String">
+		SELECT WORK_END_TIME FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE EMP_NO = #{empNo}
+		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
 	
 	<select id="selectWorkListAllByEmp" resultMap="work.workMap">
 		SELECT * FROM TBL_WORK

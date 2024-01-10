@@ -119,8 +119,9 @@
 		
 						
 						<div class="text-end mt-5">
-							<button class="btn btn-primary btn-sm">부서 일괄 등록</button>
+							<button class="btn btn-primary btn-sm insertDeptList">부서 일괄 등록</button>
 						</div>
+						
 					
 					</div>
 				</div>	
@@ -405,6 +406,14 @@ function loadDeptEmpList(nodeId) {
         }
     });
 }
+
+//부서일괄업로드 btn
+$(document).ready(function(){
+	$('.insertDeptList').on('click',function(){
+        window.location = "/insertDeptList";
+    });
+});
+
 </script>
 
 <!-- 구성원관리 버튼이벤트, 검색창이벤트 JS -->

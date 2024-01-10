@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.WorkDao;
 import com.dna.hiveworks.model.dto.Work;
@@ -32,21 +33,28 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Work> selectWorkByNo(int no) {
+	public String selectWorkByEmpNo(int empNo) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectWorkByEmpNo(session, empNo);
 	}
 
 	@Override
-	public int insertWork() {
-		
-		return dao.insertWork(session);
+	@Transactional
+	public int insertWork(int empNo) {
+		String isPresent = dao.selectWorkByEmpNo(session, empNo);
+		if (isPresent != null) {
+	        throw new RuntimeException("이미 눌렀습니다.");
+	    }
+		return dao.insertWork(session, empNo);
 	}
 
 	@Override
-	public int updateWork() {
-		// TODO Auto-generated method stub
-		return dao.updateWork(session);
+	public int updateWork(int empNo) {
+		String isPresent = dao.selectWorkByEmpNoEND(session, empNo);
+		if (isPresent != null) {
+	        throw new RuntimeException("이미 눌렀습니다.");
+	    }
+		return dao.updateWork(session, empNo);
 	}
 
 	@Override
@@ -56,9 +64,9 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public Work selectRealtime() {
+	public Work selectCommute(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.selectRealtime(session);
+		return dao.selectCommute(session, empNo);
 	}
 
 	@Override

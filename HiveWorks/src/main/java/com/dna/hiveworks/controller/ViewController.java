@@ -11,9 +11,12 @@ import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Work;
 import com.dna.hiveworks.service.WorkService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @AllArgsConstructor
 public class ViewController {
@@ -22,8 +25,9 @@ public class ViewController {
 
 	@GetMapping("/")
 	public String index(Model m) {
-//		Work workRealtime = service.selectRealtime();
-//		m.addAttribute("workRealtime", workRealtime);
+		int empNo = 1;
+		Work commute = service.selectCommute(empNo);
+		m.addAttribute("commute", commute);
 		return "index";
 	}
 	
@@ -40,4 +44,16 @@ public class ViewController {
 		return "common/loginPage";
 	}
 	
+	@PostMapping("/loginfail")
+	public String loginFailPage(HttpServletRequest request, Model model) {
+		String referrer = request.getHeader("Referer");
+	    model.addAttribute("url", referrer);  //이전 주소를 model에 담아서 보내기
+		return "common/loginError";
+	}
+	
+	
+	@GetMapping("/insertDeptList")
+	public String insertDeptExcel(){
+		return "department/deptExcelUpload";
+	}
 }

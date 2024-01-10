@@ -47,8 +47,6 @@
 		        
 		        
 		        			<div class="taskboard-body col-md-8 col-sm-12 container-fluid mt-5">
-								
-								
 								<div class="row mb-5">
 								
 									<div class="col-lg-4">
