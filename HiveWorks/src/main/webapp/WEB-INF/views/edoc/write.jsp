@@ -157,7 +157,7 @@
 														<button type="button" class="btn btn-sm btn-outline" id="removeApprovalList"><span><i class="ti-angle-left"></i></span></button>
 													</div>
 													<div class="container">
-														<select class="form-select" size="5" name="approvalList" id="approvalList">
+														<select class="form-select" multiple size="5" name="approvalList" id="approvalList">
 														</select>
 													</div>
 												</div>
@@ -168,7 +168,7 @@
 														<button type="button" class="btn btn-sm btn-outline" id="removeReferenceList"><span><i class="ti-angle-left"></i></span></button>
 													</div>
 													<div class="container">
-														<select class="form-select" size="5" name="referenceList" id="referenceList">
+														<select class="form-select" multiple size="5" name="referenceList" id="referenceList">
 														</select>
 													</div>
 												</div>
