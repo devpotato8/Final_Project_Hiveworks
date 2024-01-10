@@ -23,21 +23,25 @@ public class WorkDaoImpl implements WorkDao {
 	}
 
 	@Override
-	public List<Work> selectWorkByNo(SqlSession session, int no) {
+	public String selectWorkByEmpNo(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return null;
+		return session.selectOne("work.selectWorkByEmpNo", empNo);
+	}
+	public String selectWorkByEmpNoEND(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.selectWorkByEmpNoEND", empNo);
 	}
 
 	@Override
-	public int insertWork(SqlSession session) {
+	public int insertWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.insert("work.insertStartWork");
+		return session.insert("work.insertStartWork", empNo);
 	}
 
 	@Override
-	public int updateWork(SqlSession session) {
+	public int updateWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.update("work.updateEndWork");
+		return session.update("work.updateEndWork", empNo);
 	}
 
 	@Override
@@ -47,9 +51,9 @@ public class WorkDaoImpl implements WorkDao {
 	}
 
 	@Override
-	public Work selectRealtime(SqlSession session) {
+	public Work selectCommute(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.selectOne("work.selectRealtime");
+		return session.selectOne("work.selectCommute", empNo);
 	}
 
 	@Override

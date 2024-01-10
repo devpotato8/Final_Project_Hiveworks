@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -128,17 +127,23 @@ public class WorkController {
 	
 	@PostMapping("insertStartWork")
 	public String insertStartWork(Model m) {
-		
-		int result = service.insertWork();
-		
+		int empNo = 1;
 		String msg,loc;
-		if(result>0) {
+		try {
+			service.insertWork(empNo);
 			msg = "오늘 하루도 힘내세요! :)";
 			loc = "";
-		} else {
-			msg = "실패 :(";
+		} catch (RuntimeException e) {
+			msg = "이미 누르셨습니다 :(";
 			loc = "";
 		}
+//		if(result>0) {
+//			msg = "오늘 하루도 힘내세요! :)";
+//			loc = "";
+//		} else {
+//			msg = "이미 누르셨습니다 :(";
+//			loc = "";
+//		}
 		m.addAttribute("msg", msg);
 		m.addAttribute("loc", loc);
 		return "common/msg";
@@ -146,15 +151,14 @@ public class WorkController {
 	
 	@RequestMapping("updateEndWork")
 	public String updateEndWork(Model m) {
-		
-		int result = service.updateWork();
-		
+		int empNo = 1;
 		String msg,loc;
-		if(result>0) {
+		try {
+			service.updateWork(empNo);
 			msg = "오늘 하루도 고생하셨습니다! :)";
 			loc = "";
-		} else {
-			msg = "실패 :(";
+		} catch (RuntimeException e) {
+			msg = "이미 누르셨습니다 :(";
 			loc = "";
 		}
 		m.addAttribute("msg", msg);
@@ -162,10 +166,11 @@ public class WorkController {
 		return "common/msg";
 	}
 	
-	@Scheduled(cron = "0 5 1 * * * *")
-	public void workScheduled() {
-		int result = service.workScheduled();
-	}
+	// 배치처리하기
+//	@Scheduled(cron = "0 5 1 * * * *")
+//	public void workScheduled() {
+//		int result = service.workScheduled();
+//	}
 
 	
 	

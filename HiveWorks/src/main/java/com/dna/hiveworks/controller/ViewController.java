@@ -13,7 +13,9 @@ import com.dna.hiveworks.service.WorkService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @AllArgsConstructor
 public class ViewController {
@@ -22,8 +24,9 @@ public class ViewController {
 
 	@GetMapping("/")
 	public String index(Model m) {
-//		Work workRealtime = service.selectRealtime();
-//		m.addAttribute("workRealtime", workRealtime);
+		int empNo = 1;
+		Work commute = service.selectCommute(empNo);
+		m.addAttribute("commute", commute);
 		return "index";
 	}
 	

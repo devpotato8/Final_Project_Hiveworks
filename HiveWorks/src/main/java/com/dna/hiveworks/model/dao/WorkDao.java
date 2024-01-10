@@ -13,13 +13,14 @@ public interface WorkDao {
 	
 	List<Work> selectWorkListAllByEmp(SqlSession session);
 	
-	List<Work> selectWorkByNo(SqlSession session, int no);
+	String selectWorkByEmpNo(SqlSession session, int empNo);
+	String selectWorkByEmpNoEND(SqlSession session, int empNo);
 	
-	int insertWork(SqlSession session);
-	int updateWork(SqlSession session);
+	int insertWork(SqlSession session, int empNo);
+	int updateWork(SqlSession session, int empNo);
 	int deleteWork(SqlSession session, int empNo);
 	
-	Work selectRealtime(SqlSession session);
+	Work selectCommute(SqlSession session, int empNo);
 	
 	String avgStartWork(SqlSession session);
 	String avgEndWork(SqlSession session);
@@ -27,4 +28,5 @@ public interface WorkDao {
 	int fastEnd(SqlSession session);
 	int absence(SqlSession session);
 	int overWork(SqlSession session);
+
 }

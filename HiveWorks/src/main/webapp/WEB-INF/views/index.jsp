@@ -72,7 +72,7 @@
 						<div></div>
 						<div>
 							<div class="d-flex flex-column align-items-center clockAndCheck">
-								<div class="btn btn-block" >출퇴근 눌러주세요</div>
+								<div class="btn btn-block" >출퇴근을 눌러주세요 😊</div>
 								<div class="btn btn-block" id="currentTime" ></div>
 								<input type="hidden" id=workEndTime name="workEndTime" value=""/>
 							</div>
@@ -87,9 +87,9 @@
 								</form>
 							</div>
 							<div class="SEWork">
-								<c:if test="${not empty workRealtime }">
-									<fmt:formatDate value="${workRealtime.workStartTime}" pattern="HH:mm:ss" var="workStartTime" />
-									<fmt:formatDate value="${workRealtime.workEndTime}" pattern="HH:mm:ss" var="workEndTime" />
+								<c:if test="${not empty commute }">
+									<fmt:formatDate value="${commute.workStartTime}" pattern="HH:mm:ss" var="workStartTime" />
+									<fmt:formatDate value="${commute.workEndTime}" pattern="HH:mm:ss" var="workEndTime" />
 	        						<p>출근시간 - ${workStartTime}</p> <!-- 포맷팅된 날짜와 시간을 출력 -->
 	        						<p>퇴근시간 - ${workEndTime }</p>
 								</c:if>
@@ -254,6 +254,16 @@ button{
 	border-radius: 5px;
 	padding: 11px;
 }
+.SEWork{ 
+	margin-top: 20px;
+	background-color: white; 
+	color: var(--navy);
+	display: flex;
+	flex-direction:column;
+	font-size: 16px;
+	text-align: center;
+}
+
 .container {
 	margin-top: 20px;
 	width: 100%;
