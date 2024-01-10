@@ -41,5 +41,5 @@ public class VacationDaoImpl implements VacationDao {
 		// TODO Auto-generated method stub
 		return session.delete(null);
 	}
-
+	
 }

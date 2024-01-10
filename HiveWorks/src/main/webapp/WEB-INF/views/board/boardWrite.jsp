@@ -8,51 +8,60 @@
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+
 <div class="hk-pg-wrapper">
     <div class="container-xxl" style="margin-left: 0px;">
         <h2>등록</h2>
     </div>
     <div id="board-container">
-        <form name="boardFrm" action="${path }/board/insertBoard" method="post" enctype="multipart/form-data">
+        <form id="userForm" name="boardFrm" action="${path }/board/insertBoard" method="post" enctype="multipart/form-data">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
             <div class="input-group mb-3" style="padding:0px;">
   				<div class="input-group-prepend" style="padding:0px;">
                     <button type="button" onclick="fn_addFileForm();">추가</button>
-                    <button type="button" onclick="fn_deleteFileForm();">삭제</button>
                 </div>
             </div>
-            <div id="basicFileForm" class="input-group mb-3" style="padding:0px;">
-                <div class="custom-file">
-                     <input type="file" name="upFile" class="custom-file-input" >
-                </div>
-            </div>
-            <textarea class="form-control" id="editor" name="boardContent" placeholder="내용" required style="resize:none;">
+            <div id="basicFileForm" class="input-group mb-3">
+			    <div class="custom-file" style="display: flex; align-items: center;">
+			        <input type="file" name="upFile" class="custom-file-input">
+			        <button type="button" onclick="fn_deleteFileForm();" id="deleteBtn">삭제</button>
+			    </div>
+			</div>
+												
+            <textarea class="form-control2" id="editor" name="boardContent" placeholder="내용" required style="resize:none;">
             ${data.editor }</textarea>
             <span id="messagebyte">0</span><span>/ 2000 Byte</span>
             <br />
             <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
+        	<input type="button" onclick="resetForm()" id="resetButton" value="초기화"/>
         </form>
     </div>
-<!--     <script type="text/javascript">
-    document.getElementById('submit').addEventListener('click', handleSubmit);
 
-
-    function handleSubmit() {
-      console.log('submit 버튼이 클릭되었습니다.');
-
-    }
-    </script> -->
-<script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
-	<script>
-      ClassicEditor.create( document.querySelector( '#editor' ) );
-    </script>
 <style>
-    .ck-editor__editable {
-        height: 400px;
+	.ck-editor__editable { 
+	height: 800px; 
+	}
+	.basicFileForm{
+    	padding: 0px;
     }
-    div#board-container{width:400px; margin:0 auto; text-align:center;}
-    div#board-container input{margin-bottom:15px;}
+    .custom-file{
+    	display: flex; 
+    	align-items: center;
+    }
+    #deleteBtn{
+    	margin-left: 0px;
+    	width: 66px;
+    	margin-bottom: 15px;
+    }
+    
 </style>
+<script>
+	function resetForm() {
+		document.getElementById("userForm").reset();
+		ckeditor.data.set('');
+}
+</script>
+<script></script>
 <script>
      const adddelFunction=(function(){
     		let count=2;
@@ -87,41 +96,162 @@
     		$(e.target).next(".custom-file-label").text(fileName);
     	});
     </script>
-    <script>
-    var limitByte = 2000;
-    var totalByte = 0;
+	
 
-    function fn_chk_byte(obj) {
-        totalByte = 0;
-        var message = $(obj).val();
+<script>
+$(function() {	
+	$('.dropify-2').dropify({
+		  messages: {
+			'default': '파일 업로드',
+		},
+		tpl: {
+			message:'<div class="dropify-message"><span class="file-icon"></span> <p>{{ default }}</p></div>',
+		}
+	});
+});
+</script>
+<!-- 에디터 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
 
-        for (var i = 0; i < message.length; i++) {
-            var currentByte = message.charCodeAt(i);
-            if (currentByte > 128) {
-                totalByte += 2;
-            } else {
-                totalByte++;
+<script type="text/javascript">
+class ElectronicDocumentImageUploadAdapter{
+	constructor(loader){
+		this.loader = loader;
+	}
+	// Starts the upload process.
+    upload() {
+        return this.loader.file
+            .then( file => new Promise( ( resolve, reject ) => {
+                this._initRequest();
+                this._initListeners( resolve, reject, file );
+                this._sendRequest( file );
+            } ) );
+    }
+
+    // Aborts the upload process.
+    abort() {
+        if ( this.xhr ) {
+            this.xhr.abort();
+        }
+    }
+
+    // Initializes the XMLHttpRequest object using the URL passed to the constructor.
+    _initRequest() {
+        const xhr = this.xhr = new XMLHttpRequest();
+
+        // Note that your request may look different. It is up to you and your editor
+        // integration to choose the right communication channel. This example uses
+        // a POST request with JSON as a data structure but your configuration
+        // could be different.
+        xhr.open( 'POST', '${path}/board/imgupload', true );
+        xhr.responseType = 'json';
+    }
+
+    // Initializes XMLHttpRequest listeners.
+    _initListeners( resolve, reject, file ) {
+        const xhr = this.xhr;
+        const loader = this.loader;
+        const genericErrorText = `파일 업로드에 실패했습니다.:${ file.name }`;
+
+        xhr.addEventListener( 'error', () => reject( genericErrorText ) );
+        xhr.addEventListener( 'abort', () => reject() );
+        xhr.addEventListener( 'load', () => {
+            const response = xhr.response;
+
+            // This example assumes the XHR server's "response" object will come with
+            // an "error" which has its own "message" that can be passed to reject()
+            // in the upload promise.
+            //
+            // Your integration may handle upload errors in a different way so make sure
+            // it is done properly. The reject() function must be called when the upload fails.
+            if ( !response || response.error ) {
+                return reject( response && response.error ? response.error.message : genericErrorText );
             }
-        }
 
-        $("#messagebyte").text(totalByte);
+            // If the upload is successful, resolve the upload promise with an object containing
+            // at least the "default" URL, pointing to the image on the server.
+            // This URL will be used to display the image in the content. Learn more in the
+            // UploadAdapter#upload documentation.
+            resolve( {
+                default: response.url
+            } );
+        } );
 
-        // 총 바이트 수가 제한을 초과하는지 확인
-        if (totalByte > limitByte) {
-            alert(limitByte + "Byte 까지 전송 가능합니다.");
-            // 필요에 따라 여기에 추가 작업을 추가할 수 있습니다.
+        // Upload progress when it is supported. The file loader has the #uploadTotal and #uploaded
+        // properties which are used e.g. to display the upload progress bar in the editor
+        // user interface.
+        if ( xhr.upload ) {
+            xhr.upload.addEventListener( 'progress', evt => {
+                if ( evt.lengthComputable ) {
+                    loader.uploadTotal = evt.total;
+                    loader.uploaded = evt.loaded;
+                }
+            } );
         }
     }
 
-    function sms_send() {
-        if (totalByte > limitByte) {
-            alert(limitByte + "Byte 까지 전송 가능합니다.");
-            return;
-        }
-    }
+    // Prepares the data and sends the request.
+    _sendRequest( file ) {
+        // Prepare the form data.
+        const data = new FormData();
 
+        data.append( 'upload', file );
+
+        // Important note: This is the right place to implement security mechanisms
+        // like authentication and CSRF protection. For instance, you can use
+        // XMLHttpRequest.setRequestHeader() to set the request headers containing
+        // the CSRF token generated earlier by your application.
+
+        // Send the request.
+        this.xhr.send( data );
+    }
+}
+
+function ElectronicDocumentImageUploadAdapterPlugin( editor ) {
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+        // Configure the URL to the upload script in your back-end here!
+        return new ElectronicDocumentImageUploadAdapter( loader );
+    };
+}
+</script>
+
+<script>
+	let ckeditor;
+    ClassicEditor.create(document.querySelector('#editor'),{
+    	extraPlugins :[ElectronicDocumentImageUploadAdapterPlugin]
+    })
+    .then(editor => {  
+        editor.model.document.on('change:data', () => {
+            const content = editor.getData(); // 에디터 내용 가져오기
+            const byteCount = new Blob([content], { type: 'text/plain' }).size; // 바이트 수 계산
+            document.getElementById('messagebyte').textContent = byteCount; // 바이트 수 업데이트
+        });
+        ckeditor = editor;
+    });
 </script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+	
+	<!-- Repeater JS -->
+	<script src="${path}/resources/vendors/jquery.repeater/jquery.repeater.min.js"></script>
 
+	<!-- Daterangepicker JS -->
+    <script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
+    <script src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
+    <script src="${path}/resources/js/daterangepicker-data.js"></script>
+	
+	<!-- Bootstrap Colorpicker JS -->
+	<script src="${path}/resources/js/color-picker-data.js"></script>
+	
+	<!-- Tinymce JS -->
+    <script src="${path}/resources/vendors/tinymce/tinymce.min.js"></script>
+	
+	<!-- Dropify JS -->
+	<script src="${path}/resources/vendors/dropify/dist/js/dropify.min.js"></script>
+	<script src="${path}/resources/js/dropify-data.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/create-invoice-data.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

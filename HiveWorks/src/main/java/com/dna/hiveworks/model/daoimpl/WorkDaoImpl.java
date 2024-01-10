@@ -10,29 +10,38 @@ import com.dna.hiveworks.model.dto.Work;
 
 @Repository
 public class WorkDaoImpl implements WorkDao {
-
+	
 	@Override
-	public List<Work> selectWorkListAll(SqlSession session) {
-		// TODO Auto-generated method stub
-		return session.selectList(null);
+	public int workScheduled(SqlSession session) {
+		return session.insert("work.workScheduled");
 	}
 
 	@Override
-	public List<Work> selectWorkByNo(SqlSession session, int no) {
+	public List<Work> selectWorkListAllByEmp(SqlSession session) {
 		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("work.selectWorkListAllByEmp");
 	}
 
 	@Override
-	public int insertWork(SqlSession session) {
+	public String selectWorkByEmpNo(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.insert("work.insertStartWork");
+		return session.selectOne("work.selectWorkByEmpNo", empNo);
+	}
+	public String selectWorkByEmpNoEND(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.selectWorkByEmpNoEND", empNo);
 	}
 
 	@Override
-	public int updateWork(SqlSession session) {
+	public int insertWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.update("work.updateEndWork");
+		return session.insert("work.insertStartWork", empNo);
+	}
+
+	@Override
+	public int updateWork(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.update("work.updateEndWork", empNo);
 	}
 
 	@Override
@@ -40,5 +49,49 @@ public class WorkDaoImpl implements WorkDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Work selectCommute(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.selectCommute", empNo);
+	}
+
+	@Override
+	public String avgStartWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.avgStartWork");
+	}
+
+	@Override
+	public String avgEndWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.avgEndWork");
+	}
+
+	@Override
+	public int lateWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.lateWork");
+	}
+
+	@Override
+	public int fastEnd(SqlSession session) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int absence(SqlSession session) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int overWork(SqlSession session) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 
 }

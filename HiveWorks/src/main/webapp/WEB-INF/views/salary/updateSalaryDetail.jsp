@@ -4,14 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-<c:set var="allDedution" value="${
-salary.dedution.dedu_emp_insur+ 
-salary.dedution.dedu_health_insur+ 
-salary.dedution.dedu_industry_insur+ 
-salary.dedution.dedu_national_pension+ 
-salary.dedution.dedu_income_tax+ 
-salary.dedution.dedu_local_income_tax
-}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
 	<jsp:param value="default" name="style"/>
@@ -414,14 +406,30 @@ salary.dedution.dedu_local_income_tax
         line-height: 14px;
         text-align: center;
         margin-top: 24px
-    }</style>
+    }
+    /* css 추가 */
+    input[type=text]{
+    background: transparent; 
+    text-align: center; 
+    width:80px;
+    
+    }
+    
+    </style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
 <form action="${path }/salary/updateSalaryDetailEnd" method="post">
 <button class="btn btn-primary btn-rounded btn-block mb-4" >수정</button>
 <table width="740px">
     <tbody>
     <tr align="center">
-        <td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;"><b>2023년 12월 급여명세서</b></td>
+    	<c:set var="test1" value="${salary.sal_date }"/>
+        <b><td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;">
+        <b id="payday">
+        <fmt:formatDate var="year" value="${test1 }" pattern="yyyy"/>
+        <fmt:formatDate var="month" value="${test1 }" pattern="M"/>
+        	<c:out value="${year }"/>년 <c:out value="${month }"/>월 급여명세서
+        </b>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -433,7 +441,8 @@ salary.dedution.dedu_local_income_tax
     <tbody>
     <tr>
         <td class="txtlft"><p><em>회사명</em> (주)하이브웍스</p></td>
-        <td class="txtrgt"><p><em>지급일</em> <c:out value="${salary.sal_date }" /></p></td>
+        <td class="txtrgt"><p><em>지급일</em>
+        <input type="date" id="sal_date" name="sal_date" onchange="fn_change_date();" value="${salary.sal_date }" /></p></td>
     </tr>
     </tbody>
 </table><!--사원정보 테이블-->
@@ -457,11 +466,11 @@ salary.dedution.dedu_local_income_tax
     </tr>
     <tr>
         <th><span>부서</span></th>
-        <td><c:out value="${salary.employee.dept_code }"/></td>
+        <td><c:out value="${salary.employee.dept_name }"/></td>
         <th><span>직급</span></th>
-        <td><c:out value="${salary.employee.job_code }"/></td>
-        <th><span></span></th>
-        <td></td>
+        <td><c:out value="${salary.employee.job_name }"/></td>
+        <th><span>직위</span></th>
+        <td><c:out value="${salary.employee.position_name }"/></td>
     </tr>
     </tbody>
 </table><!--근로일수 및 시간 -->
@@ -509,11 +518,11 @@ salary.dedution.dedu_local_income_tax
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <input type="hidden" name="sal_no" value="${salary.sal_no }"/>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_base" value="${salary.sal_base }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" name="overtime_pay" value="${salary.overtime_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_meal" value="${salary.sal_meal }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" name="position_pay" value="${salary.position_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" name="sal_bonus" value="${salary.sal_bonus }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value="${salary.sal_base }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="${salary.overtime_pay }" readonly="readonly" style="border: none;"></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="${salary.sal_meal }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="${salary.position_pay }" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="${salary.sal_bonus }"/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
@@ -579,19 +588,19 @@ salary.dedution.dedu_local_income_tax
                     </td>
                     <th width="14%">국민연금</th>
                     <th width="14%">건강보험</th>
+                    <th width="14%">장기요양보험</th>
                     <th width="14%">고용보험</th>
-                    <th width="14%">산재보험</th>
                     <th width="14%">소득세</th>
                     <th width="14%">지방소득세</th>
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_emp_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_health_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_industry_insur }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_national_pension }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_income_tax }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.dedution.dedu_local_income_tax }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly" value="${dedution.o_pension }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly" value="${dedution.o_insurance }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" value="${dedution.o_nursing }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly"value="${dedution.o_employ }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly" value="${dedution.o_income }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly" value="${dedution.o_local }" style="border: none;"/></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
@@ -651,6 +660,7 @@ salary.dedution.dedu_local_income_tax
     </tr>
     </tbody>
 </table><!--합계데이블-->
+<button type="button" class="btn btn-primary btn-sm" onclick="fn_cal_salary()">계산</button>
 <table width="740px" border="0" cellspacing="1" cellpadding="1" class="origin_tbl">
     <tbody>
     <tr>
@@ -674,10 +684,11 @@ salary.dedution.dedu_local_income_tax
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual }" /></td>
-                    <td width="14%"><c:out value="${allDedution }" /></td>
+                    <td width="14%"><input type="text" id="sal_total" name="sal_total" readonly="readonly" value="${dedution.i_total }" style="border: none;"/></td>
+                    <td width="14%"><input type="text" id="dedu_total" name="dedu_total" readonly="readonly" value="${dedution.o_pension+dedution.o_insurance
+                    				 +dedution.o_nursing+dedution.o_employ+dedution.o_income+dedution.o_local}" style="border: none;" /></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual-allDedution }" /></td>
+                    <td width="14%"><input type="text" id="sal_actual" name="sal_actual" readonly="readonly" value="${salary.sal_actual }" style="border: none;" /></td>
                 </tr>
                 </tbody>
             </table>
@@ -709,6 +720,64 @@ salary.dedution.dedu_local_income_tax
     </tr>
     </tbody>
 </table>
+	<script>	
+	fn_cal_salary=()=>{
+		let total = parseInt($("#sal_base").val())
+					+Number($("#overtime_pay").val())
+					+Number($("#sal_meal").val())
+					+Number($("#position_pay").val())
+					+Number($("#sal_bonus").val());
+		
+		let notax = Number($("#sal_meal").val());
+		
+		$.ajax({
+			type:'get',
+			url:"${path}/salary/calculateSalary",
+			data:{"total":total,"notax":notax},
+			success:function(data){
+				$("#dedu_national_pension").val(data.o_pension);
+				$("#dedu_health_insur").val(data.o_insurance);
+				$("#dedu_longterm_care_insur").val(data.o_nursing);
+				$("#dedu_emp_insur").val(data.o_employ);
+				$("#dedu_income_tax").val(data.o_income);
+				$("#dedu_local_income_tax").val(data.o_local);
+				$("#sal_total").val(data.i_total);
+				
+				let $dedu_total =Number(data.o_pension)
+								+Number(data.o_insurance+data.o_nursing)
+								+Number(data.o_employ)
+								+Number(data.o_income)
+								+Number(data.o_local);
+				$("#dedu_total").val($dedu_total);
+				let $actual = Number(data.i_total)-$dedu_total;
+				
+				$("#sal_actual").val($actual);
+			},
+			error:function(){
+                alert("계산 실패");
+			}
+		})
+
+	};
+	
+
+	fn_change_date=()=>{
+		// input 태그에서 선택한 날짜 가져오기
+		let changeDate = document.getElementById('sal_date').value;
+		
+		// Date 객체로 변환하기
+		let date = new Date(changeDate);
+		
+		// 연도와 월 가져오기
+		let year = date.getFullYear();
+		let month = date.getMonth()+1;
+		
+		let payday = document.getElementById('payday');
+		
+		payday.innerHTML = year + "년 " + month + "월 급여명세서";
+	};
+
+	</script>
 
 	<!-- jQuery -->
     <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>

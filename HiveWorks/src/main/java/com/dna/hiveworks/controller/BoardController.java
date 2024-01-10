@@ -8,10 +8,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dna.hiveworks.model.dto.Board;
 import com.dna.hiveworks.model.dto.Uploadfile;
@@ -52,6 +60,10 @@ public class BoardController {
 	@GetMapping("/blind")
 	public String blind() {
 		return "board/blind";
+	}
+	@GetMapping("/survey")
+	public String survey() {
+		return "board/survey";
 	}
 	@GetMapping("/boardWrite")
 	public String boardWrite() {
@@ -188,7 +200,31 @@ public class BoardController {
 	        e.printStackTrace();
 	    }
 	}
-
+	@PostMapping("/imgupload")
+	public @ResponseBody ResponseEntity<Map<String,Object>> imgUpload(MultipartHttpServletRequest request){
+		Map<String,Object> response = null;
+		try {
+		MultipartFile uploadFile = request.getFile("upload");
+		
+		String originalFileName = uploadFile.getOriginalFilename();
+		String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+		String renamedFileName = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuuMMdd"))+UUID.randomUUID()+ext;
+		
+		String realPath = request.getServletContext().getRealPath("/resources/upload/board/");
+		String uploadPath = request.getServletContext().getContextPath()+"/resources/upload/board/"+renamedFileName;
+		
+		File upFIle = new File(realPath+renamedFileName);
+		
+		uploadFile.transferTo(upFIle);
+		
+		response = Map.of("uploaded",true,"url",uploadPath);
+		}catch(IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+		
+	}
 
 	
 }

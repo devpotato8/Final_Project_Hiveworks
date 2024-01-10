@@ -61,4 +61,9 @@ public class EdocDaoImpl implements EdocDao{
 	public int insertEdoc(SqlSession session, ElectronicDocument edoc) {
 		return session.insert("edoc.insertEdoc", edoc);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(SqlSession session, String deptCode) {
+		return session.selectList("department.searchEmployeeInSubDepartmentByDeptCode",deptCode);
+	}
 }

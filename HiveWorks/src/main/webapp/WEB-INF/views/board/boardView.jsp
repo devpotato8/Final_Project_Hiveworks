@@ -27,6 +27,9 @@
                 </button> 
             </c:forEach>
         </c:if>
+        <c:if test="${empty board.files}">
+   			<p>첨부된 파일이 없습니다.</p>
+		</c:if>
         <a href="${path}/board/board"><input type="button" value="확인"></a>
     </div>
 </div>
@@ -34,12 +37,14 @@
 <style>
    
     #boardContent{
-    width:400px;
-    height:300px;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column-reverse;
+    
     }
-    div#board-container{width:400px; margin:0 auto; text-align:center;}
-    div#board-container input{margin-bottom:15px;}
 </style>
+
 
 <script>
     const fn_filedownload = (oriname, rename) => {

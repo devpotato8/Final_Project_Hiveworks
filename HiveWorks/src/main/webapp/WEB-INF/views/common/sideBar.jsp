@@ -239,7 +239,7 @@
 												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="pipeline.html"><span class="nav-link-text">설문</span></a>
+												<a class="nav-link" href="${path}/board/survey"><span class="nav-link-text">설문</span></a>
 											</li>
 										</ul>	
 									</li>	
