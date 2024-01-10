@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
 /**
@@ -65,5 +67,19 @@ public class EdocDaoImpl implements EdocDao{
 	@Override
 	public List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(SqlSession session, String deptCode) {
 		return session.selectList("department.searchEmployeeInSubDepartmentByDeptCode",deptCode);
+	}
+	
+	@Override
+	public int insertEdocApproval(SqlSession session, List<ElectronicDocumentApproval> approval) {
+		final int[] result = {0};
+		approval.forEach(apv->{result[0] += session.insert("edoc.insertEdocApproval",apv);});
+		return result[0];
+	}
+
+	@Override
+	public int insertEdocReference(SqlSession session, List<ElectronicDocumentReference> reference) {
+		final int[] result = {0};
+		reference.forEach(ref ->{result[0] += session.insert("edoc.insertEdocReference",ref);});
+		return result[0];
 	}
 }
