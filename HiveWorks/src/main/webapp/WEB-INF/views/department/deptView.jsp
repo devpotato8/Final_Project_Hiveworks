@@ -414,6 +414,13 @@ $(document).ready(function(){
     });
 });
 
+//부서일괄업로드가 성공하면 조직도가 뜨면서 성공했다는 alert뜨도록
+var message = "${message}";
+
+if(message!=null && message!=''){
+	alert(message);
+};
+
 </script>
 
 <!-- 구성원관리 버튼이벤트, 검색창이벤트 JS -->

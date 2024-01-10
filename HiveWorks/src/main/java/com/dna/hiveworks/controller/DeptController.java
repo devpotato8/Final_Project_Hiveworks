@@ -1,9 +1,15 @@
 package com.dna.hiveworks.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.util.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.service.DeptService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class DeptController {
@@ -208,4 +219,51 @@ public class DeptController {
 	    
 	    return response;
 	}
+	
+	
+	@PostMapping("/deptExcelUpload")
+	public String uploadExcel(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+		try {
+	        // 엑셀 파일 파싱 및 DB 저장 서비스 호출
+	        boolean isSuccessful = service.parseAndSaveExcel(file);
+	        if (isSuccessful) {
+	            redirectAttributes.addFlashAttribute("message", "엑셀 파일 처리 성공");
+	    		return "redirect:/deptview";
+	        } else {
+	            redirectAttributes.addFlashAttribute("message", "엑셀 파일 처리 실패");
+	    		return "redirect:/insertDeptList";
+	        }
+	    } catch (Exception e) {
+	        redirectAttributes.addFlashAttribute("message", "에러 발생: " + e.getMessage());
+	        e.printStackTrace();
+			return "redirect:/insertDeptList";
+	    }
+	}
+	
+	@GetMapping("/sampleDownlaod")
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+		// 서버에 저장된 파일의 경로
+		String realPath = request.getServletContext().getRealPath("/resources/upload/");
+		
+        String fileName = "sampleDept.xlsx";
+		File sample = new File(realPath+fileName);
+
+        try (FileInputStream fileInputStream = new FileInputStream(sample);
+             OutputStream output = response.getOutputStream()) {
+            response.reset();
+            response.setContentType("application/vnd.ms-excel");
+            URLEncoder encoder = new URLEncoder();
+            response.setHeader("Content-Disposition", "attachment; filename=" +  encoder.encode(fileName, StandardCharsets.UTF_8));
+
+            byte[] buffer = new byte[1024];
+            int b;
+
+            while ((b = fileInputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, b);
+            }
+
+            output.flush();
+        }
+    }
 }

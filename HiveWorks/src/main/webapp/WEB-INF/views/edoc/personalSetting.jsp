@@ -15,7 +15,7 @@
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
 	<div class="hk-pg-body py-0">
-		<div class="fmapp-wrap fmapp-sidebar-toggle">
+		<div class="fmapp-wrap">
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
 			 	<jsp:param value="${currentPage }" name="currentPage"/>
@@ -34,7 +34,7 @@
 								</span>
 							</a>
 						</div>
-						<div class="hk-sidebar-togglable active"></div>
+						<div class="hk-sidebar-togglable"></div>
 					</header>
 					<div class="fm-body">
 						<div data-simplebar class="nicescroll-bar">

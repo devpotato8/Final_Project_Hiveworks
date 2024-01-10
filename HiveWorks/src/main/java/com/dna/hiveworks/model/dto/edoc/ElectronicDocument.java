@@ -45,6 +45,7 @@ public class ElectronicDocument {
 	List<ElectronicDocumentComment> comments;
 	List<ElectronicDocumentHistory> history;
 	List<ElectronicDocumentApproval> approval;
+	List<ElectronicDocumentReference> reference;
 	
 	private int period;
 }

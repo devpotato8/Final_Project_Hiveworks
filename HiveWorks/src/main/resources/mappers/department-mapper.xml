@@ -167,4 +167,14 @@
                             ))
 		order by e.dept_code,e.position_code
  	</select>
+ 	
+ 	<insert id="insertDeptExcel">
+ 		INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{DEPT_UPSTAIR}, #{DEPT_NAME}, #{USE_YN})
+ 	</insert>
+ 	<select id="selectLastDepCode" resultType="java.lang.String">
+ 		SELECT 'DEP' || TO_CHAR(SEQ_DEPT_CODE.CURRVAL) FROM DUAL
+ 	</select>
+ 	<select id="selectDeptCodeByName" resultType="string">
+    SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{DEPT_NAME}
+</select>
 </mapper>
