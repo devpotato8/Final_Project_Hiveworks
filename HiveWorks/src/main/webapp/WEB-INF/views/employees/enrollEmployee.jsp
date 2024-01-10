@@ -13,6 +13,70 @@
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<style>
+/*the container must be positioned relative:*/
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: MediumSeaGreen;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: MediumSeaGreen;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+</style>
+
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Main Content -->
@@ -67,12 +131,15 @@
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">부서명</label>
-													<select id="dept_code">
-														<c:forEach var="p" items="${data.deptList}">
-														<option value="${p.DEPTCODE }"><c:out value="${p.DEPTNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">부서명</label>
+														<select id="dept_code">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.deptList}">
+															<option value="${p.DEPTCODE }"><c:out value="${p.DEPTNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -111,10 +178,10 @@
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">이메일</label>
+													<label class="form-label">이메일</label><br>
 													<input class="form-control" type="hidden" id="emp_email" name="emp_email" value=""/>
-													<input class="form-control" type="text" id="email_id" name="email_id" value=""/>@
-													<input class="form-control" type="text" id="domain-txt" name="email_form" value=""/>
+													<input class="form-control" type="text" id="email_id" name="email_id" value="" style="width:200px; display:inline-block;"/>@
+													<input class="form-control" type="text" id="domain-txt" name="email_form" value="" style="width:200px; display:inline-block;"/>
 													<select id="domain-list">
 														<option value="none">직접 입력</option>
 														<option value="naver.com">naver.com</option>
@@ -167,44 +234,56 @@
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">직위</label>
-													<select id="position_code">
-														<c:forEach var="p" items="${data.positionList}">
-														<option value="${p.POSITIONCODE }"><c:out value="${p.POSITIONNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">직위</label>
+														<select id="position_code" name="position_code">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.positionList}">
+															<option value="${p.POSITIONCODE }"><c:out value="${p.POSITIONNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">직급</label>
-													<select id="job_code">
-														<c:forEach var="p" items="${data.jobList}">
-														<option value="${p.JOBCODE }"><c:out value="${p.JOBNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">직급</label><br>
+														<select id="job_code" name="job_code">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.jobList}">
+															<option value="${p.JOBCODE }"><c:out value="${p.JOBNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">근로상태</label>
-													<select id="work_status">
-														<c:forEach var="p" items="${data.workStatusList}">
-														<option value="${p.WORKSTATUSCODE }"><c:out value="${p.WORKSTATUSNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">근로상태</label>
+														<select id="work_status" name="work_status">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.workStatusList}">
+															<option value="${p.WORKSTATUSCODE }"><c:out value="${p.WORKSTATUSNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">근로형태</label>
-													<select id="work_pattern">
-														<c:forEach var="p" items="${data.workPatternList}">
-														<option value="${p.WORKPATTERNCODE }"><c:out value="${p.WORKPATTERNNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">근로형태</label>
+														<select id="work_pattern" name="work_pattern">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.workPatternList}">
+															<option value="${p.WORKPATTERNCODE }"><c:out value="${p.WORKPATTERNNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -212,12 +291,12 @@
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label class="form-label">주소</label><br>
-													<input type="hidden" id="emp_address" name="emp_address"/>
-													<input type="text" id="sample6_postcode" placeholder="우편번호">
-													<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-													<input type="text" id="sample6_address" placeholder="주소">
-													<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-													<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+													<input class="form-control" type="hidden" id="emp_address" name="emp_address"/>
+													<input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호" style="width:200px; display: inline-block;">
+													<input type="button" class="btn btn-soft-primary btn-file mb-1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+													<input class="form-control" type="text" id="sample6_address" placeholder="주소" style="width:500px;">
+													<input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:500px;">
+													<input class="form-control" type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 												
 												</div>
 											</div>
@@ -225,17 +304,30 @@
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
+													<label class="form-label">주민번호</label>
+													<input class="form-control" type="text" id="emp_resident_no" name="emp_resident_no" 
+													onkeyup="fn_auto_hypen(event);fn_auto_birthdate(event,birth);" placeholder="123456-1234567" maxlength="14"/>
+												</div>
+											</div>
+										</div>
+										<script>
+											let fn_auto_hypen=(e)=>{
+												e.target.value = e.target.value
+												.replace(/[^0-9]/g, '')
+												.replace(/^(\d{0,6})(\d{0,7})$/g, '$1-$2')
+												.replace(/-{1,2}$/g, '');	
+											};
+										
+										</script>
+										
+ 										<!-- <div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
 													<label class="form-label">생년월일</label>
 													<input class="form-control" type="text" value=""/>
 												</div>
 											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">주민번호</label>
-													<input class="form-control" type="number" id="emp_resident_no" name="emp_resident_no" value=""/>
-												</div>
-											</div>
-										</div>
+										</div> -->
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
@@ -243,10 +335,7 @@
 														<label class="form-label">기타메모</label>
 														<small class="text-muted">1200</small>
 													</div>
-													<textarea class="form-control" rows="8" placeholder="Write an internal note"></textarea>
-													<small class="form-text text-muted">
-														Brief bio about yourself. This will be displayed on your profile page.
-													</small>
+													<textarea class="form-control" rows="8" placeholder="특이사항이 있다면 입력해 주세요." style="resize:none;"></textarea>
 												</div>
 											</div>
 										</div>
@@ -358,7 +447,86 @@
         }).open();
     }
 	</script>
-	
+	<script>
+var x, i, j, l, ll, selElmnt, a, b, c;
+/*look for any elements with the class "custom-select":*/
+x = document.getElementsByClassName("custom-select");
+l = x.length;
+for (i = 0; i < l; i++) {
+  selElmnt = x[i].getElementsByTagName("select")[0];
+  ll = selElmnt.length;
+  /*for each element, create a new DIV that will act as the selected item:*/
+  a = document.createElement("DIV");
+  a.setAttribute("class", "select-selected");
+  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  x[i].appendChild(a);
+  /*for each element, create a new DIV that will contain the option list:*/
+  b = document.createElement("DIV");
+  b.setAttribute("class", "select-items select-hide");
+  for (j = 1; j < ll; j++) {
+    /*for each option in the original select element,
+    create a new DIV that will act as an option item:*/
+    c = document.createElement("DIV");
+    c.innerHTML = selElmnt.options[j].innerHTML;
+    c.addEventListener("click", function(e) {
+        /*when an item is clicked, update the original select box,
+        and the selected item:*/
+        var y, i, k, s, h, sl, yl;
+        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+        sl = s.length;
+        h = this.parentNode.previousSibling;
+        for (i = 0; i < sl; i++) {
+          if (s.options[i].innerHTML == this.innerHTML) {
+            s.selectedIndex = i;
+            h.innerHTML = this.innerHTML;
+            y = this.parentNode.getElementsByClassName("same-as-selected");
+            yl = y.length;
+            for (k = 0; k < yl; k++) {
+              y[k].removeAttribute("class");
+            }
+            this.setAttribute("class", "same-as-selected");
+            break;
+          }
+        }
+        h.click();
+    });
+    b.appendChild(c);
+  }
+  x[i].appendChild(b);
+  a.addEventListener("click", function(e) {
+      /*when the select box is clicked, close any other select boxes,
+      and open/close the current select box:*/
+      e.stopPropagation();
+      closeAllSelect(this);
+      this.nextSibling.classList.toggle("select-hide");
+      this.classList.toggle("select-arrow-active");
+    });
+}
+function closeAllSelect(elmnt) {
+  /*a function that will close all select boxes in the document,
+  except the current select box:*/
+  var x, y, i, xl, yl, arrNo = [];
+  x = document.getElementsByClassName("select-items");
+  y = document.getElementsByClassName("select-selected");
+  xl = x.length;
+  yl = y.length;
+  for (i = 0; i < yl; i++) {
+    if (elmnt == y[i]) {
+      arrNo.push(i)
+    } else {
+      y[i].classList.remove("select-arrow-active");
+    }
+  }
+  for (i = 0; i < xl; i++) {
+    if (arrNo.indexOf(i)) {
+      x[i].classList.add("select-hide");
+    }
+  }
+}
+/*if the user clicks anywhere outside the select box,
+then close all select boxes:*/
+document.addEventListener("click", closeAllSelect);
+</script>
 	
 			
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

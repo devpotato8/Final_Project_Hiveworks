@@ -89,7 +89,6 @@ public class EmpController {
 		
 				
 		Map<String,List<Map<String,Object>>> data = service.selectDataListForEmployee();
-		System.out.println(data);
 		model.addAttribute("data",data);
 
 		return "employees/enrollEmployee";

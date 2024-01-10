@@ -1,5 +1,6 @@
 package com.dna.hiveworks.model.dto;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
  * - 작성자 : 김태윤, 날짜 : 2023. 12. 28., 설명 : 최초작성
  * - 작성자 : 김태하, 날짜 : 2024. 01. 02., 설명 : 필드수정
  * - 작성자 : 이재연, 날짜 : 2024. 01. 05., 설명 : serialVersionUID 부여
+ * - 작성자 : 김태하, 날짜 : 2024. 01. 10., 설명 : 필드수정/변수타입 변경
  */
 
 @Data
@@ -56,9 +58,16 @@ public class Employee implements UserDetails{
 	private String emp_resident_no;
 	private String emp_birth_date;
 	private String emp_memo;
-	private String emp_hired_date;
-	private String emp_retired_date;
+	private Date emp_hired_date;
+	private Date emp_retired_date;
 	private String use_yn;
+	private String emp_auto_fileName;
+	private String emp_profile_ori_name;
+	private String emp_profile_re_name;
+	private int creater;
+	private Date create_date;
+	private int modifier;
+	private Date modify_date;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
