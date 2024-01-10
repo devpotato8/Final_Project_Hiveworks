@@ -19,6 +19,8 @@ public interface ScheduleService {
 	int updateSchedule(Schedule schdule, List<Integer> empList, int calNo);
 	
 	int deleteSchedule(int calNo);
+	
+	
 
 	//resource
 	int insertResource(Resource resource);
