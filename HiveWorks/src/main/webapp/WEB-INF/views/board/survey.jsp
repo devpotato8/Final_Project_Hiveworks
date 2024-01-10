@@ -12,8 +12,9 @@
 	data-hover="active">
 	<div class="integrations-options-wrap">
 		<select class="form-select">
-			<option selected="">진행중</option>
-			<option value="1">완료</option>
+			<option selected="">전체</option>
+			<option value="1">진행중</option>
+			<option value="2">완료</option>
 		</select> <a
 			class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable flex-shrink-0 d-sm-inline-block d-none"
 			href="#" data-bs-toggle="tooltip" data-bs-placement="top" title=""
@@ -39,16 +40,31 @@
 						<div class="card card-border card-int mb-4">
 							<div class="card-body">
 								<div class="avatar avatar-sm avatar-logo mb-3">
-									<span class="initial-wrap"> 질문1 </span>
+									<span class="initial-wrap">진행중</span>
 								</div>
-								<div class="app-name">Intercom</div>
-								<div class="app-cat">Chat Application</div>
-								<p class="p-sm multine-ellipsis">Venenatis tellus in metus
-									vulputate eu scelerisque felis imperdiet proin. Tortor pretium
-									viverra suspendisse potenti nullam ac tortor vitae.</p>
+								<div class="app-name">제목</div>								
+								<p class="p-sm multine-ellipsis">
+									설문 요약
+								</p>
 							</div>
 							<div class="card-footer justify-content-between border-0">								
-								<a href="#" class="btn btn-sm btn-outline-secondary">Connect</a>
+								<a href="${path}/board/surveying" class="btn btn-sm btn-outline-secondary">설문하기</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xxl-3 col-xl-4 col-md-6">
+						<div class="card card-border card-int mb-4">
+							<div class="card-body">
+								<div class="avatar avatar-sm avatar-logo mb-3">
+									<span class="initial-wrap">완료</span>
+								</div>
+								<div class="app-name">제목</div>								
+								<p class="p-sm multine-ellipsis">
+									설문 요약
+								</p>
+							</div>
+							<div class="card-footer justify-content-between border-0">								
+								<a href="#" class="btn btn-sm btn-outline-secondary">설문하기</a>
 							</div>
 						</div>
 					</div>

@@ -65,6 +65,10 @@ public class BoardController {
 	public String survey() {
 		return "board/survey";
 	}
+	@GetMapping("/surveying")
+	public String surveying() {
+		return "board/surveying";
+	}
 	@GetMapping("/boardWrite")
 	public String boardWrite() {
 	    return "board/boardWrite";
