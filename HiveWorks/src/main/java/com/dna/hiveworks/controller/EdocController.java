@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,4 +194,13 @@ public class EdocController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 		
 	}
+	
+	@GetMapping("/approvalList")
+	public @ResponseBody ResponseEntity<List<Map<String,Object>>> selectEmplyeeInSubDepartmentByDeptCode(@RequestParam String deptCode){
+		System.out.println(deptCode);
+		List<Map<String,Object>> employees = edocService.selectEmployeeInSubDepartmentByDeptCode(deptCode);
+		if(employees == null) employees = new ArrayList<>();
+		return ResponseEntity.status(HttpStatus.OK).body(employees);
+	}
+	
 }

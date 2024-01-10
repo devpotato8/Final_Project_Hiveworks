@@ -36,16 +36,18 @@
 							</span>
 						</th>
 						<th>순번</th>
-						<th>기간</th>
-						<th>신청일</th>
-						<th>종류</th>
-						<th>승인여부</th>
-						<th>Actions</th>
+						<th>출근일자</th>
+						<th>출근시간</th>
+						<th>퇴근시간</th>
+						<th>시간외 근무</th>
+						<th>지각여부</th>
+						<th>조기퇴근여부</th>
+						<th>결근여부</th>
 					</tr>
 				</thead>
 				<tbody>
-					<%-- <c:if test="${not empty  vacations}">
-						<c:forEach var="v" items="${vacations }" varStatus="status">
+					<c:if test="${not empty  workView}">
+						<c:forEach var="w" items="${workView }" varStatus="status">
 							<tr>
 								<td>
 									<div class="form-check">
@@ -60,30 +62,16 @@
 										</div>
 									</div>
 								</td>
-								<td><span class="badge badge-soft-primary my-1  me-2"><c:out value="${v.createDate }"/></span></td>
-								<td><span class="badge badge-soft-violet my-1  me-2"><c:out value="${v.modifyDate }"/></span></td>
-								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${v.vacOption }"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2">승인</span></td>
-								<td>
-									<div class="d-flex align-items-center">
-										<div class="d-flex">
-										 	<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-											data-bs-toggle="tooltip" data-placement="top" title=""	data-bs-original-title="Edit" href="">
-											<span class="icon">
-											<span class="feather-icon"><i data-feather="edit"></i></span>
-											</span></a>
-											
-											<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-											data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Delete" href="">
-											<span	class="icon">
-											<span class="feather-icon"><i data-feather="trash"></i></span>
-											</span></a>
-										</div>
-									</div>
-								</td>
+								<td><span class="badge badge-soft-primary my-1  me-2"><c:out value="${w.workDay }"/></span></td>
+								<td><span class="badge badge-soft-violet my-1  me-2"><c:out value="${w.workStartTime }"/></span></td>
+								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${w.workEndTime }"/></span></td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workPermit }"/></span></td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workLate }"/></span></td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workFastEnd }"/></span></td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workAbsence }"/></span></td>
 							</tr>
 						</c:forEach>
-					</c:if> --%>
+					</c:if>
 				</tbody>
 			</table>
 		</section>

@@ -1,6 +1,7 @@
 package com.dna.hiveworks.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.Employee;
@@ -84,7 +84,16 @@ public class EmpController {
 		return searchEmployee;
 	}
 	
-	
+	@GetMapping("/enrollEmployee")
+	public String enrollEmployee(Model model) {
+		
+				
+		Map<String,List<Map<String,Object>>> data = service.selectDataListForEmployee();
+		System.out.println(data);
+		model.addAttribute("data",data);
+
+		return "employees/enrollEmployee";
+	}
 	
 	
 }

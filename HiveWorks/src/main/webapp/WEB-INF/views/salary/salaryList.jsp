@@ -435,54 +435,23 @@
 													</td>
 													<td><span><c:out value="${s.employee.emp_id }" /></span></td>
 													<td><c:out value="${s.employee.dept_name }" /></td>
+													<td>
+														<c:set var="sal_total" value="${s.sal_base+s.sal_meal+s.sal_bonus+s.position_pay}"/>
+														<c:out value="${sal_total}" />원
+													</td>
+													<td><c:out value="
+														${sal_total - s.sal_actual}" />원</td>
 													<td><c:out value="${s.sal_actual}" />원</td>
-													<td><c:out value="
-														${s.dedution.dedu_emp_insur
-															+s.dedution.dedu_health_insur
-															+s.dedution.dedu_industry_insur
-															+s.dedution.dedu_national_pension
-															+s.dedution.dedu_income_tax
-															+s.dedution.dedu_local_income_tax
-														}
-													" />원</td>
-													<td><c:out value="
-													${s.sal_actual-(s.dedution.dedu_emp_insur
-															+s.dedution.dedu_health_insur
-															+s.dedution.dedu_industry_insur
-															+s.dedution.dedu_national_pension
-															+s.dedution.dedu_income_tax
-															+s.dedution.dedu_local_income_tax)}
-													" />원</td>
 													
 													<td>
 															<div class="d-flex">
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
 													</td>
 												</tr>
 												</c:forEach>
-												<tr>
-													<td></td>
-													<td><a href="#">2023년 12월 27일</a></td>
-													<td><a href="#" class="table-link-text link-high-em">11235</a></td>
-													<td>
-														<div class="text-dark">김철수</div>
-													</td>
-													<td><span>test1234</span></td>
-													<td>마케팅부</td>
-													<td>2,500,000원</td>
-													<td>248,240원</td>
-													<td>2,251,760원</td>
-													<td>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
 												<!-- <tr>
 													<td></td>
 													<td><a href="#" class="table-link-text link-high-em">11235</a></td>
@@ -790,6 +759,16 @@
 		</div>
 		<!-- /Main Content -->
 	</div>
+<script>
+	function fn_delete_confirm(e){
+		
+		if(confirm("정말로 삭제하시겠습니까?")){
+			location.replace("${path}/salary/deleteSalary?sal_no="+e);
+		}else{
+			alert("취소하였습니다.");
+		};
+	};
 
+</script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -27,5 +27,7 @@ public interface EmpService {
 	int deleteEmployee(Employee e);
 	List<Employee> searchEmployeesByKeyword(String keyword);
 	
+	Map<String,List<Map<String,Object>>> selectDataListForEmployee();
+	
 	
 }

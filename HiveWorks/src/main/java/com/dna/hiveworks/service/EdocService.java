@@ -112,4 +112,19 @@ public interface EdocService {
 	 * @return
 	 */
 	ElectronicDocument insertEdoc(ElectronicDocument edoc);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 9. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 결재선 설정시, 결재 부서 선택 했을 때 선택 부서 및 하위 부서에 속한 사원 목록을 가져오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 9., 설명 : 최초 작성
+	 *
+	 * @param deptCode
+	 * @return
+	 */
+	List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(String deptCode);
 }

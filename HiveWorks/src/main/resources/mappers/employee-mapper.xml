@@ -53,4 +53,31 @@
 		</if>
 	</select>
 	
+	<select id="selectDeptList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS deptCode, CODE_NAME AS deptName
+		FROM TBL_CODE WHERE CODE_NO LIKE 'DEP%'
+	</select>
+	
+	<select id="selectPositionList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS positionCode, CODE_NAME AS positionName
+		FROM TBL_CODE WHERE CODE_NO LIKE 'POS%'
+	</select>
+	
+	<select id="selectJobList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS jobCode, CODE_NAME AS jobName
+		FROM TBL_CODE WHERE CODE_NO LIKE 'JOB%'
+	</select>
+	
+	<select id="selectWorkStatusList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS workStatusCode, CODE_NAME AS workStatusName
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOP%'
+	</select>
+	
+	<select id="selectWorkPatternList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS workPatternCode, CODE_NAME AS workPatternName
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOS%'
+	</select>
+	
+	
+	
 </mapper>
