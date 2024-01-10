@@ -3,6 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<!-- Font적용 -->    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+	
+<!-- sweet alert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+	<style>
+		h1{
+			font-family: 'Do Hyeon', sans-serif;
+		}
+		
+	</style>
+
 <c:if test="${errorCode >= 400 && errorCode <= 429}">
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -171,3 +186,24 @@
 			<!-- /Page Body -->
 </c:if>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<script>
+const Toast = Swal.mixin({
+	  toast: true,
+	  position: "top-end",
+	  showConfirmButton: false,
+	  timer: 5000,
+	  timerProgressBar: true,
+	  didOpen: (toast) => {
+	    toast.onmouseenter = Swal.stopTimer;
+	    toast.onmouseleave = Swal.resumeTimer;
+	  }
+	});
+	Toast.fire({
+	  icon: "error",
+	  title: "5초 후, 이전페이지로 이동"
+	}).then((result) => {
+	    if (result.dismiss === Swal.DismissReason.timer) {
+	        window.location.href = '${url}'; // 여기에 원래 페이지의 URL을 넣어주세요.
+	    }
+	});
+</script>
