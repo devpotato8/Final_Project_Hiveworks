@@ -125,6 +125,12 @@ DecoupledEditor
     .catch( error => {
         console.error( error );
     });
+
+/*
+ * Drop Zone 초기화
+ */
+
+
         
 /*
  * 문서종류를 고르면 양식 목록을 가져오는 메소드
@@ -179,10 +185,6 @@ $('#edocFormat').on('change',(e)=>{
 	}
 });
 
-
-
-
-
 function getDeptList(){
 	let rootDeptCode;
 	fetch(path+'/deptlist')
@@ -208,6 +210,8 @@ function getDeptList(){
 					'icon':'fa-solid fa-book-open-reader'
 				}
 			}
+		
+
 		}).bind("select_node.jstree", function (e, data) {
 			let nodeId = data.node.id;
 			loadDeptEmpList(nodeId);
@@ -254,14 +258,71 @@ $('#employeeDeselectAllBtn').on('click',()=>{
 const approvalList = [];
 const referenceList = [];
 
-const isExistInLists = (empNo)=>{
-	return approvalList.some((e)=>e.empNo == empNo)||referenceList.some((e)=>e.empNo == empNo);
-}
-$('#addApprovalList').on('click',(e)=>{});
-$('#removeApprovalList').on('click',(e)=>{});
-$('#addReferenceList').on('click',(e)=>{});
-$('#removeReferenceList').on('click',(e)=>{});
+const $approvalList = $('#approvalList');
+const $referenceList = $('#referenceList');
 
+const isExistInLists = (empNo)=>{
+	const test1 = approvalList.some((e)=>e.aprvlEmpNo == empNo);
+	const test2 = referenceList.some((e)=>e.refperEmpNo == empNo);
+	return test1 || test2;
+}
+
+//현재 로그인 한 사람을 결재라인 처음에 추가
+const fnAddApprovalListLoginEmp = (empNo, deptName, jobName, empName)=>{
+	approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV001',aprvlStatus:'C',aprvlRank:1});
+	$('<option>').val(empNo).text(empName+' ('+deptName+':'+jobName+')').attr('disabled','disabled').appendTo($approvalList);
+}
+
+const fnAddApprovalList = (empNo)=>{
+	if(!isExistInLists(empNo)){
+		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($approvalList);
+		approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV000',aprvlStatus:'P',aprvlRank:1});
+	}else{
+		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
+	}
+}
+
+const fnDelApprovalList = (empNo)=>{
+	approvalList.pop((e)=>e.aprvlEmpNo==empNo);
+	$approvalList.find('option:selected').remove();
+}
+
+const fnAddreferenceList = (empNo)=>{
+	if(!isExistInLists(empNo)){
+		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
+		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
+	}else{
+		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
+	}
+}
+
+const fnDelreferenceList = (empNo)=>{
+	referenceList.pop((e)=>e.refperEmoNo==empNo);
+	$referenceList.find('option:selected').remove();
+}
+
+$('#addApprovalList').on('click',(e)=>{
+	$('#employee-list').val().forEach((v)=>{
+		fnAddApprovalList(v);
+	});
+});
+$('#removeApprovalList').on('click',(e)=>{
+	$approvalList.val().forEach((v)=>{
+		fnDelApprovalList(v);
+	});
+});
+$('#addReferenceList').on('click',(e)=>{
+	$('#employee-list').val().forEach((v)=>{
+		fnAddreferenceList(v);
+	});
+});
+$('#removeReferenceList').on('click',(e)=>{
+	$referenceList.val().forEach((v)=>{
+		fnDelreferenceList(v);
+	});
+});
 
 /*
  * 기안하기 버튼을 눌렀을 때
@@ -270,6 +331,18 @@ $('#removeReferenceList').on('click',(e)=>{});
 $('#submitButton').on('click',()=>{
     // form validate
 
+
+	// 결재목록 처리
+	for (let i = 1; i < approvalList.length; i++) {
+		let element = approvalList[i];
+		element.aprvlRank = i+1;
+		if(i==1){
+			element.aprvlStatus = 'W';
+		}else{
+			element.aprvlStatus = 'P';
+		}
+	}
+
     // 전자문서 객체 생성
 	const edoc  = {
 				edocTitle : $('#edocTitle').val(),
@@ -277,15 +350,37 @@ $('#submitButton').on('click',()=>{
 				edocDsgCode : $('#edocDsgCode').val(),
 				creater : $('#edocCreter').val(),
 				period : $('#period').val(),
-				edocContent : $('#content').html()
+				edocContent : $('#content').html(),
+				approval: approvalList,
+				reference: referenceList
 			};
+	// 첨부파일 등록
+	
+	const fileList = [];
+	
+	let header = {};
+	let body = {};
+
+	if(fileList.length>0){
+		header = {};
+		body = {
+			edoc: JSON.stringify(edoc),
+			files : fileList
+		}
+	}else{
+		header = {
+			"Content-Type": 'application/json'
+		}
+		body = {
+			edoc: JSON.stringify(edoc)
+		}
+	}
+
     // fetch로 전송
 	fetch(path+'/edoc/write',{
 		method : 'post',
-		headers: {
-      		"Content-Type": "application/json",
-    	},
-    	body : JSON.stringify(edoc)
+		headers: header,
+    	body : body
 	})
 	.then(response =>{
 		if(response.status != 200) throw new Error(response.status);

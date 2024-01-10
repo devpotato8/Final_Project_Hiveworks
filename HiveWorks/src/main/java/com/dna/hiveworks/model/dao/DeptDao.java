@@ -33,4 +33,7 @@ public interface DeptDao {
 	String searchDeptName(SqlSession session, String deptCode);
 	List<Employee>searchEmpByName(SqlSession session, String name);
 	int addEmpDept(SqlSession session, Employee emp);
+	void insertDeptExcel(SqlSession session, Map<String,Object>dataMap);
+	String selectLastDepCode(SqlSession session);
+	String selectDeptCodeByName(SqlSession session, String deptName);
 }

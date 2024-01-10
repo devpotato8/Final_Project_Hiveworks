@@ -104,22 +104,39 @@
   		SELECT 'HI-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE '%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
   	</selectKey>
   	INSERT INTO TBL_EDOC VALUES(
-  	#{edocNo},<!-- EDOC_NO -->
-	#{edocDotCode},<!-- EDOC_DOT_CODE -->
-	#{edocTitle},<!-- EDOC_TITLE -->
-	#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
-	#{edocDsgCode},<!-- EDOC_DSG_CODE -->
-	#{edocContent},<!-- EDOC_CONTENT -->
-	null,<!-- EDOC_STARTDATE -->
-	null,<!-- EDOC_ENDDATE -->
-	'DST100',<!-- EDOC_STATUS -->
-	#{creater},<!-- CREATER -->
-	SYSDATE,<!-- CREATE_DATE -->
-	NULL,<!-- MODIFIER -->
-	NULL,<!-- MODIFY_DATE -->
-	DEFAULT,<!-- USE_YN -->
-	NULL<!-- FINALIZED_DATE -->
+	  	#{edocNo},<!-- EDOC_NO -->
+		#{edocDotCode},<!-- EDOC_DOT_CODE -->
+		#{edocTitle},<!-- EDOC_TITLE -->
+		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
+		#{edocDsgCode},<!-- EDOC_DSG_CODE -->
+		#{edocContent},<!-- EDOC_CONTENT -->
+		null,<!-- EDOC_STARTDATE -->
+		null,<!-- EDOC_ENDDATE -->
+		'DST100',<!-- EDOC_STATUS -->
+		#{creater},<!-- CREATER -->
+		SYSDATE,<!-- CREATE_DATE -->
+		NULL,<!-- MODIFIER -->
+		NULL,<!-- MODIFY_DATE -->
+		DEFAULT,<!-- USE_YN -->
+		NULL<!-- FINALIZED_DATE -->
   	)
+  </insert>
+  <insert id="insertEdocApproval" parameterType="list">
+  	INSERT INTO TBL_EDOC_APPROVAL(APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE, APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS) 
+  	VALUES
+  		(
+  			<!-- APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE, APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS -->
+  			SEQ_APRVL_NO.NEXTVAL, #{aprvlEdocNo}, #{aprvlApvCode}, #{aprvlEmpNo}, #{aprvlRank}, #{aprvlStatus}
+  		)
+  </insert>
+  
+  <insert id="insertEdocReference" parameterType="list">
+  	INSERT INTO TBL_EDOC_REFERENCE_PERSON(REFPER_NO, REFPER_EDOC_NO, REFPER_EMP_NO, REFPER_STATUS) 
+	VALUES
+  		(	
+  			<!-- REFPER_NO, REFPER_EDOC_NO, REFPER_EMP_NO, REFPER_STATUS -->
+  			SEQ_REFPER_NO.NEXTVAL, #{refperEdocNo}, #{refperEmpNo}, #{refperStatus}
+  		)
   </insert>
   
 </mapper>

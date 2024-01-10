@@ -15,15 +15,16 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -117,6 +118,8 @@ public class EdocController {
 	@GetMapping("/write")
 	public String writeDocument(Model model, @SessionAttribute Employee loginEmp) {
 		
+		
+		
 		Map<String,Object> emp = edocService.getEmpData(loginEmp.getEmp_no());
 		
 		model.addAttribute("emp",emp);
@@ -155,18 +158,18 @@ public class EdocController {
 	}
 	
 	
-	@PostMapping("/write")
-	public @ResponseBody ResponseEntity<ElectronicDocument> writeEdoc(@RequestBody ElectronicDocument edoc) {
+	@PostMapping(value = "/write", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	public @ResponseBody ResponseEntity<ElectronicDocument> writeEdoc(@RequestPart( required = true) ElectronicDocument edoc, @RequestPart(required = false) List<MultipartFile> files) {
 		
 		System.out.println(edoc);
-		
-		ElectronicDocument result = edocService.insertEdoc(edoc);
-		
-		if(result == null) {
+//		
+//		ElectronicDocument result = edocService.insertEdoc(edoc);
+//		
+//		if(result == null) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-		
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+//		}
+//		
+//		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
 	@PostMapping("/imgupload")
