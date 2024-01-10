@@ -2,15 +2,25 @@ package com.dna.hiveworks.service;
 
 import java.util.List;
 
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 
 public interface ScheduleService {
 	
 	
+	List<Employee> selectEmployeesList();
+	
+	
 	List<Schedule> selectScheduleAll();
 
 	int insertSchedule(Schedule schedule, List<Integer> empList);
+	
+	int updateSchedule(Schedule schdule, List<Integer> empList, int calNo);
+	
+	int deleteSchedule(int calNo);
+	
+	
 
 	//resource
 	int insertResource(Resource resource);

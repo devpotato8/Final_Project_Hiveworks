@@ -26,8 +26,10 @@ import lombok.NoArgsConstructor;
 public class ElectronicDocumentApproval {
 	private long aprvlNo;
 	private String aprvlEdocNo;
-	private long aprvlAprvlRank;
 	private ApvCode aprvlApvCode;
-	private boolean aprvlStatus;
+	private int aprvlEmpNo;
+	private long aprvlRank;
+	private String aprvlStatus;
 	private String aprvlComment;
+	
 }
