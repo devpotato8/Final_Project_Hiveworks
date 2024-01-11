@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.dna.hiveworks.model.dto.Board;
-import com.dna.hiveworks.model.dto.Uploadfile;
+import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Uploadfile;
 
 
 public interface BoardDao {

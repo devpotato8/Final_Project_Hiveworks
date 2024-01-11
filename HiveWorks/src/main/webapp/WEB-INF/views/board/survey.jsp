@@ -11,32 +11,26 @@
 	data-layout-style="collapsed" data-menu="light" data-footer="simple"
 	data-hover="active">
 	<div class="integrations-options-wrap">
-		<select class="form-select">
-			<option selected="">전체</option>
+		<select class="form-select" onchange="javascript:myListener(this);">
+			<option value="0">전체</option>
 			<option value="1">진행중</option>
 			<option value="2">완료</option>
-		</select> <a
-			class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable flex-shrink-0 d-sm-inline-block d-none"
-			href="#" data-bs-toggle="tooltip" data-bs-placement="top" title=""
-			data-bs-original-title="Collapse"> <span class="icon"> <span
-				class="feather-icon"><i data-feather="chevron-up"></i></span> <span
-				class="feather-icon d-none"><i data-feather="chevron-down"></i></span>
-		</span>
-		</a>
+		</select>
+		<a href="${path}/board/surveyWrite" class="btn btn-sm btn-outline-secondary"style="margin-left:650px;">설문등록</a>
 	</div>
 	<div class="hk-sidebar-togglable"></div>
 	</header>
 	<div class="integrations-body">
 		<div data-simplebar class="nicescroll-bar">
 			<div class="container mt-md-7 mt-3">
-				<div
-					class="d-flex flex-md-nowrap flex-wrap align-items-center justify-content-between mb-5">
+				<div class="d-flex flex-md-nowrap flex-wrap align-items-center justify-content-between mb-5">
 					<div>
 						<h5>설문</h5>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xxl-3 col-xl-4 col-md-6">
+					<div class="col-xxl-3 col-xl-4 col-md-6" id="surveyOngoing" style="display: block;">
+						<!-- "전체" 또는 "진행중"이 선택된 경우 표시됨 -->
 						<div class="card card-border card-int mb-4">
 							<div class="card-body">
 								<div class="avatar avatar-sm avatar-logo mb-3">
@@ -52,7 +46,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xxl-3 col-xl-4 col-md-6">
+					<div class="col-xxl-3 col-xl-4 col-md-6" id="surveyCompleted" style="display: block;">
+						<!-- "전체" 또는 "완료"가 선택된 경우 표시됨 -->
 						<div class="card card-border card-int mb-4">
 							<div class="card-body">
 								<div class="avatar avatar-sm avatar-logo mb-3">
@@ -64,7 +59,7 @@
 								</p>
 							</div>
 							<div class="card-footer justify-content-between border-0">								
-								<a href="#" class="btn btn-sm btn-outline-secondary">설문하기</a>
+								<a href="#" class="btn btn-sm btn-outline-secondary" onclick="btn()">설문하기</a>
 							</div>
 						</div>
 					</div>
@@ -73,10 +68,29 @@
 		</div>
 	</div>
 </div>
-</div>
-</div>
-</div>
-</div>
+<script>
+	function myListener(selectedValue) {
+		var ongoingSurvey = document.getElementById("surveyOngoing");
+		var completedSurvey = document.getElementById("surveyCompleted");
+
+		if (selectedValue.value === "0") {
+			ongoingSurvey.style.display = "block";
+			completedSurvey.style.display = "block";
+		} else if (selectedValue.value === "1") {
+			ongoingSurvey.style.display = "block";
+			completedSurvey.style.display = "none";
+		} else if (selectedValue.value === "2") {
+			ongoingSurvey.style.display = "none";
+			completedSurvey.style.display = "block";
+		}
+	}
+</script>
+
+<script>
+function btn(){
+    alert('이미 완료된 설문입니다.');
+}
+</script>
 <!-- /Page Body -->
 </div>
 <!-- /Main Content -->

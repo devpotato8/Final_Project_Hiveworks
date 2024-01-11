@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.BoardDao;
-import com.dna.hiveworks.model.dto.Board;
-import com.dna.hiveworks.model.dto.Uploadfile;
+import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Uploadfile;
 
 import lombok.extern.slf4j.Slf4j;
 

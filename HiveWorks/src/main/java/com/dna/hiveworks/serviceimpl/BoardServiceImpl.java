@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.BoardDao;
-import com.dna.hiveworks.model.dto.Board;
+import com.dna.hiveworks.model.dto.board.Board;
 import com.dna.hiveworks.service.BoardService;
 
 import lombok.RequiredArgsConstructor;

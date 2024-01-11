@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.dna.hiveworks.model.dto.Board;
-import com.dna.hiveworks.model.dto.Uploadfile;
+import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Uploadfile;
 import com.dna.hiveworks.service.BoardService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -68,6 +68,10 @@ public class BoardController {
 	@GetMapping("/surveying")
 	public String surveying() {
 		return "board/surveying";
+	}
+	@GetMapping("/surveyWrite")
+	public String surveyWrite() {
+		return "board/surveyWrite";
 	}
 	@GetMapping("/boardWrite")
 	public String boardWrite() {

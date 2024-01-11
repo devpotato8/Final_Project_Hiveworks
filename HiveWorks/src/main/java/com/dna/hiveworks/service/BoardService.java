@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.dna.hiveworks.model.dto.Board;
+import com.dna.hiveworks.model.dto.board.Board;
 
 public interface BoardService {
 
