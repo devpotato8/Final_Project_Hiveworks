@@ -25,10 +25,14 @@ import com.dna.hiveworks.model.dto.Employee;
 @Repository
 public class EmpDaoImpl implements EmpDao {
 
-	
 	@Override
 	public Employee selectEmployeeById(SqlSession session, String empId) {
 		return session.selectOne("employee.selectEmployeeById",empId);
+	}
+
+	@Override
+	public Employee selectEmployeeByEmpNo(SqlSession session, int empNo) {
+		return session.selectOne("employee.selectEmployeeByEmpNo",empNo);
 	}
 
 	@Override

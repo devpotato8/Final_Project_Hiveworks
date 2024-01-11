@@ -22,6 +22,8 @@ public interface EmpDao {
 	
 	Employee selectEmployeeById(SqlSession session, String empId);
 	
+	Employee selectEmployeeByEmpNo(SqlSession session, int empNo);
+	
 	List<Employee> selectEmployeesListAll(SqlSession session);
 	
 	int insertEmployee(SqlSession session,Employee e);

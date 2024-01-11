@@ -32,10 +32,17 @@ public class EmpServiceImpl implements EmpService {
 	private final EmpDaoImpl dao;
 	private final SqlSession session;
 	
+	
 	@Override
 	public Employee selectEmployeeById(String empId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	@Override
+	public Employee selectEmployeeByEmpNo(int empNo) {
+		return dao.selectEmployeeByEmpNo(session, empNo);
 	}
 
 	@Override
@@ -95,6 +102,7 @@ public class EmpServiceImpl implements EmpService {
 		return data;
 		
 	}
+
 	
 	
 	

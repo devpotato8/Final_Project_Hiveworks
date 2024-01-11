@@ -109,7 +109,7 @@ input::-webkit-inner-spin-button {
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post" enctype="multipart/form-data">
+									<form action="#" method="post" enctype="multipart/form-data">
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
@@ -136,63 +136,39 @@ input::-webkit-inner-spin-button {
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*아이디</label>
-													<input class="form-control" type="text" id="emp_id" name="emp_id" value="" required="required"/>
+													<label class="form-label">아이디</label>
+													<input class="form-control" type="text" id="emp_id" name="emp_id" value="${employee.emp_id}" readonly="readonly"/>
 													<div id="idMessage"></div>
-													<button type="button" onclick="fn_idDuplicate();" class="btn btn-soft-primary btn-file mb-1" >중복확인</button>
-												</div>
-											</div>
-										</div>
-										<script>
-											fn_idDuplicate=()=>{
-												let value=document.getElementById('emp_id').value;
-												let $message = document.getElementById('idMessage');
-												
-												$.ajax({
-													url:"${path}/employees/searchEmployeeId",
-													data:{emp_id:value},
-													success:data=>{
-														$message.innerHTML = data;
-													}
-												})
-												
-											}
-										</script>
-										<div class="row gx-3">
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">*비밀번호</label>
-													<input class="form-control" type="password" id="emp_pw" name="emp_pw" value="" min="8" maxlength="25" required="required" />
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">*비밀번호확인</label>
-													<input class="form-control" type="password" id="emp_pw_check" name="emp_pw_check" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
-													<div id="pwMessage"></div>
 												</div>
 											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*성함</label>
-													<input class="form-control" type="text" id="emp_name" name="emp_name" value="" required="required"/>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">*입사일</label>
-													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="" required="required"/>
+													<label class="form-label">사원번호</label>
+													<input class="form-control" type="text" id="emp_no" name="emp_no" value="${employee.emp_no}" readonly="readonly"/>
 												</div>
 											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*주민번호</label>
-													<input class="form-control" type="text" id="emp_resident_no" name="emp_resident_no" 
-													onkeyup="fn_auto_hypen_resident(event);fn_auto_birthdate(event,birth);" placeholder="123456-1234567" maxlength="14" required="required"/>
+													<label class="form-label">성함</label>
+													<input class="form-control" type="text" id="emp_name" name="emp_name" value="${employee.emp_name}" required="required"/>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">입사일</label>
+													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="${employee.emp_hired_date}" required="required"/>
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">주민번호</label>
+													<input class="form-control" type="text" id="emp_resident_no" name="emp_resident_no" value="${employee.emp_resident_no }"  required="required"/>
 												</div>
 											</div>
 										</div>
@@ -209,13 +185,13 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">사내전화</label>
-													<input class="form-control" type="text" id="emp_phone" onkeyup="fn_auto_hypen_phone(event);" name="emp_phone" value="" maxlength="13"/>
+													<input class="form-control" type="text" id="emp_phone" name="emp_phone" value="${employee.emp_phone}" readonly="readonly"/>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*핸드폰번호</label>
-													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" onkeyup="fn_auto_hypen_cellPhone(event);" value="" required="required"/>
+													<label class="form-label">핸드폰번호</label>
+													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" value="${employee.emp_cellphone}" readonly="readonly"/>
 												</div>
 											</div>
 										</div>
@@ -223,7 +199,6 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">이메일</label><br>
-													<input class="form-control" type="hidden" id="emp_email" name="emp_email" value=""/>
 													<input class="form-control" type="text" id="email_id" name="email_id" value="" style="width:200px; display:inline-block;"/>@
 													<input class="form-control" type="text" id="domain-txt" name="email_form" value="" style="width:200px; display:inline-block;"/>
 													<select id="domain-list">
@@ -625,32 +600,5 @@ document.addEventListener("click", closeAllSelect);
 	    domainInputEl.disabled = false
 	  }
 	});
-</script>
-<script>
-//비밀번호 정규표현식
-//영문 숫자 조합 8자리 이상
-let reg_ver1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-//영문 숫자 특수기호 조합 8자리 이상
-let reg_ver2 = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
-
-let pw_first = document.getElementById('emp_pw');
-let pw_second = document.getElementById('emp_pw_check');
-let pw_message = document.getElementById('pwMessage');
-let msg = "";
-
-fn_check_password=()=>{
-	if(!reg_ver1.test(pw_first.value)){
-		msg = "숫자와 영문자 조합으로 8~25자리를 사용해야 합니다.";
-		pw_message.innerHTML = msg;
-	}else{
-		if(pw_first.value!==pw_second.value){
-			msg = "비밀번호가 서로 달라요!";
-			pw_message.innerHTML = msg;
-		}else{
-			msg = "비밀번호가 일치합니다!";
-			pw_message.innerHTML = msg;
-		}
-	}
-}
 </script>		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

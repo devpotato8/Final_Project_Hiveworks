@@ -114,37 +114,38 @@ public class EmpController {
 	public String enrollEmployeeEnd(Model model, Employee emp,
 			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id, String email_form) {
 		
-//		String path = session.getServletContext().getRealPath("/resources/upload/profile");
-//		
-//		System.out.println("path : " +path);
-//		
-//		File folder =  new File(path);
-//		
-//		if(!folder.exists()) {
-//			try {
-//				folder.mkdir();
-//			}catch(Exception e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
-//		if(upFile!=null && !upFile.isEmpty()) {
-//			String oriName = upFile.getOriginalFilename();
-//			String ext = oriName.substring(oriName.lastIndexOf("."));
-//			Date today = new Date(System.currentTimeMillis());
-//			int randomNum = (int)(Math.random()*10000)+1;
-//			String reName = "HIVEWORKS_"+(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(today))+"_"+randomNum+ext;
-//			
-//			try {
-//				upFile.transferTo(new File(path,reName));
-//					emp.setEmp_profile_ori_name(oriName);
-//					emp.setEmp_profile_re_name(reName);
-//			}catch(IOException e){
-//				e.printStackTrace();
-//			}
-//			
-//		}
+		String path = session.getServletContext().getRealPath("/resources/upload/profile");
+		
+		System.out.println("path : " +path);
+		System.out.println("UPFILE : "+upFile);
+		
+		File folder =  new File(path);
+		
+		if(!folder.exists()) {
+			try {
+				folder.mkdir();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		if(upFile!=null && !upFile.isEmpty()) {
+			String oriName = upFile.getOriginalFilename();
+			String ext = oriName.substring(oriName.lastIndexOf("."));
+			Date today = new Date(System.currentTimeMillis());
+			int randomNum = (int)(Math.random()*10000)+1;
+			String reName = "HIVEWORKS_"+(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(today))+"_"+randomNum+ext;
+			
+			try {
+				upFile.transferTo(new File(path,reName));
+					emp.setEmp_profile_ori_name(oriName);
+					emp.setEmp_profile_re_name(reName);
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+			
+		}
 
 		String empEmail = email_id+"@"+email_form;
 		emp.setEmp_email(empEmail);
@@ -165,7 +166,7 @@ public class EmpController {
 
 		}catch(RuntimeException e) {
 			msg="직원 등록 실패";
-			loc="employees/employeeList";
+			loc="employees/enrollEmployee";
 //			File delFile = new File(path,emp.getEmp_profile_re_name());
 //			delFile.delete();
 		}
@@ -194,6 +195,18 @@ public class EmpController {
 		
 		return msg;
 	}
+	
+	@GetMapping("/employeeDetail")
+	public String employeeDetail(Model model, int no) {
+		
+		Employee employee = service.selectEmployeeByEmpNo(no);
+
+		model.addAttribute("employee", employee);
+		
+		return "employees/employeeDetail";
+	}
+	
+	
 	
 	
 }

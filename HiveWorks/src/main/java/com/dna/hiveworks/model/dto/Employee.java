@@ -54,7 +54,7 @@ public class Employee implements UserDetails{
 	private String emp_phone;
 	private String emp_cellphone;
 	private String emp_email;
-	private String emp_postCode;
+	private String emp_postcode;
 	private String emp_address;
 	private String emp_address_detail;
 	private String emp_resident_no;
