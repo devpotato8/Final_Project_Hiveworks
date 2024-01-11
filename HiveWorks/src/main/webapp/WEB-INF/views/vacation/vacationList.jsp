@@ -37,24 +37,18 @@
 														
 														<div class="row">
 															<div class="col-lg-3">
-																<div class="card board-card card-border">
+																<div class="card text-white bg-blue">
 																	<div class="card-body">
-																		<div class="media align-items-center">
-																			<div class="media-body">
-																				<span>연차</span>
-																			</div>
+																		<div class="align-items-center">
+																			<div>연차</div>
 																		</div>
 																	</div>
-																	<div class="card-footer text-muted justify-content-between">
-																		<div>
-																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">1일</span>
-																				</div>
-																			</div>
+																	<div class="card-footer justify-content-between">
+																		<div  >
+																				<p class="card-text">1일</p>
 																		</div>
 																		<div class="d-flex align-items-center">
-																			<button class="btn btn-flush-dark btn-animated" name="vacOption" id="연차" value="연차">신청하기</button>
+																			<button class="btn btn-white" name="vacOption" id="연차" value="연차">신청하기</button>
 																		</div>
 																	</div>
 																</div>
@@ -71,8 +65,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">0.5일</span>
+																				<div class="" >
+																					<span class="">0.5일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -94,8 +88,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">1일</span>
+																				<div  >
+																					<span >1일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -117,8 +111,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">1일</span>
+																				<div  >
+																					<span >1일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -146,8 +140,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">5일</span>
+																				<div  >
+																					<span >5일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -171,8 +165,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">3일</span>
+																				<div  >
+																					<span >3일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -196,8 +190,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">3일</span>
+																				<div  >
+																					<span >3일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -221,8 +215,8 @@
 																	<div class="card-footer text-muted justify-content-between">
 																		<div>
 																			<div class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-																				<div class="avatar avatar-blue avatar-rounded" >
-																					<span class="initial-wrap">1일</span>
+																				<div  >
+																					<span >1일</span>
 																				</div>
 																			</div>
 																		</div>
@@ -278,43 +272,18 @@
                 
                 <div class="labelBox" id="timeLabelBox">
                 	<label>
-                        <div>시작시간</div>
-                         <select class="form-select" name="startTime" id="startTime">
-                                    <option value="09:00:00.0">09:00</option>
-                                    <option value="10:00:00.0">10:00</option>
-                                    <option value="11:00:00.0">11:00</option>
-                                    <option value="12:00:00.0">12:00</option>
-                                    <option value="13:00:00.0">13:00</option>
-                                    <option value="14:00:00.0">14:00</option>
-                                    <option value="15:00:00.0">15:00</option>
-                                    <option value="16:00:00.0">16:00</option>
-                                    <option value="17:00:00.0">17:00</option>
-                                    <option value="18:00:00.0">18:00</option>
-                                    <option value="19:00:00.0">19:00</option>
-                                    <option value="20:00:00.0">20:00</option>
-                                    <option value="21:00:00.0">21:00</option>
-                                    <option value="22:00:00.0">22:00</option>
-                             </select>
+                        <div>오전/오후</div>
+	                        <select class="form-select" name="dayAndAfter" id="dayAndAfter">
+                                  <option value="오전">오전</option>
+                                  <option value="오후">오후</option>
+	                        </select>
                     </label>
-                    <label>
-                        <div>종료시간</div>
-                         <select class="form-select" name="endTime" id="endTime">
-                                    <!-- <option value="09:00:00.0">09:00</option> -->
-                                    <option value="09:00:00.0">09:00</option>
-                                    <option value="10:00:00.0">10:00</option>
-                                    <option value="11:00:00.0">11:00</option>
-                                    <option value="12:00:00.0">12:00</option>
-                                    <option value="13:00:00.0">13:00</option>
-                                    <option value="14:00:00.0">14:00</option>
-                                    <option value="15:00:00.0">15:00</option>
-                                    <option value="16:00:00.0">16:00</option>
-                                    <option value="17:00:00.0">17:00</option>
-                                    <option value="18:00:00.0">18:00</option>
-                                    <option value="19:00:00.0">19:00</option>
-                                    <option value="20:00:00.0">20:00</option>
-                                    <option value="21:00:00.0">21:00</option>
-                                    <option value="22:00:00.0">22:00</option>
-                             </select>
+                	<label>
+                        <div>시작시간</div>
+	                        <select class="form-select" name="startTime" id="startTime">
+                                 <option value="09:00:00.0">09:00</option>
+                                 <option value="14:00:00.0">14:00</option>
+	                        </select>
                     </label>
                 </div>
                 
@@ -732,6 +701,11 @@
 		}
 		.labelBox>label>div{
 			color: var(--navy);
+		}
+		
+		/* 휴가수 */
+		.initial-wrap{
+			background-color: color: var(--navy);
 		}
 </style>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

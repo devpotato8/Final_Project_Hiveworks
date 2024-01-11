@@ -1,32 +1,38 @@
 package com.dna.hiveworks.controller;
 
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-/**
- * @author : 강진하
- * @since : 2023. 12. 28.
- * Description : 휴가컨트롤러
- * 
- * History :
- * - 작성자 : 강진하, 날짜 : 2023. 12. 28., 설명 : 최초작성
- * 
- */
+
+import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.service.MypageService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class MypageController {
 	
+	private final MypageService service;
+	
 	@GetMapping("myprofile")
-	public String myprofile() {
-		return "mypage/mypage";
+	public String myprofile(Model m) {
+		int empNo = 1;
+		Employee employee = service.selectMyInfo(empNo);
+		m.addAttribute("employee", employee);
+		return "mypage/myprofile";
 	}
 	@GetMapping("myvacation")
 	public String myvacation() {
 		return "mypage/myvacation";
 	}
 	@GetMapping("editmyprofile")
-	public String editmyprofile() {
+	public String editmyprofile(Model m) {
+		int empNo = 1;
+		Employee employee = service.selectMyInfo(empNo);
+		m.addAttribute("employee", employee);
 		return "mypage/editmyprofile";
 	}
 	
