@@ -8,8 +8,8 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.Employee" alias="employee"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Schedule" alias="schedule"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Department" alias="department"/>
-		<typeAlias type="com.dna.hiveworks.model.dto.Board" alias="board"/>
-		<typeAlias type="com.dna.hiveworks.model.dto.Uploadfile" alias="uploadfile"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.board.Board" alias="board"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.board.Uploadfile" alias="uploadfile"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.Salary" alias="salary"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.Dedution" alias="dedution"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Vacation" alias="vacation"/>
@@ -24,6 +24,7 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.Resource" alias="resource"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample" alias="edocSample"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.InvitationEmp" alias="InvitationEmp"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.board.Survey" alias="survey"/>
 	</typeAliases>
 	
 	<typeHandlers>

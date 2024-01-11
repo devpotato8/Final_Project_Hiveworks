@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.model.dto.board.Uploadfile;
 import com.dna.hiveworks.service.BoardService;
 
@@ -52,7 +53,7 @@ public class BoardController {
 	    model.addAttribute("boardList", boardList);
 	    return "board/board";
 	}
-
+	
 	@GetMapping("/suggestions")
 	public String suggestions() {
 		return "board/suggestions";
@@ -60,18 +61,6 @@ public class BoardController {
 	@GetMapping("/blind")
 	public String blind() {
 		return "board/blind";
-	}
-	@GetMapping("/survey")
-	public String survey() {
-		return "board/survey";
-	}
-	@GetMapping("/surveying")
-	public String surveying() {
-		return "board/surveying";
-	}
-	@GetMapping("/surveyWrite")
-	public String surveyWrite() {
-		return "board/surveyWrite";
 	}
 	@GetMapping("/boardWrite")
 	public String boardWrite() {
@@ -233,6 +222,7 @@ public class BoardController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 		
 	}
+	
 
 	
 }

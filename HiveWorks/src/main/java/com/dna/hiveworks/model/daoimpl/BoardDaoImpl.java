@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.model.dto.board.Uploadfile;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,4 +41,5 @@ public class BoardDaoImpl implements BoardDao{
 		log.debug("Inserting upload file: {}", uploadfile);
 		return session.insert("board.insertUploadfile",uploadfile);
 	}
+	
 }

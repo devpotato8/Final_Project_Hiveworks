@@ -36,7 +36,10 @@
 								<div class="avatar avatar-sm avatar-logo mb-3">
 									<span class="initial-wrap">진행중</span>
 								</div>
-								<div class="app-name">제목</div>								
+								<c:forEach var="s" items="${surveyList}">
+									<c:out value="${s.surveyNo }"/>
+									<div class="app-name"><c:out value="${s.surveyTitle }"/></div>								
+								</c:forEach>	
 								<p class="p-sm multine-ellipsis">
 									설문 요약
 								</p>
