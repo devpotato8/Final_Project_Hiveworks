@@ -35,6 +35,7 @@ public interface EmpDao {
 	List<Map<String,Object>> selectJobList(SqlSession session);
 	List<Map<String,Object>> selectWorkStatusList(SqlSession session);
 	List<Map<String,Object>> selectWorkPatternList(SqlSession session);
+	List<Map<String,Object>> selectWorkTypeList(SqlSession session);
 
 	int insertAccount(SqlSession session, Account ac);
 	int updateAccount(SqlSession session, Account ac);

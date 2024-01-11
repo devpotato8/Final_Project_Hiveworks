@@ -24,9 +24,7 @@ import com.dna.hiveworks.model.dto.Employee;
 
 @Repository
 public class EmpDaoImpl implements EmpDao {
-	
-	@Autowired
-	private SqlSession session;
+
 	
 	@Override
 	public Employee selectEmployeeById(SqlSession session, String empId) {
@@ -41,6 +39,8 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int insertEmployee(SqlSession session, Employee e) {
+		System.out.println(e);
+		
 		return session.insert("employee.insertEmployee", e);
 	}
 
@@ -89,6 +89,11 @@ public class EmpDaoImpl implements EmpDao {
 	public List<Map<String, Object>> selectWorkPatternList(SqlSession session) {
 		// TODO Auto-generated method stub
 		return session.selectList("employee.selectWorkPatternList");
+	}
+	
+	public List<Map<String, Object>> selectWorkTypeList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectWorkTypeList");
 	}
 
 	@Override

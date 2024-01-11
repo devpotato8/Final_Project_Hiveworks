@@ -109,7 +109,7 @@ input::-webkit-inner-spin-button {
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post">
+									<form action="${path }/employees/enrollEmployeeEnd.do" method="post" enctype="multipart/form-data">
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
@@ -122,7 +122,7 @@ input::-webkit-inner-spin-button {
 														<div class="media-body">
 															<div class="btn btn-soft-primary btn-file mb-1">
 																사진 등록
-																<input type="file" class="upload" id="emp_profile_ori_name" name="emp_profile_ori_name" onchange="fn_change_file();" accept="image/*">
+																<input type="file" class="upload" id="emp_profile_ori_name" onchange="fn_change_file();" accept="image/*">
 															</div>
 															<div class="form-text text-muted">
 																 이미지 크기 450px x 450px. 최대 5mb.
@@ -137,11 +137,11 @@ input::-webkit-inner-spin-button {
 																	let reader = new FileReader();
 																	reader.onload = function(e){
 																		let imageContainer = document.getElementById('imgContainer');
-																		
 																		let img = document.createElement('img');
 																		img.src = e.target.result;
 																		img.alt = '프로필 사진';
 																		img.style.maxWidth = '150px';
+																		img.name = 'upFile';
 																		
 																		imageContainer.innerHTML = '';
 																		imageContainer.appendChild(img);
@@ -241,7 +241,7 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*입사일</label>
-													<input class="form-control" type="date" id="emp_hired_date" name="emp_hire_date" value="" required="required"/>
+													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -294,50 +294,13 @@ input::-webkit-inner-spin-button {
 													</select>
 												</div>
 											</div>
-										</div>
-										<script>
-										// 도메인 직접 입력 or domain option 선택
-										const domainListEl = document.querySelector('#domain-list')
-										const domainInputEl = document.querySelector('#domain-txt')
-										// select 옵션 변경 시
-										domainListEl.addEventListener('change', (event) => {
-										  // option에 있는 도메인 선택 시
-										  if(event.target.value !== "none") {
-										    // 선택한 도메인을 input에 입력하고 disabled
-										    domainInputEl.value = event.target.value
-										    domainInputEl.disabled = true
-										  } else { 
-											// 직접 입력 시
-										    // input 내용 초기화 & 입력 가능하도록 변경
-										    domainInputEl.value = ""
-										    domainInputEl.disabled = false
-										  }
-										});
-										
-										let $email = document.getElementById('emp_email');
-										let $emailId = document.getElementById('email_id');
-										
-										$emailId.addEventListener('submit',(event)=>{
-											
-											$email.value= event.target.value +"@"+ domainInputEl.value;
-										});
-										
-										
-										let $address = document.getElementById('sample6_address');
-										$address.addEventListener('submit',(event)=>{
-										let $empAddress = document.getElementById('emp_address');
-										let $detailAddress = document.getElementById('sample6_detailAddress');
-											
-											$empAddress.value = event.target.value+" "+$detailAddress.value;
-										});
-
-										</script>			
+										</div>			
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
 													<div class="custom-select" style="width:200px;">
 														<label class="form-label">부서명</label>
-														<select id="dept_code">
+														<select id="dept_code" name="dept_code">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.deptList}">
 															<option value="${p.DEPTCODE }"><c:out value="${p.DEPTNAME }"/></option>
@@ -402,16 +365,28 @@ input::-webkit-inner-spin-button {
 													</div>
 												</div>
 											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">*근무유형</label>
+														<select id="work_type_code" name="work_type_code" required="required">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.workTypeList}">
+															<option value="${p.WORKTYPECODE }"><c:out value="${p.WORKTYPENAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
+											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label class="form-label">주소</label><br>
-													<input class="form-control" type="hidden" id="emp_address" name="emp_address"/>
-													<input class="form-control" type="text" id="sample6_postcode" placeholder="우편번호" style="width:200px; display: inline-block;">
+													<input class="form-control" type="text" id="sample6_postcode" name="emp_postcode"  placeholder="우편번호" style="width:200px; display: inline-block;">
 													<input type="button" class="btn btn-soft-primary btn-file mb-1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-													<input class="form-control" type="text" id="sample6_address" placeholder="주소" style="width:500px;">
-													<input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:500px;">
+													<input class="form-control" type="text" id="sample6_address" name="emp_address" placeholder="주소" style="width:500px;">
+													<input class="form-control" type="text" id="sample6_detailAddress" name="emp_address_detail" placeholder="상세주소" style="width:500px;">
 													<input class="form-control" type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 												
 												</div>
@@ -424,7 +399,7 @@ input::-webkit-inner-spin-button {
 														<label class="form-label">기타메모</label>
 														<small class="text-muted">1200</small>
 													</div>
-													<textarea class="form-control" rows="8" placeholder="특이사항이 있다면 입력해 주세요." style="resize:none;"></textarea>
+													<textarea class="form-control" id="emp_memo" name="emp_memo" rows="8" placeholder="특이사항이 있다면 입력해 주세요." style="resize:none;"></textarea>
 												</div>
 											</div>
 										</div>
@@ -663,6 +638,24 @@ function closeAllSelect(elmnt) {
 then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
 </script>
-	
-			
+<script>
+// 이메일 도메인 자동부여
+// 도메인 직접 입력 or domain option 선택
+	const domainListEl = document.querySelector('#domain-list')
+	const domainInputEl = document.querySelector('#domain-txt')
+	// select 옵션 변경 시
+	domainListEl.addEventListener('change', (event) => {
+	  // option에 있는 도메인 선택 시
+	  if(event.target.value !== "none") {
+	    // 선택한 도메인을 input에 입력하고 disabled
+	    domainInputEl.value = event.target.value
+	    domainInputEl.disabled = true
+	  } else { 
+		// 직접 입력 시
+	    // input 내용 초기화 & 입력 가능하도록 변경
+	    domainInputEl.value = ""
+	    domainInputEl.disabled = false
+	  }
+	});
+</script>		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
