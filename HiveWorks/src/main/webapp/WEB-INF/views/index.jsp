@@ -72,12 +72,11 @@
 						<div></div>
 						<div>
 							<div class="d-flex flex-column align-items-center clockAndCheck">
-								<div class="btn btn-block" >출퇴근을 눌러주세요 😊</div>
-								<div class="btn btn-block" id="currentTime" ></div>
-								<input type="hidden" id=workEndTime name="workEndTime" value=""/>
+								<div class="btn-block" >출퇴근을 눌러주세요 😊</div>
+								<div class="btn-block" id="currentTime" ></div>
 							</div>
 							<div class="button-container d-flex justify-content-center mt-3">
-								<form action="${path}/work/insertStartWork" method="post">
+								<form action="${path}/work/updateStartWork" method="post">
 									<input class="btn btn-flush-light btn-animated" type="submit" value="출근하기"/>
 									<input type="hidden" id="workStartTime" name="workStartTime" value=""/>
 								</form>
@@ -87,12 +86,14 @@
 								</form>
 							</div>
 							<div class="SEWork">
-								<c:if test="${not empty commute }">
+								<c:if test="${not empty commute.workStartTime }">
 									<fmt:formatDate value="${commute.workStartTime}" pattern="HH:mm:ss" var="workStartTime" />
-									<fmt:formatDate value="${commute.workEndTime}" pattern="HH:mm:ss" var="workEndTime" />
-	        						<p>출근시간 - ${workStartTime}</p> <!-- 포맷팅된 날짜와 시간을 출력 -->
-	        						<p>퇴근시간 - ${workEndTime }</p>
+	        						<div class="btn-block" style="background-color: #f1c40f">출근시간 - ${workStartTime}</div> <!-- 포맷팅된 날짜와 시간을 출력 -->
 								</c:if>
+								<c:if test="${not empty commute.workEndTime }">
+									<fmt:formatDate value="${commute.workEndTime}" pattern="HH:mm:ss" var="workEndTime" />
+	        						<div class="btn-block" style="background-color: #f1c40f">퇴근시간 - ${workEndTime }</div>
+	        					</c:if>
 							</div>
 						</div>
 					</div>
@@ -254,10 +255,17 @@ button{
 	border-radius: 5px;
 	padding: 11px;
 }
+.btn-block{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	height: 40px;
+}
 .SEWork{ 
 	margin-top: 20px;
 	background-color: white; 
-	color: var(--navy);
+	color: white;
 	display: flex;
 	flex-direction:column;
 	font-size: 16px;
@@ -446,9 +454,12 @@ let weatherIcon = {
 	  };
 const API_KEY = "99aa7d857c4cc6f52aeccac6d088bed1";
 
-function onGeoOk(position) {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
+/* function onGeoOk(position) { */
+function onGeoOk() {
+    /* const lat = position.coords.latitude;
+    const lon = position.coords.longitude; */
+    const lat = "37.5185379872086";
+    const lon = "126.91496951410905";
     const url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY + "&units=metric";
     fetch(url)
         .then((response) => response.json())
@@ -468,13 +479,14 @@ function onGeoOk(position) {
             
         });
 }
+onGeoOk();
 
-function onGeoError() {
+/* function onGeoError() {
     alert("위치정보를 찾을 수 없습니다.")
     
-}
+} */
 
-navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
+/* navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError); */
 
 </script>
 <script>

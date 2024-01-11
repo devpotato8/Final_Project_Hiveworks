@@ -28,6 +28,10 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentComment" alias="edocComment"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentHistory" alias="edocHistory"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference" alias="edocReference"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Account" alias="account"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.InvitationEmp" alias="InvitationEmp"/>
+		
+		
 	</typeAliases>
 	
 	<typeHandlers>

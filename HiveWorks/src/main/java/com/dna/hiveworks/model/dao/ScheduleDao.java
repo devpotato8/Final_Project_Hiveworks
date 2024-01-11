@@ -4,14 +4,27 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 
 public interface ScheduleDao {
 	
+	List<Employee> selectEmployeesList(SqlSession session);
+	
 	int insertSchedule(SqlSession session, Schedule schedule);
 	
+	//일정 변경
+	int updateSchedule(SqlSession session, Schedule schedule, int calNo);
+	
+	int deleteInvitaion(SqlSession session, int calNo);
+	
+	int updateInvitaion(SqlSession session, List<Integer> reempList, int calNo);
+	
+	
 	int insertInvitation(SqlSession session, List<Integer> empList);
+	
+	int deleteSchedule(SqlSession session, int calNo);
 	
 	List<Schedule> selectScheduleAll(SqlSession session);
 	
