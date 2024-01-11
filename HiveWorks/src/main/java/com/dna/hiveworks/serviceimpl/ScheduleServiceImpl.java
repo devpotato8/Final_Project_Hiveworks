@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.ScheduleService;
@@ -40,7 +41,45 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return scheduleResult;
 	}
 
-	
+	@Override
+	public int updateSchedule(Schedule schedule, List<Integer> empList, int calNo) {
+		int scheduleUpdate = dao.updateSchedule(session, schedule, calNo);
+
+		if (empList.size() > 0) {
+			int deleteInvi = dao.deleteInvitaion(session, calNo); // delete지만 useYn을 n으로
+			if (deleteInvi > 0) {
+				int updateInvi = dao.updateInvitaion(session, empList, calNo);
+
+				if (updateInvi == 0) {
+					throw new RuntimeException("일정 수정 실패");
+				}
+			}
+		} else {
+			throw new RuntimeException("일정 수정 실패");
+		}
+
+		return scheduleUpdate;
+	}
+
+	@Override
+	public int deleteSchedule(int calNo) {
+		int scheduleDelete = dao.deleteSchedule(session, calNo);
+		if(scheduleDelete > 0) {
+			int deleteInvi = dao.deleteInvitaion(session, calNo);
+			if(deleteInvi == 0) {
+				throw new RuntimeException("일정 삭제 실패");
+			}
+		}else{
+	        throw new RuntimeException("일정 삭제 실패");
+		}
+		return scheduleDelete;
+	}
+
+	@Override
+	public List<Employee> selectEmployeesList() {
+		return dao.selectEmployeesList(session);
+	}
+
 	@Override
 	public List<Schedule> selectScheduleAll() {
 		return dao.selectScheduleAll(session);

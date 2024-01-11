@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 @AllArgsConstructor
 public class ViewController {
@@ -55,5 +54,10 @@ public class ViewController {
 	@GetMapping("/insertDeptList")
 	public String insertDeptExcel(){
 		return "department/deptExcelUpload";
+	}
+	
+	@GetMapping("/messageview")
+	public String messageView() {
+		return "message/message";
 	}
 }

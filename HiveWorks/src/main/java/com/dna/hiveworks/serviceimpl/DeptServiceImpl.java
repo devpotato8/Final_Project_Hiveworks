@@ -113,7 +113,9 @@ public class DeptServiceImpl implements DeptService {
 		int result = dao.addEmpDept(session,emp);
 		return result;
 	}
-
+	
+	
+	//조직도 엑셀 일괄 업로드
 	@Override
 	public boolean parseAndSaveExcel(MultipartFile file) throws IOException {
 		
@@ -141,7 +143,7 @@ public class DeptServiceImpl implements DeptService {
 	                
 	                if (cell != null && !cell.getStringCellValue().isEmpty()) {
 	                    String deptName = cell.getStringCellValue(); //셀에서 부서이름을 가져온다.
-	                    String deptCode = dao.selectDeptCodeByName(session, deptName); //부서이름으로 기존에 있는 부서인지 확인한다.
+	                    String deptCode = dao.selectDeptCodeByName(session, deptName); //부서이름으로 기존에 있는 부서이면 code를 가져온다.
 	                    
 	                    // 부서이름이 없는 부서라면 새로 생성한다.
 	                    if (deptCode == null || deptName.isEmpty()) { 
