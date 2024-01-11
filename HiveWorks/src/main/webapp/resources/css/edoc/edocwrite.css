@@ -170,6 +170,19 @@
         margin-right: calc( 2 * var(--ck-spacing-large) );
     }
 
+    .approval-direction{
+        height: 125px;
+        padding-top: 25px;
+        margin-top: 5px;
+        background: url(../../img/approvaldirection.png) 0 0 no-repeat;
+        float: right;
+        width: 35px;
+        text-align: center;
+        font-size: 11px;
+        color: #939baa;
+        line-height: 1.5;
+    }
+
     @media only screen and (max-width: 960px) {
         /* Because on mobile 2cm paddings are to big. */
         .editor-editable-container .editor-editable.ck-editor__editable {
