@@ -126,12 +126,7 @@ DecoupledEditor
         console.error( error );
     });
 
-/*
- * Drop Zone 초기화
- */
 
-
-        
 /*
  * 문서종류를 고르면 양식 목록을 가져오는 메소드
  */
@@ -173,7 +168,6 @@ $('#edocFormat').on('change',(e)=>{
 			return response.json();
 		})
 		.then(data=>{
-			console.log(data);
 			document.getElementById('content').ckeditorInstance.data.set(data.sampleContent);
             dotCode = data.sampleDotCode;
             formatNo = data.sampleNo;
@@ -328,7 +322,13 @@ $('#removeReferenceList').on('click',(e)=>{
  * 기안하기 버튼을 눌렀을 때
  */
 
-$('#submitButton').on('click',()=>{
+$('#submitButton').on('click',(e)=>{
+
+	const $btn = e.target;
+
+	$btn.disabled = true;
+	$($btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>전송중');
+
     // form validate
 
 
@@ -356,44 +356,43 @@ $('#submitButton').on('click',()=>{
 			};
 	// 첨부파일 등록
 	
-	const fileList = [];
+	const fileList = document.querySelector('#file').files;
 	
-	let header = {};
-	let body = {};
+	const formData = new FormData();
 
-	if(fileList.length>0){
-		header = {};
-		body = {
-			edoc: JSON.stringify(edoc),
-			files : fileList
-		}
-	}else{
-		header = {
-			"Content-Type": 'application/json'
-		}
-		body = {
-			edoc: JSON.stringify(edoc)
+	formData.append("edoc",JSON.stringify(edoc));
+
+	if(fileList.length > 0){
+		for(let i=0; i< fileList.length; i++){
+			formData.append("uploadFiles",fileList[i]);
 		}
 	}
-
+	
     // fetch로 전송
 	fetch(path+'/edoc/write',{
 		method : 'post',
-		headers: header,
-    	body : body
+    	body : formData
 	})
 	.then(response =>{
-		if(response.status != 200) throw new Error(response.status);
+		if(response.status != 200) throw new Error(response.error);
 		return response.json();
 	})
 	.then(data=>{
-		alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
-		location.replace(path+"/edoc/lists/process");
+		if(data.status != 200){
+			alert(data.status+"\n"+data.error);
+			
+		}else{
+			alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
+			location.replace(path+"/edoc/lists/process");
+		}
 	})
 	.catch(e=>{
 		alert(e);
 		console.log(e);
-	})
+	}).finally(()=>{
+		$btn.disabled = false;
+		$($btn).html('기안하기');
+	});
 });
 
 

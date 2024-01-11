@@ -48,15 +48,17 @@
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="cloud_doc">
-										<div class="table-responsive">
+										<div class="container autograph-setting">
 											<h4>서명 설정</h4>
-											<div class="">
-												<div>
-													<img>
-												</div>
-												<div>
-													<input type="file"/>
-												</div>
+											<div class="current-autograph">
+												<c:choose>
+													<c:when test="${loginEmp.emp_auto_fileName eq null}">
+														<img src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
+													</c:when>
+													<c:otherwise>
+														<img src="${loginEmp.emp_auto_fileName}"/>
+													</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 									</div>

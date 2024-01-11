@@ -183,10 +183,8 @@
 									</div>
 									<!-- 파일 첨부 탭 -->
 									<div class="tab-pane fade" id="attach_file">
-										<div class="file-container dropzone"  id="fileContainer">
-											<div class="fallback">
-												<input type="file" name="file" id="file" multiple />
-											</div>
+										<div class="file-container"  id="fileContainer">
+											<input type="file" name="file" id="file" multiple/>
 										</div>
 									</div>
 								</div>
@@ -220,10 +218,6 @@
 <!-- 체크박스 JS -->
 <script src="${path}/resources/js/checkbox.js"></script>
 
-<!-- DropZone -->
-<script type="text/javascript" src="${path}/resources/vendors/dropzone/dist/dropzone.min.js"></script>
-<link rel="stylesheet" href="${path}/resources/vendors/dropzone/dist/dropzone.min.css"/>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 	
@@ -232,7 +226,6 @@
 <script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
 <script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
 <script>
-Dropzone.autoDiscover = false;
 $(function(){
 	jampack();
 	horizontalMenu();

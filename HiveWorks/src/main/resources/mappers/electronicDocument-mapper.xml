@@ -2,109 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/DTD/mybatis-3-mapper.dtd" >
 <mapper namespace="edoc">
 	<resultMap type="edoc" id="edocMap">
-		<id column="edoc_no" property="edocNo"/>
-		<result column="EDOC_DOT_CODE" property="edocDotCode"/>
-		<result column="EDOC_TITLE" property="edocTitle"/>
-		<result column="EDOC_PRESERVE_PERIOD" property="edocPreservePeriod"/>
-		<result column="EDOC_DSG_CODE" property="edocDsgCode"/>
-		<result column="EDOC_CONTENT" property="edocContent"/>
-		<result column="EDOC_STARTDATE" property="edocStartDate"/>
-		<result column="EDOC_ENDDATE" property="edocEndDate"/>
-		<result column="EDOC_STATUS" property="edocStatus"/>
-		<result column="CREATER" property="creater"/>
-		<result column="CREATE_DATE" property="createDate"/>
-		<result column="FINALIZED_DATE" property="finalizedDate"/>
+		<id column="edoc_no" property="edocNo" />
+		<result column="EDOC_DOT_CODE" property="edocDotCode" />
+		<result column="EDOC_TITLE" property="edocTitle" />
+		<result column="EDOC_PRESERVE_PERIOD" property="edocPreservePeriod" />
+		<result column="EDOC_DSG_CODE" property="edocDsgCode" />
+		<result column="EDOC_CONTENT" property="edocContent" />
+		<result column="EDOC_STARTDATE" property="edocStartDate" />
+		<result column="EDOC_ENDDATE" property="edocEndDate" />
+		<result column="EDOC_STATUS" property="edocStatus" />
+		<result column="CREATER" property="creater" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="FINALIZED_DATE" property="finalizedDate" />
 	</resultMap>
-  <resultMap type="edocList" id="edocListMap">
-  	<result column="edoc_no" property="edocNo"/>
-  	<result column="edoc_title" property="edocTitle"/>
-  	<result column="emp_name" property="empName"/>
-  	<result column="create_date" property="createDate"/>
-  	<result column="finalized_date" property="finalizedDate"/>
-  	<result column="edoc_dot_code" property="edocDotCode"/>
-  	<result column="edoc_status" property="edocStatus"/>
-  </resultMap>
-  <resultMap type="edocSample" id="edocSampleMap">
-  	<id column="sample_no" property="sampleNo"/>
-  	<result column="sample_dot_code" property="sampleDotCode"/>
-  	<result column="SAMPLE_NAME" property="sampleName"/>
-  	<result column="SAMPLE_DESC" property="sampleDesc"/>
-  	<result column="SAMPLE_CONTENT" property="sampleContent" jdbcType="CLOB"/>
-  	<result column="CREATER" property="creater"/>
-  	<result column="CREATE_DATE" property="createDate"/>
-  	<result column="MODIFIER" property="modifier"/>
-  	<result column="MODIFY_DATE" property="modifyDate"/>
-  	<result column="USE_YN" property="useYn"/>
-  </resultMap>
-  
-  <select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
-	SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
-	FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
-                JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
-                JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
-	WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
-    	AND E.EMP_ID = #{emp_id}
-    <if test="status != null">
-    	<choose>
-    		<when test='status.equals("WAIT")'>
-    			AND A.APRVL_STATUS = 'W'
-    		</when>
-    		<when test='status.equals("EXPECT")'>
-    			AND A.APRVL_STATUS = 'P'
-    		</when>
-    		<when test='status.equals("PROCESS")'>
-    			AND A.APRVL_STATUS = 'C'
-    		</when>
-    	</choose>
-    </if>
-  </select>
-  <select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
-	SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.FINALIZED_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
-	FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
-                JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
-                JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
-	WHERE D.USE_YN = 'Y' AND NOT(D.EDOC_STATUS = 'DST100')
-    	AND E.EMP_ID = #{emp_id}
-  </select>
-  
-  <update id="processApprove" parameterType="hashmap" statementType="CALLABLE">
-  	{
-  		CALL PROC_APPROVAL(
-  			#{i_doc_no},
-  			#{i_empid},
-  			#{i_apv_code},
-  			#{i_apv_com},
-  			#{salary,mode=OUT, jdbcType=VARCHAR},
-  			#{o_rtn_msg,mode=OUT, jdbcType=VARCHAR}
-  		)
-  	}
-  </update>
-  
-  <select id="getEmpData" resultType="hashmap" parameterType="int">
-  	SELECT E.EMP_NAME AS EMPNAME, D.DEPT_NAME AS DEPTNAME, C.CODE_NAME AS JOBNAME, E.EMP_NO AS EMPNO
-  	FROM TBL_EMPLOYEE E LEFT JOIN TBL_DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
-  						LEFT JOIN TBL_CODE C ON E.POSITION_CODE = C.CODE_NO
-  	WHERE E.EMP_NO = #{empNo}
-  </select>
-  
-  <select id="getEdocSampleList" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
-  	SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE SAMPLE_DOT_CODE = #{edocDotCode}
-  </select>
-  
-  <select id="getSample" resultMap="edocSampleMap" parameterType="string" >
-  	SELECT * FROM TBL_EDOC_SAMPLE WHERE SAMPLE_NO = #{sampleNo}
-  </select>
-  
-  <select id="getEdoc" resultMap="edocMap" parameterType="string">
-  	SELECT * FROM TBL_EDOC WHERE EDOC_NO = #{edocNo}
-  </select>
-  
-  <insert id="insertEdoc" parameterType="edoc">
-  	<selectKey keyProperty="edocNo" keyColumn="EDOC_NO" resultType="string" order="BEFORE">
-  		SELECT 'HI-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE '%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
-  	</selectKey>
-  	INSERT INTO TBL_EDOC VALUES(
-	  	#{edocNo},<!-- EDOC_NO -->
+	<resultMap type="edocList" id="edocListMap">
+		<result column="edoc_no" property="edocNo" />
+		<result column="edoc_title" property="edocTitle" />
+		<result column="emp_name" property="empName" />
+		<result column="create_date" property="createDate" />
+		<result column="finalized_date" property="finalizedDate" />
+		<result column="edoc_dot_code" property="edocDotCode" />
+		<result column="edoc_status" property="edocStatus" />
+	</resultMap>
+	<resultMap type="edocSample" id="edocSampleMap">
+		<id column="sample_no" property="sampleNo" />
+		<result column="sample_dot_code" property="sampleDotCode" />
+		<result column="SAMPLE_NAME" property="sampleName" />
+		<result column="SAMPLE_DESC" property="sampleDesc" />
+		<result column="SAMPLE_CONTENT" property="sampleContent" jdbcType="CLOB" />
+		<result column="CREATER" property="creater" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFIER" property="modifier" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="USE_YN" property="useYn" />
+	</resultMap>
+
+	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
+		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
+		D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
+		D.EDOC_STATUS) AS EDOC_STATUS
+		FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+		JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+		JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+		WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
+		AND E.EMP_ID = #{emp_id}
+		<if test="status != null">
+			<choose>
+				<when test='status.equals("WAIT")'>
+					AND A.APRVL_STATUS = 'W'
+				</when>
+				<when test='status.equals("EXPECT")'>
+					AND A.APRVL_STATUS = 'P'
+				</when>
+				<when test='status.equals("PROCESS")'>
+					AND A.APRVL_STATUS = 'C'
+				</when>
+			</choose>
+		</if>
+		ORDER BY D.CREATE_DATE
+	</select>
+	<select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
+		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
+		D.FINALIZED_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER,
+		A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
+		FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+		JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+		JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+		WHERE D.USE_YN = 'Y' AND NOT(D.EDOC_STATUS = 'DST100')
+		AND E.EMP_ID = #{emp_id}
+	</select>
+
+	<update id="processApprove" parameterType="hashmap" statementType="CALLABLE">
+		{
+			CALL PROC_APPROVAL(
+			#{i_doc_no},
+			#{i_empid},
+			#{i_apv_code},
+			#{i_apv_com},
+			#{salary,mode=OUT, jdbcType=VARCHAR},
+			#{o_rtn_msg,mode=OUT, jdbcType=VARCHAR}
+			)
+		}
+	</update>
+
+	<select id="getEmpData" resultType="hashmap" parameterType="int">
+		SELECT E.EMP_NAME AS EMPNAME, D.DEPT_NAME AS DEPTNAME, C.CODE_NAME AS
+		JOBNAME, E.EMP_NO AS EMPNO
+		FROM TBL_EMPLOYEE E LEFT JOIN TBL_DEPARTMENT D ON E.DEPT_CODE =
+		D.DEPT_CODE
+		LEFT JOIN TBL_CODE C ON E.POSITION_CODE = C.CODE_NO
+		WHERE E.EMP_NO = #{empNo}
+	</select>
+
+	<select id="getEdocSampleList" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
+		SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE SAMPLE_DOT_CODE =
+		#{edocDotCode}
+	</select>
+
+	<select id="getSample" resultMap="edocSampleMap" parameterType="string">
+		SELECT * FROM TBL_EDOC_SAMPLE WHERE SAMPLE_NO = #{sampleNo}
+	</select>
+
+	<select id="getEdoc" resultMap="edocMap" parameterType="string">
+		SELECT * FROM TBL_EDOC WHERE EDOC_NO = #{edocNo}
+	</select>
+
+	<insert id="insertEdoc" parameterType="edoc">
+		<selectKey keyProperty="edocNo" keyColumn="EDOC_NO"
+			resultType="string" order="BEFORE">
+			SELECT 'HI-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select
+			count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE
+			'%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
+		</selectKey>
+		INSERT INTO TBL_EDOC VALUES(
+		#{edocNo},<!-- EDOC_NO -->
 		#{edocDotCode},<!-- EDOC_DOT_CODE -->
 		#{edocTitle},<!-- EDOC_TITLE -->
 		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
@@ -119,24 +130,39 @@
 		NULL,<!-- MODIFY_DATE -->
 		DEFAULT,<!-- USE_YN -->
 		NULL<!-- FINALIZED_DATE -->
-  	)
-  </insert>
-  <insert id="insertEdocApproval" parameterType="list">
-  	INSERT INTO TBL_EDOC_APPROVAL(APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE, APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS) 
-  	VALUES
-  		(
-  			<!-- APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE, APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS -->
-  			SEQ_APRVL_NO.NEXTVAL, #{aprvlEdocNo}, #{aprvlApvCode}, #{aprvlEmpNo}, #{aprvlRank}, #{aprvlStatus}
-  		)
-  </insert>
-  
-  <insert id="insertEdocReference" parameterType="list">
-  	INSERT INTO TBL_EDOC_REFERENCE_PERSON(REFPER_NO, REFPER_EDOC_NO, REFPER_EMP_NO, REFPER_STATUS) 
-	VALUES
-  		(	
-  			<!-- REFPER_NO, REFPER_EDOC_NO, REFPER_EMP_NO, REFPER_STATUS -->
-  			SEQ_REFPER_NO.NEXTVAL, #{refperEdocNo}, #{refperEmpNo}, #{refperStatus}
-  		)
-  </insert>
-  
+		)
+	</insert>
+	<insert id="insertEdocApproval" parameterType="edocApproval">
+		INSERT INTO TBL_EDOC_APPROVAL(APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE,
+		APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS)
+		VALUES
+		(
+		<!-- APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE, APRVL_EMP_NO, APRVL_RANK, 
+			APRVL_STATUS -->
+		SEQ_APRVL_NO.NEXTVAL, #{aprvlEdocNo}, #{aprvlApvCode}, #{aprvlEmpNo},
+		#{aprvlRank}, #{aprvlStatus}
+		)
+	</insert>
+	<insert id="insertEdocReference" parameterType="edocReference">
+		INSERT INTO TBL_EDOC_REFERENCE_PERSON(REFPER_NO, REFPER_EDOC_NO,
+		REFPER_EMP_NO, REFPER_STATUS)
+		VALUES
+		(
+		<!-- REFPER_NO, REFPER_EDOC_NO, REFPER_EMP_NO, REFPER_STATUS -->
+		SEQ_REFPER_NO.NEXTVAL, #{refperEdocNo}, #{refperEmpNo},
+		#{refperStatus}
+		)
+	</insert>
+	<insert id="insertEdocAttachFile" parameterType="edocAttachFile">
+		INSERT INTO TBL_EDOC_ATTACHFILE(ATTACH_NO, ATTACH_EDOC_REF,
+		ATTACH_ORIGINAL_FILENAME, ATTACH_RENAMED_FILENAME, CREATER,
+		MODIFY_DATE)
+		VALUES
+		(
+		<!-- ATTACH_NO, ATTACH_EDOC_REF, ATTACH_ORIGINAL_FILENAME, ATTACH_RENAMED_FILENAME, 
+			CREATER, MODIFY_DATE -->
+		SEQ_ATTACH_NO.NEXTVAL, #{attachEdocRef}, #{attachOriginalFilename},
+		#{attachRenamedFilename}, #{creater}, NULL
+		)
+	</insert>
 </mapper>

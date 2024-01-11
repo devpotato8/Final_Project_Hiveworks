@@ -63,8 +63,8 @@
 									</div>
 								</td>
 								<td><span class="badge badge-soft-primary my-1  me-2"><c:out value="${w.workDay }"/></span></td>
-								<td><span class="badge badge-soft-violet my-1  me-2"><c:out value="${w.workStartTime }"/></span></td>
-								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${w.workEndTime }"/></span></td>
+								<td><span class="badge badge-soft-violet my-1  me-2"><fmt:formatDate value="${w.workStartTime }" pattern="HH:mm:ss"/></span></td>
+								<td><span class="badge badge-soft-danger my-1  me-2"><fmt:formatDate value="${w.workEndTime }" pattern="HH:mm:ss"/></span></td>
 								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workPermit }"/></span></td>
 								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workLate }"/></span></td>
 								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workFastEnd }"/></span></td>

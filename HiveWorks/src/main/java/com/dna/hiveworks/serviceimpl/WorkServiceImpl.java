@@ -1,6 +1,5 @@
 package com.dna.hiveworks.serviceimpl;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.WorkDao;
 import com.dna.hiveworks.model.dto.Work;
-import com.dna.hiveworks.model.dto.WorkRealtime;
 import com.dna.hiveworks.service.WorkService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,11 +18,6 @@ public class WorkServiceImpl implements WorkService {
 	
 	private final SqlSession session;
 	private final WorkDao dao;
-	
-	@Override
-	public int workScheduled() {
-		return dao.workScheduled(session);
-	}
 	
 	@Override
 	public List<Work> selectWorkListAllByEmp() {
@@ -40,21 +33,25 @@ public class WorkServiceImpl implements WorkService {
 
 	@Override
 	@Transactional
-	public int insertWork(int empNo) {
+	public int updateStartWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNo(session, empNo);
-		if (isPresent != null) {
-	        throw new RuntimeException("이미 눌렀습니다.");
+		System.out.println(isPresent);
+		if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+			return dao.updateStartWork(session, empNo);
+	    } else {
+	    	throw new RuntimeException("익셉션");
 	    }
-		return dao.insertWork(session, empNo);
 	}
 
 	@Override
-	public int updateWork(int empNo) {
+	@Transactional
+	public int updateEndWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNoEND(session, empNo);
-		if (isPresent != null) {
-	        throw new RuntimeException("이미 눌렀습니다.");
+		if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+			return dao.updateEndWork(session, empNo);
+	    } else {
+	    	 throw new RuntimeException("익셉션");
 	    }
-		return dao.updateWork(session, empNo);
 	}
 
 	@Override

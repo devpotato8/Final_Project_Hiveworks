@@ -12,11 +12,6 @@ import com.dna.hiveworks.model.dto.Work;
 public class WorkDaoImpl implements WorkDao {
 	
 	@Override
-	public int workScheduled(SqlSession session) {
-		return session.insert("work.workScheduled");
-	}
-
-	@Override
 	public List<Work> selectWorkListAllByEmp(SqlSession session) {
 		// TODO Auto-generated method stub
 		return session.selectList("work.selectWorkListAllByEmp");
@@ -33,13 +28,13 @@ public class WorkDaoImpl implements WorkDao {
 	}
 
 	@Override
-	public int insertWork(SqlSession session, int empNo) {
+	public int updateStartWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.insert("work.insertStartWork", empNo);
+		return session.update("work.updateStartWork", empNo);
 	}
 
 	@Override
-	public int updateWork(SqlSession session, int empNo) {
+	public int updateEndWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
 		return session.update("work.updateEndWork", empNo);
 	}

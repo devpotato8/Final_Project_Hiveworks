@@ -70,7 +70,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											<table id="docTable" class="table nowrap">
+											<table data-order='[[ 4, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
 														<th>문서번호</th>
@@ -123,7 +123,13 @@
 <script src="${path }/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
 <script src="${path }/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 <script src="${path }/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
-<script src="${path }/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script src="${path }/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>
+
+<style>
+	#docTable tbody tr{
+		cursor:pointer;
+	}
+</style>
 <script>
 $('#docTable').DataTable( {
 	scrollX:  true,
@@ -141,5 +147,12 @@ $('#docTable').DataTable( {
 	}
 });
 </script>
-
+<script>
+	$(document).on('click','#docTable tbody tr', (e)=>{
+		e.stopPropagation();
+		const $target = $(e.currentTarget);
+		const edocNo = $target.children().first().text();
+		location.assign('${path}/edoc/read?edocNo='+edocNo);
+	});
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

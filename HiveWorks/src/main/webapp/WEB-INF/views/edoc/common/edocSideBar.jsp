@@ -88,6 +88,7 @@
 			<button type="button" class="btn btn-warning btn-rounded btn-block mb-4" id="btn-write">
 				기안하기
 			</button>
+			<div class="separator separator-light">문서 관리</div>
 			<div class="menu-group">
 				<ul class="nav nav-light navbar-nav flex-column">
 					<li class="nav-item
@@ -144,8 +145,41 @@
 					</li>
 				</ul>
 			</div>
-			<div class="separator separator-light"></div>
-			
+			<c:if  test="${loginEmp.aut_code.equals('AUT001')||loginEmp.aut_code.equals('AUT004')}">
+				<div class="separator separator-light">관리자메뉴</div>
+				<div class="menu-group">
+					<ul class="nav nav-light navbar-nav flex-column">
+						<li class="nav-item
+							<c:if test="${currentPage eq 'format' }">active</c:if> 
+						">
+							<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#edoc_format">
+								<span class="nav-icon-wrap">
+									<i class="icon" data-icon="p"></i>
+								</span>
+								<span class="nav-link-text">문서양식 설정</span>
+								
+							</a>
+							<ul id="edoc_format" class="nav flex-column collapse nav-children">
+								<li class="nav-item">
+									<a class="nav-link" href="${path }/edoc/format/write"><span class="nav-link-text">양식 작성</span></a>
+									<a class="nav-link" href="${path }/edoc/format/lists"><span class="nav-link-text">양식 목록</span></a>
+								</li>	
+							</ul>
+						</li>
+						<li class="nav-item
+							<c:if test="${currentPage eq 'format' }">active</c:if> 
+						">
+							<a class="nav-link" href="javascript:void(0);">
+								<span class="nav-icon-wrap">
+									<span class="feather-icon"><i data-feather="settings"></i></span>
+								</span>
+								<span class="nav-link-text">관리자 설정</span>
+								
+							</a>
+						</li>
+					</ul>
+				</div>
+			</c:if>
 		</div>
 	</div>
 	<div class="fmapp-storage">
@@ -156,7 +190,9 @@
 		<div class="hk-toolbar">
 			<ul class="nav nav-light">
 				<li class="nav-item nav-link">
-					<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Settings" href="${path }/edoc/personalSetting"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
+					<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Settings" href="${path }/edoc/personalSetting">
+						<span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span>
+					</a>
 				</li>
 			</ul>
 		</div>

@@ -9,15 +9,13 @@ import com.dna.hiveworks.model.dto.Work;
 
 public interface WorkDao {
 	
-	int workScheduled(SqlSession session);
-	
 	List<Work> selectWorkListAllByEmp(SqlSession session);
 	
 	String selectWorkByEmpNo(SqlSession session, int empNo);
 	String selectWorkByEmpNoEND(SqlSession session, int empNo);
 	
-	int insertWork(SqlSession session, int empNo);
-	int updateWork(SqlSession session, int empNo);
+	int updateStartWork(SqlSession session, int empNo);
+	int updateEndWork(SqlSession session, int empNo);
 	int deleteWork(SqlSession session, int empNo);
 	
 	Work selectCommute(SqlSession session, int empNo);
