@@ -111,7 +111,7 @@ public interface EdocService {
 	 * @param edoc
 	 * @return
 	 */
-	ElectronicDocument insertEdoc(ElectronicDocument edoc);
+	int insertEdoc(ElectronicDocument edoc);
 
 	/**
 	 * @Author : 이재연 
