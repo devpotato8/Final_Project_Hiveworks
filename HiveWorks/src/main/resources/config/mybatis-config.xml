@@ -23,6 +23,7 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList" alias="edocList"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Resource" alias="resource"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample" alias="edocSample"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Account" alias="account"/>
 	</typeAliases>
 	
 	<typeHandlers>

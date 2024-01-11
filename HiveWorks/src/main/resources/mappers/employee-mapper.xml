@@ -40,7 +40,7 @@
         JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
         JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
 	</select>
-	<select id="searchEmployeesByKeyword" parameterType="string" resultMap="empMap">
+	<select id="searchEmployeesByKeyword" parameterType="hashmap" resultMap="empMap">
 		SELECT D1.*, C.*,C.CODE_NAME AS JOB_NAME, O.CODE_NAME AS POSITION_NAME, E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
         , P.*
         FROM (SELECT * FROM TBL_EMPLOYEE) E
@@ -48,9 +48,12 @@
         JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
         JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
         LEFT JOIN TBL_POSITION_PAY P ON E.POSITION_CODE = P.POS_CODE
-		<if test="keyword !=null and keyword !=''">
-		WHERE E.EMP_NO = #{keyword}
-		</if>
+		
+		<trim prefix="where" prefixOverrides="AND|OR">
+			<if test="type !=null and type !='' and keyword !=null and keyword !=''">
+				E.${type} = #{keyword}
+			</if>
+		</trim>
 	</select>
 	
 	<select id="selectDeptList" parameterType="hashmap" resultType="hashmap">
@@ -78,6 +81,19 @@
 		FROM TBL_CODE WHERE CODE_NO LIKE 'WOS%'
 	</select>
 	
-	
+	<insert id="insertEmployee" parameterType="employee">
+		<selectKey keyProperty="emp_no" keyColumn="EMP_NO" resultType="_int" order="BEFORE">
+			SELECT SEQ_EMP_NO.NEXTVAL AS EMP_NO FROM DUAL
+		</selectKey>
+		INSERT INTO TBL_EMPLOYEE VALUES
+		(SEQ_EMP_NO.NEXTVAL,#{dept_code},#{position_code},#{job_code},#{work_type_code},
+		#{work_status},#{work_pattern},#{aut_code},#{emp_id},#{emp_pw},#{emp_name},#{emp_phone},#{emp_cellphone},#{emp_email},
+		#{emp_address},#{emp_resident_no},#{emp_memo},#{emp_hired_date},#{emp_retired_date},DEFAULT,#{emp_auto_fileName},#{creater},SYSDATE,NULL,NULL,DEFAULT,#{emp_profile_ori_name},#{emp_profile_re_name})
+	</insert>
+	<insert id="insertAccount" parameterType="account">
+		INSERT INTO TBL_ACCOUNT VALUES
+		(#{ac_no},#{emp_no},#{ac_bank},#{ac_name},DEFAULT
+		)
+	</insert>
 	
 </mapper>

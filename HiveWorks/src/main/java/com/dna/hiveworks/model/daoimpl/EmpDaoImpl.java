@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.EmpDao;
+import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 
 /**
@@ -40,7 +41,7 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int insertEmployee(SqlSession session, Employee e) {
-		return 0;
+		return session.insert("employee.insertEmployee", e);
 	}
 
 	@Override
@@ -56,8 +57,8 @@ public class EmpDaoImpl implements EmpDao {
 	}
 
 	@Override
-	public List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword) {
-		return session.selectList("employee.searchEmployeesByKeyword",keyword);
+	public List<Employee> searchEmployeesByKeyword(SqlSession session, Map<String,Object> param) {
+		return session.selectList("employee.searchEmployeesByKeyword",param);
 	}
 
 	@Override
@@ -89,6 +90,26 @@ public class EmpDaoImpl implements EmpDao {
 		// TODO Auto-generated method stub
 		return session.selectList("employee.selectWorkPatternList");
 	}
+
+	@Override
+	public int insertAccount(SqlSession session, Account ac) {
+		// TODO Auto-generated method stub
+		return session.insert("employee.insertAccount",ac);
+	}
+
+	@Override
+	public int updateAccount(SqlSession session, Account ac) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteAccount(SqlSession session, Account ac) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 	
 	
 }
