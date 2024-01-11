@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 
 /**
@@ -21,18 +22,26 @@ public interface EmpDao {
 	
 	Employee selectEmployeeById(SqlSession session, String empId);
 	
+	Employee selectEmployeeByEmpNo(SqlSession session, int empNo);
+	
 	List<Employee> selectEmployeesListAll(SqlSession session);
 	
 	int insertEmployee(SqlSession session,Employee e);
 	int updateEmployee(SqlSession session,Employee e);
 	int deleteEmployee(SqlSession session,Employee e);
 	
-	List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword);
+	List<Employee> searchEmployeesByKeyword(SqlSession session, Map<String,Object> param);
 	
 	List<Map<String,Object>> selectDeptList(SqlSession session);
 	List<Map<String,Object>> selectPositionList(SqlSession session);
 	List<Map<String,Object>> selectJobList(SqlSession session);
 	List<Map<String,Object>> selectWorkStatusList(SqlSession session);
 	List<Map<String,Object>> selectWorkPatternList(SqlSession session);
+	List<Map<String,Object>> selectWorkTypeList(SqlSession session);
 
+	int insertAccount(SqlSession session, Account ac);
+	int updateAccount(SqlSession session, Account ac);
+	int deleteAccount(SqlSession session, Account ac);
+	
+	
 }

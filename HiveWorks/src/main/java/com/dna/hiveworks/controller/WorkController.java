@@ -125,25 +125,18 @@ public class WorkController {
 		return "work/workView";
 	}
 	
-	@PostMapping("insertStartWork")
-	public String insertStartWork(Model m) {
+	@RequestMapping("updateStartWork")
+	public String updateStartWork(Model m) {
 		int empNo = 1;
 		String msg,loc;
 		try {
-			service.insertWork(empNo);
+			service.updateStartWork(empNo);
 			msg = "오늘 하루도 힘내세요! :)";
 			loc = "";
 		} catch (RuntimeException e) {
 			msg = "이미 누르셨습니다 :(";
 			loc = "";
 		}
-//		if(result>0) {
-//			msg = "오늘 하루도 힘내세요! :)";
-//			loc = "";
-//		} else {
-//			msg = "이미 누르셨습니다 :(";
-//			loc = "";
-//		}
 		m.addAttribute("msg", msg);
 		m.addAttribute("loc", loc);
 		return "common/msg";
@@ -154,7 +147,7 @@ public class WorkController {
 		int empNo = 1;
 		String msg,loc;
 		try {
-			service.updateWork(empNo);
+			service.updateEndWork(empNo);
 			msg = "오늘 하루도 고생하셨습니다! :)";
 			loc = "";
 		} catch (RuntimeException e) {
@@ -166,12 +159,6 @@ public class WorkController {
 		return "common/msg";
 	}
 	
-	// 배치처리하기
-//	@Scheduled(cron = "0 5 1 * * * *")
-//	public void workScheduled() {
-//		int result = service.workScheduled();
-//	}
-
 	
 	
 }

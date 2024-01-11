@@ -7,20 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-/**
- * @author : 강진하
- * @since : 2023. 12. 28.
- * Description : 휴가컨트롤러
- * 
- * History :
- * - 작성자 : 강진하, 날짜 : 2023. 12. 28., 설명 : 최초작성
- * 
- */
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.VacationService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 @AllArgsConstructor
 @RequestMapping("/vacation")
@@ -41,16 +35,17 @@ public class VacationController {
 //	}
 	
 	@PostMapping("applyvacation")
-	public String applyVacation(Vacation vacation, Model m) {
+	public String applyVacation(Vacation vacation, Model m, @RequestParam("dayAndAfter") String dayAndAfter) {
 		
 		// 휴가를 신청하면 즉시승인되고 잔여연차가 1 줄어야함
 		if(vacation.getVacOption().equals("반차")) {
 			vacation.setVacCount(0.5);
-			
+			vacation.setVacOption(dayAndAfter+"반차");
+			log.debug(vacation.getVacOption());
 			// 전자문서 insert로직 추가 해야할듯
 			
-			service.insertVacation(vacation);
-			service.updateVacation(vacation.getVacCount());
+//			service.insertVacation(vacation);
+//			service.updateVacation(vacation.getVacCount());
 		} else if(vacation.getVacOption().equals("연차")||vacation.getVacOption().equals("병가")||vacation.getVacOption().equals("공가")) {
 			vacation.setVacCount(1);
 			service.insertVacation(vacation);

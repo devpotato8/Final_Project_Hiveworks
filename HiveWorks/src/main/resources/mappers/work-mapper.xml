@@ -43,35 +43,39 @@
 		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 	
-	<insert id="insertStartWork" parameterType="_int">
-		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',SYSDATE,SYSDATE,NULL,'승인',#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
-	</insert>
 	<select id="selectWorkByEmpNo" parameterType="_int" resultType="String">
-		SELECT WORK_START_TIME FROM TBL_WORK
-		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		SELECT WORK_START_TIME
+		FROM TBL_WORK
 		WHERE EMP_NO = #{empNo}
-		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 	
-	<!-- 배치처리 -->
-	<!-- <insert id="insertStartWork">
-		UPDATE TBL_WORK SET
-		WORK_START_TIME = SYSDATE
-		WHERE EMP_NO = 3
-		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	<select id="selectWorkByEmpNoEND" parameterType="_int" resultType="String">
+		SELECT WORK_END_TIME FROM TBL_WORK
+		WHERE EMP_NO = #{empNo}
+		AND TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<!-- 배치처리하기 전의 출근하기 SQL -->
+	<!-- <insert id="insertStartWork" parameterType="_int">
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',SYSDATE,SYSDATE,NULL,'승인',#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
 	</insert> -->
+	
+	<!-- 배치처리 -->
+	<update id="updateStartWork" parameterType="_int">
+		UPDATE TBL_WORK SET
+		WORK_DAY = SYSDATE,
+		WORK_START_TIME = SYSDATE
+		WHERE EMP_NO = #{empNo}
+		AND TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</update>
+	
 	<update id="updateEndWork" parameterType="_int">
 		UPDATE TBL_WORK SET
 		WORK_END_TIME = SYSDATE
 		WHERE EMP_NO = #{empNo}
 		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</update>
-	<select id="selectWorkByEmpNoEND" parameterType="_int" resultType="String">
-		SELECT WORK_END_TIME FROM TBL_WORK
-		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE EMP_NO = #{empNo}
-		AND TO_CHAR(WORK_DAY, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-	</select>
 	
 	<select id="selectWorkListAllByEmp" resultMap="work.workMap">
 		SELECT * FROM TBL_WORK
@@ -110,5 +114,12 @@
 	<select id="overWork" resultType="_int">
 		
 	</select>
+	
+	<!-- 매일 1시에 근태상태 insert -->
+	<insert id="insertQuartzWork" parameterType="_int">
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',NULL,NULL,NULL,NULL,#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
+	</insert>
+	
+	
 	
 </mapper>

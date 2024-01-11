@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.EmpDao;
+import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 
 /**
@@ -23,13 +24,15 @@ import com.dna.hiveworks.model.dto.Employee;
 
 @Repository
 public class EmpDaoImpl implements EmpDao {
-	
-	@Autowired
-	private SqlSession session;
-	
+
 	@Override
 	public Employee selectEmployeeById(SqlSession session, String empId) {
 		return session.selectOne("employee.selectEmployeeById",empId);
+	}
+
+	@Override
+	public Employee selectEmployeeByEmpNo(SqlSession session, int empNo) {
+		return session.selectOne("employee.selectEmployeeByEmpNo",empNo);
 	}
 
 	@Override
@@ -40,7 +43,9 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int insertEmployee(SqlSession session, Employee e) {
-		return 0;
+		System.out.println(e);
+		
+		return session.insert("employee.insertEmployee", e);
 	}
 
 	@Override
@@ -56,8 +61,8 @@ public class EmpDaoImpl implements EmpDao {
 	}
 
 	@Override
-	public List<Employee> searchEmployeesByKeyword(SqlSession session, String keyword) {
-		return session.selectList("employee.searchEmployeesByKeyword",keyword);
+	public List<Employee> searchEmployeesByKeyword(SqlSession session, Map<String,Object> param) {
+		return session.selectList("employee.searchEmployeesByKeyword",param);
 	}
 
 	@Override
@@ -89,6 +94,31 @@ public class EmpDaoImpl implements EmpDao {
 		// TODO Auto-generated method stub
 		return session.selectList("employee.selectWorkPatternList");
 	}
+	
+	public List<Map<String, Object>> selectWorkTypeList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("employee.selectWorkTypeList");
+	}
+
+	@Override
+	public int insertAccount(SqlSession session, Account ac) {
+		// TODO Auto-generated method stub
+		return session.insert("employee.insertAccount",ac);
+	}
+
+	@Override
+	public int updateAccount(SqlSession session, Account ac) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteAccount(SqlSession session, Account ac) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 	
 	
 }

@@ -759,6 +759,28 @@
 		</div>
 		<!-- /Main Content -->
 	</div>
+	    <!-- /Wrapper -->
+
+	<!-- jQuery -->
+    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+
+    <!-- Fancy Dropdown JS -->
+
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+	
+	<!-- Data Table JS -->
+    <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+     
+	<!-- Init JS -->
+
 <script>
 	function fn_delete_confirm(e){
 		
