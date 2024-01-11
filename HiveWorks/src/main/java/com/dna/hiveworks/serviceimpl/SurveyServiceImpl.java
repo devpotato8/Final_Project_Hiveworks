@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.SurveyDao;
 import com.dna.hiveworks.model.dto.board.Survey;
@@ -28,4 +29,9 @@ public class SurveyServiceImpl implements SurveyService{
 	   public List<Survey> selectAllSurvey() {
 	      return dao.selectAllSurvey(session);
 	   }
+	@Override
+	@Transactional
+	public int insertSurvey(Survey s) {
+		return dao.insertSurvey(session, s);
+	}
 }

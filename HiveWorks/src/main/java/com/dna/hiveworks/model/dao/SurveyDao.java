@@ -11,4 +11,6 @@ public interface SurveyDao {
 	Survey selectSurveyByNo(SqlSession session, int surveyNo);
 
 	List<Survey> selectAllSurvey(SqlSession session);
+
+	int insertSurvey(SqlSession session, Survey s);
 }

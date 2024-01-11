@@ -19,4 +19,7 @@
 	<select id="selectAllSurvey" resultMap="surveyMap">
 		SELECT * FROM TBL_SURVEY
 	</select>
+	<insert id="">
+		INSERT INTO TBL_SURVEY VALUES(SEQ_SURVEY_NO.NEXTVAL,#{surveyTitle},NULL,NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT)
+	</insert>
 </mapper>

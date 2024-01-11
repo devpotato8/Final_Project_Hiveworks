@@ -30,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dna.hiveworks.model.dto.board.Board;
-import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.model.dto.board.Uploadfile;
 import com.dna.hiveworks.service.BoardService;
 

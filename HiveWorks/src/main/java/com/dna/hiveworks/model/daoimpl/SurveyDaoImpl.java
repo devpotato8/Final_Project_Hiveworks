@@ -22,4 +22,8 @@ public class SurveyDaoImpl implements SurveyDao{
 		public List<Survey> selectAllSurvey(SqlSession session) {
 			 return session.selectList("survey.selectAllSurvey");
 		}
+		@Override
+		public int insertSurvey(SqlSession session,Survey s) {
+			return session.insert("survey.insertSurvey");
+		}
 }

@@ -16,7 +16,7 @@
 			<option value="1">진행중</option>
 			<option value="2">완료</option>
 		</select>
-		<a href="${path}/board/surveyWrite" class="btn btn-sm btn-outline-secondary"style="margin-left:650px;">설문등록</a>
+		<a href="${path}/survey/surveyWrite" class="btn btn-sm btn-outline-secondary"style="margin-left:650px;">설문등록</a>
 	</div>
 	<div class="hk-sidebar-togglable"></div>
 	</header>
@@ -45,7 +45,7 @@
 								</p>
 							</div>
 							<div class="card-footer justify-content-between border-0">								
-								<a href="${path}/board/surveying" class="btn btn-sm btn-outline-secondary">설문하기</a>
+								<a href="${path}/survey/surveying" class="btn btn-sm btn-outline-secondary">설문하기</a>
 							</div>
 						</div>
 					</div>

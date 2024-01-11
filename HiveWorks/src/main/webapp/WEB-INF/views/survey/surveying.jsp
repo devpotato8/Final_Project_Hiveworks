@@ -101,7 +101,7 @@
 		<textarea class="form-control" rows="3" placeholder="기타의견사항을 기재해주세요" style="width:550px; resize:none"></textarea>
 	</div>
 	<div>
-		<a href="${path}/board/survey" onclick="btn()">제출하기</a>
+		<a href="${path}/survey/survey" onclick="btn()">제출하기</a>
 	</div>
 	
 </form>
