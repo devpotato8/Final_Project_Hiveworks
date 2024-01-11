@@ -35,7 +35,7 @@ public class SalaryServiceImpl implements SalaryService {
 		
 		int result = dao.insertSalary(session, s);
 		if(result<=0) {
-			new RuntimeException("업데이트 실패");
+			new RuntimeException("등록 실패");
 		}
 		
 		return result;

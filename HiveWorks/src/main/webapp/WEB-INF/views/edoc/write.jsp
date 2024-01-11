@@ -149,7 +149,7 @@
 													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeDeselectAllBtn">선택해제</button>
 												</div>
 											</div>
-											<div class="col-xl-3 d-flex flex-column">
+											<div class="col-xl-4 d-flex flex-column">
 												<label for="approvalList" class="px-10">결재</label>
 												<div class="d-flex flex-row mb-3">
 													<div class="d-flex flex-column justify-content-center">
@@ -159,6 +159,12 @@
 													<div class="container">
 														<select class="form-select" multiple size="5" name="approvalList" id="approvalList">
 														</select>
+													</div>
+													<div class="approval-direction">
+														결<br>
+														재<br>
+														방<br>
+														향<br>
 													</div>
 												</div>
 												<label for="referenceList" class="px-10">참조</label>
@@ -177,7 +183,10 @@
 									</div>
 									<!-- 파일 첨부 탭 -->
 									<div class="tab-pane fade" id="attach_file">
-										<div id="">
+										<div class="file-container dropzone"  id="fileContainer">
+											<div class="fallback">
+												<input type="file" name="file" id="file" multiple />
+											</div>
 										</div>
 									</div>
 								</div>
@@ -211,8 +220,9 @@
 <!-- 체크박스 JS -->
 <script src="${path}/resources/js/checkbox.js"></script>
 
-<!-- 조직도관리 JS -->
-<script src="${path}/resources/js/deptTree.js"></script>
+<!-- DropZone -->
+<script type="text/javascript" src="${path}/resources/vendors/dropzone/dist/dropzone.min.js"></script>
+<link rel="stylesheet" href="${path}/resources/vendors/dropzone/dist/dropzone.min.css"/>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
@@ -222,6 +232,7 @@
 <script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
 <script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
 <script>
+Dropzone.autoDiscover = false;
 $(function(){
 	jampack();
 	horizontalMenu();
@@ -255,6 +266,8 @@ $(function(){
 		 return false;
 	});
 	
+	// 결재목록에 자동으로 자기자신 추가
+	fnAddApprovalListLoginEmp('${emp.EMPNO }', '${emp.DEPTNAME }', '${emp.JOBNAME }', '${emp.EMPNAME }');
 });
 
 </script>

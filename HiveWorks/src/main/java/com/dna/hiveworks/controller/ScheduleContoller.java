@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.Department;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.DeptService;
+import com.dna.hiveworks.service.EmpService;
 import com.dna.hiveworks.service.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
@@ -41,12 +44,16 @@ public class ScheduleContoller {
 	
 	private final DeptService deptservice;
 	
+	private final EmpService empservice; 
+	
 	
 	//일정 조회 페이지 연결
 	@GetMapping("/schedulelist.do")
 	public String scheduleList(Model model) {
 		List<Department> deptList = deptservice.deptListAll();
+		List<Employee> empList = scheduleService.selectEmployeesList();
 		model.addAttribute("deptList", deptList);
+		model.addAttribute("empList",empList);
 		System.out.println(deptList);
 		return "schedule/scheduleList";
 	}
@@ -82,7 +89,7 @@ public class ScheduleContoller {
 			String reminderYn = (String) param.get("reminder");
 			String calAlldayYn = (String) param.get("allday");
 			String calStatus = (String) param.get("status");
-			String empNo = (String)param.get("empno");
+			int empNo = Integer.parseInt((String) param.get("empno"));
 			List<String> empStrList = (List<String>)param.get("empList");
 			List<Integer> empList = new ArrayList<>();
 			if(empStrList.size() > 0) {    
@@ -107,7 +114,9 @@ public class ScheduleContoller {
 					.reminderYn(reminderYn)
 					.calAlldayYn(calAlldayYn)
 					.calStatus(calStatus)
-					.empNo(empNo)
+					.myEmpNo(empNo)
+					.creater(empNo)
+					.modifier(empNo)
 					.build();
 
 			result = scheduleService.insertSchedule(schedule, empList);
@@ -116,6 +125,98 @@ public class ScheduleContoller {
 					: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 			
 		}
+		
+		//일정 수정
+		@PostMapping("/updateschedule")
+		public String updateSchedule(@RequestParam Map<String, Object> param, Model model) {
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+			
+			int result = 0;
+			
+			int calNo = Integer.parseInt((String) param.get("recalno"));
+			String calSubject = (String) param.get("retitle");
+			String startDateString = (String) param.get("trstart");
+			String endDateString = (String) param.get("reend");
+			String calCode = (String) param.get("code");
+			String calColor = null;
+				if(calCode == "CAL001") calColor = "#FF1F1F";
+				if(calCode == "CAL002") calColor = "#00AD14";
+				if(calCode == "CAL003") calColor = "#000000";
+			String calContent = (String) param.get("recontent");
+			String reminderYn = (String) param.get("rereminder");
+			String calAlldayYn = (String) param.get("reallday");
+			String calStatus = (String) param.get("restatus");
+			int reempNo = Integer.parseInt((String) param.get("reempno"));
+			List<String> recalEmps = (List<String>) param.get("recalEmp");
+			List<Integer> empList = new ArrayList<>();
+
+			for(String reemp : recalEmps) {
+				if (!reemp.isEmpty()) {  // emp가 빈 문자열이 아닌 경우에만 parseInt 실행
+		            int reempInt = Integer.parseInt(reemp);
+		            empList.add(reempInt);
+		        }
+		    }
+			
+
+			Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+			Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
+
+			Schedule schedule = Schedule.builder()
+					.myEmpNo(reempNo)
+					.calSubject(calSubject)
+					.calStartDate(calStartDate)
+					.calEndDate(calEndDate)
+					.calCode(calCode)
+					.calColor(calColor)
+					.calContent(calContent)
+					.reminderYn(reminderYn)
+					.calAlldayYn(calAlldayYn)
+					.calStatus(calStatus)
+					.modifier(reempNo)
+					.build();
+					
+
+			
+			System.out.println(schedule);
+			
+			result=scheduleService.updateSchedule(schedule,empList,calNo);
+			
+			String msg, loc;
+			if(result>0) {
+				msg="수정성공";
+				loc="schedule/reservationlist.do";
+			}else {
+				msg="수정실패";
+				loc="schedule/reservationlist.do";
+			}
+			
+			model.addAttribute("msg",msg);
+			model.addAttribute("loc",loc);
+			
+			
+			return "schedule/msg";
+		}
+		
+	//일정 삭제
+	@DeleteMapping("/deleteschedule")
+	public String deleteSchedule(@RequestParam Map<String, Object> param, Model model) {
+		int calNo = Integer.parseInt((String)param.get("calNo"));
+		int result = scheduleService.deleteSchedule(calNo);
+		String msg, loc;
+		if(result>0) {
+			msg="삭제성공";
+			loc="schedule/reservationlist.do";
+		}else {
+			msg="삭제실패";
+			loc="schedule/reservationlist.do";
+		}
+		
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+		
+		
+		return "schedule/msg";
+	}
 	
 	
 	//프로젝트 조회

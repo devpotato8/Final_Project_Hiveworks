@@ -97,7 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					async: false, //동기
 					success: function(data) {
 						
-						var events = data.map(function(event) {
+						var events = data.map(function(event,i) {
+							/*var yourEmpNoList = event.invitationEmpList
+						    var yourEmpNameList = event.yourEmpNameList // yourEmpName을 쉼표(,)로 분리하여 리스트로 만듭니다.
+						    var yourDeptNameList = event.yourDeptNameList // yourDeptName을 쉼표(,)로 분리하여 리스트로 만듭니다.*/
 							return {
 								id: event.calNo,
 								title: event.calSubject,
@@ -106,19 +109,20 @@ document.addEventListener('DOMContentLoaded', function() {
 								backgroundColor: event.calColor,
 								extendedProps: {
 	                                content: event.calContent,   // 추가
-	                                empName: event.calEmpName,// 추가
+	                                myEmpNo: event.myEmpNo,// 추가
+	                                invitationEmpList: event.invitationEmpList,
 	                                calCode: event.calCode,//추가
 	                                important: event.calImportYn,
 	                                status: event.calStatus,
 	                                reminder: event.reminderYn,
 	                                allday: event.calAlldayYn
+	                                
                               }
 
 								
 							};
 						});
 						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
-						console.log(content);
 							console.log(events);
 						
 						 
@@ -142,6 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			eventClick: function(info) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
+				
+				//수정 모달창에 hidden 값 넣어주기
+				$('#recalNo').val(targetE.calNo);
 				
 					function formatDate(date) {
 						  var formattedDate = new Date(date);
@@ -189,9 +196,154 @@ document.addEventListener('DOMContentLoaded', function() {
 					$('#viewContainer').find('.event-reminder').html(reminderval);
 					
 					
+					const invitationEmpList = targetE.extendedProps.invitationEmpList;
+					$("#inviteContainer>div").first().remove();
+					var existingContainer = document.getElementById("someContainer1");
+					existingContainer.innerHTML = '';
+					$(".reInviContainer>div").first().remove();
+					
+
+						
+						//조회 모달 list만큼 만들어주기
+						for (var i = 0; i < invitationEmpList.length; i++) {
+					    var YourEmpNo = invitationEmpList[i].YourEmpNo;
+					    var YourEmpName = invitationEmpList[i].yourEmpName;
+					    var YourDeptName = invitationEmpList[i].YourDeptName;
+					    var YourDeptCode = invitationEmpList[i].YourDeptCode;
+					    
+						    var invicon = document.createElement("div");
+							invicon.classList.add("d-flex", "flex-wrap");
+							
+							var div = document.createElement("div");
+							div.classList.add("chip", "chip-primary", "user-chip", "mb-2", "me-2");
+							
+							var span1 = document.createElement("span");
+							span1.classList.add("avatar");
+							
+							var span2 = document.createElement("span");
+							span2.classList.add("chip-text");
+							span2.innerText = YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
+							
+							var span3 = document.createElement("span");
+							span3.appendChild(span1);
+							span3.appendChild(span2);
+							
+							div.appendChild(span3);
+							
+							
+							existingContainer.appendChild(invicon);
+							invicon.appendChild(div);
+							
+						 
+						 
+							//수정 모달 list만큼 만들어주기
+						    let reInviContainer = document.createElement('div');
+						    reInviContainer.className = 'reinvicontainer'+(i + 1);
+						    reInviContainer.style.display = 'flex';
+						    reInviContainer.style.paddingTop = '5px';
+						    reInviContainer.style.paddingBottom = '5px';
+						
+						    let deptContainer = document.createElement('div');
+						    deptContainer.className = 'col-sm-5';
+						    let empContainer = document.createElement('div');
+						    empContainer.className = 'col-sm-5';
+						
+						    let deptSelect = document.createElement('select');
+						    deptSelect.className = 'form-select me-3';
+						    deptSelect.name = 'recalDept';
+						    deptSelect.id = 'recalDept' + (i + 1);
+						
+						    let empSelect = document.createElement('select');
+						    empSelect.className = 'form-select me-3';
+						    empSelect.name = 'recalEmp';
+						    empSelect.id = 'recalEmp' + (i + 1);
+						    
+						    
+						    // Set the selected value of the select elements
+							
+							for (var j = 0; j < deptCodes.length; j++) {
+						    let deptOption = document.createElement('option');
+						    deptOption.value = deptCodes[j];
+						    deptOption.text = deptNames[j];
+						    
+						    
+						    // 선택된 부서 이름이 deptList[i]와 일치하면 selected 속성을 true로 설정합니다.
+						    if (deptNames[j] === YourDeptName) { // YourDeptName은 선택되어야 하는 부서의 이름입니다.
+						        deptOption.selected = true;
+						    	}
+						    	deptSelect.appendChild(deptOption);
+							}
+						
+							// 부서 선택 시 이벤트 핸들러 함수
+							function handleDeptSelect() {
+							  // 선택된 부서의 인덱스를 가져옵니다.
+							  var selectedDeptIndex = deptSelect.selectedIndex;
+							
+							  // 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+							  var matchingEmpNames = [];
+							  var matchingEmpNos = [];
+							
+							  // 선택된 부서의 코드를 가져옵니다.
+							  var selectedDeptCode = deptCodes[selectedDeptIndex];
+							
+							  // 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+							  for (var k = 0; k < empDeptCodes.length; k++) {
+							    if (empDeptCodes[k] === selectedDeptCode) {
+							      matchingEmpNames.push(empNames[k]);
+							      matchingEmpNos.push(empNos[k]);
+							    }
+							  }
+							
+							  // 직원 선택(select) 요소를 초기화합니다.
+							  empSelect.innerHTML = "";
+							
+							  // 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+							  for (var l = 0; l < matchingEmpNames.length; l++) {
+							    var empOption = document.createElement("option");
+							    empOption.value = matchingEmpNos[l];
+							    empOption.text = matchingEmpNames[l];
+							
+							    if (matchingEmpNames[l] === YourEmpName) {
+							      empOption.selected = true;
+							    }
+							
+							    empSelect.appendChild(empOption);
+							  }
+							}
+							
+							// 페이지가 로드될 때 handleDeptSelect() 함수를 호출하여 초기 상태를 설정합니다.
+							handleDeptSelect();
+							
+							// 부서 선택(select) 요소에 이벤트 핸들러를 등록합니다.
+							deptSelect.addEventListener("change", handleDeptSelect);
+
+													
+						    deptContainer.appendChild(deptSelect);
+						    empContainer.appendChild(empSelect);
+						
+						    reInviContainer.appendChild(deptContainer);
+						    reInviContainer.appendChild(empContainer);
+						
+						    
+						    let someContainer2 = document.getElementById('someContainer2');
+							someContainer2.parentNode.insertBefore(reInviContainer, someContainer2);
+											
+							
+							//공유 버튼 누르면 추가 되고 삭제 버튼 누르면 삭제 되는 코드 더하기
+							
+
+							
+								
+							
+							}
+
+					
+						   
+
+
+			
+
 					//변경 부분
-					//$('#modifyContainer').find('.event-start-date').val("시작 : "+formatDate(targetE.start));
-					//$('#modifyContainer').find('.event-end-date').val("종료 : "+formatDate(targetE.end));
 					$('#modifyContainer').find('.event-name').val(targetE.title);
 					$('#modifyContainer').find('.event-content').val(targetE.extendedProps.content);
 					$('#modifyContainer').find('.cal-event-code').val(targetE.extendedProps.calCode);
@@ -249,16 +401,47 @@ document.addEventListener('DOMContentLoaded', function() {
 				    if ($(this).is(':checked')) {
 				        console.log('종일여부 수정 체크됨');
 				
-				        var startDate = moment(startPicker.startDate);
-				        startDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-				        startPicker.setStartDate(startDate);
+				        var startD = moment(startPicker.startDate);
+				        startD.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+				        startPicker.setStartDate(startD);
 				
-				        var endDate = moment(endPicker.endDate);
-				        endDate.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
-				        endPicker.setEndDate(endDate);
+				        var endD = moment(endPicker.endDate); // 수정된 부분
+				        endD.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+				        endPicker.setStartDate(endD);
+				        		
 				    
-				    }
+				    }else{
+						 console.log('종일여부 수정 체크 해제됨');
+						$('#modifyContainer').find('.cal-event-date-start').daterangepicker({
+						timePicker: true,
+					    singleDatePicker: true,
+					    timePicker24Hour: true,
+					    timePickerIncrement: 1,
+					    startDate: targetE.start,
+					    locale: {
+					        format: 'YYYY/MM/DD HH:mm'
+					    }
+					});
+						
+						
+					   
+					
+					$('#modifyContainer').find('.cal-event-date-end').daterangepicker({
+					   timePicker: true,
+					    singleDatePicker: true,
+					    timePicker24Hour: true,
+					    timePickerIncrement: 1,
+					    startDate: targetE.end,
+					    locale: {
+					        format: 'YYYY/MM/DD HH:mm'
+					    }
+					});
+						
+					}
 				});
+				
+				
+				
 				
 				
 					
@@ -407,3 +590,4 @@ setTimeout(function() {
 	$('.fc-prev-button,.fc-next-button').addClass('btn-icon btn-flush-dark btn-rounded flush-soft-hover').find('.fa').addClass('icon');
 	$('.fc-today-button').removeClass('btn-primary').addClass('btn-outline-light');
 }, 120);
+

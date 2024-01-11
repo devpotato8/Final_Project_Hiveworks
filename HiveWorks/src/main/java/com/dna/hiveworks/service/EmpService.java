@@ -22,10 +22,10 @@ public interface EmpService {
 	
 	List<Employee> selectEmployeesListAll();
 	
-	int insertEmployee(Employee e);
-	int updateEmployee(Employee e);
-	int deleteEmployee(Employee e);
-	List<Employee> searchEmployeesByKeyword(String keyword);
+	int insertEmployee(Map<String,Object> empData);
+	int updateEmployee(Map<String,Object> empData);
+	int deleteEmployee(int no);
+	List<Employee> searchEmployeesByKeyword(Map<String,Object> param);
 	
 	Map<String,List<Map<String,Object>>> selectDataListForEmployee();
 	

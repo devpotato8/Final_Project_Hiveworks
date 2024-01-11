@@ -10,7 +10,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
 /**
@@ -39,5 +41,9 @@ public interface EdocDao {
 	ElectronicDocument getEdoc(SqlSession session, String edocNo);
 	
 	List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(SqlSession session, String deptCode);
+	
+	int insertEdocApproval(SqlSession session, List<ElectronicDocumentApproval> approval);
+
+	int insertEdocReference(SqlSession session, List<ElectronicDocumentReference> reference);
 	
 }

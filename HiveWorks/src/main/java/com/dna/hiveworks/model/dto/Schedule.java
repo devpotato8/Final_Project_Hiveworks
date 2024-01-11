@@ -2,6 +2,9 @@ package com.dna.hiveworks.model.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Schedule {
 	private int calNo;
 	private String calCode;
-	private String empNo;
+	private int myEmpNo;
 	private Timestamp calStartDate;
 	private Timestamp calEndDate;
 	private String calSubject;
@@ -31,6 +34,8 @@ public class Schedule {
 	private int modifier;
 	private String useYn;
 	private Resource resource;
+	private List<InvitationEmp> invitationEmpList;
+	
 	
 
 }
