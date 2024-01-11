@@ -5,7 +5,7 @@ package com.dna.hiveworks.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,11 +34,15 @@ import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.ServletContext;
 
 /**
  * @author : 이재연
@@ -53,6 +56,9 @@ import com.dna.hiveworks.service.EdocService;
 @Controller
 @RequestMapping("/edoc")
 public class EdocController {
+	
+	@Autowired
+	ServletContext context;
 	
 	@Autowired
 	private EdocService edocService;
@@ -158,18 +164,57 @@ public class EdocController {
 	}
 	
 	
-	@PostMapping(value = "/write", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-	public @ResponseBody ResponseEntity<ElectronicDocument> writeEdoc(@RequestPart( required = true) ElectronicDocument edoc, @RequestPart(required = false) List<MultipartFile> files) {
-		
-		System.out.println(edoc);
-//		
-//		ElectronicDocument result = edocService.insertEdoc(edoc);
-//		
-//		if(result == null) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//		}
-//		
-//		return ResponseEntity.status(HttpStatus.OK).body(result);
+	@PostMapping(value = "/write")
+	public @ResponseBody ResponseEntity<Object> writeEdoc(@RequestParam String edoc, @RequestPart(required = false) List<MultipartFile> uploadFiles ) {
+		 ElectronicDocument edocInstance;
+		 try {
+			 ObjectMapper objectMapper = new ObjectMapper();
+			 edocInstance = objectMapper.readValue(edoc, ElectronicDocument.class);
+		 }catch(Exception e) {
+			 e.printStackTrace();
+			 return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","전자문서파싱중에러"));
+			 //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		 }
+		try {
+			if(uploadFiles==null || uploadFiles.size()<=0) {
+				throw new HiveworksException();
+			}
+			List<ElectronicDocumentAttachFile> attachFiles = new ArrayList<>();
+			
+			String realPath = context.getRealPath("/resources/upload/edoc");
+			
+			File path = new File(realPath);
+			if(!path.exists()) path.mkdirs();
+			
+			for(MultipartFile uploadFile : uploadFiles) {
+				String originalFilename = uploadFile.getOriginalFilename();
+				String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+				String renamedFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))+UUID.randomUUID()+ext;
+				
+				File upFile = new File(path+"/"+renamedFileName);
+				
+				uploadFile.transferTo(upFile);
+				attachFiles.add(ElectronicDocumentAttachFile.builder()
+						.attachOriginalFilename(originalFilename)
+						.attachRenamedFilename(renamedFileName)
+						.creater(edocInstance.getCreater())
+						.build());
+			}
+			edocInstance.setAttachFiles(attachFiles);
+			
+		}catch(HiveworksException e) {
+			edocInstance.setAttachFiles(null);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		int result = edocService.insertEdoc(edocInstance);
+		System.out.println(edocInstance);
+		if(result >0) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","200","edocNo",edocInstance.getEdocNo()));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","DB입력중 에러발생"));
+		}
+//		return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error"," 관리자가 처리하지 않음"));
 	}
 	
 	@PostMapping("/imgupload")
@@ -180,12 +225,17 @@ public class EdocController {
 		
 		String originalFileName = uploadFile.getOriginalFilename();
 		String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-		String renamedFileName = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuuMMdd"))+UUID.randomUUID()+ext;
+		String renamedFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))+UUID.randomUUID()+ext;
 		
-		String realPath = request.getServletContext().getRealPath("/resources/img/edoc/");
-		String uploadPath = request.getServletContext().getContextPath()+"/resources/img/edoc/"+renamedFileName;
+		String realPath = request.getServletContext().getRealPath("/resources/upload/edoc/image");
 		
-		File upFIle = new File(realPath+renamedFileName);
+		File path = new File(realPath);
+		
+		if(!path.exists()) path.mkdirs();
+		
+		String uploadPath = request.getServletContext().getContextPath()+"/resources/upload/edoc/image0/"+renamedFileName;
+		
+		File upFIle = new File(realPath+"/"+renamedFileName);
 		
 		uploadFile.transferTo(upFIle);
 		
@@ -206,4 +256,20 @@ public class EdocController {
 		return ResponseEntity.status(HttpStatus.OK).body(employees);
 	}
 	
+//	@GetMapping("/read")
+//	public String readElectronicDocument(@RequestParam String edocNo, @SessionAttribute Employee loginEmp, Model model) {
+//		
+//		ElectronicDocument edoc  = edocService.selectElectronicDocument(edocNo);
+//		
+//		return "";
+//	}
+	@GetMapping("/format/lists")
+	public String formatLists(Model model) {
+		return "edoc/formatList";
+	}
+	
+	@GetMapping("/format/write")
+	public String formatWrite(Model model) {
+		return "edoc/formatWrite";
+	}
 }

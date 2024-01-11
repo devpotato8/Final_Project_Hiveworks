@@ -23,6 +23,11 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList" alias="edocList"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Resource" alias="resource"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample" alias="edocSample"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval" alias="edocApproval"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile" alias="edocAttachFile"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentComment" alias="edocComment"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentHistory" alias="edocHistory"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference" alias="edocReference"/>
 	</typeAliases>
 	
 	<typeHandlers>

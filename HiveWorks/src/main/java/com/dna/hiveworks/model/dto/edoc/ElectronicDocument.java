@@ -3,6 +3,7 @@
  */
 package com.dna.hiveworks.model.dto.edoc;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -27,7 +28,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ElectronicDocument {
+public class ElectronicDocument implements Serializable{
+	
+	private static final long serialVersionUID = -6899204179234853192L;
+	
 	private String edocNo;
 	private DotCode edocDotCode;
 	private String edocTitle;
@@ -46,6 +50,7 @@ public class ElectronicDocument {
 	List<ElectronicDocumentHistory> history;
 	List<ElectronicDocumentApproval> approval;
 	List<ElectronicDocumentReference> reference;
+	List<ElectronicDocumentAttachFile> attachFiles;
 	
 	private int period;
 }
