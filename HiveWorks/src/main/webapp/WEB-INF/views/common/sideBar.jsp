@@ -80,14 +80,14 @@
 								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_task">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<path d="M13 5h8" />
-												<path d="M13 9h5" />
-												<path d="M13 15h8" />
-												<path d="M13 19h5" />
-												<rect x="3" y="4" width="6" height="6" rx="1" />
-												<rect x="3" y="14" width="6" height="6" rx="1" />
+												<path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+												<circle cx="18" cy="18" r="4" />
+												<path d="M15 3v4" />
+												<path d="M7 3v4" />
+												<path d="M3 11h16" />
+												<path d="M18 16.496v1.504l1 1" />
 											</svg>
 										</span>
 									</span>
@@ -197,7 +197,7 @@
 												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/board/survey"><span class="nav-link-text">설문</span></a>
+												<a class="nav-link" href="${path}/survey/survey"><span class="nav-link-text">설문</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -215,23 +215,62 @@
 							
 							<li class="nav-item">
 								<a class="nav-link" href="${path}/schedule/projectlist.do">
+									
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-												<circle cx="18" cy="18" r="4" />
-												<path d="M15 3v4" />
-												<path d="M7 3v4" />
-												<path d="M3 11h16" />
-												<path d="M18 16.496v1.504l1 1" />
+												<path d="M13 5h8" />
+												<path d="M13 9h5" />
+												<path d="M13 15h8" />
+												<path d="M13 19h5" />
+												<rect x="3" y="4" width="6" height="6" rx="1" />
+												<rect x="3" y="14" width="6" height="6" rx="1" />
 											</svg>
 										</span>
 									</span>
 									<span class="nav-link-text">프로젝트관리</span>
 								</a>
 							</li>
-							
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_profile">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<circle cx="12" cy="7" r="4" />
+												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
+												<circle cx="16.5" cy="17.5" r="2.5" />
+												<path d="M18.5 19.5l2.5 2.5" />
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text position-relative">마이페이지
+										<span class="badge badge-danger badge-indicator position-absolute top-0 start-100"></span>
+									</span>
+								</a>
+								<ul id="dash_profile" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/mypage/myprofile">
+													<span class="nav-link-text">프로필 보기</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/mypage/editmyprofile">
+													<span class="nav-link-text">프로필 수정</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/mypage/myvacation">
+													<span class="nav-link-text">내 휴가</span>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 					<div class="menu-gap"></div>
@@ -324,45 +363,7 @@
 									</li>
 								</ul>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_profile">
-									<span class="nav-icon-wrap">
-										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<circle cx="12" cy="7" r="4" />
-												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
-												<circle cx="16.5" cy="17.5" r="2.5" />
-												<path d="M18.5 19.5l2.5 2.5" />
-											</svg>
-										</span>
-									</span>
-									<span class="nav-link-text position-relative">마이페이지
-										<span class="badge badge-danger badge-indicator position-absolute top-0 start-100"></span>
-									</span>
-								</a>
-								<ul id="dash_profile" class="nav flex-column collapse  nav-children">
-									<li class="nav-item">
-										<ul class="nav flex-column">
-											<li class="nav-item">
-												<a class="nav-link" href="${path }/mypage/myprofile">
-													<span class="nav-link-text">프로필 보기</span>
-												</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path }/mypage/editmyprofile">
-													<span class="nav-link-text">프로필 수정</span>
-												</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path }/mypage/myvacation">
-													<span class="nav-link-text">내 휴가</span>
-												</a>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
+							
 						</ul>
 					</div>
 					<div class="menu-gap"></div>

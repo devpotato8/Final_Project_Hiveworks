@@ -2,9 +2,8 @@ package com.dna.hiveworks.service;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.dna.hiveworks.model.dto.Board;
+import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Survey;
 
 public interface BoardService {
 
@@ -18,6 +17,6 @@ public interface BoardService {
 
 	Board boardDelete(int boardNo);
 
-
+	
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/DTD/mybatis-3-mapper.dtd" >
 <mapper namespace="edoc">
+
 	<resultMap type="edoc" id="edocMap">
 		<id column="edoc_no" property="edocNo" />
 		<result column="EDOC_DOT_CODE" property="edocDotCode" />
@@ -14,7 +15,13 @@
 		<result column="CREATER" property="creater" />
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="FINALIZED_DATE" property="finalizedDate" />
+		
+		<!-- <collection property="approval" resultMap="approvalMap"/>
+		<collection property="reference" resultMap="referenceMap"/>
+		<collection property="attachFiles" resultMap="attachFileMap"/>
+		<collection property="comments" resultMap="commentMap"/> -->
 	</resultMap>
+	
 	<resultMap type="edocList" id="edocListMap">
 		<result column="edoc_no" property="edocNo" />
 		<result column="edoc_title" property="edocTitle" />
@@ -24,6 +31,7 @@
 		<result column="edoc_dot_code" property="edocDotCode" />
 		<result column="edoc_status" property="edocStatus" />
 	</resultMap>
+	
 	<resultMap type="edocSample" id="edocSampleMap">
 		<id column="sample_no" property="sampleNo" />
 		<result column="sample_dot_code" property="sampleDotCode" />
@@ -36,7 +44,42 @@
 		<result column="MODIFY_DATE" property="modifyDate" />
 		<result column="USE_YN" property="useYn" />
 	</resultMap>
-
+	
+	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval" id="approvalMap">
+		<id column="APRVL_NO" property="aprvlNo"/>
+		<result column="APRVL_EDOC_NO" property="aprvlEdocNo"/>
+		<result column="APRVL_APV_CODE" property="aprvlApvCode"/>
+		<result column="APRVL_EMP_NO" property="aprvlEmpNo"/>
+		<result column="APRVL_RANK" property="aprvlRank"/>
+		<result column="APRVL_STATUS" property="aprvlStatus"/>
+		<result column="APRVL_COMMENT" property="aprvlComment"/>
+		<result column="APRVL_DATE" property="aprvlDate"/>
+		<result column="APRVL_EMP_NAME" property="aprvlEmpName"/>
+		<result column="APRVL_AUTO_FILENAME" property="aprvlAutoFilename"/>
+	</resultMap>
+	
+	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile" id="attachFileMap">
+		<id column="ATTACH_NO" property="attachNo"/>
+		<result column="ATTACH_EDOC_REF" property="attachEdocRef"/>
+		<result column="ATTACH_ORIGINAL_FILENAME" property="attachOriginalFilename"/>
+		<result column="ATTACH_RENAMED_FILENAME" property="attachRenamedFilename"/>
+	</resultMap>
+	
+	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentComment" id="commentMap">
+		<id column="COMM_NO" property="commNo"/>
+		<result column="COMM_EDOC_NO" property="commEdocNo"/>
+		<result column="CREATER" property="creater"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="COMM_CONTENT" property="commContent"/>
+	</resultMap>
+	
+	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference" id="referenceMap">
+		<id column="REFPER_NO" property="refperNo"/>
+		<result column="REFPER_EDOC_NO" property="refperEdocNo"/>
+		<result column="REFPER_EMP_NO" property="refperEmpNo"/>
+		<result column="REFPER_STATUS" property="refperStatus"/>
+	</resultMap>
+	
 	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
 		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
 		D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
@@ -72,19 +115,6 @@
 		AND E.EMP_ID = #{emp_id}
 	</select>
 
-	<update id="processApprove" parameterType="hashmap" statementType="CALLABLE">
-		{
-			CALL PROC_APPROVAL(
-			#{i_doc_no},
-			#{i_empid},
-			#{i_apv_code},
-			#{i_apv_com},
-			#{salary,mode=OUT, jdbcType=VARCHAR},
-			#{o_rtn_msg,mode=OUT, jdbcType=VARCHAR}
-			)
-		}
-	</update>
-
 	<select id="getEmpData" resultType="hashmap" parameterType="int">
 		SELECT E.EMP_NAME AS EMPNAME, D.DEPT_NAME AS DEPTNAME, C.CODE_NAME AS
 		JOBNAME, E.EMP_NO AS EMPNO
@@ -101,10 +131,6 @@
 
 	<select id="getSample" resultMap="edocSampleMap" parameterType="string">
 		SELECT * FROM TBL_EDOC_SAMPLE WHERE SAMPLE_NO = #{sampleNo}
-	</select>
-
-	<select id="getEdoc" resultMap="edocMap" parameterType="string">
-		SELECT * FROM TBL_EDOC WHERE EDOC_NO = #{edocNo}
 	</select>
 
 	<insert id="insertEdoc" parameterType="edoc">
@@ -132,6 +158,7 @@
 		NULL<!-- FINALIZED_DATE -->
 		)
 	</insert>
+	
 	<insert id="insertEdocApproval" parameterType="edocApproval">
 		INSERT INTO TBL_EDOC_APPROVAL(APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE,
 		APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS)
@@ -165,4 +192,35 @@
 		#{attachRenamedFilename}, #{creater}, NULL
 		)
 	</insert>
+	
+	<select id="selectElectronicDocument" parameterType="string" resultMap="edocMap">
+		SELECT * 
+		FROM TBL_EDOC D
+<!-- 			LEFT JOIN TBL_EDOC_APPROVAL A ON E.EDOC_NO = A.APRVL_EDOC_NO
+			LEFT JOIN TBL_EDOC_ATTACHFILE F ON E.EDOC_NO = F.ATTACH_EDOC_REF
+			LEFT JOIN TBL_EDOC_REFERENCE_PERSON R ON E.EDOC_NO = R.REFPER_EDOC_NO
+			LEFT JOIN TBL_EDOC_COMMENT C WHERE E.EDOC_NO = C.COMM_EDOC_NO -->
+		WHERE D.EDOC_NO = #{edocNo}
+	</select>
+	<select id="selectElectronicDocumentApproval" parameterType="string" resultMap="approvalMap">
+		SELECT A.*, E.EMP_NAME AS APRVL_EMP_NAME, 
+			CASE
+				WHEN A.APRVL_APV_CODE = 'APV002' THEN 'defaultRevoke.png'
+				ELSE NVL(E.EMP_AUTO_FILENAME,'defaultApprove.png')
+			END AS APRVL_AUTO_FILENAME
+		FROM TBL_EDOC_APPROVAL A
+			LEFT JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+		WHERE APRVL_EDOC_NO = #{edocNo} 
+		ORDER BY APRVL_RANK
+	</select>
+	<select id="selectElectronicDocumentAttachFiles" parameterType="string" resultMap="attachFileMap">
+		SELECT * FROM TBL_EDOC_ATTACHFILE WHERE ATTACH_EDOC_REF = #{edocNo} ORDER BY ATTACH_NO
+	</select>
+	<select id="selectElectronicDocumentComments" parameterType="string" resultMap="commentMap">
+		SELECT * FROM TBL_EDOC_COMMENT WHERE COMM_EDOC_NO = #{edocNo} ORDER BY COMM_NO
+	</select>
+	<select id="selectElectronicDocumentReference" parameterType="string" resultMap="referenceMap">
+		SELECT * FROM TBL_EDOC_REFERENCE_PERSON WHERE REFPER_EDOC_NO = #{edocNo} ORDER BY REFPER_NO
+	</select>
+	
 </mapper>

@@ -41,7 +41,6 @@ public class ElectronicDocument implements Serializable{
 	private Date edocStartDate;
 	private Date edocEndDate;
 	private String edocStatus;
-	private String empName;
 	private int creater;
 	private Date createDate;
 	private Date finalizedDate;
@@ -53,4 +52,7 @@ public class ElectronicDocument implements Serializable{
 	List<ElectronicDocumentAttachFile> attachFiles;
 	
 	private int period;
+	private String createrEmpName;
+	private String createrJobName;
+	private String createrDeptName;
 }

@@ -60,4 +60,9 @@ public class ViewController {
 	public String messageView() {
 		return "message/message";
 	}
+	
+	@GetMapping("/msgFileView")
+	public String msgFileView() {
+		return "message/messageFilePage";
+	}
 }
