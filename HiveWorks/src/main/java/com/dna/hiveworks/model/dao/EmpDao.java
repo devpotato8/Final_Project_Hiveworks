@@ -23,6 +23,7 @@ public interface EmpDao {
 	Employee selectEmployeeById(SqlSession session, String empId);
 	
 	Employee selectEmployeeByEmpNo(SqlSession session, int empNo);
+	Account selectAccountByEmpNo(SqlSession session, int empNo);
 	
 	List<Employee> selectEmployeesListAll(SqlSession session);
 	

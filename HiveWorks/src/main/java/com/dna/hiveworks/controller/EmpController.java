@@ -197,11 +197,14 @@ public class EmpController {
 	}
 	
 	@GetMapping("/employeeDetail")
-	public String employeeDetail(Model model, int no) {
+	public String employeeDetail(Model model, int emp_no) {
 		
-		Employee employee = service.selectEmployeeByEmpNo(no);
+		Map<String,Object> value = new HashMap<>();
+		
+		value = service.selectEmployeeByEmpNo(emp_no);
 
-		model.addAttribute("employee", employee);
+		model.addAttribute("employee", value.get("employee"));
+		model.addAttribute("account",value.get("account"));
 		
 		return "employees/employeeDetail";
 	}

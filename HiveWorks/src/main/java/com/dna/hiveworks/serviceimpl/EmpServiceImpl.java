@@ -1,5 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,19 @@ public class EmpServiceImpl implements EmpService {
 	
 	
 	@Override
-	public Employee selectEmployeeByEmpNo(int empNo) {
-		return dao.selectEmployeeByEmpNo(session, empNo);
+	public Map<String,Object> selectEmployeeByEmpNo(int empNo) {
+		
+		Map<String,Object> value = new HashMap<>();
+		
+		Employee employee=dao.selectEmployeeByEmpNo(session, empNo);
+		Account account=dao.selectAccountByEmpNo(session, empNo);
+
+		
+
+		value.put("employee",employee);
+		value.put("account", account);
+
+		return value;
 	}
 
 	@Override
@@ -52,7 +64,6 @@ public class EmpServiceImpl implements EmpService {
 		Account ac = (Account)empData.get("account");
 		
 		int result = dao.insertEmployee(session, e);
-		System.out.println("result값 :"+result);
 		if(result>0) {
 			ac.setEmp_no(e.getEmp_no());
 			int result2 = dao.insertAccount(session, ac);
