@@ -134,20 +134,21 @@
 					<!-- 3 -->
 					<div class="d-flex justify-content-center">
 					<div style="width: 400px; height: 350px" class="justify-content-center text-center">
+					<button onclick="printAPI();">api 출력</button>
 						<table class="table table table-hover table-sm">
 							<thead class="bg-navy">
 								<tr>
 									<th scope="col">번호</th>
 									<th scope="col">제목</th>
-									<th scope="col">조회수</th>
+									<th scope="col">내용</th>
 									<th scope="col">날짜</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<th>1</th>
-									<td>제목</td>
-									<td>12</td>
+									<td id="title">제목</td>
+									<td id="description">...</td>
 									<td>2024.01.03</td>
 								</tr>
 								<tr>
@@ -433,8 +434,20 @@ table>thead{
 	color: #ddd;
 }
 </style>
+	
+<!-- naverAPI -->
 <script>
-
+	function printAPI(){
+		fetch("${path }/naverApi")
+		.then((res)=> res.json())
+		.then((data)=> {
+			const title = document.querySelector("#title");
+			const description = document.querySelector("#description");
+			title.innerHTML = data.items[0].title;
+			description.innerHTML = data.items[0].description;
+			console.log(data);
+		});
+	}
 </script>
 
 <!-- 날씨정보가져오기 -->
