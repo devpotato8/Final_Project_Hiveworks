@@ -20,6 +20,8 @@ public interface EmpService {
 	
 	Employee selectEmployeeById(String empId);
 	
+	Employee selectEmployeeByEmpNo(int empNo);
+	
 	List<Employee> selectEmployeesListAll();
 	
 	int insertEmployee(Map<String,Object> empData);

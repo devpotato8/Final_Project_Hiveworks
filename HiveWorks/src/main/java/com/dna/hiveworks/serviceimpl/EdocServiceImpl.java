@@ -17,6 +17,7 @@ import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
@@ -68,7 +69,7 @@ public class EdocServiceImpl implements EdocService{
 	
 	@Transactional
 	@Override
-	public ElectronicDocument insertEdoc(ElectronicDocument edoc) {
+	public int insertEdoc(ElectronicDocument edoc) {
 		edoc.setEdocPreservePeriod(
 				Date.valueOf(
 						LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1)));
@@ -81,15 +82,18 @@ public class EdocServiceImpl implements EdocService{
 			result *= dao.insertEdocApproval(session, approval);
 			
 			List<ElectronicDocumentReference> reference = edoc.getReference();
-			if(reference.size()>0) {
+			if(reference != null && reference.size()>0) {
 				reference.forEach((e)->e.setRefperEdocNo(edoc.getEdocNo()));
 				result *= dao.insertEdocReference(session, reference);
 			}
-			if(result >0) {
-				return dao.getEdoc(session,edoc.getEdocNo());
-			}else return null;
-		}
-		else return null;
+			
+			List<ElectronicDocumentAttachFile> attachFile = edoc.getAttachFiles();
+			if(attachFile != null && attachFile.size()>0) {
+				attachFile.forEach((e)->e.setAttachEdocRef(edoc.getEdocNo()));
+				result *= dao.insertEdocAttachFile(session,attachFile);
+			}
+			return result;
+		}else return result;
 	}
 	
 	@Override

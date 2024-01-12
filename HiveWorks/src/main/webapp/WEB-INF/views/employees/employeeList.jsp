@@ -428,8 +428,8 @@
 												<c:forEach var="s" items="${employees }">
 												<tr>
 													<td></td>
-													<td><a href="${path }/employees/employeeDetail?sal_no=${s.emp_no}"><c:out value="${s.emp_no }" /></a></td>
-													<td><a href="${path }/employees/employeeDetail?sal_no=${s.emp_no}" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
+													<td><a href="${path }/employees/employeeDetail?emp_no=${s.emp_no}"><c:out value="${s.emp_no }" /></a></td>
+													<td><a href="${path }/employees/employeeDetail?emp_no=${s.emp_no}" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.emp_name }" /></div>
 													</td>
@@ -441,7 +441,7 @@
 													
 													<td>
 															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.emp_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?emp_no=${s.emp_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
@@ -758,21 +758,21 @@
 
 														
 <!-- Data Table JS -->
-<script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-<script src="vendors/jszip/dist/jszip.min.js"></script>
-<script src="vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="vendors/pdfmake/build/vfs_fonts.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-<script src="vendors/datatables.net-select/js/dataTables.select.min.js"></script>
-<script src="vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
-<script src="vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="${path}/resources/vendors/jszip/dist/jszip.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
 <script>
 $('#datable_1').DataTable( {
 	scrollX:  true,
