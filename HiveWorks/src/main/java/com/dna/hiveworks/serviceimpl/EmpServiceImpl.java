@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
+import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.service.EmpService;
 
@@ -31,26 +32,47 @@ public class EmpServiceImpl implements EmpService {
 	private final EmpDaoImpl dao;
 	private final SqlSession session;
 	
+	
 	@Override
 	public Employee selectEmployeeById(String empId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	@Override
+	public Employee selectEmployeeByEmpNo(int empNo) {
+		return dao.selectEmployeeByEmpNo(session, empNo);
+	}
 
 	@Override
-	public int insertEmployee(Employee e) {
+	public int insertEmployee(Map<String,Object> empData) {
+		
+		Employee e = (Employee)empData.get("employee");
+		Account ac = (Account)empData.get("account");
+		
+		int result = dao.insertEmployee(session, e);
+		System.out.println("result값 :"+result);
+		if(result>0) {
+			ac.setEmp_no(e.getEmp_no());
+			int result2 = dao.insertAccount(session, ac);
+			if(result2==0) new RuntimeException("등록 실패");
+			
+		}else {
+			new RuntimeException("등록 실패");
+		}
+
+		return result;
+	}
+
+	@Override
+	public int updateEmployee(Map<String,Object> empData) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateEmployee(Employee e) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteEmployee(Employee e) {
+	public int deleteEmployee(int no) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -61,9 +83,9 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
-	public List<Employee> searchEmployeesByKeyword(String keyword) {
+	public List<Employee> searchEmployeesByKeyword(Map<String,Object> param) {
 		
-		return dao.searchEmployeesByKeyword(session, keyword);
+		return dao.searchEmployeesByKeyword(session, param);
 	}
 
 	@Override
@@ -75,10 +97,12 @@ public class EmpServiceImpl implements EmpService {
 		data.put("jobList",dao.selectJobList(session));
 		data.put("workStatusList",dao.selectWorkStatusList(session));
 		data.put("workPatternList",dao.selectWorkPatternList(session));
+		data.put("workTypeList",dao.selectWorkTypeList(session));
 		
 		return data;
 		
 	}
+
 	
 	
 	

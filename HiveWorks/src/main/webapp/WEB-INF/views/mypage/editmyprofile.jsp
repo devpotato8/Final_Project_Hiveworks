@@ -19,7 +19,7 @@
 				<div class="d-flex">
 					<div class="d-flex flex-wrap justify-content-between flex-1">
 						<div class="mb-lg-0 mb-2 me-8">
-							<h1 class="pg-title">내휴가</h1>
+							<h1 class="pg-title">프로필 변경</h1>
 						</div>
 					</div>
 				</div>
@@ -29,29 +29,22 @@
 				<div class="selectBtn">
 		            <div><button class="btn"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
 		            <div><button class="btn"><i class="fa-solid fa-plane fa-lg"></i>&nbsp; 내휴가</button></div>
-		            <div><button class="btn"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 변경</button></div>
+		            <div style="width: 100%"><button class="btn"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 프로필 변경</button></div>
 	        	</div>
 	
 	        <div class="showView">
 	            <div class="profile">
-	                <div></div>
+	                <div>프로필사진</div>
 	                <div></div>
 	            </div>
 	            <div class="changeProfile">
 	                <form action="" method="post" id="login_form">
 	                    <input
-	                        class="form-control"
-	                        name="userId"
-	                        type="text"
-	                        value=""
-	                        readonly="readonly"
-	                        placeholder="아이디"
-	                    />
-	                    <input
 	                    class="form-control"
 	                        name="userPw"
 	                        id="userPw"
 	                        type="password"
+	                        value="${employee.emp_pw}"
 	                        placeholder="비밀번호"
 	                        maxlength="20"
 	                        onfocus="this.placeholder=''"
@@ -73,7 +66,7 @@
 	                     class="form-control"
 	                        name="email"
 	                        type="email"
-	                        value=""
+	                        value="${employee.emp_email}"
 	                        placeholder="이메일"
 	                        maxlength="20"
 	                        onfocus="this.placeholder=''"
@@ -83,11 +76,21 @@
 	                        class="form-control"
 	                        name="phone"
 	                        type="text"
-	                        value=""
+	                        value="${employee.emp_cellphone }"
 	                        placeholder="휴대폰번호"
 	                        maxlength="13"
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='휴대폰번호'"
+	                    />
+	                    <input
+	                        class="form-control"
+	                        name="phone"
+	                        type="text"
+	                        value="${employee.emp_address }"
+	                        placeholder="주소"
+	                        maxlength="13"
+	                        onfocus="this.placeholder=''"
+	                        onblur="this.placeholder='주소'"
 	                    />
 	                    <input class="form-control" type="submit" value="수정하기" />
 	                </form>
