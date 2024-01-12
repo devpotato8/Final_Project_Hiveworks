@@ -13,7 +13,7 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <%@ include file="/WEB-INF/views/message/msgSideHeader.jsp" %>
-							
+
 <!-- MSG Main Content -->		
 <div class="fm-body">
 	<div data-simplebar class="nicescroll-bar">
@@ -115,10 +115,15 @@
 									<td>76.3 KB</td>
 									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
 										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
 										</div>
 									</td>
 								</tr>
@@ -146,14 +151,115 @@
 									<td>3,028 KB</td>
 									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
 										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
 										</div>
 									</td>
 								</tr>
-								
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
+										</div>
+									</td>
+									<td>
+										<div class="media fmapp-info-trigger">
+											<div class="media-head me-3">
+												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+													<span class="initial-wrap">
+														<i class="ri-file-word-fill"></i>
+													</span>
+												</div>
+											</div>
+											<div class="media-body">
+												<div class="file-name">proposal.doc</div>
+												<div>word document</div>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="avatar-group avatar-group-overlapped">
+											<div class="avatar avatar-soft-success avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
+												<span class="initial-wrap">A</span>
+											</div>
+											<div class="avatar avatar-soft-success avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
+												<span class="initial-wrap">B</span>
+											</div>
+											<div class="avatar avatar-soft-success avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
+												<span class="initial-wrap">C</span>
+											</div>
+											<div class="avatar avatar-soft-primary avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
+												<span class="initial-wrap">D</span>
+											</div>
+										</div>														
+									</td>
+									<td>02 Jan, 9:45 AM</td>
+									<td>951 KB</td>
+									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
+										</div>
+									</td>
+									<td>
+										<div class="media fmapp-info-trigger">
+											<div class="media-head me-3">
+												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+													<span class="initial-wrap">
+														<i class="ri-folder-zip-fill"></i>
+													</span>
+												</div>
+											</div>
+											<div class="media-body">
+												<div class="file-name">themeforest-pack.zip</div>
+												<div>zip</div>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="avatar-group avatar-group-overlapped">
+											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Danial">
+												<img src="${path}/resources/img/avatar12.jpg" alt="user" class="avatar-img">
+											</div>
+										</div>														
+									</td>
+									<td>10 Jun, 8:00 AM</td>
+									<td>2.45 GB</td>
+									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
+										</div>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -162,8 +268,6 @@
 		</div>
 	</div>
 </div>
-
-<!-- 쪽지 상세내용 보기 -->
 	<div class="file-info">
 	<div data-simplebar class="nicescroll-bar">
 		<div class="text-end">
@@ -173,6 +277,8 @@
 		</div>
 		<div class="file-name">쪽지 제목</div>
 		<span>첨부파일종류(ex: JPG File)</span>
+		
+		
 		<div class="tab-content mt-5">
 			<div class="tab-pane fade show active" id="tab_info">
 				<div class="collapse-simple">
@@ -213,7 +319,7 @@
 								<ul class="fm-info">
 									<li>
 										<p class="msgContent">
-											여기에 메시지 내용이 들어갈겁니다. 한글입숨-에너지로 조화될 말면 어른은 신문이 외치는 단단한 일부란 얼굴으로 안 가능하다. 그런데 할 재판이 주다 2025년 않으려고 당신을 볼까. 깨우지만 병이 아니다 코미디의 조사한다. 위원을 임신으로 같은 같이 광분하다. 경우를 구체적을 국민을 본다 내놓다. 
+											여기에 메시지 내용이 들어갈겁니다. 모든 국민은 능력에 따라 균등하게 교육을 받을 권리를 가진다. 국회나 그 위원회의 요구가 있을 때에는 국무총리·국무위원 또는 정부위원은 출석·답변하여야 하며, 국무총리 또는 국무위원이 출석요구를 받은 때에는 국무위원 또는 정부위원으로 하여금 출석·답변하게 할 수 있다.
 										</p>
 									</li>
 									<li>
@@ -297,10 +403,6 @@
 		</div>
 	</div>
 </div>
-
-
-
-
 
 				</div>
 			</div>
