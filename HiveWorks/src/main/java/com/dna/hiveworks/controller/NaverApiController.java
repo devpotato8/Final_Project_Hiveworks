@@ -32,7 +32,8 @@ public class NaverApiController {
      }
 
      // API URL이 제공되고 필수인 query가 param으로 되어있음.
-     String apiURL = "https://openapi.naver.com/v1/search/news.json?query=" + text;    // JSON 결과
+     // String apiURL = "https://openapi.naver.com/v1/search/news.json?query=" + text + "&display=100";    // JSON 결과 기본값으 display=10
+     String apiURL = "https://openapi.naver.com/v1/search/news.json?query=" + text;    // JSON 결과 기본값으 display=10
      //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
      // Map 형태의 requestHeaders를 변수로 만들고 애플리케이션에서 만든 clientId와 clientSecret키가 여기서 사용됨 
@@ -44,7 +45,7 @@ public class NaverApiController {
      
 
      System.out.println(responseBody);
-     model.addAttribute(responseBody);
+     model.addAttribute("newData",responseBody);
      return ResponseEntity.ok(responseBody);
  }
 
