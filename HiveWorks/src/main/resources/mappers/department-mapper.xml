@@ -31,12 +31,16 @@
 	<!-- jstree에서 하위부서 생성했을 때, 저장되는 부서코드와 일치시키기 위해서 사용 -->	
 	<!-- useGeneratedKeys를 사용해서 시퀀스로 생성된 deptCode를 다시 jstree ajax로 돌려보낸다 -->
     <!-- selectKey 구문을 이용해서 반환되는 키의 타입을 지정하고 키로 쓸 값을 선택한다 -->
-	<insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
+<!-- 	<insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
 	    INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{deptUpstair}, #{deptName}, DEFAULT)
 	    <selectKey resultType="string" keyProperty="deptCode" order="AFTER">
 	        SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_CODE = (SELECT MAX(DEPT_CODE) FROM TBL_DEPARTMENT)
 	    </selectKey>
+	</insert> -->
+	<insert id="insertDept" parameterType="department" statementType="CALLABLE">
+	    {CALL INSERT_DEPT_TABLES(#{deptUpstair}, #{deptName})}
 	</insert>
+	
  
  	<!-- jstree에서 부서명 변경 시 -->
 	<update id="updateDept">
