@@ -100,7 +100,7 @@
 	</div>
 	<!-- 수정하는 모달 -->
 	<div class="d-none">
-		<div class="drawer-header">
+		<div class="drawer-header" method="POST" action="${path }/schedule/updateschedule">
 			<div class="drawer-header-action">
 				<button type="button" class="drawer-edit-close btn-close">
 					<span aria-hidden="true">×</span>
@@ -110,23 +110,24 @@
 		<div class="drawer-body" id="modifyContainer">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
-					<form id="reForm" action="${path}/schedule/updateschedule" method="post">
-					<input type="hidden" name="reempno" id="cal-event-empno" value="111"/>
-					<input type="hidden" name="recalno" id="recalNo" value=""/>
+					<form id="reForm">
+					<input type="hidden" name="reempno" id="reempno" value="111"/>
+					<input type="hidden" name="recalno" id="recalno" value=""/>
+					<input type="hidden" name="rebackgroundColor" id="rebackgroundColor" value=""/>
 					
 						<div class="event-head mb-4">
 							<span
 								class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
 							<div class="form-group">
 								<div class="input-group">
-									<input type="text" class="event-name" name="retitle"/>
+									<input type="text" class="event-name" name="retitle" id="retitle"/>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="input-group">
 								<span class="input-affix-wrapper"> <select
-									class="form-select cal-event-code" name="recode"
+									class="form-select cal-event-code" name="recode" id="recode"
 									aria-label="Default select example">
 										<option selected value="CAL001">내일정</option>
 										<option value="CAL002">부서일정</option>
@@ -169,7 +170,7 @@
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-reminder"
-											type="checkbox" id="flexCheckDefault" name="rereminder"> <label
+											type="checkbox" id="flexCheckDefault rereminder" name="rereminder"> <label
 											class="form-check-label" for="flexCheckDefault">알림여부
 										</label>
 									</div>
@@ -220,8 +221,8 @@
 							<textarea class="form-control event-content" name="recontent" rows="4">Annual meeting</textarea>
 						</div>
 						<div class="drawer-footer d-flex justify-content-end">
-							<button class="btn btn-secondary drawer-edit-close me-2">취소</button>
-							<button type="submit" class="btn btn-primary drawer-edit-close">저장</button>
+							<button class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn ">취소</button>
+							<button class="btn btn-primary drawer-edit-close" id="editBtn">저장</button>
 						</div>
 					</form>
 				</div>
@@ -392,7 +393,7 @@
 								</div>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
-										<select class="form-select cal-event-code"
+										<select class="form-select cal-event-code" id="cal-event-code"
 											aria-label="Default select example">
 											<option selected value="CAL001">내일정</option>
 											<option value="CAL002">부서일정</option>
@@ -501,96 +502,6 @@
 				</div>
 			</div>
 			<!-- /New Event -->
-
-			<!-- short Event -->
-			<div id="create_short_event" class="modal fade" tabindex="-1"
-				role="dialog" aria-hidden="true">
-				<div class="modal-dialog modal-lg modal-dialog-centered"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-body">
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-							<h5 class="mb-4">일정등록</h5>
-							<form>
-								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<input class="form-control  cal-event-name" type="text"
-											placeholder="일정명을 입력해주세요" />
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<select class="form-select"
-											aria-label="Default select example">
-											<option selected>내일정</option>
-											<option value="1">부서일정</option>
-											<option value="2">전사일정</option>
-										</select>
-
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label class="form-label">Start Date</label> <input
-												class="form-control cal-event-date-start"
-												name="single-date-pick" type="text" />
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label class="form-label">Start Time</label> <input
-												class="form-control input-single-timepicker"
-												name="input-timepicker" type="text" />
-										</div>
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label class="form-label">End Date</label> <input
-												class="form-control cal-event-date-end"
-												name="single-date-pick" type="text" />
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<label class="form-label">End Time</label> <input
-											class="form-control input-single-timepicker" type="text" />
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<input class="form-check-input" type="checkbox" value=""
-											id="flexCheckDefault"> <label
-											class="form-check-label" for="flexCheckDefault"> 종일 </label>
-									</div>
-								</div>
-								<div class="row gx-3">
-									<div class="col-sm-12">
-										<label class="form-label">장소</label>
-										<div class="form-group">
-											<input class="form-control" type="text" />
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer align-items-center">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">취소</button>
-							<button id="add_event" type="button"
-								class="btn btn-primary fc-addEventButton-button"
-								data-bs-dismiss="modal">등록</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /New Event -->
 		</div>
 	</div>
 	<!-- /Page Body -->
@@ -619,22 +530,26 @@ empNos.push("${emp.emp_no}");
 
 console.log(empDeptCodes);
 
-//체크박스 value주기
-window.onload = function() {
-    var checkbox = document.getElementById('alldayrecheck');
-    checkbox.value = checkbox.checked ? 'Y' : 'N';
-    checkbox.onchange = function() {
-        this.value = this.checked ? 'Y' : 'N';
-    };
-};
-
-window.onload = function() {
-    var checkbox = document.getElementById('rereminder');
-    checkbox.value = checkbox.checked ? 'Y' : 'N';
-    checkbox.onchange = function() {
-        this.value = this.checked ? 'Y' : 'N';
-    };
-};
+//체크박스 value주기	
+	$(document).ready(function(){
+	    $('#alldayrecheck').change(function() {
+	        if(this.checked) {
+	            $(this).val('Y');
+	        } else {
+	            $(this).val('N');
+	        }
+	    });
+	});
+	
+	$(document).ready(function(){
+	    $('#rereminder').change(function() {
+	        if(this.checked) {
+	            $(this).val('Y');
+	        } else {
+	            $(this).val('N');
+	        }
+	    });
+	});
 
 
    $('#alldaycheck').on(

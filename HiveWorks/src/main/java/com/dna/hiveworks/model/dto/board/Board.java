@@ -1,4 +1,4 @@
-package com.dna.hiveworks.model.dto;
+package com.dna.hiveworks.model.dto.board;
 
 import java.sql.Date;
 import java.util.List;

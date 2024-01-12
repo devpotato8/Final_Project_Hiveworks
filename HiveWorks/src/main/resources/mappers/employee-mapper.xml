@@ -20,7 +20,9 @@
 		<result property="emp_phone" column="emp_phone"/>
 		<result property="emp_cellphone" column="emp_cellphone"/>
 		<result property="emp_email" column="emp_email"/>
+		<result property="emp_postcode" column="emp_postcode"/>
 		<result property="emp_address" column="emp_address"/>
+		<result property="emp_address_detail" column="emp_address_detail"/>
 		<result property="emp_resident_no" column="emp_resident_no"/>
 		<result property="emp_birth_date" column="emp_birth_date"/>
 		<result property="emp_memo" column="emp_memo"/>
@@ -73,27 +75,68 @@
 	
 	<select id="selectWorkStatusList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS workStatusCode, CODE_NAME AS workStatusName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'WOP%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOS%'
 	</select>
 	
 	<select id="selectWorkPatternList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS workPatternCode, CODE_NAME AS workPatternName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'WOS%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOP%'
+	</select>
+	
+	<select id="selectWorkTypeList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS workTypeCode, CODE_NAME AS workTypeName
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOT%'
 	</select>
 	
 	<insert id="insertEmployee" parameterType="employee">
 		<selectKey keyProperty="emp_no" keyColumn="EMP_NO" resultType="_int" order="BEFORE">
 			SELECT SEQ_EMP_NO.NEXTVAL AS EMP_NO FROM DUAL
 		</selectKey>
-		INSERT INTO TBL_EMPLOYEE VALUES
-		(SEQ_EMP_NO.NEXTVAL,#{dept_code},#{position_code},#{job_code},#{work_type_code},
-		#{work_status},#{work_pattern},#{aut_code},#{emp_id},#{emp_pw},#{emp_name},#{emp_phone},#{emp_cellphone},#{emp_email},
-		#{emp_address},#{emp_resident_no},#{emp_memo},#{emp_hired_date},#{emp_retired_date},DEFAULT,#{emp_auto_fileName},#{creater},SYSDATE,NULL,NULL,DEFAULT,#{emp_profile_ori_name},#{emp_profile_re_name})
+		INSERT INTO TBL_EMPLOYEE
+		(
+			EMP_NO,
+			DEPT_CODE,
+			POSITION_CODE,
+			JOB_CODE,
+			WORK_TYPE_CODE,
+			WORK_STATUS,
+			WORK_PATTERN,
+			EMP_ID,
+            EMP_PW,
+			EMP_NAME,
+			EMP_PHONE,
+			EMP_CELLPHONE,
+			EMP_EMAIL,
+			EMP_POSTCODE,
+			EMP_ADDRESS,
+			EMP_ADDRESS_DETAIL,
+			EMP_RESIDENT_NO,
+			EMP_MEMO,
+			EMP_HIRED_DATE,
+			EMP_AUTO_FILENAME,
+			EMP_PROFILE_ORI_NAME,
+			EMP_PROFILE_RE_NAME,
+			CREATER,
+			CREATE_DATE,
+			MODIFIER,
+			MODIFY_DATE
+		) VALUES(
+            #{emp_no},
+            #{dept_code},#{position_code},#{job_code},#{work_type_code},#{work_status},#{work_pattern},#{emp_id},#{emp_pw},
+            #{emp_name},#{emp_phone},#{emp_cellphone},#{emp_email},#{emp_postcode},#{emp_address},#{emp_address_detail},#{emp_resident_no},
+            #{emp_memo},#{emp_hired_date},#{emp_auto_fileName},#{emp_profile_ori_name},#{emp_profile_re_name},0,SYSDATE,0,NULL)
 	</insert>
 	<insert id="insertAccount" parameterType="account">
 		INSERT INTO TBL_ACCOUNT VALUES
-		(#{ac_no},#{emp_no},#{ac_bank},#{ac_name},DEFAULT
-		)
+		(#{ac_no},#{emp_no},#{ac_bank},#{ac_name},DEFAULT)
 	</insert>
+	
+	<select id="selectEmployeeByEmpNo" parameterType="_int">
+		SELECT * FROM TBL_EMPLOYEE
+		<if test="empNo !=null and empNo!=0 ">
+			WHERE EMP_NO = ${empNo}
+		</if>
+	</select>
+	
 	
 </mapper>

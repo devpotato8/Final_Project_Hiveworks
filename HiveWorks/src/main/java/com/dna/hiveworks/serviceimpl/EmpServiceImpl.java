@@ -32,10 +32,17 @@ public class EmpServiceImpl implements EmpService {
 	private final EmpDaoImpl dao;
 	private final SqlSession session;
 	
+	
 	@Override
 	public Employee selectEmployeeById(String empId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	@Override
+	public Employee selectEmployeeByEmpNo(int empNo) {
+		return dao.selectEmployeeByEmpNo(session, empNo);
 	}
 
 	@Override
@@ -45,6 +52,7 @@ public class EmpServiceImpl implements EmpService {
 		Account ac = (Account)empData.get("account");
 		
 		int result = dao.insertEmployee(session, e);
+		System.out.println("result값 :"+result);
 		if(result>0) {
 			ac.setEmp_no(e.getEmp_no());
 			int result2 = dao.insertAccount(session, ac);
@@ -89,10 +97,12 @@ public class EmpServiceImpl implements EmpService {
 		data.put("jobList",dao.selectJobList(session));
 		data.put("workStatusList",dao.selectWorkStatusList(session));
 		data.put("workPatternList",dao.selectWorkPatternList(session));
+		data.put("workTypeList",dao.selectWorkTypeList(session));
 		
 		return data;
 		
 	}
+
 	
 	
 	
