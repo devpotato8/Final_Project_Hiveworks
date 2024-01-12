@@ -3,8 +3,14 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="str" value="${employee.emp_email}" />
+<c:set var="index" value="${fn:indexOf(str,'@')}" />
+<c:set var="len" value="${fn:length(str)}" />
+<c:set var="emailId" value="${fn:substring(str,0,index)}"/>
+<c:set var="emailDomain" value="${fn:substring(str,index+1,len)}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="default" name="style" />
@@ -95,7 +101,7 @@ input::-webkit-inner-spin-button {
 			<div class="container-xxl">
 				<!-- Page Header -->
 				<div class="hk-pg-header pt-7 pb-4">
-					<h1 class="pg-title">직원 등록</h1>
+					<h1 class="pg-title">직원 수정</h1>
 					<p></p>
 				</div>
 				<!-- /Page Header -->
@@ -104,7 +110,23 @@ input::-webkit-inner-spin-button {
 				<div class="hk-pg-body">
 					<div class="row edit-profile-wrap">
 						<div class="col-lg-2 col-sm-3 col-4">
-							
+							<div class="nav-profile mt-4">
+								<div class="nav-header">
+									<span>HiveWorks 정보 내역</span>
+								</div>
+								<ul class="nav nav-light nav-vertical nav-tabs">
+									<li class="nav-item">
+										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}" class="nav-link active">
+											<span class="nav-link-text">기본정보 수정</span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" class="nav-link">
+											<span class="nav-link-text">비밀번호 수정</span>
+										</a>
+									</li>
+								</ul>
+							</div>
 						</div>
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
@@ -116,7 +138,7 @@ input::-webkit-inner-spin-button {
 													<div class="media align-items-center">
 														<div class="media-head me-5">
 															<div class="avatar avatar-rounded avatar-xxl" id="imgContainer">
-																<img src="dist/img/avatar3.jpg" alt="user" class="avatar-img">
+																<img src="${path }/resources/upload/profile/${employee.emp_profile_re_name}" alt="user" class="avatar-img">
 															</div>
 														</div>
 														<div class="media-body">
@@ -136,40 +158,10 @@ input::-webkit-inner-spin-button {
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*아이디</label>
-													<input class="form-control" type="text" id="emp_id" name="emp_id" value="" required="required"/>
+													<label class="form-label">아이디</label>
+													<input class="form-control" type="text" id="emp_id" name="emp_id" value="${employee.emp_id }" readonly="readonly"/>
 													<div id="idMessage"></div>
-													<button type="button" onclick="fn_idDuplicate();" class="btn btn-soft-primary btn-file mb-1" >중복확인</button>
-												</div>
-											</div>
-										</div>
-										<script>
-											fn_idDuplicate=()=>{
-												let value=document.getElementById('emp_id').value;
-												let $message = document.getElementById('idMessage');
-												
-												$.ajax({
-													url:"${path}/employees/searchEmployeeId",
-													data:{emp_id:value},
-													success:data=>{
-														$message.innerHTML = data;
-													}
-												})
-												
-											}
-										</script>
-										<div class="row gx-3">
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">*비밀번호</label>
-													<input class="form-control" type="password" id="emp_pw" name="emp_pw" value="" min="8" maxlength="25" required="required" />
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">*비밀번호확인</label>
-													<input class="form-control" type="password" id="emp_pw_check" name="emp_pw_check" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
-													<div id="pwMessage"></div>
+													<!-- <button type="button" onclick="fn_idDuplicate();" class="btn btn-soft-primary btn-file mb-1" >중복확인</button> -->
 												</div>
 											</div>
 										</div>
@@ -177,13 +169,13 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*성함</label>
-													<input class="form-control" type="text" id="emp_name" name="emp_name" value="" required="required"/>
+													<input class="form-control" type="text" id="emp_name" name="emp_name" value="${employee.emp_name}" required="required"/>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*입사일</label>
-													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="" required="required"/>
+													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="${employee.emp_hired_date }" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -192,7 +184,7 @@ input::-webkit-inner-spin-button {
 												<div class="form-group">
 													<label class="form-label">*주민번호</label>
 													<input class="form-control" type="text" id="emp_resident_no" name="emp_resident_no" 
-													onkeyup="fn_auto_hypen_resident(event);fn_auto_birthdate(event,birth);" placeholder="123456-1234567" maxlength="14" required="required"/>
+													onkeyup="fn_auto_hypen_resident(event);fn_auto_birthdate(event,birth);" value="${employee.emp_resident_no }" placeholder="123456-1234567" maxlength="14" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -209,13 +201,13 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">사내전화</label>
-													<input class="form-control" type="text" id="emp_phone" onkeyup="fn_auto_hypen_phone(event);" name="emp_phone" value="" maxlength="13"/>
+													<input class="form-control" type="text" id="emp_phone" onkeyup="fn_auto_hypen_phone(event);" name="emp_phone" value="${employee.emp_phone }" maxlength="13"/>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*핸드폰번호</label>
-													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" onkeyup="fn_auto_hypen_cellPhone(event);" value="" required="required"/>
+													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" onkeyup="fn_auto_hypen_cellPhone(event);" value="${employee.emp_cellphone }" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -223,9 +215,8 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">이메일</label><br>
-													<input class="form-control" type="hidden" id="emp_email" name="emp_email" value=""/>
-													<input class="form-control" type="text" id="email_id" name="email_id" value="" style="width:200px; display:inline-block;"/>@
-													<input class="form-control" type="text" id="domain-txt" name="email_form" value="" style="width:200px; display:inline-block;"/>
+													<input class="form-control" type="text" id="email_id" name="email_id" value="${emailId}" style="width:200px; display:inline-block;"/>@
+													<input class="form-control" type="text" id="domain-txt" name="email_form" value="${emailDomain}" style="width:200px; display:inline-block;"/>
 													<select id="domain-list">
 														<option value="none">직접 입력</option>
 														<option value="naver.com">naver.com</option>
@@ -245,7 +236,9 @@ input::-webkit-inner-spin-button {
 														<select id="dept_code" name="dept_code">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.deptList}">
-															<option value="${p.DEPTCODE }"><c:out value="${p.DEPTNAME }"/></option>
+																<option value="${p.DEPTCODE }" ${p.DEPTCODE eq employee.dept_code?"selected":""}>
+																	<c:out value="${p.DEPTNAME }"/>
+																</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -260,7 +253,9 @@ input::-webkit-inner-spin-button {
 														<select id="position_code" name="position_code" required="required">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.positionList}">
-															<option value="${p.POSITIONCODE }"><c:out value="${p.POSITIONNAME }"/></option>
+																<option value="${p.POSITIONCODE }" ${p.POSITIONCODE eq employee.position_code?"selected":""}>
+																	<c:out value="${p.POSITIONNAME }"/>
+																</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -273,7 +268,9 @@ input::-webkit-inner-spin-button {
 														<select id="job_code" name="job_code" required="required">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.jobList}">
-															<option value="${p.JOBCODE }"><c:out value="${p.JOBNAME }"/></option>
+															<option value="${p.JOBCODE }" ${p.JOBCODE eq employee.job_code?"selected":""} >
+															<c:out value="${p.JOBNAME }"/>
+															</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -288,7 +285,9 @@ input::-webkit-inner-spin-button {
 														<select id="work_status" name="work_status" required="required">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.workStatusList}">
-															<option value="${p.WORKSTATUSCODE }"><c:out value="${p.WORKSTATUSNAME }"/></option>
+																<option value="${p.WORKSTATUSCODE }" ${p.WORKSTATUSCODE eq employee.work_status?"selected":""}>
+																	<c:out value="${p.WORKSTATUSNAME }"/>
+																</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -301,7 +300,9 @@ input::-webkit-inner-spin-button {
 														<select id="work_pattern" name="work_pattern" required="required">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.workPatternList}">
-															<option value="${p.WORKPATTERNCODE }"><c:out value="${p.WORKPATTERNNAME }"/></option>
+																<option value="${p.WORKPATTERNCODE }" ${p.WORKPATTERNCODE eq employee.work_pattern?"selected":""} >
+																	<c:out value="${p.WORKPATTERNNAME }"/>
+																</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -314,7 +315,9 @@ input::-webkit-inner-spin-button {
 														<select id="work_type_code" name="work_type_code" required="required">
 															<option value="null">선택</option>
 															<c:forEach var="p" items="${data.workTypeList}">
-															<option value="${p.WORKTYPECODE }"><c:out value="${p.WORKTYPENAME }"/></option>
+															<option value="${p.WORKTYPECODE }" ${p.WORKTYPECODE eq employee.work_type_code?"selected":""}>
+																<c:out value="${p.WORKTYPENAME }"/>
+															</option>
 															</c:forEach>
 														</select>
 													</div>
@@ -325,10 +328,10 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label class="form-label">주소</label><br>
-													<input class="form-control" type="text" id="sample6_postcode" name="emp_postcode"  placeholder="우편번호" style="width:200px; display: inline-block;">
-													<input type="button" class="btn btn-soft-primary btn-file mb-1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-													<input class="form-control" type="text" id="sample6_address" name="emp_address" placeholder="주소" style="width:500px;">
-													<input class="form-control" type="text" id="sample6_detailAddress" name="emp_address_detail" placeholder="상세주소" style="width:500px;">
+													<input class="form-control" type="text" id="sample6_postcode" name="emp_postcode" value="${employee.emp_postcode}" placeholder="우편번호" style="width:200px; display: inline-block;">
+													<input class="btn btn-soft-primary btn-file mb-1" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+													<input class="form-control" type="text" id="sample6_address" name="emp_address" value="${employee.emp_address}" placeholder="주소" style="width:500px;">
+													<input class="form-control" type="text" id="sample6_detailAddress" name="emp_address_detail" value="${employee.emp_address_detail}" placeholder="상세주소" style="width:500px;">
 													<input class="form-control" type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 												
 												</div>
@@ -341,7 +344,7 @@ input::-webkit-inner-spin-button {
 														<label class="form-label">기타메모</label>
 														<small class="text-muted">1200</small>
 													</div>
-													<textarea class="form-control" id="emp_memo" name="emp_memo" rows="8" placeholder="특이사항이 있다면 입력해 주세요." style="resize:none;"></textarea>
+													<textarea class="form-control" id="emp_memo" name="emp_memo" rows="8" placeholder="특이사항이 있다면 입력해 주세요." style="resize:none;"><c:out value="${employee.emp_memo }"/></textarea>
 												</div>
 											</div>
 										</div>
@@ -352,12 +355,12 @@ input::-webkit-inner-spin-button {
 													<div class="custom-select" style="width:200px;">
 														<label class="form-label">은행</label>
 														<select id="ac_bank" name="ac_bank">
-															<option value="신한은행">신한은행</option>
-															<option value="농협은행">농협은행</option>
-															<option value="KB국민은행">KB국민은행</option>
-															<option value="하나은행">하나은행</option>
-															<option value="우리은행">우리은행</option>
-															<option value="기업은행">기업은행</option>
+															<option value="신한은행" ${account.ac_bank eq '신한은행'?"selected":""} >신한은행</option>
+															<option value="농협은행" ${account.ac_bank eq '농협은행'?"selected":""}>농협은행</option>
+															<option value="KB국민은행" ${account.ac_bank eq 'KB국민은행'?"selected":""}>KB국민은행</option>
+															<option value="하나은행" ${account.ac_bank eq '하나은행'?"selected":""}>하나은행</option>
+															<option value="우리은행" ${account.ac_bank eq '우리은행'?"selected":""}>우리은행</option>
+															<option value="기업은행" ${account.ac_bank eq '기업은행'?"selected":""}>기업은행</option>
 														</select>
 													</div>
 												</div>
@@ -367,15 +370,15 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">계좌번호</label>
-													<input class="form-control" type="number" id="ac_no" name="ac_no"  value=""/>
+													<input class="form-control" type="number" id="ac_no" name="ac_no"  value="${account.ac_no}"/>
 												</div>
 												<div class="form-group">
 													<label class="form-label">소유주</label>
-													<input class="form-control" type="text" id="ac_name" name="ac_name" value=""/>
+													<input class="form-control" type="text" id="ac_name" name="ac_name" value="${account.ac_name}"/>
 												</div>
 											</div>
 										</div>
-										<button class="btn btn-primary mt-5">저장</button>
+										<button class="btn btn-primary mt-5">수정</button>
 									</form>
 								</div>
 							</div>
@@ -440,7 +443,21 @@ input::-webkit-inner-spin-button {
 			}
 		}
 	</script>
-
+<script>
+//아이디 중복 검사 기능
+	fn_idDuplicate=()=>{
+		let value=document.getElementById('emp_id').value;
+		let $message = document.getElementById('idMessage');
+		
+		$.ajax({
+			url:"${path}/employees/searchEmployeeId",
+			data:{emp_id:value},
+			success:data=>{
+				$message.innerHTML = data;
+			}
+		})
+	}
+</script>
 	<script>
 	let fn_auto_hypen_resident=(e)=>{
 		e.target.value = e.target.value

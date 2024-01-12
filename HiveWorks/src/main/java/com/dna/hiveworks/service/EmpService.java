@@ -20,6 +20,8 @@ public interface EmpService {
 	
 	Employee selectEmployeeById(String empId);
 	
+	Map<String,Object> selectEmployeeByEmpNo(int empNo);
+	
 	List<Employee> selectEmployeesListAll();
 	
 	int insertEmployee(Map<String,Object> empData);
@@ -28,6 +30,7 @@ public interface EmpService {
 	List<Employee> searchEmployeesByKeyword(Map<String,Object> param);
 	
 	Map<String,List<Map<String,Object>>> selectDataListForEmployee();
+	
 	
 	
 }

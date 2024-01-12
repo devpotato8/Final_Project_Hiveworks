@@ -24,9 +24,9 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<div class="contact-list-view">
+		<div class="contact-list-view vacationList">
 			<!-- <table id="datable_1" class="table nowrap w-100 mb-5"> id="datable_1" 에 체크박스생성하는 js걸려있음-->
-			<table class="table nowrap w-100 mb-5"> 
+			<table class="table nowrap w-100 mb-5 "> 
 				<thead>
 					<tr>
 						<th>
@@ -90,6 +90,20 @@
 
 	</div>
 </div>
+<style>
+.contact-list-view{
+	height: 700px;
+}
+.vacationList{
+	overflow: auto;
+}
+.contact-list-view::-webkit-scrollbar {
+  display: block;
+}
+::-webkit-scrollbar-thumb {
+    background-color: lightblue;
+}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {

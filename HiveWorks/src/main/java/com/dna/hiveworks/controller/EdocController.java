@@ -256,13 +256,18 @@ public class EdocController {
 		return ResponseEntity.status(HttpStatus.OK).body(employees);
 	}
 	
-//	@GetMapping("/read")
-//	public String readElectronicDocument(@RequestParam String edocNo, @SessionAttribute Employee loginEmp, Model model) {
-//		
-//		ElectronicDocument edoc  = edocService.selectElectronicDocument(edocNo);
-//		
-//		return "";
-//	}
+	@GetMapping("/read")
+	public String readElectronicDocument(@RequestParam String edocNo, @SessionAttribute Employee loginEmp, Model model) {
+		
+		ElectronicDocument edoc  = edocService.selectElectronicDocument(edocNo);
+		
+		System.out.println("edoc: " + edoc);
+		
+		model.addAttribute("edoc",edoc);
+		
+		return "edoc/read";
+	}
+	
 	@GetMapping("/format/lists")
 	public String formatLists(Model model) {
 		return "edoc/formatList";

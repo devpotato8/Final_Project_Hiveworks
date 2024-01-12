@@ -1,5 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +33,28 @@ public class EmpServiceImpl implements EmpService {
 	private final EmpDaoImpl dao;
 	private final SqlSession session;
 	
+	
 	@Override
 	public Employee selectEmployeeById(String empId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	@Override
+	public Map<String,Object> selectEmployeeByEmpNo(int empNo) {
+		
+		Map<String,Object> value = new HashMap<>();
+		
+		Employee employee=dao.selectEmployeeByEmpNo(session, empNo);
+		Account account=dao.selectAccountByEmpNo(session, empNo);
+
+		
+
+		value.put("employee",employee);
+		value.put("account", account);
+
+		return value;
 	}
 
 	@Override
@@ -89,10 +108,12 @@ public class EmpServiceImpl implements EmpService {
 		data.put("jobList",dao.selectJobList(session));
 		data.put("workStatusList",dao.selectWorkStatusList(session));
 		data.put("workPatternList",dao.selectWorkPatternList(session));
+		data.put("workTypeList",dao.selectWorkTypeList(session));
 		
 		return data;
 		
 	}
+
 	
 	
 	

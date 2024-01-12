@@ -3,6 +3,8 @@
  */
 package com.dna.hiveworks.model.dto.edoc;
 
+import java.sql.Date;
+
 import com.dna.hiveworks.model.code.ApvCode;
 
 import lombok.AllArgsConstructor;
@@ -31,5 +33,9 @@ public class ElectronicDocumentApproval {
 	private long aprvlRank;
 	private String aprvlStatus;
 	private String aprvlComment;
+	private Date aprvlDate;
+	
+	private String aprvlEmpName;
+	private String aprvlAutoFilename;
 	
 }

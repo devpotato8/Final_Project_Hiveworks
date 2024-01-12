@@ -24,10 +24,14 @@
 				<div class="d-flex flex-wrap flex-1 align-items-center">
 					<div class="mb-lg-0 mb-2 d-flex align-items-center">
 						<h1 class="pg-title m-0">안녕하세요 ${c}님</h1>
-						<div id="weather" class="d-flex align-items-center justify-content-between" style="width: 240px; margin-left: 20px">
-						  <div class="badge badge-soft-danger my-1  me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
-						  <div class="badge badge-soft-danger my-1  me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>
-						  <div style="width: 50px; height: 50px"></div>
+						<div id="weather"
+							class="d-flex align-items-center justify-content-between"
+							style="width: 240px; margin-left: 20px">
+							<div class="badge badge-soft-danger my-1  me-1"
+								data-bs-toggle="tooltip" data-bs-placement="top" title="온도"></div>
+							<div class="badge badge-soft-danger my-1  me-1"
+								data-bs-toggle="tooltip" data-bs-placement="top" title="현재 위치"></div>
+							<div style="width: 50px; height: 50px"></div>
 						</div>
 					</div>
 				</div>
@@ -40,18 +44,18 @@
 			<div class="container d-flex justify-content-center">
 				<div class="left-container">
 					<!-- 프로필부분 -->
-					<div class="card card-border contact-card">
+					<div class="card card-border contact-card" style="margin-bottom: 50px">
 						<div class="card-body text-center">
 							<div class="card-action-wrap"></div>
 
-							<div class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
+							<div
+								class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
 								<%-- <img src="${path }/resources/img/logo_bee.png" alt="user" class="avatar-img" width="100px" height="100px"> --%>
-								<img src="${path }/resources/img/logo_bee.png" alt="user" class="brand-img img-fluid " width="100px" height="100px">
+								<img src="${path }/resources/img/logo_bee.png" alt="user"
+									class="brand-img img-fluid " width="100px" height="100px">
 							</div>
-							<div class="user-name">
-								나는 ${loginEmp.emp_name} 입니다
-							</div>
-							<div class="user-email">부서 </div>
+							<div class="user-name">나는 ${loginEmp.emp_name} 입니다</div>
+							<div class="user-email">부서</div>
 							<div class="user-contact">+145 52 5689</div>
 							<!-- <div class="user-desg">
 								<span
@@ -59,11 +63,14 @@
 								접속중
 							</div> -->
 						</div>
-						<div class="card-footer text-muted position-relative" >
-							<a href="${path }/mypage/myprofile" class="d-flex align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" title="프로필보기"
-								data-bs-target="#contact_detail"> 
-								<span	class="feather-icon me-2" style="color: navy;"><i data-feather="user-check"></i></span>
-								<span class="fs-7 lh-1" style="color: navy;">Profile</span>
+						<div class="card-footer text-muted position-relative">
+							<a href="${path }/mypage/myprofile"
+								class="d-flex align-items-center" data-bs-toggle="tooltip"
+								data-bs-placement="top" title="프로필보기"
+								data-bs-target="#contact_detail"> <span
+								class="feather-icon me-2" style="color: navy;"><i
+									data-feather="user-check"></i></span> <span class="fs-7 lh-1"
+								style="color: navy;">Profile</span>
 							</a>
 						</div>
 					</div>
@@ -72,115 +79,101 @@
 						<div></div>
 						<div>
 							<div class="d-flex flex-column align-items-center clockAndCheck">
-								<div class="btn-block" >출퇴근을 눌러주세요 😊</div>
-								<div class="btn-block" id="currentTime" ></div>
+								<div class="btn-block">출퇴근을 눌러주세요 😊</div>
+								<div class="btn-block" id="currentTime"></div>
 							</div>
 							<div class="button-container d-flex justify-content-center mt-3">
 								<form action="${path}/work/updateStartWork" method="post">
-									<input class="btn btn-flush-light btn-animated" type="submit" value="출근하기"/>
-									<input type="hidden" id="workStartTime" name="workStartTime" value=""/>
+									<input class="btn btn-flush-light btn-animated" type="submit"
+										value="출근하기" /> <input type="hidden" id="workStartTime"
+										name="workStartTime" value="" />
 								</form>
 								<form action="${path}/work/updateEndWork" method="post">
-									<input class="btn btn-flush-light btn-animated" type="submit" value="퇴근하기"/>
-									<input type="hidden" id="workEndTime" name="workEndTime" value=""/>
+									<input class="btn btn-flush-light btn-animated" type="submit"
+										value="퇴근하기" /> <input type="hidden" id="workEndTime"
+										name="workEndTime" value="" />
 								</form>
 							</div>
 							<div class="SEWork">
 								<c:if test="${not empty commute.workStartTime }">
-									<fmt:formatDate value="${commute.workStartTime}" pattern="HH:mm:ss" var="workStartTime" />
-	        						<div class="btn-block" style="background-color: #f1c40f">출근시간 - ${workStartTime}</div> <!-- 포맷팅된 날짜와 시간을 출력 -->
+									<fmt:formatDate value="${commute.workStartTime}"
+										pattern="HH:mm:ss" var="workStartTime" />
+									<div class="btn-block" style="background-color: #f1c40f">출근시간
+										- ${workStartTime}</div>
+									<!-- 포맷팅된 날짜와 시간을 출력 -->
 								</c:if>
 								<c:if test="${not empty commute.workEndTime }">
-									<fmt:formatDate value="${commute.workEndTime}" pattern="HH:mm:ss" var="workEndTime" />
-	        						<div class="btn-block" style="background-color: #f1c40f">퇴근시간 - ${workEndTime }</div>
-	        					</c:if>
+									<fmt:formatDate value="${commute.workEndTime}"
+										pattern="HH:mm:ss" var="workEndTime" />
+									<div class="btn-block" style="background-color: #f1c40f">퇴근시간
+										- ${workEndTime }</div>
+								</c:if>
 							</div>
 						</div>
 					</div>
-					
+						<button onclick="printAPI();">뉴스 출력</button>
+
 				</div>
 				<div class="right-container">
-					<div>
-						<!-- 캘린더 -->
-						<div class="sec_cal contact-card">
-
-							<div class="cal_nav">
-								<a href="javascript:;" class="nav-btn go-prev" data-bs-toggle="tooltip" data-bs-placement="top" title="이전달" >prev</a>
-								<div class="year-month"></div>
-								<a href="javascript:;" class="nav-btn go-next" data-bs-toggle="tooltip" data-bs-placement="top" title="다음달">next</a>
-							</div>
-
-							<div class="cal_wrap">
-								<div class="days">
-									<div class="day">MON</div>
-									<div class="day">TUE</div>
-									<div class="day">WED</div>
-									<div class="day">THU</div>
-									<div class="day">FRI</div>
-									<div class="day">SAT</div>
-									<div class="day">SUN</div>
+					<div class="right-container-up ">
+						<div class="cal-section align-items-center" style="width: 500px; margin-right: 50px">
+							<!-- 캘린더 -->
+							<div class="sec_cal contact-card">
+								<div class="cal_nav">
+									<a href="javascript:;" class="nav-btn go-prev"
+										data-bs-toggle="tooltip" data-bs-placement="top" title="이전달">prev</a>
+									<div class="year-month"></div>
+									<a href="javascript:;" class="nav-btn go-next"
+										data-bs-toggle="tooltip" data-bs-placement="top" title="다음달">next</a>
 								</div>
-								<div class="dates"></div>
+
+								<div class="cal_wrap">
+									<div class="days">
+										<div class="day">MON</div>
+										<div class="day">TUE</div>
+										<div class="day">WED</div>
+										<div class="day">THU</div>
+										<div class="day">FRI</div>
+										<div class="day">SAT</div>
+										<div class="day">SUN</div>
+									</div>
+									<div class="dates"></div>
+								</div>
 							</div>
 						</div>
-					</div>
-					<!-- 2 -->
-					<div class="d-flex justify-content-center">
-					<div style="width: 400px; height: 400px" class="d-flex justify-content-center">
-						<img alt="" src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium" style="width: 350px; height: 350px">
-					</div>
+						<!-- 2 -->
+						<div class="d-flex justify-content-center">
+							<div style="width: 400px; height: 400px" class="d-flex justify-content-center">
+								<img alt=""
+									src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium"
+									style="width: 350px; height: 350px">
+							</div>
+						</div>
 					</div>
 
 					<!-- 3 -->
-					<div class="d-flex justify-content-center">
-					<div style="width: 400px; height: 350px" class="justify-content-center text-center">
-						<table class="table table table-hover table-sm">
-							<thead class="bg-navy">
-								<tr>
-									<th scope="col">번호</th>
-									<th scope="col">제목</th>
-									<th scope="col">조회수</th>
-									<th scope="col">날짜</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>1</th>
-									<td>제목</td>
-									<td>12</td>
-									<td>2024.01.03</td>
-								</tr>
-								<tr>
-									<th>2</th>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<th>3</th>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<th>4</th>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<th>5</th>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					
+					<div class="right-container-down">
+						<div class="newsList">
+							<div style="width: 750px; height: 500px"class="justify-content-center text-center">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">번호</th>
+											<th scope="col">제목</th>
+											<th scope="col">내용</th>
+											<th scope="col">날짜</th>
+										</tr>
+									</thead>
+									<tbody id="myTbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 					<!--  -->
 					<!-- 게시판보여주기 -->
-					<div class="d-flex justify-content-center">
+					<!-- <div class="d-flex justify-content-center">
 					<div style="width: 400px; height: 350px" class="justify-content-center text-center">
 						<table class="table table-hover table-sm">
 							<thead>
@@ -225,9 +218,10 @@
 							</tbody>
 						</table>
 					</div>
-					</div>
+					</div> -->
 					<!-- 게시판보여주기 -->
 				</div>
+
 			</div>
 		</div>
 
@@ -236,38 +230,45 @@
 
 <style>
 @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
+	font-family: 'Pretendard-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
 }
+
 :root {
-            --navy: rgba(14, 25, 90, 0.8);
+	--navy: rgba(14, 25, 90, 0.8);
 }
+
 * {
 	box-sizing: border-box;
 	font-family: 'Pretendard-Regular';
 }
-button{ 
+
+button {
 	border: none;
 	background-color: var(--navy);
 	color: white;
 	border-radius: 5px;
 	padding: 11px;
 }
-.btn-block{
+
+.btn-block {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 5px;
 	height: 40px;
 }
-.SEWork{ 
+
+.SEWork {
 	margin-top: 20px;
-	background-color: white; 
+	background-color: white;
 	color: white;
 	display: flex;
-	flex-direction:column;
+	flex-direction: column;
 	font-size: 16px;
 	text-align: center;
 }
@@ -277,6 +278,7 @@ button{
 	width: 100%;
 	height: 100%;
 	display: flex;
+	justify-content: space-between;
 }
 
 .left-container {
@@ -284,9 +286,6 @@ button{
            flex-direction: column; */
 	justify-content: space-between;
 	width: 25%;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 15px;
 }
 
 .left-container>div {
@@ -297,24 +296,43 @@ button{
 
 .right-container {
 	margin-left: 50px;
-	width: 70%;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	width: 60%;
+	display: flex;
+	flex-direction: column;
 	/* gap: 15px; */
+}
+
+.right-container-up{
+	display:flex;
+	width: 100%;
+}
+
+.right-container-down{
+	display: flex;
+	width: 100%;
 }
 
 .right-container>div {
 	/* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
-	border-radius: 5px;
+	/* border-radius: 5px;
 	width: 470px;
-	height: 350px;
+	height: 350px; */
 }
 
-table>thead{
+.newsList{
+	overflow: auto;
+}
+.newsList::-webkit-scrollbar {
+  display: block;
+}
+::-webkit-scrollbar-thumb {
+    background-color: lightblue;
+}
+table>thead {
 	background-color: var(--navy);
 }
 
-.clockAndCheck > div {
+.clockAndCheck>div {
 	background-color: var(--navy);
 	color: white;
 }
@@ -433,8 +451,42 @@ table>thead{
 	color: #ddd;
 }
 </style>
-<script>
 
+<!-- naverAPI -->
+<script>
+	function printAPI(){
+		fetch("${path }/naverApi")
+		.then((res)=> res.json())
+		.then((data)=> {
+			console.log(data);
+			data.items.forEach( (e, index) =>{
+				console.log(e['title']);
+				const tr = document.createElement("tr");
+				const num = document.createElement("th");
+				const title = document.createElement("td");
+				const description = document.createElement("td");
+				const pubDate = document.createElement("td");
+				const link = document.createElement("a");
+				
+				/* 링크를넣고 text를 추가해야함 */
+				link.href = e['link'];
+				link.textContent = e['title'];
+				
+				num.textContent = (index + 1).toString();
+				description.textContent = e['description'];
+				pubDate.textContent = e['pubDate'];
+				
+				tr.appendChild(num);
+				title.appendChild(link);
+				tr.appendChild(title);
+			  	tr.appendChild(description);
+			 	tr.appendChild(pubDate);
+			 	
+				document.getElementById("myTbody").appendChild(tr);
+			});
+		});
+	}
+	//printAPI();
 </script>
 
 <!-- 날씨정보가져오기 -->
