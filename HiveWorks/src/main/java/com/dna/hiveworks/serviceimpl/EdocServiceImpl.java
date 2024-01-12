@@ -100,4 +100,20 @@ public class EdocServiceImpl implements EdocService{
 	public List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(String deptCode) {
 		return dao.selectEmployeeInSubDepartmentByDeptCode(session, deptCode);
 	}
+	
+	@Override
+	public ElectronicDocument selectElectronicDocument(String edocNo) {
+		
+		ElectronicDocument edoc = dao.selectElectronicDocument(session, edocNo);
+		edoc.setApproval(dao.selectElectronicDocumentApproval(session, edocNo));
+		edoc.setAttachFiles(dao.selectElectronicDocumentAttachFiles(session,edocNo));
+		edoc.setComments(dao.selectElectronicDocumentComments(session, edocNo));
+		
+		Map<String,Object> empData = dao.getEmpData(session, edoc.getCreater());
+		edoc.setCreaterEmpName((String)empData.get("EMPNAME"));
+		edoc.setCreaterDeptName((String)empData.get("DEPTNAME"));
+		edoc.setCreaterJobName((String)empData.get("JOBNAME"));
+		
+		return edoc;
+	}
 }

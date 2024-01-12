@@ -12,6 +12,7 @@ import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentComment;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
@@ -39,8 +40,6 @@ public interface EdocDao {
 	
 	int insertEdoc(SqlSession session, ElectronicDocument edoc);
 
-	ElectronicDocument getEdoc(SqlSession session, String edocNo);
-	
 	List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(SqlSession session, String deptCode);
 	
 	int insertEdocApproval(SqlSession session, List<ElectronicDocumentApproval> approval);
@@ -48,5 +47,12 @@ public interface EdocDao {
 	int insertEdocReference(SqlSession session, List<ElectronicDocumentReference> reference);
 
 	int insertEdocAttachFile(SqlSession session, List<ElectronicDocumentAttachFile> attachFile);
+
+	ElectronicDocument selectElectronicDocument(SqlSession session, String edocNo);
+
+	List<ElectronicDocumentApproval> selectElectronicDocumentApproval(SqlSession session, String edocNo);
 	
+	List<ElectronicDocumentAttachFile> selectElectronicDocumentAttachFiles(SqlSession session, String edocNo);
+
+	List<ElectronicDocumentComment> selectElectronicDocumentComments(SqlSession session, String edocNo);
 }

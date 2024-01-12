@@ -127,4 +127,19 @@ public interface EdocService {
 	 * @return
 	 */
 	List<Map<String, Object>> selectEmployeeInSubDepartmentByDeptCode(String deptCode);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 12. 
+	 * @Return : ElectronicDocument
+	 * 
+	 * Description : 전자문서번호로 전자문서를 불러오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 12., 설명 : 최초 작성
+	 *
+	 * @param edocNo
+	 * @return
+	 */
+	ElectronicDocument selectElectronicDocument(String edocNo);
 }

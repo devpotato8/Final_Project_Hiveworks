@@ -14,6 +14,7 @@ import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentComment;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
@@ -56,11 +57,6 @@ public class EdocDaoImpl implements EdocDao{
 	}
 
 	@Override
-	public ElectronicDocument getEdoc(SqlSession session, String edocNo) {
-		return session.selectOne("edoc.getEdoc",edocNo);
-	}
-	
-	@Override
 	public int insertEdoc(SqlSession session, ElectronicDocument edoc) {
 		return session.insert("edoc.insertEdoc", edoc);
 	}
@@ -89,5 +85,25 @@ public class EdocDaoImpl implements EdocDao{
 		final int[] result = {0};
 		attachFile.forEach(file ->{result[0]+= session.insert("edoc.insertEdocAttachFile",file);});
 		return result[0];
+	}
+
+	@Override
+	public ElectronicDocument selectElectronicDocument(SqlSession session, String edocNo) {
+		return session.selectOne("edoc.selectElectronicDocument", edocNo);
+	}
+
+	@Override
+	public List<ElectronicDocumentApproval> selectElectronicDocumentApproval(SqlSession session, String edocNo) {
+		return session.selectList("edoc.selectElectronicDocumentApproval", edocNo);
+	}
+
+	@Override
+	public List<ElectronicDocumentAttachFile> selectElectronicDocumentAttachFiles(SqlSession session, String edocNo) {
+		return session.selectList("edoc.selectElectronicDocumentAttachFiles", edocNo);
+	}
+
+	@Override
+	public List<ElectronicDocumentComment> selectElectronicDocumentComments(SqlSession session, String edocNo) {
+		return session.selectList("edoc.selectElectronicDocumentComments", edocNo);
 	}
 }
