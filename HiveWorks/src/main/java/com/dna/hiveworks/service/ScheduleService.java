@@ -1,6 +1,7 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
@@ -13,6 +14,8 @@ public interface ScheduleService {
 	
 	
 	List<Schedule> selectScheduleAll();
+	
+	List<Schedule> searchSchedule(Map<String,Object> param);
 
 	int insertSchedule(Schedule schedule, List<Integer> empList);
 	

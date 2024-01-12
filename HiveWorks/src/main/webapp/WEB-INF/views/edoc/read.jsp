@@ -25,7 +25,7 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
-							<h1 class="fmapp-title">기안하기</h1>
+							<h1 class="fmapp-title">문서 열람</h1>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -43,149 +43,107 @@
 								<!-- 탭 메뉴 -->
 								<ul class="nav nav-tabs nav-line nav-icon nav-light">
 									<li class="nav-item">
-										<a class="nav-link active" data-bs-toggle="tab" href="#write_doc">
-											<span class="nav-link-text">문서작성</span>
-										</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" data-bs-toggle="tab" href="#approval_set">
-											<span class="nav-link-text">결재선설정</span>
+										<a class="nav-link active" data-bs-toggle="tab" href="#document">
+											<span class="nav-link-text">전자문서</span>
 										</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" data-bs-toggle="tab" href="#attach_file">
-											<span class="nav-link-text">파일첨부</span>
+											<span class="nav-link-text">첨부파일</span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" data-bs-toggle="tab" href="#comment_history">
+											<span class="nav-link-text">의견/이력</span>
 										</a>
 									</li>
 								</ul>
 								<!-- 탭 내용 -->
 								<div class="tab-content">
-									<!-- 문서 작성 탭 -->
-									<div class="tab-pane fade show active" id="write_doc">
+									<!-- 전자문서 탭 -->
+									<div class="tab-pane fade show active" id="document">
 										<div class="table-responsive col-sm-8">
 											<table class="table">
 												<tbody>
 													<tr>
 														<th scope="row">문서종류</th>
+														<td>${edoc.edocDotCode.code}</td>
+														<th scope="row">기안자</th>
 														<td>
-															<div class="input-group mb-3">
-																<select class="form-select" name="edocDotCode" id="edocType">
-																	<option disabled="disabled" selected="selected">문서종류</option>
-																	<c:forEach items="${dotcode }" var="t">
-																		<option value="${t }">${DotCode.valueOf(t).code }</option>
-																	</c:forEach>
-																</select>
-																<select class="form-select" id="edocFormat">
-																	<option disabled="disabled" selected="selected">종류를 선택해주세요</option>
-																</select>
-															</div>
-														</td>
-														<th scope="row">작성자</th>
-														<td>
-															<c:out value="${emp.DEPTNAME }"/> <c:out value="${emp.JOBNAME }"/> <c:out value="${emp.EMPNAME }"/>
-															<input type="hidden" name="edocCreater" value="${emp.EMPNO }" id="edocCreter">
+															<c:out value="${edoc.createrDeptName }"/> <c:out value="${edoc.createrJobName }"/> <c:out value="${edoc.createrEmpName }"/>
 														</td>
 													</tr>
 													<tr>
 														<th scope="row">보존연한</th>
 														<td>
-															<select class="form-select" name="period" id="period">
-																<optgroup label="보존연한">
-																	<option value="1">1년</option>
-																	<option value="3" selected="selected">3년</option>
-																	<option value="5">5년</option>
-																	<option value="10">10년</option>
-																</optgroup>
-															</select>
+															<fmt:formatDate type="date" value="${edoc.edocPreservePeriod }"/>
 														</td>
 														<th scope="row">보안등급</th>
 														<td>
-															<select class="form-select" name="edocDsgCode" id="edocDsgCode">
-																<optgroup label="보안등급">
-																	<c:forEach items="${dsgcode }" var="s">
-																		<option value="${s}"
-																			<c:if test="${s eq 'DSG003' }">selected</c:if>
-																		>${DsgCode.valueOf(s).code }</option>
-																	</c:forEach>
-																</optgroup>
-															</select>
+															${edoc.edocDsgCode.code}
+														</td>
+													</tr>
+													<tr>
+														<th scope="row">문서기안일</th>
+														<td>
+															<fmt:formatDate type="both" value="${edoc.createDate }" timeStyle="short"/>
+														</td>
+														<th scope="row">문서종료일</th>
+														<td>
+															<fmt:formatDate type="both" value="${edoc.finalizedDate }" timeStyle="short"/>
 														</td>
 													</tr>
 												</tbody>
 											</table>
+											<table class="table">
+												<tr>
+													<td rowspan="3">결재</td>
+													<c:forEach items="${edoc.approval }" var="a">
+														<td class="text-center">
+															${a.aprvlEmpName }
+														</td>
+													</c:forEach>
+												</tr>
+												<tr>
+													<c:forEach items="${edoc.approval }" var="a">
+														<td class="text-center">
+															<c:choose>
+																<c:when test="${a.aprvlApvCode ne 'APV000' }">
+																	<img src="${path }/resources/upload/edoc/autograph/${a.aprvlAutoFilename}">
+																</c:when>
+																<c:when test="${a.aprvlStatus eq 'W' and a.aprvlEmpNo eq loginEmp.emp_no }">
+																	<button class="btn btn-sm btn-primary" type="button">결재</button> 
+																</c:when>
+															</c:choose>
+														</td>
+													</c:forEach>
+												</tr>
+												<tr>
+													<c:forEach items="${edoc.approval }" var="a">
+														<td class="text-center">
+														<c:if test="${a.aprvlApvCode ne 'APV000' }">
+															<fmt:formatDate type="date" value="${a.aprvlDate }"/>
+														</c:if>
+														</td>
+													</c:forEach>
+												</tr>
+											</table>
 										</div>
-										<div class="col-sm-2">
-											<button type="button" class="btn btn-primary" id="submitButton">기안하기</button>
-										</div>
-										<div class="edoc-detail-container">
-											<div class="mb-3">
-												<span class="form-label">제목 : </span>
-												<input type="text" class="form-control" name="edocTitle" id="edocTitle"/>
-											</div>
-										</div>
+										
 										<span class="form-label">본문 : </span>
-										<div class="editor">
-											<div class="editor-toolbar-container">
-											</div>
-											<div class="editor-editable-container">
-												<div class="editor-editable"  id="content">
-												</div>
-											</div>
+										<div class="container document-container">									
+											${edoc.edocContent}
 										</div>
 									</div>
-									<!-- 결재선 설정 탭 -->
-									<div class="tab-pane fade" id="approval_set">
-										<div class="row">
-											<div class="col-xl-3" id="deptTree"> </div>
-											
-											<div class="col-xl-3">
-												<label for="employee-list-container">소속사원</label>
-												<div id="employee-list-containter">
-													<select class="form-select form-select-lg" multiple size="10" id="employee-list">
-													</select>
-												</div>
-												<div class="d-flex justify-content-evenly">
-													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeSelectAllBtn">전체선택</button>
-													<button type="button" class="btn-sm btn-outline fw-bold" id="employeeDeselectAllBtn">선택해제</button>
-												</div>
-											</div>
-											<div class="col-xl-4 d-flex flex-column">
-												<label for="approvalList" class="px-10">결재</label>
-												<div class="d-flex flex-row mb-3">
-													<div class="d-flex flex-column justify-content-center">
-														<button type="button" class="btn btn-sm btn-outline mb-3" id="addApprovalList"><span><i class="ti-angle-right"></i></span></button>
-														<button type="button" class="btn btn-sm btn-outline" id="removeApprovalList"><span><i class="ti-angle-left"></i></span></button>
-													</div>
-													<div class="container">
-														<select class="form-select" multiple size="5" name="approvalList" id="approvalList">
-														</select>
-													</div>
-													<div class="approval-direction">
-														결<br>
-														재<br>
-														방<br>
-														향<br>
-													</div>
-												</div>
-												<label for="referenceList" class="px-10">참조</label>
-												<div class="d-flex flex-row mb-3">
-													<div class="d-flex flex-column justify-content-center">
-														<button type="button" class="btn btn-sm btn-outline mb-3" id="addReferenceList"><span><i class="ti-angle-right"></i></span></button>
-														<button type="button" class="btn btn-sm btn-outline" id="removeReferenceList"><span><i class="ti-angle-left"></i></span></button>
-													</div>
-													<div class="container">
-														<select class="form-select" multiple size="5" name="referenceList" id="referenceList">
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- 파일 첨부 탭 -->
+									<!-- 첨부파일 탭 -->
 									<div class="tab-pane fade" id="attach_file">
-										<div class="file-container"  id="fileContainer">
-											<input type="file" name="file" id="file" multiple/>
+										<div class="row">
+											
 										</div>
+									</div>
+									<!-- 의견/이력 탭 -->
+									<div class="tab-pane fade" id="comment_history">
+										
 									</div>
 								</div>
 							</div>
@@ -223,8 +181,6 @@
 	
 <link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
 
-<script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
-<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
 <script>
 $(function(){
 	jampack();
@@ -244,7 +200,7 @@ $(function(){
 	//taskboardApp();
 	//checklistApp();
 	//todoApp();
-	getDeptList();
+	
 
 	/*Table Search*/
 	$(".table-search").on("keyup", function() {
@@ -259,8 +215,6 @@ $(function(){
 		 return false;
 	});
 	
-	// 결재목록에 자동으로 자기자신 추가
-	fnAddApprovalListLoginEmp('${emp.EMPNO }', '${emp.DEPTNAME }', '${emp.JOBNAME }', '${emp.EMPNAME }');
 });
 
 </script>
