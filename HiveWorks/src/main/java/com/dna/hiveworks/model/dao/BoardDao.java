@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.dna.hiveworks.model.dto.Board;
-import com.dna.hiveworks.model.dto.Uploadfile;
+import com.dna.hiveworks.model.dto.board.Board;
+import com.dna.hiveworks.model.dto.board.Survey;
+import com.dna.hiveworks.model.dto.board.Uploadfile;
 
 
 public interface BoardDao {
@@ -21,8 +22,5 @@ public interface BoardDao {
 	Board boardDelete(SqlSession session, int boardNo);
 
 	int insertUploadfile(SqlSession session, Uploadfile uploadfile);
-
-	
-
 
 }

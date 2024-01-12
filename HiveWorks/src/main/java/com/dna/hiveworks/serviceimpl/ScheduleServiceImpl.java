@@ -25,10 +25,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public int insertSchedule(Schedule schedule, List<Integer> empList) {
+		int inviresult = 0;
 		int scheduleResult = dao.insertSchedule(session, schedule);
 		if (scheduleResult > 0) {
 			if (empList.size() > 0) {
-				int inviresult = dao.insertInvitation(session, empList);
+				inviresult = dao.insertInvitation(session, empList);
 				if (inviresult == 0) {
 					throw new RuntimeException("일정 등록 실패");
 				}
@@ -38,17 +39,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 			throw new RuntimeException("일정 등록 실패");
 
 		}
-		return scheduleResult;
+		return inviresult;
 	}
 
 	@Override
 	public int updateSchedule(Schedule schedule, List<Integer> empList, int calNo) {
+		int updateInvi = 0;
 		int scheduleUpdate = dao.updateSchedule(session, schedule, calNo);
 
-		if (empList.size() > 0) {
+		if (scheduleUpdate>0 && empList.size() > 0) {
 			int deleteInvi = dao.deleteInvitaion(session, calNo); // delete지만 useYn을 n으로
 			if (deleteInvi > 0) {
-				int updateInvi = dao.updateInvitaion(session, empList, calNo);
+				updateInvi = dao.updateInvitaion(session, empList, calNo);
 
 				if (updateInvi == 0) {
 					throw new RuntimeException("일정 수정 실패");
@@ -63,16 +65,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public int deleteSchedule(int calNo) {
+		int deleteInvi = 0;
 		int scheduleDelete = dao.deleteSchedule(session, calNo);
 		if(scheduleDelete > 0) {
-			int deleteInvi = dao.deleteInvitaion(session, calNo);
+			deleteInvi = dao.deleteInvitaion(session, calNo);
 			if(deleteInvi == 0) {
 				throw new RuntimeException("일정 삭제 실패");
 			}
 		}else{
 	        throw new RuntimeException("일정 삭제 실패");
 		}
-		return scheduleDelete;
+		return deleteInvi;
 	}
 
 	@Override

@@ -13,6 +13,81 @@
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<style>
+/*the container must be positioned relative:*/
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: MediumSeaGreen;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: MediumSeaGreen;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* input number의 스핀버튼 제거 */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+</style>
+
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Main Content -->
@@ -34,25 +109,25 @@
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post">
+									<form action="${path }/employees/enrollEmployeeEnd.do" method="post" enctype="multipart/form-data">
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
 													<div class="media align-items-center">
 														<div class="media-head me-5">
-															<div class="avatar avatar-rounded avatar-xxl">
+															<div class="avatar avatar-rounded avatar-xxl" id="imgContainer">
 																<img src="dist/img/avatar3.jpg" alt="user" class="avatar-img">
 															</div>
 														</div>
 														<div class="media-body">
 															<div class="btn btn-soft-primary btn-file mb-1">
 																사진 등록
-																<input type="file" class="upload">
+																<input type="file" class="upload" id="emp_profile_ori_name" name="upFile" onchange="fn_change_file();" accept="image/*">
 															</div>
 															<div class="form-text text-muted">
 																 이미지 크기 450px x 450px. 최대 5mb.
 															</div>
-														</div>
+														</div>	
 													</div>
 												</div>
 											</div>
@@ -61,60 +136,96 @@
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">성함</label>
-													<input class="form-control" type="text" id="emp_name" name="emp_name" value=""/>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">부서명</label>
-													<select id="dept_code">
-														<c:forEach var="p" items="${data.deptList}">
-														<option value="${p.DEPTCODE }"><c:out value="${p.DEPTNAME }"/></option>
-														</c:forEach>
-													</select>
+													<label class="form-label">*아이디</label>
+													<input class="form-control" type="text" id="emp_id" name="emp_id" value="" required="required"/>
+													<div id="idMessage"></div>
+													<button type="button" onclick="fn_idDuplicate();" class="btn btn-soft-primary btn-file mb-1" >중복확인</button>
 												</div>
 											</div>
 										</div>
 										<script>
-										$("#searchId").keyup(e=>{
-											const value=e.target.value;
-											$.ajax({
-												url:"${path}/searchDeptName",
-												data:{"keyword":value},
-												success:data=>{
-													const emp_ids=data.split(",");
-													$("#data").html("");
-													emp_ids.forEach(e=>{
-														const $op=$("<option>").attr("value",e).text(e);
-														$("#data").append($op);
-													});
-												}
-											})
-										});
+											fn_idDuplicate=()=>{
+												let value=document.getElementById('emp_id').value;
+												let $message = document.getElementById('idMessage');
+												
+												$.ajax({
+													url:"${path}/employees/searchEmployeeId",
+													data:{emp_id:value},
+													success:data=>{
+														$message.innerHTML = data;
+													}
+												})
+												
+											}
 										</script>
-										
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">사내전화</label>
-													<input class="form-control" type="text" id="emp_phone" name="emp_phone" value=""/>
+													<label class="form-label">*비밀번호</label>
+													<input class="form-control" type="password" id="emp_pw" name="emp_pw" value="" min="8" maxlength="25" required="required" />
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">핸드폰번호</label>
-													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" value=""/>
+													<label class="form-label">*비밀번호확인</label>
+													<input class="form-control" type="password" id="emp_pw_check" name="emp_pw_check" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
+													<div id="pwMessage"></div>
 												</div>
 											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">이메일</label>
+													<label class="form-label">*성함</label>
+													<input class="form-control" type="text" id="emp_name" name="emp_name" value="" required="required"/>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">*입사일</label>
+													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="" required="required"/>
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">*주민번호</label>
+													<input class="form-control" type="text" id="emp_resident_no" name="emp_resident_no" 
+													onkeyup="fn_auto_hypen_resident(event);fn_auto_birthdate(event,birth);" placeholder="123456-1234567" maxlength="14" required="required"/>
+												</div>
+											</div>
+										</div>
+										
+ 										<!-- <div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">생년월일</label>
+													<input class="form-control" type="text" value=""/>
+												</div>
+											</div>
+										</div> -->
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">사내전화</label>
+													<input class="form-control" type="text" id="emp_phone" onkeyup="fn_auto_hypen_phone(event);" name="emp_phone" value="" maxlength="13"/>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">*핸드폰번호</label>
+													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" onkeyup="fn_auto_hypen_cellPhone(event);" value="" required="required"/>
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">이메일</label><br>
 													<input class="form-control" type="hidden" id="emp_email" name="emp_email" value=""/>
-													<input class="form-control" type="text" id="email_id" name="email_id" value=""/>@
-													<input class="form-control" type="text" id="domain-txt" name="email_form" value=""/>
+													<input class="form-control" type="text" id="email_id" name="email_id" value="" style="width:200px; display:inline-block;"/>@
+													<input class="form-control" type="text" id="domain-txt" name="email_form" value="" style="width:200px; display:inline-block;"/>
 													<select id="domain-list">
 														<option value="none">직접 입력</option>
 														<option value="naver.com">naver.com</option>
@@ -125,86 +236,88 @@
 													</select>
 												</div>
 											</div>
-										</div>
-										<script>
-										// 도메인 직접 입력 or domain option 선택
-										const domainListEl = document.querySelector('#domain-list')
-										const domainInputEl = document.querySelector('#domain-txt')
-										// select 옵션 변경 시
-										domainListEl.addEventListener('change', (event) => {
-										  // option에 있는 도메인 선택 시
-										  if(event.target.value !== "none") {
-										    // 선택한 도메인을 input에 입력하고 disabled
-										    domainInputEl.value = event.target.value
-										    domainInputEl.disabled = true
-										  } else { 
-											// 직접 입력 시
-										    // input 내용 초기화 & 입력 가능하도록 변경
-										    domainInputEl.value = ""
-										    domainInputEl.disabled = false
-										  }
-										});
-										
-										let $email = document.getElementById('#emp_email');
-										let $emailId = document.getElementById('#email_id');
-										
-										$email.addEventListener('submit',(event)=>{
-											
-											event.target.value = $emailId + domainInputEl;
-										});
-										
-										let $address = document.getElementById('#emp_address');
-										
-										
-										$address.addEventListener('submit',(event)=>{
-											
-											event.target.value = $emailId + domainInputEl;
-										});
-										
-										
-
-										</script>
+										</div>			
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">직위</label>
-													<select id="position_code">
-														<c:forEach var="p" items="${data.positionList}">
-														<option value="${p.POSITIONCODE }"><c:out value="${p.POSITIONNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">부서명</label>
+														<select id="dept_code" name="dept_code">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.deptList}">
+															<option value="${p.DEPTCODE }"><c:out value="${p.DEPTNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>	
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">*직위</label>
+														<select id="position_code" name="position_code" required="required">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.positionList}">
+															<option value="${p.POSITIONCODE }"><c:out value="${p.POSITIONNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">직급</label>
-													<select id="job_code">
-														<c:forEach var="p" items="${data.jobList}">
-														<option value="${p.JOBCODE }"><c:out value="${p.JOBNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">*직무</label><br>
+														<select id="job_code" name="job_code" required="required">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.jobList}">
+															<option value="${p.JOBCODE }"><c:out value="${p.JOBNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">근로상태</label>
-													<select id="work_status">
-														<c:forEach var="p" items="${data.workStatusList}">
-														<option value="${p.WORKSTATUSCODE }"><c:out value="${p.WORKSTATUSNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">*근로상태</label>
+														<select id="work_status" name="work_status" required="required">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.workStatusList}">
+															<option value="${p.WORKSTATUSCODE }"><c:out value="${p.WORKSTATUSNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">근로형태</label>
-													<select id="work_pattern">
-														<c:forEach var="p" items="${data.workPatternList}">
-														<option value="${p.WORKPATTERNCODE }"><c:out value="${p.WORKPATTERNNAME }"/></option>
-														</c:forEach>
-													</select>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">*근로형태</label>
+														<select id="work_pattern" name="work_pattern" required="required">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.workPatternList}">
+															<option value="${p.WORKPATTERNCODE }"><c:out value="${p.WORKPATTERNNAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">*근무유형</label>
+														<select id="work_type_code" name="work_type_code" required="required">
+															<option value="null">선택</option>
+															<c:forEach var="p" items="${data.workTypeList}">
+															<option value="${p.WORKTYPECODE }"><c:out value="${p.WORKTYPENAME }"/></option>
+															</c:forEach>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -212,27 +325,12 @@
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label class="form-label">주소</label><br>
-													<input type="hidden" id="emp_address" name="emp_address"/>
-													<input type="text" id="sample6_postcode" placeholder="우편번호">
-													<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-													<input type="text" id="sample6_address" placeholder="주소">
-													<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-													<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+													<input class="form-control" type="text" id="sample6_postcode" name="emp_postcode"  placeholder="우편번호" style="width:200px; display: inline-block;">
+													<input type="button" class="btn btn-soft-primary btn-file mb-1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+													<input class="form-control" type="text" id="sample6_address" name="emp_address" placeholder="주소" style="width:500px;">
+													<input class="form-control" type="text" id="sample6_detailAddress" name="emp_address_detail" placeholder="상세주소" style="width:500px;">
+													<input class="form-control" type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 												
-												</div>
-											</div>
-										</div>
-										<div class="row gx-3">
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">생년월일</label>
-													<input class="form-control" type="text" value=""/>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">주민번호</label>
-													<input class="form-control" type="number" id="emp_resident_no" name="emp_resident_no" value=""/>
 												</div>
 											</div>
 										</div>
@@ -243,10 +341,7 @@
 														<label class="form-label">기타메모</label>
 														<small class="text-muted">1200</small>
 													</div>
-													<textarea class="form-control" rows="8" placeholder="Write an internal note"></textarea>
-													<small class="form-text text-muted">
-														Brief bio about yourself. This will be displayed on your profile page.
-													</small>
+													<textarea class="form-control" id="emp_memo" name="emp_memo" rows="8" placeholder="특이사항이 있다면 입력해 주세요." style="resize:none;"></textarea>
 												</div>
 											</div>
 										</div>
@@ -254,22 +349,33 @@
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">은행</label>
-													<input class="form-control" type="text" value=""/>
-												</div>
-												<div class="form-group">
-													<label class="form-label">소유주</label>
-													<input class="form-control" type="text" value=""/>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">계좌번호</label>
-													<input class="form-control" type="text" value=""/>
+													<div class="custom-select" style="width:200px;">
+														<label class="form-label">은행</label>
+														<select id="ac_bank" name="ac_bank">
+															<option value="신한은행">신한은행</option>
+															<option value="농협은행">농협은행</option>
+															<option value="KB국민은행">KB국민은행</option>
+															<option value="하나은행">하나은행</option>
+															<option value="우리은행">우리은행</option>
+															<option value="기업은행">기업은행</option>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
-										<button class="btn btn-primary mt-5" >저장</button>
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">계좌번호</label>
+													<input class="form-control" type="number" id="ac_no" name="ac_no"  value=""/>
+												</div>
+												<div class="form-group">
+													<label class="form-label">소유주</label>
+													<input class="form-control" type="text" id="ac_name" name="ac_name" value=""/>
+												</div>
+											</div>
+										</div>
+										<button class="btn btn-primary mt-5">저장</button>
 									</form>
 								</div>
 							</div>
@@ -308,6 +414,68 @@
 	<script src="${path }/resources/js/chips-init.js"></script>
 	<!-- 주소 api -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+	//프로필 사진 보이게 하기
+		fn_change_file=()=>{
+			let $profile =document.getElementById('emp_profile_ori_name');
+			let file = $profile.files[0];
+			
+			if(file){
+				let reader = new FileReader();
+				reader.onload = function(e){
+					let imageContainer = document.getElementById('imgContainer');
+					let img = document.createElement('img');
+					img.src = e.target.result;
+					img.alt = '프로필 사진';
+					img.style.maxWidth = '150px';
+					//img.name = 'upFile';
+					
+					imageContainer.innerHTML = '';
+					imageContainer.appendChild(img);
+					
+					console.log(img);
+				}
+				
+				reader.readAsDataURL(file);
+			}
+		}
+	</script>
+
+	<script>
+	let fn_auto_hypen_resident=(e)=>{
+		e.target.value = e.target.value
+		.replace(/[^0-9]/g, '')
+		.replace(/^(\d{0,6})(\d{0,7})$/g, '$1-$2')
+		.replace(/-{1,2}$/g, '');	
+	};
+	
+	let fn_auto_hypen_phone=(e)=>{
+		
+		let checkPhone =e.target.value
+		.replace(/[^0-9]/g, '');
+		
+		if(checkPhone.startsWith('02')){
+			e.target.value=e.target.value
+			.replace(/[^0-9]/g, '')
+			.replace(/^(\d{2})(\d{3,4})(\d{4})$/g, '$1-$2-$3')
+			.replace(/-{1,2}$/g, '');				
+		}else{
+			e.target.value=e.target.value
+			.replace(/[^0-9]/g, '')
+			.replace(/^(\d{3})(\d{3,4})(\d{4})$/g, '$1-$2-$3')
+			.replace(/-{1,2}$/g, '');
+		}
+	}
+	
+	let fn_auto_hypen_cellPhone=(e)=>{
+		e.target.value=e.target.value
+		.replace(/[^0-9]/g, '')
+		.replace(/^(\d{3})(\d{4})(\d{4})$/g, '$1-$2-$3')
+		.replace(/-{1,2}$/g, '');
+	}
+	
+	</script>
+	
 	
 	<script>
     function sample6_execDaumPostcode() {
@@ -358,7 +526,131 @@
         }).open();
     }
 	</script>
-	
-	
-			
+	<script>
+var x, i, j, l, ll, selElmnt, a, b, c;
+/*look for any elements with the class "custom-select":*/
+x = document.getElementsByClassName("custom-select");
+l = x.length;
+for (i = 0; i < l; i++) {
+  selElmnt = x[i].getElementsByTagName("select")[0];
+  ll = selElmnt.length;
+  /*for each element, create a new DIV that will act as the selected item:*/
+  a = document.createElement("DIV");
+  a.setAttribute("class", "select-selected");
+  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  x[i].appendChild(a);
+  /*for each element, create a new DIV that will contain the option list:*/
+  b = document.createElement("DIV");
+  b.setAttribute("class", "select-items select-hide");
+  for (j = 1; j < ll; j++) {
+    /*for each option in the original select element,
+    create a new DIV that will act as an option item:*/
+    c = document.createElement("DIV");
+    c.innerHTML = selElmnt.options[j].innerHTML;
+    c.addEventListener("click", function(e) {
+        /*when an item is clicked, update the original select box,
+        and the selected item:*/
+        var y, i, k, s, h, sl, yl;
+        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+        sl = s.length;
+        h = this.parentNode.previousSibling;
+        for (i = 0; i < sl; i++) {
+          if (s.options[i].innerHTML == this.innerHTML) {
+            s.selectedIndex = i;
+            h.innerHTML = this.innerHTML;
+            y = this.parentNode.getElementsByClassName("same-as-selected");
+            yl = y.length;
+            for (k = 0; k < yl; k++) {
+              y[k].removeAttribute("class");
+            }
+            this.setAttribute("class", "same-as-selected");
+            break;
+          }
+        }
+        h.click();
+    });
+    b.appendChild(c);
+  }
+  x[i].appendChild(b);
+  a.addEventListener("click", function(e) {
+      /*when the select box is clicked, close any other select boxes,
+      and open/close the current select box:*/
+      e.stopPropagation();
+      closeAllSelect(this);
+      this.nextSibling.classList.toggle("select-hide");
+      this.classList.toggle("select-arrow-active");
+    });
+}
+function closeAllSelect(elmnt) {
+  /*a function that will close all select boxes in the document,
+  except the current select box:*/
+  var x, y, i, xl, yl, arrNo = [];
+  x = document.getElementsByClassName("select-items");
+  y = document.getElementsByClassName("select-selected");
+  xl = x.length;
+  yl = y.length;
+  for (i = 0; i < yl; i++) {
+    if (elmnt == y[i]) {
+      arrNo.push(i)
+    } else {
+      y[i].classList.remove("select-arrow-active");
+    }
+  }
+  for (i = 0; i < xl; i++) {
+    if (arrNo.indexOf(i)) {
+      x[i].classList.add("select-hide");
+    }
+  }
+}
+/*if the user clicks anywhere outside the select box,
+then close all select boxes:*/
+document.addEventListener("click", closeAllSelect);
+</script>
+<script>
+// 이메일 도메인 자동부여
+// 도메인 직접 입력 or domain option 선택
+	const domainListEl = document.querySelector('#domain-list')
+	const domainInputEl = document.querySelector('#domain-txt')
+	// select 옵션 변경 시
+	domainListEl.addEventListener('change', (event) => {
+	  // option에 있는 도메인 선택 시
+	  if(event.target.value !== "none") {
+	    // 선택한 도메인을 input에 입력하고 disabled
+	    domainInputEl.value = event.target.value
+	    domainInputEl.disabled = true
+	  } else { 
+		// 직접 입력 시
+	    // input 내용 초기화 & 입력 가능하도록 변경
+	    domainInputEl.value = ""
+	    domainInputEl.disabled = false
+	  }
+	});
+</script>
+<script>
+//비밀번호 정규표현식
+//영문 숫자 조합 8자리 이상
+let reg_ver1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+//영문 숫자 특수기호 조합 8자리 이상
+let reg_ver2 = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+let pw_first = document.getElementById('emp_pw');
+let pw_second = document.getElementById('emp_pw_check');
+let pw_message = document.getElementById('pwMessage');
+let msg = "";
+
+fn_check_password=()=>{
+	if(!reg_ver1.test(pw_first.value)){
+		msg = "숫자와 영문자 조합으로 8~25자리를 사용해야 합니다.";
+		pw_message.innerHTML = msg;
+	}else{
+		if(pw_first.value!==pw_second.value){
+			msg = "비밀번호가 서로 달라요!";
+			pw_message.innerHTML = msg;
+		}else{
+			msg = "비밀번호가 일치합니다!";
+			pw_message.innerHTML = msg;
+		}
+	}
+}
+</script>		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

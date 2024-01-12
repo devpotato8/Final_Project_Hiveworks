@@ -77,12 +77,12 @@
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
 	</insert>
 	
-	<update id="updateSchedule" parameterType="schedule">
-		UPDATE TBL_CALENDAR SET CAL_CODE = #{calCode}, CAL_START_DATE = #{calStartDate}, CAL_END_DATE = #{calEndDate}, CAL_SUBJECT = #{calSubject}, CAL_CONTENT = #{calContent}, CAL_COLOR = #{calColor}, REMINDER_YN = #{reminderYn}, CAL_ALLDAY_YN = #{calAlldayYn}, CAL_STASUS = #{calStatus}, MODIFY_DATE = SYSDATE, MODIFIER = #{myEmpNo} WHERE CAL_NO = #{calNo}
+	<update id="updateSchedule" parameterType="hashMap">
+		UPDATE TBL_CALENDAR SET CAL_CODE = #{schedule.calCode}, CAL_START_DATE = #{schedule.calStartDate}, CAL_END_DATE = #{schedule.calEndDate}, CAL_SUBJECT = #{schedule.calSubject}, CAL_CONTENT = #{schedule.calContent}, CAL_COLOR = #{schedule.calColor}, REMINDER_YN = #{schedule.reminderYn}, CAL_ALLDAY_YN = #{schedule.calAlldayYn}, CAL_STATUS = #{schedule.calStatus}, MODIFY_DATE = SYSDATE, MODIFIER = #{schedule.myEmpNo} WHERE CAL_NO = #{calNo}
 	</update>
 	
 	<update id="deleteInvitaion">
-		UPDATE TBL_CAL_INVITATION SET YSE_YN = 'N' WHERE CAL_NO = #{calNo}
+		UPDATE TBL_CAL_INVITATION SET USE_YN = 'N' WHERE CAL_NO = #{calNo}
 	</update>
 	
 	<insert id="updateInvitation">

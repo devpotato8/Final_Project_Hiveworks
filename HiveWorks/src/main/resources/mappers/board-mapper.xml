@@ -18,11 +18,6 @@
 				<result column="RENAME_FILE" property="reNamefile"/>
 			</collection>
     </resultMap>
-	<select id="selectBoardByNo" parameterType="_int" resultMap="boardMap">
-		 SELECT * FROM TBL_BOARD
-		 LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
-		 WHERE BOARD_NO = ${boardNo}
-	</select>
     <select id="selectAllBoard" resultMap="boardMap">
         SELECT * FROM TBL_BOARD 
         LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
