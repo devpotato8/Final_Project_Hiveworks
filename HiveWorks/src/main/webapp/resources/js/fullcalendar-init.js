@@ -102,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
 							var yourEmpNameList = event.yourEmpNameList // yourEmpName을 쉼표(,)로 분리하여 리스트로 만듭니다.
 							var yourDeptNameList = event.yourDeptNameList // yourDeptName을 쉼표(,)로 분리하여 리스트로 만듭니다.*/
 							return {
-								id: event.calNo,
 								title: event.calSubject,
 								start: event.calStartDate,
 								end: event.calEndDate,
@@ -115,8 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
 									important: event.calImportYn,
 									status: event.calStatus,
 									reminder: event.reminderYn,
-									allday: event.calAlldayYn
-
+									allday: event.calAlldayYn,
+									calNo: event.calNo,
 								}
 
 							};
@@ -147,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				targetE = info.event;
 
 				//수정 모달창에 hidden 값 넣어주기
-				$('#recalNo').val(targetE.calNo);
 
 				function formatDate(date) {
 					var formattedDate = new Date(date);
@@ -176,8 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						break;
 					case 'CAL003':
 						typeval = "전사일정";
-					default:
-						typeval = "미정인 일정";
 				}
 
 				$('#viewContainer').find('.event-code').html(typeval);
@@ -339,32 +335,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-
+				console.log(typeof(targetE.id));
+				
 
 				//변경 부분
-				$('#modifyContainer').find('#recalno').val(targetE.id);
+				$('#modifyContainer').find('#recalno').val(targetE.extendedProps.calNo);
 				$('#modifyContainer').find('.event-name').val(targetE.title);
 				$('#modifyContainer').find('.event-content').val(targetE.extendedProps.content);
 				$('#modifyContainer').find('.cal-event-code').val(targetE.extendedProps.calCode);
+				console.log(($('#modifyContainer').find('.cal-event-code').val()));
 			    
 				switch (reminder) {
 					case 'Y':
-						$('#modifyContainer').find('.cal-event-reminder').prop('checked', true);
+						$('#modifyContainer').find('#reremindercheck').prop('checked', true);
 						break;
 					case 'N':
-						$('#modifyContainer').find('.cal-event-reminder').prop('checked', false);
+						$('#modifyContainer').find('#reremindercheck').prop('checked', false);
 						break;
 				}
 
 
-				var allday = targetE.extendedProps.calAlldayYn;
+				var allday = targetE.extendedProps.allday;
 				switch (allday) {
 					case 'Y':
-						$('#modifyContainer').find('.cal-event-allday').prop('checked', true);
+						$('#modifyContainer').find('#realldaycheck').prop('checked', true);
 						break;
 					case 'N':
-						$('#modifyContainer').find('.cal-event-allday').prop('checked', false);
+						$('#modifyContainer').find('realldaycheck').prop('checked', false);
 						break;
 				}
 				
@@ -397,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 
-				$('#alldayrecheck').on('click', function() {
+				$('#realldaycheck').on('click', function() {
 					var startPicker = $('#modifyContainer').find('.cal-event-date-start').data('daterangepicker');
 					var endPicker = $('#modifyContainer').find('.cal-event-date-end').data('daterangepicker');
 
@@ -442,11 +439,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 					}
 				});
-
+				
+			
+				
+				
+				
+				
 
 				// 모달 표시 또는 이벤트 상세 처리
 
 				// 모달창 내의 요소에 이벤트의 내용을 채웁니다.
+				//수정 닫기 버튼 눌렀을때 그대로 값 설정
+				/*document.querySelector('.drawer-edit-close btn-close').addEventListener('click', function() {
+					
+				}*/
 			}
 		});
 	calendar.render();
@@ -462,58 +468,39 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	/*Event Delete*/
 	$(document).on("click", '#del_event', function(e) {
-		$(this).closest('.hk-drawer').removeClass('drawer-toggle');
-		Swal.fire({
-			html:
-				'<div class="mb-3"><i class="ri-delete-bin-6-line fs-5 text-danger"></i></div><h5 class="text-danger">Delete Note ?</h5><p>Deleting a note will permanently remove from your library.</p>',
-			customClass: {
-				confirmButton: 'btn btn-outline-secondary text-danger',
-				cancelButton: 'btn btn-outline-secondary text-gray',
-				container: 'swal2-has-bg',
-				actions: 'w-100'
-			},
-			showCancelButton: true,
-			buttonsStyling: false,
-			confirmButtonText: 'Yes, Delete Note',
-			cancelButtonText: 'No, Keep Note',
-			reverseButtons: true,
-		}).then((result) => {
-			if (result.value) {
-				targetEvent.remove();
-				Swal.fire({
-					html:
-						'<div class="d-flex align-items-center"><i class="ri-delete-bin-5-fill me-2 fs-3 text-danger"></i><h5 class="text-danger mb-0">Event has been deleted!</h5></div>',
-					timer: 2000,
-					customClass: {
-						content: 'p-0 text-left',
-						actions: 'w-100 justify-content-start',
-					},
-					showConfirmButton: false,
-					buttonsStyling: false,
+		const deleteConfirm = confirm("일정을 삭제하시겠습니까?");
+		if (deleteConfirm) {
+		  $.ajax({	
+	         url: "/schedule/deleteschedule",
+	         method: "POST",
+	         data: JSON.stringify({calNo: targetE.extendedProps.calNo}),
+	         contentType: 'application/json',
+	      	})
+			.done(function(result) {
+					console.log(result);
+					alert("일정 삭제 성공");
+				//	calendar.addEvent(editEvent);
+					calendar.refetchEvents();
 				})
-			}
-		})
-		return false;
+				.fail(function(request, status, error) {
+					alert("일정 삭제 실패" + error);
+					console.log(error);
+				}); 
+		} else {
+		  $(this).closest('.hk-drawer').removeClass('drawer-toggle');
+		}
 	});
-	/*Event Edit 수정*/  
+	
 	$(document).on("click", '#edit_event, .drawer-edit-close', function(e) {
 		$(targetDrawer + '>div').toggleClass('d-none');
 		return false;
 	});
 	
+	/*Event Edit 수정*/  
 	document.getElementById('editBtn').addEventListener('click', fn_update);
 	
 	function fn_update(){
-		//$(document).on("click", '#editBtn', function(e) {
-	/*	var recalEmpValues = [];
-    $('select[name="recalEmp"]').each(function(index, select) {
-        recalEmpValues.push($(select).val());
-    });
-    $('<input>').attr({
-        type: 'hidden',
-        name: 'reempList',
-        value: recalEmpValues.toString()
-    }).appendTo('#reForm');*/
+		//코드로 백그라운드컬러 값 설정
 		var recode = $('#modifyContainer').find('#recode').val();
 		var rebackgroundColor;
 		
@@ -531,65 +518,50 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		$('#modifyContainer').find('#rebackgroundColor').val(rebackgroundColor);
     
-    	// 폼 전송
-		 /*var reform = $('#reForm');
-    		reform.trigger('submit');
-    
-    	e.preventDefault();*/
-
-		
-		// select list로 담아주기
+		//select empNo를 리스트로 담아줌
 		const selectEmps = $('select[name="recalEmp"]');
 		const reempList = [];
 
 		selectEmps.each(function() {
 			const reempValue = $(this).val();
 			reempList.push(reempValue);
+			console.log(typeof(reempValue));
 		});
 
 			const editEvent = {
-			recalno: $('#recalno').val(),
+			recalno: targetE.extendedProps.calNo,
 			retitle: $('#retitle').val(),
 			recode: $('#recode').val(),
 			reempno: $('#reempno').val(),
-			//reempList: reempList, // empList를 addEvent 객체의 속성으로 추가
-			backgroundColor: rebackgroundColor,
-			reallday: $('alldayrecheck').is(':checked') ? 'Y' : 'N',
+			reempList: reempList, 
+			rebackgroundColor: rebackgroundColor,
+			reallday: $('#realldaycheck').is(':checked') ? 'Y' : 'N',
 			restart: $('#reStartDate').val(),
 			reend: $('#reEndDate').val(),
 			recontent: $('#recontent').val(),
-			rereminder: $('#rereminder').is(':checked') ? 'Y' : 'N'
+			rereminder: $('#reremindercheck').is(':checked') ? 'Y' : 'N'
 		};
-		console.log(editEvent);
-	
-//const formData = new FormData();
-
-//formData.append('editEvent', JSON.stringify(editEvent));
-//formData.append('reempList', JSON.stringify(reempList));
-
-$.ajax({
-         url: "/schedule/updateschedule",
-         method: "POST",
-         dataType: "application/json",
-         data: {
-			 editEvent:JSON.stringify(editEvent),
-			 reempList:JSON.stringify(reempList)
-		 },
-         contentType: 'application/json',
-      	})
-		.done(function(result) {
-				console.log(result);
-				alert("일정 등록 성공");
-			//	calendar.addEvent(editEvent);
-				// 일정을 등록한 후에 캘린더를 새로고침하지 않고 변경된 일정이 보이도록 처리합니다.
-				calendar.refetchEvents();
-			})
-			.fail(function(request, status, error) {
-				alert("일정 등록 실패" + error);
-				console.log(request, status);
-				console.log(error);
-			});
-		//calender.unselect();
+		
+		$.ajax({	
+	         url: "/schedule/updateschedule",
+	         method: "POST",
+	         data: JSON.stringify(editEvent),
+	         contentType: 'application/json',
+	      	})
+			.done(function(result) {
+					console.log(result);
+					alert("일정 수정 성공");
+				//	calendar.addEvent(editEvent);
+					
+					calendar.refetchEvents();
+				})
+				.fail(function(request, status, error) {
+					alert("일정 수정 실패" + error);
+					console.log(request, status);
+					console.log(error);
+				});
+			
+		calendar.unselect();
 		
 	};
 
@@ -617,11 +589,11 @@ $.ajax({
 			empno: $('#cal-event-empno').val(),
 			empList: empList, // empList를 addEvent 객체의 속성으로 추가
 			backgroundColor: '',
-			allday: $('.cal-event-allday').is(':checked') ? 'Y' : 'N',
+			allday: $('#alldaycheck').is(':checked') ? 'Y' : 'N',
 			start: $('#startDate').val(),
 			end: $('#endDate').val(),
 			content: $('.cal-event-content').val(),
-			reminder: $('.cal-event-reminder').is(':checked') ? 'Y' : 'N'
+			reminder: $('#remindercheck').is(':checked') ? 'Y' : 'N'
 		};
 
 		switch (addEvent.code) {
@@ -676,4 +648,3 @@ $.ajax({
 		$('.fc-prev-button,.fc-next-button').addClass('btn-icon btn-flush-dark btn-rounded flush-soft-hover').find('.fa').addClass('icon');
 		$('.fc-today-button').removeClass('btn-primary').addClass('btn-outline-light');
 	}, 120);
-

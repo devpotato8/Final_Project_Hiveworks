@@ -21,6 +21,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public List<Schedule> searchSchedule(SqlSession session, Map<String, Object> param) {
+		return session.selectList("schedule.searchSchedule",param);
+	}
+	
+	@Override
 	public int insertSchedule(SqlSession session, Schedule schedule) {
 		return session.insert("schedule.insertSchedule",schedule);
 	}
