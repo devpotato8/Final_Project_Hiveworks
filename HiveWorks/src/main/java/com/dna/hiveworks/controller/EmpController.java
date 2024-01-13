@@ -226,6 +226,14 @@ public class EmpController {
 	@GetMapping("/updateEmployeePassword")
 	public String updateEmployeePassword(Model model, int emp_no) {
 		
+		Map<String,Object> value = new HashMap<>();
+		
+		value = service.selectEmployeeByEmpNo(emp_no);
+	
+		Map<String,List<Map<String,Object>>> data = service.selectDataListForEmployee();
+		model.addAttribute("data",data);
+		model.addAttribute("employee", value.get("employee"));
+		
 		
 		return "employees/updateEmployeePassword";
 	}
