@@ -5,13 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
 
+import com.dna.hiveworks.common.ExcelWorkListConvert;
 import com.dna.hiveworks.model.dto.Work;
 import com.dna.hiveworks.service.WorkService;
 
@@ -27,29 +31,32 @@ public class WorkController {
 	private final WorkService service;
 	
 	@GetMapping("workList")
-	public String workList(Model m) {
+		public String workList(Model m) {
+		
+		int empNo = 1;
+		
 		// 평균 출근시간
-		String avgStartWork = service.avgStartWork();
+		String avgStartWork = service.avgStartWork(empNo);
 		m.addAttribute("avgStartWork",avgStartWork);
 		
 		// 평균 퇴근시간
-		String avgEndWork = service.avgEndWork();
+		String avgEndWork = service.avgEndWork(empNo);
 		m.addAttribute("avgEndWork",avgEndWork);
 		
 		// 근무 시간 초과
-		int overWork = service.overWork();
+		int overWork = service.overWork(empNo);
 		m.addAttribute("overWork",overWork);
 		
 		// 지각
-		int lateWork = service.lateWork();
+		int lateWork = service.lateWork(empNo);
 		m.addAttribute("lateWork",lateWork);
 		
 		// 조퇴
-		int fastEnd = service.fastEnd();
+		int fastEnd = service.fastEnd(empNo);
 		m.addAttribute("fastEnd",fastEnd);
 		
 		// 결근
-		int absence = service.absence();
+		int absence = service.absence(empNo);
 		m.addAttribute("absence",absence);
 		
 		return "work/workList";
@@ -57,14 +64,17 @@ public class WorkController {
 	
 	@GetMapping("workListWeek")
 	@ResponseBody
-	public Map<String, Object> workListWeek(Model m) {
+	public Map<String, Object> workListWeek(Model m, @RequestParam("week") Integer week) {
 		Map<String, Object> response = new HashMap<>();
-		String avgStartWork = service.avgStartWork();
-		String avgEndWork = service.avgEndWork();
-		int overWork = service.overWork();
-		int lateWork = service.lateWork();
-		int fastEnd = service.fastEnd();
-		int absence = service.absence();
+		
+		int empNo = 1;
+		
+		String avgStartWork = service.avgStartWork(empNo);
+		String avgEndWork = service.avgEndWork(empNo);
+		int overWork = service.overWork(empNo);
+		int lateWork = service.lateWork(empNo);
+		int fastEnd = service.fastEnd(empNo);
+		int absence = service.absence(empNo);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
@@ -78,14 +88,15 @@ public class WorkController {
 	
 	@GetMapping("workListMonth")
 	@ResponseBody
-	public Map<String, Object> workListMonth(Model m) {
+	public Map<String, Object> workListMonth(Model m, @RequestParam("week") Integer week) {
+		int empNo = 1;
 		Map<String, Object> response = new HashMap<>();
-		String avgStartWork = service.avgStartWork();
-		String avgEndWork = service.avgEndWork();
-		int overWork = service.overWork();
-		int lateWork = service.lateWork();
-		int fastEnd = service.fastEnd();
-		int absence = service.absence();
+		String avgStartWork = service.avgStartWork(empNo);
+		String avgEndWork = service.avgEndWork(empNo);
+		int overWork = service.overWork(empNo);
+		int lateWork = service.lateWork(empNo);
+		int fastEnd = service.fastEnd(empNo);
+		int absence = service.absence(empNo);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
@@ -99,14 +110,15 @@ public class WorkController {
 	
 	@GetMapping("workListYear")
 	@ResponseBody
-	public Map<String, Object> workListYear(Model m) {
+	public Map<String, Object> workListYear(Model m, @RequestParam("week") Integer week) {
+		int empNo = 1;
 		Map<String, Object> response = new HashMap<>();
-		String avgStartWork = service.avgStartWork();
-		String avgEndWork = service.avgEndWork();
-		int overWork = service.overWork();
-		int lateWork = service.lateWork();
-		int fastEnd = service.fastEnd();
-		int absence = service.absence();
+		String avgStartWork = service.avgStartWork(empNo);
+		String avgEndWork = service.avgEndWork(empNo);
+		int overWork = service.overWork(empNo);
+		int lateWork = service.lateWork(empNo);
+		int fastEnd = service.fastEnd(empNo);
+		int absence = service.absence(empNo);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
@@ -159,6 +171,12 @@ public class WorkController {
 		return "common/msg";
 	}
 	
+	@RequestMapping("/exceldownload")
+	public View exceldownload(Model m) {
+		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp();
+		m.addAttribute("workView", selectWorkListAllByEmp);
+		return new ExcelWorkListConvert();
+	}
 	
 	
 }
