@@ -111,7 +111,7 @@
 							</div>
 						</div>
 					</div>
-						<button onclick="printAPI();">뉴스 출력</button>
+						<!-- <button onclick="printAPI();">뉴스 출력</button> -->
 
 				</div>
 				<div class="right-container">
@@ -486,7 +486,7 @@ table>thead {
 			});
 		});
 	}
-	//printAPI();
+	printAPI();
 </script>
 
 <!-- 날씨정보가져오기 -->
