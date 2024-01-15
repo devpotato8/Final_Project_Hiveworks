@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,8 +30,8 @@ import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.service.DeptService;
 import com.dna.hiveworks.service.EmpService;
 import com.dna.hiveworks.service.ScheduleService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -63,10 +61,26 @@ public class ScheduleContoller {
 	@GetMapping("/schedulelistend.do")
 	@ResponseBody
 	public List<Schedule> scheduleListEnd() {
-		List<Schedule> s = scheduleService.selectScheduleAll();
-		return s;
+		List<Schedule> schedules = scheduleService.selectScheduleAll();
+		return schedules;
 
 	};
+	
+	//내일정/내부서일정/중요일정/전사일정/(전체일정) 조회
+	@GetMapping("/searchschedule")
+	@ResponseBody
+	public List<Schedule> searchSchedule(@RequestBody Map<String, Object> param){
+		String calCode = (String) param.get("code");
+		String calStatus = (String) param.get("status");
+		int empNo = Integer.parseInt((String) param.get("empno"));
+		String calImportant = (String) param.get("important");
+		
+		List<Schedule> searchList = scheduleService.searchSchedule(param);
+		
+		return searchList;
+	}
+	
+	
 
 	// 프로젝트 & 일정 등록
 	@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -112,49 +126,22 @@ public class ScheduleContoller {
 	}
 
 	// 일정 수정
-	@PostMapping(value= "/updateschedule")
+	@PostMapping(value= "/updateschedule", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Object> updateSchedule(@RequestParam Map<String,String> editEvent, @RequestParam(name="reempList", required = false) List<String> param2){
+	public ResponseEntity<Object> updateSchedule(@RequestBody Map<String, Object> param){///@RequestParam(name="reempList", required = false) List<String> param2
 		
-		Map<String,String> param = editEvent;
-		
-//		Map<String,String> param = new HashMap<>();
-		List<String> strReempList = param2;
-		List<Integer> reempList = new ArrayList<>();
-		try {
-//			ObjectMapper mapper = new ObjectMapper();
-//			param = mapper.readValue(editEvent, HashMap.class);
-//			strReempList = mapper.readValue(param2, ArrayList.class);
-//			
-			
-			if(strReempList!= null && strReempList.size()>0) {
-				for(String emp : strReempList) {
-					try {
-						reempList.add(Integer.parseInt(emp));
-					}catch(Exception e) {
-						continue;
-					}
-				}
-			}
-//			
-//			
-//			System.out.println("param: "+param);
-			System.out.println("reempList: "+reempList);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-//		
-		
-		System.out.println("ddkkdkdk");
+
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
-		System.out.println("오는건지22");
+		
+		/*
+		 * param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+		 * instanceof String)); });
+		 */
+		
 		int result = 0;
 		System.out.println("파람"+param);
 		String calSubject = (String)param.get("retitle");
 		System.out.println(calSubject);
-		
-		int calNo = Integer.parseInt((String)param.get("recalno"));
-		System.out.println("넘버"+calNo);
 		
 		String startDateString = (String)param.get("restart");
 		String endDateString = (String)param.get("reend");
@@ -164,28 +151,33 @@ public class ScheduleContoller {
 		String reminderYn = (String)param.get("rereminder");
 		String calAlldayYn = (String)param.get("reallday");
 		String calStatus = (String)param.get("restatus");
+		int calNo = (Integer)param.get("recalno");
 		int reempNo = Integer.parseInt((String)param.get("reempno"));
-		System.out.println("emp리스트"+reempList);
-//
-//		if (recalEmps.size() > 0) {
-//			for (String reemp : recalEmps) {
-//				if (!reemp.isBlank()) { // emp가 빈 문자열이 아닌 경우에만 parseInt 실행
-//					int reempInt = Integer.parseInt(reemp);
-//					empList.add(reempInt);
-//				}
-//			}
-//		}
+		List<String> empStrList = (List<String>)param.get("reempList");
+		List<Integer> reempList = new ArrayList<>();
+		if (empStrList.size() > 0) {
+			for (String emp : empStrList) {
+				if (!emp.isEmpty()) { // emp가 빈 문자열이 아닌 경우에만 parseInt 실행
+					int empInt = Integer.parseInt(emp);
+					reempList.add(empInt);
+				}
+			}
+		}
 
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
-		Schedule schedule = Schedule.builder().myEmpNo(reempNo).calSubject(calSubject).calStartDate(calStartDate)
-				.calEndDate(calEndDate).calCode(calCode).calColor(calColor).calContent(calContent)
-				.reminderYn(reminderYn).calAlldayYn(calAlldayYn).calStatus(calStatus).modifier(reempNo).build();
-
 		
-
 		
+		  Schedule schedule =
+		  Schedule.builder().myEmpNo(reempNo).calSubject(calSubject).calStartDate(
+		  calStartDate)
+		  .calEndDate(calEndDate).calCode(calCode).calColor(calColor).calContent(
+		  calContent)
+		  .reminderYn(reminderYn).calAlldayYn(calAlldayYn).calStatus(calStatus).
+		  modifier(reempNo).build();
+		 
+		 
 		  result = scheduleService.updateSchedule(schedule, reempList, calNo);
 		  
 		  return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
@@ -193,23 +185,13 @@ public class ScheduleContoller {
 		
 		
 		
-		/*
-		 * 
-		 * 
-		 * String msg, loc; if (result > 0) { msg = "수정성공"; loc =
-		 * "schedule/schedulelist.do"; } else { msg = "수정실패"; loc =
-		 * "schedule/schedulelist.do"; }
-		 * 
-		 * model.addAttribute("msg", msg); model.addAttribute("loc", loc);
-		 * 
-		 * return "schedule/msg";
-		 */
+		
 	}
 
 	// 일정 삭제
-	@DeleteMapping("/deleteschedule")
-	public String deleteSchedule(@RequestParam Map<String, Object> param, Model model) {
-		int calNo = Integer.parseInt((String) param.get("calNo"));
+	@PostMapping("/deleteschedule")
+	public String deleteSchedule(@RequestBody Map<String, Object> param, Model model) {
+		int calNo = (Integer)param.get("calNo");
 		int result = scheduleService.deleteSchedule(calNo);
 		String msg, loc;
 		if (result > 0) {

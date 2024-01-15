@@ -1,6 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> selectScheduleAll() {
 		return dao.selectScheduleAll(session);
+	}
+	
+	@Override
+	public List<Schedule> searchSchedule(Map<String, Object> param) {
+		List<Schedule> searchList = dao.searchSchedule(session, param);
+		return searchList;
 	}
 
 	@Override

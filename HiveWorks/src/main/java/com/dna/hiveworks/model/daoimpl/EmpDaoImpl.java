@@ -35,6 +35,12 @@ public class EmpDaoImpl implements EmpDao {
 		return session.selectOne("employee.selectEmployeeByEmpNo",empNo);
 	}
 
+
+	@Override
+	public Account selectAccountByEmpNo(SqlSession session, int empNo) {
+		return session.selectOne("employee.selectAccountByEmpNo", empNo);
+	}
+
 	@Override
 	public List<Employee> selectEmployeesListAll(SqlSession session) {
 

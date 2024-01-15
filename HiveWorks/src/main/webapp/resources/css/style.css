@@ -73185,7 +73185,7 @@ Project:	Jampack
 }
 @media (min-width: 1200px) {
   button.btn-close.info-close {
-    
+    display: none;
   }
 }
 @media (max-width: 1199px) {
@@ -76962,8 +76962,8 @@ Project:	Jampack
 .fmapp-wrap .fmapp-content .fmapp-detail-wrap .file-info {
   position: absolute;
   top: 65px;
-  right: -500px;
-  width: 500px;
+  right: -370px;
+  width: 370px;
   margin-left: 0;
   bottom: 0;
   z-index: 100;
@@ -76976,7 +76976,6 @@ Project:	Jampack
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
-
 .fmapp-wrap .fmapp-content .fmapp-detail-wrap .file-info .nicescroll-bar {
   padding: 1.25rem;
 }

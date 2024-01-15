@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -28,6 +29,8 @@ public interface ScheduleDao {
 	
 	List<Schedule> selectScheduleAll(SqlSession session);
 	
+	
+	List<Schedule> searchSchedule(SqlSession session, Map<String,Object> param);
 	
 	int insertResource(SqlSession session, Resource resource);
 	

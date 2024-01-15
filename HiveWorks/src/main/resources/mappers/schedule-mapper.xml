@@ -126,6 +126,21 @@
 	<select id="selectScheduleAll" resultMap="scheduleInviMap">
 		SELECT * FROM V_CAL
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<select id="selectResourceAll" resultMap="resourceMap">
 		SELECT * FROM TBL_RESOUCE
 	</select>

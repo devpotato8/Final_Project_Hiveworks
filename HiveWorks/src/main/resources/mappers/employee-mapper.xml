@@ -11,9 +11,13 @@
 		<result property="job_code" column="job_code"/>
 		<result property="job_name" column="job_name"/>
 		<result property="work_type_code" column="work_type_code"/>
+		<result property="work_type_name" column="work_type_name"/>
 		<result property="work_status" column="work_status"/>
+		<result property="work_status_name" column="work_status_name"/>
 		<result property="work_pattern" column="work_pattern"/>
+		<result property="work_pattern_name" column="work_pattern_name"/>
 		<result property="aut_code" column="aut_code"/>
+		<result property="aut_name" column="aut_name"/>
 		<result property="emp_id" column="emp_id"/>
 		<result property="emp_pw" column="emp_pw"/>
 		<result property="emp_name" column="emp_name"/>
@@ -28,6 +32,13 @@
 		<result property="emp_memo" column="emp_memo"/>
 		<result property="emp_hired_date" column="emp_hired_date"/>
 		<result property="emp_retired_date" column="emp_retired_date"/>
+		<result property="use_yn" column="use_yn"/>
+	</resultMap>
+	<resultMap type="account" id="acMap">
+		<result property="ac_no" column="ac_no"/>
+		<result property="emp_no" column="emp_no"/>
+		<result property="ac_bank" column="ac_bank"/>
+		<result property="ac_name" column="ac_name"/>
 		<result property="use_yn" column="use_yn"/>
 	</resultMap>
 	
@@ -131,12 +142,24 @@
 		(#{ac_no},#{emp_no},#{ac_bank},#{ac_name},DEFAULT)
 	</insert>
 	
-	<select id="selectEmployeeByEmpNo" parameterType="_int">
-		SELECT * FROM TBL_EMPLOYEE
+	<select id="selectEmployeeByEmpNo" parameterType="_int" resultMap="empMap">
+		SELECT E.*, D.*, J.CODE_NAME AS "job_name", P.CODE_NAME AS "position_name", WT.CODE_NAME AS "work_type_name", WS.CODE_NAME AS "work_status_name", WP.CODE_NAME AS "work_pattern_name"  
+		    FROM TBL_EMPLOYEE E
+		    JOIN TBL_DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		    JOIN TBL_CODE J ON E.JOB_CODE = J.CODE_NO
+		    JOIN TBL_CODE P ON E.POSITION_CODE = P.CODE_NO
+		    JOIN TBL_CODE WT ON E.WORK_TYPE_CODE = WT.CODE_NO
+		    JOIN TBL_CODE WS ON E.WORK_STATUS = WS.CODE_NO
+		    JOIN TBL_CODE WP ON E.WORK_PATTERN = WP.CODE_NO
 		<if test="empNo !=null and empNo!=0 ">
 			WHERE EMP_NO = ${empNo}
 		</if>
 	</select>
-	
+	<select id="selectAccountByEmpNo" parameterType="_int" resultMap="acMap">
+		SELECT * FROM TBL_ACCOUNT
+		<if test="empNo !=null and empNo!=0 ">
+			WHERE EMP_NO = ${empNo}
+		</if>
+	</select>
 	
 </mapper>

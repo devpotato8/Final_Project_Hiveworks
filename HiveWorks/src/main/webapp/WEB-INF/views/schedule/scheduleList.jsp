@@ -100,7 +100,7 @@
 	</div>
 	<!-- 수정하는 모달 -->
 	<div class="d-none">
-		<div class="drawer-header" method="POST" action="${path }/schedule/updateschedule">
+		<div class="drawer-header">
 			<div class="drawer-header-action">
 				<button type="button" class="drawer-edit-close btn-close">
 					<span aria-hidden="true">×</span>
@@ -111,8 +111,7 @@
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
 					<form id="reForm">
-					<input type="hidden" name="reempno" id="reempno" value="111"/>
-					<input type="hidden" name="recalno" id="recalno" value=""/>
+					<input type="hidden" name="reempno" id="reempno" value="${loginEmp.emp_no}"/>
 					<input type="hidden" name="rebackgroundColor" id="rebackgroundColor" value=""/>
 					
 						<div class="event-head mb-4">
@@ -163,15 +162,15 @@
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-allday" name="reallday"
-											id="alldayrecheck" type="checkbox" id="flexCheckDefault">
-										<label class="form-check-label" for="flexCheckDefault">종일여부</label>
+											type="checkbox" id="realldaycheck">
+										<label class="form-check-label" for="realldaycheck">종일여부</label>
 									</div>
 								</div>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-reminder"
-											type="checkbox" id="flexCheckDefault rereminder" name="rereminder"> <label
-											class="form-check-label" for="flexCheckDefault">알림여부
+											type="checkbox" id="reremindercheck" name="rereminder"> <label
+											class="form-check-label" for="reremindercheck">알림여부
 										</label>
 									</div>
 								</div>
@@ -218,11 +217,11 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<textarea class="form-control event-content" name="recontent" rows="4">Annual meeting</textarea>
+							<textarea class="form-control event-content" name="recontent" id="recontent" rows="4">Annual meeting</textarea>
 						</div>
 						<div class="drawer-footer d-flex justify-content-end">
-							<button class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn ">취소</button>
-							<button class="btn btn-primary drawer-edit-close" id="editBtn">저장</button>
+							<button type="button" class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn ">취소</button>
+							<button type="button" class="btn btn-primary drawer-edit-close" id="editBtn">저장</button>
 						</div>
 					</form>
 				</div>
@@ -384,7 +383,7 @@
 							<h5 class="mb-4">일정등록</h5>
 							<form>
 								<input type="hidden" name="empNo" id="cal-event-empno"
-									value="1234" />
+									value="${loginEmp.emp_no}"/>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-control  cal-event-name" type="text"
@@ -423,8 +422,8 @@
 								<div class="row gx-3" style="display: flex">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-allday"
-											id="alldaycheck" type="checkbox" id="flexCheckDefault">
-										<label class="form-check-label" for="flexCheckDefault">
+											id="alldaycheck" type="checkbox">
+										<label class="form-check-label" for="alldaycheck">
 											종일여부</label>
 									</div>
 									<div class="row gx-3">
@@ -484,8 +483,8 @@
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-reminder"
-											type="checkbox" value="" id="flexCheckDefault"> <label
-											class="form-check-label" for="flexCheckDefault"> 알림여부
+											type="checkbox" value="" id="remindercheck" name="reminder"> <label
+											class="form-check-label" for="remindercheck"> 알림여부
 										</label>
 									</div>
 								</div>
@@ -532,7 +531,7 @@ console.log(empDeptCodes);
 
 //체크박스 value주기	
 	$(document).ready(function(){
-	    $('#alldayrecheck').change(function() {
+	    $('#realldaycheck').change(function() {
 	        if(this.checked) {
 	            $(this).val('Y');
 	        } else {
@@ -542,7 +541,7 @@ console.log(empDeptCodes);
 	});
 	
 	$(document).ready(function(){
-	    $('#rereminder').change(function() {
+	    $('#reremindercheck').change(function() {
 	        if(this.checked) {
 	            $(this).val('Y');
 	        } else {
@@ -623,14 +622,20 @@ console.log(empDeptCodes);
 
    // 값 초기화 함수
    function resetForm() {
-      document.querySelector('.cal-event-name').value = '';
       document.querySelector('.cal-event-code').selectedIndex = "CAL001";
       document.querySelector('.cal-event-date-start').value = getCurrentDateTime();
       document.querySelector('.cal-event-date-end').value = getCurrentDateTime();
       document.getElementById('alldaycheck').checked = false;
       document.querySelector('.cal-event-content').value = '';
-      document.getElementById('flexCheckDefault').checked = false;
+      document.querySelector('.cal-event-name').value = '';
+      document.getElementById('reremindercheck').checked = false;
+   	  $("[class$='inviteContainer']:not(:first)").remove();
+      // 첫 번째 항목의 값 초기화
+      $(".inviteContainer:first").find("select").val("");
+    	  
    }
+   
+   
 
    // 현재 날짜와 시간을 가져오는 함수
    function getCurrentDateTime() {

@@ -45,9 +45,13 @@ public class Employee implements UserDetails{
 	private String job_code;
 	private String job_name;
 	private String work_type_code;
+	private String work_type_name;
 	private String work_status;
+	private String work_status_name;
 	private String work_pattern;
+	private String work_pattern_name;
 	private String aut_code;
+	private String aut_name;
 	private String emp_id;
 	private String emp_pw;
 	private String emp_name;

@@ -406,7 +406,7 @@
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
-										<table id="datable_1" class="table nowrap w-100 mb-5">
+										<table id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
 													<th><span class="form-check mb-0">
@@ -438,10 +438,10 @@
 													<td><c:out value="${s.job_name}" /></td>
 													<td><c:out value="${s.emp_phone }"/></td>
 													<td><c:out value="${s.emp_cellphone }" /></td>
-													
 													<td>
+														<div>
 															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?emp_no=${s.emp_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/employees/updateEmployeeDetail?emp_no=${s.emp_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
@@ -774,7 +774,7 @@
 <script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
 <script>
-$('#datable_1').DataTable( {
+$('#datable_2').DataTable( {
 	scrollX:  true,
 	autoWidth: false,
 	language: { search: "",
