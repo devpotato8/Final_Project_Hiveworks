@@ -139,7 +139,7 @@ public class EmpServiceImpl implements EmpService {
 
 
 	@Override
-	public int updatePassword(Map<String, String> IdAndPassword) {
+	public int updatePassword(Map<String, Object> IdAndPassword) {
 		
 		int result_first = dao.confirmEmployee(session,IdAndPassword);
 

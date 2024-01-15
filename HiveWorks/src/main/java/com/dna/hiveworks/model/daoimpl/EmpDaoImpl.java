@@ -122,13 +122,13 @@ public class EmpDaoImpl implements EmpDao {
 	}
 
 	@Override
-	public int confirmEmployee(SqlSession session, Map<String, String> IdAndPassword) {
+	public int confirmEmployee(SqlSession session, Map<String, Object> IdAndPassword) {
 		// TODO Auto-generated method stub
 		return session.selectOne("employee.confirmEmployee",IdAndPassword);
 	}
 
 	@Override
-	public int updatePassword(SqlSession session, Map<String, String> IdAndPassword) {
+	public int updatePassword(SqlSession session, Map<String, Object> IdAndPassword) {
 		return session.update("employee.updatePassword",IdAndPassword);
 	}
 

@@ -407,6 +407,7 @@
 								
 							</header>
 							<div class="invoice-body">
+							<button type="button" onclick="fn_updateAuthorities();">저장</button>
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
 										<table id="datable_1" class="table nowrap w-100 mb-5">
@@ -429,14 +430,14 @@
 												<c:forEach var="s" items="${employees }">
 												<tr>
 													<td></td>
-													<td><a href="#"><c:out value="${s.emp_no }" /></a></td>
-													<td><a href="#" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
+													<td><c:out value="${s.emp_no }" /></td>
+													<td><c:out value="${s.emp_name }" /></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.emp_id }" /></div>
 													</td>
 														<c:forEach var="a" items="${autCodeList.authorityList }">
 													<td>
- 														<input type="radio" name="aut_code" ${s.aut_code eq a[0].AUTCODE?"checked":""}/> 
+ 														<input type="radio" class="aut_code" name="${s.emp_no },aut_code" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
 													</td>
 														</c:forEach>
 													<td>
@@ -774,5 +775,62 @@
     <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+	<script>
+	fn_updateAuthorities=()=>{
+		let autCode = document.querySelectorAll('.aut_code');
+		console.log(autCode);
+		
+		let autCodeArray = Array.from(autCode);
+		console.log(autCodeArray);
+		
+		let $value ="";
+		let $names ="";
+		autCodeArray.forEach(e=>{
+			if(e.checked){
+				console.log(e.value);
+				console.log(e.name);
+				
+				if($value==""){
+					$value=e.value;
+				}else{
+					$value+=","+e.value;
+				}
+				
+				if($names==""){
+					$names==e.name;
+				}else{
+					$names+=","+e.name;
+				}
+			}
+		
+		console.log($value);
+		console.log($names);
+		
+		$ajax({
+			type:"POST"
+			url:"${path}employees/updateAuthorities",
+			data:{
+				names:$names,
+				values:$value
+			},
+			success:data=>{
+				
+			}
+		
+		})
+		
+		
+		
+		});
+		
+		
+		
+		
+		
+		
+	}
+	
+	</script>
+
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

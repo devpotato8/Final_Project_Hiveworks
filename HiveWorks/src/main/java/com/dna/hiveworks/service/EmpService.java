@@ -31,7 +31,7 @@ public interface EmpService {
 	
 	Map<String,List<Map<String,Object>>> selectDataListForEmployee();
 	
-	int updatePassword(Map<String,String> IdAndPassword);
+	int updatePassword(Map<String,Object> IdAndPassword);
 	
 	Map<String, List<Map<String, Object>>> selectAuthorityList();
 	

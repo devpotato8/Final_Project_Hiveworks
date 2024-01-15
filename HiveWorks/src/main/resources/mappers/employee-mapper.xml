@@ -33,6 +33,11 @@
 		<result property="emp_hired_date" column="emp_hired_date"/>
 		<result property="emp_retired_date" column="emp_retired_date"/>
 		<result property="use_yn" column="use_yn"/>
+		<result property="use_yn" column="use_yn"/>
+		<result property="creater" column="creater"/>
+		<result property="create_date" column="create_date"/>
+		<result property="modifier" column="modifier"/>
+		<result property="modify_date" column="modify_date"/>
 	</resultMap>
 	<resultMap type="account" id="acMap">
 		<result property="ac_no" column="ac_no"/>
@@ -137,7 +142,7 @@
             #{emp_no},
             #{dept_code},#{position_code},#{job_code},#{work_type_code},#{work_status},#{work_pattern},#{emp_id},#{emp_pw},
             #{emp_name},#{emp_phone},#{emp_cellphone},#{emp_email},#{emp_postcode},#{emp_address},#{emp_address_detail},#{emp_resident_no},
-            #{emp_memo},#{emp_hired_date},#{emp_auto_fileName},#{emp_profile_ori_name},#{emp_profile_re_name},0,SYSDATE,0,NULL)
+            #{emp_memo},#{emp_hired_date},#{emp_auto_fileName},#{emp_profile_ori_name},#{emp_profile_re_name},${creater},SYSDATE,0,NULL)
 	</insert>
 	<insert id="insertAccount" parameterType="account">
 		INSERT INTO TBL_ACCOUNT VALUES
@@ -198,7 +203,7 @@
 				EMP_PROFILE_ORI_NAME = #{emp_profile_ori_name},
 				EMP_PROFILE_RE_NAME = #{emp_profile_re_name},			
 			</if>
-			MODIFIER =0,
+			MODIFIER =${modifier},
 			MODIFY_DATE = SYSDATE
 		WHERE EMP_NO = ${emp_no}
 	</update>
@@ -207,7 +212,7 @@
 		WHERE EMP_NO = ${emp_no}
 	</update>
 	<update id="updatePassword" parameterType="hashmap">
-		UPDATE TBL_EMPLOYEE SET EMP_PW = #{empPasswordNew}
+		UPDATE TBL_EMPLOYEE SET EMP_PW = #{empPasswordNew}, MODIFIER=${modifier}, MODIFY_DATE=SYSDATE
 		WHERE EMP_ID LIKE #{empId}
 	</update>
 	

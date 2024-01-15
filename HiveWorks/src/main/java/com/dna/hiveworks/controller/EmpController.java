@@ -240,14 +240,15 @@ public class EmpController {
 	public @ResponseBody int updatePassword(Model model,
 			@RequestParam("empId") String empId,
 			@RequestParam("empPassword") String empPassword,
-			@RequestParam("empPasswordNew") String empPasswordNew) {
+			@RequestParam("empPasswordNew") String empPasswordNew,
+			@RequestParam("modifier") int modifier) {
 		
-		Map<String,String> IdAndPassword = new HashMap<>();
+		Map<String,Object> IdAndPassword = new HashMap<>();
 		
 		IdAndPassword.put("empId", empId);
 		IdAndPassword.put("empPassword", empPassword);
 		IdAndPassword.put("empPasswordNew", empPasswordNew);
-		
+		IdAndPassword.put("modifier", modifier);
 		
 		int result =service.updatePassword(IdAndPassword);
 		
