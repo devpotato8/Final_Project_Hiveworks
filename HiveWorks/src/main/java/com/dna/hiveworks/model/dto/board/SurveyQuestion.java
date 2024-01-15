@@ -14,4 +14,5 @@ public class SurveyQuestion {
 	private int questionNo;
 	private int questionSurveyNo;
 	private String questionContent;
+	private String questType;
 }

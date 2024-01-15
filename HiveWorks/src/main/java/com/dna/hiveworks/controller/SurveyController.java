@@ -36,17 +36,21 @@ public class SurveyController {
 	@GetMapping("/surveyWrite")
 	public String surveyWrite() {
 		return "survey/surveyWrite";
-}
+	}
+	@GetMapping("/surveyresult")
+	public String surveyresult() {
+		return "survey/surveyresult";
+	}
 	@RequestMapping("/insertSurvey")
 	public String insertSurvey(Survey s, Model model, HttpSession session) {
 		String msg, loc;
 		int result=service.insertSurvey(s);
 		if(result>0) {
 			msg = "게시글 등록 성공 :)";
-			loc = "board/board";
+			loc = "survey/survey";
 		} else {
 			msg = "게시글 등록 실패 :(";
-			loc = "board/boardWrite";
+			loc = "survey/surveyWrite";
 		}
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);

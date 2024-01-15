@@ -26,4 +26,5 @@ public class SurveyDaoImpl implements SurveyDao{
 		public int insertSurvey(SqlSession session,Survey s) {
 			return session.insert("survey.insertSurvey");
 		}
+		
 }

@@ -29,43 +29,35 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xxl-3 col-xl-4 col-md-6" id="surveyOngoing" style="display: block;">
-						<!-- "전체" 또는 "진행중"이 선택된 경우 표시됨 -->
-						<div class="card card-border card-int mb-4">
-							<div class="card-body">
-								<div class="avatar avatar-sm avatar-logo mb-3">
-									<span class="initial-wrap">진행중</span>
-								</div>
-								<c:forEach var="s" items="${surveyList}">
-									<c:out value="${s.surveyNo }"/>
-									<div class="app-name"><c:out value="${s.surveyTitle }"/></div>								
-								</c:forEach>	
-								<p class="p-sm multine-ellipsis">
-									설문 요약
-								</p>
-							</div>
-							<div class="card-footer justify-content-between border-0">								
-								<a href="${path}/survey/surveying" class="btn btn-sm btn-outline-secondary">설문하기</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-xxl-3 col-xl-4 col-md-6" id="surveyCompleted" style="display: block;">
-						<!-- "전체" 또는 "완료"가 선택된 경우 표시됨 -->
-						<div class="card card-border card-int mb-4">
-							<div class="card-body">
-								<div class="avatar avatar-sm avatar-logo mb-3">
-									<span class="initial-wrap">완료</span>
-								</div>
-								<div class="app-name">제목</div>								
-								<p class="p-sm multine-ellipsis">
-									설문 요약
-								</p>
-							</div>
-							<div class="card-footer justify-content-between border-0">								
-								<a href="#" class="btn btn-sm btn-outline-secondary" onclick="btn()">설문하기</a>
-							</div>
-						</div>
-					</div>
+					<c:forEach var="s" items="${surveyList}">
+    <div class="col-xxl-3 col-xl-4 col-md-6" id="surveyOngoing" style="display: block;">
+        <div class="card card-border card-int mb-4">
+            <div class="card-body">
+                <div class="avatar avatar-sm avatar-logo mb-3">
+                    <span class="initial-wrap">
+                        <c:if test="${s.surveyStart.before(now) and s.surveyEnd.after(now)}">진행 중</c:if>
+                        <c:if test="${s.surveyEnd.before(now)}">완료</c:if>
+                    </span>
+                </div>
+                <c:out value="${s.surveyNo }"/>
+                <div class="app-name">
+                    <c:out value="${s.surveyTitle }"/>
+                </div>
+                <p class="p-sm multine-ellipsis">
+                    설문 요약
+                </p>
+            </div>
+            <div class="card-footer justify-content-between border-0">
+                <%-- <c:if test="${s.surveyEnd.after(now)}"> --%>
+                    <a href="${path}/survey/surveying" class="btn btn-sm btn-outline-secondary">설문하기</a>
+                <%-- </c:if> --%>
+                <c:if test="${s.surveyEnd.before(now)}">
+                    <a href="#" class="btn btn-sm btn-outline-secondary" onclick="btn()">설문하기</a>
+                </c:if>
+            </div>
+        </div>
+    </div>
+</c:forEach>
 				</div>
 			</div>
 		</div>

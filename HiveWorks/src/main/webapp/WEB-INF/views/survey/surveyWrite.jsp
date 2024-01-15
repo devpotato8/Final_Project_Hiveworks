@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -7,6 +6,7 @@
     <jsp:param value="" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
 <div class="hk-pg-wrapper">
     <div class="container-xxl">
         <!-- Page Header -->
@@ -18,48 +18,53 @@
                 <div class="col-lg-10 col-sm-9 col-8">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab_block_1">
-                            <form>
-                                <div class="row gx-3">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="media align-items-center">
-                                                <div class="media-head me-5">
-                                                </div>
-                                            </div>
-                                        </div>
+                            <!-- 기존 설문 양식 요소들 -->
+
+                         <form id="surveyForm" name="surveyFrm" action="${path }/survey/insertSurvey" method="post">
+                            <div class="row gx-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-label">설문 시작일</label>
+                                        <input id="surveyStart" name="surveyStart" class="form-control" type="date" />
                                     </div>
                                 </div>
-                                <div class="row gx-3">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="form-label">제목</label>
-                                            <input class="form-control" type="text" />
-                                        </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-label">설문 종료일</label>
+                                        <input id="surveyEnd" name="surveyEnd" class="form-control" type="date" />
                                     </div>
                                 </div>
-                                <div class="row gx-3">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="form-label">작성자</label>
-                                            <input class="form-control" type="text" />
-                                        </div>
+                            </div>
+                            <div class="row gx-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-label">제목</label>
+                                        <input id="surveyTitle" name="surveyTitle" class="form-control" type="text" />
                                     </div>
                                 </div>
-                                <!-- 버튼들 -->
-                                <button type="button" onclick="addHiddenSection('comment')">기타의견 추가</button>
-                                <button type="button" onclick="addHiddenSection('checkbox')">다중선택 추가</button>
-                                <button type="button" onclick="addHiddenSection('radio')">단일선택 추가</button>
-
-                                <!-- 숨겨진 섹션의 템플릿 -->
-                                <div id="hiddenSectionTemplate" hidden>
-                                    <!-- 기존의 숨겨진 섹션 내용 -->
+                            </div>
+                            <div class="row gx-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-label">작성자</label>
+                                        <input id="surveyAuthor" class="form-control" type="text" />
+                                    </div>
                                 </div>
+                            </div>
 
-                                <!-- 숨겨진 섹션을 담을 컨테이너 -->
-                                <div id="hiddenSectionContainer"></div>
+                            <!-- 숨겨진 섹션 추가 버튼들 -->
+                            <button type="button" onclick="addHiddenSection('comment')">기타의견 추가</button>
+                            <button type="button" onclick="addHiddenSection('checkbox')">다중선택 추가</button>
+                            <button type="button" onclick="addHiddenSection('radio')">단일선택 추가</button>
 
-                                <button type="button" class="btn btn-primary mt-5">등록하기</button>
-                            </form>
+                            <!-- 숨겨진 섹션 템플릿 및 컨테이너 -->
+                            <div id="hiddenSectionTemplate" hidden>
+                                <!-- 기존 템플릿 내용 -->
+                            </div>
+                            <div id="hiddenSectionContainer"></div>
+
+                            <input type="submit" name="name" id="submit" onclick="createSurvey()" class="btn btn-primary mt-5" value="등록하기">
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -67,7 +72,25 @@
         </div>
     </div>
 </div>
-
+<script>
+function createSurvey() {
+    // Ajax 호출 및 서버에 설문 등록
+    $.ajax({
+        type: "POST",
+        url: "${path}/survey/insertSurvey",
+        data: {
+            // 필요한 데이터 추가
+        },
+        success: function () {
+            alert('설문이 성공적으로 등록되었습니다. 감사합니다.');
+            window.location.href = "${path}/survey/surveying";
+        },
+        error: function (error) {
+            console.error('설문 생성 중 오류 발생:', error);
+        }
+    });
+}
+</script>
 <script>
     function addHiddenSection(type) {
         var hiddenSection = document.getElementById('hiddenSectionTemplate').cloneNode(true);
