@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
@@ -142,4 +144,20 @@ public interface EdocService {
 	 * @return
 	 */
 	ElectronicDocument selectElectronicDocument(String edocNo);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 15. 
+	 * @Return : ElectronicDocumentApproval
+	 * 
+	 * Description : 메소드에 대한 설명을 적어주세요
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 15., 설명 : 최초 작성
+	 *
+	 * @param aprvl
+	 * @param loginEmp
+	 * @return
+	 */
+	ElectronicDocumentApproval processApproval(ElectronicDocumentApproval aprvl, Employee loginEmp);
 }

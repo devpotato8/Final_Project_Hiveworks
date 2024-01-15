@@ -19,6 +19,11 @@
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
 			 	<jsp:param value="${currentPage }" name="currentPage"/>
+			 	<jsp:param value="${countAll}" name="countAll"/>
+				<jsp:param value="${countWait}" name="countWait"/>
+				<jsp:param value="${countCheck}" name="countCheck"/>
+				<jsp:param value="${countExpect}" name="countExpect"/>
+				<jsp:param value="${countProcessing}" name="countProcessing"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
@@ -53,12 +58,28 @@
 											<div class="current-autograph">
 												<c:choose>
 													<c:when test="${loginEmp.emp_auto_fileName eq null}">
-														<img src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
+														<figure>
+															<figcaption class="figure-caption mb-3">현재 설정 : 기본</figcaption>
+															<img src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
+														</figure>
 													</c:when>
 													<c:otherwise>
-														<img src="${loginEmp.emp_auto_fileName}"/>
+														<figure>
+															<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
+															<img src="${path}/resources/upload/edoc/autograph/${loginEmp.emp_auto_fileName}"/>
+														</figure>
 													</c:otherwise>
 												</c:choose>
+												<div class="row mt-10">
+													<span class="form-label">서명변경</span>
+													<input type="file" class="form-control mb-3" name="autograph" id="changeAutograph">
+													<div class="btn-container">
+														<button type="button" class="btn btn-primary" id="setAutographBtn">서명변경</button>
+														<button type="button" class="btn btn-primary" id="setDefaultBtn">기본으로변경</button>
+													</div>
+													<div class="new-auto-container">
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
