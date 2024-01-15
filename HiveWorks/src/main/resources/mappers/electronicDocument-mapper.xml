@@ -45,7 +45,7 @@
 		<result column="USE_YN" property="useYn" />
 	</resultMap>
 	
-	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval" id="approvalMap">
+	<resultMap type="edocApproval" id="approvalMap">
 		<id column="APRVL_NO" property="aprvlNo"/>
 		<result column="APRVL_EDOC_NO" property="aprvlEdocNo"/>
 		<result column="APRVL_APV_CODE" property="aprvlApvCode"/>
@@ -58,14 +58,14 @@
 		<result column="APRVL_AUTO_FILENAME" property="aprvlAutoFilename"/>
 	</resultMap>
 	
-	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile" id="attachFileMap">
+	<resultMap type="edocAttachFile" id="attachFileMap">
 		<id column="ATTACH_NO" property="attachNo"/>
 		<result column="ATTACH_EDOC_REF" property="attachEdocRef"/>
 		<result column="ATTACH_ORIGINAL_FILENAME" property="attachOriginalFilename"/>
 		<result column="ATTACH_RENAMED_FILENAME" property="attachRenamedFilename"/>
 	</resultMap>
 	
-	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentComment" id="commentMap">
+	<resultMap type="edocComment" id="commentMap">
 		<id column="COMM_NO" property="commNo"/>
 		<result column="COMM_EDOC_NO" property="commEdocNo"/>
 		<result column="CREATER" property="creater"/>
@@ -73,7 +73,7 @@
 		<result column="COMM_CONTENT" property="commContent"/>
 	</resultMap>
 	
-	<resultMap type="com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference" id="referenceMap">
+	<resultMap type="edocReference" id="referenceMap">
 		<id column="REFPER_NO" property="refperNo"/>
 		<result column="REFPER_EDOC_NO" property="refperEdocNo"/>
 		<result column="REFPER_EMP_NO" property="refperEmpNo"/>
@@ -223,4 +223,15 @@
 		SELECT * FROM TBL_EDOC_REFERENCE_PERSON WHERE REFPER_EDOC_NO = #{edocNo} ORDER BY REFPER_NO
 	</select>
 	
+	<update id="processApproval" parameterType="edocApproval">
+		UPDATE TBL_EDOC_APPROVAL SET APRVL_APV_CODE = #{aprvlApvCode}, APRVL_STATUS = 'C', APRVL_COMMENT = #{aprvlComment}, APRVL_DATE = SYSDATE WHERE APRVL_NO = #{aprvlNo}
+	</update>
+	
+	<update id="edocFinalize" parameterType="edoc">
+		UPDATE TBL_EDOC SET EDOC_STATUS='DST200', FINALIZED_DATE = SYSDATE WHERE EDOC_NO = #{edocNo}
+	</update>
+	
+	<update id="setNextApprovalStatus" parameterType="edocApproval">
+		UPDATE TBL_EDOC_APPROVAL SET APRVL_STATUS = 'W' WHERE APRVL_NO = #{aprvlNo}
+	</update>
 </mapper>
