@@ -64,7 +64,7 @@
 						<ul class="navbar-nav flex-column">
 							
 							<li class="nav-item">
-								<a class="nav-link" href="${path}/messageview">
+								<a class="nav-link" href="${path}/messageview?empNo=${loginEmp.emp_no}">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
@@ -294,15 +294,6 @@
 											<li class="nav-item">
 												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
 											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="invoice-templates.html"><span class="nav-link-text">Invoice Templates</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="create-invoice.html"><span class="nav-link-text">Create Invoice</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="invoice-preview.html"><span class="nav-link-text">Invoice Preview</span></a>
-											</li>
 										</ul>	
 									</li>	
 								</ul>	
@@ -335,10 +326,7 @@
 																<a class="nav-link" href="${path }/employees/employeeList"><span class="nav-link-text">직원관리</span></a>
 															</li>
 															<li class="nav-item">
-																<a class="nav-link" href="login-simple.html"><span class="nav-link-text">직위/직무관리</span></a>
-															</li>
-															<li class="nav-item">
-																<a class="nav-link" href="login-classic.html"><span class="nav-link-text">Login Classic</span></a>
+																<a class="nav-link" href="${path }/employees/manageAuthority"><span class="nav-link-text">권한관리</span></a>
 															</li>
 														</ul>	
 													</li>	

@@ -24,9 +24,12 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<section>
+		<div class="d-flex justify-content-end mb-1 mt-3">
+			<button class="btn btn-dark" onclick="exceldownload();">근무내역다운로드</button>
+		</div>
+		<section class="workList">
 			<!-- <table id="datable_1" class="table nowrap w-100 mb-5"> id="datable_1" 에 체크박스생성하는 js걸려있음-->
-			<table class="table nowrap w-100 mb-5"> 
+			<table class="table nowrap w-100 mb-5 "> 
 				<thead>
 					<tr>
 						<th>
@@ -36,12 +39,13 @@
 							</span>
 						</th>
 						<th>순번</th>
+						<th>사번</th>
 						<th>출근일자</th>
 						<th>출근시간</th>
 						<th>퇴근시간</th>
 						<th>시간외 근무</th>
 						<th>지각여부</th>
-						<th>조기퇴근여부</th>
+						<th>조퇴여부</th>
 						<th>결근여부</th>
 					</tr>
 				</thead>
@@ -58,11 +62,12 @@
 								<td>
 									<div class="media align-items-center">
 										<div class="media-body">
-											<span class="d-block text-high-em"><c:out value="${status.count }"/></span>
+											<span class="badge badge-soft-light my-1  me-2"><c:out value="${status.count }"/></span>
 										</div>
 									</div>
 								</td>
-								<td><span class="badge badge-soft-primary my-1  me-2"><c:out value="${w.workDay }"/></span></td>
+								<td><span class="badge badge-soft-info my-1  me-2"><c:out value="${w.empNo }"/></span></td>
+								<td><span class="badge badge-soft-success my-1  me-2"><c:out value="${w.workDay }"/></span></td>
 								<td><span class="badge badge-soft-violet my-1  me-2"><fmt:formatDate value="${w.workStartTime }" pattern="HH:mm:ss"/></span></td>
 								<td><span class="badge badge-soft-danger my-1  me-2"><fmt:formatDate value="${w.workEndTime }" pattern="HH:mm:ss"/></span></td>
 								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workPermit }"/></span></td>
@@ -78,5 +83,22 @@
 		
 	</div>
 </div>
+<style>
+	.workList{
+	overflow: auto;
+	height: 700px;
+	}
+	.workList::-webkit-scrollbar {
+	  display: block;
+	}
+	::-webkit-scrollbar-thumb {
+	    background-color: lightblue;
+	}
 
+</style>
+<script>
+	function exceldownload() {
+		location.assign("${path}/work/exceldownload");
+	}
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

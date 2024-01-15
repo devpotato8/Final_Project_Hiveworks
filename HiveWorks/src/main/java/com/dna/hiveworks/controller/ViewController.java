@@ -56,13 +56,5 @@ public class ViewController {
 		return "department/deptExcelUpload";
 	}
 	
-	@GetMapping("/messageview")
-	public String messageView() {
-		return "message/message";
-	}
-	
-	@GetMapping("/msgFileView")
-	public String msgFileView() {
-		return "message/messageFilePage";
-	}
+
 }

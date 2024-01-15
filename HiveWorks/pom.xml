@@ -107,7 +107,6 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>1.1.1</version>
 		</dependency>
-
 		
 		<!-- poi 라이브러리 -->
 		<dependency>
@@ -146,6 +145,12 @@
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- 스프링 AOP 추가 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 		
 	</dependencies>

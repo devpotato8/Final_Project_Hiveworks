@@ -20,6 +20,11 @@
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
 			 	<jsp:param value="${currentPage }" name="currentPage"/>
+			 	<jsp:param value="${countAll}" name="countAll"/>
+				<jsp:param value="${countWait}" name="countWait"/>
+				<jsp:param value="${countCheck}" name="countCheck"/>
+				<jsp:param value="${countExpect}" name="countExpect"/>
+				<jsp:param value="${countProcessing}" name="countProcessing"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">

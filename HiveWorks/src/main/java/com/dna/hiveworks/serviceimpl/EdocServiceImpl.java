@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dna.hiveworks.common.exception.HiveworksException;
+import com.dna.hiveworks.model.code.ApvCode;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dao.EdocDao;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
@@ -115,5 +118,73 @@ public class EdocServiceImpl implements EdocService{
 		edoc.setCreaterJobName((String)empData.get("JOBNAME"));
 		
 		return edoc;
+	}
+	
+	@Override
+	@Transactional
+	public ElectronicDocumentApproval processApproval(ElectronicDocumentApproval aprvl, Employee loginEmp) throws HiveworksException{
+		
+		// 받아온 결재정보의 결재자정보에 현재 로그인한 사람의 사번을 저장
+		aprvl.setAprvlEmpNo(loginEmp.getEmp_no());
+		
+		// DB에서 결재가 될 문서를 불러옴
+		ElectronicDocument edoc = dao.selectElectronicDocument(session, aprvl.getAprvlEdocNo());
+		
+		//해당 결재문서의 결재정보를 가져옴
+		List<ElectronicDocumentApproval> approvalList = dao.selectElectronicDocumentApproval(session, aprvl.getAprvlEdocNo());
+		
+		// 전자문서의 결재정보를 담을 변수 생성
+		ElectronicDocumentApproval dbAprvlData = null;
+		
+		// 해당 결재정보의 index값
+		int approvalIndex = -1;
+		
+		// 전자문서의 현재 정보가 DST100(진행중)인지 검사
+		if(!edoc.getEdocStatus().equals("DST100")) {
+			throw new HiveworksException("이미 처리된 문서입니다.");
+			
+		// 받아온 결재정보의 '문서번호','결재번호','사번' 정보로 유효한 요청인지 검사
+		} else if(approvalList== null || approvalList.isEmpty()||!approvalList.contains(aprvl)) {
+			throw new HiveworksException("해당 결재건이 존재하지 않습니다.\\n 문서번호 나 결재번호 혹은 결재자 정보가 일치하지 않습니다.");
+			
+		// 유효한 요청이라면 결재정보를 담을 변수에 해당 정보를 저장
+		}else {
+			approvalIndex = approvalList.indexOf(aprvl);
+			dbAprvlData = approvalList.get(approvalIndex);
+		}
+		System.out.println(dbAprvlData);
+		// DB에 해당 결재가 이미 처리된 결재인지 검사
+		if(!dbAprvlData.getAprvlApvCode().equals(ApvCode.APV000)) {
+			throw new HiveworksException("이미 결재처리 되어있습니다.");
+		}
+		
+		// 결재처리
+		int approvalResult = dao.processApproval(session, aprvl);
+		
+		// 결재처리가 성공 && 결재코드가 'APV001'(결재)일 때 
+		if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV001)) {
+			// 현재 처리된 결재가 마지막 결재였을 때
+				if(approvalList.size()-1 == approvalList.indexOf(dbAprvlData)) {
+					// 전자문서 완료처리
+					dao.edocFinalize(session, edoc);
+					if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
+						// TODO 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
+					}
+				}else {
+					// 다음차례 결재자의 상태를 P에서 W로 변경
+					ElectronicDocumentApproval nextApproval = approvalList.get(approvalIndex+1);
+					dao.setNextApprovalStatus(session, nextApproval);
+				}
+		}else if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV002)){
+			//TODO 반려일때 처리구문
+		}else {
+			throw new HiveworksException("결재처리중 에러가 발생하였습니다");
+		}
+		
+		dbAprvlData.setAprvlApvCode(aprvl.getAprvlApvCode());
+		dbAprvlData.setAprvlComment(aprvl.getAprvlComment());
+		dbAprvlData.setAprvlStatus("C");
+		dbAprvlData.setAprvlDate(Date.valueOf(LocalDate.now()));
+		return dbAprvlData;
 	}
 }
