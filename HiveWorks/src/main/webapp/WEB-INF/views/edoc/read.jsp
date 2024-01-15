@@ -24,7 +24,7 @@
 				<jsp:param value="${countWait}" name="countWait"/>
 				<jsp:param value="${countCheck}" name="countCheck"/>
 				<jsp:param value="${countExpect}" name="countExpect"/>
-				<jsp:param value="${countProcessing}" name="countProcessing"/>
+				<jsp:param value="${countProcess}" name="countProcess"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
@@ -219,56 +219,17 @@
 <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
 <!-- Simplebar JS -->
 <script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<!-- 체크박스 JS -->
+<script src="${path}/resources/js/checkbox.js"></script>
 <!-- Init JS -->
 <script src="${path}/resources/js/init.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>
-<!-- jstree -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- 체크박스 JS -->
-<script src="${path}/resources/js/checkbox.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
 <script src="${path}/resources/js/edoc/edoc-read.js"></script>
-<link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
 
-<script>
-$(function(){
-	jampack();
-	horizontalMenu();
-	navheadMenu();
-
-	/*App Functions */
-	//emailApp();
-	//contactApp();
-	//chatApp();
-	//calendarApp();
-	fmApp();
-	//blogApp();
-	//invoiceApp();
-	//galleryApp();
-	//integrationsApp();
-	//taskboardApp();
-	//checklistApp();
-	//todoApp();
-	
-
-	/*Table Search*/
-	$(".table-search").on("keyup", function() {
-		var value = $(this).val().toLowerCase();
-		$(".table-filter tbody tr").filter(function() {
-		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		});
-	});
-	
-	/*Disabled*/
-	$(document).on("click", "a.disabled,a:disabled",function(e) {
-		 return false;
-	});
-	
-});
-
-</script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+</div>
+</body>
+</html>

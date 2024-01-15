@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +41,7 @@ public class EdocCounter {
 	@Autowired
 	EdocService service;
 	
-	@AfterReturning("execution(* com.dna.hiveworks.controller.EdocController.*(..)) && args(model, ..)")
+	@After("execution(* com.dna.hiveworks.controller.EdocController.*(..)) && args(model, ..)")
 	public void addCounts(JoinPoint joinPoint, Model model) {
 		log.info("AOP 진입");
 		
@@ -61,8 +61,9 @@ public class EdocCounter {
 		model.addAttribute("countWait", countWait);
 		model.addAttribute("countCheck", countCheck);
 		model.addAttribute("countExpect", countExpect);
-		model.addAttribute("countProcessing", countProcess);
+		model.addAttribute("countProcess", countProcess);
 		
 		log.info("AOP 종료");
 	}
+	
 }

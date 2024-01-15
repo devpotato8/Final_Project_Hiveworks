@@ -81,28 +81,40 @@
 	</resultMap>
 	
 	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
-		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
-		D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
-		D.EDOC_STATUS) AS EDOC_STATUS
-		FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
-		JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
-		JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
-		WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
-		AND E.EMP_ID = #{emp_id}
-		<if test="status != null">
-			<choose>
-				<when test='status.equals("WAIT")'>
-					AND A.APRVL_STATUS = 'W'
-				</when>
-				<when test='status.equals("EXPECT")'>
-					AND A.APRVL_STATUS = 'P'
-				</when>
-				<when test='status.equals("PROCESS")'>
-					AND A.APRVL_STATUS = 'C'
-				</when>
-			</choose>
+		SELECT * FROM(
+		<if test='!status.equals("CHECK")'>
+			SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
+			D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
+			D.EDOC_STATUS) AS EDOC_STATUS
+			FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+			JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+			JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+			WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
+			AND E.EMP_ID = #{emp_id}
+			<if test="status != null">
+				<choose>
+					<when test='status.equals("WAIT")'>
+						AND A.APRVL_STATUS = 'W'
+					</when>
+					<when test='status.equals("EXPECT")'>
+						AND A.APRVL_STATUS = 'P'
+					</when>
+					<when test='status.equals("PROCESS")'>
+						AND A.APRVL_STATUS = 'A'
+					</when>
+				</choose>
+			</if>
 		</if>
-		ORDER BY D.CREATE_DATE
+		<if test='status.equals("ALL") or status.equals("CHECK")'>
+			<if test='status.equals("ALL")'>UNION</if>
+			SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE, 'APV_C' AS EDOC_STATUS
+	        FROM TBL_EDOC D
+		        JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
+		        JOIN TBL_EMPLOYEE E ON R.REFPER_EMP_NO = E.EMP_NO
+		        JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+	        WHERE D.USE_YN = 'Y' AND E.EMP_ID = #{emp_id}
+		</if>
+		) ORDER BY 4
 	</select>
 	<select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
 		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
