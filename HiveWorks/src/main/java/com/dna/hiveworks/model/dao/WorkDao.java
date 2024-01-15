@@ -20,11 +20,11 @@ public interface WorkDao {
 	
 	Work selectCommute(SqlSession session, int empNo);
 	
-	String avgStartWork(SqlSession session);
-	String avgEndWork(SqlSession session);
-	int lateWork(SqlSession session);
-	int fastEnd(SqlSession session);
-	int absence(SqlSession session);
-	int overWork(SqlSession session);
+	String avgStartWork(SqlSession session, int empNo);
+	String avgEndWork(SqlSession session, int empNo);
+	int lateWork(SqlSession session, int empNo);
+	int fastEnd(SqlSession session, int empNo);
+	int absence(SqlSession session, int empNo);
+	int overWork(SqlSession session, int empNo);
 
 }

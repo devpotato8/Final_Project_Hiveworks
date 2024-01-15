@@ -29,7 +29,7 @@ public interface EmpDao {
 	
 	int insertEmployee(SqlSession session,Employee e);
 	int updateEmployee(SqlSession session,Employee e);
-	int deleteEmployee(SqlSession session,Employee e);
+	int deleteEmployee(SqlSession session, int emp_no);
 	
 	List<Employee> searchEmployeesByKeyword(SqlSession session, Map<String,Object> param);
 	
@@ -42,7 +42,11 @@ public interface EmpDao {
 
 	int insertAccount(SqlSession session, Account ac);
 	int updateAccount(SqlSession session, Account ac);
-	int deleteAccount(SqlSession session, Account ac);
+	int deleteAccount(SqlSession session, int emp_no);
 	
+	int confirmEmployee(SqlSession session, Map<String, String> IdAndPassword);
+	int updatePassword(SqlSession session, Map<String, String> IdAndPassword);
 	
+	List<Map<String,Object>> selectAuthorityList(SqlSession session);
+
 }

@@ -31,7 +31,7 @@
 }
 
 .select-selected {
-  background-color: MediumSeaGreen;
+  background-color: #007D88;
 }
 
 /*style the arrow inside the select element:*/
@@ -65,7 +65,7 @@
 /*style items (options):*/
 .select-items {
   position: absolute;
-  background-color: MediumSeaGreen;
+  background-color: #007D88;
   top: 100%;
   left: 0;
   right: 0;
@@ -116,13 +116,13 @@ input::-webkit-inner-spin-button {
 								</div>
 								<ul class="nav nav-light nav-vertical nav-tabs">
 									<li class="nav-item">
-										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}" class="nav-link active">
-											<span class="nav-link-text">기본정보 수정</span>
+										<a href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}">
+											기본정보 수정
 										</a>
 									</li>
 									<li class="nav-item">
-										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" class="nav-link">
-											<span class="nav-link-text">비밀번호 수정</span>
+										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}">
+											비밀번호 수정
 										</a>
 									</li>
 								</ul>
@@ -131,7 +131,8 @@ input::-webkit-inner-spin-button {
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post" enctype="multipart/form-data">
+									<form action="${path }/employees/updateEmployeeEnd.do" method="post" enctype="multipart/form-data">
+										<input type="hidden" id="emp_no" name="emp_no" value="${employee.emp_no }" />
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
@@ -139,12 +140,13 @@ input::-webkit-inner-spin-button {
 														<div class="media-head me-5">
 															<div class="avatar avatar-rounded avatar-xxl" id="imgContainer">
 																<img src="${path }/resources/upload/profile/${employee.emp_profile_re_name}" alt="user" class="avatar-img">
+																<input type="hidden" id="pre_file" name="pre_file" value="${employee.emp_profile_re_name}"/>
 															</div>
 														</div>
 														<div class="media-body">
 															<div class="btn btn-soft-primary btn-file mb-1">
 																사진 등록
-																<input type="file" class="upload" id="emp_profile_ori_name" name="upFile" onchange="fn_change_file();" accept="image/*">
+																<input type="file" class="upload" id="emp_profile_ori_name" name="upFile" onchange="fn_change_file();" value="${employee.emp_profile_re_name}" accept="image/*">
 															</div>
 															<div class="form-text text-muted">
 																 이미지 크기 450px x 450px. 최대 5mb.
@@ -435,12 +437,12 @@ input::-webkit-inner-spin-button {
 					
 					imageContainer.innerHTML = '';
 					imageContainer.appendChild(img);
-					
-					console.log(img);
 				}
 				
 				reader.readAsDataURL(file);
 			}
+			let $value = document.getElementById('emp_profile_ori_name');
+			console.log($value.value);
 		}
 	</script>
 <script>
@@ -632,14 +634,14 @@ document.addEventListener("click", closeAllSelect);
 	domainListEl.addEventListener('change', (event) => {
 	  // option에 있는 도메인 선택 시
 	  if(event.target.value !== "none") {
-	    // 선택한 도메인을 input에 입력하고 disabled
+	    // 선택한 도메인을 input에 입력하고 readOnly
 	    domainInputEl.value = event.target.value
-	    domainInputEl.disabled = true
+	    domainInputEl.readOnly = true
 	  } else { 
 		// 직접 입력 시
 	    // input 내용 초기화 & 입력 가능하도록 변경
 	    domainInputEl.value = ""
-	    domainInputEl.disabled = false
+	    domainInputEl.readOnly = false
 	  }
 	});
 </script>

@@ -106,4 +106,19 @@ public class EdocDaoImpl implements EdocDao{
 	public List<ElectronicDocumentComment> selectElectronicDocumentComments(SqlSession session, String edocNo) {
 		return session.selectList("edoc.selectElectronicDocumentComments", edocNo);
 	}
+	
+	@Override
+	public int processApproval(SqlSession session, ElectronicDocumentApproval aprvl) {
+		return session.update("edoc.processApproval", aprvl);
+	}
+	
+	@Override
+	public int edocFinalize(SqlSession session, ElectronicDocument edoc) {
+		return session.update("edoc.edocFinalize", edoc);
+	}
+	
+	@Override
+	public int setNextApprovalStatus(SqlSession session, ElectronicDocumentApproval nextApproval) {
+		return session.update("edoc.setNextApprovalStatus", nextApproval);
+	}
 }

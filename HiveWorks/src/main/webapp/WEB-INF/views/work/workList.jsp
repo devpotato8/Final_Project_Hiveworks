@@ -39,8 +39,7 @@
 							<button class="btn btn-dark" onclick="workListYear();">년</button>
 						</div>
 						<div class="filter-right-part">
-							<div>2023.12.26(화) 오전 08:00</div>
-							<button class="btn btn-dark">근무내역다운로드</button>
+							<div id="currentTime"></div>
 						</div>
 					</div>
 
@@ -252,8 +251,11 @@
 }
 </style>
 <script>
+	const week = 7;
+	const month = 30;
+	const year = 365;
     function workListWeek() {
-    	fetch("${path}/work/workListWeek")
+    	fetch("${path}/work/workListWeek?week=${week}")
 	    .then(response => response.json())
 	    .then(data => {
 	      // 데이터 처리 로직
@@ -328,4 +330,37 @@
 	    });
 	}
 	</script>
+	<script>
+  // 현재 시간을 가져오는 함수
+  function getCurrentTime() {
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    // 시, 분, 초를 2자리 숫자로 표시하기 위해 앞에 0을 붙임
+    hours = addLeadingZero(hours);
+    minutes = addLeadingZero(minutes);
+    seconds = addLeadingZero(seconds);
+
+    // 시간을 형식에 맞게 표시
+    let currentTime = year + "년 " + month + "월 " + day + "일 " + hours + ":" + minutes + ":" + seconds;
+
+    // HTML 요소에 현재 시간을 표시
+    document.getElementById("currentTime").innerText = currentTime;
+    //document.getElementById("workStartTime").value=currentTime;
+    //document.getElementById("workEndTime").value=currentTime;
+  }
+
+  // 숫자 앞에 0을 붙이는 함수
+  function addLeadingZero(number) {
+    return number < 10 ? "0" + number : number;
+  }
+
+  // 1초마다 현재 시간 업데이트
+  setInterval(getCurrentTime, 1000);
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

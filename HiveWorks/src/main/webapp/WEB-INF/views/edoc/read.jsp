@@ -20,6 +20,11 @@
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
 			 	<jsp:param value="${currentPage }" name="currentPage"/>
+				<jsp:param value="${countAll}" name="countAll"/>
+				<jsp:param value="${countWait}" name="countWait"/>
+				<jsp:param value="${countCheck}" name="countCheck"/>
+				<jsp:param value="${countExpect}" name="countExpect"/>
+				<jsp:param value="${countProcessing}" name="countProcessing"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
@@ -112,7 +117,10 @@
 																	<img src="${path }/resources/upload/edoc/autograph/${a.aprvlAutoFilename}">
 																</c:when>
 																<c:when test="${a.aprvlStatus eq 'W' and a.aprvlEmpNo eq loginEmp.emp_no }">
-																	<button class="btn btn-sm btn-primary" type="button">결재</button> 
+																	<c:set var="currentApprovalNo" value="${a.aprvlNo }"/>
+																	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_approval">
+																		결재
+																	</button>
 																</c:when>
 															</c:choose>
 														</td>
@@ -121,7 +129,7 @@
 												<tr>
 													<c:forEach items="${edoc.approval }" var="a">
 														<td class="text-center">
-														<c:if test="${a.aprvlApvCode ne 'APV000' }">
+														<c:if test="${a.aprvlApvCode ne 'APV000'}">
 															<fmt:formatDate type="date" value="${a.aprvlDate }"/>
 														</c:if>
 														</td>
@@ -156,6 +164,50 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
+<!-- Modal Content -->
+<div class="modal fade" id="modal_approval" tabindex="-1" role="dialog" aria-labelledby="modal-approval" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal_approval_label">결재하기</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<form id="form_approval" action="${path}/edoc/processapproval" method="post">
+						<input type="hidden" name="aprvlNo" value="${currentApprovalNo}">
+						<input type="hidden" name="aprvlEdocNo" value="${edoc.edocNo}">
+						<div class="row">
+							<div class="col mb-1">
+								<c:forEach items="${apvCode }" var="code"  varStatus="status" >
+									<c:choose>
+										<c:when test="${code.name() eq 'APV001' or code.name() eq 'APV002' }">
+											<div class="form-check form-check-inline">
+												<input type="radio" name="aprvlApvCode" id="aprvlApvCode${status.count}" class="form-check-input" value="${code.name()}"
+												<c:if test="${code.name() eq 'APV001'}">checked</c:if>
+												>
+												<label for="aprvlApvCode${status.count}" class="form-check-label">${code.code}</label>
+											</div>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</div>
+						</div>
+						<div class="row">
+							<textarea name="aprvlComment" id="aprvlComment" cols="50" rows="4" class="form-control mt-1" style="resize: none;"></textarea>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" id="btn_approval">결재하기</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	const path = "${path}";
 </script>
@@ -178,7 +230,8 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-	
+
+<script src="${path}/resources/js/edoc/edoc-read.js"></script>
 <link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
 
 <script>

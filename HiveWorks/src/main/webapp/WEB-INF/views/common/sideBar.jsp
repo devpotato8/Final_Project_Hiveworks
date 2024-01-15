@@ -294,15 +294,6 @@
 											<li class="nav-item">
 												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
 											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="invoice-templates.html"><span class="nav-link-text">Invoice Templates</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="create-invoice.html"><span class="nav-link-text">Create Invoice</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="invoice-preview.html"><span class="nav-link-text">Invoice Preview</span></a>
-											</li>
 										</ul>	
 									</li>	
 								</ul>	
@@ -335,10 +326,7 @@
 																<a class="nav-link" href="${path }/employees/employeeList"><span class="nav-link-text">직원관리</span></a>
 															</li>
 															<li class="nav-item">
-																<a class="nav-link" href="login-simple.html"><span class="nav-link-text">직위/직무관리</span></a>
-															</li>
-															<li class="nav-item">
-																<a class="nav-link" href="login-classic.html"><span class="nav-link-text">Login Classic</span></a>
+																<a class="nav-link" href="${path }/employees/manageAuthority"><span class="nav-link-text">권한관리</span></a>
 															</li>
 														</ul>	
 													</li>	

@@ -16,10 +16,10 @@ public interface WorkService {
 	
 	Work selectCommute(int empNo);
 	
-	String avgStartWork();
-	String avgEndWork();
-	int lateWork();
-	int fastEnd();
-	int absence();
-	int overWork();
+	String avgStartWork(int empNo);
+	String avgEndWork(int empNo);
+	int lateWork(int empNo);
+	int fastEnd(int empNo);
+	int absence(int empNo);
+	int overWork(int empNo);
 }

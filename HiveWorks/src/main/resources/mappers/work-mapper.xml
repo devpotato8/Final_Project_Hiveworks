@@ -81,7 +81,7 @@
 		SELECT * FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
 		WHERE EMP_NO = 1
-		ORDER BY CREATE_DATE DESC
+		ORDER BY WORK_DAY DESC
 	</select>
 	
 	<select id="avgStartWork" resultType="String">
@@ -89,12 +89,18 @@
                AVG(TO_NUMBER(TO_CHAR(WORK_START_TIME, 'SSSSS')))/86400, 
                'HH24:MI:SS') 
 		FROM TBL_WORK
+		WHERE EMP_NO = #{empNo}
+		<!-- <if test = "week != null and week != ''">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		</if> -->
 	</select>
-	<select id="avgEndWork" resultType="String">
+	
+	<select id="avgEndWork" parameterType="_int" resultType="String">
 		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
                AVG(TO_NUMBER(TO_CHAR(WORK_END_TIME, 'SSSSS')))/86400, 
                'HH24:MI:SS') 
-				FROM TBL_WORK
+		FROM TBL_WORK
+		WHERE EMP_NO = #{empNo}
 	</select>
 	<select id="lateWork" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
@@ -111,9 +117,11 @@
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
 		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = 1
 	</select>
-	<select id="overWork" resultType="_int">
-		
-	</select>
+	<!-- <select id="overWork" resultType="_int">
+		SELECT COUNT(*) FROM TBL_WORK
+		JOIN TBL_WORK_REALTIME USING(WORK_NO)
+		WHERE WORK_OVERWORK = 'N' AND WORK_END_TIME >  AND EMP_NO = 1
+	</select> -->
 	
 	<!-- 매일 1시에 근태상태 insert -->
 	<insert id="insertQuartzWork" parameterType="_int">

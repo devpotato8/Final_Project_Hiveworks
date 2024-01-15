@@ -108,11 +108,36 @@
 						</a>
 						<ul id="edoc_pending" class="nav flex-column collapse nav-children">
 							<li class="nav-item">
-								<a class="nav-link" href="${path }/edoc/lists/all"><span class="nav-link-text">전체</span></a>
-								<a class="nav-link" href="${path }/edoc/lists/wait"><span class="nav-link-text">대기</span></a>
-								<a class="nav-link" href="${path }/edoc/lists/check"><span class="nav-link-text">확인</span></a>
-								<a class="nav-link" href="${path }/edoc/lists/expect"><span class="nav-link-text">예정</span></a>
-								<a class="nav-link" href="${path }/edoc/lists/process"><span class="nav-link-text">진행</span></a>
+								<a class="nav-link" href="${path }/edoc/lists/all"><span class="nav-link-text">전체
+									<c:if test="${countAll > 0 }">
+										<span class="badge badge-sm badge-warning badge-pill">${countAll }</span>
+									</c:if>
+									</span>
+								</a>
+								<a class="nav-link" href="${path }/edoc/lists/wait"><span class="nav-link-text">대기
+									<c:if test="${countWait > 0 }">
+										<span class="badge badge-sm badge-warning badge-pill">${countWait }</span>
+									</c:if>
+									</span>
+								</a>
+								<a class="nav-link" href="${path }/edoc/lists/check"><span class="nav-link-text">확인
+									<c:if test="${countCheck > 0 }">
+										<span class="badge badge-sm badge-warning badge-pill">${countCheck }</span>
+									</c:if>
+									</span>
+								</a>
+								<a class="nav-link" href="${path }/edoc/lists/expect"><span class="nav-link-text">예정
+									<c:if test="${countExpect > 0 }">
+										<span class="badge badge-sm badge-warning badge-pill">${countExpect }</span>
+									</c:if>
+									</span>
+								</a>
+								<a class="nav-link" href="${path }/edoc/lists/process"><span class="nav-link-text">진행
+									<c:if test="${countProcess > 0 }">
+										<span class="badge badge-sm badge-warning badge-pill">${countProcess }</span>
+									</c:if>
+									</span>
+								</a>
 							</li>	
 						</ul>
 					</li>
