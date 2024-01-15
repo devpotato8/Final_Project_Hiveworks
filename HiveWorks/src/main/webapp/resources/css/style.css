@@ -73185,7 +73185,7 @@ Project:	Jampack
 }
 @media (min-width: 1200px) {
   button.btn-close.info-close {
-    display: none;
+    /* display: none; */
   }
 }
 @media (max-width: 1199px) {
