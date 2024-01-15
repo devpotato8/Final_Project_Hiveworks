@@ -131,29 +131,7 @@ input::-webkit-inner-spin-button {
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post" enctype="multipart/form-data">
-										<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<div class="media align-items-center">
-														<div class="media-head me-5">
-															<div class="avatar avatar-rounded avatar-xxl" id="imgContainer">
-																<img src="${path }/resources/upload/profile/${employee.emp_profile_re_name}" alt="user" class="avatar-img">
-															</div>
-														</div>
-														<div class="media-body">
-															<div class="btn btn-soft-primary btn-file mb-1">
-																사진 등록
-																<input type="file" class="upload" id="emp_profile_ori_name" name="upFile" onchange="fn_change_file();" accept="image/*">
-															</div>
-															<div class="form-text text-muted">
-																 이미지 크기 450px x 450px. 최대 5mb.
-															</div>
-														</div>	
-													</div>
-												</div>
-											</div>
-										</div>
+									<form action="${path }/employees/enrollEmployeeEnd.do" method="post">
 										<div class="title title-xs title-wth-divider text-primary text-uppercase my-4"><span>개인 정보</span></div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
@@ -168,18 +146,27 @@ input::-webkit-inner-spin-button {
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*성함</label>
-													<input class="form-control" type="text" id="emp_name" name="emp_name" value="${employee.emp_name}" required="required"/>
+													<label class="form-label">현재 비밀번호</label>
+													<input class="form-control" type="password" id="emp_pw" name="emp_pw" value="" required="required"/>
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="form-label">새 비밀번호</label>
+													<input class="form-control" type="password" id="emp_pw_new" name="emp_pw_new" value="" min="8" maxlength="25" required="required" />
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<label class="form-label">*입사일</label>
-													<input class="form-control" type="date" id="emp_hired_date" name="emp_hired_date" value="${employee.emp_hired_date }" required="required"/>
+													<label class="form-label">새 비밀번호 확인</label>
+													<input class="form-control" type="password" id="emp_pw_newCheck" name="emp_pw_newCheck" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
+													<div id="pwMessage"></div>
 												</div>
 											</div>
 										</div>
-										<button class="btn btn-primary mt-5">수정</button>
+										<button type="button" class="btn btn-primary mt-5" id="submitBtn">수정</button>
 									</form>
 								</div>
 							</div>
@@ -218,5 +205,70 @@ input::-webkit-inner-spin-button {
 	<script src="${path }/resources/js/chips-init.js"></script>
 	<!-- 주소 api -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-			
+
+<script>
+//비밀번호 정규표현식
+//영문 숫자 조합 8자리 이상
+let reg_ver1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+//영문 숫자 특수기호 조합 8자리 이상
+let reg_ver2 = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+let pw_first = document.getElementById('emp_pw_new');
+let pw_second = document.getElementById('emp_pw_newCheck');
+let pw_message = document.getElementById('pwMessage');
+let msg = "";
+let count=0;
+
+fn_check_password=()=>{
+	if(!reg_ver1.test(pw_first.value)){
+		msg = "숫자와 영문자 조합으로 8~25자리를 사용해야 합니다.";
+		pw_message.innerHTML = msg;
+		count=1;
+	}else{
+		if(pw_first.value!==pw_second.value){
+			msg = "비밀번호가 서로 다릅니다!";
+			pw_message.innerHTML = msg;
+			count=1;
+		}else{
+			msg = "비밀번호가 일치합니다!";
+			pw_message.innerHTML = msg;
+		}
+	}
+}
+
+let submitBtn = document.getElementById("submitBtn");
+let emp_id = document.getElementById("emp_id");
+let emp_pw = document.getElementById("emp_pw");
+
+submitBtn.addEventListener('click',(event)=>{
+	//fn_check_password();
+	
+ 	if(count===1){
+		alert("새 비밀번호를 확인해 주세요.")
+		return;
+	}
+ 	if(count!==1){
+		$.ajax({
+			method:"POST",
+			url:"${path}/employees/updatePassword",
+			data:{
+				empId:emp_id.value,
+				empPassword:emp_pw.value,
+				empPasswordNew:pw_first.value
+				},
+			success:data=>{
+				if(data>0){
+					alert("비밀번호 업데이트 성공!");
+					location.assign("${path}/employees/employeeList");
+				}
+				else{
+					alert("비밀번호 업데이트 실패!")
+				}
+			}
+		})
+	}
+});
+
+
+</script>		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

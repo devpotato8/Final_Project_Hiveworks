@@ -116,13 +116,13 @@ input::-webkit-inner-spin-button {
 								</div>
 								<ul class="nav nav-light nav-vertical nav-tabs">
 									<li class="nav-item">
-										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}" class="nav-link active">
-											<span class="nav-link-text">기본정보 수정</span>
+										<a href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}">
+											기본정보 수정
 										</a>
 									</li>
 									<li class="nav-item">
-										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" class="nav-link">
-											<span class="nav-link-text">비밀번호 수정</span>
+										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}">
+											비밀번호 수정
 										</a>
 									</li>
 								</ul>

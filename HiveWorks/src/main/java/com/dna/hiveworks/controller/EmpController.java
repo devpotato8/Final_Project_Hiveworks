@@ -166,8 +166,8 @@ public class EmpController {
 		}catch(RuntimeException e) {
 			msg="직원 등록 실패";
 			loc="employees/enrollEmployee";
-//			File delFile = new File(path,emp.getEmp_profile_re_name());
-//			delFile.delete();
+			File delFile = new File(path,emp.getEmp_profile_re_name());
+			delFile.delete();
 		}
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -238,6 +238,48 @@ public class EmpController {
 		return "employees/updateEmployeePassword";
 	}
 	
+	@PostMapping("/updatePassword")
+	public @ResponseBody int updatePassword(Model model,
+			@RequestParam("empId") String empId,
+			@RequestParam("empPassword") String empPassword,
+			@RequestParam("empPasswordNew") String empPasswordNew) {
+		
+		Map<String,String> IdAndPassword = new HashMap<>();
+		
+		IdAndPassword.put("empId", empId);
+		IdAndPassword.put("empPassword", empPassword);
+		IdAndPassword.put("empPasswordNew", empPasswordNew);
+		
+		
+		int result =service.updatePassword(IdAndPassword);
+		
+		
+		return result;
+	}
+	
+	@GetMapping("/deleteEmployee")
+	public String deleteEmployee(@RequestParam("emp_no") int emp_no, Model model) {
+		
+		System.out.println(emp_no);
+		
+		//int empNo = Integer.parseInt(emp_no);
+		
+		String msg,loc;
+		try {
+			int result = service.deleteEmployee(emp_no);
+			
+			msg="직원 삭제 성공";
+			loc="employees/employeeList";
+
+		}catch(RuntimeException e) {
+			msg="직원 삭제 실패";
+			loc="employees/employeeList";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
 	
 	
 }

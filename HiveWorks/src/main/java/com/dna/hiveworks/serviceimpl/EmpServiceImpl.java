@@ -83,9 +83,19 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
-	public int deleteEmployee(int no) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteEmployee(int emp_no) {
+		int result_first = dao.deleteEmployee(session,emp_no);
+		
+		if(result_first>0) {
+			int result_second = dao.deleteAccount(session, emp_no);
+			if(result_second==0) {
+				new RuntimeException("계좌 삭제 실패");
+			}
+		}else {
+			new RuntimeException("직원 삭제 실패");
+		}
+
+		return result_first;
 	}
 
 	@Override
@@ -112,6 +122,24 @@ public class EmpServiceImpl implements EmpService {
 		
 		return data;
 		
+	}
+
+
+	@Override
+	public int updatePassword(Map<String, String> IdAndPassword) {
+		
+		int result_first = dao.confirmEmployee(session,IdAndPassword);
+
+		if(result_first!=0) {
+			int result_second = dao.updatePassword(session,IdAndPassword);
+			if(result_second==0) {
+				new RuntimeException("비밀번호 업데이트 실패");
+			}
+		}else {
+			new RuntimeException("유저 확인 실패");
+		}
+		
+		return result_first;
 	}
 
 	

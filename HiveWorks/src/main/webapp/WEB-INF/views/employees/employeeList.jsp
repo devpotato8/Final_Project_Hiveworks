@@ -442,7 +442,7 @@
 														<div>
 															<div class="d-flex">
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/employees/updateEmployeeDetail?emp_no=${s.emp_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#" onclick="fn_deleteEmployee(${s.emp_no});"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
 													</td>
@@ -791,4 +791,18 @@ $('#datable_2').DataTable( {
 });
 													
 </script>
+<script>
+fn_deleteEmployee=(e)=>{
+	
+	let result = confirm("해당 사용자의 정보를 삭제하시겠습니까?");
+	
+	if(result){
+		location.replace("${path }/employees/deleteEmployee?emp_no="+e);
+	}else{
+		alert("취소하였습니다.");
+	}
+}
+
+</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

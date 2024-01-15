@@ -215,7 +215,7 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*핸드폰번호</label>
-													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" onkeyup="fn_auto_hypen_cellPhone(event);" value="" required="required"/>
+													<input class="form-control" type="text" id="emp_cellphone" name="emp_cellphone" onkeyup="fn_auto_hypen_cellPhone(event);" value="" maxlength="13" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -644,7 +644,7 @@ fn_check_password=()=>{
 		pw_message.innerHTML = msg;
 	}else{
 		if(pw_first.value!==pw_second.value){
-			msg = "비밀번호가 서로 달라요!";
+			msg = "비밀번호가 서로 다릅니다!";
 			pw_message.innerHTML = msg;
 		}else{
 			msg = "비밀번호가 일치합니다!";
