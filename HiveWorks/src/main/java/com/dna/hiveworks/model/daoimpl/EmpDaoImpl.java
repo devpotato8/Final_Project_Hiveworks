@@ -56,8 +56,8 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int updateEmployee(SqlSession session, Employee e) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return session.update("employee.updateEmployee",e);
 	}
 
 	@Override
@@ -113,8 +113,7 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int updateAccount(SqlSession session, Account ac) {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.update("employee.updateAccount",ac);
 	}
 
 	@Override
@@ -131,6 +130,11 @@ public class EmpDaoImpl implements EmpDao {
 	@Override
 	public int updatePassword(SqlSession session, Map<String, String> IdAndPassword) {
 		return session.update("employee.updatePassword",IdAndPassword);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectAuthorityList(SqlSession session) {
+		return session.selectList("employee.selectAuthorityList");
 	}
 	
 	

@@ -78,8 +78,21 @@ public class EmpServiceImpl implements EmpService {
 
 	@Override
 	public int updateEmployee(Map<String,Object> empData) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		Employee e = (Employee)empData.get("employee");
+		Account ac = (Account)empData.get("account");
+		
+		int result = dao.updateEmployee(session, e);
+		if(result>0) {
+			ac.setEmp_no(e.getEmp_no());
+			int result2 = dao.updateAccount(session, ac);
+			if(result2==0) new RuntimeException("등록 실패");
+			
+		}else {
+			new RuntimeException("등록 실패");
+		}
+
+		return result;
 	}
 
 	@Override
@@ -142,11 +155,16 @@ public class EmpServiceImpl implements EmpService {
 		return result_first;
 	}
 
-	
-	
-	
-	
-	
 
+	@Override
+	public Map<String, List<Map<String, Object>>> selectAuthorityList() {
+		Map<String, List<Map<String,Object>>> authorityList = new HashMap<>();
+		
+		authorityList.put("authorityList", dao.selectAuthorityList(session));
+
+		return authorityList;
+	}
+
+	
 	
 }

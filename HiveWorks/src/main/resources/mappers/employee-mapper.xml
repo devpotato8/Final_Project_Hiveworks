@@ -175,7 +175,37 @@
 			</if>
 		</trim>
 	</select>
-	
+	<update id="updateEmployee" parameterType="employee">
+		UPDATE TBL_EMPLOYEE SET 
+			DEPT_CODE = #{dept_code},
+			POSITION_CODE = #{position_code},
+			JOB_CODE = #{job_code},
+			WORK_TYPE_CODE = #{work_type_code},
+			WORK_STATUS = #{work_status},
+			WORK_PATTERN = #{work_pattern},
+			EMP_NAME = #{emp_name},
+			EMP_PHONE = #{emp_phone},
+			EMP_CELLPHONE = #{emp_cellphone},
+			EMP_EMAIL = #{emp_email},
+			EMP_POSTCODE = #{emp_postcode},
+			EMP_ADDRESS = #{emp_address},
+			EMP_ADDRESS_DETAIL = #{emp_address_detail},
+			EMP_RESIDENT_NO = #{emp_resident_no},
+			EMP_MEMO = #{emp_memo},
+			EMP_HIRED_DATE = #{emp_hired_date},
+			EMP_AUTO_FILENAME = #{emp_auto_fileName},
+			<if test="emp_profile_ori_name !=null and emp_profile_ori_name !='' and emp_profile_re_name !=null and emp_profile_re_name !=''">
+				EMP_PROFILE_ORI_NAME = #{emp_profile_ori_name},
+				EMP_PROFILE_RE_NAME = #{emp_profile_re_name},			
+			</if>
+			MODIFIER =0,
+			MODIFY_DATE = SYSDATE
+		WHERE EMP_NO = ${emp_no}
+	</update>
+	<update id="updateAccount" parameterType="account">
+		UPDATE TBL_ACCOUNT SET AC_NO=${ac_no}, AC_BANK=#{ac_bank}, AC_NAME=#{ac_name}
+		WHERE EMP_NO = ${emp_no}
+	</update>
 	<update id="updatePassword" parameterType="hashmap">
 		UPDATE TBL_EMPLOYEE SET EMP_PW = #{empPasswordNew}
 		WHERE EMP_ID LIKE #{empId}
@@ -190,6 +220,11 @@
 		UPDATE TBL_ACCOUNT SET USE_YN='N'
 		WHERE EMP_NO = ${emp_no}
 	</delete>
+	
+	<select id="selectAuthorityList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS AUTCODE, CODE_NAME AS AUTNAME
+		FROM TBL_CODE WHERE CODE_NO LIKE 'AUT%'
+	</select>
 	
 	
 </mapper>

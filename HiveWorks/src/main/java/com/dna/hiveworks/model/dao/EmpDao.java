@@ -46,4 +46,7 @@ public interface EmpDao {
 	
 	int confirmEmployee(SqlSession session, Map<String, String> IdAndPassword);
 	int updatePassword(SqlSession session, Map<String, String> IdAndPassword);
+	
+	List<Map<String,Object>> selectAuthorityList(SqlSession session);
+
 }

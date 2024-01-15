@@ -431,7 +431,7 @@
 													<td><a href="${path }/employees/employeeDetail?emp_no=${s.emp_no}"><c:out value="${s.emp_no }" /></a></td>
 													<td><a href="${path }/employees/employeeDetail?emp_no=${s.emp_no}" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
 													<td>
-														<div class="text-dark"><c:out value="${s.emp_name }" /></div>
+														<div class="text-dark"><c:out value="${s.emp_id }" /></div>
 													</td>
 													<td><span><c:out value="${s.dept_name }" /></span></td>
 													<td><c:out value="${s.position_name }" /></td>

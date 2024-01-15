@@ -33,5 +33,6 @@ public interface EmpService {
 	
 	int updatePassword(Map<String,String> IdAndPassword);
 	
+	Map<String, List<Map<String, Object>>> selectAuthorityList();
 	
 }

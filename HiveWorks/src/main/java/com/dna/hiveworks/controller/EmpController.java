@@ -113,7 +113,7 @@ public class EmpController {
 	
 	@PostMapping("/enrollEmployeeEnd.do")
 	public String enrollEmployeeEnd(Model model, Employee emp,
-			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,@RequestParam("email_form") String email_form) {
+			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,@RequestParam(name="email_form" , required=true) String email_form) {
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/profile");
 		
@@ -145,7 +145,6 @@ public class EmpController {
 			
 		}
 
-		System.out.println("email 들어오는지 확인합니다."+email_form);
 		String empEmail = email_id+"@"+email_form;
 		emp.setEmp_email(empEmail);
 		
@@ -155,7 +154,6 @@ public class EmpController {
 		empData.put("employee", emp);
 		empData.put("account", ac);
 		
-		System.out.println(empData);
 		
 		try {
 			int result = service.insertEmployee(empData);
@@ -257,10 +255,85 @@ public class EmpController {
 		return result;
 	}
 	
+	@PostMapping("updateEmployeeEnd.do")
+	public String updateEmployeeEnd (Model model, Employee emp,
+			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,
+			@RequestParam(name="email_form" , required=true) String email_form, @RequestParam(name="pre_file", required = false) String pre_file) {
+		
+	
+		String path = session.getServletContext().getRealPath("/resources/upload/profile");
+		
+		File folder =  new File(path);
+		
+		if(!folder.exists()) {
+			try {
+				folder.mkdir();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		
+		//새로운 파일이 있다면
+		if(upFile!=null && !upFile.isEmpty()) {
+			//이전 파일 삭제
+			if(pre_file!=null && pre_file!="") {
+				File preFile = new File(path,pre_file);
+				preFile.delete();				
+			}
+			
+			//이름 부여
+			String oriName = upFile.getOriginalFilename();
+			String ext = oriName.substring(oriName.lastIndexOf("."));
+			Date today = new Date(System.currentTimeMillis());
+			int randomNum = (int)(Math.random()*10000)+1;
+			String reName = "HIVEWORKS_"+(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(today))+"_"+randomNum+ext;
+			
+			try {
+				upFile.transferTo(new File(path,reName));
+					emp.setEmp_profile_ori_name(oriName);
+					emp.setEmp_profile_re_name(reName);
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+			
+		}
+
+		String empEmail = email_id+"@"+email_form;
+		emp.setEmp_email(empEmail);
+		
+		String msg, loc;
+		Map<String,Object> empData = new HashMap<>();
+		
+		empData.put("employee", emp);
+		empData.put("account", ac);
+		
+		
+		try {
+			int result = service.updateEmployee(empData);
+			
+			msg="정보 수정 성공";
+			loc="employees/employeeList";
+
+		}catch(RuntimeException e) {
+			msg="정보 수정 실패";
+			loc="employees/enrollEmployee";
+			File delFile = new File(path,emp.getEmp_profile_re_name());
+			delFile.delete();
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+	
+	
+	
+	
+	
 	@GetMapping("/deleteEmployee")
 	public String deleteEmployee(@RequestParam("emp_no") int emp_no, Model model) {
 		
-		System.out.println(emp_no);
 		
 		//int empNo = Integer.parseInt(emp_no);
 		
@@ -281,5 +354,17 @@ public class EmpController {
 		return "common/msg";
 	}
 	
+	@GetMapping("/manageAuthority")
+	public String manageAuthority(Model model) {
+		
+		List<Employee> employees = service.selectEmployeesListAll();
+	
+		Map<String, List<Map<String, Object>>> autCodeList = service.selectAuthorityList();
+		
+		model.addAttribute("employees",employees);
+		model.addAttribute("autCodeList", autCodeList);
+		
+		return "employees/manageAuthority";
+	}
 	
 }

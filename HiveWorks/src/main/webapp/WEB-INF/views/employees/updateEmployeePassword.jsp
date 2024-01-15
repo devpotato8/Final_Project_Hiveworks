@@ -116,13 +116,13 @@ input::-webkit-inner-spin-button {
 								</div>
 								<ul class="nav nav-light nav-vertical nav-tabs">
 									<li class="nav-item">
-										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}" class="nav-link active">
-											<span class="nav-link-text">기본정보 수정</span>
+										<a href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}">
+											<span>기본정보 수정</span>
 										</a>
 									</li>
 									<li class="nav-item">
-										<a data-bs-toggle="tab" href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" class="nav-link">
-											<span class="nav-link-text">비밀번호 수정</span>
+										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" >
+											<span>비밀번호 수정</span>
 										</a>
 									</li>
 								</ul>
@@ -131,7 +131,7 @@ input::-webkit-inner-spin-button {
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post">
+									<form action="#" method="post">
 										<div class="title title-xs title-wth-divider text-primary text-uppercase my-4"><span>개인 정보</span></div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
@@ -258,11 +258,11 @@ submitBtn.addEventListener('click',(event)=>{
 				},
 			success:data=>{
 				if(data>0){
-					alert("비밀번호 업데이트 성공!");
+					alert("비밀번호 변경 성공!");
 					location.assign("${path}/employees/employeeList");
 				}
 				else{
-					alert("비밀번호 업데이트 실패!")
+					alert("비밀번호가 다릅니다!")
 				}
 			}
 		})
