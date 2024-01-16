@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.board.Board;
-import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.service.BoardService;
 
 import lombok.RequiredArgsConstructor;

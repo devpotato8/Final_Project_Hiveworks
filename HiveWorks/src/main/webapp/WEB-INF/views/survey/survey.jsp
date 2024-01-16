@@ -51,7 +51,7 @@
 					               
 					            </div>
 					            <div class="card-footer justify-content-between border-0">			               
-					                    <a href="${path}/survey/surveying" class="btn btn-sm btn-outline-secondary">설문하기</a>
+					                    <a href="${path}/survey/surveying?surveyNo=${s.surveyNo}" class="btn btn-sm btn-outline-secondary">설문하기</a>
 					                    <a href="${path}/survey/surveyresult" class="btn btn-sm btn-outline-secondary">결과보기</a>
 					            </div>
 					        </div>

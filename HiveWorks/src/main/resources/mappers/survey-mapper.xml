@@ -25,6 +25,6 @@
 	
     <insert id="insertSurvey" parameterType="survey">
         INSERT INTO TBL_SURVEY
-        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',NULL)
+        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',#{surveyType})
     </insert>
 </mapper>
