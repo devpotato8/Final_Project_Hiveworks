@@ -509,7 +509,7 @@
                         지급내역
                     </td>
                    	<th width="14%">기본급</th>
-                    <th width="14%">시간 외 근로수당</th>
+                    <th width="14%">시간 외<br> 근로수당</th>
                     <th width="14%">식대</th>
                     <th width="14%">직위수당</th>
                     <th width="14%">보너스</th>
@@ -518,10 +518,14 @@
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <input type="hidden" name="sal_no" value="${salary.sal_no }"/>
+                    <c:set var="overtime_pay" value="${salary.overtime_pay }"/>
+                    <c:set var="position_pay" value="${salary.position_pay }"/>
+                    
+                    
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value="${salary.sal_base }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="${salary.overtime_pay }" readonly="readonly" style="border: none;"></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="<fmt:formatNumber value="${overtime_pay}" type="number" />" readonly="readonly" style="border: none;"></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="${salary.sal_meal }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="${salary.position_pay }" readonly="readonly" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="<fmt:formatNumber value="${position_pay}" type="number" />" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="${salary.sal_bonus }"/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmpController {
 	
+	private final BCryptPasswordEncoder passwordEncoder;
 	private final EmpServiceImpl service;
 	
 	
@@ -114,7 +116,8 @@ public class EmpController {
 	
 	@PostMapping("/enrollEmployeeEnd.do")
 	public String enrollEmployeeEnd(Model model, Employee emp,
-			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,@RequestParam(name="email_form" , required=true) String email_form) {
+			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,@RequestParam(name="email_form" , required=true) String email_form,
+			@RequestParam("creater_pre") String creater) {
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/profile");
 		
@@ -149,6 +152,12 @@ public class EmpController {
 		String empEmail = email_id+"@"+email_form;
 		emp.setEmp_email(empEmail);
 		
+		String encodePassword = passwordEncoder.encode(emp.getEmp_pw());
+		System.out.println(encodePassword);
+		
+		emp.setEmp_pw(encodePassword);
+		
+		
 		String msg, loc;
 		Map<String,Object> empData = new HashMap<>();
 		
@@ -175,23 +184,26 @@ public class EmpController {
 	}
 	
 	@GetMapping("/searchEmployeeId")
-	public @ResponseBody String searchemployeeId(String emp_id){
+	public @ResponseBody int searchemployeeId(String emp_id){
 		
-		String msg ="";
+		int value =0;
 		Map<String,Object> param = new HashMap<>();
+		System.out.println(emp_id);
 		
 		param.put("type","emp_id");
 		param.put("keyword",emp_id);
 		
 		List<Employee> result = service.searchEmployeesByKeyword(param);
 		
+		System.out.println(result);
+		
 		if(result.size()>0) {
-			msg="중복된 아이디입니다.";
+			value=1;
 		}else {
-			msg="사용할 수 있는 아이디입니다.";
+			value=0;
 		}
 		
-		return msg;
+		return value;
 	}
 	
 	@GetMapping("/employeeDetail")
@@ -377,5 +389,11 @@ public class EmpController {
 		return result;
 	
 	}
+	
+	@GetMapping("/test")
+	public void test() {
+		
+	}
+	
 	
 }

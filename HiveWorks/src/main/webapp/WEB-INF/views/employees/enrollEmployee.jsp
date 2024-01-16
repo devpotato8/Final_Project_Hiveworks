@@ -84,7 +84,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-
 </style>
 
 
@@ -109,8 +108,8 @@ input::-webkit-inner-spin-button {
 						<div class="col-lg-10 col-sm-9 col-8">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
-									<form action="${path }/employees/enrollEmployeeEnd.do" method="post" enctype="multipart/form-data">
-										<input type="hidden" id="creater" name="creater" value="${loginEmp.emp_no }"/>
+									<form action="${path }/employees/enrollEmployeeEnd.do" id="form_real" method="post" enctype="multipart/form-data" > 
+										<input type="hidden" id="creater_pre" name="creater_pre" value="${loginEmp.emp_no!=0?loginEmp.emp_no:0}"/>
 										<div class="row gx-3">
 											<div class="col-sm-12">
 												<div class="form-group">
@@ -138,7 +137,7 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*아이디</label>
-													<input class="form-control" type="text" id="emp_id" name="emp_id" value="" required="required"/>
+													<input class="form-control" type="text" id="emp_id" name="emp_id" value="" onchange="fn_reset();" required="required"/>
 													<div id="idMessage"></div>
 													<button type="button" onclick="fn_idDuplicate();" class="btn btn-soft-primary btn-file mb-1" >중복확인</button>
 												</div>
@@ -414,11 +413,12 @@ input::-webkit-inner-spin-button {
 					img.src = e.target.result;
 					img.alt = '프로필 사진';
 					img.style.maxWidth = '150px';
-					//img.name = 'upFile';
+					img.style.maxHeight = '150px';
+					img.id = 'profileImage';
 					
 					imageContainer.innerHTML = '';
 					imageContainer.appendChild(img);
-					
+
 					console.log(img);
 				}
 				
@@ -426,24 +426,8 @@ input::-webkit-inner-spin-button {
 			}
 		}
 	</script>
-
 	<script>
-	//아이디 중복 검사
-		fn_idDuplicate=()=>{
-			let value=document.getElementById('emp_id').value;
-			let $message = document.getElementById('idMessage');
-			
-			$.ajax({
-				url:"${path}/employees/searchEmployeeId",
-				data:{emp_id:value},
-				success:data=>{
-					$message.innerHTML = data;
-				}
-			})
-			
-		}
-	</script>
-	<script>
+	//주민번호 정규 표현식
 	let fn_auto_hypen_resident=(e)=>{
 		e.target.value = e.target.value
 		.replace(/[^0-9]/g, '')
@@ -630,6 +614,35 @@ document.addEventListener("click", closeAllSelect);
 	});
 </script>
 <script>
+//submit 전 아이디 체크
+let id_check = -1;
+
+//아이디 중복 검사
+fn_idDuplicate=()=>{
+	let value=document.getElementById('emp_id').value;
+	let $message = document.getElementById('idMessage');
+	
+	$.ajax({
+		url:"${path}/employees/searchEmployeeId",
+		data:{emp_id:value},
+		success:data=>{
+			if(data==0){
+				$message.innerHTML = "사용 가능한 아이디입니다.";				
+				id_check = 0;
+			}else{
+				$message.innerHTML = "중복된 아이디입니다.";	
+				id_check = 1;
+			}
+		}
+	});
+	
+};
+//아이디 중복 확인 후 중간에 변경 시 값(id_check) 선언 값 초기화
+fn_reset(){
+	id_check=-1;
+};
+
+
 //비밀번호 정규표현식
 //영문 숫자 조합 8자리 이상
 let reg_ver1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
@@ -641,19 +654,52 @@ let pw_second = document.getElementById('emp_pw_check');
 let pw_message = document.getElementById('pwMessage');
 let msg = "";
 
+//submit 전 패스워드 체크
+
+let password_check=-2;
+
 fn_check_password=()=>{
+	
 	if(!reg_ver1.test(pw_first.value)){
 		msg = "숫자와 영문자 조합으로 8~25자리를 사용해야 합니다.";
 		pw_message.innerHTML = msg;
+		password_check=-1;
 	}else{
 		if(pw_first.value!==pw_second.value){
 			msg = "비밀번호가 서로 다릅니다!";
 			pw_message.innerHTML = msg;
+			password_check=1;
 		}else{
 			msg = "비밀번호가 일치합니다!";
 			pw_message.innerHTML = msg;
+			password_check=0;
 		}
+	};
+
+};
+
+let $form = document.getElementById('form_real');
+//submit 전 체크
+$form.addEventListener('submit',(event)=>{
+	event.preventDefault();
+	console.log($form);
+	
+	if(id_check===-1){
+		alert("아이디 중복을 확인해 주세요.");
+		return false;
+	}else if(id_check===1){
+		alert("다른 아이디를 사용해 주세요.");
+		return false;
 	}
-}
+	
+	fn_check_password();
+	
+	if(password_check!==0){
+		alert(msg);
+		return false;
+	}
+	
+	$form.submit();
+});
 </script>		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

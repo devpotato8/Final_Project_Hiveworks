@@ -490,7 +490,7 @@
                         지급내역
                     </td>
                    	<th width="14%">기본급</th>
-                    <th width="14%">시간 외 근로수당</th>
+                    <th width="14%">시간 외 <br>근로수당</th>
                     <th width="14%">식대</th>
                     <th width="14%">직위수당</th>
                     <th width="14%">보너스</th>
@@ -498,11 +498,26 @@
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_base }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.overtime_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_meal }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.position_pay }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${salary.sal_bonus }"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+	                    <c:set var="sal_base" value="${salary.sal_base }"/>
+	                    <fmt:formatNumber value="${sal_base}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="overtime_pay" value="${salary.overtime_pay }"/>
+                    	<fmt:formatNumber value="${overtime_pay}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="sal_meal" value="${salary.sal_meal }"/>
+                    	<fmt:formatNumber value="${sal_meal}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="position_pay" value="${salary.position_pay }"/>
+                    	<fmt:formatNumber value="${position_pay}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="sal_bonus" value="${salary.sal_bonus }"/>
+                    	<fmt:formatNumber value="${sal_bonus}" type="number" />
+                    </td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
@@ -575,12 +590,30 @@
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_pension }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_insurance }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_nursing }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_employ }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_income }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><c:out value="${dedution.o_local }"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="o_pension" value="${dedution.o_pension }"/>
+                    	<fmt:formatNumber value="${o_pension}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="o_insurance" value="${dedution.o_insurance }"/>
+                    	<fmt:formatNumber value="${o_insurance}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="o_nursing" value="${dedution.o_nursing }"/>
+                    	<fmt:formatNumber value="${o_nursing}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="o_employ" value="${dedution.o_employ }"/>
+                    	<fmt:formatNumber value="${o_employ}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="o_income" value="${dedution.o_income }"/>
+                    	<fmt:formatNumber value="${o_income}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<c:set var="o_local" value="${dedution.o_local }"/>
+                    	<fmt:formatNumber value="${o_local}" type="number" />
+                    </td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
@@ -663,11 +696,19 @@
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${dedution.i_total }" /></td>
-                    <td width="14%"><c:out value="${dedution.o_pension+dedution.o_insurance
-                    				 +dedution.o_nursing+dedution.o_employ+dedution.o_income+dedution.o_local}" /></td>
+                    <td width="14%">
+                    	<c:set var="sal_total" value="${dedution.i_total }" />
+                    	<fmt:formatNumber value="${sal_total}" type="number" />
+                    </td>
+                    <td width="14%">
+                    	<c:set var="dedu_total" value="${dedution.o_pension+dedution.o_insurance+dedution.o_nursing+dedution.o_employ+dedution.o_income+dedution.o_local}" />
+                    	<fmt:formatNumber value="${dedu_total}" type="number" />
+                    </td>
                     <td width="14%"></td>
-                    <td width="14%"><c:out value="${salary.sal_actual }" /></td>
+                    <td width="14%">
+                    	<c:set var="sal_actual" value="${salary.sal_actual }" />
+                    	<fmt:formatNumber value="${sal_actual}" type="number" />
+                    </td>
                 </tr>
                 </tbody>
             </table>
