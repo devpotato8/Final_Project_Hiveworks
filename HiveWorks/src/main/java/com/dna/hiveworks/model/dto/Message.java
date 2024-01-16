@@ -26,6 +26,7 @@ public class Message {
 	private int msg_sender;
 	private String msg_sender_name;
 	private int msg_receiver;
+	private String msg_receiver_name;
 	private String msg_category_no;
 	private String msg_category_name;
 	private String msg_title;
