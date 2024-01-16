@@ -31,6 +31,7 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.Account" alias="account"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.InvitationEmp" alias="InvitationEmp"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.board.Survey" alias="survey"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Message" alias="message"/>
 	</typeAliases>
 	
 	<typeHandlers>

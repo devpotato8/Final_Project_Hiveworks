@@ -56,14 +56,13 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int updateEmployee(SqlSession session, Employee e) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return session.update("employee.updateEmployee",e);
 	}
 
 	@Override
-	public int deleteEmployee(SqlSession session, Employee e) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteEmployee(SqlSession session, int emp_no) {
+		return session.delete("employee.deleteEmployee",emp_no);
 	}
 
 	@Override
@@ -114,15 +113,32 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int updateAccount(SqlSession session, Account ac) {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.update("employee.updateAccount",ac);
 	}
 
 	@Override
-	public int deleteAccount(SqlSession session, Account ac) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteAccount(SqlSession session, int emp_no) {
+		return session.delete("employee.deleteAccount",emp_no);
 	}
+
+	@Override
+	public int confirmEmployee(SqlSession session, Map<String, String> IdAndPassword) {
+		// TODO Auto-generated method stub
+		return session.selectOne("employee.confirmEmployee",IdAndPassword);
+	}
+
+	@Override
+	public int updatePassword(SqlSession session, Map<String, String> IdAndPassword) {
+		return session.update("employee.updatePassword",IdAndPassword);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectAuthorityList(SqlSession session) {
+		return session.selectList("employee.selectAuthorityList");
+	}
+	
+	
+	
 	
 	
 	

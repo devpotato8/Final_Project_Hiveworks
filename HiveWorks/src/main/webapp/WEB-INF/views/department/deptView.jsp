@@ -292,7 +292,7 @@
 <!-- 조직도관리 JS -->
 <script src="${path}/resources/js/deptTree.js"></script>
 
-<!-- 구성원관리 조직도, List 출력 JS -->
+<!-- 구성원관리 조직도, 구성원 List 출력 JS -->
 <script>
 const path = '${path}';
 
