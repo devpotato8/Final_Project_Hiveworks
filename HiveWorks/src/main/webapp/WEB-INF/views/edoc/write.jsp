@@ -24,7 +24,7 @@
 				<jsp:param value="${countWait}" name="countWait"/>
 				<jsp:param value="${countCheck}" name="countCheck"/>
 				<jsp:param value="${countExpect}" name="countExpect"/>
-				<jsp:param value="${countProcessing}" name="countProcessing"/>
+				<jsp:param value="${countProcess}" name="countProcess"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
@@ -232,41 +232,14 @@
 <script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
 <script>
 $(function(){
-	jampack();
-	horizontalMenu();
-	navheadMenu();
-
-	/*App Functions */
-	//emailApp();
-	//contactApp();
-	//chatApp();
-	//calendarApp();
-	fmApp();
-	//blogApp();
-	//invoiceApp();
-	//galleryApp();
-	//integrationsApp();
-	//taskboardApp();
-	//checklistApp();
-	//todoApp();
+	
 	getDeptList();
 
-	/*Table Search*/
-	$(".table-search").on("keyup", function() {
-		var value = $(this).val().toLowerCase();
-		$(".table-filter tbody tr").filter(function() {
-		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		});
-	});
-	
-	/*Disabled*/
-	$(document).on("click", "a.disabled,a:disabled",function(e) {
-		 return false;
-	});
-	
 	// 결재목록에 자동으로 자기자신 추가
 	fnAddApprovalListLoginEmp('${emp.EMPNO }', '${emp.DEPTNAME }', '${emp.JOBNAME }', '${emp.EMPNAME }');
 });
 
 </script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+</div>
+</body>
+</html>

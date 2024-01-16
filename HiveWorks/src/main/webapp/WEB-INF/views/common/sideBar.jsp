@@ -37,7 +37,7 @@
 					<div class="menu-group">
 						<ul class="navbar-nav flex-column">
 							<li class="nav-item active">
-								<a class="nav-link" href="index.html">
+								<a class="nav-link" href="${path}/">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-template" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -206,10 +206,15 @@
 							
 							<li class="nav-item">
 								<a class="nav-link" href="${path}/edoc/lists/wait">
-									<span class="nav-icon-wrap">
+									<span class="nav-icon-wrap position-relative">
 										<i class="las la-file-contract"></i>
+										<c:if test="${param.edocCountWait ne null && param.edocCountWait > 0}">
+											<span class="badge badge-danger badge-indicator position-absolute top-0 start-0"></span>
+										</c:if>
 									</span>
-									<span class="nav-link-text">전자문서</span>
+									<span class="nav-link-text">전자문서
+										
+									</span>
 								</a>
 							</li>
 							
@@ -353,15 +358,6 @@
 							</li>
 							
 						</ul>
-					</div>
-					<div class="menu-gap"></div>
-					
-					<div class="callout card card-flush bg-orange-light-5 text-center mt-5 w-220p mx-auto">
-						<div class="card-body">
-							<h5 class="h5">Quickly Build Applications</h5>
-							<p class="p-sm card-text">Exclusively for webapps Based on Bootstrap</p>
-							<a href="https://nubra-ui.hencework.com/" target="_blank" class="btn btn-primary btn-block">Go Nubra-UI</a>
-						</div>
 					</div>
 				</div>
 			</div>
