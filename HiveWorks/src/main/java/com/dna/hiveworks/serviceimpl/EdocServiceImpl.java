@@ -152,7 +152,6 @@ public class EdocServiceImpl implements EdocService{
 			approvalIndex = approvalList.indexOf(aprvl);
 			dbAprvlData = approvalList.get(approvalIndex);
 		}
-		System.out.println(dbAprvlData);
 		// DB에 해당 결재가 이미 처리된 결재인지 검사
 		if(!dbAprvlData.getAprvlApvCode().equals(ApvCode.APV000)) {
 			throw new HiveworksException("이미 결재처리 되어있습니다.");
@@ -164,7 +163,7 @@ public class EdocServiceImpl implements EdocService{
 		// 결재처리가 성공 && 결재코드가 'APV001'(결재)일 때 
 		if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV001)) {
 			// 현재 처리된 결재가 마지막 결재였을 때
-				if(approvalList.size()-1 == approvalList.indexOf(dbAprvlData)) {
+				if(approvalList.size()-1 == approvalIndex) {
 					// 전자문서 완료처리
 					dao.edocFinalize(session, edoc);
 					if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
@@ -174,9 +173,22 @@ public class EdocServiceImpl implements EdocService{
 					// 다음차례 결재자의 상태를 P에서 W로 변경
 					ElectronicDocumentApproval nextApproval = approvalList.get(approvalIndex+1);
 					dao.setNextApprovalStatus(session, nextApproval);
+					
+					//TODO 다음차례 결재자에게 알림전송
 				}
 		}else if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV002)){
 			//TODO 반려일때 처리구문
+			// 내 뒤로 남은 결재자가 남았을 때
+			List<ElectronicDocumentApproval> leftApproval = null;
+			if(approvalList.size()  > approvalIndex+1) {
+				leftApproval = approvalList.subList(approvalIndex+1, approvalList.size());
+			}
+			if(leftApproval != null) {
+				// 남은 결재자들의 결재를 취소처리
+				dao.cancleApproval(session,leftApproval);
+			}
+			// 문서의 반려처리
+			dao.revokeDocument(session, edoc);
 		}else {
 			throw new HiveworksException("결재처리중 에러가 발생하였습니다");
 		}
@@ -186,5 +198,15 @@ public class EdocServiceImpl implements EdocService{
 		dbAprvlData.setAprvlStatus("C");
 		dbAprvlData.setAprvlDate(Date.valueOf(LocalDate.now()));
 		return dbAprvlData;
+	}
+	
+	@Override
+	public ElectronicDocumentAttachFile getAttachFile(Map<String, Object> param) {
+		return dao.getAttachFile(session, param);
+	}
+	
+	@Override
+	public int updateAuto(Map<String, Object> param) {
+		return dao.updateAuto(session, param);
 	}
 }

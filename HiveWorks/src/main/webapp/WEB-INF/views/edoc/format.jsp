@@ -3,10 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ page import="java.util.Collections" %>
 <%@ page import="com.dna.hiveworks.model.code.*" %>
-<%@ page import="com.dna.hiveworks.model.dto.edoc.*" %>
-
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
@@ -14,17 +11,12 @@
 	<jsp:param value="data-hover='active'" name="hover"/>
 </jsp:include>
 <%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
+
 <%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
 <jsp:include page="/WEB-INF/views/common/sideBar.jsp">
 	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
 </jsp:include>
 
-<style>
-	.img-autograph{
-		max-width: 50px;
-		max-height: 50px;
-	}
-</style>
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -72,7 +64,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" data-bs-toggle="tab" href="#comment_history">
-											<span class="nav-link-text">이력</span>
+											<span class="nav-link-text">의견/이력</span>
 										</a>
 									</li>
 								</ul>
@@ -126,11 +118,8 @@
 													<c:forEach items="${edoc.approval }" var="a">
 														<td class="text-center">
 															<c:choose>
-																<c:when test="${a.aprvlApvCode eq 'APV002'}">
-																	<img class="img-autograph" src="${path }/resources/upload/edoc/autograph/defaultRevoke.png">
-																</c:when>
 																<c:when test="${a.aprvlApvCode ne 'APV000' }">
-																	<img class="img-autograph" src="${path }/resources/upload/edoc/autograph/${a.aprvlAutoFilename}">
+																	<img src="${path }/resources/upload/edoc/autograph/${a.aprvlAutoFilename}">
 																</c:when>
 																<c:when test="${a.aprvlStatus eq 'W' and a.aprvlEmpNo eq loginEmp.emp_no }">
 																	<c:set var="currentApprovalNo" value="${a.aprvlNo }"/>
@@ -171,37 +160,7 @@
 									</div>
 									<!-- 의견/이력 탭 -->
 									<div class="tab-pane fade" id="comment_history">
-										<div class="row ">
-											<div class="list-group list-group-numbered">
-												<c:forEach var="apv" items="${edoc.approval}">
-													<c:if test="${apv.aprvlApvCode ne 'APV000' }">
-														<div class="list-group-item col-sm-6">
-															<div class="card">
-																<div class="card-header">
-																	<c:choose>
-																		<c:when test="${edoc.creater eq apv.aprvlEmpNo }">
-																			기안
-																		</c:when>
-																		<c:otherwise>
-																			${apv.aprvlApvCode.getCode()}
-																		</c:otherwise>
-																	</c:choose>
-																</div>
-																<div class="card-body">
-																	<h5 class="card-title">
-																		${apv.aprvlEmpName }
-																	</h5>
-																	<h6 class="card-subtitle">
-																		<fmt:formatDate type="date" value="${apv.aprvlDate }"/>
-																	</h6>
-																	<p class='card-text'>${apv.aprvlComment }</p>
-																</div>
-															</div>
-														</div>
-													</c:if>
-												</c:forEach>
-											</div>
-										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -279,7 +238,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
 <script src="${path}/resources/js/edoc/edoc-read.js"></script>
-
 
 </div>
 </body>

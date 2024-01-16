@@ -81,28 +81,44 @@
 	</resultMap>
 	
 	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
-		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
-		D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
-		D.EDOC_STATUS) AS EDOC_STATUS
-		FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
-		JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
-		JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
-		WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
-		AND E.EMP_ID = #{emp_id}
-		<if test="status != null">
-			<choose>
-				<when test='status.equals("WAIT")'>
-					AND A.APRVL_STATUS = 'W'
-				</when>
-				<when test='status.equals("EXPECT")'>
-					AND A.APRVL_STATUS = 'P'
-				</when>
-				<when test='status.equals("PROCESS")'>
-					AND A.APRVL_STATUS = 'C'
-				</when>
-			</choose>
+		SELECT * FROM(
+		<if test='!status.equals("CHECK")'>
+			SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
+			D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
+			D.EDOC_STATUS) AS EDOC_STATUS
+			FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+			JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+			JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+			WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST100'
+			AND E.EMP_ID = #{emp_id}
+			<if test="status != null">
+				<choose>
+					<when test='status.equals("WAIT")'>
+						AND A.APRVL_STATUS = 'W'
+					</when>
+					<when test='status.equals("EXPECT")'>
+						AND A.APRVL_STATUS = 'P'
+					</when>
+					<when test='status.equals("PROCESS")'>
+						AND A.APRVL_STATUS = 'A'
+					</when>
+					<otherwise>
+						AND NOT(A.APRVL_STATUS = 'X')
+					</otherwise>
+				</choose>
+			</if>
 		</if>
-		ORDER BY D.CREATE_DATE
+		<if test='status.equals("ALL") or status.equals("CHECK")'>
+			<if test='status.equals("ALL")'>UNION</if>
+			SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE, 'APV_C' AS EDOC_STATUS
+	        FROM TBL_EDOC D
+		        JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
+		        JOIN TBL_EMPLOYEE E ON R.REFPER_EMP_NO = E.EMP_NO
+		        JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
+	        WHERE D.USE_YN = 'Y' AND R.REFPER_STATUS = 'N'
+	        AND E.EMP_ID = #{emp_id}
+		</if>
+		) ORDER BY 4
 	</select>
 	<select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
 		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
@@ -147,8 +163,17 @@
 		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
 		#{edocDsgCode},<!-- EDOC_DSG_CODE -->
 		#{edocContent},<!-- EDOC_CONTENT -->
-		null,<!-- EDOC_STARTDATE -->
-		null,<!-- EDOC_ENDDATE -->
+		<choose>
+			<when test='edocDotCode.equals("DOT004")'> <!-- 문서양식이 휴가/연가계 일경우 -->
+				#{edocStartDate},<!-- EDOC_STARTDATE -->
+				#{edocEndDate},<!-- EDOC_ENDDATE -->
+			</when>
+			<otherwise>
+				null,<!-- EDOC_STARTDATE -->
+				null,<!-- EDOC_ENDDATE -->
+			</otherwise>
+		</choose>
+		
 		'DST100',<!-- EDOC_STATUS -->
 		#{creater},<!-- CREATER -->
 		SYSDATE,<!-- CREATE_DATE -->
@@ -234,4 +259,31 @@
 	<update id="setNextApprovalStatus" parameterType="edocApproval">
 		UPDATE TBL_EDOC_APPROVAL SET APRVL_STATUS = 'W' WHERE APRVL_NO = #{aprvlNo}
 	</update>
+	
+	<select id="getAttachFile" parameterType="map" resultMap="attachFileMap">
+		SELECT * FROM TBL_EDOC_ATTACHFILE WHERE ATTACH_EDOC_REF = #{attachEdocNo} AND ATTACH_RENAMED_FILENAME = #{attachRenamedFileName} 
+	</select>
+	
+	<update id="updateAuto" parameterType="map">
+		UPDATE TBL_EMPLOYEE
+		SET
+		<choose>
+			<when test='renamedFilename != null and !renamedFilename.equals("")'>
+				EMP_AUTO_FILENAME = #{renamedFilename}
+			</when>
+			<otherwise>
+				EMP_AUTO_FILENAME = NULL
+			</otherwise>
+		</choose>
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
+	<update id="cancleApproval" parameterType="edocApproval">
+		UPDATE TBL_EDOC_APPROVAL SET APRVL_STATUS = 'X' WHERE APRVL_NO = #{aprvlNo}
+	</update>
+	
+	<update id="revokeDocument">
+		UPDATE TBL_EDOC SET EDOC_STATUS='DST300', FINALIZED_DATE = SYSDATE WHERE EDOC_NO = #{edocNo}
+	</update>
+	
 </mapper>
