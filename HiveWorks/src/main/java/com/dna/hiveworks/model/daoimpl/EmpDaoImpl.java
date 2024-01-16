@@ -136,10 +136,11 @@ public class EmpDaoImpl implements EmpDao {
 	public List<Map<String, Object>> selectAuthorityList(SqlSession session) {
 		return session.selectList("employee.selectAuthorityList");
 	}
-	
-	
-	
-	
+
+	@Override
+	public int updateAuthorities(SqlSession session,Map<String, Object> empNoAndAutcode) {
+		return session.update("employee.updateAuthorities",empNoAndAutcode);
+	}
 	
 	
 	

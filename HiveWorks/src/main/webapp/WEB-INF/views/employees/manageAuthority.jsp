@@ -9,9 +9,12 @@
 	<jsp:param value="default" name="style" />
 	<jsp:param value="" name="hover" />
 </jsp:include>
-<%-- 	<jsp:param value="collapsed" name="style"/>
-	<jsp:param value="data-hover='active'" name="hover"/> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
+
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -407,7 +410,7 @@
 								
 							</header>
 							<div class="invoice-body">
-							<button type="button" onclick="fn_updateAuthorities();">저장</button>
+							<button class="btn btn-primary btn-rounded" type="button" onclick="fn_updateAuthorities();">저장</button>
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
 										<table id="datable_1" class="table nowrap w-100 mb-5">
@@ -437,18 +440,20 @@
 													</td>
 														<c:forEach var="a" items="${autCodeList.authorityList }">
 													<td>
- 														<input type="radio" class="aut_code" name="${s.emp_no },aut_code" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
+ 														<input type="radio" class="aut_code" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
 													</td>
 														</c:forEach>
 													<td>
 														<div>
 															<div class="d-flex">
-																<button type="button"> 초기화</button>
+																<button class="btn btn-soft-primary btn-file mb-1" type="button" onclick="fn_changeDefault(${s.emp_no});">초기화</button>
 															</div>
 														</div>
 													</td>
 												</tr>
 												</c:forEach>
+												
+												
 												<!-- <tr>
 													<td></td>
 													<td><a href="#" class="table-link-text link-high-em">11235</a></td>
@@ -778,58 +783,52 @@
 	<script>
 	fn_updateAuthorities=()=>{
 		let autCode = document.querySelectorAll('.aut_code');
-		console.log(autCode);
-		
+
 		let autCodeArray = Array.from(autCode);
-		console.log(autCodeArray);
 		
-		let $value ="";
-		let $names ="";
+		let input_values =[];
+		let input_names =[];
 		autCodeArray.forEach(e=>{
-			if(e.checked){
-				console.log(e.value);
-				console.log(e.name);
-				
-				if($value==""){
-					$value=e.value;
-				}else{
-					$value+=","+e.value;
-				}
-				
-				if($names==""){
-					$names==e.name;
-				}else{
-					$names+=","+e.name;
-				}
-			}
-		
-		console.log($value);
-		console.log($names);
-		
-		$ajax({
-			type:"POST"
-			url:"${path}employees/updateAuthorities",
-			data:{
-				names:$names,
-				values:$value
-			},
-			success:data=>{
+			if(e.checked){		
+				input_names.push(e.name);
+				input_values.push(e.value);
 				
 			}
-		
-		})
-		
-		
-		
+
+
 		});
-		
-		
-		
-		
-		
-		
+ 		$.ajax({
+			type:'POST',
+			url:'${path}/employees/updateAuthorities',
+			contentType:'application/json',
+			data:JSON.stringify({
+				names:input_names,
+				values:input_values
+			}),
+			success:data=>{
+				alert("업데이트 완료");
+			},
+			error:data=>{
+				alert("업데이트 실패");
+			}
+		});
+
 	}
 	
+	</script>
+	<script>
+		fn_changeDefault=(e)=>{
+			let empNo = e;
+			let sameBtns = document.querySelectorAll('input[type=radio][name="'+empNo+'"]');
+			
+			console.log(sameBtns);
+			
+			if(sameBtns.value="AUT007"){
+				
+			}
+			
+			
+		};
 	</script>
 
 

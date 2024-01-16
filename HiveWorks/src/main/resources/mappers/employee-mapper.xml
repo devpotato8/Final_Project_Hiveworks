@@ -231,5 +231,11 @@
 		FROM TBL_CODE WHERE CODE_NO LIKE 'AUT%'
 	</select>
 	
+	<update id="updateAuthorities" parameterType="hashmap" >
+		UPDATE TBL_EMPLOYEE SET AUT_CODE = #{value}
+		WHERE EMP_NO = ${empNo}
+	</update>
+	
+	
 	
 </mapper>

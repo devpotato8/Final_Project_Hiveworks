@@ -165,6 +165,30 @@ public class EmpServiceImpl implements EmpService {
 		return authorityList;
 	}
 
+
+	@Override
+	public int updateAuthorities(Map<String, List<String>> data) {
+		
+		int count =0;
+		
+		for(int i=0; i<data.get("names").size();i++) {
+			Map<String,Object> empNoAndAutcode = new HashMap<>();
+			
+			empNoAndAutcode.put("empNo", data.get("names").get(i));
+			empNoAndAutcode.put("value", data.get("values").get(i));
+			
+			int result = dao.updateAuthorities(session,empNoAndAutcode);
+			if(result==0) {
+				new RuntimeException("업데이트 실패");
+			}
+			count++;
+		}
+
+		return count;
+	}
+
+	
+	
 	
 	
 }

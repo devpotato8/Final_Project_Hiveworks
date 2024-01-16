@@ -35,4 +35,6 @@ public interface EmpService {
 	
 	Map<String, List<Map<String, Object>>> selectAuthorityList();
 	
+	int updateAuthorities(Map<String, List<String>> data);
+	
 }

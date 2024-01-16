@@ -144,21 +144,6 @@ input::-webkit-inner-spin-button {
 												</div>
 											</div>
 										</div>
-										<script>
-											fn_idDuplicate=()=>{
-												let value=document.getElementById('emp_id').value;
-												let $message = document.getElementById('idMessage');
-												
-												$.ajax({
-													url:"${path}/employees/searchEmployeeId",
-													data:{emp_id:value},
-													success:data=>{
-														$message.innerHTML = data;
-													}
-												})
-												
-											}
-										</script>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
@@ -442,6 +427,22 @@ input::-webkit-inner-spin-button {
 		}
 	</script>
 
+	<script>
+	//아이디 중복 검사
+		fn_idDuplicate=()=>{
+			let value=document.getElementById('emp_id').value;
+			let $message = document.getElementById('idMessage');
+			
+			$.ajax({
+				url:"${path}/employees/searchEmployeeId",
+				data:{emp_id:value},
+				success:data=>{
+					$message.innerHTML = data;
+				}
+			})
+			
+		}
+	</script>
 	<script>
 	let fn_auto_hypen_resident=(e)=>{
 		e.target.value = e.target.value

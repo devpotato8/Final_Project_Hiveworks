@@ -49,4 +49,5 @@ public interface EmpDao {
 	
 	List<Map<String,Object>> selectAuthorityList(SqlSession session);
 
+	int updateAuthorities(SqlSession session,Map<String,Object> empNoAndAutcode);
 }
