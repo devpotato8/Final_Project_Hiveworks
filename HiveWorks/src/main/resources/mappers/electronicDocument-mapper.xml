@@ -112,7 +112,8 @@
 		        JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
 		        JOIN TBL_EMPLOYEE E ON R.REFPER_EMP_NO = E.EMP_NO
 		        JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
-	        WHERE D.USE_YN = 'Y' AND E.EMP_ID = #{emp_id}
+	        WHERE D.USE_YN = 'Y' AND R.REFPER_STATUS = 'N'
+	        AND E.EMP_ID = #{emp_id}
 		</if>
 		) ORDER BY 4
 	</select>
@@ -159,8 +160,17 @@
 		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
 		#{edocDsgCode},<!-- EDOC_DSG_CODE -->
 		#{edocContent},<!-- EDOC_CONTENT -->
-		null,<!-- EDOC_STARTDATE -->
-		null,<!-- EDOC_ENDDATE -->
+		<choose>
+			<when test='edocDotCode.equals("DOT004")'> <!-- 문서양식이 휴가/연가계 일경우 -->
+				#{edocStartDate},<!-- EDOC_STARTDATE -->
+				#{edocEndDate},<!-- EDOC_ENDDATE -->
+			</when>
+			<otherwise>
+				null,<!-- EDOC_STARTDATE -->
+				null,<!-- EDOC_ENDDATE -->
+			</otherwise>
+		</choose>
+		
 		'DST100',<!-- EDOC_STATUS -->
 		#{creater},<!-- CREATER -->
 		SYSDATE,<!-- CREATE_DATE -->
