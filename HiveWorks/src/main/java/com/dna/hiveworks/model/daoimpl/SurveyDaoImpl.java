@@ -24,7 +24,7 @@ public class SurveyDaoImpl implements SurveyDao{
 		}
 		@Override
 		public int insertSurvey(SqlSession session,Survey s) {
-			return session.insert("survey.insertSurvey");
+			return session.insert("survey.insertSurvey", s);
 		}
 		
 }

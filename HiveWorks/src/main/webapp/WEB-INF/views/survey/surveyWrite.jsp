@@ -22,19 +22,19 @@
 
                          <form id="surveyForm" name="surveyFrm" action="${path }/survey/insertSurvey" method="post">
                             <div class="row gx-3">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">설문 시작일</label>
-                                        <input id="surveyStart" name="surveyStart" class="form-control" type="date" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">설문 종료일</label>
-                                        <input id="surveyEnd" name="surveyEnd" class="form-control" type="date" />
-                                    </div>
-                                </div>
-                            </div>
+								    <div class="col-sm-6">
+								        <div class="form-group">
+								            <label class="form-label">설문 시작일</label>
+								            <input id="surveyStart" name="surveyStart" class="form-control" type="date" />
+								        </div>
+								    </div>
+								    <div class="col-sm-6">
+								        <div class="form-group">
+								            <label class="form-label">설문 종료일</label>
+								            <input id="surveyEnd" name="surveyEnd" class="form-control" type="date" />
+								        </div>
+								    </div>
+								</div>
                             <div class="row gx-3">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -72,25 +72,6 @@
         </div>
     </div>
 </div>
-<script>
-function createSurvey() {
-    // Ajax 호출 및 서버에 설문 등록
-    $.ajax({
-        type: "POST",
-        url: "${path}/survey/insertSurvey",
-        data: {
-            // 필요한 데이터 추가
-        },
-        success: function () {
-            alert('설문이 성공적으로 등록되었습니다. 감사합니다.');
-            window.location.href = "${path}/survey/surveying";
-        },
-        error: function (error) {
-            console.error('설문 생성 중 오류 발생:', error);
-        }
-    });
-}
-</script>
 <script>
     function addHiddenSection(type) {
         var hiddenSection = document.getElementById('hiddenSectionTemplate').cloneNode(true);

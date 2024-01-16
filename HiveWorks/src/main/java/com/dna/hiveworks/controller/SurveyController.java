@@ -30,7 +30,7 @@ public class SurveyController {
 	      return "survey/survey";
 	}
 	@GetMapping("/surveying")
-	public String surveying() {
+	public String surveying(Model model) {
 		return "survey/surveying";
 	}
 	@GetMapping("/surveyWrite")
@@ -42,9 +42,11 @@ public class SurveyController {
 		return "survey/surveyresult";
 	}
 	@RequestMapping("/insertSurvey")
-	public String insertSurvey(Survey s, Model model, HttpSession session) {
+	public String insertSurvey(Survey s, Model model) {
 		String msg, loc;
+		
 		int result=service.insertSurvey(s);
+		
 		if(result>0) {
 			msg = "게시글 등록 성공 :)";
 			loc = "survey/survey";

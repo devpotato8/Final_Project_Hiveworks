@@ -6,23 +6,25 @@
         <result column="SURVEY_TITLE" property="surveyTitle" />
         <result column="SURVEY_START" property="surveyStart" />
         <result column="SURVEY_END" property="surveyEnd" />
-        <result column="CREATE_DATE" property="createDate"/>
         <result column="CREATER" property="creater"/>
         <result column="MODIFIER" property="modifier"/>
+        <result column="CREATE_DATE" property="createDate"/>
         <result column="MODIFY_DATE" property="modifyDate"/>
+        <result column="USE_YN" property="useYN"/>
+        <result column="SURVEY_TYPE" property="surveyType"/>
     </resultMap>
 
     <select id="selectSurveyByNo" parameterType="_int" resultMap="surveyMap">
         SELECT * FROM TBL_SURVEY
-        WHERE SURVEY_NO = #{surveyNo}
+        WHERE SURVEY_NO = #{surveyNo}      
     </select>
 
     <select id="selectAllSurvey" resultMap="surveyMap">
         SELECT * FROM TBL_SURVEY
     </select>
-
+	
     <insert id="insertSurvey" parameterType="survey">
         INSERT INTO TBL_SURVEY
-        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, DEFAULT, DEFAULT, DEFAULT, SYSDATE, 'Y')
+        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',NULL)
     </insert>
 </mapper>

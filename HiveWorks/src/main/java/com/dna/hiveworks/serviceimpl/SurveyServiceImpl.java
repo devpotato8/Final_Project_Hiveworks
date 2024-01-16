@@ -29,6 +29,7 @@ public class SurveyServiceImpl implements SurveyService{
 	   public List<Survey> selectAllSurvey() {
 	      return dao.selectAllSurvey(session);
 	   }
+	
 	@Override
 	@Transactional
 	public int insertSurvey(Survey s) {
