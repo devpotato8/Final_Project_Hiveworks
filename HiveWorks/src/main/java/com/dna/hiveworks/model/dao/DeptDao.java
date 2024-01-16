@@ -36,4 +36,5 @@ public interface DeptDao {
 	void insertDeptExcel(SqlSession session, Map<String,Object>dataMap);
 	String selectLastDepCode(SqlSession session);
 	String selectDeptCodeByName(SqlSession session, String deptName);
+	List<Map<String, Object>>modalDeptEmpList(SqlSession session);
 }

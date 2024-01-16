@@ -10,13 +10,21 @@
 	<jsp:param value="data-hover='active'" name="hover"/>
 </jsp:include>
 
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
+
 <style>
 	.modal-info{
 		margin-left : 15px;	
 	}
-	.modal-content {
+	#modal_msgView .modal-content {
 	    height: 500px;
 	}
+	#sendMsgModal .modal-content {
+		height: 500px;
+	}
+	
 	#msgContentArea {
 	    resize : none;
 	    height : 150px;
@@ -40,9 +48,26 @@
 	#msgCategory{
 		width:400px;
 	}
+	#modal_selectEmp .modal-dialog {
+	    width: 100%;
+	    height: 100%;
+	    margin: 0;
+	    padding: 0;
+	}
+	#modal_selectEmp .modal-content {
+	    height: auto;
+	    width: auto;
+	    min-height: 100%;
+	    border-radius: 0;
+	}
+	.emp {
+		color : #6464CD;
+	}
+	.no-employees {
+	    display: none;
+	}
 </style>
 
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 <!-- 쪽지 상세내용 보기 modal -->
 <div id="modal_msgView" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal_label_id" aria-hidden="true">
@@ -63,7 +88,7 @@
 			
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-soft-primary" id="sendReply" data-bs-toggle="modal" data-bs-target="#sendMsgModal">답장 보내기</button>
+				<button type="button" class="btn btn-soft-primary" id="sendReply">답장 보내기</button>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 			</div>
 		</div>
@@ -76,23 +101,27 @@
     	<div class="modal-content">
       		<div class="modal-header">
       				<select id="msgCategory" class="form-select" aria-label="msgCategory">
-					  <option selected>쪽지 카테고리 선택</option>
-					  <option value="MCT001">업무연락</option>
-					  <option value="MCT002">전체공지</option>
-					  <option value="MCT003">일반</option>
-					  <option value="MCT004">긴급/중요</option>
+						<option selected>쪽지 카테고리 선택</option>
+						<option value="MCT001">업무연락</option>
+						<option value="MCT002">전체공지</option>
+						<option value="MCT003">일반</option>
+						<option value="MCT004">긴급/중요</option>
+						<option value="MCT005">답장</option>
 					</select>
         			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>        	
       		</div>
 		    <div class="modal-body">
         		<div style="display: flex; align-items: center;" class="mb-3">
-        			<p>받는 사람 :</p>&nbsp&nbsp
-        			<input id="searchEmp"type="text" class="form-control" name="sendMsgSender" style="width:300px" placeholder="직원명을 검색하세요">
+        			<p>받는 사람</p>&nbsp&nbsp
+        			<input id="searchEmp"type="text" class="form-control" name="sendMsgSender" style="width:250px" placeholder="직원명을 검색하세요" autocomplete='off'>
+        			<input id="receiverEmpNo" type="hidden" name="receiverEmpNo">
+        			&nbsp&nbsp
+        			<button type="button" class="btn btn-soft-primary btn-sm" id="searchEmpBtn">조직도에서 선택</button>
         		</div>
 
         		<div style="display: flex; align-items: center;" class="mb-3">
-        			<p>쪽지 제목 :</p>&nbsp&nbsp
-        			<input type="text" class="form-control" name="sendMsgTitle" style="width:300px"> 
+        			<p>쪽지 제목</p>&nbsp&nbsp
+        			<input type="text" class="form-control" name="sendMsgTitle" style="width:250px" autocomplete='off'>
         		</div>
         		
 				<div class="input-group">
@@ -113,6 +142,25 @@
 	</div>
 </div>
 
+<!-- 직원 선택 modal -->
+<div id="modal_selectEmp" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">직원을 선택하세요</h5>
+      	<div style="margin-left:40px;"><input type="text" id="jstree_search" placeholder="직원명/부서명으로 검색" autocomplete='off'></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       	<div id="jstree"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="deptEmpSelect">선택</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -235,33 +283,42 @@
 					</header>
 			<!--/ MSG Header Line END-->
 			
+
 <script>
+var msg_no;
+var msg_title;
+var msg_content;
+var msg_date;
+var msg_sender;
+var msg_receiver;
+var msg_file;
+var msg_sender_name;
 
 $(document).ready(function() {
     $(".msgTitle, .msgContent").click(function() {
-        var msg_no = $(this).closest('tr').find('.msg_no').text();
-        var msg_title = $(this).closest('tr').find('.msgTitle').text();
-        var msg_content = $(this).closest('tr').find('.msgContent').text();
-        var msg_date = $(this).closest('tr').find('.msg_date').text();
-        var msg_sender = $(this).closest('tr').find('.msg_sender').text();
-        var msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
-        var msg_file = $(this).closest('tr').find('.msgFile').text();
+        msg_no = $(this).closest('tr').find('.msg_no').text();
+        msg_title = $(this).closest('tr').find('.msgTitle').text();
+        msg_content = $(this).closest('tr').find('.msgContent').text();
+        msg_date = $(this).closest('tr').find('.msg_date').text();
+        msg_sender = $(this).closest('tr').find('.msg_sender').text();
+        msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
+        msg_file = $(this).closest('tr').find('.msgFile').text();
+        msg_sender_name = $(this).closest('tr').find('.msg_sender_name').text();
+        
         // 필요한 modal위치에 세팅
         $("#modal_msgView").find(".modal-title").text(msg_title);
         $("#modal_msgView").find(".modal-body").text(msg_content);
-        $("#modal_msgView").find(".sender").text(msg_sender);
+        $("#modal_msgView").find(".sender").text(msg_sender_name);
         $("#modal_msgView").find(".receiver").text(msg_receiver);
         $("#modal_msgView").find(".msgtime").text(msg_date);
         $("#modal_msgView").find(".msg_file").text(msg_file);
         //모달 보여주기
-        $("#modal_msgView").modal('show');
-        
-        //답장 모달에도 값 넣어주기
-        $("#sendMsgModal").find("")
-        
+        $("#modal_msgView").modal('show');        
     });
     
 });
+
+//쪽지 글자 byte수 계산
 $('#msgContentArea').on('input', function() {
     var len = encodeURI($(this).val()).split(/%..|./).length - 1;
     $('#byteCount').text(len + ' / 1500 byte');
@@ -269,6 +326,146 @@ $('#msgContentArea').on('input', function() {
     if (len > 500) {
         $(this).val($(this).val().substring(0, $(this).val().length - 1));
     }
+});
+
+
+//답장보내기 modal 로직
+$(document).ready(function(){
+    $("#sendReply").click(function(){
+        $("#modal_msgView").modal('hide');
+        $("#sendMsgModal").modal('show');
+        $("#msgCategory").val("MCT005");
+        $("#searchEmp").val(msg_sender_name);
+    });
+});
+
+//modal창 내 jstree, 직원선택 로직
+$('#searchEmpBtn').click(function(){
+    $('#modal_selectEmp').modal('show');
+    var deptEmpMap = {};
+    function getJson(){
+        $.ajax({
+            type:'GET',
+            url:'/modalDeptEmp',
+            dataType:'JSON',
+            success: function(data){
+                var deptlist = new Array();
+                var emplist = new Array();
+                
+                
+                $.each(data.empList, function(idx, item){
+                    if(!deptEmpMap[item.deptName]) {
+                        deptEmpMap[item.deptName] = [];
+                    }
+                    deptEmpMap[item.deptName].push(item);
+                });
+                
+                // 부서 정보를 임시로 저장할 배열
+                var tempDeptList = new Array();
+				
+                // 부서 정보를 임시 배열에 저장
+                $.each(data.deptList, function(idx, item){
+                    tempDeptList[idx]={id:item.deptCode, parent:item.deptUpstair, text:item.deptName, type:'dept', li_attr: {class: 'dept'}};
+                });
+
+                // 직원 정보를 jstree 용으로 변환
+                $.each(data.empList, function(idx, item){
+                    var parentDept = tempDeptList.find(function(dept) {
+                        return dept.text === item.deptName;
+                    });
+
+                    // 직원이 속한 부서를 부서 리스트에 추가
+                    if (parentDept && !deptlist.includes(parentDept)) {
+                        deptlist.push(parentDept);
+                    }
+                    
+                    emplist[idx]={id:item.id, parent:parentDept.id, text:item.deptName + ' ' + item.name + ' ' + item.position, type:'emp', li_attr: {class: 'emp'}};
+                });
+
+                // 부서와 직원 정보를 합칩니다.
+                var jstreeData = deptlist.concat(emplist);
+                
+                // 서버에서 department테이블 불러와서 조직도로 구현
+                $('#jstree').jstree({
+                    'plugins':['types','search','sort','checkbox'],
+                    'core':{
+                        'data':jstreeData
+                    },
+                    'types':{
+                        'dept':{
+                            'icon':'fa-solid fa-book-open-reader'
+                        },
+                        'emp':{
+                            'icon':'fa-solid fa-user'
+                        }
+                    }
+                });
+            },
+            error:function(data){
+                alert("조직도 구성에 실패하였습니다. 관리자에게 문의하세요");
+            }
+        })
+    }
+    
+    $('#deptEmpSelect').click(function() {
+    	var selectedNodes = $('#jstree').jstree(true).get_selected(true);
+        var selectedEmpNames = [];
+        var selectedEmpNos = [];
+
+        for(var i = 0; i < selectedNodes.length; i++) {
+            var node = selectedNodes[i];
+
+            if(node.type === 'emp') {
+                var name = node.text.split(' ')[1]; // 텍스트에서 이름 부분만 추출
+
+                // 이미 리스트에 이름이 있는지 확인
+                if(selectedEmpNames.indexOf(name) === -1) {
+                    selectedEmpNames.push(name);  // 리스트에 없으면 이름 저장
+                    selectedEmpNos.push(node.id); // 리스트에 없으면 번호 저장
+                }
+            } else if(node.type === 'dept') {
+                var deptEmps = deptEmpMap[node.text];
+
+                for(var j = 0; j < deptEmps.length; j++) {
+                    var empName = deptEmps[j].name;
+
+                    // 이미 리스트에 이름이 있는지 확인
+                    if(selectedEmpNames.indexOf(empName) === -1) {
+                        selectedEmpNames.push(empName); // 리스트에 없으면 이름 저장
+                        selectedEmpNos.push(deptEmps[j].id); // 리스트에 없으면 번호 저장
+                    }
+                }
+            }
+        }
+
+        // 컴마로 구분하여 문자열로 변환
+        var empNameString = selectedEmpNames.join(', ');
+        var empNoString = selectedEmpNos.join(', ');
+
+        // 모달창의 입력 필드에 넣어주기
+        $('#searchEmp').val(empNameString);
+        $('#receiverEmpNo').val(empNoString);
+        $('#modal_selectEmp').modal('hide');
+        
+    });
+    
+    getJson();
+    
+    $('#jstree_search').on("keyup", function(e){
+        var searchString = $(this).val();
+        $('#jstree').jstree('search', searchString);
+    });
+});
+
+
+//쪽지보내기 modal창 닫힐때 값 초기화
+$(document).ready(function(){
+	$('#sendMsgModal').on('hide.bs.modal', function() {
+	    // 모달이 닫힐 때 입력 필드 초기화
+	    $('#searchEmp').val('');
+	    $('#receiverEmpNo').val('');
+	    $('#msgCategory').prop('selectedIndex',0);
+	});	
 });
 
 
@@ -379,6 +576,7 @@ $(document).ready(function(){
 
 
 </script>
+
 
 			
 	

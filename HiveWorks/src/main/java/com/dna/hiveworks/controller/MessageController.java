@@ -34,6 +34,7 @@ public class MessageController {
 	public String messageView(@RequestParam int empNo, Model model) {
 		
 		List<Message> msgs = service.msgList(empNo);
+		System.out.println(msgs);
 		model.addAttribute("msgList",msgs);
 		return "message/message";
 	}

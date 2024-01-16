@@ -137,7 +137,7 @@
 						<br><br><br>
 					
 					<div class="text-first mt-3">
-						<input type="text" id="schDept" value="" class="mb-4">
+						<input type="text" id="schDept" value="" class="mb-4" autocomplete='off'>
     					<button class="btn btn-primary btn-sm" onclick="dsearch()">부서검색</button>	
 	    			</div>
 	    			
@@ -152,7 +152,7 @@
 							<!-- 직원 검색창 -->
 							<div>	
 							    <div id="searchWrapper" class="mb-2">
-							        <input type="text" id="searchEmp">
+							        <input type="text" id="searchEmp" autocomplete='off'>
 								    <button class="btn btn-primary btn-sm addEmpDeptBtn">소속추가</button>
 							    </div>
 								<span>직원을 검색해서 부서에 추가할 수 있습니다</span>
