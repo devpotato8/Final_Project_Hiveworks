@@ -107,7 +107,10 @@ public class DeptDaoImpl implements DeptDao {
 		return session.selectOne("department.selectDeptCodeByName",deptName);
 	}
 	
-	
+	@Override
+	public List<Map<String, Object>> modalDeptEmpList(SqlSession session) {
+		return session.selectList("department.modalDeptEmpList");
+	}
 	
 	
 

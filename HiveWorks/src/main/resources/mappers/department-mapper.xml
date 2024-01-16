@@ -78,6 +78,7 @@
 			) d ON e.DEPT_CODE = d.DEPT_CODE
 			LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
 			LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
+		WHERE e.USE_YN = 'Y'
 	</select>
 	
 	<!-- 구성원 관리페이지에 표시할 부서명 -->
@@ -95,24 +96,14 @@
 	    </foreach>
 	</update>
  
- 	<!-- 구성원 관리에서 조직장 설정 시 -->
-<!-- case문을 사용해서 이전 조직장을 해제하고 현재 선택한 사람을 조직장으로 동시에 수정
-	<update id="changeDeptLeader">
-		UPDATE TBL_EMPLOYEE
-		SET DEPT_LEADER = 
-			CASE 
-	          WHEN EMP_ID = #{oldLeaderId} THEN 'N'
-	          WHEN EMP_ID = #{newLeaderId} THEN 'Y'
-		    END
-		WHERE EMP_ID IN (${oldLeaderId}, ${newLeaderId})
-	</update> -->
-	
+	<!-- 기존 조직장 해제 -->
 	<update id="changeDeptLeaderOld">
 	    UPDATE TBL_EMPLOYEE
 	    SET DEPT_LEADER = 'N'
 	    WHERE EMP_ID = #{id}
 	</update>
 	
+	<!-- 새 조직장 등록 -->
 	<update id="changeDeptLeader">
 	    UPDATE TBL_EMPLOYEE
 	    SET DEPT_LEADER = 'Y'
@@ -137,8 +128,8 @@
 	<select id="searchEmpByName" resultType="employee">
 		SELECT E.*, COALESCE(PC.CODE_NAME, '직책없음') AS POSITION_NAME, COALESCE(DC.DEPT_NAME, '소속없음') AS DEPT_NAME, DC.DEPT_CODE 
 		FROM TBL_EMPLOYEE E 
-		LEFT JOIN TBL_CODE PC ON E.POSITION_CODE = PC.CODE_NO 
-		LEFT JOIN TBL_DEPARTMENT DC ON E.DEPT_CODE = DC.DEPT_CODE
+			LEFT JOIN TBL_CODE PC ON E.POSITION_CODE = PC.CODE_NO 
+			LEFT JOIN TBL_DEPARTMENT DC ON E.DEPT_CODE = DC.DEPT_CODE
 		WHERE E.EMP_NAME LIKE '%'||#{name}||'%'
 	</select>
 	
@@ -175,10 +166,25 @@
  	<insert id="insertDeptExcel">
  		INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{DEPT_UPSTAIR}, #{DEPT_NAME}, #{USE_YN})
  	</insert>
+ 	
  	<select id="selectLastDepCode" resultType="java.lang.String">
  		SELECT 'DEP' || TO_CHAR(SEQ_DEPT_CODE.CURRVAL) FROM DUAL
  	</select>
+ 	
  	<select id="selectDeptCodeByName" resultType="string">
-    SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{DEPT_NAME}
-</select>
+    	SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{DEPT_NAME}
+	</select>
+	
+	<select id="modalDeptEmpList" resultMap="empMap">
+		SELECT e.EMP_NO, e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
+			FROM TBL_EMPLOYEE e
+				JOIN (
+				    SELECT DEPT_CODE, DEPT_NAME
+				    FROM TBL_DEPARTMENT
+				) d ON e.DEPT_CODE = d.DEPT_CODE
+				LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
+				LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO
+			WHERE e.USE_YN = 'Y'
+	</select>
+
 </mapper>

@@ -111,6 +111,7 @@ public class DeptController {
 	@ResponseBody
 	public List<Map<String, Object>> deptEmplist(@RequestParam String deptCode){
 		List<Map<String, Object>> employees = service.deptEmpList(deptCode);
+		
 	    return employees;
 	}
 	
@@ -266,4 +267,18 @@ public class DeptController {
             output.flush();
         }
     }
+	
+	@GetMapping("/modalDeptEmp")
+	@ResponseBody
+	public Map<String,List<?>> modaldeptList(Department dept, Model model) throws Exception{
+		List<Department> deptList = service.deptListAll();
+		List<Map<String, Object>> empList = service.modalDeptEmpList();
+		
+		Map<String,List<?>> deptEmpList = new HashMap<>();
+		
+		deptEmpList.put("deptList", deptList);
+		deptEmpList.put("empList", empList);
+		
+		return deptEmpList;
+	}
 }
