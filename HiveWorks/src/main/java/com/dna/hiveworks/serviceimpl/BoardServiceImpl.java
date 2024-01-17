@@ -64,7 +64,12 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	public int updateBoardCount(int boardNo) {
 		log.debug("조회수: {}", boardNo);
-	    return dao.updateBoardCount(session, boardNo);
+		if(boardNo>0) {
+			
+		}else {
+			throw new RuntimeException("번호가 안들어가짐");
+		}
+	    return boardNo;
 	}
 	
 }
