@@ -165,6 +165,12 @@ public class DeptServiceImpl implements DeptService {
 	    return true;
 	}
 
+	@Override
+	public List<Map<String, Object>> modalDeptEmpList() {
+		List<Map<String, Object>> result = dao.modalDeptEmpList(session);
+		return result;
+	}
+
 	
 	
 	

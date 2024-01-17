@@ -424,104 +424,6 @@
 <input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요."/>
 <button type="button" class="btn btn-primary btn-sm" style="width:100px" onclick="fn_changeEmployee()">검색</button>
 <datalist id="data"></datalist>
-<script>
-	$("#searchId").keyup(e=>{
-		const value=e.target.value;
-		$.ajax({
-			url:"${path}/employees/searchEmployees",
-			data:{"keyword":value},
-			success:data=>{
-				const emp_ids=data.split(",");
-				$("#data").html("");
-				emp_ids.forEach(e=>{
-					const $op=$("<option>").attr("value",e).text(e);
-					$("#data").append($op);
-				});
-			}
-		})
-	});
-	
-	fn_changeEmployee=()=>{
-		let value = $("#searchId").val();
-		$.ajax({
-			type:'post',
-			url:"${path}/employees/searchEmployees",
-			data:{"keyword":value},
-			success:data=>{
-				$("#emp_no").val(data[0].emp_no);
-				$("#emp_name").val(data[0].emp_name);
-				$("#emp_birth_date").val(data[0].emp_birth_date);
-				$("#dept_name").val(data[0].dept_name);
-				$("#job_name").val(data[0].job_name);
-				$("#position_name").val(data[0].position_name);
-				$("#position_pay").val(data[0].pp_add_pay);
-			},
-			error:function(){
-                alert("사원을 찾을 수 없습니다.");
-			}
-		})
-	};
-	
-	fn_cal_salary=()=>{
-		let total = parseInt($("#sal_base").val())
-					+Number($("#overtime_pay").val())
-					+Number($("#sal_meal").val())
-					+Number($("#position_pay").val())
-					+Number($("#sal_bonus").val());
-		
-		let notax = Number($("#sal_meal").val());
-		
-		$.ajax({
-			type:'get',
-			url:"${path}/salary/calculateSalary",
-			data:{"total":total,"notax":notax},
-			success:function(data){
-				$("#dedu_national_pension").val(data.o_pension);
-				$("#dedu_health_insur").val(data.o_insurance);
-				$("#dedu_longterm_care_insur").val(data.o_nursing);
-				$("#dedu_emp_insur").val(data.o_employ);
-				$("#dedu_income_tax").val(data.o_income);
-				$("#dedu_local_income_tax").val(data.o_local);
-				$("#sal_total").val(data.i_total);
-				
-				let $dedu_total =Number(data.o_pension)
-								+Number(data.o_insurance+data.o_nursing)
-								+Number(data.o_employ)
-								+Number(data.o_income)
-								+Number(data.o_local);
-				$("#dedu_total").val($dedu_total);
-				let $actual = Number(data.i_total)-$dedu_total;
-				
-				$("#sal_actual").val($actual);
-			},
-			error:function(){
-                alert("계산 실패");
-			}
-		})
-
-	};
-	
-	//document.getElementById('sal_date').value = new Date().toISOString().substring(0, 10);
-
-	fn_change_date=()=>{
-		// input 태그에서 선택한 날짜 가져오기
-		let changeDate = document.getElementById('sal_date').value;
-		
-		// Date 객체로 변환하기
-		let date = new Date(changeDate);
-		
-		// 연도와 월 가져오기
-		let year = date.getFullYear();
-		let month = date.getMonth()+1;
-		
-		let payday = document.getElementById('payday');
-		
-		payday.innerHTML = year + "년 " + month + "월 급여명세서";
-	};
-</script>
-
-
-
 
 <table width="740px">
     <tbody>
@@ -825,3 +727,104 @@
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
+	<script>
+	$("#searchId").keyup(e=>{
+		const value=e.target.value;
+		$.ajax({
+			url:"${path}/employees/searchEmployees",
+			data:{"keyword":value},
+			success:data=>{
+				const emp_ids=data.split(",");
+				$("#data").html("");
+				emp_ids.forEach(e=>{
+					const $op=$("<option>").attr("value",e).text(e);
+					$("#data").append($op);
+				});
+			}
+		})
+	});
+	
+	fn_changeEmployee=()=>{
+		let value = $("#searchId").val();
+		$.ajax({
+			type:'post',
+			url:"${path}/employees/searchEmployees",
+			data:{"keyword":value},
+			success:data=>{
+				if(data[0]!=null){
+					$("#emp_no").val(data[0].emp_no);
+					$("#emp_name").val(data[0].emp_name);
+					$("#emp_birth_date").val(data[0].emp_birth_date);
+					$("#dept_name").val(data[0].dept_name);
+					$("#job_name").val(data[0].job_name);
+					$("#position_name").val(data[0].position_name);
+					$("#position_pay").val(data[0].pp_add_pay);					
+				}else{
+					alert("사원이 없습니다.");
+				}
+			
+			
+			},
+			error:function(){
+                alert("사원을 찾을 수 없습니다.");
+			}
+		})
+	};
+	
+	fn_cal_salary=()=>{
+		let total = parseInt($("#sal_base").val())
+					+Number($("#overtime_pay").val())
+					+Number($("#sal_meal").val())
+					+Number($("#position_pay").val())
+					+Number($("#sal_bonus").val());
+		
+		let notax = Number($("#sal_meal").val());
+		
+		$.ajax({
+			type:'get',
+			url:"${path}/salary/calculateSalary",
+			data:{"total":total,"notax":notax},
+			success:function(data){
+				$("#dedu_national_pension").val(data.o_pension);
+				$("#dedu_health_insur").val(data.o_insurance);
+				$("#dedu_longterm_care_insur").val(data.o_nursing);
+				$("#dedu_emp_insur").val(data.o_employ);
+				$("#dedu_income_tax").val(data.o_income);
+				$("#dedu_local_income_tax").val(data.o_local);
+				$("#sal_total").val(data.i_total);
+				
+				let $dedu_total =Number(data.o_pension)
+								+Number(data.o_insurance+data.o_nursing)
+								+Number(data.o_employ)
+								+Number(data.o_income)
+								+Number(data.o_local);
+				$("#dedu_total").val($dedu_total);
+				let $actual = Number(data.i_total)-$dedu_total;
+				
+				$("#sal_actual").val($actual);
+			},
+			error:function(){
+                alert("계산 실패");
+			}
+		})
+
+	};
+	
+	//document.getElementById('sal_date').value = new Date().toISOString().substring(0, 10);
+
+	fn_change_date=()=>{
+		// input 태그에서 선택한 날짜 가져오기
+		let changeDate = document.getElementById('sal_date').value;
+		
+		// Date 객체로 변환하기
+		let date = new Date(changeDate);
+		
+		// 연도와 월 가져오기
+		let year = date.getFullYear();
+		let month = date.getMonth()+1;
+		
+		let payday = document.getElementById('payday');
+		
+		payday.innerHTML = year + "년 " + month + "월 급여명세서";
+	};
+</script>

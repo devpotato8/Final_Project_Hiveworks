@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
 import com.dna.hiveworks.model.dto.Account;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class EmpServiceImpl implements EmpService {
 
@@ -78,14 +80,37 @@ public class EmpServiceImpl implements EmpService {
 
 	@Override
 	public int updateEmployee(Map<String,Object> empData) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		Employee e = (Employee)empData.get("employee");
+		Account ac = (Account)empData.get("account");
+		
+		int result = dao.updateEmployee(session, e);
+		if(result>0) {
+			ac.setEmp_no(e.getEmp_no());
+			int result2 = dao.updateAccount(session, ac);
+			if(result2==0) new RuntimeException("등록 실패");
+			
+		}else {
+			new RuntimeException("등록 실패");
+		}
+
+		return result;
 	}
 
 	@Override
-	public int deleteEmployee(int no) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteEmployee(int emp_no) {
+		int result_first = dao.deleteEmployee(session,emp_no);
+		
+		if(result_first>0) {
+			int result_second = dao.deleteAccount(session, emp_no);
+			if(result_second==0) {
+				new RuntimeException("계좌 삭제 실패");
+			}
+		}else {
+			new RuntimeException("직원 삭제 실패");
+		}
+
+		return result_first;
 	}
 
 	@Override
@@ -114,11 +139,74 @@ public class EmpServiceImpl implements EmpService {
 		
 	}
 
-	
-	
-	
-	
-	
+
+	@Override
+	public int updatePassword(Map<String, Object> IdAndPassword) {
+		
+		int result_first = dao.confirmEmployee(session,IdAndPassword);
+
+		if(result_first!=0) {
+			int result_second = dao.updatePassword(session,IdAndPassword);
+			if(result_second==0) {
+				new RuntimeException("비밀번호 업데이트 실패");
+			}
+		}else {
+			new RuntimeException("유저 확인 실패");
+		}
+		
+		return result_first;
+	}
+
+
+	@Override
+	public Map<String, List<Map<String, Object>>> selectAuthorityList() {
+		Map<String, List<Map<String,Object>>> authorityList = new HashMap<>();
+		
+		authorityList.put("authorityList", dao.selectAuthorityList(session));
+
+		return authorityList;
+	}
+
+
+	@Override
+	public int updateAuthorities(Map<String, List<String>> data) {
+		
+		int count =0;
+		
+		for(int i=0; i<data.get("names").size();i++) {
+			Map<String,Object> empNoAndAutcode = new HashMap<>();
+			
+			empNoAndAutcode.put("empNo", data.get("names").get(i));
+			empNoAndAutcode.put("value", data.get("values").get(i));
+			
+			int result = dao.updateAuthorities(session,empNoAndAutcode);
+			if(result==0) {
+				new RuntimeException("업데이트 실패");
+			}
+			count++;
+		}
+
+		return count;
+	}
+
+
+	@Override
+	public Map<String, Object> downloadEmployeesAndAccount() {
+		Map<String, Object> result = new HashMap<>();
+		
+		List<Employee> employees = dao.selectEmployeesListAll(session);
+		List<Account> accounts = new ArrayList<>();
+		
+		for(int i=0; i<employees.size();i++) {
+			accounts.add(dao.selectAccountByEmpNo(session, employees.get(i).getEmp_no()));	
+		}
+		
+		result.put("employees", employees);
+		result.put("accounts", accounts);
+		
+		return result;
+	}
+
 
 	
 }

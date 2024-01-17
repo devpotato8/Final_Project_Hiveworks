@@ -3,7 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%@ page import="java.util.Collections" %>
 <%@ page import="com.dna.hiveworks.model.code.*" %>
+<%@ page import="com.dna.hiveworks.model.dto.edoc.*" %>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
@@ -11,7 +14,17 @@
 	<jsp:param value="data-hover='active'" name="hover"/>
 </jsp:include>
 <%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
+
+<style>
+	.img-autograph{
+		max-width: 50px;
+		max-height: 50px;
+	}
+</style>
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -20,12 +33,18 @@
 			<!-- PageSideBar -->
 			<jsp:include page="/WEB-INF/views/edoc/common/edocSideBar.jsp">
 			 	<jsp:param value="${currentPage }" name="currentPage"/>
+				<jsp:param value="${countAll}" name="countAll"/>
+				<jsp:param value="${countWait}" name="countWait"/>
+				<jsp:param value="${countCheck}" name="countCheck"/>
+				<jsp:param value="${countExpect}" name="countExpect"/>
+				<jsp:param value="${countProcess}" name="countProcess"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
 							<h1 class="fmapp-title">문서 열람</h1>
+							<button type="button" class="btn btn-secondary" id="printButton"disabled>인쇄 미리보기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -54,7 +73,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" data-bs-toggle="tab" href="#comment_history">
-											<span class="nav-link-text">의견/이력</span>
+											<span class="nav-link-text">이력</span>
 										</a>
 									</li>
 								</ul>
@@ -93,6 +112,14 @@
 															<fmt:formatDate type="both" value="${edoc.finalizedDate }" timeStyle="short"/>
 														</td>
 													</tr>
+													<c:if test="${edoc.edocDotCode eq 'DOT004'}">
+														<tr>
+															<th>휴가 신청 시작일시</th>
+															<td><fmt:formatDate type="both" value="${edoc.edocStartDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+															<th>휴가 신청 종료일시</th>
+															<td><fmt:formatDate type="both" value="${edoc.edocEndDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+														</tr>
+													</c:if>
 												</tbody>
 											</table>
 											<table class="table">
@@ -108,11 +135,17 @@
 													<c:forEach items="${edoc.approval }" var="a">
 														<td class="text-center">
 															<c:choose>
+																<c:when test="${a.aprvlApvCode eq 'APV002'}">
+																	<img class="img-autograph" src="${path }/resources/upload/edoc/autograph/defaultRevoke.png">
+																</c:when>
 																<c:when test="${a.aprvlApvCode ne 'APV000' }">
-																	<img src="${path }/resources/upload/edoc/autograph/${a.aprvlAutoFilename}">
+																	<img class="img-autograph" src="${path }/resources/upload/edoc/autograph/${a.aprvlAutoFilename}">
 																</c:when>
 																<c:when test="${a.aprvlStatus eq 'W' and a.aprvlEmpNo eq loginEmp.emp_no }">
-																	<button class="btn btn-sm btn-primary" type="button">결재</button> 
+																	<c:set var="currentApprovalNo" value="${a.aprvlNo }"/>
+																	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_approval">
+																		결재
+																	</button>
 																</c:when>
 															</c:choose>
 														</td>
@@ -121,7 +154,7 @@
 												<tr>
 													<c:forEach items="${edoc.approval }" var="a">
 														<td class="text-center">
-														<c:if test="${a.aprvlApvCode ne 'APV000' }">
+														<c:if test="${a.aprvlApvCode ne 'APV000'}">
 															<fmt:formatDate type="date" value="${a.aprvlDate }"/>
 														</c:if>
 														</td>
@@ -129,7 +162,6 @@
 												</tr>
 											</table>
 										</div>
-										
 										<span class="form-label">본문 : </span>
 										<div class="container document-container">									
 											${edoc.edocContent}
@@ -138,12 +170,44 @@
 									<!-- 첨부파일 탭 -->
 									<div class="tab-pane fade" id="attach_file">
 										<div class="row">
-											
+											<div class="list-group list-group-numbered">
+												<c:forEach var="file" items="${edoc.attachFiles }">
+													<a href="${path }/edoc/downloadFile?filename=${file.attachRenamedFilename}&edocNo=${edoc.edocNo}" class="list-group-item list-group-item-action">${file.attachOriginalFilename }</a>
+												</c:forEach>
+											</div>
 										</div>
 									</div>
 									<!-- 의견/이력 탭 -->
 									<div class="tab-pane fade" id="comment_history">
-										
+										<div class="row ">
+											<div class="list-group list-group-numbered">
+												<c:forEach var="apv" items="${edoc.approval}">
+													<c:if test="${apv.aprvlApvCode ne 'APV000' }">
+														<div class="list-group-item col-sm-6">
+															<div class="card">
+																<div class="card-body">
+																	<h5 class="card-title">
+																		${apv.aprvlEmpName }&nbsp;
+																		<c:choose>
+																			<c:when test="${edoc.creater eq apv.aprvlEmpNo }">
+																				기안
+																			</c:when>
+																			<c:otherwise>
+																				${apv.aprvlApvCode.getCode()}
+																			</c:otherwise>
+																		</c:choose>
+																	</h5>
+																	<h6 class="card-subtitle">
+																		<fmt:formatDate type="date" value="${apv.aprvlDate }"/>
+																	</h6>
+																	<p class='card-text'>${apv.aprvlComment }</p>
+																</div>
+															</div>
+														</div>
+													</c:if>
+												</c:forEach>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -156,6 +220,50 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
+<!-- Modal Content -->
+<div class="modal fade" id="modal_approval" tabindex="-1" role="dialog" aria-labelledby="modal-approval" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal_approval_label">결재하기</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<form id="form_approval" action="${path}/edoc/processapproval" method="post">
+						<input type="hidden" name="aprvlNo" value="${currentApprovalNo}">
+						<input type="hidden" name="aprvlEdocNo" value="${edoc.edocNo}">
+						<div class="row">
+							<div class="col mb-1">
+								<c:forEach items="${apvCode }" var="code"  varStatus="status" >
+									<c:choose>
+										<c:when test="${code.name() eq 'APV001' or code.name() eq 'APV002' }">
+											<div class="form-check form-check-inline">
+												<input type="radio" name="aprvlApvCode" id="aprvlApvCode${status.count}" class="form-check-input" value="${code.name()}"
+												<c:if test="${code.name() eq 'APV001'}">checked</c:if>
+												>
+												<label for="aprvlApvCode${status.count}" class="form-check-label">${code.code}</label>
+											</div>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</div>
+						</div>
+						<div class="row">
+							<textarea name="aprvlComment" id="aprvlComment" cols="50" rows="4" class="form-control mt-1" style="resize: none;"></textarea>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" id="btn_approval">결재하기</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	const path = "${path}";
 </script>
@@ -167,55 +275,18 @@
 <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
 <!-- Simplebar JS -->
 <script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<!-- 체크박스 JS -->
+<script src="${path}/resources/js/checkbox.js"></script>
 <!-- Init JS -->
 <script src="${path}/resources/js/init.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>
-<!-- jstree -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- 체크박스 JS -->
-<script src="${path}/resources/js/checkbox.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-	
-<link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
 
-<script>
-$(function(){
-	jampack();
-	horizontalMenu();
-	navheadMenu();
+<script src="${path}/resources/js/edoc/edoc-read.js"></script>
 
-	/*App Functions */
-	//emailApp();
-	//contactApp();
-	//chatApp();
-	//calendarApp();
-	fmApp();
-	//blogApp();
-	//invoiceApp();
-	//galleryApp();
-	//integrationsApp();
-	//taskboardApp();
-	//checklistApp();
-	//todoApp();
-	
 
-	/*Table Search*/
-	$(".table-search").on("keyup", function() {
-		var value = $(this).val().toLowerCase();
-		$(".table-filter tbody tr").filter(function() {
-		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		});
-	});
-	
-	/*Disabled*/
-	$(document).on("click", "a.disabled,a:disabled",function(e) {
-		 return false;
-	});
-	
-});
-
-</script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+</div>
+</body>
+</html>

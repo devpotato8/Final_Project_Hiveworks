@@ -10,308 +10,9 @@
 	<jsp:param value="data-hover='active'" name="hover"/>
 </jsp:include>
 	
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-
 <%@ include file="/WEB-INF/views/message/msgSideHeader.jsp" %>
-							
-<!-- MSG Main Content -->		
-<div class="fm-body">
-	<div data-simplebar class="nicescroll-bar">
-		<div class="file-list-view">
-			<div class="text-end">
-				<button class="btn btn-soft-primary moveStarBtn">별표 쪽지함으로</button>
-				<button class="btn btn-soft-primary moveTrashBtn">휴지통으로</button>
-			</div>
-			<div class="tab-content">
-				<div class="tab-pane fade show active" id="cloud_doc">
-					<div class="table-responsive">
-						<table id="datable_1" class="table nowrap w-100 mb-5">
-							<thead>
-								<tr>
-									<th class="w-30p"><span class="form-check mb-0">
-										<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
-										<label class="form-check-label" for="customCheck1"></label>
-									</span></th>
-									<th>Message</th>
-									<th>Shared with</th>
-									<th>Send Date</th>
-									<th>File Size</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star marked"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-file-excel-2-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<div class="file-name">Website_content.exl</div>
-												<div>exel</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="avatar-group avatar-group-overlapped">
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Dean">
-												<img src="${path}/resources/img/avatar13.jpg" alt="user" class="avatar-img">
-											</div>
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Danial">
-												<img src="${path}/resources/img/avatar14.jpg" alt="user" class="avatar-img">
-											</div>
-										</div>														
-									</td>
-									<td>Today 11:02 AM</td>
-									<td>2,637KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
-										</div>
-									</td>
-								</tr>
-								
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-file-text-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<div class="file-name">expenses.doc</div>
-												<div>document</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="avatar-group avatar-group-overlapped">
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Dean">
-												<img src="${path}/resources/img/avatar12.jpg" alt="user" class="avatar-img">
-											</div>
-										</div>														
-									</td>
-									<td>12 Feb, 12:30 PM</td>
-									<td>76.3 KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<img src="${path}/resources/img/gallery/mock8.jpg" alt="user" class="d-block img-fluid w-50p">
-											</div>
-											<div class="media-body">
-												<div class="file-name">joel-mott-LaK153ghdigdss</div>
-												<div>jpeg</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										-													
-									</td>
-									<td>02 Jan, 4:32 PM</td>
-									<td>3,028 KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
-										</div>
-									</td>
-								</tr>
-								
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
-<!-- 쪽지 상세내용 보기 -->
-	<div class="file-info">
-	<div data-simplebar class="nicescroll-bar">
-		<div class="text-end">
-			<button type="button" class="info-close btn-close">
-				<span aria-hidden="false">×</span>
-			</button>
-		</div>
-		<div class="file-name">쪽지 제목</div>
-		<span>첨부파일종류(ex: JPG File)</span>
-		<div class="tab-content mt-5">
-			<div class="tab-pane fade show active" id="tab_info">
-				<div class="collapse-simple">
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#fl_info" aria-expanded="true">쪽지 정보</a>
-						</div>
-						<div id="fl_info" class="collapse show">
-							<div class="card-body">
-								<ul class="fm-info">
-									<li>
-										<span>보낸사람</span>
-										<span>김이사</span>
-									</li>
-									<li>
-										<span>받는사람</span>
-										<span>내이름</span>  
-									</li>
-									<li>
-										<span>첨부파일</span>
-										<span>파일명.jpg</span>
-									</li>
-									<li>
-										<span>전송일자</span>
-										<span>00-00-00 23:00</span>
-									</li>
-									
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#fl_info" aria-expanded="true">쪽지 내용</a>
-						</div>
-						<div id="fl_info" class="collapse show">
-							<div class="card-body">
-								<ul class="fm-info">
-									<li>
-										<p class="msgContent">
-											여기에 메시지 내용이 들어갈겁니다. 한글입숨-에너지로 조화될 말면 어른은 신문이 외치는 단단한 일부란 얼굴으로 안 가능하다. 그런데 할 재판이 주다 2025년 않으려고 당신을 볼까. 깨우지만 병이 아니다 코미디의 조사한다. 위원을 임신으로 같은 같이 광분하다. 경우를 구체적을 국민을 본다 내놓다. 
-										</p>
-									</li>
-									<li>
-										<div class="text-end">
-											<button class="btn btn-soft-primary btn-sm">000님에게 답장하기</button>
-										</div>
-									</li>
-									<li>
-										<span>첨부파일</span>
-									</li>
-									<li>
-										<img src="${path}/resources/img/gallery/mock2.jpg"  class="d-block img-fluid my-4 w-250p">
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#shared_with" aria-expanded="true">함께 받은사람</a>
-						</div>
-						<div id="shared_with" class="collapse show">
-							<div class="card-body">
-								<ul class="hk-list">
-									<li>
-										<div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-											<img src="${path}/resources/img/avatar9.jpg" alt="user" class="avatar-img">
-											<div class="badge-icon badge-circle text-blue badge-icon-xxs position-bottom-end-overflow-1">
-												<div class="badge-icon-wrap">
-													<i class="ri-upload-2-fill"></i>
-												</div>
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127 127">
-													<g data-name="Ellipse 302" transform="translate(8 8)" stroke-width="3">
-													<circle cx="55.5" cy="55.5" r="55.5" stroke="currentColor"></circle>
-													<circle cx="55.5" cy="55.5" r="59.5" fill="currentColor"></circle>
-													</g>
-												</svg>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="avatar avatar-sm  avatar-rounded">
-											<img src="${path}/resources/img/avatar10.jpg" alt="user" class="avatar-img">
-										</div>
-									</li>
-									<li>	
-										<div class="avatar avatar-sm avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Winston">
-											<span class="initial-wrap">W</span>
-										</div>
-									</li>
-									
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#settings" aria-expanded="true">설정하기</a>
-						</div>
-						<div id="settings" class="collapse show">
-							<div class="card-body">
-								<ul class="fm-action">
-									<li>
-										<a href="javascript:void(0);">
-											<span class="text-danger">휴지통으로</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);">
-											별표 쪽지함으로
-										</a>
-									</li>
-								</ul>	
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-		</div>
-	</div>
-</div>
-
-
-
-
-
-				</div>
-			</div>
-		</div>
-		<!-- /MSG Main Content END-->		
-	</div>
-	<!-- /Page Body -->
-</div>
-<!-- /Main Content -->
-
-<!-- /Wrapper -->
+<fmt:formatDate value="${msg.msg_date}" pattern="yy-MM-dd HH:mm:ss"/>
 
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
@@ -337,3 +38,233 @@
 <script src="${path}/resources/js/init.js"></script>
 <script src="${path}/resources/js/fm-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>
+
+<!-- Data Table JS -->
+<script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="${path}/resources/vendors/jszip/dist/jszip.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
+
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<style>
+	.msgTitle{
+		font-weight : bold;
+		font-size : 1.0rem;
+		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+		cursor: pointer;
+	}
+	.msgTitle:hover{
+		color :  #3d9ca5;
+		cursor: pointer;
+	}
+	.msgContent{
+		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+		cursor: pointer;
+	}
+	.msg_sender{
+		display:none;
+	}
+	.msg_receiver{
+		display:none;
+	}
+	
+
+</style>
+
+	
+
+<!-- MSG Main Content -->		
+<div class="fm-body">
+	
+	<div data-simplebar class="nicescroll-bar">
+		<div class="list-view">
+			<div class="text-start">
+				<button class="btn btn-soft-primary moveStarBtn">별표 쪽지함으로</button>
+				<button class="btn btn-soft-primary moveTrashBtn">휴지통으로</button>
+			</div>
+			<br>
+			<div>
+				<div class="file-list-view" id="cloud_doc">
+					<div class="table-responsive">
+						<table id="datable_4c" class="table nowrap w-100 mb-5">
+							<thead>
+								<tr>
+									<th class="w-30p"><span class="form-check mb-0">
+										<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
+										<label class="form-check-label" for="customCheck1"></label>
+									</span></th>
+									<th></th>
+									<th>No</th>
+									<th>Message</th>
+									<th>Content</th>
+									<th>Shared with</th>
+									<th>Action</th>
+									<th>Send Date</th>
+									<th style="display:none;"></th>
+									<th style="display:none;"></th>
+								</tr>
+							</thead>
+							<tbody>
+				<c:if test="${not empty msgList}">
+					<c:forEach var="msg" items="${msgList}">
+								<tr>
+									<td>
+										<div class="d-flex align-items-center">
+											 <c:choose>
+										        <c:when test="${msg.msg_marked_yn eq 'Y'}">
+										            <span class="file-star marked"><span class="feather-icon"><i data-feather="star"></i></span></span>
+										        </c:when>
+										        <c:otherwise>
+										            <span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
+										        </c:otherwise>
+										    </c:choose>
+										</div>
+									</td>
+									<td>									
+										<div class="msg_no"><c:out value="${msg.msg_no}"/></div>
+									</td>
+									<td>
+										<div class="media fmapp-info-trigger">
+											<div class="media-head me-3">
+											<c:if test="${empty msg.msg_file_oriname}">
+												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+													<span class="initial-wrap">
+														<i class="bi bi-chat-right-quote"></i>
+													</span>
+												</div>
+											</div>
+											</c:if>
+											<div class="media-body">
+												<div class="msgTitle"><c:out value="${msg.msg_title}"/></div>
+												<div class="msgFile"><c:out value="${empty msg.msg_file_oriname ? '첨부파일 없음': msg.msg_file_oriname}"/></div>
+											</div>
+										</div>
+									</td>
+									<td><div class="msgContent"><c:out value="${msg.msg_content}"/></div></td>
+									<td>
+										<div class="avatar-group avatar-group-overlapped">
+											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Dean">
+												<img src="${path}/resources/img/avatar13.jpg" alt="user" class="avatar-img">
+											</div>
+											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Danial">
+												<img src="${path}/resources/img/avatar14.jpg" alt="user" class="avatar-img">
+											</div>
+										</div>														
+									</td>
+									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
+											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
+										</div>
+									</td>
+									<td class="msg_date"><c:out value="${msg.msg_date}"/></td>
+									<td class="msg_sender" style="display:none;"><c:out value="${msg.msg_sender}"/></td>
+									<td class="msg_sender_name" style="display:none;"><c:out value="${msg.msg_sender_name}"/></td>
+								</tr>
+					</c:forEach>
+				</c:if>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+<!-- 행 어디를 선택해도 checkbox 선택되도록 -->
+$(document).on('click', 'td', function(event){
+	// '.file-star'를 클릭했을 때는 동작안함.
+    if ($(event.target).is('.file-star') || $(event.target).closest('.file-star').length) {
+        return;
+    }
+    
+    if (!$(event.target).is('input[type="checkbox"]')) {
+        var checkbox = $(this).closest('tr').find('input[type="checkbox"]');
+        checkbox.prop('checked', !checkbox.prop('checked'));
+    }
+});
+
+$(document).on('click', '.file-star', function(event){
+    event.stopPropagation();  //이벤트버블링 방지. 상위요소에 event영향 미치지 않도록 함.
+    var $star = $(this);
+    $star.toggleClass("marked");
+    var msg_no = $star.closest('tr').find('.msg_no').text();
+    var isMarked = $star.hasClass("marked");
+    var url = isMarked ? '/starmark' : '/starunmark';
+    
+    $.ajax({
+        url: url, 
+        type: 'POST',
+        data: {
+            'msg_no': msg_no 
+        },
+        success: function(response) {
+            if(response.status === 'success'){
+                console.log(isMarked ? "즐겨찾기 설정 완료" : "즐겨찾기 해제 완료");
+            } else {
+                console.log(isMarked ? "즐겨찾기 설정 실패" : "즐겨찾기 해제 실패");
+            }
+        },
+        error: function(error) {
+            console.log("서버 연결 실패");
+        }
+    });
+});
+
+/*MultiRow Select Checkbox*/
+/*Checkbox Add*/
+var tdCnt=0;
+$(' table#datable_4c tbody tr').each(function(){
+	$('<td><span class="form-check"><input type="checkbox" class="form-check-input" id="chk_sel_'+tdCnt+'"><label class="form-check-label" for="chk_sel_'+tdCnt+'"></label></span></td>').prependTo($(this));
+	tdCnt++;
+});
+/*DataTable Init*/
+var targetDt1 = $('#datable_4c').DataTable({
+	scrollX:  true,
+	autoWidth: false,
+	"columnDefs": [ {
+		"searchable": false,
+		"orderable": false,
+		"targets": 0
+	} ],
+	"order": [[ 7, 'desc' ]],
+	language: { 
+		search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+			paginate: {
+				next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+				previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+			}
+	},
+	"drawCallback": function () {
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+	}
+});
+
+											
+</script>
+
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
+
+

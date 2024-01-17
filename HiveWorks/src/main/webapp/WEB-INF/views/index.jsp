@@ -11,7 +11,10 @@
 </jsp:include>
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -23,7 +26,14 @@
 			<div class="d-flex">
 				<div class="d-flex flex-wrap flex-1 align-items-center">
 					<div class="mb-lg-0 mb-2 d-flex align-items-center">
-						<h1 class="pg-title m-0">안녕하세요 ${c}님</h1>
+						<c:choose>
+							<c:when test="${not empty loginEmp }">
+								<h1 class="pg-title m-0">안녕하세요! ${loginEmp.emp_name}님</h1>
+							</c:when>
+							<c:otherwise>
+								<h1 class="pg-title m-0">안녕하세요! 로그인을 해주세요</h1>
+							</c:otherwise>
+						</c:choose>
 						<div id="weather"
 							class="d-flex align-items-center justify-content-between"
 							style="width: 240px; margin-left: 20px">
@@ -54,9 +64,16 @@
 								<img src="${path }/resources/img/logo_bee.png" alt="user"
 									class="brand-img img-fluid " width="100px" height="100px">
 							</div>
-							<div class="user-name">나는 ${loginEmp.emp_name} 입니다</div>
-							<div class="user-email">부서</div>
-							<div class="user-contact">+145 52 5689</div>
+							<c:choose>
+								<c:when test="${not empty loginEmp }">
+									<div class="user-name">나는 ${loginEmp.emp_name} 입니다</div>
+									<div class="user-email">부서 ${loginEmp.dept_code }</div>
+									<div class="user-contact">${loginEmp.emp_phone }</div>
+								</c:when>
+								<c:otherwise>
+									<div>로그인하세요</div>
+								</c:otherwise>
+							</c:choose>
 							<!-- <div class="user-desg">
 								<span
 									class="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>
@@ -77,41 +94,48 @@
 					<!-- 출퇴근찍기 -->
 					<div>
 						<div></div>
-						<div>
-							<div class="d-flex flex-column align-items-center clockAndCheck">
-								<div class="btn-block">출퇴근을 눌러주세요 😊</div>
-								<div class="btn-block" id="currentTime"></div>
-							</div>
-							<div class="button-container d-flex justify-content-center mt-3">
-								<form action="${path}/work/updateStartWork" method="post">
-									<input class="btn btn-flush-light btn-animated" type="submit"
-										value="출근하기" /> <input type="hidden" id="workStartTime"
-										name="workStartTime" value="" />
-								</form>
-								<form action="${path}/work/updateEndWork" method="post">
-									<input class="btn btn-flush-light btn-animated" type="submit"
-										value="퇴근하기" /> <input type="hidden" id="workEndTime"
-										name="workEndTime" value="" />
-								</form>
-							</div>
-							<div class="SEWork">
-								<c:if test="${not empty commute.workStartTime }">
-									<fmt:formatDate value="${commute.workStartTime}"
-										pattern="HH:mm:ss" var="workStartTime" />
-									<div class="btn-block" style="background-color: #f1c40f">출근시간
-										- ${workStartTime}</div>
-									<!-- 포맷팅된 날짜와 시간을 출력 -->
-								</c:if>
-								<c:if test="${not empty commute.workEndTime }">
-									<fmt:formatDate value="${commute.workEndTime}"
-										pattern="HH:mm:ss" var="workEndTime" />
-									<div class="btn-block" style="background-color: #f1c40f">퇴근시간
-										- ${workEndTime }</div>
-								</c:if>
-							</div>
-						</div>
+						<c:choose>
+								<c:when test="${not empty loginEmp }">
+									<div>
+										<div class="d-flex flex-column align-items-center clockAndCheck">
+											<div class="btn-block">출퇴근을 눌러주세요 😊</div>
+											<div class="btn-block" id="currentTime"></div>
+										</div>
+										<div class="button-container d-flex justify-content-center mt-3">
+											<form action="${path}/work/updateStartWork" method="post">
+												<input class="btn btn-flush-light btn-animated" type="submit"
+													value="출근하기" /> <input type="hidden" id="workStartTime"
+													name="workStartTime" value="" />
+											</form>
+											<form action="${path}/work/updateEndWork" method="post">
+												<input class="btn btn-flush-light btn-animated" type="submit"
+													value="퇴근하기" /> <input type="hidden" id="workEndTime"
+													name="workEndTime" value="" />
+											</form>
+										</div>
+										<div class="SEWork">
+											<c:if test="${not empty commute.workStartTime }">
+												<fmt:formatDate value="${commute.workStartTime}"
+													pattern="HH:mm:ss" var="workStartTime" />
+												<div class="btn-block" style="background-color: #f1c40f">출근시간
+													- ${workStartTime}</div>
+												<!-- 포맷팅된 날짜와 시간을 출력 -->
+											</c:if>
+											<c:if test="${not empty commute.workEndTime }">
+												<fmt:formatDate value="${commute.workEndTime}"
+													pattern="HH:mm:ss" var="workEndTime" />
+												<div class="btn-block" style="background-color: #f1c40f">퇴근시간
+													- ${workEndTime }</div>
+											</c:if>
+										</div>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div>로그인하세요</div>
+								</c:otherwise>
+							</c:choose>
 					</div>
-						<button onclick="printAPI();">뉴스 출력</button>
+						<!-- <button onclick="printAPI();">뉴스 출력</button> -->
 
 				</div>
 				<div class="right-container">
@@ -172,7 +196,7 @@
 						</div>
 					</div>
 					<!--  -->
-					<!-- 게시판보여주기 -->
+					<!-- 게시판 -->
 					<!-- <div class="d-flex justify-content-center">
 					<div style="width: 400px; height: 350px" class="justify-content-center text-center">
 						<table class="table table-hover table-sm">
@@ -461,6 +485,7 @@ table>thead {
 			console.log(data);
 			data.items.forEach( (e, index) =>{
 				console.log(e['title']);
+				console.log(e['title'].replace(/<[^>]+>|&quot;|&lt;|&gt;|&amp;/g, ""));
 				const tr = document.createElement("tr");
 				const num = document.createElement("th");
 				const title = document.createElement("td");
@@ -470,11 +495,11 @@ table>thead {
 				
 				/* 링크를넣고 text를 추가해야함 */
 				link.href = e['link'];
-				link.textContent = e['title'];
+				link.textContent = e['title'].replace(/<[^>]+>|&quot;/g, "");
 				
 				num.textContent = (index + 1).toString();
-				description.textContent = e['description'];
-				pubDate.textContent = e['pubDate'];
+				description.textContent = e['description'].replace(/<[^>]+>|&quot;|&lt;|&gt;|&amp;/g, "");
+				pubDate.textContent = e['pubDate'].replace("+0900","");
 				
 				tr.appendChild(num);
 				title.appendChild(link);
@@ -486,13 +511,13 @@ table>thead {
 			});
 		});
 	}
-	//printAPI();
+	printAPI();
 </script>
 
 <!-- 날씨정보가져오기 -->
 <script>
 let weatherIcon = {
-		 'Clear': "${path}/resources/weatherimgs/production/fill/all/clear-day.svg",
+		'Clear': "${path}/resources/weatherimgs/production/fill/all/clear-day.svg",
 	   'Sun' : "${path}/resources/weatherimgs/production/fill/all/sun.svg",
 	   'Clouds' : "${path}/resources/weatherimgs/production/fill/all/cloudy.svg",
 	   'Rain' : "${path}/resources/weatherimgs/production/fill/all/rain.svg",

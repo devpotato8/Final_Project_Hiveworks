@@ -5,8 +5,11 @@ package com.dna.hiveworks.model.dto.edoc;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author : 이재연
@@ -17,7 +20,10 @@ import lombok.NoArgsConstructor;
  * - 작성자 : 이재연, 날짜 : 2024. 1. 10., 설명 : 최초작성
  * 
  */
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = {"refperEdocNo","refperEmpNo"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,5 +31,5 @@ public class ElectronicDocumentReference {
 	private int refperNo;
 	private String refperEdocNo;
 	private int refperEmpNo;
-	private String refperStatus;
+	private boolean refperStatus;
 }

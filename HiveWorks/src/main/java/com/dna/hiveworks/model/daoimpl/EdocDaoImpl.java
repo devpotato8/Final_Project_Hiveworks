@@ -106,4 +106,51 @@ public class EdocDaoImpl implements EdocDao{
 	public List<ElectronicDocumentComment> selectElectronicDocumentComments(SqlSession session, String edocNo) {
 		return session.selectList("edoc.selectElectronicDocumentComments", edocNo);
 	}
+	
+	@Override
+	public List<ElectronicDocumentReference> selectElectronicDocumentReference(SqlSession session, String edocNo) {
+		return session.selectList("edoc.selectElectronicDocumentReference", edocNo);
+	}
+	
+	@Override
+	public int processApproval(SqlSession session, ElectronicDocumentApproval aprvl) {
+		return session.update("edoc.processApproval", aprvl);
+	}
+	
+	@Override
+	public int referenceCheck(SqlSession session, int refperNo) {
+		return session.update("edoc.referenceCheck", refperNo);
+	}
+	
+	@Override
+	public int edocFinalize(SqlSession session, ElectronicDocument edoc) {
+		return session.update("edoc.edocFinalize", edoc);
+	}
+	
+	@Override
+	public int setNextApprovalStatus(SqlSession session, ElectronicDocumentApproval nextApproval) {
+		return session.update("edoc.setNextApprovalStatus", nextApproval);
+	}
+	
+	@Override
+	public ElectronicDocumentAttachFile getAttachFile(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("edoc.getAttachFile", param);
+	}
+	
+	@Override
+	public int updateAuto(SqlSession session, Map<String, Object> param) {
+		return session.update("edoc.updateAuto", param);
+	}
+	
+	@Override
+	public int cancleApproval(SqlSession session, List<ElectronicDocumentApproval> leftApproval) {
+		int[] result = {0};
+			leftApproval.forEach(apv->{ result[0] += session.update("edoc.cancleApproval",apv); });
+		return result[0];
+	}
+	
+	@Override
+	public int revokeDocument(SqlSession session, ElectronicDocument edoc) {
+		return session.update("edoc.revokeDocument", edoc);
+	}
 }

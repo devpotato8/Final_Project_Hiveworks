@@ -55,4 +55,22 @@ public interface EdocDao {
 	List<ElectronicDocumentAttachFile> selectElectronicDocumentAttachFiles(SqlSession session, String edocNo);
 
 	List<ElectronicDocumentComment> selectElectronicDocumentComments(SqlSession session, String edocNo);
+
+	int processApproval(SqlSession session, ElectronicDocumentApproval aprvl);
+	
+	int edocFinalize(SqlSession session, ElectronicDocument edoc);
+	
+	int setNextApprovalStatus(SqlSession session, ElectronicDocumentApproval nextApproval);
+	
+	ElectronicDocumentAttachFile getAttachFile(SqlSession session, Map<String, Object> param);
+
+	int updateAuto(SqlSession session, Map<String, Object> param);
+
+	int cancleApproval(SqlSession session, List<ElectronicDocumentApproval> leftApproval);
+	
+	int revokeDocument(SqlSession session, ElectronicDocument edoc);
+
+	List<ElectronicDocumentReference> selectElectronicDocumentReference(SqlSession session, String edocNo);
+
+	int referenceCheck(SqlSession session, int refperNo);
 }

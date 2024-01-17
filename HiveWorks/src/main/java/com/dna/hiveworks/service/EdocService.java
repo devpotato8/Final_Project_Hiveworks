@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 
@@ -141,5 +144,51 @@ public interface EdocService {
 	 * @param edocNo
 	 * @return
 	 */
-	ElectronicDocument selectElectronicDocument(String edocNo);
+	ElectronicDocument selectElectronicDocument(String edocNo, int empNo);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 15. 
+	 * @Return : ElectronicDocumentApproval
+	 * 
+	 * Description : 메소드에 대한 설명을 적어주세요
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 15., 설명 : 최초 작성
+	 *
+	 * @param aprvl
+	 * @param loginEmp
+	 * @return
+	 */
+	ElectronicDocumentApproval processApproval(ElectronicDocumentApproval aprvl, Employee loginEmp);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 16. 
+	 * @Return : ElectronicDocumentAttachFile
+	 * 
+	 * Description : edocNo와 renamedFilename으로 해당 파일 정보를 불러오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 16., 설명 : 최초 작성
+	 *
+	 * @param param
+	 * @return
+	 */
+	ElectronicDocumentAttachFile getAttachFile(Map<String, Object> param);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 16. 
+	 * @Return : int
+	 * 
+	 * Description : 사용자의 서명을 설정하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 16., 설명 : 최초 작성
+	 *
+	 * @param param
+	 * @return
+	 */
+	int updateAuto(Map<String, Object> param);
 }

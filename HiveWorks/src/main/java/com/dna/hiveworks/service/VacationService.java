@@ -8,9 +8,11 @@ public interface VacationService {
 	
 	List<Vacation> selectVacationListAll();
 	
-	List<Vacation> selectVacationByNo(int no);
+	List<Vacation> selectVacationByNo(int empNo);
 	
-	int insertVacation(Vacation v);
-	int updateVacation(Double vacCount);
+	int insertVacation(Vacation v, int empNo);
+	int updateVacation(Double vacCount, int empNo);
 	int deleteVacation(int vacationNo);
+
+	double selectLeftVacation(int empNo);
 }

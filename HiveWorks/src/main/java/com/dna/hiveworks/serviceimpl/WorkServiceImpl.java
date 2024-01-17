@@ -1,6 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class WorkServiceImpl implements WorkService {
 	private final WorkDao dao;
 	
 	@Override
-	public List<Work> selectWorkListAllByEmp() {
+	public List<Work> selectWorkListAllByEmp(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.selectWorkListAllByEmp(session);
+		return dao.selectWorkListAllByEmp(session, empNo);
 	}
 
 	@Override
@@ -67,40 +68,78 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public String avgStartWork() {
+	public String avgStartWork(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.avgStartWork(session);
+		return dao.avgStartWork(session, empNo);
 	}
 
 	@Override
-	public String avgEndWork() {
+	public String avgEndWork(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.avgEndWork(session);
+		return dao.avgEndWork(session, empNo);
+	}
+	
+	@Override
+	public int overWork(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.overWork(session, empNo);
+	}
+	
+	@Override
+	public int lateWork(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.lateWork(session, empNo);
 	}
 
 	@Override
-	public int lateWork() {
+	public int fastEnd(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.lateWork(session);
+		return dao.fastEnd(session, empNo);
 	}
 
 	@Override
-	public int fastEnd() {
+	public int absence(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.fastEnd(session);
+		return dao.absence(session, empNo);
 	}
 
 	@Override
-	public int absence() {
+	public String avgStartWorkFilter(Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return dao.absence(session);
+		return dao.avgStartWorkFilter(session, param);
 	}
 
 	@Override
-	public int overWork() {
+	public String avgEndWorkFilter(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.overWork(session);
+		return dao.avgEndWorkFilter(session, empNo);
 	}
+
+	@Override
+	public int lateWorkFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.lateWorkFilter(session, empNo);
+	}
+
+	@Override
+	public int fastEndFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.fastEndFilter(session, empNo);
+	}
+
+	@Override
+	public int absenceFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.absenceFilter(session, empNo);
+	}
+
+	@Override
+	public int overWorkFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.overWorkFilter(session, empNo);
+	}
+
+	
 
 	
 

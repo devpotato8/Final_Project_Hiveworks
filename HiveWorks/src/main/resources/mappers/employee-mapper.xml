@@ -33,6 +33,11 @@
 		<result property="emp_hired_date" column="emp_hired_date"/>
 		<result property="emp_retired_date" column="emp_retired_date"/>
 		<result property="use_yn" column="use_yn"/>
+		<result property="use_yn" column="use_yn"/>
+		<result property="creater" column="creater"/>
+		<result property="create_date" column="create_date"/>
+		<result property="modifier" column="modifier"/>
+		<result property="modify_date" column="modify_date"/>
 	</resultMap>
 	<resultMap type="account" id="acMap">
 		<result property="ac_no" column="ac_no"/>
@@ -47,19 +52,30 @@
 	</select>
 	
 	<select id="selectEmployeesListAll" resultMap="empMap">
-		SELECT D1.*, C.*,C.CODE_NAME AS JOB_NAME, O.CODE_NAME AS POSITION_NAME, E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+		SELECT D1.*, C.*,C.CODE_NAME AS JOB_NAME, O.CODE_NAME AS POSITION_NAME, 
+			E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE,
+			WOT.CODE_NAME AS WORK_TYPE_NAME,
+			WOS.CODE_NAME AS WORK_STATUS_NAME,
+			WOP.CODE_NAME AS WORK_PATTERN_NAME,
+			AUT.CODE_NAME AS AUT_NAME
         FROM (SELECT * FROM TBL_EMPLOYEE) E
-        JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E.DEPT_CODE 
-        JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
-        JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
+        	LEFT JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E.DEPT_CODE 
+	       	LEFT JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
+	       	LEFT JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
+           	LEFT JOIN TBL_CODE WOT ON E.WORK_TYPE_CODE = WOT.CODE_NO
+           	LEFT JOIN TBL_CODE WOS ON E.WORK_STATUS = WOS.CODE_NO
+           	LEFT JOIN TBL_CODE WOP ON E.WORK_PATTERN = WOP.CODE_NO
+           	LEFT JOIN TBL_CODE AUT ON E.AUT_CODE = AUT.CODE_NO
+		WHERE E.USE_YN = 'Y'
+		ORDER BY E.EMP_NO DESC
 	</select>
 	<select id="searchEmployeesByKeyword" parameterType="hashmap" resultMap="empMap">
 		SELECT D1.*, C.*,C.CODE_NAME AS JOB_NAME, O.CODE_NAME AS POSITION_NAME, E.*,EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
         , P.*
         FROM (SELECT * FROM TBL_EMPLOYEE) E
-        JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E.DEPT_CODE 
-        JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
-        JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
+        LEFT JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E.DEPT_CODE 
+        LEFT JOIN TBL_CODE C ON E.JOB_CODE = C.CODE_NO
+        LEFT JOIN TBL_CODE O ON E.POSITION_CODE = O.CODE_NO
         LEFT JOIN TBL_POSITION_PAY P ON E.POSITION_CODE = P.POS_CODE
 		
 		<trim prefix="where" prefixOverrides="AND|OR">
@@ -135,7 +151,7 @@
             #{emp_no},
             #{dept_code},#{position_code},#{job_code},#{work_type_code},#{work_status},#{work_pattern},#{emp_id},#{emp_pw},
             #{emp_name},#{emp_phone},#{emp_cellphone},#{emp_email},#{emp_postcode},#{emp_address},#{emp_address_detail},#{emp_resident_no},
-            #{emp_memo},#{emp_hired_date},#{emp_auto_fileName},#{emp_profile_ori_name},#{emp_profile_re_name},0,SYSDATE,0,NULL)
+            #{emp_memo},#{emp_hired_date},#{emp_auto_fileName},#{emp_profile_ori_name},#{emp_profile_re_name},${creater},SYSDATE,0,NULL)
 	</insert>
 	<insert id="insertAccount" parameterType="account">
 		INSERT INTO TBL_ACCOUNT VALUES
@@ -161,5 +177,74 @@
 			WHERE EMP_NO = ${empNo}
 		</if>
 	</select>
+	
+	<select id="confirmEmployee" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*) FROM TBL_EMPLOYEE
+		<trim prefix="where" prefixOverrides="AND|OR">
+			<if test="empId !=null and empId !=''">
+				EMP_ID LIKE #{empId}
+			</if>
+			<if test="empPassword !=null and empPassword !=''">
+				AND EMP_PW LIKE #{empPassword}
+			</if>
+		</trim>
+	</select>
+	<update id="updateEmployee" parameterType="employee">
+		UPDATE TBL_EMPLOYEE SET 
+			DEPT_CODE = #{dept_code},
+			POSITION_CODE = #{position_code},
+			JOB_CODE = #{job_code},
+			WORK_TYPE_CODE = #{work_type_code},
+			WORK_STATUS = #{work_status},
+			WORK_PATTERN = #{work_pattern},
+			EMP_NAME = #{emp_name},
+			EMP_PHONE = #{emp_phone},
+			EMP_CELLPHONE = #{emp_cellphone},
+			EMP_EMAIL = #{emp_email},
+			EMP_POSTCODE = #{emp_postcode},
+			EMP_ADDRESS = #{emp_address},
+			EMP_ADDRESS_DETAIL = #{emp_address_detail},
+			EMP_RESIDENT_NO = #{emp_resident_no},
+			EMP_MEMO = #{emp_memo},
+			EMP_HIRED_DATE = #{emp_hired_date},
+			EMP_AUTO_FILENAME = #{emp_auto_fileName},
+			<if test="emp_profile_ori_name !=null and emp_profile_ori_name !='' and emp_profile_re_name !=null and emp_profile_re_name !=''">
+				EMP_PROFILE_ORI_NAME = #{emp_profile_ori_name},
+				EMP_PROFILE_RE_NAME = #{emp_profile_re_name},			
+			</if>
+			MODIFIER =${modifier},
+			MODIFY_DATE = SYSDATE
+		WHERE EMP_NO = ${emp_no}
+	</update>
+	<update id="updateAccount" parameterType="account">
+		UPDATE TBL_ACCOUNT SET AC_NO=${ac_no}, AC_BANK=#{ac_bank}, AC_NAME=#{ac_name}
+		WHERE EMP_NO = ${emp_no}
+	</update>
+	<update id="updatePassword" parameterType="hashmap">
+		UPDATE TBL_EMPLOYEE SET EMP_PW = #{empPasswordNew}, MODIFIER=${modifier}, MODIFY_DATE=SYSDATE
+		WHERE EMP_ID LIKE #{empId}
+	</update>
+	
+	<delete id="deleteEmployee">
+		UPDATE TBL_EMPLOYEE SET USE_YN='N'
+		WHERE EMP_NO = ${emp_no}
+	</delete>
+	
+	<delete id="deleteAccount">
+		UPDATE TBL_ACCOUNT SET USE_YN='N'
+		WHERE EMP_NO = ${emp_no}
+	</delete>
+	
+	<select id="selectAuthorityList" parameterType="hashmap" resultType="hashmap">
+		SELECT CODE_NO AS AUTCODE, CODE_NAME AS AUTNAME
+		FROM TBL_CODE WHERE CODE_NO LIKE 'AUT%'
+	</select>
+	
+	<update id="updateAuthorities" parameterType="hashmap" >
+		UPDATE TBL_EMPLOYEE SET AUT_CODE = #{value}
+		WHERE EMP_NO = ${empNo}
+	</update>
+	
+	
 	
 </mapper>
