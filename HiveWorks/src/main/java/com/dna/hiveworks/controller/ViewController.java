@@ -24,17 +24,24 @@ public class ViewController {
 
 	@GetMapping("/")
 	public String index(Model m) {
-		int empNo = 1;
-		Work commute = service.selectCommute(empNo);
-		m.addAttribute("commute", commute);
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		Employee loginEmp = (Employee) authentication.getPrincipal();
+//		
+//		// 직원 출퇴근기록 가져오기
+//		Work commute = service.selectCommute(loginEmp.getEmp_no());
+//		m.addAttribute("commute", commute);	
 		return "index";
 	}
 	
 	@PostMapping("/login/index")
-	public String index(HttpSession session) {
+	public String index(HttpSession session, Model m) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Employee loginEmp = (Employee) authentication.getPrincipal();
 		session.setAttribute("loginEmp", loginEmp);
+		
+		// 직원 출퇴근기록 가져오기
+		Work commute = service.selectCommute(loginEmp.getEmp_no());
+		m.addAttribute("commute", commute);
 		return "index";
 	}
 	

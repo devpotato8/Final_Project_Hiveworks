@@ -10,9 +10,11 @@ public interface VacationDao {
 	
 	List<Vacation> selectVacationListAll(SqlSession session);
 	
-	List<Vacation> selectVacationByNo(SqlSession session, int no);
+	List<Vacation> selectVacationByNo(SqlSession session, int empNo);
 		
-	int insertVacation(SqlSession session, Vacation v);
-	int updateVacation(SqlSession session, Double vacCount);
+	int insertVacation(SqlSession session, Vacation v, int empNo);
+	int updateVacation(SqlSession session, Double vacCount, int empNo);
 	int deleteVacation(SqlSession session, int vacationNo);
+	
+	double selectLeftVacation(SqlSession session, int empNo);
 }

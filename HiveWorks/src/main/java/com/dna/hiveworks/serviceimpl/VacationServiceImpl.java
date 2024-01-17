@@ -31,23 +31,29 @@ public class VacationServiceImpl implements VacationService {
 	}
 
 	@Override
-	public int insertVacation(Vacation v) {
+	public int insertVacation(Vacation v, int empNo) {
 		// TODO Auto-generated method stub
-		return dao.insertVacation(session, v);
+		return dao.insertVacation(session, v , empNo);
 		
 		// updateVacation 여기다 같이 추가해야할듯?
 	}
 
 	@Override
-	public int updateVacation(Double vacCount) {
+	public int updateVacation(Double vacCount, int empNo) {
 		// TODO Auto-generated method stub
-		return dao.updateVacation(session, vacCount);
+		return dao.updateVacation(session, vacCount, empNo);
 	}
 
 	@Override
 	public int deleteVacation(int vacationNo) {
 		// TODO Auto-generated method stub
 		return dao.deleteVacation(session, vacationNo);
+	}
+
+	@Override
+	public double selectLeftVacation(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.selectLeftVacation(session, empNo);
 	}
 
 }
