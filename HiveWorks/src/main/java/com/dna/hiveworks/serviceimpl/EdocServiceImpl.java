@@ -130,9 +130,6 @@ public class EdocServiceImpl implements EdocService{
 				dao.referenceCheck(session, ref.getRefperNo());
 			}
 		}
-			
-		
-		
 		return edoc;
 	}
 	
@@ -184,6 +181,8 @@ public class EdocServiceImpl implements EdocService{
 					dao.edocFinalize(session, edoc);
 					if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
 						// TODO 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
+					}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
+						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
 					}
 				}else {
 					// 다음차례 결재자의 상태를 P에서 W로 변경
@@ -193,7 +192,6 @@ public class EdocServiceImpl implements EdocService{
 					//TODO 다음차례 결재자에게 알림전송
 				}
 		}else if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV002)){
-			//TODO 반려일때 처리구문
 			// 내 뒤로 남은 결재자가 남았을 때
 			List<ElectronicDocumentApproval> leftApproval = null;
 			if(approvalList.size()  > approvalIndex+1) {

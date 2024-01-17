@@ -493,15 +493,15 @@
 										</div>
 										<div class="col-sm-5">
 											<div class="form-group">
-												<button type="button" onclick="fn_addFileForm();"
+												<button type="button" onclick="window.adddelFunction.util.addFile();"
 													id="delBtn">추가</button>
-												<button type="button" onclick="fn_deleteFileForm();"
-													id="addBtn">삭제</button>
+<%--												<button type="button"--%>
+<%--													id="addBtn">삭제</button>--%>
 											</div>
 										</div>
 									</div>
 
-									<div class="inviteContainer" style="display: flex">
+									<div class="inviteContainer inviteContainer_1" style="display: flex">
 										<div class="col-sm-4">
 											<div class="form-groupddddd">
 												<label class="form-label">부서</label>
@@ -527,6 +527,7 @@
 												</div>
 											</div>
 										</div>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
 									</div>
 
 
@@ -745,12 +746,14 @@ console.log(empDeptCodes);
 }); 
 
 //부서 직원 추가
-const adddelFunction=(function(){
+const adddelFunction=(function(adddelFunction){
+	let self = {};
    let count = 2;
-   const addFile=()=>{
+   self.addFile=()=>{
       if(count<=5){
-         const fileForm = $(".inviteContainer").clone(true);
-         fileForm.removeClass("inviteContainer").addClass(count + "inviteContainer");
+         const fileForm = $(".inviteContainer").eq(0).clone(true);
+	     fileForm.removeClass("inviteContainer_1");
+         fileForm.addClass("inviteContainer_"+count);
             const deptId = "calDept" + count;
             const empId = "calEmp" + count;
             
@@ -792,18 +795,29 @@ const adddelFunction=(function(){
             alert("공유인원은 5명까지 가능합니다.");
           }
    };
-   const delFile=()=>{
+   self.delFile=(e)=>{
       if(count!=2){
-    	  $("div[name=someContainer]").prev().remove();
+		  $(e).parent().remove();
+		  $(".inviteContainer").each(function(index, item){
+			  item.removeAttribute('class');
+			  $(item).addClass('inviteContainer').addClass('inviteContainer_'+(index+1));
+		  });
+    	  //$("div[name=someContainer]").prev().remove();
          count--;
       }
    };
-   
-   return [addFile,delFile];
-})();
 
-const fn_addFileForm=adddelFunction[0];
-const fn_deleteFileForm=adddelFunction[1]; 
+	/**
+	 * REGIST
+	 */
+	if (!adddelFunction) {
+		window.adddelFunction = adddelFunction = {};
+	}
+	adddelFunction.util = self;
+})();
+//
+// const fn_addFileForm=adddelFunction[0];
+// const fn_deleteFileForm=adddelFunction[1];
 
 /* 
 import { Calendar } from '@fullcalendar/core';

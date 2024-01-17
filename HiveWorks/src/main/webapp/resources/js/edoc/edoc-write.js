@@ -314,7 +314,7 @@ const fnDelApprovalList = (empNo)=>{
 const fnAddreferenceList = (empNo)=>{
 	if(!isExistInLists(empNo)){
 		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
-		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
+		referenceList.push({refperEmpNo:empNo,refperStatus:false});
 	}else{
 		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
@@ -422,7 +422,8 @@ const dataProcess = ()=>{
 				approval: approvalList,
 				reference: referenceList
 			};
-
+	
+	/* 휴가 신청처리를 간편 등록으로만 처리하기로 함에 따라 블럭처리 - 24/01/17 이재연
 	// 휴가 신청서일경우 시작/종료일 처리
 	let edocStartDate;
 	let edocEndDate;
@@ -433,8 +434,7 @@ const dataProcess = ()=>{
 		edoc.edocStartDate = edocStartDate;
 		edoc.edocEndDate = edocEndDate;
 	}
-
-	console.log(edoc);
+	*/
 	
 	// 첨부파일 등록
 	
