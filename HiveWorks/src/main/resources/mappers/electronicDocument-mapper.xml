@@ -102,6 +102,9 @@
 					<when test='status.equals("PROCESS")'>
 						AND A.APRVL_STATUS = 'A'
 					</when>
+					<otherwise>
+						AND NOT(A.APRVL_STATUS = 'X')
+					</otherwise>
 				</choose>
 			</if>
 		</if>
@@ -256,4 +259,31 @@
 	<update id="setNextApprovalStatus" parameterType="edocApproval">
 		UPDATE TBL_EDOC_APPROVAL SET APRVL_STATUS = 'W' WHERE APRVL_NO = #{aprvlNo}
 	</update>
+	
+	<select id="getAttachFile" parameterType="map" resultMap="attachFileMap">
+		SELECT * FROM TBL_EDOC_ATTACHFILE WHERE ATTACH_EDOC_REF = #{attachEdocNo} AND ATTACH_RENAMED_FILENAME = #{attachRenamedFileName} 
+	</select>
+	
+	<update id="updateAuto" parameterType="map">
+		UPDATE TBL_EMPLOYEE
+		SET
+		<choose>
+			<when test='renamedFilename != null and !renamedFilename.equals("")'>
+				EMP_AUTO_FILENAME = #{renamedFilename}
+			</when>
+			<otherwise>
+				EMP_AUTO_FILENAME = NULL
+			</otherwise>
+		</choose>
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
+	<update id="cancleApproval" parameterType="edocApproval">
+		UPDATE TBL_EDOC_APPROVAL SET APRVL_STATUS = 'X' WHERE APRVL_NO = #{aprvlNo}
+	</update>
+	
+	<update id="revokeDocument">
+		UPDATE TBL_EDOC SET EDOC_STATUS='DST300', FINALIZED_DATE = SYSDATE WHERE EDOC_NO = #{edocNo}
+	</update>
+	
 </mapper>

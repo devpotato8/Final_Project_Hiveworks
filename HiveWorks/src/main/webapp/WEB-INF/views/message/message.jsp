@@ -54,7 +54,12 @@
 <script src="${path}/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
-<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
+
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
 <style>
 	.msgTitle{
@@ -110,6 +115,7 @@
 									<th>Shared with</th>
 									<th>Action</th>
 									<th>Send Date</th>
+									<th style="display:none;"></th>
 									<th style="display:none;"></th>
 								</tr>
 							</thead>
@@ -169,7 +175,8 @@
 										</div>
 									</td>
 									<td class="msg_date"><c:out value="${msg.msg_date}"/></td>
-									<td class="msg_sender" style="display:none;"><c:out value="${msg.msg_sender }"/></td>
+									<td class="msg_sender" style="display:none;"><c:out value="${msg.msg_sender}"/></td>
+									<td class="msg_sender_name" style="display:none;"><c:out value="${msg.msg_sender_name}"/></td>
 								</tr>
 					</c:forEach>
 				</c:if>

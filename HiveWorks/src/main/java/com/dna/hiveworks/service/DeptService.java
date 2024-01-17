@@ -35,4 +35,5 @@ public interface DeptService {
 	List<Employee>searchEmpByName(String name);
 	int addEmpDept(Employee emp);
 	boolean parseAndSaveExcel(MultipartFile file) throws IOException;
+	List<Map<String, Object>>modalDeptEmpList();
 }
