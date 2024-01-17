@@ -11,6 +11,7 @@
 		<result column="EDOC_CONTENT" property="edocContent" />
 		<result column="EDOC_STARTDATE" property="edocStartDate" />
 		<result column="EDOC_ENDDATE" property="edocEndDate" />
+		<result column="EDOC_VACATION_COUNT" property="edocVacationCount" />
 		<result column="EDOC_STATUS" property="edocStatus" />
 		<result column="CREATER" property="creater" />
 		<result column="CREATE_DATE" property="createDate" />
@@ -171,7 +172,8 @@
 		NULL,<!-- MODIFIER -->
 		NULL,<!-- MODIFY_DATE -->
 		DEFAULT,<!-- USE_YN -->
-		NULL<!-- FINALIZED_DATE -->
+		NULL,<!-- FINALIZED_DATE -->
+		#{edocVacationCount} <!-- EDOC_VACATION_COUNT -->
 		)
 	</insert>
 	
