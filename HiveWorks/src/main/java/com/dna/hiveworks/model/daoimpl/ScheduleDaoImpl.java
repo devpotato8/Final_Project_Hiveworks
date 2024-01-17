@@ -26,6 +26,17 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public List<Schedule> searchImpschedule(SqlSession session, Map<String,Object> param) {
+		return session.selectList("schedule.searchSchedule",param);
+	}
+	
+	@Override
+	public List<Schedule> searchEmpSchedule(SqlSession session, Map<String, Object> param) {
+		return session.selectList("schedule.searchSchedule",param);
+
+	}
+	
+	@Override
 	public int insertSchedule(SqlSession session, Schedule schedule) {
 		return session.insert("schedule.insertSchedule",schedule);
 	}
@@ -48,6 +59,14 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	    parameters.put("schedule", schedule);
 	    parameters.put("calNo", calNo);
 	    return session.update("schedule.updateSchedule", parameters);
+	}
+	
+	@Override
+	public int updateImportYn(SqlSession session, Schedule schedule, int calNo) {
+		 Map<String, Object> parameters = new HashMap<>();
+		    parameters.put("schedule", schedule);
+		    parameters.put("calNo", calNo);
+		return session.update("schedule.updateImportYn",parameters);
 	}
 	
 	@Override
@@ -90,8 +109,30 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public int updateResource(SqlSession session, Resource resource) {
+		return session.update("schedule.updateResource",resource);
+	}
+	
+	@Override
+	public int deleteResource(SqlSession session, List<Integer> checkedList) {
+		int count = 0;
+		for (Integer checkNo : checkedList) {
+	        if (checkNo != null && checkNo != 0) { // null 체크 및 0 체크 추가
+	            count += session.update("schedule.deleteResource", checkNo);
+	        }
+	    }
+	    return count;
+	}
+	
+	
+	@Override
 	public List<Resource> selectResourceAll(SqlSession session) {
 		return session.selectList("schedule.selectResourceAll");
+	}
+	
+	@Override
+	public List<Resource> selectResourceByType(SqlSession session, String type) {
+		return session.selectList("schedule.selectResourceByType",type);
 	}
 	
 	@Override
@@ -115,6 +156,17 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		 Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("resourceNo", resourceNo);
 		return session.insert("schedule.reserveResourceEnd",parameters);
+	}
+	
+	@Override
+	public int deleteReservation(SqlSession session, List<Integer> checkedList) {
+		int count = 0;
+		for (Integer checkNo : checkedList) {
+	        if (checkNo != null && checkNo != 0) { // null 체크 및 0 체크 추가
+	            count += session.update("schedule.deleteReservation", checkNo);
+	        }
+	    }
+	    return count;
 	}
 	
 	@Override
