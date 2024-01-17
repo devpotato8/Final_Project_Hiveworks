@@ -108,8 +108,18 @@ public class EdocDaoImpl implements EdocDao{
 	}
 	
 	@Override
+	public List<ElectronicDocumentReference> selectElectronicDocumentReference(SqlSession session, String edocNo) {
+		return session.selectList("edoc.selectElectronicDocumentReference", edocNo);
+	}
+	
+	@Override
 	public int processApproval(SqlSession session, ElectronicDocumentApproval aprvl) {
 		return session.update("edoc.processApproval", aprvl);
+	}
+	
+	@Override
+	public int referenceCheck(SqlSession session, int refperNo) {
+		return session.update("edoc.referenceCheck", refperNo);
 	}
 	
 	@Override

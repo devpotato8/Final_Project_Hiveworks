@@ -132,9 +132,9 @@ DecoupledEditor
  */
 
  $('#edocType').on('change',(e)=>{
-    dotCode = e.target.value;
+    let dotCode = e.target.value;
 	const $format = $('#edocFormat');
-	fetch(path+"/edoc/formatList?edocDotCode="+e.target.value)
+	fetch(path+"/edoc/formatList?edocDotCode="+dotCode)
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status);
 		return response.json();
@@ -146,6 +146,35 @@ DecoupledEditor
 		result.forEach((v,i)=>{
 			$format.append($('<option>').val(v.sampleNo).text(v.sampleName));
 		});
+
+		// 문서종류가 휴가/연가 신청서라면
+		if(dotCode === 'DOT004'){
+			let dateInfo = document.querySelector('#edocDate');
+			if(dateInfo == null){
+				dateInfo = $('<tr id="edocDate">')
+					.append($('<th>').text('기간'))
+					.append($('<td colspan="3">').append('<input class="form-control" type="text" id="dateTimePicker">'));
+
+				$('#detail_table tbody').append(dateInfo);
+
+				$('#dateTimePicker').daterangepicker({
+					timePicker: true,
+					timePicker24Hour: true,
+					timePickerIncrement: 30,
+					startDate: moment().startOf('hour'),
+					endDate: moment().startOf('hour').add(30, 'minute'),
+					"cancelClass": "btn-secondary",
+					locale:{
+						format: 'YYYY/MM/DD HH:mm'
+					}
+				});
+			}
+		}else{
+			let dateInfo = document.querySelector('#edocDate');
+			if(dateInfo != null){
+				dateInfo.remove();
+			}
+		}
 	})
 	.catch(e=>{
 		alert(e);
@@ -263,7 +292,7 @@ const isExistInLists = (empNo)=>{
 
 //현재 로그인 한 사람을 결재라인 처음에 추가
 const fnAddApprovalListLoginEmp = (empNo, deptName, jobName, empName)=>{
-	approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV001',aprvlStatus:'C',aprvlRank:1});
+	approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV001',aprvlStatus:'A',aprvlRank:1});
 	$('<option>').val(empNo).text(empName+' ('+deptName+':'+jobName+')').attr('disabled','disabled').appendTo($approvalList);
 }
 
@@ -329,45 +358,14 @@ $('#submitButton').on('click',(e)=>{
 	$btn.disabled = true;
 	$($btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>전송중');
 
-    // form validate
-
-
-	// 결재목록 처리
-	for (let i = 1; i < approvalList.length; i++) {
-		let element = approvalList[i];
-		element.aprvlRank = i+1;
-		if(i==1){
-			element.aprvlStatus = 'W';
-		}else{
-			element.aprvlStatus = 'P';
-		}
+	let formData;
+	
+	try{
+		formData = dataProcess();
+	}catch(e){
+		return;
 	}
 
-    // 전자문서 객체 생성
-	const edoc  = {
-				edocTitle : $('#edocTitle').val(),
-				edocDotCode : dotCode,
-				edocDsgCode : $('#edocDsgCode').val(),
-				creater : $('#edocCreter').val(),
-				period : $('#period').val(),
-				edocContent : $('#content').html(),
-				approval: approvalList,
-				reference: referenceList
-			};
-	// 첨부파일 등록
-	
-	const fileList = document.querySelector('#file').files;
-	
-	const formData = new FormData();
-
-	formData.append("edoc",JSON.stringify(edoc));
-
-	if(fileList.length > 0){
-		for(let i=0; i< fileList.length; i++){
-			formData.append("uploadFiles",fileList[i]);
-		}
-	}
-	
     // fetch로 전송
 	fetch(path+'/edoc/write',{
 		method : 'post',
@@ -396,3 +394,61 @@ $('#submitButton').on('click',(e)=>{
 });
 
 
+// 데이터 처리해서 formData로 넘겨주는 함수
+const dataProcess = ()=>{
+	// form validate
+
+
+
+	// 결재목록 처리
+	for (let i = 1; i < approvalList.length; i++) {
+		let element = approvalList[i];
+		element.aprvlRank = i+1;
+		if(i==1){
+			element.aprvlStatus = 'W';
+		}else{
+			element.aprvlStatus = 'P';
+		}
+	}
+
+    // 전자문서 객체 생성
+	const edoc  = {
+				edocTitle : $('#edocTitle').val(),
+				edocDotCode : dotCode,
+				edocDsgCode : $('#edocDsgCode').val(),
+				creater : $('#edocCreter').val(),
+				period : $('#period').val(),
+				edocContent : $('#content').html(),
+				approval: approvalList,
+				reference: referenceList
+			};
+
+	// 휴가 신청서일경우 시작/종료일 처리
+	let edocStartDate;
+	let edocEndDate;
+	if(dotCode == 'DOT004'){
+		const dateValue = $('#dateTimePicker').val();
+		edocStartDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
+		edocEndDate = new Date(Date.parse(dateValue.substr(dateValue.indexOf('-')+1)));
+		edoc.edocStartDate = edocStartDate;
+		edoc.edocEndDate = edocEndDate;
+	}
+
+	console.log(edoc);
+	
+	// 첨부파일 등록
+	
+	const fileList = document.querySelector('#file').files;
+	
+	const formData = new FormData();
+
+	formData.append("edoc",JSON.stringify(edoc));
+
+	if(fileList.length > 0){
+		for(let i=0; i< fileList.length; i++){
+			formData.append("uploadFiles",fileList[i]);
+		}
+	}
+
+	return formData;
+}
