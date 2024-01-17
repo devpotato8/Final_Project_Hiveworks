@@ -30,7 +30,9 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
-							<h1 class="fmapp-title">기안하기</h1>
+							<h1 class="fmapp-title">기안하기</h1>&emsp;
+							<button type="button" class="btn btn-primary" id="submitButton">기안하기</button>&emsp;
+							<button type="button" class="btn btn-secondary" id="printButton"disabled>인쇄 미리보기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -67,73 +69,72 @@
 								<div class="tab-content">
 									<!-- 문서 작성 탭 -->
 									<div class="tab-pane fade show active" id="write_doc">
-										<div class="table-responsive col-sm-8">
-											<table class="table">
-												<tbody>
-													<tr>
-														<th scope="row">문서종류</th>
-														<td>
-															<div class="input-group mb-3">
-																<select class="form-select" name="edocDotCode" id="edocType">
-																	<option disabled="disabled" selected="selected">문서종류</option>
-																	<c:forEach items="${dotcode }" var="t">
-																		<option value="${t }">${DotCode.valueOf(t).code }</option>
-																	</c:forEach>
+										<div class="container">
+											<div class="table-responsive">
+												<table class="table" id="detail_table">
+													<tbody>
+														<tr>
+															<th>문서종류</th>
+															<td>
+																<div class="input-group mb-3">
+																	<select class="form-select" name="edocDotCode" id="edocType">
+																		<option disabled="disabled" selected="selected">문서종류</option>
+																		<c:forEach items="${dotcode }" var="t">
+																			<option value="${t }">${DotCode.valueOf(t).code }</option>
+																		</c:forEach>
+																	</select>
+																	<select class="form-select" id="edocFormat">
+																		<option disabled="disabled" selected="selected">종류를 선택해주세요</option>
+																	</select>
+																</div>
+															</td>
+															<th>작성자</th>
+															<td>
+																<c:out value="${emp.DEPTNAME }"/> <c:out value="${emp.JOBNAME }"/> <c:out value="${emp.EMPNAME }"/>
+																<input type="hidden" name="edocCreater" value="${emp.EMPNO }" id="edocCreter">
+															</td>
+														</tr>
+														<tr>
+															<th>보존연한</th>
+															<td>
+																<select class="form-select" name="period" id="period">
+																	<optgroup label="보존연한">
+																		<option value="1">1년</option>
+																		<option value="3" selected="selected">3년</option>
+																		<option value="5">5년</option>
+																		<option value="10">10년</option>
+																	</optgroup>
 																</select>
-																<select class="form-select" id="edocFormat">
-																	<option disabled="disabled" selected="selected">종류를 선택해주세요</option>
+															</td>
+															<th>보안등급</th>
+															<td>
+																<select class="form-select" name="edocDsgCode" id="edocDsgCode">
+																	<optgroup label="보안등급">
+																		<c:forEach items="${dsgcode }" var="s">
+																			<option value="${s}"
+																				<c:if test="${s eq 'DSG003' }">selected</c:if>
+																			>${DsgCode.valueOf(s).code }</option>
+																		</c:forEach>
+																	</optgroup>
 																</select>
-															</div>
-														</td>
-														<th scope="row">작성자</th>
-														<td>
-															<c:out value="${emp.DEPTNAME }"/> <c:out value="${emp.JOBNAME }"/> <c:out value="${emp.EMPNAME }"/>
-															<input type="hidden" name="edocCreater" value="${emp.EMPNO }" id="edocCreter">
-														</td>
-													</tr>
-													<tr>
-														<th scope="row">보존연한</th>
-														<td>
-															<select class="form-select" name="period" id="period">
-																<optgroup label="보존연한">
-																	<option value="1">1년</option>
-																	<option value="3" selected="selected">3년</option>
-																	<option value="5">5년</option>
-																	<option value="10">10년</option>
-																</optgroup>
-															</select>
-														</td>
-														<th scope="row">보안등급</th>
-														<td>
-															<select class="form-select" name="edocDsgCode" id="edocDsgCode">
-																<optgroup label="보안등급">
-																	<c:forEach items="${dsgcode }" var="s">
-																		<option value="${s}"
-																			<c:if test="${s eq 'DSG003' }">selected</c:if>
-																		>${DsgCode.valueOf(s).code }</option>
-																	</c:forEach>
-																</optgroup>
-															</select>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div class="col-sm-2">
-											<button type="button" class="btn btn-primary" id="submitButton">기안하기</button>
-										</div>
-										<div class="edoc-detail-container">
-											<div class="mb-3">
-												<span class="form-label">제목 : </span>
-												<input type="text" class="form-control" name="edocTitle" id="edocTitle"/>
+															</td>
+														</tr>
+													</tbody>
+												</table>
 											</div>
-										</div>
-										<span class="form-label">본문 : </span>
-										<div class="editor">
-											<div class="editor-toolbar-container">
+											<div class="edoc-detail-container">
+												<div class="mb-3">
+													<span class="form-label">제목 : </span>
+													<input type="text" class="form-control" name="edocTitle" id="edocTitle"/>
+												</div>
 											</div>
-											<div class="editor-editable-container">
-												<div class="editor-editable"  id="content">
+											<span class="form-label">본문 : </span>
+											<div class="editor">
+												<div class="editor-toolbar-container">
+												</div>
+												<div class="editor-editable-container">
+													<div class="editor-editable"  id="content">
+													</div>
 												</div>
 											</div>
 										</div>
@@ -219,6 +220,9 @@
 <script src="${path}/resources/js/chips-init.js"></script>
 <!-- jstree -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Daterangepicker JS -->
+<script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
+<script src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
 
 <!-- 체크박스 JS -->
 <script src="${path}/resources/js/checkbox.js"></script>

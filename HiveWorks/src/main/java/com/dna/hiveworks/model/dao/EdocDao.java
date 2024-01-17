@@ -69,4 +69,8 @@ public interface EdocDao {
 	int cancleApproval(SqlSession session, List<ElectronicDocumentApproval> leftApproval);
 	
 	int revokeDocument(SqlSession session, ElectronicDocument edoc);
+
+	List<ElectronicDocumentReference> selectElectronicDocumentReference(SqlSession session, String edocNo);
+
+	int referenceCheck(SqlSession session, int refperNo);
 }

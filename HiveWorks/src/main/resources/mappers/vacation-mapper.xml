@@ -20,12 +20,13 @@
 	
 	<select id="selectVacationByNo" parameterType="integer" 
 		resultMap="vacationMap">
-		SELECT * FROM TBL_VACATION WHERE EMP_NO = ${no} ORDER BY MODIFY_DATE DESC
+		SELECT * FROM TBL_VACATION WHERE EMP_NO = #{empNo} ORDER BY MODIFY_DATE DESC
 		
 	</select>
 	
 	<insert id="insertVacation" parameterType="vacation" >
 		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,1,#{vacCount},1,#{vacOption},1,#{createDate},1,DEFAULT,'Y')
+		WHERE EMP_NO = #{empNo}
 	</insert>
 	
 	<update id="updateVacation" parameterType="Double" >
@@ -34,4 +35,20 @@
 		MODIFIER = 1, MODIFY_DATE = SYSDATE
 		WHERE EMP_NO = 1
 	</update>
+	
+	<!-- 잔여연차 가져오기 -->
+	<select id="selectLeftVacation" parameterType="_int" resultType="Double">
+		SELECT VAC_LEFT FROM TBL_VACATION_BYYEAR WHERE EMP_NO = #{empNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

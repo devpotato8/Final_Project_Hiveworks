@@ -4,7 +4,8 @@
 	<resultMap id="scheduleMap" type="schedule">
 		<id property="calNo" column="cal_no"/>
 		<result property="calCode" column="cal_code"/>
-		<result property="myEmpNo" column="myempno"/>
+		<result property="myEmpNo" column="my_emp_no"/>
+		<result property="myDeptCode" column="my_dept_code"/>
 		<result property="calContent" column="cal_content"/>
 		<result property="calStartDate" column="cal_start_date"/>
 		<result property="calEndDate" column="cal_end_date"/>
@@ -25,7 +26,9 @@
 	<resultMap id="scheduleInviMap" type="schedule">
 		<id property="calNo" column="cal_no"/>
 		<result property="calCode" column="cal_code"/>
-		<result property="myEmpNo" column="myempno"/>
+		<result property="myEmpNo" column="my_emp_no"/>
+		<result property="myEmpName" column="my_emp_name"/>
+		<result property="myDeptCode" column="my_dept_code"/>
 		<result property="calContent" column="cal_content"/>
 		<result property="calStartDate" column="cal_start_date"/>
 		<result property="calEndDate" column="cal_end_date"/>
@@ -39,13 +42,13 @@
 		<result property="modifier" column="modifier"/>
 		<result property="createDate" column="create_date"/>
 		<result property="modifyDate" column="modify_date"/>
-		<result property="useYn" column="use_yn"/>	
+		<result property="useYn" column="cal_use_yn"/>	
 		<association property="resource" resultMap="resourceMap"/>
 		<collection property="invitationEmpList" resultMap="inviEmpMap" >
 			<result property="yourEmpNo" column="your_emp_no" />
 			<result property="yourEmpName" column="your_emp_name"/>
 			<result property="yourDeptName" column="your_dept_name"/>
-			<result property="yourDeptCode" column="your_dept_code"/>
+			<result property="yourDeptCode" column="your_dept_code"/>		
 		</collection>
 	</resultMap>
 	
@@ -74,12 +77,18 @@
 
 	
 	<insert id="insertSchedule" parameterType="schedule">
-		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
 	</insert>
 	
 	<update id="updateSchedule" parameterType="hashMap">
-		UPDATE TBL_CALENDAR SET CAL_CODE = #{schedule.calCode}, CAL_START_DATE = #{schedule.calStartDate}, CAL_END_DATE = #{schedule.calEndDate}, CAL_SUBJECT = #{schedule.calSubject}, CAL_CONTENT = #{schedule.calContent}, CAL_COLOR = #{schedule.calColor}, REMINDER_YN = #{schedule.reminderYn}, CAL_ALLDAY_YN = #{schedule.calAlldayYn}, CAL_STATUS = #{schedule.calStatus}, MODIFY_DATE = SYSDATE, MODIFIER = #{schedule.myEmpNo} WHERE CAL_NO = #{calNo}
+		UPDATE TBL_CALENDAR SET CAL_CODE = #{schedule.calCode}, CAL_START_DATE = #{schedule.calStartDate}, CAL_END_DATE = #{schedule.calEndDate}, CAL_SUBJECT = #{schedule.calSubject}, CAL_CONTENT = #{schedule.calContent}, CAL_COLOR = #{schedule.calColor}, REMINDER_YN = #{schedule.reminderYn}, CAL_ALLDAY_YN = #{schedule.calAlldayYn}, CAL_STATUS = #{schedule.calStatus}, MODIFY_DATE = SYSDATE, MODIFIER = #{schedule.modifier} WHERE CAL_NO = #{calNo}
 	</update>
+		
+	<update id="updateImportYn" parameterType="hashMap">
+		UPDATE TBL_CALENDAR SET CAL_IMPORT_YN = #{schedule.calImportYn} WHERE CAL_NO = #{calNo}
+	</update>
+	
+	
 	
 	<update id="deleteInvitaion">
 		UPDATE TBL_CAL_INVITATION SET USE_YN = 'N' WHERE CAL_NO = #{calNo}
@@ -95,12 +104,17 @@
 	</insert>
 	
 	<insert id="reserveResource" parameterType="schedule">
-		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},0000111,#{calStartDate},#{calEndDate},NULL,NULL,#{calColor},DEFAULT,#{reminderYn},NULL,#{calStatus},DEFAULT,DEFAULT,0000111,0000111,DEFAULT)
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},NULL,#{calColor},DEFAULT,#{reminderYn},NULL,#{calStatus},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
 	</insert>
 	
 	<insert id="reserveResourceEnd">
 		INSERT INTO TBL_RESOURCE_RESERVATION VALUES (#{resourceNo},SEQ_CAL_NO.CURRVAL)
 	</insert>
+	
+	
+	<update id="deleteReservation">
+		UPDATE TBL_CALENDAR SET USE_YN = 'N' WHERE CAL_NO = #{checkNo}
+	</update>
 	
 	<delete id="deleteSchedule">
 		UPDATE TBL_CALENDAR SET USE_YN = 'N' WHERE CAL_NO = #{calNo}
@@ -113,8 +127,16 @@
 	
 	
 	<insert id="insertResource" parameterType="resource">
-		INSERT INTO TBL_RESOUCE VALUES (#{resourceNo},#{resourceType},#{resourceName},#{resourceMax},DEFAULT,DEFAULT,3333,3333,DEFAULT,NULL,NULL,DEFAULT)
+		INSERT INTO TBL_RESOUCE VALUES (SEQ_RESOURCE_NO.NEXTVAL,#{resourceType},#{resourceName},#{resourceMax},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT,NULL,NULL,DEFAULT)
 	</insert>
+	
+	<update id="updateResource" parameterType="resource">
+		UPDATE TBL_RESOUCE SET RESOURCE_TYPE = #{resourceType}, RESOURCE_NAME = #{resourceName}, RESOURCE_MAX = #{resourceMax}, MODIFY_DATE = SYSDATE, MODIFIER = #{modifier} WHERE RESOURCE_NO = #{resourceNo}
+	</update>
+	
+	<update id="deleteResource">
+	   UPDATE TBL_RESOUCE SET USE_YN = 'N' WHERE RESOURCE_NO = #{checkNo}
+	</update>
 	
 	
 	<select id="selectEmployeesList" resultMap="employee.empMap">
@@ -124,10 +146,27 @@
 	
 	
 	<select id="selectScheduleAll" resultMap="scheduleInviMap">
-		SELECT * FROM V_CAL
+		SELECT * FROM V_CALENDAR_F WHERE USE_YN = 'Y'
 	</select>
 	
 	
+	<select id="searchSchedule" resultMap="scheduleInviMap" parameterType="map">
+ 		 SELECT * FROM V_CALENDAR_F
+  	<trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="(calCode != null and calCode != '') and (empNo!=null and empNo!=0)">
+      		AND CAL_CODE = #{calCode} AND MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
+    	</if>
+    	<if test="(calCode != null and calCode != '') and (deptCode!=null and deptCode!='')">
+      		AND CAL_CODE = #{calCode} AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
+    	</if>
+    	<if test="calImportYn != null and calImportYn != ''">
+      		AND CAL_IMPORT_YN = 'Y' AND CAL_USE_YN = 'Y'
+    	</if>
+    	<if test="empName != null and empName != ''">
+      		AND MY_EMP_NAME LIKE '%' || #{empName} || '%' AND CAL_USE_YN = 'Y'
+    	</if>
+  	</trim>
+	</select>
 	
 	
 	
@@ -142,14 +181,23 @@
 	
 	
 	<select id="selectResourceAll" resultMap="resourceMap">
-		SELECT * FROM TBL_RESOUCE
-	</select>
-	<select id="selectReserveAll" resultMap="scheduleMap">
-		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') ORDER BY cal.cal_no DESC
+		SELECT * FROM TBL_RESOUCE WHERE USE_YN = 'Y' ORDER BY RESOURCE_NO DESC
 	</select>
 	
-	<select id="selectReserveByNo" resultMap="scheduleMap">
-		select cal.cal_no, res.resource_name, cal.emp_no, res.resource_type, cal.cal_start_date, cal.cal_end_date, cal.create_date from tbl_calendar cal left join tbl_resource_reservation rr ON  cal.cal_no=rr.cal_no left join tbl_resouce res on rr.resource_no =res.resource_no  WHERE CAL_CODE IN ('CAL004','CAL005','CAL006') AND EMP_NO = #{empNo} ORDER BY cal.cal_no DESC
+	
+	<select id="selectResourceByType" resultMap="resourceMap" parameterType="string">
+		SELECT * FROM TBL_RESOUCE WHERE USE_YN = 'Y' AND RESOURCE_TYPE LIKE #{type} ORDER BY RESOURCE_NO DESC
+	</select>
+	
+	
+	
+	
+	<select id="selectReserveAll" resultMap="scheduleInviMap">
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND CAL_USE_YN = 'Y' ORDER BY V.CAL_NO DESC
+	</select>
+	
+	<select id="selectReserveByNo" resultMap="scheduleInviMap">
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND V.MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y' ORDER BY V.CAL_NO DESC
 	</select>
 	
 	

@@ -10,17 +10,21 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.View;
 
+import com.dna.hiveworks.common.ExcelEmployeeListConvert;
 import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.serviceimpl.EmpServiceImpl;
@@ -44,6 +48,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmpController {
 	
+	private final BCryptPasswordEncoder passwordEncoder;
 	private final EmpServiceImpl service;
 	
 	
@@ -94,7 +99,8 @@ public class EmpController {
 		
 		Map<String,Object> param = new HashMap<>();
 		
-		param.put("emp_no", keyword);
+		param.put("type", "emp_no");
+		param.put("keyword", keyword);
 		
 		List<Employee> searchEmployee = service.searchEmployeesByKeyword(param);
 		
@@ -113,7 +119,8 @@ public class EmpController {
 	
 	@PostMapping("/enrollEmployeeEnd.do")
 	public String enrollEmployeeEnd(Model model, Employee emp,
-			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,@RequestParam(name="email_form" , required=true) String email_form) {
+			Account ac,@RequestPart(value="upFile", required = false) MultipartFile upFile, HttpSession session, String email_id,@RequestParam(name="email_form" , required=true) String email_form,
+			@RequestParam("creater_pre") String creater) {
 		
 		String path = session.getServletContext().getRealPath("/resources/upload/profile");
 		
@@ -148,6 +155,12 @@ public class EmpController {
 		String empEmail = email_id+"@"+email_form;
 		emp.setEmp_email(empEmail);
 		
+		String encodePassword = passwordEncoder.encode(emp.getEmp_pw());
+		System.out.println(encodePassword);
+		
+		emp.setEmp_pw(encodePassword);
+		
+		
 		String msg, loc;
 		Map<String,Object> empData = new HashMap<>();
 		
@@ -174,23 +187,26 @@ public class EmpController {
 	}
 	
 	@GetMapping("/searchEmployeeId")
-	public @ResponseBody String searchemployeeId(String emp_id){
+	public @ResponseBody int searchemployeeId(String emp_id){
 		
-		String msg ="";
+		int value =0;
 		Map<String,Object> param = new HashMap<>();
+		System.out.println(emp_id);
 		
 		param.put("type","emp_id");
 		param.put("keyword",emp_id);
 		
 		List<Employee> result = service.searchEmployeesByKeyword(param);
 		
+		System.out.println(result);
+		
 		if(result.size()>0) {
-			msg="중복된 아이디입니다.";
+			value=1;
 		}else {
-			msg="사용할 수 있는 아이디입니다.";
+			value=0;
 		}
 		
-		return msg;
+		return value;
 	}
 	
 	@GetMapping("/employeeDetail")
@@ -240,14 +256,15 @@ public class EmpController {
 	public @ResponseBody int updatePassword(Model model,
 			@RequestParam("empId") String empId,
 			@RequestParam("empPassword") String empPassword,
-			@RequestParam("empPasswordNew") String empPasswordNew) {
+			@RequestParam("empPasswordNew") String empPasswordNew,
+			@RequestParam("modifier") int modifier) {
 		
-		Map<String,String> IdAndPassword = new HashMap<>();
+		Map<String,Object> IdAndPassword = new HashMap<>();
 		
 		IdAndPassword.put("empId", empId);
 		IdAndPassword.put("empPassword", empPassword);
 		IdAndPassword.put("empPasswordNew", empPasswordNew);
-		
+		IdAndPassword.put("modifier", modifier);
 		
 		int result =service.updatePassword(IdAndPassword);
 		
@@ -365,6 +382,26 @@ public class EmpController {
 		model.addAttribute("autCodeList", autCodeList);
 		
 		return "employees/manageAuthority";
+	}
+	
+	@PostMapping("/updateAuthorities")
+	public @ResponseBody int updateAuthorities(@RequestBody Map<String, List<String>> data ) {
+
+		int result = service.updateAuthorities(data);
+		
+		return result;
+	
+	}
+
+	@GetMapping("excelEmployeeDownload")
+	public View downloadEmployeesAndAccount(Model model) {
+		
+		Map<String, Object> employeesAndAccounts = service.downloadEmployeesAndAccount();
+		
+		model.addAttribute("employees", employeesAndAccounts.get("employees"));
+		model.addAttribute("accounts", employeesAndAccounts.get("accounts"));
+		
+		return new ExcelEmployeeListConvert();
 	}
 	
 }

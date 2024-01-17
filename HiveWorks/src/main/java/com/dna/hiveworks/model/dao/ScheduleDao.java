@@ -22,8 +22,10 @@ public interface ScheduleDao {
 	
 	int updateInvitaion(SqlSession session, List<Integer> reempList, int calNo);
 	
+	int updateImportYn(SqlSession session, Schedule schedule, int calNo);
 	
-	int insertInvitation(SqlSession session, List<Integer> empList);
+	
+	int insertInvitation(SqlSession session, List<Integer> checkedList);
 	
 	int deleteSchedule(SqlSession session, int calNo);
 	
@@ -32,9 +34,19 @@ public interface ScheduleDao {
 	
 	List<Schedule> searchSchedule(SqlSession session, Map<String,Object> param);
 	
+	List<Schedule> searchImpschedule(SqlSession session, Map<String,Object> param);
+	
+	List<Schedule> searchEmpSchedule(SqlSession session, Map<String,Object> param);
+	
 	int insertResource(SqlSession session, Resource resource);
 	
+	int updateResource(SqlSession session, Resource resource);
+	
+	int deleteResource(SqlSession session, List<Integer> intList);
+	
 	List<Resource> selectResourceAll(SqlSession session);
+	
+	List<Resource> selectResourceByType(SqlSession session, String type);
 	
 	//reservation
 	List<Schedule> selectReserveAll(SqlSession session);
@@ -46,6 +58,8 @@ public interface ScheduleDao {
 	int reserveResource(SqlSession session, Schedule schedule);
 	
 	int reserveResourceEnd(SqlSession session, int resourceNo);
+	
+	int deleteReservation(SqlSession session, List<Integer> intList);
 	
 	//project
 	List<Schedule> selectprojectAll(SqlSession session);

@@ -6,7 +6,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="collapsed" name="style" />
+	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
@@ -31,8 +31,54 @@
 	type="text/css">
 
 <link rel="shortcut icon" href="favicon.ico">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <!-- 여기서 부터 시작 -->
 <!-- Calendar Drawer -->
+<!-- Modal -->
+<%-- <div class="modal fade" id="add_fav_board" tabindex="-1" aria-labelledby="add_fav_boardLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add_fav_boardLabel">캘린더 구독</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="inviteContainer" style="display: flex">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label">부서</label>
+              <div class="d-flex">
+                <select class="form-select me-3" name="calDept" id="yourcalDept1">
+              		<c:if test="${not empty deptList}">
+						<c:forEach var="dept" items="${deptList}">
+							<option value="${dept.deptCode}">${dept.deptName}</option>
+						</c:forEach>
+					</c:if>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label">직원</label>
+              <div class="d-flex">
+                <select class="form-select me-3" name="calEmp" id="yourcalEmp1">
+                  <!-- 직원 목록이 동적으로 추가되는 곳 -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+ --%>
 <!-- 조회하는 모달 -->
 <div class="hk-drawer calendar-drawer drawer-right">
 	<div>
@@ -41,7 +87,21 @@
 				<a href="#" id="edit_event"
 					class="btn btn-sm btn-icon btn-flush-secondary btn-rounded flush-soft-hover"><span
 					class="icon"><span class="feather-icon"><i
-							data-feather="edit-2"></i></span></span></a> <a href="#" id="del_event"
+							data-feather="edit-2"></i></span></span></a> 
+							
+							
+							
+							<!-- 
+							<a href="#" id="import_event"
+					class="btn btn-sm btn-icon btn-flush-secondary btn-rounded flush-soft-hover"><span
+					class="icon"><span class="feather-icon"><i
+							data-feather="star"></i></span></span></a>  -->
+
+				
+				
+				
+				
+				<a href="#" id="del_event"
 					class="btn btn-sm btn-icon btn-flush-secondary btn-rounded flush-soft-hover"><span
 					class="icon"><span class="feather-icon"><i
 							data-feather="trash-2"></i></span></span></a>
@@ -53,11 +113,20 @@
 		<div class="drawer-body" id="viewContainer">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
+				<div class="form-check">
+								<input type="checkbox" class="form-check-input"
+									id="event_import"> <label class="form-check-label"
+									for="event_import">중요일정</label>
+							</div>
 					<div class="event-head mb-4">
-						<span
-							class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
+
+						
+						
+						
+						
 						<div>
 							<div class="event-name">Jampack Team Meet</div>
+							
 							<span class="event-code">내일정</span>
 						</div>
 					</div>
@@ -111,15 +180,17 @@
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
 					<form id="reForm">
-					<input type="hidden" name="reempno" id="reempno" value="${loginEmp.emp_no}"/>
-					<input type="hidden" name="rebackgroundColor" id="rebackgroundColor" value=""/>
-					
+						<input type="hidden" name="reempno" id="reempno"
+							value="${loginEmp.emp_no}" /> <input type="hidden"
+							name="rebackgroundColor" id="rebackgroundColor" value="" />
+
 						<div class="event-head mb-4">
 							<span
 								class="badge badge-violet badge-indicator badge-indicator-xl flex-shrink-0 me-2"></span>
 							<div class="form-group">
 								<div class="input-group">
-									<input type="text" class="event-name" name="retitle" id="retitle"/>
+									<input type="text" class="event-name" name="retitle"
+										id="retitle" />
 								</div>
 							</div>
 						</div>
@@ -140,8 +211,8 @@
 								<span class="input-affix-wrapper"> <span
 									class="input-prefix"><span class="feather-icon"><i
 											data-feather="calendar"></i></span></span> <input
-									class="form-control cal-event-date-start" name="single-date restart"
-									id="reStartDate" type="text">
+									class="form-control cal-event-date-start"
+									name="single-date restart" id="reStartDate" type="text">
 
 								</span>
 							</div>
@@ -151,8 +222,8 @@
 								<span class="input-affix-wrapper"> <span
 									class="input-prefix"><span class="feather-icon"><i
 											data-feather="calendar"></i></span></span> <input
-									class="form-control cal-event-date-end" name="single-date reend"
-									id="reEndDate" type="text">
+									class="form-control cal-event-date-end"
+									name="single-date reend" id="reEndDate" type="text">
 
 								</span>
 							</div>
@@ -161,16 +232,16 @@
 							<div class="d-flex flex-wrap">
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
-										<input class="form-check-input cal-event-allday" name="reallday"
-											type="checkbox" id="realldaycheck">
-										<label class="form-check-label" for="realldaycheck">종일여부</label>
+										<input class="form-check-input cal-event-allday"
+											name="reallday" type="checkbox" id="realldaycheck"> <label
+											class="form-check-label" for="realldaycheck">종일여부</label>
 									</div>
 								</div>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-reminder"
-											type="checkbox" id="reremindercheck" name="rereminder"> <label
-											class="form-check-label" for="reremindercheck">알림여부
+											type="checkbox" id="reremindercheck" name="rereminder">
+										<label class="form-check-label" for="reremindercheck">알림여부
 										</label>
 									</div>
 								</div>
@@ -178,50 +249,26 @@
 						</div>
 						<div class="form-group">
 							<div class="d-flex flex-wrap">
-								<button type="button" onclick="fn_addFileFormRe();"
+								<button type="button" 
 									id="addBtnRe" class="btn btn-light btn-floating;">일정
 									공유 추가</button>
-								<button type="button" onclick="fn_deleteFileFormRe();"
+								<button type="button"
 									id="delBtnRe" class="btn btn-light btn-floating;">삭제</button>
-								<div class="row gx-3">
-								
-							<%-- 		<div class="reinvicontainer"
-										style="display: flex; padding-top: 5px; padding-bottom: 5px;">
-										<div class="col-sm-5">
-											<div class="form-group">
-												<div class="d-flex">
-													<select class="form-select me-3" name="calDept"
-														id="recalDept1">
-														<c:if test="${not empty deptList}">
-															<c:forEach var="dept" items="${deptList}">
-														<option value="${dept.deptCode}">${dept.deptName}</option>
-														</c:forEach>
-														</c:if>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-5">
-											<div class="form-group">
-												<div class="d-flex">
-													<select class="form-select me-3" name="calEmp"
-														id="recalEmp1">
-														<option value="11">11</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div> --%> 
-									<div id="someContainer2"></div>
+								<div id="shareListJob" class="row gx-3">
+
+
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
-							<textarea class="form-control event-content" name="recontent" id="recontent" rows="4">Annual meeting</textarea>
+							<textarea class="form-control event-content" name="recontent"
+								id="recontent" rows="4">Annual meeting</textarea>
 						</div>
 						<div class="drawer-footer d-flex justify-content-end">
-							<button type="button" class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn ">취소</button>
-							<button type="button" class="btn btn-primary drawer-edit-close" id="editBtn">저장</button>
+							<button type="button"
+								class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn ">취소</button>
+							<button type="button" class="btn btn-primary drawer-edit-close"
+								id="editBtn">저장</button>
 						</div>
 					</form>
 				</div>
@@ -251,36 +298,57 @@
 									type="text" name="calendar" value="" />
 							</div>
 						</div>
-						<div class="separator separator-light"></div>
+						
+						
+						
+						<!-- Search -->
+						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="search"></i></span></span></a>
+						<div class="input-group d-xl-flex d-none">
+							<span class="input-affix-wrapper input-search affix-border">
+								<input type="text" id="searchEmp" class="form-control  bg-transparent"  data-navbar-search-close="false" placeholder="캘린더 검색" aria-label="Search">
+								<span class="input-suffix"><span id="search-icon"><img src="${path}/resources/img/search.svg"></span>
+									<span class="btn-input-clear"><i class="bi bi-x-circle-fill"></i></span>
+									<span class="spinner-border spinner-border-sm input-loader text-primary" role="status">
+										<span class="sr-only">Loading...</span>
+									</span>
+								</span>
+							</span>
+						</div>
+						<!-- <div class="separator separator-light"></div> -->
 						<div class="categories-wrap">
-							<div class="form-check">
+							<!-- 	<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc1"> <label class="form-check-label"
-									for="customChecksc1">전체일정보기</label>
-							</div>
+									id="allcalendar"> <label class="form-check-label"
+									for="allcalendar">전체일정보기</label>
+							</div> -->
 							<div class="separator separator-light"></div>
 							<div
 								class="d-flex align-items-center justify-content-between mb-2">
 								<div class="title-sm text-primary mb-0">내 캘린더</div>
 							</div>
 							<div class="form-check">
-								<input type="checkbox" class="form-check-input"
-									id="customChecksc2"> <label class="form-check-label"
-									for="customChecksc2" style="padding-right: 116px">내일정</label> <a
+								<input type="checkbox" class="form-check-input" id="mycalendar"
+									checked> <label class="form-check-label"
+									for="mycalendar" style="padding-right: 116px">내일정</label> <!-- <a
 									href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
-									data-bs-toggle="modal" data-bs-target="#add_new_cat"><span
+									data-bs-toggle="modal" data-bs-target="#add_new_cat" id="shareall"><span
 									class="icon" data-bs-toggle="tooltip" data-bs-placement="top"
 									title="" data-bs-original-title="내일정 공유"><span
 										class="feather-icon"><i
-											data-feather="arrow-right-circle"></i></span></span></a>
+											data-feather="arrow-right-circle"></i></span></span></a> -->
 
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc3"> <label class="form-check-label"
-									for="customChecksc3">내부서일정</label>
+									id="mydeptcalendar"> <label class="form-check-label"
+									for="mydeptcalendar">내부서일정</label>
 							</div>
-							<div
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input"
+									id="companycalendar"> <label class="form-check-label"
+									for="companycalendar">전사일정</label>
+							</div>
+						<!-- 	<div
 								class="d-flex align-items-center justify-content-between mb-2">
 								<div class="title-sm text-primary mb-0">관심캘린더</div>
 								<a href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
@@ -288,16 +356,13 @@
 									class="icon" data-bs-toggle="tooltip" data-bs-placement="top"
 									title="" data-bs-original-title="Add Board"><span
 										class="feather-icon"><i data-feather="plus"></i></span></span></a>
-							</div>
-							<div class="menu-group">
+							</div> -->
+					<!-- 		<div class="menu-group">
 								<ul class="nav nav-light navbar-nav flex-column">
 									<li class="nav-item">
 										<div>
 											<div class="media d-flex align-items-center">
 												<div class="media-head me-2">
-													<div class="avatar avatar-xs avatar-primary avatar-rounded">
-														<span class="initial-wrap">J</span>
-													</div>
 												</div>
 												<div class="media-body">
 													<div>
@@ -309,7 +374,7 @@
 												<button
 													class="btn btn-sm btn-icon btn-rounded btn-flush-light flush-soft-hover">
 													<span class="icon"><span class="feather-icon"><i
-															data-feather="lock"></i></span></span>
+															data-feather="delete"></i></span></span>
 												</button>
 												<button
 													class="btn btn-sm btn-icon btn-rounded btn-flush-light flush-soft-hover">
@@ -348,17 +413,12 @@
 										</div>
 									</li>
 								</ul>
-							</div>
+							</div> -->
 							<div class="separator separator-light"></div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="customChecksc4"> <label class="form-check-label"
-									for="customChecksc4">중요일정</label>
-							</div>
-							<div class="form-check">
-								<input type="checkbox" class="form-check-input"
-									id="customChecksc4"> <label class="form-check-label"
-									for="customChecksc4">전사일정</label>
+									id="importantcalendar"> <label class="form-check-label"
+									for="importantcalendar">중요일정</label>
 							</div>
 						</div>
 					</div>
@@ -383,7 +443,9 @@
 							<h5 class="mb-4">일정등록</h5>
 							<form>
 								<input type="hidden" name="empNo" id="cal-event-empno"
-									value="${loginEmp.emp_no}"/>
+									value="${loginEmp.emp_no}" />
+								<%-- <input type="hidden" name="empDeptCode" id="cal-event-empdeptcode"
+									value="${loginEmp.dept_code}"/> --%>
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-control  cal-event-name" type="text"
@@ -422,9 +484,8 @@
 								<div class="row gx-3" style="display: flex">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-allday"
-											id="alldaycheck" type="checkbox">
-										<label class="form-check-label" for="alldaycheck">
-											종일여부</label>
+											id="alldaycheck" type="checkbox"> <label
+											class="form-check-label" for="alldaycheck"> 종일여부</label>
 									</div>
 									<div class="row gx-3">
 										<div class="col-sm-3">
@@ -483,9 +544,9 @@
 								<div class="row gx-3">
 									<div class="col-sm-12 form-group">
 										<input class="form-check-input cal-event-reminder"
-											type="checkbox" value="" id="remindercheck" name="reminder"> <label
-											class="form-check-label" for="remindercheck"> 알림여부
-										</label>
+											type="checkbox" value="" id="remindercheck" name="reminder">
+										<label class="form-check-label" for="remindercheck">
+											알림여부 </label>
 									</div>
 								</div>
 							</form>
@@ -507,7 +568,12 @@
 </div>
 <!-- /Main Content -->
 <!-- /Wrapper -->
+
 <script>
+//로그인 정보 변수 저장
+var loginEmpNo = ${loginEmp.emp_no}
+var loginDeptCode = '${loginEmp.dept_code}';
+
 //model 값 js 배열로 바꿔서 사용
 var deptCodes = [];
 var deptNames = [];
@@ -738,8 +804,22 @@ const adddelFunction=(function(){
 
 const fn_addFileForm=adddelFunction[0];
 const fn_deleteFileForm=adddelFunction[1]; 
+
+/* 
+import { Calendar } from '@fullcalendar/core';
+import googleCalendarPlugin from '@fullcalendar/google-calendar';
+
+let calendar = new Calendar(calendarEl, {
+	 plugins: [ googleCalendarPlugin ],
+	 googleCalendarApiKey : "AIzaSyDTmzIpCFcBNK5_MAtLBPVD-j7O9mkXb_c",
+events : 
+    {
+        googleCalendarId : 'ko.south_korea.official#holiday@group.v.calendar.google.com', 
+        color: '#b342f5',
+        textColor: 'black'
+    } 
+}); */
 </script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <!-- Fancy Dropdown JS -->
 <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
 
@@ -761,3 +841,4 @@ const fn_deleteFileForm=adddelFunction[1];
 
 <!-- Bootstrap Notify JS -->
 <script src="${path}/resources/js/bootstrap-notify.min.js"></script>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

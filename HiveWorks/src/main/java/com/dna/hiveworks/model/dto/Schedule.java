@@ -19,6 +19,8 @@ public class Schedule {
 	private int calNo;
 	private String calCode;
 	private int myEmpNo;
+	private String myEmpName;
+	private String myDeptCode;
 	private Timestamp calStartDate;
 	private Timestamp calEndDate;
 	private String calSubject;

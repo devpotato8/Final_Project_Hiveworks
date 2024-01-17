@@ -144,7 +144,7 @@ public interface EdocService {
 	 * @param edocNo
 	 * @return
 	 */
-	ElectronicDocument selectElectronicDocument(String edocNo);
+	ElectronicDocument selectElectronicDocument(String edocNo, int empNo);
 
 	/**
 	 * @Author : 이재연 

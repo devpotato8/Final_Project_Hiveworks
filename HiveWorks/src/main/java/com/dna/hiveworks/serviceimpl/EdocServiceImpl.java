@@ -73,9 +73,12 @@ public class EdocServiceImpl implements EdocService{
 	@Transactional
 	@Override
 	public int insertEdoc(ElectronicDocument edoc) {
-		edoc.setEdocPreservePeriod(
-				Date.valueOf(
-						LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1)));
+		if(edoc.getEdocPreservePeriod() == null && edoc.getPeriod()>0) {
+			edoc.setEdocPreservePeriod(
+					Date.valueOf(
+							LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1))
+					);			
+		}
 		
 		int result = 0;
 		result = dao.insertEdoc(session,edoc);
@@ -105,17 +108,30 @@ public class EdocServiceImpl implements EdocService{
 	}
 	
 	@Override
-	public ElectronicDocument selectElectronicDocument(String edocNo) {
+	@Transactional
+	public ElectronicDocument selectElectronicDocument(String edocNo, int empNo) {
 		
 		ElectronicDocument edoc = dao.selectElectronicDocument(session, edocNo);
 		edoc.setApproval(dao.selectElectronicDocumentApproval(session, edocNo));
 		edoc.setAttachFiles(dao.selectElectronicDocumentAttachFiles(session,edocNo));
 		edoc.setComments(dao.selectElectronicDocumentComments(session, edocNo));
+		List<ElectronicDocumentReference> refList =dao.selectElectronicDocumentReference(session, edocNo); 
+		edoc.setReference(refList);
 		
 		Map<String,Object> empData = dao.getEmpData(session, edoc.getCreater());
 		edoc.setCreaterEmpName((String)empData.get("EMPNAME"));
 		edoc.setCreaterDeptName((String)empData.get("DEPTNAME"));
 		edoc.setCreaterJobName((String)empData.get("JOBNAME"));
+		
+		ElectronicDocumentReference target  = ElectronicDocumentReference.builder().refperEdocNo(edocNo).refperEmpNo(empNo).build(); 
+		if(refList != null && refList.contains(target)) {
+			ElectronicDocumentReference ref = refList.get(refList.indexOf(target));
+			if(!ref.isRefperStatus()) {
+				dao.referenceCheck(session, ref.getRefperNo());
+			}
+		}
+			
+		
 		
 		return edoc;
 	}
@@ -195,7 +211,7 @@ public class EdocServiceImpl implements EdocService{
 		
 		dbAprvlData.setAprvlApvCode(aprvl.getAprvlApvCode());
 		dbAprvlData.setAprvlComment(aprvl.getAprvlComment());
-		dbAprvlData.setAprvlStatus("C");
+		dbAprvlData.setAprvlStatus("A");
 		dbAprvlData.setAprvlDate(Date.valueOf(LocalDate.now()));
 		return dbAprvlData;
 	}

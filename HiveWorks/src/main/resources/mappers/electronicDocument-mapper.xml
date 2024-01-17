@@ -163,17 +163,8 @@
 		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
 		#{edocDsgCode},<!-- EDOC_DSG_CODE -->
 		#{edocContent},<!-- EDOC_CONTENT -->
-		<choose>
-			<when test='edocDotCode.equals("DOT004")'> <!-- 문서양식이 휴가/연가계 일경우 -->
-				#{edocStartDate},<!-- EDOC_STARTDATE -->
-				#{edocEndDate},<!-- EDOC_ENDDATE -->
-			</when>
-			<otherwise>
-				null,<!-- EDOC_STARTDATE -->
-				null,<!-- EDOC_ENDDATE -->
-			</otherwise>
-		</choose>
-		
+		#{edocStartDate},<!-- EDOC_STARTDATE -->
+		#{edocEndDate},<!-- EDOC_ENDDATE -->		
 		'DST100',<!-- EDOC_STATUS -->
 		#{creater},<!-- CREATER -->
 		SYSDATE,<!-- CREATE_DATE -->
@@ -250,6 +241,10 @@
 	
 	<update id="processApproval" parameterType="edocApproval">
 		UPDATE TBL_EDOC_APPROVAL SET APRVL_APV_CODE = #{aprvlApvCode}, APRVL_STATUS = 'C', APRVL_COMMENT = #{aprvlComment}, APRVL_DATE = SYSDATE WHERE APRVL_NO = #{aprvlNo}
+	</update>
+	
+	<update id="referenceCheck" parameterType="_int">
+		UPDATE TBL_EDOC_REFERENCE_PERSON SET REFPER_STATUS = 'Y' WHERE REFPER_NO = #{refperNo}
 	</update>
 	
 	<update id="edocFinalize" parameterType="edoc">

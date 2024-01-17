@@ -19,19 +19,19 @@ public class VacationDaoImpl implements VacationDao {
 	}
 
 	@Override
-	public List<Vacation> selectVacationByNo(SqlSession session, int no) {
+	public List<Vacation> selectVacationByNo(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.selectList("vacation.selectVacationByNo", no);
+		return session.selectList("vacation.selectVacationByNo", empNo);
 	}
 
 	@Override
-	public int insertVacation(SqlSession session, Vacation v) {
+	public int insertVacation(SqlSession session, Vacation v, int empNo) {
 		// TODO Auto-generated method stub
 		return session.insert("vacation.insertVacation",v);
 	}
 
 	@Override
-	public int updateVacation(SqlSession session, Double vacCount) {
+	public int updateVacation(SqlSession session, Double vacCount, int empNo) {
 		// TODO Auto-generated method stub
 		return session.update("vacation.updateVacation", vacCount);
 	}
@@ -40,6 +40,12 @@ public class VacationDaoImpl implements VacationDao {
 	public int deleteVacation(SqlSession session, int vacationNo) {
 		// TODO Auto-generated method stub
 		return session.delete(null);
+	}
+
+	@Override
+	public double selectLeftVacation(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("vacation.selectLeftVacation", empNo);
 	}
 	
 }

@@ -132,6 +132,7 @@ input::-webkit-inner-spin-button {
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
 									<form action="${path }/employees/updateEmployeeEnd.do" method="post" enctype="multipart/form-data">
+										<input type="hidden" id="modifier" name="modifier" value="${loginEmp.emp_no }"/>
 										<input type="hidden" id="emp_no" name="emp_no" value="${employee.emp_no }" />
 										<div class="row gx-3">
 											<div class="col-sm-12">

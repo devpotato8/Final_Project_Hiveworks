@@ -21,13 +21,14 @@
 							class="btn btn-primary btn-rounded btn-block mb-4"> Create
 							Post </a>
 						<div class="menu-group">
-							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link"
-									href="${path }/schedule/reservationlistbyno.do?empNo=16"> <span class="nav-icon-wrap"><span
-											class="feather-icon"><i data-feather="users"></i></span></span> <span
-										class="nav-link-text">내 예약 현황</span>
-								</a></li>
-							</ul>
+								<ul class="nav nav-light navbar-nav flex-column">
+										<li class="nav-item active">
+										<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}">
+												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
+												<span class="nav-link-text">내 예약 현황</span>
+											</a>
+										</li>
+									</ul>
 						</div>
 						<div class="separator separator-light"></div>
 						<div
@@ -35,21 +36,17 @@
 							<div class="title-sm text-primary mb-0">전사자산</div>
 						</div>
 						<div class="menu-group">
-							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item"><a class="nav-link link-badge-right"
-									href="${path }/schedule/reserveResource.do"> <span
-										class="nav-link-text">본사4층회의실</span>
-								</a></li>
-								<li class="nav-item"><a class="nav-link link-badge-right"
-									href="#"> <span class="nav-link-text">본사5층회의실</span>
-								</a></li>
-								<li class="nav-item"><a class="nav-link link-badge-right"
-									href="#"> <span class="nav-link-text">빔프로젝터</span>
-								</a></li>
-								<li class="nav-item"><a class="nav-link link-badge-right"
-									href="#"> <span class="nav-link-text">차량예약</span>
-								</a></li>
-							</ul>
+						<ul class="nav nav-light navbar-nav flex-column">
+										<c:if test="${not empty reList}">
+											<c:forEach var="res" items="${reList}">
+												<li class="nav-item">
+													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do?resourceNo=${res.resourceNo}">
+														<span class="nav-link-text">${res.resourceName}</span>
+													</a>
+												</li>
+											</c:forEach>
+										</c:if>
+									</ul>
 						</div>
 						<div class="menu-gap"></div>
 						<div class="nav-header">
@@ -58,9 +55,10 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link"
-									href="${path }/schedule/reservationlist.do"> <span class="nav-icon-wrap"><span
-											class="feather-icon"><i data-feather="flag"></i></span></span> <span
-										class="nav-link-text">전체 예약/대여 조회</span>
+									href="${path }/schedule/reservationlist.do"> <span
+										class="nav-icon-wrap"><span class="feather-icon"><i
+												data-feather="flag"></i></span></span> <span class="nav-link-text">전체
+											예약/대여 조회</span>
 								</a></li>
 
 								<li class="nav-item"><a class="nav-link"
@@ -71,6 +69,8 @@
 								</a></li>
 							</ul>
 						</div>
+					</div>
+				</div>
 			</nav>
 			<div class="blogapp-content">
 				<div class="blogapp-detail-wrap">
@@ -100,65 +100,24 @@
 						</div>
 						<div class="hk-sidebar-togglable"></div>
 					</header>
-					<div class="resourceContainer">
-						<form id="resourceForm" onsubmit="insertResource(event);">
-							<div class="modal-footer align-items-center">
-								<button type="button" class="btn btn-secondary">자산삭제</button>
-								<button type="submit" class="btn btn-primary"
-									data-bs-dismiss="modal">자산등록</button>
-							</div>
-							<div class="row gx-3">
-								<div class="col-sm-8">
-									<div class="form-group">
-										<label class="form-label">자산코드</label> <input
-											class="form-control" type="text" id="resourceNo" />
-									</div>
-								</div>
-							</div>
-							<div class="row gx-3">
-								<div class="col-sm-4">
-									<div class="form-group">
-										<label class="form-label">자산종류</label> <select
-											class="form-control custom-select" id="resourceType">
-											<option value="회의실">회의실</option>
-											<option value="차량">차량</option>
-											<option value="빔프로젝터">빔프로젝터</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="row gx-3">
-								<div class="col-sm-8">
-									<div class="form-group">
-										<label class="form-label">자산이름</label> <input
-											class="form-control" type="text" id="resourceName" />
-									</div>
-								</div>
-							</div>
-							<div class="row gx-3">
-								<div class="col-sm-8">
-									<div class="form-group">
-										<label class="form-label">수용인원</label> <input
-											class="form-control" type="text" id="resourceMax" />
-									</div>
-								</div>
-							</div>
-							
-					</div>
+
 					<div class="blog-body">
+						<button type="button" class="btn btn-primary" id="addResourceBtn">자산등록</button>
+						<button type="button" class="btn btn-secondary"
+							id="delResourceBtn">자산삭제</button>
 						<div data-simplebar class="nicescroll-bar">
 							<div class="dropdown">
 								<a
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
 									href="#" data-bs-toggle="dropdown">전체보기</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a class="dropdown-item" href="#"><span
+									<a class="dropdown-item" href="#" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
 											data-feather="flag"></i></span><span>회의실</span></a> <a
-										class="dropdown-item" href="#"><span
+										class="dropdown-item" href="#" data-type="차량"><span
 										class="feather-icon dropdown-icon"><i
 											data-feather="grid"></i></span><span>차량</span></a> <a
-										class="dropdown-item" href="#"><span
+										class="dropdown-item" href="#" data-type="빔프로젝터"><span
 										class="feather-icon dropdown-icon"><i
 											data-feather="tag"></i></span><span>빔프로젝터</span></a>
 								</div>
@@ -173,7 +132,7 @@
 														id="customCheck1"> <label class="form-check-label"
 														for="customCheck1"></label>
 												</span></th>
-												<th>코드</th>
+												<th>자산번호</th>
 												<th>자산종류</th>
 												<th>자산이름</th>
 												<th>수용인원</th>
@@ -182,166 +141,428 @@
 											</tr>
 										</thead>
 										<tbody>
-										<c:if test="${not empty reList }">
-											<c:forEach var="r" items="${reList}">
-											<tr>
-												<td></td>
-												<td>${r.resourceNo }</td>
-												<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
-												</td>
-												<td>
-													<div class="media align-items-center">
-														<div class="media-head me-2">
-															<div class="avatar avatar-xs">
-																<img src="dist/img/avatar2.jpg" alt="user"
-																	class="avatar-img rounded-circle">
+											<c:if test="${not empty reList }">
+												<c:forEach var="r" items="${reList}">
+													<tr>
+														<td></td>
+														<td>${r.resourceNo }</td>
+														<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
+														</td>
+														<td>
+															<div class="media align-items-center">
+																<div class="media-head me-2"></div>
+																<div class="media-body">
+																	<span class="d-block">${r.resourceName }</span>
+																</div>
 															</div>
-														</div>
-														<div class="media-body">
-															<span class="d-block">${r.resourceName }</span>
-														</div>
-													</div>
-												</td>
-												<td>${r.resourceMax }</td>
-												<td>${r.resourceUseYn }</td>
-												<td>
-													<div class="d-flex align-items-center">
-														<div class="dropdown">
-															<button
-																class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-																aria-expanded="false" data-bs-toggle="dropdown">
-																<span class="icon"><span class="feather-icon"><i
-																		data-feather="more-vertical"></i></span></span>
-															</button>
-															<div role="menu" class="dropdown-menu dropdown-menu-end">
-																<a class="dropdown-item" href="#">Action</a> <a
-																	class="dropdown-item" href="#">Another action</a> <a
-																	class="dropdown-item" href="#">Something else here</a>
-																<div class="dropdown-divider"></div>
-																<a class="dropdown-item" href="#">Separated link</a>
+														</td>
+														<td>${r.resourceMax }</td>
+														<td>${r.useYn }</td>
+														<td>
+															<div class="d-flex align-items-center">
+																<div class="dropdown">
+																	<button
+																		class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+																		aria-expanded="false" data-bs-toggle="dropdown">
+																		<span class="icon"><span class="feather-icon"><i
+																				data-feather="more-vertical"></i></span></span>
+																	</button>
+																	<div role="menu"
+																		class="dropdown-menu dropdown-menu-end">
+																		<span class="dropdown-item" id="updateBtn"
+																			data-resourceNo="${r.resourceNo}"
+																			data-resourceType="${r.resourceType}"
+																			data-resourceName="${r.resourceName}"
+																			data-resourceMax="${r.resourceMax}"
+																			data-useYn="${r.useYn}">수정</span>
+																	</div>
+																</div>
 															</div>
-														</div>
-													</div>
-												</td>
-											</tr>
-											</c:forEach>
-										</c:if>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
 										</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-
-
-
-
-
 				</div>
 			</div>
 
-			<!-- Add Category -->
-			<div id="add_new_cat" class="modal fade" tabindex="-1" role="dialog"
-				aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-sm"
-					role="document">
+			<!-- 등록 모달 -->
+			<div class="modal" id="addResource" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
 					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">자산등록</h5>
+						</div>
 						<div class="modal-body">
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-							<h6 class="text-uppercase fw-bold mb-3">Add Category</h6>
-							<form>
-								<div class="row gx-3">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<input class="form-control" type="text"
-												placeholder="Category Name" />
+							<div class="resourceContainer">
+								<form id="resourceForm" action="${path }/schedule/insertresource.do" method="post">
+									<input type="hidden" name="creater" id="creater"
+										value="${loginEmp.emp_no}" /> <input type="hidden"
+										name="modifier" id="modifier" value="${loginEmp.emp_no}" />
+									<div class="row gx-3">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">자산종류</label> <select
+													class="form-control custom-select" name="resourceType">
+													<option value="회의실">회의실</option>
+													<option value="차량">차량</option>
+													<option value="빔프로젝터">빔프로젝터</option>
+												</select>
+											</div>
 										</div>
 									</div>
-								</div>
-								<button type="button" class="btn btn-primary float-end"
-									data-bs-dismiss="modal">Add</button>
-							</form>
+									<div class="row gx-3">
+										<div class="col-sm-8">
+											<div class="form-group">
+												<label class="form-label">자산이름</label> <input
+													class="form-control" type="text" name="resourceName"/>
+											</div>
+										</div>
+									</div>
+									<div class="row gx-3">
+										<div class="col-sm-8">
+											<div class="form-group">
+												<label class="form-label">수용인원</label> <input
+													class="form-control" type="number" name="resourceMax"/>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary"
+											data-bs-dismiss="modal">등록</button>
+										<button type="button" class="btn btn-secondary"
+											id="addCancelBtn">취소</button>
+									</div>
+								</form>
+							</div>
+
 						</div>
+
 					</div>
 				</div>
 			</div>
-			<!-- /Add Category -->
 
-			<!-- Add Tag -->
-			<div id="add_new_tag" class="modal fade" tabindex="-1" role="dialog"
-				aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-sm"
-					role="document">
+			<!-- 수정 모달 -->
+			<div class="modal" id="updateResource" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-body">
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-							<h6 class="text-uppercase fw-bold mb-3">Add Tag</h6>
-							<form>
-								<div class="row gx-3">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<select id="input_tags" class="form-control"
-												multiple="multiple">
-												<option selected="selected">Collaborator</option>
-												<option selected="selected">Designer</option>
-												<option selected="selected">React Developer</option>
-												<option selected="selected">Promotion</option>
-												<option selected="selected">Advertisement</option>
-											</select>
+							<div class="resourceUpContainer">
+								<form id="resourceReForm" action="${path }/schedule/updateresource" method="post">
+									<input type="hidden" name="creater" id="creater"
+										value="${loginEmp.emp_no}" /> <input type="hidden"
+										name="modifier" id="modifier" value="${loginEmp.emp_no}" /> <input
+										type="hidden" name="resourceNo" id="resourceNo" value="" />
+									<div class="row gx-3">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">자산종류</label> <select
+													class="form-control custom-select" name="resourceType">
+													<option value="회의실">회의실</option>
+													<option value="차량">차량</option>
+													<option value="빔프로젝터">빔프로젝터</option>
+												</select>
+											</div>
 										</div>
 									</div>
-								</div>
-								<button type="button" class="btn btn-primary float-end"
-									data-bs-dismiss="modal">Add</button>
-							</form>
+									<div class="row gx-3">
+										<div class="col-sm-8">
+											<div class="form-group">
+												<label class="form-label">자산이름</label> <input
+													class="form-control" type="text" name="resourceName"/>
+											</div>
+										</div>
+									</div>
+									<div class="row gx-3">
+										<div class="col-sm-8">
+											<div class="form-group">
+												<label class="form-label">수용인원</label> <input
+													class="form-control" type="number" name="resourceMax"/>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary"
+											data-bs-dismiss="modal">수정</button>
+										<button type="button" class="btn btn-secondary"
+											id="upCancelBtn">취소</button>
+									</div>
+								</form>
+							</div>
+
 						</div>
+
 					</div>
 				</div>
 			</div>
-			<!-- Add Tag -->
 		</div>
 	</div>
 </div>
 <!-- /Page Body -->
-</div>
-<!-- /Main Content -->
 <script>
-const insertResource=(e)=>{
-	const resourceNo = document.querySelector('#resourceNo').value;
-	const resourceType = document.querySelector('#resourceType').value;
-	const resourceName = document.querySelector('#resourceName').value;
-	const resourceMax = document.querySelector('#resourceMax').value;
-	
-	e.preventDefault();
-	console.log("시작");
-	fetch("${path}/schedule/insertresource.do",{
-		method:"POST",
-		headers:{
-			"Content-Type":"application/json"
-		},body:JSON.stringify({
-			resourceNo: resourceNo,
-			resourceType: resourceType,
-			resourceName: resourceName,
-			resourceMax: resourceMax})
-	}).then(response=>{
-		console.log(response);
-		if(response.status!=200) throw new Error(response.status);
-		return response.json();
-	}).then(result=>{
-		
-		
-		console.log(result);
-	}).catch(e=>{
-		alert(e);
-		console.log(e);
-	})
-}
-</script>
+	//등록 모달
+	$(document).ready(function() {
+		// '자산등록' 버튼을 찾아옵니다.
+		var addResourceBtn = $('#addResourceBtn');
+		// '자산등록' 버튼을 클릭했을 때의 이벤트를 정의합니다.
+		addResourceBtn.on('click', function() {
+			// 모달 창을 띄웁니다.
+			$('#addResource').modal('show');
+		});
+	});
 
+	$(document).ready(function() {
+		// 취소 버튼에 대한 클릭 이벤트 추가
+		$("#addCancelBtn").click(function() {
+			// 모달 닫기
+			$('#addResource').modal('hide');
+			// 초기값으로 변경
+			$("#resourceForm")[0].reset();
+		});
+
+	});
+
+	//수정 모달
+	$(document)
+			.ready(
+					function() {
+						// 수정 링크 클릭 이벤트
+						$(document)
+								.on(
+										'click',
+										'#updateBtn',
+										function(e) {
+											e.stopPropagation();
+											// 수정 링크에 저장된 data-* attribute 값을 가져옴
+											var resourceNo = $(this).data(
+													'resourceno');
+											var resourceType = $(this).data(
+													'resourcetype');
+											var resourceName = $(this).data(
+													'resourcename');
+											var resourceMax = $(this).data(
+													'resourcemax');
+											var useYn = $(this).data('useyn');
+
+											// 가져온 값을 모달의 각 필드에 설정
+											$('#updateResource').find(
+													'input[name="resourceNo"]')
+													.val(resourceNo);
+											$('#updateResource')
+													.find(
+															'input[name="resourceType"]')
+													.val(resourceType);
+											$('#updateResource')
+													.find(
+															'input[name="resourceName"]')
+													.val(resourceName);
+											$('#updateResource')
+													.find(
+															'input[name="resourceMax"]')
+													.val(resourceMax);
+
+											// 모달 보이게 설정
+											$('#updateResource').modal('show');
+											
+										});
+
+						// 취소 버튼에 대한 클릭 이벤트 추가
+						$("#upCancelBtn").click(function() {
+							// 모달 닫기
+							$('#updateResource').modal('hide');
+							// 테이블 다시 보이게 설정
+							$("#resourceForm")[0].reset();
+						});	
+					});
+
+	// 자산 타입 별로 조회 
+	$(document)
+			.ready(
+					function() {
+						$('.dropdown-item')
+								.on(
+										'click',
+										function(e) {
+											e.preventDefault();
+
+											var type = $(this).data('type');
+
+											var selectedType = $(this).data(
+													'type');
+											// 선택된 항목의 텍스트를 버튼에 업데이트
+											$('#dropdownMenuButton').text(
+													selectedType);
+
+											$.ajax({
+														url : '/schedule/resourcelistByType',
+														type : 'POST',
+														data : {
+															resourceType : type
+														},
+														dataType : 'json',
+														success : function(
+																response) {
+															response.forEach(function(item) {
+																var tableBody = $('#datable_1 tbody');
+																tableBody.empty();
+
+																
+															    // 테이블 행 요소 생성
+															    var row = document.createElement('tr');
+
+															    // 체크박스 셀 생성 및 추가
+															    var checkboxCell = document.createElement('td');
+															    checkboxCell.innerHTML = '<span class="form-check"><input type="checkbox" class="form-check-input check-select-all" id="customCheck1"><label class="form-check-label" for="customCheck1"></label></span>';
+															    row.appendChild(checkboxCell);
+
+															    // 데이터가 들어갈 셀 생성 및 추가
+															    var cells = ['resourceNo', 'resourceType', 'resourceName', 'resourceMax', 'useYn'];
+															    cells.forEach(function(cell) {
+															        var dataCell = document.createElement('td');
+															        dataCell.textContent = item[cell];
+															        row.appendChild(dataCell);
+															    });
+
+															    // 드롭다운 셀 생성 및 추가
+															    var dropdownCell = document.createElement('td');
+															    var dropdownButton = document.createElement('button');
+															    dropdownButton.className = 'btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret';
+															    dropdownButton.setAttribute('aria-expanded', 'false');
+															    dropdownButton.setAttribute('data-bs-toggle', 'dropdown');
+															    dropdownButton.innerHTML = '<span class="icon"><span class="feather-icon"><i data-feather="more-vertical"></i></span></span>';
+															    
+															    var dropdownMenu = document.createElement('div');
+															    dropdownMenu.className = 'dropdown-menu dropdown-menu-end';
+															    var updateLink = document.createElement('span');
+															    updateLink.className = 'dropdown-item update-link';
+															    updateLink.setAttribute('data-resourceNo', item.resourceNo);
+															    updateLink.textContent = '수정';
+
+															    dropdownMenu.appendChild(updateLink);
+															    dropdownButton.appendChild(dropdownMenu);
+															    dropdownCell.appendChild(dropdownButton);
+															    row.appendChild(dropdownCell);
+
+															    // 행을 테이블 바디에 추가
+															    var tableBody = document.getElementById('datable_1').getElementsByTagName('tbody')[0];
+															    tableBody.appendChild(row);
+															});
+
+															// "수정" 링크 클릭 이벤트를 정의합니다.
+															$('.update-link')
+																	.on(
+																			'click',
+																			function(
+																					e) {
+																				e
+																						.preventDefault();
+
+																				var resourceNo = $(
+																						this)
+																						.data(
+																								'resourceno');
+																				var $row = $(
+																						this)
+																						.closest(
+																								'tr');
+
+																				// 해당 행에서 데이터를 가져옵니다.
+																				var resourceType = $row
+																						.find(
+																								'td:eq(2)')
+																						.text();
+																				var resourceName = $row
+																						.find(
+																								'td:eq(3)')
+																						.text();
+																				var resourceMax = $row
+																						.find(
+																								'td:eq(4)')
+																						.text();
+
+																				// 모달창의 각 필드에 데이터를 채웁니다.
+																				$(
+																						'#updateResource')
+																						.find(
+																								'input[name="resourceNo"]')
+																						.val(
+																								resourceNo);
+																				$(
+																						'#updateResource select[name="resourceType"]')
+																						.val(
+																								resourceType);
+																				$(
+																						'#updateResource input[name="resourceName"]')
+																						.val(
+																								resourceName);
+																				$(
+																						'#updateResource input[name="resourceMax"]')
+																						.val(
+																								resourceMax);
+
+																				// 모달창을 표시합니다.
+																				$(
+																						'#updateResource')
+																						.modal(
+																								'show');
+																			});
+														}
+													});
+										});
+					});
+
+	$(document).ready(function() {
+		  // 전체 체크박스 클릭
+	    $("#customCheck1").click(function() {
+	        // 전체 체크박스의 상태를 확인
+	        var isChecked = $("#customCheck1").prop("checked");
+
+	        // 모든 체크박스의 상태를 전체 체크박스에 맞춰 변경
+	        $(".form-check-input").prop("checked", isChecked);
+	    });
+
+		$("#delResourceBtn").click(function() {
+			var checkedList = [];
+
+			// 체크된 체크박스를 찾아 체크된 자산의 번호를 checkedList에 추가
+			$(".form-check-input:checked").each(function() {
+				var resourceNo = $(this).closest("tr").find("td:eq(1)").text();
+				console.log(this);
+				checkedList.push(resourceNo);
+			});
+
+			if (checkedList.length > 0) {
+				$.ajax({
+					url : "/schedule/deleteResource", // 삭제 요청을 처리할 서버 URL
+					type : "POST",
+					data : JSON.stringify(checkedList), // JSON 데이터로 변환
+					contentType : "application/json",
+					success : function(response) {
+						// 요청 성공 시 처리할 코드
+						alert("삭제 성공");
+						// 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
+						$(".form-check-input:checked").closest("tr").remove();
+					},
+					error : function(request, status, error) {
+						// 요청 실패 시 처리할 코드
+						alert("삭제 실패");
+						console.log("삭제 실패" + error);
+					}
+				});
+			} else {
+				alert("삭제할 자산을 선택해주세요.");
+			}
+		});
+	});
+	function fn_updateResource(e){
+		e.preventDefault();
+		console.log("")
+	};
+
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
