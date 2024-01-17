@@ -79,9 +79,15 @@ public class ScheduleContoller {
 		//String calStatus = (String) param.get("status");
 		int empNo = (Integer)param.get("empNo");
 		String deptCode = (String) param.get("deptCode");
+		String searchType = (String) param.get("searchType");
+		if (searchType.indexOf('A') > -1) {param.put("searchTypeA", "A");}
+		if (searchType.indexOf('B') > -1) {param.put("searchTypeB", "B");}
+		if (searchType.indexOf('C') > -1) {param.put("searchTypeC", "C");}
+
 		List<Schedule> searchList = scheduleService.searchSchedule(param);
 		
 		return searchList;
+//		return null;
 	}
 	
 	//중요일정 조회
