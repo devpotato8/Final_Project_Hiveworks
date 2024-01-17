@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dna.hiveworks.model.dto.board.Survey;
+import com.dna.hiveworks.model.dto.board.SurveyQuestion;
 import com.dna.hiveworks.service.SurveyService;
 
 import lombok.AllArgsConstructor;
@@ -58,5 +59,10 @@ public class SurveyController {
 		model.addAttribute("loc", loc);
 		
 		return "board/msg";
-	}	
+	}
+	@RequestMapping("/insertQuestion")
+	public void insertQuestion(SurveyQuestion qustion, Model model) {
+		int result=service.insertQuestion(qustion);
+		
+	}
 }

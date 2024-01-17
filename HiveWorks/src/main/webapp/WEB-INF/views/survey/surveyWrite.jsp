@@ -51,7 +51,8 @@
                                     </div>
                                 </div>
                             </div>
-
+                        </form>
+						 <form id="surveyForm" name="surveyFrm" action="${path }/survey/insertQuestion" method="post">
                             <!-- 숨겨진 섹션 추가 버튼들 -->
                             <button type="button" onclick="addHiddenSection('comment')">기타의견 추가</button>
                             <button type="button" onclick="addHiddenSection('checkbox')">다중선택 추가</button>
@@ -64,7 +65,7 @@
                             <div id="hiddenSectionContainer"></div>
 
                             <input type="submit" name="name" id="submit" onclick="createSurvey()" class="btn btn-primary mt-5" value="등록하기">
-                        </form>
+                         </form>
                         </div>
                     </div>
                 </div>
