@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.daoimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -12,9 +13,9 @@ import com.dna.hiveworks.model.dto.Work;
 public class WorkDaoImpl implements WorkDao {
 	
 	@Override
-	public List<Work> selectWorkListAllByEmp(SqlSession session) {
+	public List<Work> selectWorkListAllByEmp(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return session.selectList("work.selectWorkListAllByEmp");
+		return session.selectList("work.selectWorkListAllByEmp", empNo);
 	}
 
 	@Override
@@ -85,6 +86,42 @@ public class WorkDaoImpl implements WorkDao {
 	public int overWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String avgStartWorkFilter(SqlSession session, Map<String, Integer>param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.avgStartWorkFilter", param);
+	}
+
+	@Override
+	public String avgEndWorkFilter(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.avgEndWorkFilter", empNo);
+	}
+
+	@Override
+	public int lateWorkFilter(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.lateWorkFilter", empNo);
+	}
+
+	@Override
+	public int fastEndFilter(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.fastEndFilter", empNo);
+	}
+
+	@Override
+	public int absenceFilter(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.absenceFilter", empNo);
+	}
+
+	@Override
+	public int overWorkFilter(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.overWorkFilter", empNo);
 	}
 	
 	

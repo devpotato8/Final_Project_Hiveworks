@@ -13,15 +13,15 @@
 
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
    	<!-- Wrapper -->
-	<div class="hk-wrapper" data-layout="vertical" data-layout-style="collapsed" data-menu="light" data-footer="simple" data-hover="active">
+	<div id="scrollable-container" class="hk-wrapper" data-layout="vertical" data-layout-style="collapsed" data-menu="light" data-footer="simple" data-hover="active">
 		<!-- Top Navbar -->
-		<nav class="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
+		<!-- <nav class="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
 			<div class="container-fluid">
-			<!-- Start Nav -->
+			Start Nav
 			<div class="nav-start-wrap">
 				<button class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="align-left"></i></span></span></button>
 					
-				<!-- Search -->
+				Search
 				<form class="dropdown navbar-search">
 					<div class="dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="outside">
 						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="search"></i></span></span></a>
@@ -38,7 +38,7 @@
 						</div>
 					</div>
 					<div  class="dropdown-menu p-0">
-						<!-- Mobile Search -->
+						Mobile Search
 						<div class="dropdown-item d-xl-none bg-transparent">
 							<div class="input-group mobile-search">
 								<span class="input-affix-wrapper input-search">
@@ -52,7 +52,7 @@
 								</span>
 							</div>
 						</div>
-						<!--/ Mobile Search -->
+						/ Mobile Search
 						<div data-simplebar class="dropdown-body p-2">
 							<h6 class="dropdown-header">Recent Search
 							</h6>
@@ -145,11 +145,11 @@
 						<div class="dropdown-footer d-xl-flex d-none"><a href="#"><u>Search all</u></a></div>
 					</div>
 				</form>
-				<!-- /Search -->
+				/Search
 			</div>
-			<!-- /Start Nav -->
+			/Start Nav
 			
-			<!-- End Nav -->
+			End Nav
 			<div class="nav-end-wrap">
 				<ul class="navbar-nav flex-row">
 					<li class="nav-item">
@@ -349,9 +349,9 @@
 					</li>
 				</ul>
 			</div>
-			<!-- /End Nav -->
+			/End Nav
 			</div>									
-		</nav>
+		</nav> -->
 		<!-- /Top Navbar -->
 
         <!-- Vertical Nav -->
@@ -365,7 +365,7 @@
 						<div class="invoiceapp-detail-wrap">
 							<header class="invoice-header">
 								<div class="d-flex align-items-center">
-									<a class="invoiceapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button"aria-haspopup="true"  aria-expanded="false">
 										<h1>직원 관리</h1>
 									</a>
 									<!-- <div class="dropdown-menu">
@@ -402,10 +402,11 @@
 								</div> -->
 								
 							</header>
-							<button class="btn btn-primary btn-rounded" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px">직원 등록</button>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
+										<button class="btn btn-primary btn-rounded" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px; display:inline-block;">직원 등록</button>
+										<button class="btn btn-primary btn-rounded" onclick="fn_excelDownload();" style="width:150px; display:inline-block;">엑셀 다운로드</button>
 										<table id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
@@ -773,6 +774,9 @@
 <script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script src="${path}/resources/js/invoice-data.js"></script>
+
+
 <script>
 $('#datable_2').DataTable( {
 	scrollX:  true,
@@ -804,5 +808,23 @@ fn_deleteEmployee=(e)=>{
 }
 
 </script>
+<script>
+fn_excelDownload=()=>{
+	location.replace("${path}/employees/excelEmployeeDownload");
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+}
+
+</script>
+    <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>

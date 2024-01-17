@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
 import com.dna.hiveworks.model.dto.Account;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class EmpServiceImpl implements EmpService {
 
@@ -139,7 +141,7 @@ public class EmpServiceImpl implements EmpService {
 
 
 	@Override
-	public int updatePassword(Map<String, String> IdAndPassword) {
+	public int updatePassword(Map<String, Object> IdAndPassword) {
 		
 		int result_first = dao.confirmEmployee(session,IdAndPassword);
 
@@ -165,6 +167,46 @@ public class EmpServiceImpl implements EmpService {
 		return authorityList;
 	}
 
-	
+
+	@Override
+	public int updateAuthorities(Map<String, List<String>> data) {
+		
+		int count =0;
+		
+		for(int i=0; i<data.get("names").size();i++) {
+			Map<String,Object> empNoAndAutcode = new HashMap<>();
+			
+			empNoAndAutcode.put("empNo", data.get("names").get(i));
+			empNoAndAutcode.put("value", data.get("values").get(i));
+			
+			int result = dao.updateAuthorities(session,empNoAndAutcode);
+			if(result==0) {
+				new RuntimeException("업데이트 실패");
+			}
+			count++;
+		}
+
+		return count;
+	}
+
+
+	@Override
+	public Map<String, Object> downloadEmployeesAndAccount() {
+		Map<String, Object> result = new HashMap<>();
+		
+		List<Employee> employees = dao.selectEmployeesListAll(session);
+		List<Account> accounts = new ArrayList<>();
+		
+		for(int i=0; i<employees.size();i++) {
+			accounts.add(dao.selectAccountByEmpNo(session, employees.get(i).getEmp_no()));	
+		}
+		
+		result.put("employees", employees);
+		result.put("accounts", accounts);
+		
+		return result;
+	}
+
+
 	
 }

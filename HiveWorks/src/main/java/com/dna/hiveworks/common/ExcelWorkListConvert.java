@@ -1,3 +1,4 @@
+
 package com.dna.hiveworks.common;
 
 import java.util.List;
@@ -39,13 +40,14 @@ public class ExcelWorkListConvert extends AbstractXlsView {
 	}
 	private void addContent(Sheet sheet, Work work) {
 		Row row = sheet.createRow(sheet.getLastRowNum()+1);
-		String[] workDay = work.getWorkDay().toLocaleString().split("오");
-		String[] startTime = work.getWorkStartTime().toLocaleString().split("전 ");
-		String[] endTime = work.getWorkEndTime().toLocaleString().split("후 ");
+//		String[] workDay = work.getWorkDay().toLocaleString().split("오");
+//		String[] startTime = work.getWorkStartTime().toLocaleString().split("전 ");
+//		String[] endTime = work.getWorkEndTime().toLocaleString().split(" ", 4);
+		
 		row.createCell(0);
-		row.createCell(1).setCellValue(workDay[0]);
-		row.createCell(2).setCellValue(startTime[1]);
-		row.createCell(3).setCellValue(endTime[1]);
+		row.createCell(1).setCellValue(work.getWorkDay() == null ? " " : work.getWorkDay().toLocaleString());
+		row.createCell(2).setCellValue(work.getWorkStartTime() == null ? " " : work.getWorkStartTime().toLocaleString());
+		row.createCell(3).setCellValue(work.getWorkEndTime() == null ? " " : work.getWorkEndTime().toLocaleString());
 		row.createCell(4).setCellValue(work.getWorkPermit() == null ? "null" :  work.getWorkPermit());
 		row.createCell(5).setCellValue(work.getWorkRealtime().getWorkLate());
 		row.createCell(6).setCellValue(work.getWorkRealtime().getWorkFastEnd());

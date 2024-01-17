@@ -10,7 +10,10 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <div class="hk-pg-wrapper">
 	<div class="container-xxl">
 		<!-- Page Header -->
@@ -18,7 +21,7 @@
 			<div class="d-flex">
 				<div class="d-flex flex-wrap justify-content-between flex-1">
 					<div class="mb-lg-0 mb-2 me-8">
-						<h1 class="pg-title">근무현황</h1>
+						<h1 class="pg-title">근무현황 - ${loginEmp.emp_name }님</h1>
 					</div>
 				</div>
 			</div>
@@ -255,7 +258,8 @@
 	const month = 30;
 	const year = 365;
     function workListWeek() {
-    	fetch("${path}/work/workListWeek?week=${week}")
+    	fetch("${path}/work/workListWeek?week=" + week)
+    	//fetch("${path}/work/workListWeek?week=${week}") 이건 전달이 안됌...
 	    .then(response => response.json())
 	    .then(data => {
 	      // 데이터 처리 로직

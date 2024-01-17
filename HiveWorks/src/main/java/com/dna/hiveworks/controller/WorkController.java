@@ -6,16 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.View;
 
 import com.dna.hiveworks.common.ExcelWorkListConvert;
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Work;
 import com.dna.hiveworks.service.WorkService;
 
@@ -33,7 +38,9 @@ public class WorkController {
 	@GetMapping("workList")
 		public String workList(Model m) {
 		
-		int empNo = 1;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Employee loginEmp = (Employee) authentication.getPrincipal();
+		int empNo = loginEmp.getEmp_no();
 		
 		// 평균 출근시간
 		String avgStartWork = service.avgStartWork(empNo);
@@ -66,10 +73,15 @@ public class WorkController {
 	@ResponseBody
 	public Map<String, Object> workListWeek(Model m, @RequestParam("week") Integer week) {
 		Map<String, Object> response = new HashMap<>();
+		Map<String, Integer> param = new HashMap<>();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Employee loginEmp = (Employee) authentication.getPrincipal();
+		int empNo = loginEmp.getEmp_no();
 		
-		int empNo = 1;
+		param.put("empNo", empNo);
+		param.put("week", week);
 		
-		String avgStartWork = service.avgStartWork(empNo);
+		String avgStartWork = service.avgStartWorkFilter(param);
 		String avgEndWork = service.avgEndWork(empNo);
 		int overWork = service.overWork(empNo);
 		int lateWork = service.lateWork(empNo);
@@ -89,7 +101,11 @@ public class WorkController {
 	@GetMapping("workListMonth")
 	@ResponseBody
 	public Map<String, Object> workListMonth(Model m, @RequestParam("week") Integer week) {
-		int empNo = 1;
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Employee loginEmp = (Employee) authentication.getPrincipal();
+		int empNo = loginEmp.getEmp_no();
+		
 		Map<String, Object> response = new HashMap<>();
 		String avgStartWork = service.avgStartWork(empNo);
 		String avgEndWork = service.avgEndWork(empNo);
@@ -111,7 +127,11 @@ public class WorkController {
 	@GetMapping("workListYear")
 	@ResponseBody
 	public Map<String, Object> workListYear(Model m, @RequestParam("week") Integer week) {
-		int empNo = 1;
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Employee loginEmp = (Employee) authentication.getPrincipal();
+		int empNo = loginEmp.getEmp_no();
+		
 		Map<String, Object> response = new HashMap<>();
 		String avgStartWork = service.avgStartWork(empNo);
 		String avgEndWork = service.avgEndWork(empNo);
@@ -131,15 +151,20 @@ public class WorkController {
 	}
 	
 	@GetMapping("workView")
-	public String workView(Model m) {
-		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp();
+	public String workView(@SessionAttribute("loginEmp")Employee loginEmp , Model m) {
+		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//Employee loginEmp = (Employee) authentication.getPrincipal();
+		int empNo = loginEmp.getEmp_no();
+		
+		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp(empNo);
 		m.addAttribute("workView", selectWorkListAllByEmp);
 		return "work/workView";
 	}
 	
 	@RequestMapping("updateStartWork")
-	public String updateStartWork(Model m) {
-		int empNo = 1;
+	public String updateStartWork(@SessionAttribute("loginEmp")Employee loginEmp, Model m) {
+		int empNo = loginEmp.getEmp_no();
+		
 		String msg,loc;
 		try {
 			service.updateStartWork(empNo);
@@ -155,8 +180,9 @@ public class WorkController {
 	}
 	
 	@RequestMapping("updateEndWork")
-	public String updateEndWork(Model m) {
-		int empNo = 1;
+	public String updateEndWork(@SessionAttribute("loginEmp")Employee loginEmp, Model m) {
+		int empNo = loginEmp.getEmp_no();
+		
 		String msg,loc;
 		try {
 			service.updateEndWork(empNo);
@@ -171,9 +197,12 @@ public class WorkController {
 		return "common/msg";
 	}
 	
-	@RequestMapping("/exceldownload")
-	public View exceldownload(Model m) {
-		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp();
+	@RequestMapping("exceldownload")
+	public View exceldownload(@SessionAttribute("loginEmp")Employee loginEmp , Model m) {
+		
+		int empNo = loginEmp.getEmp_no();
+		
+		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp(empNo);
 		m.addAttribute("workView", selectWorkListAllByEmp);
 		return new ExcelWorkListConvert();
 	}
