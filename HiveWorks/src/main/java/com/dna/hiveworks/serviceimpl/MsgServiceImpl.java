@@ -1,6 +1,8 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -46,5 +48,49 @@ public class MsgServiceImpl implements MsgService {
 		
 		return dao.starUnmark(session,msgNo);
 	}
+		
+	@Override
+	public List<String> receiverNames(List<Integer> empNos) {
+		
+		return dao.receiverNames(session,empNos);
+	}
 
+	@Override
+	public String categoryName(String cateNo) {
+		return dao.categoryName(session,cateNo);
+	}
+
+	@Override
+	public int sendMsg(Map<String, Object> params) {
+		
+		int count = 0;
+		int length = ((List<Integer>) params.get("receiverEmpNo")).size();
+		for(int i=0; i<length; i++) {
+			
+			Map<String,Object> datas = new HashMap<>();
+			
+			datas.put("receiverEmpNo", ((List<Integer>) params.get("receiverEmpNo")).get(i));
+			datas.put("receiverName", ((List<String>) params.get("receiverNames")).get(i));
+			datas.put("senderEmpNo",params.get("senderEmpNo"));
+			datas.put("msgCategory", params.get("msgCategory"));
+			datas.put("msgCategoryName", params.get("msgCategoryName"));
+			datas.put("msgTitle", params.get("msgTitle"));
+			datas.put("msgContent", params.get("msgContent"));
+			datas.put("fileOriname", params.get("fileOriname"));
+			datas.put("fileRename", params.get("fileRename"));
+			datas.put("fileSize", params.get("fileSize"));
+						
+			int result = dao.sendMsg(session,datas);
+			
+			if(result==0) new RuntimeException("쪽지 전송 실패");
+			
+			count++;
+		}
+		return count;
+		
+	}
+
+
+	
+	
 }

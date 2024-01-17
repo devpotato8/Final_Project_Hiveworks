@@ -1,6 +1,7 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dna.hiveworks.model.dto.Message;
 
@@ -17,4 +18,7 @@ public interface MsgService {
 	List<Message> msgList(int empNo);
 	int starMark(int msgNo);
 	int starUnmark(int msgNo);
+	List<String> receiverNames(List<Integer> empNos);
+	String categoryName(String cateNo);
+	int sendMsg(Map<String,Object> params);
 }

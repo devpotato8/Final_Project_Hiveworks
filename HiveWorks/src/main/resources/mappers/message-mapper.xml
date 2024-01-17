@@ -30,4 +30,25 @@
 		UPDATE TBL_MESSAGE SET MSG_MARKED_YN = 'N' WHERE MSG_NO = #{msgNo}
 	</update>
 
+ 	<select id="receiverNames" resultType="java.lang.String">
+		SELECT EMP_NAME 
+		FROM TBL_EMPLOYEE
+		WHERE EMP_NO IN 
+	    <foreach collection="list" item="item" open="(" close=")" separator=",">
+	        ${item}
+	    </foreach>
+	</select>
+
+	<select id="categoryName" parameterType="string" resultType="string">
+		SELECT CODE_NAME FROM TBL_CODE WHERE CODE_NO = #{cateNo}
+	</select>
+
+	<insert id="sendMsg">
+	    INSERT INTO TBL_MESSAGE VALUES(
+	        SEQ_MSG_NO.NEXTVAL, ${senderEmpNo}, ${receiverEmpNo}, #{msgCategory}, #{msgCategoryName},
+	        #{msgTitle}, #{msgContent}, DEFAULT, 'N', 'N', #{fileOriname}, #{fileRename},'N',
+	        #{fileSize}, (SELECT EMP_NAME FROM TBL_EMPLOYEE WHERE EMP_NO = ${senderEmpNo}),
+	        #{receiverName}
+	    )
+	</insert>
 </mapper>

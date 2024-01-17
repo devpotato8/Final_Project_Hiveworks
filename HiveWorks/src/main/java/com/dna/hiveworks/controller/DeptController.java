@@ -268,6 +268,7 @@ public class DeptController {
         }
     }
 	
+	//쪽지함에서 모달창에 jstree구현 로직
 	@GetMapping("/modalDeptEmp")
 	@ResponseBody
 	public Map<String,List<?>> modaldeptList(Department dept, Model model) throws Exception{
