@@ -89,7 +89,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-soft-primary" id="sendReply">답장 보내기</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-soft-secondary" data-bs-dismiss="modal">닫기</button>
 			</div>
 		</div>
 	</div>
@@ -189,25 +189,25 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item active">
-									<a class="nav-link" href="${path}/messageview">
+									<a class="nav-link" href="${path}/messageview?empNo=${loginEmp.emp_no}">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="hard-drive"></i></span></span>
 										<span class="nav-link-text">받은 쪽지함</span>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="javascript:void(0);">
+									<a class="nav-link" href="${path}/sendmessageview?empNo=${loginEmp.emp_no}">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="send"></i></span></span>
 										<span class="nav-link-text">보낸 쪽지함</span>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="javascript:void(0);">
+									<a class="nav-link" href="${path}/starmessageview?empNo=${loginEmp.emp_no}">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="star"></i></span></span>
 										<span class="nav-link-text">별표 쪽지함</span>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="javascript:void(0);">
+									<a class="nav-link" href="${path}/delmessageview?empNo=${loginEmp.emp_no}">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span>
 										<span class="nav-link-text">휴지통</span>
 									</a>
@@ -372,7 +372,7 @@ $('#searchEmpBtn').click(function(){
                         deptlist.push(parentDept);
                     }
                     
-                    emplist[idx]={id:item.id, parent:parentDept.id, text:item.deptName + ' ' + item.name + ' ' + item.position, type:'emp', li_attr: {class: 'emp'}};
+                    emplist[idx]={id:item.no, parent:parentDept.id, text:item.deptName + ' ' + item.name + ' ' + item.position, type:'emp', li_attr: {class: 'emp'}};
                 });
 
                 // 부서와 직원 정보 합치기
@@ -407,18 +407,19 @@ $('#searchEmpBtn').click(function(){
 
         for(var i = 0; i < selectedNodes.length; i++) {
             var node = selectedNodes[i];
-
+            
             if(node.type === 'emp') {
                 var name = node.text.split(' ')[1]; // 텍스트에서 이름 부분만 추출
 
                 // 이미 리스트에 이름이 있는지 확인
                 if(selectedEmpNames.indexOf(name) === -1) {
-                    selectedEmpNames.push(name);  // 리스트에 없으면 이름 저장
-                    selectedEmpNos.push(node.id); // 리스트에 없으면 번호 저장
+                	// 리스트에 없으면 이름과 번호
+                    selectedEmpNames.push(name);  
+                    selectedEmpNos.push(node.id); 
                 }
             } else if(node.type === 'dept') {
                 var deptEmps = deptEmpMap[node.text];
-
+				console.log(deptEmps);
                 for(var j = 0; j < deptEmps.length; j++) {
                     var empName = deptEmps[j].name;
 
@@ -430,11 +431,11 @@ $('#searchEmpBtn').click(function(){
                 }
             }
         }
-
+        
         // 컴마로 구분하여 문자열로 변환
         var empNameString = selectedEmpNames.join(', ');
         var empNoString = selectedEmpNos.join(', ');
-
+        
         // 모달창의 입력 필드에 넣어주기
         $('#searchEmp').val(empNameString);
         $('#receiverEmpNo').val(empNoString);
@@ -477,16 +478,21 @@ $(document).ready(function(){
 	    var sendMsgTitle = $('input[name="sendMsgTitle"]').val();
 	    var sendMsgContent = $('#msgContentArea').val();
 	    var sendmsgFile = $('#msgFileAttach')[0].files[0]; // 파일 첨부의 경우
-
+		var senderEmpNo = '${loginEmp.emp_no}';
 	    var formData = new FormData();
 	    receiverEmpNo.forEach(function(no) {
 	        formData.append('receiverEmpNo', no.trim()); // 공백 제거 후 추가
 	    });
 	    formData.append('msgCategory', msgCategory);
+	    formData.append('senderEmpNo', senderEmpNo);
 	    formData.append('sendMsgTitle', sendMsgTitle);
 	    formData.append('sendMsgContent', sendMsgContent);
-	    formData.append('sendmsgFile', sendmsgFile); // 파일 첨부의 경우
-
+	    formData.append('sendmsgFile', sendmsgFile[0]);
+	    // 파일이 첨부되었는지 확인하고, 첨부된 경우에만 formData에 추가
+        /* if(sendmsgFile.length > 0) {
+            formData.append('sendmsgFile', sendmsgFile[0]);
+        }; */
+		
 	    $.ajax({
 	        type: 'POST',
 	        url: '/sendMsg', // 실제 요청 URL
@@ -513,12 +519,18 @@ $(document).ready(function(){
 		            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
 	            } else {
 	                alert("쪽지 전송 실패. 다시 시도해보세요.");
+	                $('#sendMsgModal').modal('hide'); // 모달창 닫기
+	                $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
 	            }
 	            
 	        },
-	        error: function(error){
+	        error: function(xhr, status, error){
 	            // 요청 실패 시 처리
+	            console.error("Error status: ", status);
+			    console.error("Error thrown: ", error);
+			    console.error("Error response: ", xhr.responseText);
 	            alert("서버 통신 오류. 쪽지 전송 실패. 관리자 문의요망");
+	            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
 	        }
 	    });
 	});

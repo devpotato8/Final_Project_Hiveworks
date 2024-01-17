@@ -2,12 +2,14 @@ package com.dna.hiveworks.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,6 @@ import com.dna.hiveworks.model.dto.Message;
 import com.dna.hiveworks.service.MsgService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -38,20 +39,22 @@ public class MessageController {
 	
 	private final MsgService service; 
 	
+	//쪽지함 페이지
 	@GetMapping("/messageview")
 	public String messageView(@RequestParam int empNo, Model model) {
 		
 		List<Message> msgs = service.msgList(empNo);
-		System.out.println(msgs);
 		model.addAttribute("msgList",msgs);
 		return "message/message";
 	}
 	
+	//파일들만 보이는 페이지
 	@GetMapping("/msgFileView")
 	public String msgFileView() {
 		return "message/messageFilePage";
 	}
 	
+	//별표 표시하기
 	@PostMapping("/starmark")
 	public Map<String, String> starMark(@RequestParam String msg_no){
 		
@@ -70,6 +73,7 @@ public class MessageController {
 		return response;
 	}
 	
+	//별표 표시 해제
 	@PostMapping("/starunmark")
 	public Map<String, String> starUnmark(@RequestParam String msg_no){
 		
@@ -88,36 +92,90 @@ public class MessageController {
 		return response;
 	}
 	
+	//쪽지 보내기
 	@PostMapping("/sendMsg")
-    public Map<String, String> sendMsg(@RequestParam("receiverEmpNo") List<String> receiverEmpNo,
-                          @RequestParam("msgCategory") String msgCategory,
-                          @RequestParam("sendMsgTitle") String sendMsgTitle,
-                          @RequestParam("sendMsgContent") String sendMsgContent,
-                          @RequestParam("sendmsgFile") MultipartFile sendmsgFile,
-                          HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public Map<String, String> sendMsg(
+    					@RequestParam("receiverEmpNo") List<String> receiverEmpNo,
+    					@RequestParam("senderEmpNo") String senderEmpNo,
+                        @RequestParam("msgCategory") String msgCategory,
+                        @RequestParam("sendMsgTitle") String sendMsgTitle,
+                        @RequestParam("sendMsgContent") String sendMsgContent,
+                        @RequestParam(value="sendmsgFile", required=false) MultipartFile sendmsgFile,
+                        HttpServletRequest request) throws IOException{
 		
+		
+		//EmpNo 리스트를 Integer로 변환
+	    List<Integer> empNos = receiverEmpNo.stream().map(Integer::parseInt).collect(Collectors.toList());
+
+	    List<String> receiverNames = service.receiverNames(empNos);
+	    
+	    String msgCategoryName = service.categoryName(msgCategory);
+	    
 		//파일 업로드
 		String savePath = request.getServletContext().getRealPath("/resources/msgupload/");
-		File file = new File(savePath+"/"+sendmsgFile.getOriginalFilename());
-		sendmsgFile.transferTo(file);
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		String timePart = formatter.format(new Date()); // 현재 시간을 년월일시분초 형태로 변환
+		// 디렉토리가 존재하지 않을 경우 생성
+		File dir = new File(savePath);
+		if(!dir.exists()){
+		    dir.mkdirs();
+		}
 		
-		String fileOriname = sendmsgFile.getOriginalFilename();
-		String extension = fileOriname.substring(fileOriname.lastIndexOf(".")); // 확장자 추출
-		String fileRename = UUID.randomUUID().toString().replaceAll("-", "").substring(0,6) +timePart+receiverEmpNo+ extension; // UUID + 확장자
+		String fileOriname = "";
+		String fileRename = "";
+		String fileSize = "";
+		Map<String,String> response = new HashMap<>();
 		
+		// 파일이 첨부되었는지 확인
+		if(sendmsgFile != null && !sendmsgFile.isEmpty()) {
+			fileOriname = sendmsgFile.getOriginalFilename();
+			String extension = fileOriname.substring(fileOriname.lastIndexOf(".")); // 확장자 추출
+
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+			String timePart = formatter.format(new Date()); // 현재 시간을 년월일시분초 형태로 변환
+
+			fileRename = UUID.randomUUID().toString().replaceAll("-", "").substring(0,6) + timePart + extension; // UUID + 확장자
+			
+			File file = new File(savePath + "/" + fileRename);
+			try {
+				sendmsgFile.transferTo(file);
+			} catch(IOException e) {
+				e.printStackTrace();
+				response.put("status", "fail");
+				return response;
+			}
+			
+			// 파일 크기 저장
+			long fileSizeBytes = sendmsgFile.getSize();
+			
+			// 파일 크기를 byte에서 MB로 변환
+			double fileSizeMb = fileSizeBytes / (1024.0 * 1024.0);
+
+			// MB 단위의 파일 크기를 소수점 둘째 자리까지의 문자열로 변환
+			fileSize = String.format("%.2f", fileSizeMb) + "MB";
+			
+		}
 		
-		Map<String,String>response1 = new HashMap<>();
-//		int result = service.sendMsg();		
+		Map<String,Object> params = new HashMap<>();
 		
-//		if(result>0) {
-//			response1.put("status","success");
-//		}else {
-//			response1.put("status", "fail");
-//		}
+		params.put("receiverEmpNo", empNos);
+		params.put("receiverNames", receiverNames);
+		params.put("senderEmpNo", senderEmpNo);
+		params.put("msgCategory", msgCategory);
+		params.put("msgCategoryName", msgCategoryName);
+		params.put("msgTitle", sendMsgTitle);
+		params.put("msgContent", sendMsgContent);
+		params.put("fileOriname", fileOriname);
+		params.put("fileRename", fileRename);
+		params.put("fileSize", fileSize);
 		
-		return response1;
+		int result = service.sendMsg(params);	
+		
+		if(result>0) {
+			response.put("status","success");
+		} else {
+			response.put("status", "fail");
+		}
+		
+		return response;
     }
 }

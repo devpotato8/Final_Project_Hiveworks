@@ -9,6 +9,7 @@
 	
 	<resultMap id="empMap" type="map">
 		<result property="id" column="EMP_ID"/>
+		<result property="no" column="EMP_NO"/>
 	    <result property="name" column="EMP_NAME"/>
 	    <result property="leader" column="DEPT_LEADER"/>
 	    <result property="position" column="POSITION"/>
@@ -28,10 +29,10 @@
 	</select>
 
 
-	<!-- jstree에서 하위부서 생성했을 때, 저장되는 부서코드와 일치시키기 위해서 사용 -->	
-	<!-- useGeneratedKeys를 사용해서 시퀀스로 생성된 deptCode를 다시 jstree ajax로 돌려보낸다 -->
-    <!-- selectKey 구문을 이용해서 반환되는 키의 타입을 지정하고 키로 쓸 값을 선택한다 -->
-<!-- 	<insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
+	<!-- jstree에서 하위부서 생성했을 때, 저장되는 부서코드와 일치시키기 위해서 사용
+		 useGeneratedKeys를 사용해서 시퀀스로 생성된 deptCode를 다시 jstree ajax로 돌려보낸다
+    	 selectKey 구문을 이용해서 반환되는 키의 타입을 지정하고 키로 쓸 값을 선택한다
+	 	<insert id="insertDept" parameterType="department" useGeneratedKeys="true" keyProperty="deptCode">
 	    INSERT INTO TBL_DEPARTMENT VALUES('DEP'||SEQ_DEPT_CODE.NEXTVAL, #{deptUpstair}, #{deptName}, DEFAULT)
 	    <selectKey resultType="string" keyProperty="deptCode" order="AFTER">
 	        SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_CODE = (SELECT MAX(DEPT_CODE) FROM TBL_DEPARTMENT)
@@ -175,6 +176,7 @@
     	SELECT DEPT_CODE FROM TBL_DEPARTMENT WHERE DEPT_NAME = #{DEPT_NAME}
 	</select>
 	
+	<!-- 쪽지함 모달창 jstree 직원 구성 -->
 	<select id="modalDeptEmpList" resultMap="empMap">
 		SELECT e.EMP_NO, e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
 			FROM TBL_EMPLOYEE e
