@@ -406,6 +406,7 @@
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
 										<button class="btn btn-primary btn-rounded" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px; display:inline-block;">직원 등록</button>
+										<button class="btn btn-primary btn-rounded" onclick="fn_excelDownload();" style="width:150px; display:inline-block;">엑셀 다운로드</button>
 										<table id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
@@ -807,3 +808,23 @@ fn_deleteEmployee=(e)=>{
 }
 
 </script>
+<script>
+fn_excelDownload=()=>{
+	location.replace("${path}/employees/excelEmployeeDownload");
+
+}
+
+</script>
+    <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>

@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.View;
 
+import com.dna.hiveworks.common.ExcelEmployeeListConvert;
 import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.serviceimpl.EmpServiceImpl;
@@ -97,7 +99,8 @@ public class EmpController {
 		
 		Map<String,Object> param = new HashMap<>();
 		
-		param.put("emp_no", keyword);
+		param.put("type", "emp_no");
+		param.put("keyword", keyword);
 		
 		List<Employee> searchEmployee = service.searchEmployeesByKeyword(param);
 		
@@ -389,11 +392,16 @@ public class EmpController {
 		return result;
 	
 	}
-	
-	@GetMapping("/test")
-	public void test() {
+
+	@GetMapping("excelEmployeeDownload")
+	public View downloadEmployeesAndAccount(Model model) {
 		
+		Map<String, Object> employeesAndAccounts = service.downloadEmployeesAndAccount();
+		
+		model.addAttribute("employees", employeesAndAccounts.get("employees"));
+		model.addAttribute("accounts", employeesAndAccounts.get("accounts"));
+		
+		return new ExcelEmployeeListConvert();
 	}
-	
 	
 }

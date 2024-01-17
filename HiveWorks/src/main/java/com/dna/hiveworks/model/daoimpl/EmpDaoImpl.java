@@ -67,6 +67,7 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public List<Employee> searchEmployeesByKeyword(SqlSession session, Map<String,Object> param) {
+		System.out.println(param);
 		return session.selectList("employee.searchEmployeesByKeyword",param);
 	}
 

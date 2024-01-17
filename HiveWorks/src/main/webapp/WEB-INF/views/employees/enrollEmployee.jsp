@@ -638,7 +638,7 @@ fn_idDuplicate=()=>{
 	
 };
 //아이디 중복 확인 후 중간에 변경 시 값(id_check) 선언 값 초기화
-fn_reset(){
+fn_reset=()=>{
 	id_check=-1;
 };
 
@@ -702,4 +702,3 @@ $form.addEventListener('submit',(event)=>{
 	$form.submit();
 });
 </script>		
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>

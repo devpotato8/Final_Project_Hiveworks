@@ -406,7 +406,16 @@
         line-height: 14px;
         text-align: center;
         margin-top: 24px
-    }</style>
+    }
+    
+    @media print {
+
+    .print-button { display:none;} : print상태(Alt+p)가 될 경우 제외시킨다.
+
+	}
+    
+    
+</style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
 <table width="740px">
     <tbody>
@@ -415,6 +424,8 @@
     </tr>
     </tbody>
 </table>
+<i id="print" style="cursor: pointer; " class="fa fa-print print-button"></i>
+
 <table class="top_basictbl">
     <colgroup>
         <col style="width:50%">
@@ -759,4 +770,22 @@
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
 	<script src="${path}/resources/js/dashboard-data.js"></script>
+	
+	<script>
+//프린트 관련 기능
+  $('#print').on('click', function(){
+	 $('body').css('background-image', 'url("path/to/your/background/image.jpg")');
+	 window.print();  // 클릭액션 : 버튼클릭시 인쇄창팝업
+  });
+
+  $('#print').mouseover(function(){
+	  $(this).css("color",'#cdee1d');  // 마우스오버액션 : 커서가 올라갈 경우 다른색상으로 변경 
+  });
+
+
+  $('#print').mouseleave(function(){
+	  $(this).css("color",'#0c4276');  // 마우스릴리즈액션 : 커서가 밖에 위치할 경우 기존색상으로 변경 
+  });
+
+	</script>
 	

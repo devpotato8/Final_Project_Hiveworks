@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.daoimpl.EmpDaoImpl;
 import com.dna.hiveworks.model.dto.Account;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class EmpServiceImpl implements EmpService {
 
@@ -187,8 +189,24 @@ public class EmpServiceImpl implements EmpService {
 		return count;
 	}
 
-	
-	
-	
+
+	@Override
+	public Map<String, Object> downloadEmployeesAndAccount() {
+		Map<String, Object> result = new HashMap<>();
+		
+		List<Employee> employees = dao.selectEmployeesListAll(session);
+		List<Account> accounts = new ArrayList<>();
+		
+		for(int i=0; i<employees.size();i++) {
+			accounts.add(dao.selectAccountByEmpNo(session, employees.get(i).getEmp_no()));	
+		}
+		
+		result.put("employees", employees);
+		result.put("accounts", accounts);
+		
+		return result;
+	}
+
+
 	
 }

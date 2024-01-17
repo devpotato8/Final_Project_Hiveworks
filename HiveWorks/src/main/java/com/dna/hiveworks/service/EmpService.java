@@ -37,4 +37,6 @@ public interface EmpService {
 	
 	int updateAuthorities(Map<String, List<String>> data);
 	
+	Map<String, Object> downloadEmployeesAndAccount();
+	
 }
