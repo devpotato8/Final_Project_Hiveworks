@@ -28,6 +28,9 @@
         LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
         WHERE BOARD_TYPE = 'BRD001'
     </select>
+    <update id="updateBoardCount" parameterType="int">
+    	UPDATE TBL_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_NO = ${boardNo}
+	</update>
     <insert id="insertBoard" parameterType="board">
     	<selectKey keyProperty="boardNo" resultType="int" keyColumn="BOARD_NO" order="BEFORE">
     		SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
@@ -36,10 +39,10 @@
 		(#{boardNo},'BRD001',#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
-    UPDATE TBL_BOARD SET
-    BOARD_CONTENT = #{boardContent},
-    BOARD_TITLE = #{boardTitle}
-    WHERE BOARD_NO = #{boardNo}
+	    UPDATE TBL_BOARD SET
+	    BOARD_CONTENT = #{boardContent},
+	    BOARD_TITLE = #{boardTitle}
+	    WHERE BOARD_NO = #{boardNo}
 	</update>
 	<delete id="boardDelete" parameterType="board">
 		DELETE FROM TBL_BOARD WHERE BOARD_NO = #{boardNo}

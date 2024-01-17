@@ -41,7 +41,7 @@
 								<tr>
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
-									<a href="/board/boardView?boardNo=${b.boardNo}"><c:out value="${b.boardNo}" /></a>
+									<a href="/board/boardView?boardNo=${b.boardNo}&count=1"><c:out value="${b.boardNo}" /></a>
 									<td><c:out value="${b.createDate}" /></td>
 									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
@@ -127,7 +127,6 @@
 
 	
 	</script>
-
 
 	<!-- Init JS -->	
 	<script src="${path}/resources/js/invoice-data.js"></script>

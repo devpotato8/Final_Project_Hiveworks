@@ -72,6 +72,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function addHiddenSection(type) {
         var hiddenSection = document.getElementById('hiddenSectionTemplate').cloneNode(true);

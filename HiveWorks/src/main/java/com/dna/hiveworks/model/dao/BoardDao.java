@@ -18,9 +18,12 @@ public interface BoardDao {
 	int insertBoard(SqlSession session, Board b);
 
 	int boardUpdate(SqlSession session, Board b);
+	
 
 	Board boardDelete(SqlSession session, int boardNo);
 
 	int insertUploadfile(SqlSession session, Uploadfile uploadfile);
+
+	int updateBoardCount(SqlSession session, int boardNo);
 
 }

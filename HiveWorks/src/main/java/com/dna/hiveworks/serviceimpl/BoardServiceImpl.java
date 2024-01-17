@@ -60,6 +60,13 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
+	@Override
+	@Transactional
+	public int updateBoardCount(int boardNo) {
+		log.debug("조회수: {}", boardNo);
+	    return dao.updateBoardCount(session, boardNo);
+	}
+	
 }
 	
 	
