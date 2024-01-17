@@ -50,6 +50,7 @@ public class BoardController {
 	public String board(Model model) {
 	    List<Board> boardList = service.selectAllBoard();
 	    model.addAttribute("boardList", boardList);
+	    
 	    return "board/board";
 	}
 	
@@ -66,10 +67,12 @@ public class BoardController {
 	    return "board/boardWrite";
 	}
 	@RequestMapping("/boardView")
-	public void selectBoardByNo(int boardNo, Model model) {
+	public void selectBoardByNo(int boardNo, Model model,int count) {
 		Board board = service.selectBoardByNo(boardNo);
+		int countresult=service.updateBoardCount(boardNo);
 		   log.debug("Board Object: {}", board);	   
 		   model.addAttribute("board", board);
+		   model.addAttribute("count",countresult);
 	}
 	@RequestMapping("/boardDelete")
 	public String boardDelete(@RequestParam("boardNo") int boardNo,Model model) {

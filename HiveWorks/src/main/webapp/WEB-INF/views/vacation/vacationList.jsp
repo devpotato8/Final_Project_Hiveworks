@@ -10,16 +10,20 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <div class="hk-pg-wrapper">
 	<div class="container-xxl">
 		<!-- Page Header -->
 		<div class="hk-pg-header pg-header-wth-tab pt-7">
 			<div class="d-flex">
 				<div class="d-flex flex-wrap justify-content-between flex-1">
-					<div class="mb-lg-0 mb-2 me-8">
-						<h1 class="pg-title">휴가신청</h1>
+					<div class="mb-lg-0 mb-2 me-8 d-flex justify-content-between">
+						<h1 class="pg-title">휴가신청 - ${loginEmp.emp_name }님</h1>
 					</div>
+					<div><h1 class="pg-title"> 잔여연차 수 ${leftVacation }</h1></div>
 				</div>
 			</div>
 		</div>
@@ -300,7 +304,7 @@
 <script>
 		
 		/* 시간선택변경시 */
-		$("#startTime").change(()=>{
+		/* $("#startTime").change(()=>{
 		    let startTime = ($("#startTime").val()).substr(0,2);
 		    let endTime = ($("#endTime").val()).substr(0,2);
 		    $("#endTime option").removeAttr("disabled");
@@ -313,7 +317,7 @@
 		    for(let i=0; i<=startTime-9;i++){
 		        $("#endTime option:eq("+i+")").attr("disabled", true);
 		    }
-		});
+		}); */
         // div 클릭 시 모달 열기
         const openModal = () =>
             $("#modal").modal("show");
@@ -357,7 +361,7 @@
             var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
             var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
             var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
-        
+			
             // kst 기준 현재시간
             // console.log(thisMonth);
         
@@ -422,7 +426,7 @@
                 renderCalender(thisMonth); 
             });
             
-         // 데이트 클릭시 선택표시 css적용
+         	// 데이트 클릭시 선택표시 css적용
             $(".dates").click(function(e){
             	let clickedElement = e.target; // 클릭한 요소
             	let addedCurrentMonth = currentMonth + 1;
@@ -438,7 +442,7 @@
             	}
             	
             	let applyDate = currentYear + "-" + currentMonth2 + "-" + clickedElement.textContent2;
-            	console.log(applyDate);
+            	console.log("선택한 날짜 : " + applyDate);
 
             	// 선택된 날짜가 이미 highlight 클래스를 가지고 있는 경우 아무 작업도 하지 않습니다.
                 if ($(clickedElement).hasClass("highlight")) {

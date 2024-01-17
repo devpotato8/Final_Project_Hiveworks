@@ -1,6 +1,8 @@
 package com.dna.hiveworks.model.dto.board;
 
-import java.util.Date;
+
+
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +19,7 @@ public class Survey {
 	private String surveyTitle;
 	private Date surveyStart;
 	private Date surveyEnd;
+	private String surveyType;
 	private int creater;
     private Date createDate;
     private int modifier;

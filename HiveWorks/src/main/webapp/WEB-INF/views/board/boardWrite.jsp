@@ -53,7 +53,10 @@
     	width: 66px;
     	margin-bottom: 15px;
     }
-    
+    .ck-content .image img{
+    	width:500px;
+    	hiight:500px;
+    }
 </style>
 <script>
 	function resetForm() {

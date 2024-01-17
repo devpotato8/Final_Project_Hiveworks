@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.BoardDao;
 import com.dna.hiveworks.model.dto.board.Board;
-import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -59,6 +58,13 @@ public class BoardServiceImpl implements BoardService{
 	public Board boardDelete(int boardNo) {
 		return dao.boardDelete(session, boardNo);
 		
+	}
+	
+	@Override
+	@Transactional
+	public int updateBoardCount(int boardNo) {
+		log.debug("조회수: {}", boardNo);
+	    return dao.updateBoardCount(session, boardNo);
 	}
 	
 }

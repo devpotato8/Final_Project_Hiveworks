@@ -132,6 +132,7 @@ input::-webkit-inner-spin-button {
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
 									<form action="#" method="post">
+										<input type="hidden" id="modifier" name="modifier" value="${loginEmp.emp_no }"/>
 										<div class="title title-xs title-wth-divider text-primary text-uppercase my-4"><span>개인 정보</span></div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
@@ -239,6 +240,7 @@ fn_check_password=()=>{
 let submitBtn = document.getElementById("submitBtn");
 let emp_id = document.getElementById("emp_id");
 let emp_pw = document.getElementById("emp_pw");
+let modifier = document.getElementById("modifier");
 
 submitBtn.addEventListener('click',(event)=>{
 	//fn_check_password();
@@ -254,7 +256,8 @@ submitBtn.addEventListener('click',(event)=>{
 			data:{
 				empId:emp_id.value,
 				empPassword:emp_pw.value,
-				empPasswordNew:pw_first.value
+				empPasswordNew:pw_first.value,
+				modifier:modifier.value
 				},
 			success:data=>{
 				if(data>0){

@@ -1,7 +1,10 @@
 package com.dna.hiveworks.controller;
 
-import java.io.*;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,11 +12,18 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class NaverApiController {
 
@@ -43,9 +53,11 @@ public class NaverApiController {
      // URL을 연결해줌
      String responseBody = get(apiURL,requestHeaders);
      
-
-     System.out.println(responseBody);
-     model.addAttribute("newData",responseBody);
+     log.debug("{}",responseBody);
+	 //주어진 코드에 jsoup를 통합하려면 get 메소드 내에서 responseBody를 반환하기 전에 
+	 //removeHtmlTags 메소드를 호출하여 HTML 태그를 제거
+     
+     model.addAttribute(responseBody);
      return ResponseEntity.ok(responseBody);
  }
 
@@ -57,7 +69,6 @@ public class NaverApiController {
          for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
              con.setRequestProperty(header.getKey(), header.getValue());
          }
-
 
          int responseCode = con.getResponseCode();
          if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
@@ -72,7 +83,7 @@ public class NaverApiController {
      }
  }
 
-
+// URI연결
  private static HttpURLConnection connect(String apiUrl){
      try {
          URL url = new URL(apiUrl);
@@ -84,20 +95,17 @@ public class NaverApiController {
      }
  }
 
-
+// 
  private static String readBody(InputStream body){
      InputStreamReader streamReader = new InputStreamReader(body);
 
-
      try (BufferedReader lineReader = new BufferedReader(streamReader)) {
          StringBuilder responseBody = new StringBuilder();
-
 
          String line;
          while ((line = lineReader.readLine()) != null) {
              responseBody.append(line);
          }
-
 
          return responseBody.toString();
      } catch (IOException e) {

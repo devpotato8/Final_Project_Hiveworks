@@ -125,7 +125,7 @@
 												<a class="nav-link" href="${path}/work/workList"><span class="nav-link-text">근무현황</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/work/workView"><span class="nav-link-text">세부근무현황</span></a>
+												<a class="nav-link" href="${path}/work/workView?empNo=${loginEmp.emp_no}"><span class="nav-link-text">세부근무현황</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -251,7 +251,6 @@
 										</span>
 									</span>
 									<span class="nav-link-text position-relative">마이페이지
-										<span class="badge badge-danger badge-indicator position-absolute top-0 start-100"></span>
 									</span>
 								</a>
 								<ul id="dash_profile" class="nav flex-column collapse  nav-children">

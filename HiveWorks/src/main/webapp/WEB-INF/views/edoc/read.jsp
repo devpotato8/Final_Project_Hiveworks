@@ -44,6 +44,7 @@
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
 							<h1 class="fmapp-title">문서 열람</h1>
+							<button type="button" class="btn btn-secondary" id="printButton"disabled>인쇄 미리보기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -111,6 +112,14 @@
 															<fmt:formatDate type="both" value="${edoc.finalizedDate }" timeStyle="short"/>
 														</td>
 													</tr>
+													<c:if test="${edoc.edocDotCode eq 'DOT004'}">
+														<tr>
+															<th>휴가 신청 시작일시</th>
+															<td><fmt:formatDate type="both" value="${edoc.edocStartDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+															<th>휴가 신청 종료일시</th>
+															<td><fmt:formatDate type="both" value="${edoc.edocEndDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+														</tr>
+													</c:if>
 												</tbody>
 											</table>
 											<table class="table">
@@ -153,7 +162,6 @@
 												</tr>
 											</table>
 										</div>
-										
 										<span class="form-label">본문 : </span>
 										<div class="container document-container">									
 											${edoc.edocContent}
@@ -177,19 +185,17 @@
 													<c:if test="${apv.aprvlApvCode ne 'APV000' }">
 														<div class="list-group-item col-sm-6">
 															<div class="card">
-																<div class="card-header">
-																	<c:choose>
-																		<c:when test="${edoc.creater eq apv.aprvlEmpNo }">
-																			기안
-																		</c:when>
-																		<c:otherwise>
-																			${apv.aprvlApvCode.getCode()}
-																		</c:otherwise>
-																	</c:choose>
-																</div>
 																<div class="card-body">
 																	<h5 class="card-title">
-																		${apv.aprvlEmpName }
+																		${apv.aprvlEmpName }&nbsp;
+																		<c:choose>
+																			<c:when test="${edoc.creater eq apv.aprvlEmpNo }">
+																				기안
+																			</c:when>
+																			<c:otherwise>
+																				${apv.aprvlApvCode.getCode()}
+																			</c:otherwise>
+																		</c:choose>
 																	</h5>
 																	<h6 class="card-subtitle">
 																		<fmt:formatDate type="date" value="${apv.aprvlDate }"/>

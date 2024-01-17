@@ -16,10 +16,16 @@ public interface ScheduleService {
 	List<Schedule> selectScheduleAll();
 	
 	List<Schedule> searchSchedule(Map<String,Object> param);
+	
+	List<Schedule> searchImpschedule(Map<String,Object> param);
+	
+	List<Schedule> searchEmpSchedule(Map<String,Object>param);
 
 	int insertSchedule(Schedule schedule, List<Integer> empList);
 	
 	int updateSchedule(Schedule schdule, List<Integer> empList, int calNo);
+	
+	int updateImportYn(Schedule schedule, int calNo);
 	
 	int deleteSchedule(int calNo);
 	
@@ -28,7 +34,15 @@ public interface ScheduleService {
 	//resource
 	int insertResource(Resource resource);
 	
+	int updateResource(Resource resource);
+	
+	int deleteResource(List<Integer> checkedList);
+	
 	List<Resource> selectResourceAll();
+	
+	List<Resource> selectResourceByType(String type);
+	
+	
 	
 	//reservation 
 	List<Schedule> selectReserveAll();
@@ -38,6 +52,8 @@ public interface ScheduleService {
 	List<Schedule> selectReserveByCode(String calCode);
 	
 	int reserveResource(Schedule schedule, int resourceNo);
+	
+	int deleteReservation(List<Integer> checkedList);
 	
 	//project
 	List<Schedule> selectprojectAll();

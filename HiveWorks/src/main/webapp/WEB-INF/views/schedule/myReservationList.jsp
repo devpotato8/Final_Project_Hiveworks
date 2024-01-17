@@ -24,7 +24,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-											<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=16">
+											<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -37,26 +37,15 @@
 								</div>
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
-										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do">
-												<span class="nav-link-text">본사4층회의실</span>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="#">
-												<span class="nav-link-text">본사5층회의실</span>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="#">
-												<span class="nav-link-text">빔프로젝터</span>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link link-badge-right" href="#">
-												<span class="nav-link-text">차량예약</span>
-											</a>
-										</li>
+										<c:if test="${not empty reList}">
+											<c:forEach var="res" items="${reList}">
+												<li class="nav-item">
+													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do?resourceNo=${res.resourceNo}">
+														<span class="nav-link-text">${res.resourceName}</span>
+													</a>
+												</li>
+											</c:forEach>
+										</c:if>
 									</ul>
 								</div>
 								<div class="menu-gap"></div>
@@ -104,6 +93,7 @@
 							</header>
 							<div class="blog-body">
 								<div data-simplebar class="nicescroll-bar">
+								<div style="display:flex">
 										<div class="dropdown">
 											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">전체보기</a>
 											<div class="dropdown-menu dropdown-menu-end">
@@ -112,6 +102,8 @@
 												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="tag"></i></span><span>빔프로젝터</span></a>
 											</div>
 										</div>
+										<button type="button" class="btn btn-secondary" id="delReserveBtn">예약취소</button>
+									</div>
 										<div class="tab-content">
 											<div class="tab-pane fade show active" id="all_post">
 												<table id="datable_1" class="table nowrap w-100 mb-5">
@@ -121,13 +113,13 @@
 																<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
 																<label class="form-check-label" for="customCheck1"></label>
 															</span></th>
-															<th>No.</th>
+															<th>예약번호</th>
 															<th>자산이름</th>
 															<th>예약자</th>
 															<th>자산종류</th>
 															<th>예약시간</th>
 															<th>예약상태</th>
-															<th>등록일자</th>
+															<th>예약일자</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -141,13 +133,8 @@
 															</td>
 															<td>
 																<div class="media align-items-center">
-																	<div class="media-head me-2">
-																		<div class="avatar avatar-xs">
-																			<img src="dist/img/avatar2.jpg" alt="user" class="avatar-img rounded-circle">
-																		</div>
-																	</div>
 																	<div class="media-body">
-																		<span class="d-block">${myres.empNo }</span> 
+																		<span class="d-block">${myres.myEmpName }</span> 
 																	</div>
 																</div>													
 															</td>
@@ -157,16 +144,18 @@
 															<td>${myres.createDate }</td>
 															<td>
 																<div class="d-flex align-items-center">
-																	<div class="dropdown">
-																		<button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" aria-expanded="false" data-bs-toggle="dropdown"><span class="icon"><span class="feather-icon"><i data-feather="more-vertical"></i></span></span></button>
-																		<div role="menu" class="dropdown-menu dropdown-menu-end">
-																			<a class="dropdown-item" href="#">Action</a>
-																			<a class="dropdown-item" href="#">Another action</a>
-																			<a class="dropdown-item" href="#">Something else here</a>
-																			<div class="dropdown-divider"></div>
-																			<a class="dropdown-item" href="#">Separated link</a>
-																		</div>
+																		<div class="dropdown">
+																	<button
+																		class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+																		aria-expanded="false" data-bs-toggle="dropdown">
+																		<span class="icon"><span class="feather-icon"><i
+																				data-feather="more-vertical"></i></span></span>
+																	</button>
+																	<div role="menu"
+																		class="dropdown-menu dropdown-menu-end">
+																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation.do?calNo=${myres.calNo}">수정</a>
 																	</div>
+																</div>
 																</div>
 															</td>
 														</tr>
@@ -180,66 +169,60 @@
 								</div>
 							</div>
 						</div>
-						
-						<!-- Add Category -->
-						<div id="add_new_cat" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">×</span>
-										</button>
-										<h6 class="text-uppercase fw-bold mb-3">Add Category</h6>
-										<form>
-											<div class="row gx-3">
-												<div class="col-sm-12">
-													<div class="form-group">
-														<input class="form-control" type="text" placeholder="Category Name"/>
-													</div>
-												</div>
-											</div>
-											<button type="button" class="btn btn-primary float-end" data-bs-dismiss="modal">Add</button>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Add Category -->
-						
-						<!-- Add Tag -->
-						<div id="add_new_tag" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-								<div class="modal-content">
-									<div class="modal-body">
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">×</span>
-										</button>
-										<h6 class="text-uppercase fw-bold mb-3">Add Tag</h6>
-										<form>
-											<div class="row gx-3">
-												<div class="col-sm-12">
-													<div class="form-group">
-														<select id="input_tags" class="form-control" multiple="multiple">
-															<option selected="selected">Collaborator</option>
-															<option selected="selected">Designer</option>
-															<option selected="selected">React Developer</option>
-															<option selected="selected">Promotion</option>
-															<option selected="selected">Advertisement</option>
-														</select>
-													</div>
-												</div>
-											</div>
-											<button type="button" class="btn btn-primary float-end" data-bs-dismiss="modal">Add</button>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Add Tag -->
 					</div>
 				</div>
 			</div>
 			<!-- /Page Body -->
 		</div>
 		<!-- /Main Content -->	
+<script>
+$(document).ready(function() {
+    // 전체 체크박스 클릭
+    $("#customCheck1").click(function() {
+        // 전체 체크박스의 상태를 확인
+        var isChecked = $("#customCheck1").prop("checked");
+
+        // 모든 체크박스의 상태를 전체 체크박스에 맞춰 변경
+        $(".form-check-input").prop("checked", isChecked);
+    });
+
+    $("#delReserveBtn").click(function() {
+        var checkedList = [];
+
+        // 체크된 체크박스를 찾아 예약 번호를 checkedList에 추가
+        $(".form-check-input:checked").each(function() {
+            var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
+            checkedList.push(reserveNo);
+        });
+
+        if (checkedList.length > 0) {
+            // 사용자에게 확인을 받는다.
+            var confirmed = confirm("선택한 예약을 취소하시겠습니까?");
+
+            if (confirmed) {
+                $.ajax({
+                    url: "/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
+                    type: "POST",
+                    data: JSON.stringify(checkedList), // JSON 데이터로 변환
+                    contentType: "application/json",
+                    success: function(response) {
+                        // 요청 성공 시 처리할 코드
+                        alert("취소 성공");
+                        // 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
+                        $(".form-check-input:checked").closest("tr").remove();
+                    },
+                    error: function(request, status, error) {
+                        // 요청 실패 시 처리할 코드
+                        alert("취소 실패");
+                        console.log("취소 실패" + error);
+                    }
+                });
+            }
+        } else {
+            alert("취소할 예약을 선택해주세요.");
+        }
+    });
+});
+
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

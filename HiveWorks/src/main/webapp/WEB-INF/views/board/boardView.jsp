@@ -16,7 +16,8 @@
     <div id="board-container">   	
         <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle"
         value="${board.boardTitle }"  required readonly="readonly">
-        <div id="boardContent" class="form-control" name="boardContent" placeholder="내용" required readonly="readonly">${board.boardContent}</div>
+        <c:out value="${board.boardCount }"/>
+        <div id="editor" name="boardContent" placeholder="내용" required style="resize:none;">${board.boardContent}</div>
         <br>
 		<c:if test="${board.files.size()>0 }">
             <c:forEach var="file" items="${board.files }">
@@ -42,6 +43,25 @@
     display: flex;
     flex-direction: column-reverse;
     
+    }
+    .ck-editor__editable { 
+	height: 800px; 
+	}
+	.basicFileForm{
+    	padding: 0px;
+    }
+    .custom-file{
+    	display: flex; 
+    	align-items: center;
+    }
+    #deleteBtn{
+    	margin-left: 0px;
+    	width: 66px;
+    	margin-bottom: 15px;
+    }
+    .image>img{
+    	width:800px;
+    	height:500px;
     }
 </style>
 

@@ -10,7 +10,10 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <div class="hk-pg-wrapper">
 	<div class="container-xxl">
 		<!-- Page Header -->
@@ -18,7 +21,7 @@
 			<div class="d-flex">
 				<div class="d-flex flex-wrap justify-content-between flex-1">
 					<div class="mb-lg-0 mb-2 me-8">
-						<h1 class="pg-title">세부근무현황</h1>
+						<h1 class="pg-title">세부근무현황  - ${loginEmp.emp_name }님</h1>
 					</div>
 				</div>
 			</div>
@@ -39,7 +42,6 @@
 							</span>
 						</th>
 						<th>순번</th>
-						<th>사번</th>
 						<th>출근일자</th>
 						<th>출근시간</th>
 						<th>퇴근시간</th>
@@ -66,7 +68,6 @@
 										</div>
 									</div>
 								</td>
-								<td><span class="badge badge-soft-info my-1  me-2"><c:out value="${w.empNo }"/></span></td>
 								<td><span class="badge badge-soft-success my-1  me-2"><c:out value="${w.workDay }"/></span></td>
 								<td><span class="badge badge-soft-violet my-1  me-2"><fmt:formatDate value="${w.workStartTime }" pattern="HH:mm:ss"/></span></td>
 								<td><span class="badge badge-soft-danger my-1  me-2"><fmt:formatDate value="${w.workEndTime }" pattern="HH:mm:ss"/></span></td>

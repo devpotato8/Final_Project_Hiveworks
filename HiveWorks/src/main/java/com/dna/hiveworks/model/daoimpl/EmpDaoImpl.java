@@ -67,6 +67,7 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public List<Employee> searchEmployeesByKeyword(SqlSession session, Map<String,Object> param) {
+		System.out.println(param);
 		return session.selectList("employee.searchEmployeesByKeyword",param);
 	}
 
@@ -122,13 +123,13 @@ public class EmpDaoImpl implements EmpDao {
 	}
 
 	@Override
-	public int confirmEmployee(SqlSession session, Map<String, String> IdAndPassword) {
+	public int confirmEmployee(SqlSession session, Map<String, Object> IdAndPassword) {
 		// TODO Auto-generated method stub
 		return session.selectOne("employee.confirmEmployee",IdAndPassword);
 	}
 
 	@Override
-	public int updatePassword(SqlSession session, Map<String, String> IdAndPassword) {
+	public int updatePassword(SqlSession session, Map<String, Object> IdAndPassword) {
 		return session.update("employee.updatePassword",IdAndPassword);
 	}
 
@@ -136,10 +137,11 @@ public class EmpDaoImpl implements EmpDao {
 	public List<Map<String, Object>> selectAuthorityList(SqlSession session) {
 		return session.selectList("employee.selectAuthorityList");
 	}
-	
-	
-	
-	
+
+	@Override
+	public int updateAuthorities(SqlSession session,Map<String, Object> empNoAndAutcode) {
+		return session.update("employee.updateAuthorities",empNoAndAutcode);
+	}
 	
 	
 	

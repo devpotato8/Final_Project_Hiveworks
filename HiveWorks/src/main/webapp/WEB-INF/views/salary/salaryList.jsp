@@ -437,12 +437,17 @@
 													<td><c:out value="${s.employee.dept_name }" /></td>
 													<td>
 														<c:set var="sal_total" value="${s.sal_base+s.sal_meal+s.sal_bonus+s.position_pay}"/>
-														<c:out value="${sal_total}" />원
+														<fmt:formatNumber value="${sal_total}" type="number" />원
 													</td>
-													<td><c:out value="
-														${sal_total - s.sal_actual}" />원</td>
-													<td><c:out value="${s.sal_actual}" />원</td>
 													
+													<td>
+														<c:set var="sal_dedu" value="${sal_total - s.sal_actual}" />
+														<fmt:formatNumber value="${sal_dedu}" type="number" />원
+													</td>
+													<td>
+														<c:set var="sal_actual" value="${s.sal_actual}" />
+														<fmt:formatNumber value="${sal_actual}" type="number" />원
+													</td>
 													<td>
 															<div class="d-flex">
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>

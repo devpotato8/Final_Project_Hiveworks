@@ -28,8 +28,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public int insertSchedule(Schedule schedule, List<Integer> empList) {
 		int inviresult = 0;
 		int scheduleResult = dao.insertSchedule(session, schedule);
-		if (scheduleResult > 0) {
-			if (empList.size() > 0) {
+		if (scheduleResult > 0 ) {
+			if (empList != null && empList.size() > 0) {
 				inviresult = dao.insertInvitation(session, empList);
 				if (inviresult == 0) {
 					throw new RuntimeException("일정 등록 실패");
@@ -40,7 +40,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			throw new RuntimeException("일정 등록 실패");
 
 		}
-		return inviresult;
+		return scheduleResult;
 	}
 
 	@Override
@@ -48,20 +48,28 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int updateInvi = 0;
 		int scheduleUpdate = dao.updateSchedule(session, schedule, calNo);
 
-		if (scheduleUpdate>0 && empList.size() > 0) {
+		if (scheduleUpdate>0) {
 			int deleteInvi = dao.deleteInvitaion(session, calNo); // delete지만 useYn을 n으로
 			if (deleteInvi > 0) {
+				if(empList != null && empList.size() > 0) {
 				updateInvi = dao.updateInvitaion(session, empList, calNo);
 
 				if (updateInvi == 0) {
 					throw new RuntimeException("일정 수정 실패");
 				}
 			}
-		} else {
+		} 
+		}else {
 			throw new RuntimeException("일정 수정 실패");
 		}
 
 		return scheduleUpdate;
+	}
+	
+	@Override
+	public int updateImportYn(Schedule schedule, int calNo) {
+		return  dao.updateImportYn(session, schedule, calNo);
+		
 	}
 
 	@Override
@@ -70,9 +78,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int scheduleDelete = dao.deleteSchedule(session, calNo);
 		if(scheduleDelete > 0) {
 			deleteInvi = dao.deleteInvitaion(session, calNo);
-			if(deleteInvi == 0) {
-				throw new RuntimeException("일정 삭제 실패");
-			}
+			/*
+			 * if(deleteInvi == 0) { throw new RuntimeException("일정 삭제 실패"); }
+			 */
 		}else{
 	        throw new RuntimeException("일정 삭제 실패");
 		}
@@ -94,6 +102,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<Schedule> searchList = dao.searchSchedule(session, param);
 		return searchList;
 	}
+	
+	@Override
+	public List<Schedule> searchImpschedule(Map<String, Object> param) {
+		return dao.searchImpschedule(session, param);
+	}
+	
+	@Override
+	public List<Schedule> searchEmpSchedule(Map<String, Object> param) {
+		return dao.searchEmpSchedule(session, param);
+	}
 
 	@Override
 	public int reserveResource(Schedule schedule, int resourceNo) {
@@ -108,11 +126,28 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public int insertResource(Resource resource) {
 		return dao.insertResource(session, resource);
 	}
+	
+	@Override
+	public int updateResource(Resource resource) {
+		return dao.updateResource(session, resource);
+	}
+	
+	@Override
+	public int deleteResource(List<Integer> checkedList) {
+		return dao.deleteResource(session, checkedList);
+	}
 
 	@Override
 	public List<Resource> selectResourceAll() {
 		return dao.selectResourceAll(session);
 	}
+	
+	@Override
+	public List<Resource> selectResourceByType(String type) {
+		return dao.selectResourceByType(session, type);
+	}
+	
+	
 
 	@Override
 	public List<Schedule> selectReserveByNo(int empNo) {
@@ -127,6 +162,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> selectReserveByCode(String calCode) {
 		return dao.selectReserveByCode(session, calCode);
+	}
+	
+	@Override
+	public int deleteReservation(List<Integer> checkedList) {
+		return dao.deleteReservation(session, checkedList);
 	}
 
 	// project

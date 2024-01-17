@@ -152,7 +152,7 @@ public class EdocController {
 	@GetMapping("/read")
 	public String readElectronicDocument(Model model, @RequestParam String edocNo, @SessionAttribute Employee loginEmp) {
 		
-		ElectronicDocument edoc  = edocService.selectElectronicDocument(edocNo);
+		ElectronicDocument edoc  = edocService.selectElectronicDocument(edocNo, loginEmp.getEmp_no());
 		
 		System.out.println("edoc: " + edoc);
 		
@@ -205,6 +205,7 @@ public class EdocController {
 		 try {
 			 ObjectMapper objectMapper = new ObjectMapper();
 			 edocInstance = objectMapper.readValue(edoc, ElectronicDocument.class);
+			 log.debug(edocInstance.toString());
 		 }catch(Exception e) {
 			 e.printStackTrace();
 			 return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","전자문서파싱중에러"));
@@ -388,4 +389,5 @@ public class EdocController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
 }

@@ -8,7 +8,7 @@ public interface SurveyService {
 
 	Survey selectSurveyByNo(int surveyNo);
 
-	 List<Survey> selectAllSurvey();
+	List<Survey> selectAllSurvey();
 
 	int insertSurvey(Survey s);
 }

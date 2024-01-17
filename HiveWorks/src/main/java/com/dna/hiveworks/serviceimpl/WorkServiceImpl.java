@@ -1,6 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class WorkServiceImpl implements WorkService {
 	private final WorkDao dao;
 	
 	@Override
-	public List<Work> selectWorkListAllByEmp() {
+	public List<Work> selectWorkListAllByEmp(int empNo) {
 		// TODO Auto-generated method stub
-		return dao.selectWorkListAllByEmp(session);
+		return dao.selectWorkListAllByEmp(session, empNo);
 	}
 
 	@Override
@@ -100,6 +101,42 @@ public class WorkServiceImpl implements WorkService {
 	public int absence(int empNo) {
 		// TODO Auto-generated method stub
 		return dao.absence(session, empNo);
+	}
+
+	@Override
+	public String avgStartWorkFilter(Map<String, Integer>param) {
+		// TODO Auto-generated method stub
+		return dao.avgStartWorkFilter(session, param);
+	}
+
+	@Override
+	public String avgEndWorkFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.avgEndWorkFilter(session, empNo);
+	}
+
+	@Override
+	public int lateWorkFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.lateWorkFilter(session, empNo);
+	}
+
+	@Override
+	public int fastEndFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.fastEndFilter(session, empNo);
+	}
+
+	@Override
+	public int absenceFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.absenceFilter(session, empNo);
+	}
+
+	@Override
+	public int overWorkFilter(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.overWorkFilter(session, empNo);
 	}
 
 	

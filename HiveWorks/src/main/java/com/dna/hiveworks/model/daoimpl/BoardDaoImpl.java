@@ -42,4 +42,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.insert("board.insertUploadfile",uploadfile);
 	}
 	
+	@Override
+	public int updateBoardCount(SqlSession session, int boardNo) {
+	    return session.update("board.updateBoardCount", boardNo);
+	}
+	
 }
