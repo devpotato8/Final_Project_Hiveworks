@@ -20,6 +20,7 @@ public class Survey {
 	private Date surveyStart;
 	private Date surveyEnd;
 	private String surveyType;
+	private String surveyQuestion;
 	private int creater;
     private Date createDate;
     private int modifier;

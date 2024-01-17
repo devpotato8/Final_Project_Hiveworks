@@ -11,4 +11,6 @@ public interface SurveyService {
 	List<Survey> selectAllSurvey();
 
 	int insertSurvey(Survey s);
+	
+	
 }

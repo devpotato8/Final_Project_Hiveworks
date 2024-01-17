@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SurveyAnswer {
 
-	private int answerNo;
-	private int answerQuestionNo;
-	private String answerContent;
+	private int surveyNo;
+	private int questionNo;
+	private String answerComent;
+	private String userInfor;
 }
