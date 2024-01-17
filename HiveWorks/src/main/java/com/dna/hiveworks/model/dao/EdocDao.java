@@ -61,4 +61,12 @@ public interface EdocDao {
 	int edocFinalize(SqlSession session, ElectronicDocument edoc);
 	
 	int setNextApprovalStatus(SqlSession session, ElectronicDocumentApproval nextApproval);
+	
+	ElectronicDocumentAttachFile getAttachFile(SqlSession session, Map<String, Object> param);
+
+	int updateAuto(SqlSession session, Map<String, Object> param);
+
+	int cancleApproval(SqlSession session, List<ElectronicDocumentApproval> leftApproval);
+	
+	int revokeDocument(SqlSession session, ElectronicDocument edoc);
 }

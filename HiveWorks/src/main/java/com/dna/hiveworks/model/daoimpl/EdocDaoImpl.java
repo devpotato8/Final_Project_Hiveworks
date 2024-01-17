@@ -121,4 +121,26 @@ public class EdocDaoImpl implements EdocDao{
 	public int setNextApprovalStatus(SqlSession session, ElectronicDocumentApproval nextApproval) {
 		return session.update("edoc.setNextApprovalStatus", nextApproval);
 	}
+	
+	@Override
+	public ElectronicDocumentAttachFile getAttachFile(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("edoc.getAttachFile", param);
+	}
+	
+	@Override
+	public int updateAuto(SqlSession session, Map<String, Object> param) {
+		return session.update("edoc.updateAuto", param);
+	}
+	
+	@Override
+	public int cancleApproval(SqlSession session, List<ElectronicDocumentApproval> leftApproval) {
+		int[] result = {0};
+			leftApproval.forEach(apv->{ result[0] += session.update("edoc.cancleApproval",apv); });
+		return result[0];
+	}
+	
+	@Override
+	public int revokeDocument(SqlSession session, ElectronicDocument edoc) {
+		return session.update("edoc.revokeDocument", edoc);
+	}
 }

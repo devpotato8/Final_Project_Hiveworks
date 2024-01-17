@@ -8,9 +8,14 @@
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/>
+	
 </jsp:include>
 <%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 
 <%@ page import="com.dna.hiveworks.model.dto.edoc.status.*" %>
 <%@ page import="com.dna.hiveworks.model.code.DotCode" %>
@@ -26,7 +31,7 @@
 				<jsp:param value="${countWait}" name="countWait"/>
 				<jsp:param value="${countCheck}" name="countCheck"/>
 				<jsp:param value="${countExpect}" name="countExpect"/>
-				<jsp:param value="${countProcessing}" name="countProcessing"/>
+				<jsp:param value="${countProcess}" name="countProcess"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
@@ -113,6 +118,23 @@
 </div>
 <!-- /Main Content -->
 
+<!-- Bootstrap Core JS -->
+<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FeatherIcons JS -->
+<script src="${path}/resources/js/feather.min.js"></script>
+<!-- Fancy Dropdown JS -->
+<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+<!-- Simplebar JS -->
+<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<!-- 체크박스 JS -->
+<script src="${path}/resources/js/checkbox.js"></script>
+<!-- Init JS -->
+<script src="${path}/resources/js/init.js"></script>
+<script src="${path}/resources/js/chips-init.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+
 <!-- Data Table JS -->
 <script src="${path }/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="${path }/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -160,4 +182,6 @@ $('#docTable').DataTable( {
 		location.assign('${path}/edoc/read?edocNo='+edocNo);
 	});
 </script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+</div>
+</body>
+</html>

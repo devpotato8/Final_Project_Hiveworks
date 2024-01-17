@@ -26,10 +26,9 @@
 			</div>
 				<!-- /Page Header -->
 			<section>
-				<div class="selectBtn">
-		            <div><button class="btn"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
-		            <div><button class="btn"><i class="fa-solid fa-plane fa-lg"></i>&nbsp; 내휴가</button></div>
-		            <div style="width: 100%"><button class="btn"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 프로필 변경</button></div>
+				<div class="selectBtn d-flex justify-content-center">
+		            <div style="width: 100%"><button class="btn" style="width: 200px"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
+		            <div style="width: 100%"><button class="btn" style="width: 200px"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 프로필 변경</button></div>
 	        	</div>
 	
 	        <div class="showView">

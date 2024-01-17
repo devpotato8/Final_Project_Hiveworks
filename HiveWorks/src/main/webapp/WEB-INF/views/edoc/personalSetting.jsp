@@ -23,7 +23,7 @@
 				<jsp:param value="${countWait}" name="countWait"/>
 				<jsp:param value="${countCheck}" name="countCheck"/>
 				<jsp:param value="${countExpect}" name="countExpect"/>
-				<jsp:param value="${countProcessing}" name="countProcessing"/>
+				<jsp:param value="${countProcess}" name="countProcess"/>
 			</jsp:include>
 			<div class="fmapp-content">
 				<div class="fmapp-detail-wrap">
@@ -59,20 +59,34 @@
 												<c:choose>
 													<c:when test="${loginEmp.emp_auto_fileName eq null}">
 														<figure>
-															<figcaption class="figure-caption mb-3">현재 설정 : 기본</figcaption>
-															<img src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
+															<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
+															<img id="currentAuto" src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
 														</figure>
 													</c:when>
 													<c:otherwise>
 														<figure>
 															<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
-															<img src="${path}/resources/upload/edoc/autograph/${loginEmp.emp_auto_fileName}"/>
+															<img id="currentAuto" src="${path}/resources/upload/edoc/autograph/${loginEmp.emp_auto_fileName}"/>
 														</figure>
 													</c:otherwise>
 												</c:choose>
 												<div class="row mt-10">
 													<span class="form-label">서명변경</span>
-													<input type="file" class="form-control mb-3" name="autograph" id="changeAutograph">
+													<c:choose>
+														<c:when test="${loginEmp.emp_auto_fileName eq null}">
+															<figure class="mb-3">
+																<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
+																<img id="targetAuto" src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
+															</figure>
+														</c:when>
+														<c:otherwise>
+															<figure class="mb-3">
+																<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
+																<img id="targetAuto" src="${path}/resources/upload/edoc/autograph/${loginEmp.emp_auto_fileName}"/>
+															</figure>
+														</c:otherwise>
+													</c:choose>
+													<input type="file" class="form-control mb-3" name="autograph" id="changeAutograph" accept="image/*">
 													<div class="btn-container">
 														<button type="button" class="btn btn-primary" id="setAutographBtn">서명변경</button>
 														<button type="button" class="btn btn-primary" id="setDefaultBtn">기본으로변경</button>
@@ -94,4 +108,31 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
+<script>
+	const path = '${path}';
+</script>
+
+<!-- Bootstrap Core JS -->
+<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FeatherIcons JS -->
+<script src="${path}/resources/js/feather.min.js"></script>
+<!-- Fancy Dropdown JS -->
+<script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+<!-- Simplebar JS -->
+<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<!-- 체크박스 JS -->
+<script src="${path}/resources/js/checkbox.js"></script>
+<!-- Init JS -->
+<script src="${path}/resources/js/init.js"></script>
+<script src="${path}/resources/js/chips-init.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<script src="${path}/resources/js/edoc/edoc-psetting.js"></script>
+
+</div>
+</body>
+</html>
