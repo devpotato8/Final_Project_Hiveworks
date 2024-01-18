@@ -9,5 +9,5 @@ public interface OvertimePayService {
 
 	List<OvertimePay> selectOvertimePayListAll();
 	
-	List<OvertimePay> selectMyOvertimePayByempNo(int emp_no);
+	List<OvertimePay> selectMyOvertimePayByEmpNo(int emp_no);
 }

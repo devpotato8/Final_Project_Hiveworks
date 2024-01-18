@@ -32,6 +32,25 @@
 	    WHERE OVERTIMEBYMONTH > 0 AND OT_PAY_MONTH = TO_CHAR(SYSDATE,'YYYYMM')
 	</select>
 	
+	<select id="selectMyOvertimePayByEmpNo" parameterType="_int" resultMap="overtimepayMap" >
+		SELECT E.*,A.*,OP.*,C.*,C.CODE_NAME AS DEPT_NAME FROM 
+		    TBL_EMPLOYEE E
+		    JOIN (
+		        SELECT  W.WORK_DAY,
+		        W.WORK_START_TIME, 
+		        W.WORK_END_TIME,
+		        TO_CHAR(W.WORK_DAY, 'YYYYMM') AS OT_PAY_MONTH,
+		        W.EMP_NO,
+		        ROUND(((TO_NUMBER(TO_CHAR(W.WORK_END_TIME, 'SSSSS')) - TO_NUMBER(TO_CHAR(W.WORK_START_TIME, 'SSSSS'))) / 3600 - 9), 1) AS OVERTIMEBYMONTH
+		        FROM TBL_WORK W
+		        ) A
+		    ON A.EMP_NO=E.EMP_NO
+		    LEFT JOIN TBL_OVERTIME_PAY OP ON OP.EMP_NO = E.EMP_NO
+		    LEFT JOIN TBL_CODE C ON C.CODE_NO = E.DEPT_CODE
+		    WHERE OVERTIMEBYMONTH > 0 AND OT_PAY_MONTH = TO_CHAR(SYSDATE,'YYYYMM') AND E.EMP_NO= ${emp_no}
+		    ORDER BY WORK_DAY DESC
+	</select>
+	
 	
 	
 </mapper>

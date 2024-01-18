@@ -414,15 +414,14 @@
 														<label class="form-check-label" for="customCheck1"></label>
 													</span></th>
 													<th>근무날짜</th>
-													<th>사원번호</th>
 													<th>이름</th>
-													<th>아이디</th>
 													<th>부서명</th>
+													<th>근무시작시간</th>
+													<th>근무마감시간</th>
 													<th>초과시간</th>
 													<th>총금액</th>
-													<th>결제번호</th>
-													<th>결제상태</th>
-													<th>신청하기</th>
+													<th>신청상태</th>
+													<!-- <th>신청하기</th> -->
 												</tr>
 											</thead>
 											<tbody>
@@ -431,34 +430,49 @@
 												<c:forEach var="w" items="${s.work }">
 												<tr>
 													<td></td>
-													<td><a href="#"><c:out value="${op.ot_pay_month }" /></a></td>
-													<td><a href="#" class="table-link-text link-high-em"><c:out value="${s.emp_no }" /></a></td>
+													<td><a href="#"><c:out value="${w.workDay }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.emp_name }" /></div>
 													</td>
-													<td><span><c:out value="${s.emp_id }" /></span></td>
 													<td><c:out value="${s.dept_name }" /></td>
+													<td><c:set var="workStartTime" value="${w.workStartTime }" />
+														<fmt:formatDate value="${workStartTime }" pattern="HH:mm"/>
+													</td>
+													<td>
+														<c:set var="workEndTime" value="${w.workEndTime }" />
+														<fmt:formatDate value="${workEndTime }" pattern="HH:mm"/>
+													</td>
 													<td><c:out value="${op.overtimeByMonth }"/></td>
 													<td>
 													<c:choose>
-														<c:when test="${op.overtimeByMonth<200000}">
+														<c:when test="${op.overtimeByMonth>=1 && op.overtimeByMonth<=3 }">
 															<c:set var="ot_pay" value="${op.overtimeByMonth*10000 }"/>
-															<fmt:formatNumber value="${ot_pay }" type="number"/>원
+															<fmt:formatNumber value="${ot_pay }" type="number"/>
+														</c:when>
+														<c:when test="${op.overtimeByMonth>3}">
+															30,000원
 														</c:when>
 														<c:otherwise>
-															200,000원
+															 -
 														</c:otherwise>
 													</c:choose>
 													</td>
-													<td><c:out value="${op.ot_pay_no==0?'-':op.ot_pay_no }"/></td>
-													<td><c:out value="${op.ot_pay_no==0?'미신청':op.ot_pay_no }"/></td>
 													<td>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm();' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
+														<c:choose>
+															<c:when test="${op.overtimeByMonth>=1 }">
+																<c:out value="${op.ot_pay_no==0?'미신청':'신청완료' }"/>
+															</c:when>
+															<c:otherwise>
+																신청불가
+															</c:otherwise>
+														</c:choose>
 													</td>
+													<!-- <td>
+														<div class="d-flex">
+															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm();' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
+														</div>
+													</td> -->
 												</tr>
 												</c:forEach>
 												</c:forEach>

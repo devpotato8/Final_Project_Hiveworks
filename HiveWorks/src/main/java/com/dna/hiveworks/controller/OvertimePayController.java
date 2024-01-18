@@ -32,7 +32,7 @@ public class OvertimePayController {
 	@GetMapping("/myovertimepay")
 	public String selectMyOvertimePayByempNo(Model model, int emp_no) {
 		
-		List<OvertimePay> myWorkList = service.selectMyOvertimePayByempNo(emp_no);
+		List<OvertimePay> myWorkList = service.selectMyOvertimePayByEmpNo(emp_no);
 		
 		model.addAttribute("workList",myWorkList);
 		

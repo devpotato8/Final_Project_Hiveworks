@@ -11,6 +11,6 @@ public interface OvertimePayDao {
 
 	List<OvertimePay> selectOvertimePayListAll(SqlSession session);
 	
-	List<OvertimePay> selectMyOvertimePayByempNo(SqlSession session, int emp_no);
+	List<OvertimePay> selectMyOvertimePayByEmpNo(SqlSession session, int emp_no);
 
 }

@@ -22,7 +22,7 @@ public class OvertimePay {
 	private int emp_no;
 	private int ot_pay_per_time;
 	private int overtime;
-	private int overtimeByMonth;
+	private Double overtimeByMonth;
 	private String ot_pay_month;
 	private List<Employee> employees;
 	private String use_yn;

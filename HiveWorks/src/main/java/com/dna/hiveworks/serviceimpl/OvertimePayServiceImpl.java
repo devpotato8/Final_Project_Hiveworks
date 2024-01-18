@@ -28,8 +28,8 @@ public class OvertimePayServiceImpl implements OvertimePayService   {
 	}
 
 	@Override
-	public List<OvertimePay> selectMyOvertimePayByempNo(int emp_no) {
-		return dao.selectMyOvertimePayByempNo(session, emp_no);
+	public List<OvertimePay> selectMyOvertimePayByEmpNo(int emp_no) {
+		return dao.selectMyOvertimePayByEmpNo(session, emp_no);
 	}
 
 	
