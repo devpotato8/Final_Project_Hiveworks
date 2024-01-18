@@ -74,6 +74,7 @@ public class Employee implements UserDetails{
 	private Date create_date;
 	private int modifier;
 	private Date modify_date;
+	private List<Work> work;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

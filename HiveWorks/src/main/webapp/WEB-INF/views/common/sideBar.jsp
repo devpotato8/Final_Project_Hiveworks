@@ -298,6 +298,9 @@
 											<li class="nav-item">
 												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
 											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/overtimepay/overtimePayList"><span class="nav-link-text">시간 외 근로수당</span></a>
+											</li>
 										</ul>	
 									</li>	
 								</ul>	

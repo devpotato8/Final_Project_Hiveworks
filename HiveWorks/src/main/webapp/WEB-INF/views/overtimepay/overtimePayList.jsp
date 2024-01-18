@@ -366,7 +366,7 @@
 							<header class="invoice-header">
 								<div class="d-flex align-items-center">
 									<a class="invoiceapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-										<h1>급여 관리</h1>
+										<h1>시간 외 근로수당</h1>
 									</a>
 									<!-- <div class="dropdown-menu">
 										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="users"></i></span><span>All Invoices</span></a>
@@ -413,46 +413,55 @@
 														<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
 														<label class="form-check-label" for="customCheck1"></label>
 													</span></th>
-													<th>날짜</th>
+													<th>근무날짜</th>
 													<th>사원번호</th>
 													<th>이름</th>
 													<th>아이디</th>
 													<th>부서명</th>
-													<th>지급 합계액</th>
-													<th>공제액</th>
-													<th>실수령액</th>
-													<th>수정/삭제</th>
+													<th>초과시간</th>
+													<th>총금액</th>
+													<th>결제번호</th>
+													<th>결제상태</th>
+													<th>신청하기</th>
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="s" items="${list }">
+												<c:forEach var="op" items="${workList}">
+												<c:forEach var="s" items="${op.employees }">
+												<c:forEach var="w" items="${s.work }">
 												<tr>
 													<td></td>
-													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
-													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
+													<td><a href="#"><c:out value="${op.ot_pay_month }" /></a></td>
+													<td><a href="#" class="table-link-text link-high-em"><c:out value="${s.emp_no }" /></a></td>
 													<td>
-														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
+														<div class="text-dark"><c:out value="${s.emp_name }" /></div>
 													</td>
-													<td><span><c:out value="${s.employee.emp_id }" /></span></td>
-													<td><c:out value="${s.employee.dept_name }" /></td>
+													<td><span><c:out value="${s.emp_id }" /></span></td>
+													<td><c:out value="${s.dept_name }" /></td>
+													<td><c:out value="${op.overtimeByMonth }"/></td>
 													<td>
-													
+													<c:choose>
+														<c:when test="${op.overtimeByMonth<200000}">
+															<c:set var="ot_pay" value="${op.overtimeByMonth*10000 }"/>
+															<fmt:formatNumber value="${ot_pay }" type="number"/>원
+														</c:when>
+														<c:otherwise>
+															200,000원
+														</c:otherwise>
+													</c:choose>
 													</td>
-													
-													<td>
-
-													</td>
-													<td>
-
-													</td>
+													<td><c:out value="${op.ot_pay_no==0?'-':op.ot_pay_no }"/></td>
+													<td><c:out value="${op.ot_pay_no==0?'미신청':op.ot_pay_no }"/></td>
 													<td>
 															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm();' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
 													</td>
 												</tr>
+												</c:forEach>
+												</c:forEach>
 												</c:forEach>
 												<!-- <tr>
 													<td></td>
