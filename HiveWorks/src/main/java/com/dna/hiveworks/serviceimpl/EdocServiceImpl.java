@@ -52,7 +52,7 @@ public class EdocServiceImpl implements EdocService{
 	@Override
 	public List<ElectronicDocumentList> getEdocBox(Map<String, Object> param) {
 		
-		return dao.getEdocBox(session,param);
+		return dao.getEdocBox(session, param);
 	}
 	
 	@Override
@@ -81,11 +81,16 @@ public class EdocServiceImpl implements EdocService{
 		}
 		
 		int result = 0;
+		
 		result = dao.insertEdoc(session,edoc);
+		
 		if(result >0) {
 			List<ElectronicDocumentApproval> approval = edoc.getApproval();
 			approval.forEach((e)->e.setAprvlEdocNo(edoc.getEdocNo()));
-			result *= dao.insertEdocApproval(session, approval);
+			int approvalresult = dao.insertEdocApproval(session, approval);
+			if(approvalresult == 1) {
+				dao.edocFinalize(session, edoc);
+			}
 			
 			List<ElectronicDocumentReference> reference = edoc.getReference();
 			if(reference != null && reference.size()>0) {
@@ -126,7 +131,7 @@ public class EdocServiceImpl implements EdocService{
 		ElectronicDocumentReference target  = ElectronicDocumentReference.builder().refperEdocNo(edocNo).refperEmpNo(empNo).build(); 
 		if(refList != null && refList.contains(target)) {
 			ElectronicDocumentReference ref = refList.get(refList.indexOf(target));
-			if(!ref.isRefperStatus()) {
+			if(ref.getRefperStatus().equals("N")) {
 				dao.referenceCheck(session, ref.getRefperNo());
 			}
 		}
@@ -223,4 +228,22 @@ public class EdocServiceImpl implements EdocService{
 	public int updateAuto(Map<String, Object> param) {
 		return dao.updateAuto(session, param);
 	}
+	
+//	private Map<String,Object> makeMsg(int receiverEmpNo) {
+//		
+//		Map<String,Object> msg = new HashMap<>();
+//		Map<String,Object> receiver = 
+//		msg.put("receiverEmpNo", empNos);
+//		msg.put("receiverNames", receiverNames);
+//		msg.put("senderEmpNo", senderEmpNo);
+//		msg.put("msgCategory", msgCategory);
+//		msg.put("msgCategoryName", msgCategoryName);
+//		msg.put("msgTitle", sendMsgTitle);
+//		msg.put("msgContent", sendMsgContent);
+//		msg.put("fileOriname", fileOriname);
+//		msg.put("fileRename", fileRename);
+//		msg.put("fileSize", fileSize);
+//		
+//		return msg;
+//	}
 }

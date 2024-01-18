@@ -38,6 +38,7 @@ import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.ApvCode;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
+import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
@@ -118,6 +119,8 @@ public class EdocController {
 		Map<String, Object> param = new HashMap<>();
 		
 		param.put("emp_id", loginEmp.getEmp_id());
+		param.put("status", boxStatus.name());
+		param.put("posCode", PosCode.valueOf(loginEmp.getPosition_code()));
 		
 		List<ElectronicDocumentList> lists = edocService.getEdocBox(param);
 		

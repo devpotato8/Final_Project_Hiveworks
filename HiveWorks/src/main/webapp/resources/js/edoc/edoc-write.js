@@ -147,8 +147,8 @@ DecoupledEditor
 			$format.append($('<option>').val(v.sampleNo).text(v.sampleName));
 		});
 
-		// 문서종류가 휴가/연가 신청서라면
-		if(dotCode === 'DOT004'){
+		// 문서종류가 연장근무 신청서라면
+		if(dotCode === 'DOT005'){
 			let dateInfo = document.querySelector('#edocDate');
 			if(dateInfo == null){
 				dateInfo = $('<tr id="edocDate">')
@@ -314,7 +314,7 @@ const fnDelApprovalList = (empNo)=>{
 const fnAddreferenceList = (empNo)=>{
 	if(!isExistInLists(empNo)){
 		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
-		referenceList.push({refperEmpNo:empNo,refperStatus:false});
+		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
 	}else{
 		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
@@ -423,18 +423,17 @@ const dataProcess = ()=>{
 				reference: referenceList
 			};
 	
-	/* 휴가 신청처리를 간편 등록으로만 처리하기로 함에 따라 블럭처리 - 24/01/17 이재연
-	// 휴가 신청서일경우 시작/종료일 처리
+	// 연장근무 신청서일경우 시작/종료일 처리
 	let edocStartDate;
 	let edocEndDate;
-	if(dotCode == 'DOT004'){
+	if(dotCode == 'DOT005'){
 		const dateValue = $('#dateTimePicker').val();
 		edocStartDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
 		edocEndDate = new Date(Date.parse(dateValue.substr(dateValue.indexOf('-')+1)));
 		edoc.edocStartDate = edocStartDate;
 		edoc.edocEndDate = edocEndDate;
 	}
-	*/
+
 	
 	// 첨부파일 등록
 	

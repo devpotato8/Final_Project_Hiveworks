@@ -1,6 +1,7 @@
 package com.dna.hiveworks.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dna.hiveworks.model.dto.Vacation;
 
@@ -10,8 +11,8 @@ public interface VacationService {
 	
 	List<Vacation> selectVacationByNo(int empNo);
 	
-	int insertVacation(Vacation v, int empNo);
-	int updateVacation(Double vacCount, int empNo);
+	int insertVacation(Vacation v);
+	int updateVacation(Map<String, Object> param);
 	int deleteVacation(int vacationNo);
 
 	double selectLeftVacation(int empNo);

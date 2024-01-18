@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.daoimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
@@ -25,15 +26,15 @@ public class VacationDaoImpl implements VacationDao {
 	}
 
 	@Override
-	public int insertVacation(SqlSession session, Vacation v, int empNo) {
+	public int insertVacation(SqlSession session, Vacation v) {
 		// TODO Auto-generated method stub
 		return session.insert("vacation.insertVacation",v);
 	}
 
 	@Override
-	public int updateVacation(SqlSession session, Double vacCount, int empNo) {
+	public int updateVacation(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return session.update("vacation.updateVacation", vacCount);
+		return session.update("vacation.updateVacation", param);
 	}
 
 	@Override
