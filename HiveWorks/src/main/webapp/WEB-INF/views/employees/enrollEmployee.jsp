@@ -177,7 +177,7 @@ input::-webkit-inner-spin-button {
 												<div class="form-group">
 													<label class="form-label">*주민번호</label>
 													<input class="form-control" type="text" id="emp_resident_no" name="emp_resident_no" 
-													onkeyup="fn_auto_hypen_resident(event);fn_auto_birthdate(event,birth);" placeholder="123456-1234567" maxlength="14" required="required"/>
+													onkeyup="fn_auto_hypen_resident(event);" placeholder="123456-1234567" maxlength="14" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -682,7 +682,6 @@ let $form = document.getElementById('form_real');
 //submit 전 체크
 $form.addEventListener('submit',(event)=>{
 	event.preventDefault();
-	console.log($form);
 	
 	if(id_check===-1){
 		alert("아이디 중복을 확인해 주세요.");
@@ -701,4 +700,4 @@ $form.addEventListener('submit',(event)=>{
 	
 	$form.submit();
 });
-</script>		
+</script>	
