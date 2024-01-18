@@ -10,4 +10,7 @@ import com.dna.hiveworks.model.dto.salary.OvertimePay;
 public interface OvertimePayDao {
 
 	List<OvertimePay> selectOvertimePayListAll(SqlSession session);
+	
+	List<OvertimePay> selectMyOvertimePayByempNo(SqlSession session, int emp_no);
+
 }

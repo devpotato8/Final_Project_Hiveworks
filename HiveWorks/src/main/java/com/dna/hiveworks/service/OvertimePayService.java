@@ -7,5 +7,7 @@ import com.dna.hiveworks.model.dto.salary.OvertimePay;
 
 public interface OvertimePayService {
 
-	List<OvertimePay> selectOvertimePayListAll(); 
+	List<OvertimePay> selectOvertimePayListAll();
+	
+	List<OvertimePay> selectMyOvertimePayByempNo(int emp_no);
 }

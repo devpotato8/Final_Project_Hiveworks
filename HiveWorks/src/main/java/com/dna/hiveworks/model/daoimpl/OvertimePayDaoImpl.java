@@ -16,4 +16,10 @@ public class OvertimePayDaoImpl implements OvertimePayDao {
 		return session.selectList("overtimepay.selectOvertimePayListAll");
 	}
 
+	@Override
+	public List<OvertimePay> selectMyOvertimePayByempNo(SqlSession session, int emp_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

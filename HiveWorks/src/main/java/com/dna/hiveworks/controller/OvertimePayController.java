@@ -26,12 +26,18 @@ public class OvertimePayController {
 		
 		model.addAttribute("workList",workList);
 		
-		for(int i=0; i<workList.size();i++) {
-			System.out.println(workList.get(i));
-			
-		}
-		
 		return "overtimepay/overtimePayList";
+	}
+	
+	@GetMapping("/myovertimepay")
+	public String selectMyOvertimePayByempNo(Model model, int emp_no) {
+		
+		List<OvertimePay> myWorkList = service.selectMyOvertimePayByempNo(emp_no);
+		
+		model.addAttribute("workList",myWorkList);
+		
+		return "overtimepay/myOvertimePay";
+			
 	}
 	
 }

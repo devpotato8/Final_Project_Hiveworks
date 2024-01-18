@@ -271,6 +271,16 @@
 													<span class="nav-link-text">내 휴가</span>
 												</a>
 											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/overtimepay/myovertimepay?emp_no=${loginEmp.emp_no}">
+													<span class="nav-link-text">내 시간 외 근로수당</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#">
+													<span class="nav-link-text">내 급여</span>
+												</a>
+											</li>
 										</ul>
 									</li>
 								</ul>
