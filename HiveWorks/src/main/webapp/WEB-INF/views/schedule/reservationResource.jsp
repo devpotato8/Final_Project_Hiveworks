@@ -161,11 +161,63 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group">
-											<label class="form-label">참석자</label> <input
-												class="form-control" type="text" />
-											<button type="button" class="btn btn-light btn-floating">추가</button>
+
+					<div class="row gx-3">
+										<div class="col-sm-3">
+											<span>일정 공유</span>
 										</div>
+										<div class="col-sm-5">
+											<div class="form-group">
+												<button type="button" onclick="window.adddelFunction.util.addFile();"
+													id="delBtn">추가</button>
+<%--												<button type="button"--%>
+<%--													id="addBtn">삭제</button>--%>
+											</div>
+										</div>
+									</div>
+
+									<div class="inviteContainer inviteContainer_1" style="display: flex">
+										<div class="col-sm-4">
+											<div class="form-groupddddd">
+												<label class="form-label">부서</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calDept"
+														id="calDept1">
+														<c:if test="${not empty deptList}">
+															<c:forEach var="dept" items="${deptList}">
+																<option value="${dept.deptCode}">${dept.deptName}</option>
+															</c:forEach>
+														</c:if>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">직원</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calEmp" id="calEmp1">
+														<c:if test="${not empty empList}">
+															<c:forEach var="emp" items="${empList}">
+																<option value="${emp.emp_no}">${emp.emp_name}</option>
+															</c:forEach>
+														</c:if>
+													</select>
+												</div>
+											</div>
+										</div>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+									</div>
+									<div name="someContainer"></div>
+									
+									
+									
+									
+									
+									
+									
+									
+									
 										<div class="form-group">
 											<input class="form-check-input" type="checkbox"
 												id="flexCheckDefault" name="reminder" value=> <label
@@ -179,16 +231,13 @@
 									<table class="table">
 										<thead>
 											<tr>
+												<th scope="row">예약번호</th>
 												<th scope="col">예약시각</th>
 												<th scope="col">예약자</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<th scope="row">1</th>
-												<td>18:00~20:00</td>
-												<td>홍길동</td>
-											</tr>
+										</tbody>
 									</table>
 								</div>
 							</div>
@@ -269,6 +318,11 @@
 </div>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <script>
+
+const resourceNo = ${currentResourceNo };
+//console.log(resourceNo );
+
+
 //reminder 스트링으로 보내기
 var remindercheck = document.getElementById('flexCheckDefault');
 
@@ -368,6 +422,46 @@ remindercheck.addEventListener('change', function() {
 
         	  // 캘린더에서의 선택을 해제합니다.
         	  calendar.unselect();
+        	  
+        	  // 선택한 날짜에 해당하는 예약 리스트를 가져오는 AJAX 요청
+        	  $.ajax({
+        	    url: '/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
+        	    method: 'POST',
+        	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
+        	      data: JSON.stringify({ selectDate: defaultStartDate, resourceNo: resourceNo }),
+        	    success: function(response) {
+        	      // 예약 리스트를 성공적으로 가져왔을 때 처리하는 로직을 작성합니다.
+        	      console.log(response); // 예약 리스트를 콘솔에 출력하거나 원하는 방식으로 화면에 표시합니다.
+        	      
+        	      var tbody = $('.table tbody');
+        	   
+        	      // 테이블의 tbody를 찾습니다.
+        	      // 이전 데이터를 삭제합니다.
+        	      tbody.empty();
+
+        	      // 예약 리스트를 반복하면서 테이블에 추가합니다.
+        	      for (var i = 0; i < response.length; i++) {
+        	        var res = response[i];
+        	        var formattedStartDate = moment(res.calStartDate).format('YYYY-MM-DD HH:mm');
+        	        var formattedEndDate = moment(res.calEndDate).format('YYYY-MM-DD HH:mm');
+
+        	        // 새로운 행(tr)을 생성합니다.
+        	        var newRow = $('<tr>');
+
+        	        // 각 열(td)에 예약 정보를 추가합니다.
+        	        newRow.append('<td>' + res.calNo + '</td>');
+        	        newRow.append('<td>' + formattedStartDate + " ~ " + formattedEndDate + '</td>');
+        	        newRow.append('<td>' + res.myEmpName + '</td>');
+
+        	        // 생성한 행을 tbody에 추가합니다.
+        	        tbody.append(newRow);
+        	      }
+        	    },
+        	    error: function(error) {
+        	      // 예약 리스트를 가져오는 데 실패했을 때 처리하는 로직을 작성합니다.
+        	      console.log(error); // 에러 메시지를 콘솔에 출력하거나 에러 처리 방식을 구현합니다.
+        	    }
+        	  });
         	},
         //데이터 가져오는 이벤트
     /*     eventSources:[
@@ -407,8 +501,104 @@ remindercheck.addEventListener('change', function() {
     });
   })();
 
+//부서 선택 시 직원 표시
+document.getElementById('calDept1').addEventListener('change', function() {
+ var selectedDeptCode = this.value;
+ 
+ fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+   .then(function(response) {
+     if (response.ok) {
+       return response.json();
+     } else {
+       throw new Error('요청이 실패하였습니다.');
+     }
+   })
+   .then(function(employeeList) {
+     var employeeSelect = document.getElementById('calEmp1');
+     employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+     
+     employeeList.forEach(function(employee) {
+       var option = document.createElement('option');
+       option.value = employee.EMP_NO;
+       option.textContent = employee.name;
+       employeeSelect.appendChild(option);
+     });
+   })
+   .catch(function(error) {
+     console.error(error);
+   });
+}); 
 
+//부서 직원 추가
+const adddelFunction=(function(adddelFunction){
+	let self = {};
+  let count = 2;
+  self.addFile=()=>{
+     if(count<=5){
+        const fileForm = $(".inviteContainer").eq(0).clone(true);
+	     fileForm.removeClass("inviteContainer_1");
+        fileForm.addClass("inviteContainer_"+count);
+           const deptId = "calDept" + count;
+           const empId = "calEmp" + count;
+           
+           fileForm.find("#calDept1").attr("id", deptId).val("").change(); // 부서 선택 시 직원 표시
+           fileForm.find("#calEmp1").attr("id", empId).val(""); // 초기화
+           
+           // 부서 선택 시 해당 부서의 직원 표시
+           fileForm.find("#" + deptId).on("change", function() {
+             var selectedDeptCode = $(this).val();
+             
+             fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+               .then(function(response) {
+                 if (response.ok) {
+                   return response.json();
+                 } else {
+                   throw new Error('요청이 실패하였습니다.');
+                 }
+               })
+               .then(function(employeeList) {
+                 var employeeSelect = document.getElementById(empId);
+           
+                 employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+           
+                 employeeList.forEach(function(employee) {
+                   var option = document.createElement('option');
+                   option.value = employee.no;
+                   option.textContent = employee.name;
+                   employeeSelect.appendChild(option);
+                 });
+               })
+               .catch(function(error) {
+                 console.error(error);
+               });
+           });
+           
+           $("div[name=someContainer]").before(fileForm);
+           count++;
+         } else {
+           alert("공유인원은 5명까지 가능합니다.");
+         }
+  };
+  self.delFile=(e)=>{
+     if(count!=2){
+		  $(e).parent().remove();
+		  $(".inviteContainer").each(function(index, item){
+			  item.removeAttribute('class');
+			  $(item).addClass('inviteContainer').addClass('inviteContainer_'+(index+1));
+		  });
+   	  //$("div[name=someContainer]").prev().remove();
+        count--;
+     }
+  };
 
+	/**
+	 * REGIST
+	 */
+	if (!adddelFunction) {
+		window.adddelFunction = adddelFunction = {};
+	}
+	adddelFunction.util = self;
+})();
 
 
 </script>

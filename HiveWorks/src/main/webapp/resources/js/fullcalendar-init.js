@@ -70,17 +70,21 @@ document.addEventListener('DOMContentLoaded', function() {
 	var mycalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
-			var calCode = 'CAL001'; // 이 부분에 필요한 calCode 값을 설정해주세요.
+			var calCode = ''; // 이 부분에 필요한 calCode 값을 설정해주세요.
 			var searchType = '';
 
 			if($('#mycalendar').is(':checked')) {
 				searchType += 'A'
+				calCode = 'CAL001'
 			}
 			if($('#mydeptcalendar').is(':checked')) {
 				searchType += 'B'
+				calCode = 'CAL002'
+				
 			}
 			if($('#companycalendar').is(':checked')) {
 				searchType += 'C'
+				calCode = 'CAL003'
 			}
 			$.ajax({
 				url: `/schedule/searchschedule`,
@@ -132,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	};
 
-	var mydeptcalendar = {
+/*	var mydeptcalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
 			var calCode = 'CAL002'; // 이 부분에 필요한 calCode 값을 설정해주세요.
@@ -229,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			})
 		}
-	};
+	};*/
 	
 	/*var importcalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
@@ -1119,7 +1123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: event.calSubject,
             start: event.calStartDate,
             end: event.calEndDate,
-            backgroundColor: "#c034eb", // 색상 코드 형식을 수정했습니다.
+            backgroundColor: event.calColor, // 색상 코드 형식을 수정했습니다.
             extendedProps: {
               // 추가된 속성들...
               content: event.calContent,
@@ -1158,31 +1162,29 @@ document.addEventListener('DOMContentLoaded', function() {
 		switch (this.id) {
 			case 'mycalendar':
 				eventSource = mycalendar;
-				id = 'CAL001';
 				break;
 			case 'mydeptcalendar':
 				eventSource = mycalendar;
-				id = 'CAL002';
 				break;
 			case 'companycalendar':
 				eventSource = mycalendar;
-				id = 'CAL003';
 				break;
 		}
 
 		// if (this.checked) {
 			// 체크박스가 선택되면 이벤트 소스 추가
-			calendar.addEventSource(eventSource);
-		// } else {
-		// 	// 체크박스가 해제되면 해당 이벤트 소스에 연결된 모든 일정 삭제
-		// 	var events = calendar.getEvents();
-		// 	events.forEach(function(event) {
-		// 		var eventId = event.id;
-		// 		if (id == null || event.id === id) {
-		// 			event.remove();
-		// 		}
-		// 	});
-		// }
+		//	calendar.addEventSource(eventSource);
+		 //} else {
+		 	// 체크박스가 해제되면 해당 이벤트 소스에 연결된 모든 일정 삭제
+		 	var events = calendar.getEvents();
+		 	events.forEach(function(event) {
+		 		var eventId = event.id;
+		 		if (id == null || event.id === id) {
+		 			event.remove();
+				}
+		 	});
+		 	calendar.addEventSource(eventSource);
+		 //}
 
 		// 중복된 일정 숨기기
 		var events = calendar.getEvents();

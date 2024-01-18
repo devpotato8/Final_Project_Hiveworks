@@ -104,7 +104,7 @@
 	</insert>
 	
 	<insert id="reserveResource" parameterType="schedule">
-		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},NULL,#{calColor},DEFAULT,#{reminderYn},NULL,#{calStatus},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
+		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},NULL,#{calColor},DEFAULT,#{reminderYn},NULL,'승인완료',DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
 	</insert>
 	
 	<insert id="reserveResourceEnd">
@@ -150,16 +150,21 @@
 	</select>
 	
 	
+
+	
+	
+	
+	
 	<select id="searchSchedule" resultMap="scheduleInviMap" parameterType="map">
 		SELECT * FROM V_CALENDAR_F
 		where 1=2
-
+	<if test="searchTypeA != null or searchTypeB != null or searchTypeC != null">
 		union
-
+	</if>
 	<if test="searchTypeA != null">
 		SELECT * FROM V_CALENDAR_F
 		where 1=1
-		AND CAL_CODE = #{calCode} AND MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
+		AND CAL_CODE = 'CAL001' AND MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
 	</if>
 
 	<if test="searchTypeB != null">
@@ -168,7 +173,7 @@
 		</if>
 		SELECT * FROM V_CALENDAR_F
 		where 1=1
-		AND CAL_CODE = #{calCode} AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
+		AND CAL_CODE = 'CAL002' AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
 	</if>
 
 	<if test="searchTypeC != null">
@@ -177,7 +182,7 @@
 		</if>
 		SELECT * FROM V_CALENDAR_F
 		where 1=1
-		AND CAL_CODE = #{calCode}
+		AND CAL_CODE = 'CAL003'
 	</if>
 	</select>
 	
@@ -217,6 +222,11 @@
 	<select id="selectReserveByCode" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = #{calCode}
 	</select>
+	
+	<select id="selectReservationBydate" resultMap="scheduleInviMap" parameterType="hashMap">
+    SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TO_DATE(#{selectDate}, 'YY/MM/DD HH24:MI:SS') ORDER BY V.CAL_START_DATE
+</select>
+	
 	
 	<select id="selectprojectAll" resultMap="scheduleMap">
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007'

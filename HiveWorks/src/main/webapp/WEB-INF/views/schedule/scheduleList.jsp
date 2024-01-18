@@ -735,7 +735,7 @@ console.log(empDeptCodes);
       
       employeeList.forEach(function(employee) {
         var option = document.createElement('option');
-        option.value = employee.EMP_NO;
+        option.value = employee.emp_no;
         option.textContent = employee.name;
         employeeSelect.appendChild(option);
       });

@@ -1,5 +1,6 @@
 package com.dna.hiveworks.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,9 +56,13 @@ public interface ScheduleDao {
 
 	List<Schedule> selectReserveByCode(SqlSession session, String calCode);
 	
+	List<Schedule> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo);
+	
 	int reserveResource(SqlSession session, Schedule schedule);
 	
 	int reserveResourceEnd(SqlSession session, int resourceNo);
+	
+	int insertInvitationRe(SqlSession session, int[] empList);
 	
 	int deleteReservation(SqlSession session, List<Integer> intList);
 	

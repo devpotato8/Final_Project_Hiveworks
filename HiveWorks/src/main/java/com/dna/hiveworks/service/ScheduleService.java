@@ -1,5 +1,6 @@
 package com.dna.hiveworks.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,9 @@ public interface ScheduleService {
 
 	List<Schedule> selectReserveByCode(String calCode);
 	
-	int reserveResource(Schedule schedule, int resourceNo);
+	List<Schedule> selectReservationBydate(Date selectDate, int resourceNo);
+	
+	int reserveResource(Schedule schedule, int resourceNo, int[] empList);
 	
 	int deleteReservation(List<Integer> checkedList);
 	
@@ -61,6 +64,8 @@ public interface ScheduleService {
 	List<Schedule> selectprojectByEmpNo(int empNo);
 	
 	Schedule selectprojectByCalNo(int calNo);
+
+
 	
 	
 	

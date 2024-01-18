@@ -1,5 +1,6 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public List<Schedule> searchEmpSchedule(SqlSession session, Map<String, Object> param) {
-		return session.selectList("schedule.searchSchedule",param);
+		return session.selectList("schedule.searchEmpSchedule",param);
 
 	}
 	
@@ -51,6 +52,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	    }
 	    return count;
 	}
+	
+	
 	
 	//일정 변경 
 	@Override
@@ -150,12 +153,32 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return session.selectList("schedule.selectReserveByCode");
 	}
 	
+	@Override
+	public List<Schedule> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
+		System.out.println(resourceNo+"dao");
+		Map<String, Object> parameters = new HashMap<>();
+		 parameters.put("selectDate", selectDate);
+		 parameters.put("resourceNo", resourceNo);
+		return session.selectList("schedule.selectReservationBydate",parameters);
+	}
+	
 	
 	@Override
 	public int reserveResourceEnd(SqlSession session, int resourceNo) {
 		 Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("resourceNo", resourceNo);
 		return session.insert("schedule.reserveResourceEnd",parameters);
+	}
+	
+	@Override
+	public int insertInvitationRe(SqlSession session, int[] empList) {
+	    int count = 0;
+	    for (int empNo : empList) {
+	        if (empNo != 0) { // null 체크 추가
+	            count += session.insert("schedule.insertInvitation", empNo);
+	        }
+	    }
+	    return count;
 	}
 	
 	@Override

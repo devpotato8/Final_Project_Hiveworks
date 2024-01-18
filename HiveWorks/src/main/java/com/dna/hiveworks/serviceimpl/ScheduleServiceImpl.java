@@ -1,5 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -114,10 +115,21 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
-	public int reserveResource(Schedule schedule, int resourceNo) {
+	public int reserveResource(Schedule schedule, int resourceNo, int[] empList) {
+		int inviresult = 0;
 		int reserveResource = dao.reserveResource(session, schedule);
 		if (reserveResource > 0) {
 			int reserveResourceEnd = dao.reserveResourceEnd(session, resourceNo);
+			if (empList != null && empList.length > 0) {
+				inviresult = dao.insertInvitationRe(session, empList);
+				if (inviresult == 0) {
+					throw new RuntimeException("예약 등록 실패");
+				}
+			}
+
+		} else {
+			throw new RuntimeException("예약 등록 실패");
+
 		}
 		return reserveResource;
 	}
@@ -152,6 +164,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> selectReserveByNo(int empNo) {
 		return dao.selectReserveByNo(session, empNo);
+	}
+	
+	@Override
+	public List<Schedule> selectReservationBydate(Date selectDate, int resourceNo) {
+		System.out.println(resourceNo+"서비스");
+		return dao.selectReservationBydate(session, selectDate, resourceNo);
 	}
 
 	@Override

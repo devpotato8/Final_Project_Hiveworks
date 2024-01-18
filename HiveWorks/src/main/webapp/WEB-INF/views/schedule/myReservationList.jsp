@@ -153,7 +153,7 @@
 																	</button>
 																	<div role="menu"
 																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation.do?calNo=${myres.calNo}">수정</a>
+																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation?resourceNo=${myres.resource.resourceNo}&calNo=${myres.calNo}">수정</a>
 																	</div>
 																</div>
 																</div>

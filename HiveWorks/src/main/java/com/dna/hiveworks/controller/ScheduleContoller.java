@@ -1,13 +1,16 @@
 package com.dna.hiveworks.controller;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -342,6 +345,34 @@ public class ScheduleContoller {
 		return "schedule/myReservationList";
 
 	}
+	
+	@PostMapping("/selectReservationBydate")
+	@ResponseBody
+	public List<Schedule> selectReservationBydate(@RequestBody Map<String, Object> param){
+		
+		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+				  instanceof String)); });
+		System.out.println(param);
+		 int resourceNo = (Integer)param.get("resourceNo");
+		String strDate = (String) param.get("selectDate");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date utilDate = null;
+		try {
+		    utilDate = dateFormat.parse(strDate);
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
+
+		java.sql.Date selectdate = new java.sql.Date(utilDate.getTime());
+
+		System.out.println(resourceNo);
+		System.out.println(selectdate);
+		List<Schedule> ReserveListByDate = scheduleService.selectReservationBydate(selectdate, resourceNo);
+
+		return ReserveListByDate;
+	}
+		
+
 
 	/*
 	 * @GetMapping("/reservationlistend.do") public String reservationListEnd(String
@@ -350,6 +381,11 @@ public class ScheduleContoller {
 	 * resourceList); return "" }if
 	 */
 	// }
+
+	private int Integer(Object object) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	// 자산 목록 조회
 	@GetMapping("/resourcelist.do")
@@ -368,11 +404,17 @@ public class ScheduleContoller {
 		return resourceT;
 	}
 	
+	
+	
 	// 자산 예약 페이지 연결
 	@GetMapping("/reserveResource.do")
 	public String reserveResource(Model model, @RequestParam int resourceNo) {
 		
 		List<Resource> resourceList = scheduleService.selectResourceAll();
+		List<Department> deptList = deptservice.deptListAll();
+		List<Employee> empList = scheduleService.selectEmployeesList();
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("empList", empList);
 		model.addAttribute("reList", resourceList);
 		
 		Resource current = resourceList.stream().filter(r -> r.getResourceNo() == resourceNo).findAny().get();
@@ -388,18 +430,32 @@ public class ScheduleContoller {
 	}
 	
 	//예약 수정 페이지 연결
-	@GetMapping("/updateReservation.do")
-	public String updateReservation(Model model, @RequestParam int calNo) {
+	@GetMapping("/updateReservation")
+	public String updateReservation(Model model, @RequestParam int calNo, @RequestParam int resourceNo) {
+		List<Resource> resourceList = scheduleService.selectResourceAll();
+		List<Department> deptList = deptservice.deptListAll();
+		List<Employee> empList = scheduleService.selectEmployeesList();
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("empList", empList);
+		model.addAttribute("reList", resourceList);
 		List<Schedule> reserveList = scheduleService.selectReserveAll();
 		Schedule currentR = reserveList.stream().filter(r -> r.getCalNo() == calNo).findAny().get();
 		model.addAttribute("currentR", currentR);
+		model.addAttribute("currentCalNo",calNo);
+		model.addAttribute("currentResourceNo", resourceNo);
 		return "schedule/updateReservation";
 	}
 	
 
 	// 자산 예약
 	@PostMapping("/reserveResourceEnd.do")
-	public String reserveResourceEnd(@RequestParam Map<String, Object> param, Model model) {
+	public String reserveResourceEnd(@RequestParam Map<String, Object> param, Model model, String[] calEmp) {
+		
+		log.debug(Arrays.toString(calEmp));
+		
+		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+		 instanceof String)); });
+		 
 
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 
@@ -418,6 +474,21 @@ public class ScheduleContoller {
 		}
 		
 		String reminderYn = (String) param.get("reminder");
+		/*
+		 * String empArrayValue = (String) param.get("calEmp"); String[] empArray =
+		 * empArrayValue != null ? empArrayValue.split(",") : new String[0];
+		 * 
+		 * List<Integer> empList = new ArrayList<>(); if (empArray != null &&
+		 * empArray.length > 0) { for (String emp : empArray) { if (emp != null &&
+		 * !emp.isEmpty()) { int empInt = Integer.parseInt(emp); empList.add(empInt); }
+		 * } }
+		 */
+		
+	    int[] empList = new int[calEmp.length];
+        
+        for (int i = 0; i < calEmp.length; i++) {
+        	empList[i] = Integer.parseInt(calEmp[i]);
+        }
 
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
@@ -425,12 +496,12 @@ public class ScheduleContoller {
 		Schedule schedule = Schedule.builder().calStartDate(calStartDate).calEndDate(calEndDate).calCode(calCode).myEmpNo(empNo)
 				.reminderYn(reminderYn).creater(empNo).modifier(empNo).calColor(calColor).calSubject(calSubject).build();
 
-		result = scheduleService.reserveResource(schedule, resourceNo);
+		result = scheduleService.reserveResource(schedule, resourceNo, empList);
 
 		String msg, loc;
 		if (result > 0) {
 			msg = "예약성공";
-			loc = "schedule/reservationlistbyno.do";
+			loc = "schedule/reservationlistbyno.do?empNo="+empNo;
 		} else {
 			msg = "예약실패";
 			loc = "schdule/reserveResource.do";
