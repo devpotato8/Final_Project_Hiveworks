@@ -18,22 +18,21 @@
 		SELECT * FROM TBL_VACATION WHERE EMP_NO = 1
 	</select>
 	
-	<select id="selectVacationByNo" parameterType="integer" 
+	<select id="selectVacationByNo" parameterType="_int" 
 		resultMap="vacationMap">
 		SELECT * FROM TBL_VACATION WHERE EMP_NO = #{empNo} ORDER BY MODIFY_DATE DESC
-		
 	</select>
 	
 	<insert id="insertVacation" parameterType="vacation" >
-		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,1,#{vacCount},1,#{vacOption},1,#{createDate},1,DEFAULT,'Y')
-		WHERE EMP_NO = #{empNo}
+		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,#{empNo},
+		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y','','대기')
 	</insert>
 	
-	<update id="updateVacation" parameterType="Double" >
+	<update id="updateVacation" parameterType="Map" >
 		UPDATE TBL_VACATION_BYYEAR SET 
 		VAC_LEFT = VAC_LEFT - #{vacCount}, 
-		MODIFIER = 1, MODIFY_DATE = SYSDATE
-		WHERE EMP_NO = 1
+		MODIFIER = #{empNo}, MODIFY_DATE = SYSDATE
+		WHERE EMP_NO = #{empNo}
 	</update>
 	
 	<!-- 잔여연차 가져오기 -->
@@ -41,7 +40,32 @@
 		SELECT VAC_LEFT FROM TBL_VACATION_BYYEAR WHERE EMP_NO = #{empNo}
 	</select>
 	
-	
+	<!-- 전자문서 INSERT -->
+	<insert id="insertEdoc" parameterType="edoc">
+		<selectKey keyProperty="edocNo" keyColumn="EDOC_NO"
+			resultType="string" order="BEFORE">
+			SELECT 'VAC-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select
+			count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE
+			'%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
+		</selectKey>
+		INSERT INTO TBL_EDOC VALUES(
+		#{edocNo},<!-- EDOC_NO -->
+		#{edocDotCode},<!-- EDOC_DOT_CODE -->
+		#{edocTitle},<!-- EDOC_TITLE -->
+		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
+		#{edocDsgCode},<!-- EDOC_DSG_CODE -->
+		#{edocContent},<!-- EDOC_CONTENT -->
+		#{edocStartDate},<!-- EDOC_STARTDATE -->
+		#{edocEndDate},<!-- EDOC_ENDDATE -->		
+		'DST100',<!-- EDOC_STATUS -->
+		#{creater},<!-- CREATER -->
+		SYSDATE,<!-- CREATE_DATE -->
+		NULL,<!-- MODIFIER -->
+		NULL,<!-- MODIFY_DATE -->
+		DEFAULT,<!-- USE_YN -->
+		NULL<!-- FINALIZED_DATE -->
+		)
+	</insert>
 	
 	
 	
