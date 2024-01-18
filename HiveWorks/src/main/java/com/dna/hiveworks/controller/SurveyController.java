@@ -1,10 +1,12 @@
 package com.dna.hiveworks.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dna.hiveworks.model.dto.board.Survey;
@@ -45,9 +47,8 @@ public class SurveyController {
 	@RequestMapping("/insertSurvey")
 	public String insertSurvey(Survey s, Model model) {
 		String msg, loc;
-		
 		int result=service.insertSurvey(s);
-		
+
 		if(result>0) {
 			msg = "게시글 등록 성공 :)";
 			loc = "survey/survey";

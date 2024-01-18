@@ -12,7 +12,7 @@
         <result column="MODIFY_DATE" property="modifyDate"/>
         <result column="USE_YN" property="useYN"/>
         <result column="SURVEY_TYPE" property="surveyType"/>
-        <result column="SURVEEY_QUESTION" property="surveyQuestion"/>
+        <result column="SURVEY_QUESTION" property="surveyQuestion"/>
     </resultMap>
   	<resultMap type="question" id="questionMap">
   		<id column="QUESTION_NO" property="questionNo"/>
@@ -37,15 +37,15 @@
 	
     <insert id="insertSurvey" parameterType="survey">
         INSERT INTO TBL_SURVEY
-        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',NULL,NULL)
+        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',NULL,#{surveyQuestion})
     </insert>
     
-    <insert id="insertQuestion" parameterType="question">
+    <insert id="insertQuestion" parameterType="survey">
     	INSERT INTO TBL_SURVEY_QUESTION
-    	VALUES (SEQ_QUESTION_NO.NEXTVAL,#{surveyNo},#{questionTitle})
+    	VALUES (SEQ_QUESTION_NO.NEXTVAL,#{questionTitle},#{surveyNo})
     </insert>
    
-    <insert id="insertAnswer" parameterType="answer">
+    <insert id="insertAnswer" parameterType="survey">
     	INSERT INTO TBL_SURVEY_ANSWER
     	VALUES (SEQ_QUESTION_NO.NEXTVAL,NULL,NULL,NULL)
     </insert>
