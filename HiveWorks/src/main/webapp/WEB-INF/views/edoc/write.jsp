@@ -80,7 +80,9 @@
 																	<select class="form-select" name="edocDotCode" id="edocType">
 																		<option disabled="disabled" selected="selected">문서종류</option>
 																		<c:forEach items="${dotcode }" var="t">
-																			<option value="${t }">${DotCode.valueOf(t).code }</option>
+																			
+																				<option value="${t }">${DotCode.valueOf(t).code }</option>
+																			
 																		</c:forEach>
 																	</select>
 																	<select class="form-select" id="edocFormat">

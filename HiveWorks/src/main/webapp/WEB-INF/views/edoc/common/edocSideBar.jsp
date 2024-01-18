@@ -162,7 +162,7 @@
 								<a class="nav-link" href="${path }/edoc/box/all"><span class="nav-link-text">전체</span></a>
 								<a class="nav-link" href="${path }/edoc/box/writer"><span class="nav-link-text">기안</span></a>
 								<a class="nav-link" href="${path }/edoc/box/approval"><span class="nav-link-text">결재</span></a>
-								<a class="nav-link" href="${path }/edoc/box/refer"><span class="nav-link-text">수신</span></a>
+								<!--<a class="nav-link" href="${path }/edoc/box/refer"><span class="nav-link-text">수신</span></a>-->
 								<a class="nav-link" href="${path }/edoc/box/read"><span class="nav-link-text">회람/참조</span></a>
 								<a class="nav-link" href="${path }/edoc/box/return"><span class="nav-link-text">반려</span></a>
 							</li>	

@@ -19,6 +19,7 @@ public enum EdocStatus {
 	APV_W("결재대기"),
 	APV_P("결재예정"),
 	APV_C("확인예정"),
+	READ("참조"),
 	APV_X("취소");
 	
 	private String status;
