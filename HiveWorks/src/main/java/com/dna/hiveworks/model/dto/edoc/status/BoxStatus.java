@@ -16,7 +16,7 @@ public enum BoxStatus {
 	ALL(" 전체"),
 	WRITER("기안"),
 	APPROVAL("결재"),
-	REFER("수신"),
+//	REFER("수신"),
 	READ("회람/참조"),
 	RETURN("반려");
 	

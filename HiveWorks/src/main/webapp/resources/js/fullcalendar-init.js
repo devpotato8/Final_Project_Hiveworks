@@ -71,13 +71,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
 			var calCode = 'CAL001'; // 이 부분에 필요한 calCode 값을 설정해주세요.
+			var searchType = '';
+
+			if($('#mycalendar').is(':checked')) {
+				searchType += 'A'
+			}
+			if($('#mydeptcalendar').is(':checked')) {
+				searchType += 'B'
+			}
+			if($('#companycalendar').is(':checked')) {
+				searchType += 'C'
+			}
 			$.ajax({
 				url: `/schedule/searchschedule`,
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
 				async: false, //동기
-				data: JSON.stringify({ calCode: calCode, empNo: loginEmpNo }),
+				data: JSON.stringify({ calCode: calCode, empNo: loginEmpNo, deptCode: loginDeptCode,  searchType: searchType }),
 				contentType: "application/json",
 				traditional: true,
 				async: false,
@@ -1150,28 +1161,28 @@ document.addEventListener('DOMContentLoaded', function() {
 				id = 'CAL001';
 				break;
 			case 'mydeptcalendar':
-				eventSource = mydeptcalendar;
+				eventSource = mycalendar;
 				id = 'CAL002';
 				break;
 			case 'companycalendar':
-				eventSource = companycalendar;
+				eventSource = mycalendar;
 				id = 'CAL003';
 				break;
 		}
 
-		if (this.checked) {
+		// if (this.checked) {
 			// 체크박스가 선택되면 이벤트 소스 추가
 			calendar.addEventSource(eventSource);
-		} else {
-			// 체크박스가 해제되면 해당 이벤트 소스에 연결된 모든 일정 삭제
-			var events = calendar.getEvents();
-			events.forEach(function(event) {
-				var eventId = event.id;
-				if (id == null || event.id === id) {
-					event.remove();
-				}
-			});
-		}
+		// } else {
+		// 	// 체크박스가 해제되면 해당 이벤트 소스에 연결된 모든 일정 삭제
+		// 	var events = calendar.getEvents();
+		// 	events.forEach(function(event) {
+		// 		var eventId = event.id;
+		// 		if (id == null || event.id === id) {
+		// 			event.remove();
+		// 		}
+		// 	});
+		// }
 
 		// 중복된 일정 숨기기
 		var events = calendar.getEvents();
