@@ -314,7 +314,7 @@ const fnDelApprovalList = (empNo)=>{
 const fnAddreferenceList = (empNo)=>{
 	if(!isExistInLists(empNo)){
 		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
-		referenceList.push({refperEmpNo:empNo,refperStatus:false});
+		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
 	}else{
 		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);

@@ -38,7 +38,11 @@ public class EdocDaoImpl implements EdocDao{
 
 	@Override
 	public List<ElectronicDocumentList> getEdocBox(SqlSession session, Map<String, Object> param) {
-		return session.selectList("edoc.getEdocBox", param);
+		if(param.get("status").equals("ALL")) {
+			return session.selectList("edoc.getEdocBoxAll",param);
+		}else {
+			return session.selectList("edoc.getEdocBox", param);
+		}
 	}
 	
 	@Override

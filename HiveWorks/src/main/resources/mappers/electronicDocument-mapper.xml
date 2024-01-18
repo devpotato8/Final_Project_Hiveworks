@@ -31,6 +31,7 @@
 		<result column="finalized_date" property="finalizedDate" />
 		<result column="edoc_dot_code" property="edocDotCode" />
 		<result column="edoc_status" property="edocStatus" />
+		<result column="pos_code" property="posCode"/>
 	</resultMap>
 	
 	<resultMap type="edocSample" id="edocSampleMap">
@@ -82,7 +83,46 @@
 	</resultMap>
 	
 	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
-		SELECT * FROM(
+		SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE,
+		FN_EDOC_STATUS(#{emp_id}, D.CREATER, A.APRVL_STATUS, A.APRVL_EMP_NO, D.EDOC_STATUS, R.REFPER_EMP_NO, R.REFPER_STATUS) AS EDOC_STATUS
+		FROM TBL_EDOC D
+		    JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+		    JOIN TBL_EDOC_ACCESS_GRANT AG ON D.EDOC_DSG_CODE = AG.DSG_CODE
+		    LEFT JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+		    LEFT JOIN TBL_EMPLOYEE AE ON A.APRVL_EMP_NO = AE.EMP_NO
+		    LEFT JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
+		    LEFT JOIN TBL_EMPLOYEE RE ON r.refper_emp_no = RE.EMP_NO
+		WHERE d.use_yn = 'Y' 
+		    and (
+		    	<if test='!status.equals("CHECK")'>
+				    (d.edoc_status = 'DST100' 
+				    <if test='status.equals("ALL")'>
+				    	AND (AE.EMP_ID = #{emp_id})
+				    </if>
+			    	<if test='status.equals("WAIT")'>
+			    		AND
+					    (ae.emp_id = #{emp_id} AND A.APRVL_STATUS = 'W')
+			    	</if>
+			    	<if test='status.equals("EXPECT")'>
+			    		AND
+			    		(ae.emp_id = #{emp_id} AND A.APRVL_STATUS = 'P')
+			    	</if>
+			    	<if test='status.equals("PROCESS")'>
+			    		AND
+				    	(ae.emp_id = #{emp_id} AND A.APRVL_STATUS = 'A')
+			    	</if>
+				    )
+		    	</if>
+				<if test='status.equals("ALL") or status.equals("CHECK")'>
+					<if test='status.equals("ALL")'>
+					    or
+					</if>
+				    (d.edoc_status = 'DST200' AND (A.APRVL_RANK = 1 AND re.emp_id = #{emp_id} AND R.REFPER_STATUS = 'N'))
+				</if>		    
+		    
+		    )
+		ORDER BY 4 DESC
+		<!-- SELECT * FROM(
 		<if test='!status.equals("CHECK")'>
 			SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
 			D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
@@ -110,7 +150,9 @@
 			</if>
 		</if>
 		<if test='status.equals("ALL") or status.equals("CHECK")'>
-			<if test='status.equals("ALL")'>UNION</if>
+			<if test='status.equals("ALL")'>
+			UNION
+			</if>
 			SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE, 'APV_C' AS EDOC_STATUS
 	        FROM TBL_EDOC D
 		        JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
@@ -119,19 +161,129 @@
 	        WHERE D.USE_YN = 'Y' AND R.REFPER_STATUS = 'N'
 	        AND E.EMP_ID = #{emp_id}
 		</if>
-		) ORDER BY 4
+		) ORDER BY 4 -->
 	</select>
 	<select id="getEdocBox" parameterType="hashmap" resultMap="edocListMap">
-		SELECT D.EDOC_NO, D.EDOC_TITLE, DE.EMP_NAME, D.CREATE_DATE,
-		D.FINALIZED_DATE, D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER,
-		A.APRVL_STATUS, D.EDOC_STATUS) AS EDOC_STATUS
+		SELECT DISTINCT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE, 
+			FN_EDOC_STATUS(#{emp_id}, D.CREATER, A.APRVL_STATUS, A.APRVL_EMP_NO, D.EDOC_STATUS, R.REFPER_EMP_NO, R.REFPER_STATUS) AS EDOC_STATUS
+		FROM TBL_EDOC D
+		    JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+		    JOIN TBL_EDOC_ACCESS_GRANT AG ON D.EDOC_DSG_CODE = AG.DSG_CODE
+		    LEFT JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+		    LEFT JOIN TBL_EMPLOYEE AE ON A.APRVL_EMP_NO = AE.EMP_NO
+		    LEFT JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
+		    LEFT JOIN TBL_EMPLOYEE RE ON r.refper_emp_no = RE.EMP_NO
+		 
+		 WHERE D.USE_YN = 'Y'
+		 	<choose>
+		 		<when test='status.equals("RETURN")'>
+		 			AND D.EDOC_STATUS = 'DST300' AND (A.APRVL_RANK = 1 AND AE.EMP_ID = #{emp_id})
+		 		</when>
+		 		<otherwise>
+		 			AND D.EDOC_STATUS = 'DST200'
+		 			<choose>
+		 				<when test='status.equals("WRITER")'>
+		 					AND (A.APRVL_RANK = 1 AND AE.EMP_ID = #{emp_id})
+		 				</when>
+		 				<when test='status.equals("APPROVAL")'>
+		 					AND (NOT(A.APRVL_RANK = 1) AND AE.EMP_ID = #{emp_id} AND A.APRVL_STATUS = 'A')
+		 				</when>
+		 				<when test='status.equals("READ")'>
+		 					AND (R.REFPER_STATUS = 'Y' AND RE.EMP_ID = #{emp_id})
+		 				</when>
+		 			</choose>
+		 		</otherwise>
+		 	</choose>
+		 	ORDER BY 4 DESC
+		<!-- SELECT * FROM(
+		결재자 목록에 있는 문서
+		<if test='!status.equals("READ")'>
+		SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.FINALIZED_DATE,
+			D.EDOC_DOT_CODE, FN_EDOC_STATUS(E.EMP_NO, D.CREATER, A.APRVL_STATUS,
+			D.EDOC_STATUS) AS EDOC_STATUS, NULL AS POS_CODE
 		FROM TBL_EDOC D JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
-		JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
-		JOIN TBL_EMPLOYEE DE ON D.CREATER = DE.EMP_NO
-		WHERE D.USE_YN = 'Y' AND NOT(D.EDOC_STATUS = 'DST100')
-		AND E.EMP_ID = #{emp_id}
+			JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+			JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+			문서가 삭제되지 않은 상태
+		WHERE D.USE_YN = 'Y' 
+			<choose>
+				상태가 반려라면 반려상태의 문서를
+				<when test='status.equals("RETURN")'>
+					AND D.EDOC_STATUS = 'DST300'
+				</when>
+				<otherwise>
+					AND D.EDOC_STATUS = 'DST200'
+				</otherwise>
+			</choose>
+					AND E.EMP_ID = #{emp_id}
+			<choose>
+				<when test='status.equals("WRITER") or status.equals("RETURN")'>
+					AND DC.EMP_ID= #{emp_id}
+				</when>
+				<when test='status.equals("APPROVAL")'>
+					AND A.APRVL_STATUS = 'A'
+				</when>
+			</choose>
+		</if>
+		참조자 목록에 있는 문서
+		<if test='status.equals("ALL") or status.equals("READ")'>
+			<if test='status.equals("ALL")'>
+                UNION
+            </if>
+			SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.FINALIZED_DATE,
+				D.EDOC_DOT_CODE, 'READ' AS EDOC_STATUS, NULL AS POS_CODE
+			FROM TBL_EDOC D
+				JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
+				JOIN TBL_EMPLOYEE E ON R.REFPER_EMP_NO = E.EMP_NO
+				JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+				문서가 삭제되지 않고, 참조 확인이 된 문서
+			WHERE D.USE_YN = 'Y' AND R.REFPER_STATUS = 'Y'
+				AND D.EDOC_STATUS = 'DST200'
+				AND E.EMP_ID = #{emp_id}
+		</if>
+		<if test='status.equals("ALL")'>
+			UNION
+			SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.FINALIZED_DATE,
+				D.EDOC_DOT_CODE, NULL, AG.POS_CODE 
+			FROM TBL_EDOC D
+				JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+				JOIN TBL_EDOC_ACCESS_GRANT AG ON D.EDOC_DSG_CODE = AG.DSG_CODE
+				문서가 삭제되지 않고, 권한 등급이 요청한 사람 등급보다 낮은 문서
+			WHERE D.USE_YN = 'Y'
+				AND D.EDOC_STATUS = 'DST200'
+				AND TO_NUMBER(SUBSTR(POS_CODE,4)) >= TO_NUMBER(SUBSTR(#{posCode},4))
+		</if>
+	) ORDER BY 1 DESC -->
 	</select>
-
+	<select id="getEdocBoxAll" parameterType="hashmap" resultMap="edocListMap">
+		SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE
+		FROM TBL_EDOC D
+		    JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+		    JOIN TBL_EDOC_ACCESS_GRANT AG ON D.EDOC_DSG_CODE = AG.DSG_CODE
+		 WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST200'
+		 	AND TO_NUMBER(SUBSTR(POS_CODE,4)) >= TO_NUMBER(SUBSTR(#{posCode},4))
+		 UNION
+		 SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE
+		 FROM TBL_EDOC D
+		    JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+		    JOIN TBL_EDOC_ACCESS_GRANT AG ON D.EDOC_DSG_CODE = AG.DSG_CODE
+		    LEFT JOIN TBL_EDOC_APPROVAL A ON D.EDOC_NO = A.APRVL_EDOC_NO
+		    LEFT JOIN TBL_EMPLOYEE AE ON A.APRVL_EMP_NO = AE.EMP_NO
+		 WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST200'
+		 	AND TO_NUMBER(SUBSTR(POS_CODE,4)) &lt; TO_NUMBER(SUBSTR(#{posCode},4))
+		 	AND AE.EMP_ID = #{emp_id}
+		 UNION
+		 SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE
+		 FROM TBL_EDOC D
+		    JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
+		    JOIN TBL_EDOC_ACCESS_GRANT AG ON D.EDOC_DSG_CODE = AG.DSG_CODE
+		    LEFT JOIN TBL_EDOC_REFERENCE_PERSON R ON D.EDOC_NO = R.REFPER_EDOC_NO
+		    LEFT JOIN TBL_EMPLOYEE RE ON r.refper_emp_no = RE.EMP_NO
+		 WHERE D.USE_YN = 'Y' AND D.EDOC_STATUS = 'DST200'
+		 	AND TO_NUMBER(SUBSTR(POS_CODE,4)) &lt; TO_NUMBER(SUBSTR(#{posCode},4))
+		 	AND RE.EMP_ID = #{emp_id}
+		 ORDER BY CREATE_DATE
+	</select>
 	<select id="getEmpData" resultType="hashmap" parameterType="int">
 		SELECT E.EMP_NAME AS EMPNAME, D.DEPT_NAME AS DEPTNAME, C.CODE_NAME AS
 		JOBNAME, E.EMP_NO AS EMPNO
@@ -179,13 +331,21 @@
 	
 	<insert id="insertEdocApproval" parameterType="edocApproval">
 		INSERT INTO TBL_EDOC_APPROVAL(APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE,
-		APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS)
+		APRVL_EMP_NO, APRVL_RANK, APRVL_STATUS, APRVL_DATE)
 		VALUES
 		(
 		<!-- APRVL_NO, APRVL_EDOC_NO, APRVL_APV_CODE, APRVL_EMP_NO, APRVL_RANK, 
 			APRVL_STATUS -->
 		SEQ_APRVL_NO.NEXTVAL, #{aprvlEdocNo}, #{aprvlApvCode}, #{aprvlEmpNo},
-		#{aprvlRank}, #{aprvlStatus}
+		#{aprvlRank}, #{aprvlStatus},
+		<choose>
+			<when test="aprvlRank == 1">
+				SYSDATE
+			</when>
+			<otherwise>
+				NULL
+			</otherwise>
+		</choose>
 		)
 	</insert>
 	<insert id="insertEdocReference" parameterType="edocReference">
@@ -242,7 +402,7 @@
 	</select>
 	
 	<update id="processApproval" parameterType="edocApproval">
-		UPDATE TBL_EDOC_APPROVAL SET APRVL_APV_CODE = #{aprvlApvCode}, APRVL_STATUS = 'C', APRVL_COMMENT = #{aprvlComment}, APRVL_DATE = SYSDATE WHERE APRVL_NO = #{aprvlNo}
+		UPDATE TBL_EDOC_APPROVAL SET APRVL_APV_CODE = #{aprvlApvCode}, APRVL_STATUS = 'A', APRVL_COMMENT = #{aprvlComment}, APRVL_DATE = SYSDATE WHERE APRVL_NO = #{aprvlNo}
 	</update>
 	
 	<update id="referenceCheck" parameterType="_int">

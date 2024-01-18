@@ -52,7 +52,7 @@ public class EdocServiceImpl implements EdocService{
 	@Override
 	public List<ElectronicDocumentList> getEdocBox(Map<String, Object> param) {
 		
-		return dao.getEdocBox(session,param);
+		return dao.getEdocBox(session, param);
 	}
 	
 	@Override
@@ -81,11 +81,16 @@ public class EdocServiceImpl implements EdocService{
 		}
 		
 		int result = 0;
+		
 		result = dao.insertEdoc(session,edoc);
+		
 		if(result >0) {
 			List<ElectronicDocumentApproval> approval = edoc.getApproval();
 			approval.forEach((e)->e.setAprvlEdocNo(edoc.getEdocNo()));
-			result *= dao.insertEdocApproval(session, approval);
+			int approvalresult = dao.insertEdocApproval(session, approval);
+			if(approvalresult == 1) {
+				dao.edocFinalize(session, edoc);
+			}
 			
 			List<ElectronicDocumentReference> reference = edoc.getReference();
 			if(reference != null && reference.size()>0) {
@@ -126,7 +131,7 @@ public class EdocServiceImpl implements EdocService{
 		ElectronicDocumentReference target  = ElectronicDocumentReference.builder().refperEdocNo(edocNo).refperEmpNo(empNo).build(); 
 		if(refList != null && refList.contains(target)) {
 			ElectronicDocumentReference ref = refList.get(refList.indexOf(target));
-			if(!ref.isRefperStatus()) {
+			if(ref.getRefperStatus().equals("N")) {
 				dao.referenceCheck(session, ref.getRefperNo());
 			}
 		}

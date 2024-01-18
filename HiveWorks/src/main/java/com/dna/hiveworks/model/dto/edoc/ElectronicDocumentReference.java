@@ -31,5 +31,5 @@ public class ElectronicDocumentReference {
 	private int refperNo;
 	private String refperEdocNo;
 	private int refperEmpNo;
-	private boolean refperStatus;
+	private String refperStatus;
 }
