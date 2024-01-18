@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.core.AprStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.dna.hiveworks.model.code.ApvCode;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.dto.Employee;
@@ -55,7 +57,7 @@ public class VacationController {
 //	}
 	
 	@PostMapping("applyvacation")
-	public String applyVacation(@SessionAttribute("loginEmp")Employee loginEmp,ElectronicDocument edoc, Vacation vacation, Model m, @RequestParam("dayAndAfter") String dayAndAfter) {
+	public String applyVacation(@SessionAttribute("loginEmp")Employee loginEmp,ElectronicDocument edoc,Vacation vacation, Model m, @RequestParam("dayAndAfter") String dayAndAfter) {
 		// 잔여연차 가져오기
 		double leftVacation = service.selectLeftVacation(loginEmp.getEmp_no());
 		
@@ -86,12 +88,25 @@ public class VacationController {
 					edoc.setEdocStatus("DST100");
 					edoc.setCreater(empNo);
 					
-					List<ElectronicDocumentApproval> approval = new ArrayList<>();					edoc.setApproval(null);
-					edoc.setApproval(approval);
-					edocService.insertEdoc(edoc);
-					
 					//ElectronicDocumentApproval => 결재자 정보
 					//!! 결재자 정보가 없으면 에러남
+					ElectronicDocumentApproval approvalEmp = new ElectronicDocumentApproval();
+					approvalEmp.setAprvlEmpNo(empNo);
+					approvalEmp.setAprvlApvCode(ApvCode.APV001);
+					approvalEmp.setAprvlStatus("A");
+					approvalEmp.setAprvlRank(1);
+					
+					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
+					approval1.setAprvlEmpNo(empNo); // 팀장
+					approval1.setAprvlApvCode(ApvCode.APV000);
+					approval1.setAprvlStatus("W");
+					approval1.setAprvlRank(2);
+					
+					List<ElectronicDocumentApproval> approvalList = new ArrayList<>();
+					approvalList.add(approvalEmp);
+					
+					edocService.insertEdoc(edoc);
+					
 					
 					
 					// 휴가테이블에 insert 전자문서번호도 추가해줘야함
