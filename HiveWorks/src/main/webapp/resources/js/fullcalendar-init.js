@@ -136,45 +136,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	};
 
-/*	var mydeptcalendar = {
+	var vacCalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
-			var calCode = 'CAL002'; // 이 부분에 필요한 calCode 값을 설정해주세요.
 			$.ajax({
-				url: `/schedule/searchschedule`,
+				url: `/schedule/searchVacation`,
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
 				async: false, //동기
-				data: JSON.stringify({ calCode: calCode, deptCode: loginDeptCode }),
+				data: JSON.stringify({ empNo: loginEmpNo }),
 				contentType: "application/json",
 				traditional: true,
 				async: false,
-				success: function(data) {
-					var events = data.map(function(event, i) {
-						//로그인 한 사람의 부서 코드로 분기처리
-						if (event.myDeptCode === loginDeptCode || event.invitationEmpList.some(invite => invite.yourDeptCode === loginDeptCode)) {
-							return {
-								id: event.calCode,
-								title: event.calSubject,
-								start: event.calStartDate,
-								end: event.calEndDate,
-								backgroundColor: event.calColor,
-								extendedProps: {
-									content: event.calContent,
-									myEmpNo: event.myEmpNo,
-									myDeptCode: event.myDeptCode,
-									invitationEmpList: event.invitationEmpList,
-									important: event.calImportYn,
-									status: event.calStatus,
-									reminder: event.reminderYn,
-									allday: event.calAlldayYn,
-									calNo: event.calNo,
-								}
-							};
-						}
-					});
-
+				 success: function(data) {
+					 console.log(data);
+			        // 서버로부터 받은 데이터를 이벤트로 변환합니다.
+			        var events = data.map(function(event) {
+			          return {
+						id: 'CAL008',
+			            title: event.vacOption,
+			            start: event.createDate,
+			            end: event.createDate,
+			            backgroundColor: '#eb34ab', // 색상 코드 형식을 수정했습니다.
+			            extendedProps: {
+			              // 추가된 속성들...
+			              myEmpNo: event.empNo,
+			            }
+			          };
+			        });
 					// 필터링을 통해 undefined가 된 요소를 제거합니다.
 					events = events.filter(function(event) {
 						return event !== undefined;
@@ -191,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	
 
-	var companycalendar = {
+	/*var companycalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
 			var calCode = 'CAL003'; // 이 부분에 필요한 calCode 값을 설정해주세요.
@@ -433,7 +423,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			eventClick: function(info) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
-
+				
+				  if (targetE.id === 'CAL008') {
+				$('.hk-drawer.calendar-drawer.drawer-right').hide();
+			        window.location.href = '/vacation/vacationView';
+			    } else if (targetE.id === 'CAL004' || targetE.id === 'CAL005' || targetE.id === 'CAL006') {
+					$('.hk-drawer.calendar-drawer.drawer-right').hide();
+			        window.location.href = '/schedule/reservationlistbyno.do';
+			    } else {
+					$('.hk-drawer.calendar-drawer.drawer-right').show();
 
 				//수정 모달창에 hidden 값 넣어주기
 
@@ -865,6 +863,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					
 				}*/
 			}
+			}
 			
 		});
 	calendar.render();
@@ -1091,6 +1090,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if ($('#mycalendar').is(':checked')) {
 			// 선택되어 있으면 캘린더에 이벤트 소스 추가
 			calendar.addEventSource(mycalendar);
+			calendar.addEventSource(vacCalendar);
 		}
 
 		// 캘린더 렌더링
@@ -1155,13 +1155,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 	
 	
-	$('#allcalendar, #mycalendar, #mydeptcalendar, #companycalendar').on('change', function() {
+	$('#vaccalendar, #mycalendar, #mydeptcalendar, #companycalendar').on('change', function() {
 		// 체크박스의 id에 따라 이벤트 소스를 설정
 		var id;
 		var eventSource;
 		switch (this.id) {
 			case 'mycalendar':
-				eventSource = mycalendar;
+				 eventSource = mycalendar;
 				break;
 			case 'mydeptcalendar':
 				eventSource = mycalendar;

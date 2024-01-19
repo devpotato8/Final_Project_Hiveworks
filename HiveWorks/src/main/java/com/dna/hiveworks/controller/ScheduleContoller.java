@@ -1,6 +1,5 @@
 package com.dna.hiveworks.controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,9 +29,13 @@ import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.DeptService;
 import com.dna.hiveworks.service.EmpService;
 import com.dna.hiveworks.service.ScheduleService;
+import com.dna.hiveworks.service.VacationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,6 +51,8 @@ public class ScheduleContoller {
 	private final DeptService deptservice;
 
 	private final EmpService empservice;
+	
+	private final VacationService vacationservice;
 
 	// 일정 조회 페이지 연결
 	@GetMapping("/schedulelist.do")
@@ -119,6 +124,16 @@ public class ScheduleContoller {
 		
 		return searchList;
 	}
+	
+	//직원 휴가 조회
+	@PostMapping("/searchVacation")
+	@ResponseBody
+	public List<Vacation> searchVacation(@RequestBody Map<String, Object> param){
+		int empNo = (Integer)param.get("empNo");
+		List<Vacation> searchList =  vacationservice.selectVacationByNo(empNo);
+		return searchList;
+	}
+	
 
 	// 프로젝트 & 일정 등록
 	@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -252,6 +267,7 @@ public class ScheduleContoller {
 		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
 			  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 	}
+	
 	
 
 	// 일정 삭제
@@ -440,7 +456,16 @@ public class ScheduleContoller {
 		model.addAttribute("reList", resourceList);
 		List<Schedule> reserveList = scheduleService.selectReserveAll();
 		Schedule currentR = reserveList.stream().filter(r -> r.getCalNo() == calNo).findAny().get();
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		
 		model.addAttribute("currentR", currentR);
+		try {
+			model.addAttribute("currentRJson", mapper.writeValueAsString(currentR));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("currentCalNo",calNo);
 		model.addAttribute("currentResourceNo", resourceNo);
 		return "schedule/updateReservation";

@@ -176,39 +176,40 @@
 										</div>
 									</div>
 
-									<div class="inviteContainer inviteContainer_1" style="display: flex">
-										<div class="col-sm-4">
-											<div class="form-groupddddd">
-												<label class="form-label">부서</label>
-												<div class="d-flex">
-													<select class="form-select me-3" name="calDept"
-														id="calDept1">
-														<c:if test="${not empty deptList}">
-															<c:forEach var="dept" items="${deptList}">
-																<option value="${dept.deptCode}">${dept.deptName}</option>
-															</c:forEach>
-														</c:if>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="form-label">직원</label>
-												<div class="d-flex">
-													<select class="form-select me-3" name="calEmp" id="calEmp1">
-														<c:if test="${not empty empList}">
-															<c:forEach var="emp" items="${empList}">
-																<option value="${emp.emp_no}">${emp.emp_name}</option>
-															</c:forEach>
-														</c:if>
-													</select>
-												</div>
-											</div>
-										</div>
-										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
-									</div>
-									<div name="someContainer"></div>
+				<%-- <c:forEach var="index" begin="1" end="${current.invitationEmpList}.length">
+				  <div class="inviteContainer inviteContainer_${index}" style="display: flex">
+				    <div class="col-sm-4">
+				      <div class="form-group">
+				        <label class="form-label">부서</label>
+				        <div class="d-flex">
+				          <select class="form-select me-3" name="calDept" id="calDept${index}">
+				            <c:if test="${not empty deptList}">
+				              <c:forEach var="dept" items="${deptList}">
+				                <option value="${dept.deptCode}">${dept.deptName}</option>
+				              </c:forEach>
+				            </c:if>
+				          </select>
+				        </div>
+				      </div>
+				    </div>
+				    <div class="col-sm-4">
+				      <div class="form-group">
+				        <label class="form-label">직원</label>
+				        <div class="d-flex">
+				          <select class="form-select me-3" name="calEmp" id="calEmp${index}">
+				            <c:if test="${not empty empList}">
+				              <c:forEach var="emp" items="${empList}">
+				                <option value="${emp.emp_no}">${emp.emp_name}</option>
+				              </c:forEach>
+				            </c:if>
+				          </select>
+				        </div>
+				      </div>
+				    </div>
+				    <button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+				  </div>
+				</c:forEach>
+				<div name="someContainer"></div> --%>
 									
 									
 									
@@ -318,9 +319,10 @@
 </div>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <script>
-const currentR = '${currentR}';
+const current = $('${current}');
+const currentRJson = JSON.parse('${currentRJson}');
 const resourceNo = ${currentResourceNo };
-//console.log(resourceNo );
+
 
 
 //reminder 스트링으로 보내기
@@ -533,104 +535,81 @@ $(document).ready(function() {
 	  });
 	});  
 
-//부서 선택 시 직원 표시
-document.getElementById('calDept1').addEventListener('change', function() {
- var selectedDeptCode = this.value;
- 
- fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
-   .then(function(response) {
-     if (response.ok) {
-       return response.json();
-     } else {
-       throw new Error('요청이 실패하였습니다.');
-     }
-   })
-   .then(function(employeeList) {
-     var employeeSelect = document.getElementById('calEmp1');
-     employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
-     
-     employeeList.forEach(function(employee) {
-       var option = document.createElement('option');
-       option.value = employee.EMP_NO;
-       option.textContent = employee.name;
-       employeeSelect.appendChild(option);
-     });
-   })
-   .catch(function(error) {
-     console.error(error);
-   });
-}); 
+const currentEmpList = currentRJson.invitationEmpList;
+const length = currentEmpList.length;
 
-//부서 직원 추가
-const adddelFunction=(function(adddelFunction){
-	let self = {};
-  let count = 2;
-  self.addFile=()=>{
-     if(count<=5){
-        const fileForm = $(".inviteContainer").eq(0).clone(true);
-	     fileForm.removeClass("inviteContainer_1");
-        fileForm.addClass("inviteContainer_"+count);
-           const deptId = "calDept" + count;
-           const empId = "calEmp" + count;
-           
-           fileForm.find("#calDept1").attr("id", deptId).val("").change(); // 부서 선택 시 직원 표시
-           fileForm.find("#calEmp1").attr("id", empId).val(""); // 초기화
-           
-           // 부서 선택 시 해당 부서의 직원 표시
-           fileForm.find("#" + deptId).on("change", function() {
-             var selectedDeptCode = $(this).val();
-             
-             fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
-               .then(function(response) {
-                 if (response.ok) {
-                   return response.json();
-                 } else {
-                   throw new Error('요청이 실패하였습니다.');
-                 }
-               })
-               .then(function(employeeList) {
-                 var employeeSelect = document.getElementById(empId);
-           
-                 employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
-           
-                 employeeList.forEach(function(employee) {
-                   var option = document.createElement('option');
-                   option.value = employee.no;
-                   option.textContent = employee.name;
-                   employeeSelect.appendChild(option);
-                 });
-               })
-               .catch(function(error) {
-                 console.error(error);
-               });
-           });
-           
-           $("div[name=someContainer]").before(fileForm);
-           count++;
-         } else {
-           alert("공유인원은 5명까지 가능합니다.");
-         }
-  };
-  self.delFile=(e)=>{
-     if(count!=2){
-		  $(e).parent().remove();
-		  $(".inviteContainer").each(function(index, item){
-			  item.removeAttribute('class');
-			  $(item).addClass('inviteContainer').addClass('inviteContainer_'+(index+1));
-		  });
-   	  //$("div[name=someContainer]").prev().remove();
-        count--;
-     }
+
+const adddelFunction = (function (adddelFunction) {
+  let self = {};
+  let count = length + 1;
+
+  self.addFile = () => {
+    if (count <= 5) {
+      const fileForm = $(".inviteContainer").eq(0).clone(true);
+      fileForm.removeClass("inviteContainer_1");
+      fileForm.addClass("inviteContainer_" + count);
+      const deptId = "calDept" + count;
+      const empId = "calEmp" + count;
+
+      fileForm.find("#calDept1").attr("id", deptId).val("").change(); // 부서 선택 시 직원 표시
+      fileForm.find("#calEmp1").attr("id", empId).val(""); // 초기화
+
+      // 부서 선택 시 해당 부서의 직원 표시
+      fileForm.find("#" + deptId).on("change", function () {
+        var selectedDeptCode = $(this).val();
+
+        fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+          .then(function (response) {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('요청이 실패하였습니다.');
+            }
+          })
+          .then(function (employeeList) {
+            var employeeSelect = document.getElementById(empId);
+
+            employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+
+            employeeList.forEach(function (employee) {
+              var option = document.createElement('option');
+              option.value = employee.no;
+              option.textContent = employee.name;
+              employeeSelect.appendChild(option);
+            });
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      });
+
+      $("div[name=someContainer]").before(fileForm);
+      count++;
+    } else {
+      alert("공유인원은 5명까지 가능합니다.");
+    }
   };
 
-	/**
-	 * REGIST
-	 */
-	if (!adddelFunction) {
-		window.adddelFunction = adddelFunction = {};
-	}
-	adddelFunction.util = self;
+  self.delFile = (e) => {
+    if (count != 2) {
+      $(e).parent().remove();
+      $(".inviteContainer").each(function (index, item) {
+        item.removeAttribute('class');
+        $(item).addClass('inviteContainer').addClass('inviteContainer_' + (index + 1));
+      });
+      count--;
+    }
+  };
+
+  /**
+   * REGIST
+   */
+  if (!adddelFunction) {
+    window.adddelFunction = adddelFunction = {};
+  }
+  adddelFunction.util = self;
 })();
+
 
 
 </script>

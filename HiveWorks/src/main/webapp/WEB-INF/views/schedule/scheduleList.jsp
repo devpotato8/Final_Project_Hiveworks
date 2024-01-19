@@ -348,6 +348,11 @@
 									id="companycalendar"> <label class="form-check-label"
 									for="companycalendar">전사일정</label>
 							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input"
+									id="vaccalendar"> <label class="form-check-label"
+									for="vaccalendar">휴가일정</label>
+							</div>
 						<!-- 	<div
 								class="d-flex align-items-center justify-content-between mb-2">
 								<div class="title-sm text-primary mb-0">관심캘린더</div>
