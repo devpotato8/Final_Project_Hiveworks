@@ -517,10 +517,7 @@ table>thead {
 		fetch("${path }/naverApi")
 		.then((res)=> res.json())
 		.then((data)=> {
-			console.log(data);
 			data.items.forEach( (e, index) =>{
-				console.log(e['title']);
-				console.log(e['title'].replace(/<[^>]+>|&quot;|&lt;|&gt;|&amp;/g, ""));
 				const tr = document.createElement("tr");
 				const num = document.createElement("th");
 				const title = document.createElement("td");

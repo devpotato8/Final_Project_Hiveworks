@@ -53,10 +53,6 @@ public class NaverApiController {
      // URL을 연결해줌
      String responseBody = get(apiURL,requestHeaders);
      
-     log.debug("{}",responseBody);
-	 //주어진 코드에 jsoup를 통합하려면 get 메소드 내에서 responseBody를 반환하기 전에 
-	 //removeHtmlTags 메소드를 호출하여 HTML 태그를 제거
-     
      model.addAttribute(responseBody);
      return ResponseEntity.ok(responseBody);
  }

@@ -1,11 +1,17 @@
 package com.dna.hiveworks.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.Search;
 import com.dna.hiveworks.service.MypageService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +42,12 @@ public class MypageController {
 		return "mypage/editmyprofile";
 	}
 	
+	@GetMapping(value = "integratedsearch", produces = "application/json")
+	@ResponseBody
+	public List<Search> integratedSearch(@RequestParam("keyword") String keyword) {
+	    List<Search> search = service.integratedSearch(keyword);
+	    return search;
+	}
 	
 	
 	
