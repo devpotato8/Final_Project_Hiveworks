@@ -21,8 +21,8 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectOne("board.selectBoardByNo",boardNo);
 	}
 	@Override
-	public List<Board> selectAllBoard(SqlSession session) {
-	    return session.selectList("board.selectAllBoard");
+	public List<Board> selectAllBoard(SqlSession session,String boardType) {
+	    return session.selectList("board.selectAllBoard",boardType);
 	}
 	@Override
 	public int insertBoard(SqlSession session, Board b) {
