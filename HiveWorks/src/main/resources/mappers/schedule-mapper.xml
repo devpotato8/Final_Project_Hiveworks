@@ -151,21 +151,34 @@
 	
 	
 	<select id="searchSchedule" resultMap="scheduleInviMap" parameterType="map">
- 		 SELECT * FROM V_CALENDAR_F
-  	<trim prefix="WHERE" prefixOverrides="AND|OR">
-    	<if test="(calCode != null and calCode != '') and (empNo!=null and empNo!=0)">
-      		AND CAL_CODE = #{calCode} AND MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
-    	</if>
-    	<if test="(calCode != null and calCode != '') and (deptCode!=null and deptCode!='')">
-      		AND CAL_CODE = #{calCode} AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
-    	</if>
-    	<if test="calImportYn != null and calImportYn != ''">
-      		AND CAL_IMPORT_YN = 'Y' AND CAL_USE_YN = 'Y'
-    	</if>
-    	<if test="empName != null and empName != ''">
-      		AND MY_EMP_NAME LIKE '%' || #{empName} || '%' AND CAL_USE_YN = 'Y'
-    	</if>
-  	</trim>
+		SELECT * FROM V_CALENDAR_F
+		where 1=2
+
+		union
+
+	<if test="searchTypeA != null">
+		SELECT * FROM V_CALENDAR_F
+		where 1=1
+		AND CAL_CODE = #{calCode} AND MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
+	</if>
+
+	<if test="searchTypeB != null">
+		<if test="searchTypeA != null">
+			union
+		</if>
+		SELECT * FROM V_CALENDAR_F
+		where 1=1
+		AND CAL_CODE = #{calCode} AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
+	</if>
+
+	<if test="searchTypeC != null">
+		<if test="searchTypeA != null || searchTypeB != null">
+			union
+		</if>
+		SELECT * FROM V_CALENDAR_F
+		where 1=1
+		AND CAL_CODE = #{calCode}
+	</if>
 	</select>
 	
 	

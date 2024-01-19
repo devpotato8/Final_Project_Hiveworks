@@ -90,7 +90,6 @@ public class WorkDaoImpl implements WorkDao {
 
 	@Override
 	public String avgStartWorkFilter(SqlSession session, Map<String, Integer>param) {
-		// TODO Auto-generated method stub
 		return session.selectOne("work.avgStartWorkFilter", param);
 	}
 

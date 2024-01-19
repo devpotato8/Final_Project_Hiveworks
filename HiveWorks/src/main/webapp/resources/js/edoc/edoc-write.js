@@ -147,8 +147,8 @@ DecoupledEditor
 			$format.append($('<option>').val(v.sampleNo).text(v.sampleName));
 		});
 
-		// 문서종류가 휴가/연가 신청서라면
-		if(dotCode === 'DOT004'){
+		// 문서종류가 연장근무 신청서라면
+		if(dotCode === 'DOT005'){
 			let dateInfo = document.querySelector('#edocDate');
 			if(dateInfo == null){
 				dateInfo = $('<tr id="edocDate">')
@@ -422,11 +422,11 @@ const dataProcess = ()=>{
 				approval: approvalList,
 				reference: referenceList
 			};
-
-	// 휴가 신청서일경우 시작/종료일 처리
+	
+	// 연장근무 신청서일경우 시작/종료일 처리
 	let edocStartDate;
 	let edocEndDate;
-	if(dotCode == 'DOT004'){
+	if(dotCode == 'DOT005'){
 		const dateValue = $('#dateTimePicker').val();
 		edocStartDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
 		edocEndDate = new Date(Date.parse(dateValue.substr(dateValue.indexOf('-')+1)));
@@ -434,7 +434,6 @@ const dataProcess = ()=>{
 		edoc.edocEndDate = edocEndDate;
 	}
 
-	console.log(edoc);
 	
 	// 첨부파일 등록
 	

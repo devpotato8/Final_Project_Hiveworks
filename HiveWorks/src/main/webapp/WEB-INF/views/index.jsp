@@ -92,7 +92,7 @@
 						</div>
 					</div>
 					<!-- 출퇴근찍기 -->
-					<div>
+					<%-- <div>
 						<div></div>
 						<c:choose>
 								<c:when test="${not empty loginEmp }">
@@ -134,7 +134,42 @@
 									<div>로그인하세요</div>
 								</c:otherwise>
 							</c:choose>
-					</div>
+					</div> --%>
+					<div>
+							<div>
+									<div class="d-flex flex-column align-items-center clockAndCheck">
+											<div class="btn-block">출퇴근을 눌러주세요 😊</div>
+											<div class="btn-block" id="currentTime"></div>
+										</div>
+										<div class="button-container d-flex justify-content-center mt-3">
+											<form action="${path}/work/updateStartWork" method="post">
+												<input class="btn btn-flush-light btn-animated" type="submit"
+													value="출근하기" /> <input type="hidden" id="workStartTime"
+													name="workStartTime" value="" />
+											</form>
+											<form action="${path}/work/updateEndWork" method="post">
+												<input class="btn btn-flush-light btn-animated" type="submit"
+													value="퇴근하기" /> <input type="hidden" id="workEndTime"
+													name="workEndTime" value="" />
+											</form>
+										</div>
+										<div class="SEWork">
+											<c:if test="${not empty commute.workStartTime }">
+												<fmt:formatDate value="${commute.workStartTime}"
+													pattern="HH:mm:ss" var="workStartTime" />
+												<div class="btn-block" style="background-color: #f1c40f">출근시간
+													- ${workStartTime}</div>
+												<!-- 포맷팅된 날짜와 시간을 출력 -->
+											</c:if>
+											<c:if test="${not empty commute.workEndTime }">
+												<fmt:formatDate value="${commute.workEndTime}"
+													pattern="HH:mm:ss" var="workEndTime" />
+												<div class="btn-block" style="background-color: #f1c40f">퇴근시간
+													- ${workEndTime }</div>
+											</c:if>
+										</div>
+									</div>
+						</div>
 						<!-- <button onclick="printAPI();">뉴스 출력</button> -->
 
 				</div>

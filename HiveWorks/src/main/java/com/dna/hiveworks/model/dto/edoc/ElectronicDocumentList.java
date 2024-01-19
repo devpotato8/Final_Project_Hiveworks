@@ -6,6 +6,7 @@ package com.dna.hiveworks.model.dto.edoc;
 import java.sql.Date;
 
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dto.edoc.status.EdocStatus;
 
 import lombok.AllArgsConstructor;
@@ -34,4 +35,5 @@ public class ElectronicDocumentList {
 	private Date finalizedDate;
 	private DotCode edocDotCode;
 	private EdocStatus edocStatus;
+	private PosCode posCode;
 }

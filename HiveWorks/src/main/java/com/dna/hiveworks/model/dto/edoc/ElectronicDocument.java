@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.DsgCode;
+import com.dna.hiveworks.model.code.PosCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class ElectronicDocument implements Serializable{
 	
 	private static final long serialVersionUID = -6899204179234853192L;
 	
+	// DB에서 불러오는 내용
 	private String edocNo;
 	private DotCode edocDotCode;
 	private String edocTitle;
@@ -40,19 +42,23 @@ public class ElectronicDocument implements Serializable{
 	private String edocContent;
 	private Date edocStartDate;
 	private Date edocEndDate;
+	private int edocVacationCount;
 	private String edocStatus;
 	private int creater;
 	private Date createDate;
 	private Date finalizedDate;
 	
+	// Has a 관계에 있는 내용
 	List<ElectronicDocumentComment> comments;
-	List<ElectronicDocumentHistory> history;
+	//List<ElectronicDocumentHistory> history;
 	List<ElectronicDocumentApproval> approval;
 	List<ElectronicDocumentReference> reference;
 	List<ElectronicDocumentAttachFile> attachFiles;
 	
+	// 데이터 처리 혹은 편리를 위해 추가한 내용
 	private int period;
 	private String createrEmpName;
 	private String createrJobName;
 	private String createrDeptName;
+	private PosCode posCode;
 }
