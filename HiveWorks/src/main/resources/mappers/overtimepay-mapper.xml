@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="overtimepay">
+	<resultMap type="overtimepay" id="overtimepayMap">
+		<id property="ot_pay_no" column="ot_pay_no"/>
+		<result property="work_no" column="work_no" />
+		<result property="emp_no" column="emp_no" />
+		<result property="ot_pay_per_time" column="ot_pay_per_time" />
+		<result property="ot_pay_month" column="ot_pay_month" />
+		<result property="use_yn" column="use_yn" />
+		<collection property="employees" resultMap="employee.empMap"/>
+	</resultMap>
+	
+	
+	<select id="selectOvertimePayListAll" resultMap="overtimepayMap">
+		SELECT E.*,A.*,OP.*,C.*,C.CODE_NAME AS DEPT_NAME FROM 
+		    TBL_EMPLOYEE E
+			    JOIN (
+			        SELECT 
+			        TO_CHAR(W.WORK_DAY, 'YYYYMM') AS OT_PAY_MONTH,
+			        W.EMP_NO,
+			        ROUND(SUM((TO_NUMBER(TO_CHAR(W.WORK_END_TIME, 'SSSSS')) - TO_NUMBER(TO_CHAR(W.WORK_START_TIME, 'SSSSS'))) / 3600 - 9), 1) AS OVERTIMEBYMONTH
+			        FROM TBL_WORK W
+			            GROUP BY TO_CHAR(W.WORK_DAY, 'YYYYMM'), W.EMP_NO
+			            ORDER BY TO_CHAR(W.WORK_DAY, 'YYYYMM'), W.EMP_NO
+			        ) A
+			    ON A.EMP_NO=E.EMP_NO
+			    LEFT JOIN TBL_OVERTIME_PAY OP ON OP.EMP_NO = E.EMP_NO
+			    LEFT JOIN TBL_CODE C ON C.CODE_NO = E.DEPT_CODE
+	    WHERE OVERTIMEBYMONTH > 0 AND OT_PAY_MONTH = TO_CHAR(SYSDATE,'YYYYMM')
+	</select>
+	
+	<select id="selectMyOvertimePayByEmpNo" parameterType="_int" resultMap="overtimepayMap" >
+		SELECT E.*,A.*,OP.*,C.*,C.CODE_NAME AS DEPT_NAME FROM 
+		   TBL_EMPLOYEE E
+		   JOIN (
+		       SELECT W.WORK_DAY,
+		       W.WORK_START_TIME, 
+		       W.WORK_END_TIME,
+		       TO_CHAR(W.WORK_DAY, 'YYYYMM') AS OT_PAY_MONTH,
+		       W.EMP_NO,
+		       ROUND(((TO_NUMBER(TO_CHAR(W.WORK_END_TIME, 'SSSSS')) - TO_NUMBER(TO_CHAR(TO_DATE('18:00:00', 'HH24:MI:SS'), 'SSSSS'))) / 3600), 1) AS OVERTIMEBY,
+		       WR.*
+		       FROM TBL_WORK W
+		           LEFT JOIN TBL_WORK_REALTIME WR ON W.WORK_NO = WR.WORK_NO
+		       ) A
+		   ON A.EMP_NO=E.EMP_NO
+		   LEFT JOIN TBL_OVERTIME_PAY OP ON OP.EMP_NO = E.EMP_NO
+		   LEFT JOIN TBL_CODE C ON C.CODE_NO = E.DEPT_CODE
+		 WHERE OVERTIMEBY > 0 AND OT_PAY_MONTH = TO_CHAR(SYSDATE,'YYYYMM') AND E.EMP_NO=${emp_no} AND WORK_FAST_END ='N' AND WORK_ABSENCE='N'
+		 ORDER BY WORK_DAY DESC
+	</select>
+	
+	
+	
+</mapper>

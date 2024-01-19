@@ -132,7 +132,7 @@ input::-webkit-inner-spin-button {
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="tab_block_1">
 									<form action="#" method="post">
-										<input type="hidden" id="modifier" name="modifier" value="${loginEmp.emp_no }"/>
+										<input type="hidden" id="modifier" name="modifier" value="${loginEmp.emp_no!=null?loginEmp.emp_no:0 }"/>
 										<div class="title title-xs title-wth-divider text-primary text-uppercase my-4"><span>개인 정보</span></div>
 										<div class="row gx-3">
 											<div class="col-sm-6">
@@ -233,6 +233,7 @@ fn_check_password=()=>{
 		}else{
 			msg = "비밀번호가 일치합니다!";
 			pw_message.innerHTML = msg;
+			count=0;
 		}
 	}
 }
@@ -243,7 +244,7 @@ let emp_pw = document.getElementById("emp_pw");
 let modifier = document.getElementById("modifier");
 
 submitBtn.addEventListener('click',(event)=>{
-	//fn_check_password();
+	fn_check_password();
 	
  	if(count===1){
 		alert("새 비밀번호를 확인해 주세요.")

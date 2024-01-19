@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.configurers.ldap.LdapAuthenticationProviderConfigurer.PasswordCompareConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -198,8 +199,6 @@ public class EmpController {
 		
 		List<Employee> result = service.searchEmployeesByKeyword(param);
 		
-		System.out.println(result);
-		
 		if(result.size()>0) {
 			value=1;
 		}else {
@@ -260,6 +259,8 @@ public class EmpController {
 			@RequestParam("modifier") int modifier) {
 		
 		Map<String,Object> IdAndPassword = new HashMap<>();
+		
+		
 		
 		IdAndPassword.put("empId", empId);
 		IdAndPassword.put("empPassword", empPassword);

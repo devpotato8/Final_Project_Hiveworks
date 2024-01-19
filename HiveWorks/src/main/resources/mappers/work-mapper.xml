@@ -14,6 +14,8 @@
 		<result property="modifier" column="MODIFIER"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="useYN" column="USE_YN"/>
+		<result property="overtimeBy" column="overtimeBy"/>
+		<result property="overtime" column="overtime"/>
 		
 		<!-- 다 대 다 관계 -->
 		<collection property="workRealtime" ofType="workRealtime" >
