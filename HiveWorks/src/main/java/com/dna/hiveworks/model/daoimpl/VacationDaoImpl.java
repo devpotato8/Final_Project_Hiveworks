@@ -48,5 +48,17 @@ public class VacationDaoImpl implements VacationDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("vacation.selectLeftVacation", empNo);
 	}
+
+	@Override
+	public int confirmVacation(SqlSession session, String edocNo) {
+		// TODO Auto-generated method stub
+		return session.update("vacation.confirmVacation", edocNo);
+	}
+
+	@Override
+	public int revokeVacation(SqlSession session, String edocNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

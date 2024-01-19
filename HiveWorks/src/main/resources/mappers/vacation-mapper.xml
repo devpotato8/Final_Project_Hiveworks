@@ -43,7 +43,10 @@
 		SELECT VAC_LEFT FROM TBL_VACATION_BYYEAR WHERE EMP_NO = #{empNo}
 	</select>
 	
-
+	<!-- tbl_vacation의 vac_permit 을 '승인'으로 바꾸기 -->
+	<update id="confirmVacation">
+		
+	</update>
 	
 	
 	
