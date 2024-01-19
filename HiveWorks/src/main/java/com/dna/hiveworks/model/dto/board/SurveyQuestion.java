@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class SurveyQuestion {
 	
 	private int questionNo;
-	private int questionSurveyNo;
-	private String questionContent;
-	private String questType;
+	private int surveyNo;
+	private String questionTitle;
 }
