@@ -328,7 +328,7 @@
             element.addEventListener("click", openModal);
         });
         
-        // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
+        // 휴가신청 클릭시 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
         $(".card-footer>div>button").click(function(e){
         	      console.log(e.target.id);

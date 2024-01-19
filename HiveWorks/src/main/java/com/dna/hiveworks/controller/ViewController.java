@@ -25,6 +25,8 @@ public class ViewController {
 
 	@GetMapping("/")
 	public String index() {
+		// 로그인 연결한 이후에 해야함
+		
 //public String index(@SessionAttribute("loginEmp")Employee loginEmp,Model m) {
 		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		//Employee loginEmp = (Employee) authentication.getPrincipal();

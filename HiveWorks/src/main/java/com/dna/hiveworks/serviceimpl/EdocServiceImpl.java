@@ -86,7 +86,7 @@ public class EdocServiceImpl implements EdocService{
 			edoc.setEdocPreservePeriod(
 					Date.valueOf(
 							LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1))
-					);			
+					);
 		}
 		
 		int result = 0;
