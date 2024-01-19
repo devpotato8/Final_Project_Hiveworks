@@ -2,6 +2,9 @@ package com.dna.hiveworks.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpRequest;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +13,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -180,4 +186,28 @@ public class MessageController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+	
+	//첨부파일 다운로드
+	@GetMapping("/downfile")
+	public ResponseEntity<Resource> downloadFile(@RequestParam String fn, HttpServletRequest request) {
+
+	    try {
+	        // 파일의 실제 경로를 지정
+	    	String path = request.getServletContext().getRealPath("/resources/msgupload/");
+	    	
+	        Path filePath = Paths.get(path + fn).normalize();
+	        Resource resource = new UrlResource(filePath.toUri());
+
+	        if (resource.exists() || resource.isReadable()) {
+	            return ResponseEntity.ok()
+	                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+	                    .body(resource);
+	        } else {
+	            throw new RuntimeException("파일을 불러올 수 없습니다.");
+	        }
+	    } catch (Exception e) {
+	        throw new RuntimeException("첨부파일다운로드Error: " + e.getMessage());
+	    }
+	}
+
 }

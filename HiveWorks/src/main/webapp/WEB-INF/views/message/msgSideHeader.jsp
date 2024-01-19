@@ -66,6 +66,10 @@
 	.no-employees {
 	    display: none;
 	}
+	.msgInfoText {
+		margin-bottom: 10px;
+	}
+	
 </style>
 
 
@@ -79,11 +83,12 @@
 			  				  	
 			</div>
 			<div class="modal-info mt-3">
-				<p><span>보낸사람 : </span><span class="sender"></span></p>
-				<p><span>전송시간 : </span><span class="msgtime"></span></p>
-				<p><span>첨부파일 : </span><span class="msg_file"></span></p>
-				
+				<p class="msgInfoText"><span>카테고리 : </span><span class="msgCate"></span></p>
+				<p class="msgInfoText"><span>보낸사람 : </span><span class="sender"></span></p>
+				<p class="msgInfoText"><span>전송시간 : </span><span class="msgtime"></span></p>
+				<p><span>첨부파일 : </span><a class="msg_file"></a></p>
 			</div>
+			<div class="separator-full"></div>
 			<div class="modal-body" style="font-weight:bold;">
 			
 			</div>
@@ -247,7 +252,7 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						
-							<h4>${loginEmp.emp_name}님의 쪽지함</h4>
+							<h4>${loginEmp.emp_name}님의 ${param.nameofmsglist}</h4>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark flush-soft-hover dropdown-toggle no-caret active ms-lg-0 d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown"><span class="icon"><span class="feather-icon"><i data-feather="list"></i></span></span></a>
 							<div class="dropdown-menu dropdown-menu-end">
@@ -276,32 +281,82 @@ var msg_date;
 var msg_sender;
 var msg_receiver;
 var msg_file;
+var msg_file_rename;
 var msg_sender_name;
-
-//쪽지 내용 보기
-
-    $(document).on("click",".msgTitle, .msgContent",function() {
-    	//받은편지함 목록에서 해당 row의 정보들 가져오기
-        msg_no = $(this).closest('tr').find('.msg_no').text();
-        msg_title = $(this).closest('tr').find('.msgTitle').text();
-        msg_content = $(this).closest('tr').find('.msgContent').text();
-        msg_date = $(this).closest('tr').find('.msg_date').text();
-        msg_sender = $(this).closest('tr').find('.msg_sender').text();
-        msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
-        msg_file = $(this).closest('tr').find('.msgFile').text();
-        msg_sender_name = $(this).closest('tr').find('.msg_sender_name').text();
-        
-        //가져온 정보들을 modal위치에 세팅
-        $("#modal_msgView").find(".modal-title").text(msg_title);
-        $("#modal_msgView").find(".modal-body").html(msg_content);
-        $("#modal_msgView").find(".sender").text(msg_sender_name);
-        $("#modal_msgView").find(".receiver").text(msg_receiver);
-        $("#modal_msgView").find(".msgtime").text(msg_date);
-        $("#modal_msgView").find(".msg_file").html('<a href="#">'+msg_file+'</a>');
-        
+var msg_cate_name;
+var $msgCate
+var path = "${path}";
+//쪽지 세부 내용 보기 modal창
+$(document).on("click",".msgTitle, .msgContent, .msgCateName",function() {
+	//받은편지함 목록에서 해당 row의 정보들 가져오기
+    msg_no = $(this).closest('tr').find('.msg_no').text();
+    msg_title = $(this).closest('tr').find('.msgTitle').text();
+    msg_content = $(this).closest('tr').find('.msgContent').text();
+    msg_date = $(this).closest('tr').find('.msg_date').text();
+    msg_sender = $(this).closest('tr').find('.msg_sender').text();
+    msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
+    msg_file = $(this).closest('tr').find('.msgFile').text();
+    msg_file_rename= $(this).closest('tr').find('.msgFileTag').attr('href');
+    msg_sender_name = $(this).closest('tr').find('.msg_sender_name').text();
+    msg_cate_name = $(this).closest('tr').find('.msgCateName').text();
+    
+    //가져온 정보들을 modal위치에 세팅
+    $("#modal_msgView").find(".modal-title").text(msg_title);
+    $("#modal_msgView").find(".modal-body").html(msg_content);
+    $("#modal_msgView").find(".sender").text(msg_sender_name);
+    $("#modal_msgView").find(".receiver").text(msg_receiver);
+    $("#modal_msgView").find(".msgtime").text(msg_date);
+    $("#modal_msgView").find(".msg_file").text(msg_file);
+    
+    $("#modal_msgView").find(".msg_file").attr('href',msg_file_rename);
+    
+    //카테고리에 따라 카테고리글자색 다르게 표시
+	$msgCate = $("#modal_msgView").find(".msgCate");
+	$msgCate.text(msg_cate_name);
+			
+	switch(msg_cate_name) {
+	    case '긴급/중요':
+	        $msgCate.css('color', 'red');
+	        break;
+	    case '업무연락':
+	        $msgCate.css('color', '#5050FF');
+	        break;
+	    case '전체공지':
+	        $msgCate.css('color', '#FFB914');
+	        break;
+	    case '답장':
+	        $msgCate.css('color', '#50C785');
+	        break;   
+	}
         //모달 보여주기
         $("#modal_msgView").modal('show');        
     });
+
+//쪽지 세부내용 modal창에서 첨부파일 클릭시 다운로드
+$(".msg_file").click(function(e) {
+	    e.preventDefault();  // 버블링 방지
+	    
+	    var downloadUrl = $(this).attr("href");
+		var $tagText = $(this).text().trim();
+	    
+		if($tagText === '첨부파일 없음'){
+	    	alert("첨부파일이 없습니다.");
+	    }else{
+		    // AJAX 요청으로 파일 존재 여부 확인
+		    $.ajax({
+		        url: downloadUrl,
+		        type: "HEAD",  // HEAD 요청은 실제 파일을 다운로드하지 않고 메타데이터만 요청
+		        error: function() {
+		            // 파일이 없거나 다른 오류가 발생한 경우
+		            alert("파일을 찾을 수 없습니다.");
+		        },
+		        success: function() {
+		            // 파일이 존재하면 실제 파일 다운로드를 진행
+		            window.location.href = downloadUrl;
+		        }
+		    });
+	    }
+	});
 
 
 

@@ -11,7 +11,9 @@
 	<jsp:param value="data-hover='active'" name="hover"/>
 </jsp:include>
 	
-<%@ include file="/WEB-INF/views/message/msgSideHeader.jsp" %>
+<jsp:include page="/WEB-INF/views/message/msgSideHeader.jsp">
+	<jsp:param value="받은 쪽지함" name="nameofmsglist"/>
+</jsp:include>
 
 <fmt:formatDate value="${msg.msg_date}" pattern="yy-MM-dd HH:mm:ss"/>
 
@@ -85,8 +87,11 @@
 	}
 	.msgFile{
 		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+		font-size:0.8rem;
 	}
-	
+	.msgCateName{
+		font-size:0.6rem;
+	}
 
 </style>
 
@@ -114,8 +119,8 @@
 									</span></th>
 									<th>No</th>
 									<th></th>
-									<th>Message</th>
-									<th>Content</th>
+									<th>Message Title</th>
+									<th>Message Content</th>
 									<th>Shared with</th>
 									<th>Action</th>
 									<th>Send Date</th>
@@ -143,7 +148,7 @@
 										</div>
 									</td>
 									<td>
-										<div class="media fmapp-info-trigger">
+										<div class="media fmapp-info-trigger attachfile">
 										<c:choose>
 											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.pdf')}">
 												<div class="media-head me-3">
@@ -233,11 +238,12 @@
 											
 										</c:choose>
 											<div class="media-body">
-												<div class="msgTitle"><c:out value="${msg.msg_title}"/></div>
+												<div class="msgCateName mb-1"><c:out value="${empty msg.msg_category_name ? '미지정' : msg.msg_category_name}"/></div>
+												<div class="msgTitle mb-1"><c:out value="${msg.msg_title}"/></div>
 												<div class="msgFile">
-													<a class="msgFileTag" title="${msg.msg_file_oriname}">
-														<c:out value="${empty msg.msg_file_oriname ? '첨부파일 없음': msg.msg_file_oriname}"/>
-													</a>
+													<a class="msgFileTag" title="${msg.msg_file_oriname}" href="${empty msg.msg_file_oriname ? '#': path}/downfile?filename=${msg.msg_file_rename}">
+   														<c:out value="${empty msg.msg_file_oriname ? '첨부파일 없음': msg.msg_file_oriname}"/>
+   													</a>
 												</div>
 											</div>
 										</div>
@@ -257,7 +263,7 @@
 										<div class="dropdown-menu">
 											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
 											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
+											<a class="dropdown-item filedown" href="${empty msg.msg_file_oriname ? '#': path}/downfile?filename=${msg.msg_file_rename}"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
 											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
 										</div>
 									</td>
@@ -277,19 +283,9 @@
 </div>
 
 <script>
-<!-- 행 어디를 선택해도 checkbox 선택되도록 -->
-$(document).on('click', 'td', function(event){
-	// '.file-star'를 클릭했을 때는 동작안함.
-    if ($(event.target).is('.file-star') || $(event.target).closest('.file-star').length) {
-        return;
-    }
-    
-    if (!$(event.target).is('input[type="checkbox"]')) {
-        var checkbox = $(this).closest('tr').find('input[type="checkbox"]');
-        checkbox.prop('checked', !checkbox.prop('checked'));
-    }
-});
 
+
+//즐겨찾기 별표 클릭시 이벤트
 $(document).on('click', '.file-star', function(event){
     event.stopPropagation();  //이벤트버블링 방지. 상위요소에 event영향 미치지 않도록 함.
     var $star = $(this);
@@ -318,6 +314,21 @@ $(document).on('click', '.file-star', function(event){
 });
 
 
+<!-- 행 어디를 선택해도 checkbox 선택되도록 -->
+$(document).on('click', 'td', function(event){
+	// '.file-star'를 클릭했을 때는 동작안함.
+    if ($(event.target).is('.file-star') || $(event.target).closest('.file-star').length) {
+        return;
+    }
+    
+    if (!$(event.target).is('input[type="checkbox"]')) {
+        var checkbox = $(this).closest('tr').find('input[type="checkbox"]');
+        checkbox.prop('checked', !checkbox.prop('checked'));
+    }
+});
+
+
+<!-- data테이블관련 js -->
 /*MultiRow Select Checkbox*/
 /*Checkbox Add*/
 var tdCnt=0;
@@ -344,8 +355,62 @@ var targetDt1 = $('#datable_4c').DataTable({
 				previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
 			}
 	},
+	
+	//data테이블이 그려질때마다 실행시킬 함수는 여기에 넣으면 됨.
 	"drawCallback": function () {
 		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+		
+		//목록에서 카테고리이름 색상부여하기
+		$(".media-body .msgCateName").each(function() {
+	        var $msgCate = $(this);
+	        var msg_cate_name = $msgCate.text().trim();
+
+	        switch(msg_cate_name) {
+	            case '긴급/중요':
+	                $msgCate.css('color', 'red'); break;
+	            case '업무연락':
+	                $msgCate.css('color', '#5050FF'); break;
+	            case '전체공지':
+	                $msgCate.css('color', '#FFB914'); break;
+	            case '답장':
+	                $msgCate.css('color', '#50C785'); break;   
+	            case '미지정':
+	            	$msgCate.text('카테고리 없음');	break;
+	            case '일반':
+	            	$msgCate.css('color', 'black'); break;
+	        }
+	    });
+
+		//첨부파일 다운로드
+		$(".msgFileTag").click(function(e) {
+		    e.preventDefault();  // 버블링 방지
+		    
+		    var downloadUrl = $(this).attr("href");
+			var $tagText = $(this).text().trim();
+		    
+			if($tagText === '첨부파일 없음'){
+		    	alert("첨부파일이 없습니다.");
+		    }else{
+			    // AJAX 요청으로 파일 존재 여부 확인
+			    $.ajax({
+			        url: downloadUrl,
+			        type: "HEAD",  // HEAD 요청은 실제 파일을 다운로드하지 않고 메타데이터만 요청
+			        error: function() {
+			            // 파일이 없거나 다른 오류가 발생한 경우
+			            alert("파일을 찾을 수 없습니다.");
+			        },
+			        success: function() {
+			            // 파일이 존재하면 실제 파일 다운로드를 진행
+			            window.location.href = downloadUrl;
+			        }
+			    });
+		    }
+		});
+		
+		
+		//Action메뉴(...)기능 구현
+		
+		
 	}
 });
 
