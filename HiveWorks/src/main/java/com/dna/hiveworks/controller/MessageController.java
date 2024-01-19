@@ -3,7 +3,6 @@ package com.dna.hiveworks.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,13 +95,13 @@ public class MessageController {
 	
 	//쪽지 보내기
 	@PostMapping("/sendMsg")
-    public Map<String, String> sendMsg(
+    public ResponseEntity<?> sendMsg(
     					@RequestParam("receiverEmpNo") List<String> receiverEmpNo,
     					@RequestParam("senderEmpNo") String senderEmpNo,
                         @RequestParam("msgCategory") String msgCategory,
                         @RequestParam("sendMsgTitle") String sendMsgTitle,
                         @RequestParam("sendMsgContent") String sendMsgContent,
-                        @RequestParam(value="sendmsgFile", required=false) MultipartFile sendmsgFile,
+                        @RequestParam(value = "sendmsgFile", required = false) MultipartFile sendmsgFile,
                         HttpServletRequest request) throws IOException{
 		
 		
@@ -140,8 +141,9 @@ public class MessageController {
 				sendmsgFile.transferTo(file);
 			} catch(IOException e) {
 				e.printStackTrace();
-				response.put("status", "fail");
-				return response;
+		        response.put("status", "fail");
+		        response.put("message", "파일 저장 중 오류 발생");
+		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 			}
 			
 			// 파일 크기 저장
@@ -170,12 +172,12 @@ public class MessageController {
 		
 		int result = service.sendMsg(params);	
 		
-		if(result>0) {
-			response.put("status","success");
-		} else {
-			response.put("status", "fail");
-		}
-		
-		return response;
+		if (result > 0) {
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("status", "fail");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 }

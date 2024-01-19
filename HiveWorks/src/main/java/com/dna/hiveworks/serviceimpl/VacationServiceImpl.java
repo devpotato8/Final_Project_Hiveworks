@@ -1,6 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -31,17 +32,17 @@ public class VacationServiceImpl implements VacationService {
 	}
 
 	@Override
-	public int insertVacation(Vacation v, int empNo) {
+	public int insertVacation(Vacation v) {
 		// TODO Auto-generated method stub
-		return dao.insertVacation(session, v , empNo);
+		return dao.insertVacation(session, v);
 		
 		// updateVacation 여기다 같이 추가해야할듯?
 	}
 
 	@Override
-	public int updateVacation(Double vacCount, int empNo) {
+	public int updateVacation(Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return dao.updateVacation(session, vacCount, empNo);
+		return dao.updateVacation(session, param);
 	}
 
 	@Override

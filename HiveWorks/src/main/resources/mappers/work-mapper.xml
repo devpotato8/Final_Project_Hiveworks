@@ -126,10 +126,8 @@
                AVG(TO_NUMBER(TO_CHAR(WORK_START_TIME, 'SSSSS')))/86400, 
                'HH24:MI:SS') 
 		FROM TBL_WORK
-		WHERE EMP_NO = #{param.get("empNo")}
-		<if test = "week != null and week != ''">
-			AND (SYSDATE - WORK_START_TIME) &lt; #{param.get("week")}
-		</if>
+		WHERE EMP_NO = #{empNo}
+		AND (SYSDATE - WORK_START_TIME) &lt; #{week}
 	</select>
 	
 	<select id="avgEndWorkFilter" parameterType="_int" resultType="String">
@@ -138,6 +136,7 @@
                'HH24:MI:SS') 
 		FROM TBL_WORK
 		WHERE EMP_NO = #{empNo}
+		AND (SYSDATE - WORK_END_TIME) &lt; #{week}
 	</select>
 	<select id="lateWorkFilter" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK

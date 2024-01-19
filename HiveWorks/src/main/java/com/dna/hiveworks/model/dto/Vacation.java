@@ -23,6 +23,9 @@ public class Vacation {
 	private Date modifyDate;
 	private char useYN;
 	
+	private String edocNo;
+	private String vacPermit;
+	
 	
 	
 	

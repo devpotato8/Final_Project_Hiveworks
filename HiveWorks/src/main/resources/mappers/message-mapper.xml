@@ -4,9 +4,9 @@
 	<select id ="msgList" resultType="message">
 		SELECT
 			MSG_NO,
-			MSG_SENDER,
+			MSG_SENDER_NO,
 			MSG_SENDER_NAME,
-			MSG_RECEIVER,
+			MSG_RECEIVER_NO,
 			MSG_CATEGORY_NO,
 			MSG_CATEGORY_NAME,
 			MSG_TITLE,
@@ -19,7 +19,7 @@
 			MSG_MARKED_YN,
 			MSG_FILE_SIZE
 		FROM TBL_MESSAGE
-		WHERE MSG_RECEIVER = ${empNo}
+		WHERE MSG_RECEIVER_NO = ${empNo}
 	</select>
 	
 	<update id="starMark">
@@ -46,9 +46,9 @@
 	<insert id="sendMsg">
 	    INSERT INTO TBL_MESSAGE VALUES(
 	        SEQ_MSG_NO.NEXTVAL, ${senderEmpNo}, ${receiverEmpNo}, #{msgCategory}, #{msgCategoryName},
-	        #{msgTitle}, #{msgContent}, DEFAULT, 'N', 'N', #{fileOriname}, #{fileRename},'N',
-	        #{fileSize}, (SELECT EMP_NAME FROM TBL_EMPLOYEE WHERE EMP_NO = ${senderEmpNo}),
-	        #{receiverName}
+	        #{msgTitle}, #{msgContent}, DEFAULT, 'N', 'N', 
+	        (SELECT EMP_NAME FROM TBL_EMPLOYEE WHERE EMP_NO = ${senderEmpNo}),#{receiverName},
+	        #{fileOriname}, #{fileRename},'N', #{fileSize}
 	    )
 	</insert>
 </mapper>
