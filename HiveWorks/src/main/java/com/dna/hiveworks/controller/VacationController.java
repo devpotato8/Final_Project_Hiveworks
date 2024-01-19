@@ -83,10 +83,11 @@ public class VacationController {
 					edoc.setEdocTitle("반차신청");
 					
 					edoc.setEdocDsgCode(DsgCode.DSG003);
-					edoc.setEdocContent("<p>반차신청<p>");
+					edoc.setEdocContent("<p>반차신청</p>");
 					
 					edoc.setEdocStartDate(vacation.getCreateDate());
 					edoc.setEdocEndDate(vacation.getCreateDate());
+					edoc.setEdocVacationCount(vacation.getVacCount());
 					edoc.setEdocStatus(vacation.getVacPermit());
 					
 					edoc.setCreater(empNo);
@@ -100,7 +101,7 @@ public class VacationController {
 					approvalEmp.setAprvlRank(1);
 					
 					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-					approval1.setAprvlEmpNo(empNo); // 팀장
+					approval1.setAprvlEmpNo(8); // 김팀장
 					approval1.setAprvlApvCode(ApvCode.APV000);
 					approval1.setAprvlStatus("W");
 					approval1.setAprvlRank(2);
@@ -115,6 +116,7 @@ public class VacationController {
 					// 전자문서에 INSERT
 					edocService.insertEdoc(edoc);
 					
+					vacation.setEdocNo(edoc.getEdocNo());
 					// 휴가테이블에 insert 전자문서번호도 추가해줘야함
 					result = service.insertVacation(vacation);
 					param.put("vacCount", vacation.getVacCount());
@@ -125,7 +127,7 @@ public class VacationController {
 				}
 				
 				
-			} else if(vacation.getVacOption().equals("연차")||vacation.getVacOption().equals("병가")||vacation.getVacOption().equals("공가")) {
+			} else if(vacation.getVacOption().equals("연차")) {
 				vacation.setVacCount(1);
 				vacation.setEmpNo(empNo);
 				if(vacation.getVacCount()>leftVacation) {
@@ -138,13 +140,13 @@ public class VacationController {
 					
 					if (vacation.getVacOption().equals("병가")) {
 						edoc.setEdocTitle("병가신청");
-						edoc.setEdocContent("<p>병가신청<p>");
+						edoc.setEdocContent("<p>병가신청</p>");
 					} else if (vacation.getVacOption().equals("공가")) {
 						edoc.setEdocTitle("공가신청");
-						edoc.setEdocContent("<p>공가신청<p>");
+						edoc.setEdocContent("<p>공가신청</p>");
 					} else {
 						edoc.setEdocTitle("연차신청");
-						edoc.setEdocContent("<p>연차신청<p>");
+						edoc.setEdocContent("<p>연차신청</p>");
 					}
 					
 					edoc.setEdocDsgCode(DsgCode.DSG003);
@@ -152,6 +154,7 @@ public class VacationController {
 					
 					edoc.setEdocStartDate(vacation.getCreateDate());
 					edoc.setEdocEndDate(vacation.getCreateDate());
+					edoc.setEdocVacationCount(vacation.getVacCount());
 					edoc.setEdocStatus(vacation.getVacPermit());
 					
 					edoc.setCreater(empNo);
@@ -165,7 +168,7 @@ public class VacationController {
 					approvalEmp.setAprvlRank(1);
 					
 					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-					approval1.setAprvlEmpNo(empNo); // 팀장
+					approval1.setAprvlEmpNo(8); // 팀장
 					approval1.setAprvlApvCode(ApvCode.APV000);
 					approval1.setAprvlStatus("W");
 					approval1.setAprvlRank(2);
@@ -180,13 +183,78 @@ public class VacationController {
 					// 전자문서에 INSERT
 					edocService.insertEdoc(edoc);
 					
+					vacation.setEdocNo(edoc.getEdocNo());
 					result = service.insertVacation(vacation);
 					
 					param.put("vacCount", vacation.getVacCount());
 					param.put("empNo", vacation.getEmpNo());
 					
-					
 					service.updateVacation(param);
+				}
+				
+			}else if(vacation.getVacOption().equals("병가")||vacation.getVacOption().equals("공가")) {
+				vacation.setVacCount(1);
+				vacation.setEmpNo(empNo);
+				if(vacation.getVacCount()>leftVacation) {
+					result = 0;
+				} else {
+					//Map<String, Object> param = new HashMap<String, Object>();
+					
+					// 전자문서 insert로직 추가 
+					edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
+					
+					if (vacation.getVacOption().equals("병가")) {
+						edoc.setEdocTitle("병가신청");
+						edoc.setEdocContent("<p>병가신청</p>");
+					} else if (vacation.getVacOption().equals("공가")) {
+						edoc.setEdocTitle("공가신청");
+						edoc.setEdocContent("<p>공가신청</p>");
+					} else {
+						edoc.setEdocTitle("연차신청");
+						edoc.setEdocContent("<p>연차신청</p>");
+					}
+					
+					edoc.setEdocDsgCode(DsgCode.DSG003);
+					
+					
+					edoc.setEdocStartDate(vacation.getCreateDate());
+					edoc.setEdocEndDate(vacation.getCreateDate());
+					edoc.setEdocVacationCount(vacation.getVacCount());
+					edoc.setEdocStatus(vacation.getVacPermit());
+					
+					edoc.setCreater(empNo);
+					
+					//ElectronicDocumentApproval => 결재자 정보
+					//!! 결재자 정보가 없으면 에러남
+					ElectronicDocumentApproval approvalEmp = new ElectronicDocumentApproval();
+					approvalEmp.setAprvlEmpNo(empNo);
+					approvalEmp.setAprvlApvCode(ApvCode.APV001);
+					approvalEmp.setAprvlStatus("A");
+					approvalEmp.setAprvlRank(1);
+					
+					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
+					approval1.setAprvlEmpNo(8); // 팀장
+					approval1.setAprvlApvCode(ApvCode.APV000);
+					approval1.setAprvlStatus("W");
+					approval1.setAprvlRank(2);
+					
+					List<ElectronicDocumentApproval> approvalList = new ArrayList<>();
+					approvalList.add(approvalEmp);
+					approvalList.add(approval1);
+					
+					// approval에 리스트 넣기
+					edoc.setApproval(approvalList);
+					
+					// 전자문서에 INSERT
+					edocService.insertEdoc(edoc);
+					
+					vacation.setEdocNo(edoc.getEdocNo());
+					result = service.insertVacation(vacation);
+					
+//					param.put("vacCount", vacation.getVacCount());
+//					param.put("empNo", vacation.getEmpNo());
+//					
+//					service.updateVacation(param);
 				}
 				
 			} else if(vacation.getVacOption().equals("조의 (부모 / 배우자 / 자녀)")){
@@ -198,10 +266,11 @@ public class VacationController {
 				edoc.setEdocTitle("휴가신청 - 조의 (부모 / 배우자 / 자녀) 신청");
 				
 				edoc.setEdocDsgCode(DsgCode.DSG003);
-				edoc.setEdocContent("휴가신청 - <p>조의 (부모 / 배우자 / 자녀) 신청<p>");
+				edoc.setEdocContent("<p>휴가신청 - 조의 (부모 / 배우자 / 자녀) 신청</p>");
 				
 				edoc.setEdocStartDate(vacation.getCreateDate());
 				edoc.setEdocEndDate(vacation.getCreateDate());
+				edoc.setEdocVacationCount(vacation.getVacCount());
 				edoc.setEdocStatus(vacation.getVacPermit());
 				
 				edoc.setCreater(empNo);
@@ -215,7 +284,7 @@ public class VacationController {
 				approvalEmp.setAprvlRank(1);
 				
 				ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-				approval1.setAprvlEmpNo(empNo); // 팀장
+				approval1.setAprvlEmpNo(8); // 팀장
 				approval1.setAprvlApvCode(ApvCode.APV000);
 				approval1.setAprvlStatus("W");
 				approval1.setAprvlRank(2);
@@ -229,7 +298,8 @@ public class VacationController {
 				
 				// 전자문서에 INSERT
 				edocService.insertEdoc(edoc);
-				
+								
+				vacation.setEdocNo(edoc.getEdocNo());
 				result = service.insertVacation(vacation);
 			} else if(vacation.getVacOption().equals("결혼 (자녀)")) {
 				
@@ -240,10 +310,11 @@ public class VacationController {
 				edoc.setEdocTitle("휴가신청 - 결혼(자녀)");
 				
 				edoc.setEdocDsgCode(DsgCode.DSG003);
-				edoc.setEdocContent("<p>휴가신청 - 결혼(자녀)");
+				edoc.setEdocContent("<p>휴가신청 - 결혼(자녀)</p>");
 				
 				edoc.setEdocStartDate(vacation.getCreateDate());
 				edoc.setEdocEndDate(vacation.getCreateDate());
+				edoc.setEdocVacationCount(vacation.getVacCount());
 				edoc.setEdocStatus(vacation.getVacPermit());
 				
 				edoc.setCreater(empNo);
@@ -257,7 +328,7 @@ public class VacationController {
 				approvalEmp.setAprvlRank(1);
 				
 				ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-				approval1.setAprvlEmpNo(empNo); // 팀장
+				approval1.setAprvlEmpNo(8); // 팀장
 				approval1.setAprvlApvCode(ApvCode.APV000);
 				approval1.setAprvlStatus("W");
 				approval1.setAprvlRank(2);
@@ -272,6 +343,7 @@ public class VacationController {
 				// 전자문서에 INSERT
 				edocService.insertEdoc(edoc);
 				
+				vacation.setEdocNo(edoc.getEdocNo());
 				result = service.insertVacation(vacation);
 			} else {
 				
@@ -282,10 +354,10 @@ public class VacationController {
 				
 				if (vacation.getVacOption().equals("조의 (조부모 / 형제 / 자매)")) {
 					edoc.setEdocTitle("휴가신청 - 조의 (조부모 / 형제 / 자매)");
-					edoc.setEdocContent("<p>휴가신청 - 조의 (조부모 / 형제 / 자매)<p>");
+					edoc.setEdocContent("<p>휴가신청 - 조의 (조부모 / 형제 / 자매)</p>");
 				} else {
 					edoc.setEdocTitle("휴가신청 - 결혼(본인)");
-					edoc.setEdocContent("휴가신청 - 결혼(본인)");
+					edoc.setEdocContent("<p>휴가신청 - 결혼(본인)</p>");
 				}
 				
 				edoc.setEdocDsgCode(DsgCode.DSG003);
@@ -293,6 +365,7 @@ public class VacationController {
 				
 				edoc.setEdocStartDate(vacation.getCreateDate());
 				edoc.setEdocEndDate(vacation.getCreateDate());
+				edoc.setEdocVacationCount(vacation.getVacCount());
 				edoc.setEdocStatus(vacation.getVacPermit());
 				
 				edoc.setCreater(empNo);
@@ -306,7 +379,7 @@ public class VacationController {
 				approvalEmp.setAprvlRank(1);
 				
 				ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-				approval1.setAprvlEmpNo(empNo); // 팀장
+				approval1.setAprvlEmpNo(8); // 팀장
 				approval1.setAprvlApvCode(ApvCode.APV000);
 				approval1.setAprvlStatus("W");
 				approval1.setAprvlRank(2);
@@ -321,6 +394,7 @@ public class VacationController {
 				// 전자문서에 INSERT
 				edocService.insertEdoc(edoc);
 				
+				vacation.setEdocNo(edoc.getEdocNo());
 				result = service.insertVacation(vacation);
 			}
 			

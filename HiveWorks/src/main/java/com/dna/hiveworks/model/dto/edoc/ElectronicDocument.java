@@ -42,7 +42,7 @@ public class ElectronicDocument implements Serializable{
 	private String edocContent;
 	private Date edocStartDate;
 	private Date edocEndDate;
-	private int edocVacationCount;
+	private double edocVacationCount;
 	private String edocStatus;
 	private int creater;
 	private Date createDate;

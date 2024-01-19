@@ -67,7 +67,7 @@
 								<td><span class="badge badge-soft-primary my-1  me-2"><c:out value="${v.createDate }"/></span></td>
 								<td><span class="badge badge-soft-violet my-1  me-2"><c:out value="${v.modifyDate }"/></span></td>
 								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${v.vacOption }"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2">승인</span></td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${v.vacPermit }"/></span></td>
 								<td>
 									<div class="d-flex align-items-center">
 										<div class="d-flex">
