@@ -21,4 +21,7 @@ public interface VacationDao {
 	
 	int confirmVacation(SqlSession session, String edocNo);
 	int revokeVacation(SqlSession session, String edocNo);
+	
+	Vacation selectVacation(SqlSession session, String edocNo);
+	int rollbackVacation(SqlSession session, Map<String, Object>param);
 }

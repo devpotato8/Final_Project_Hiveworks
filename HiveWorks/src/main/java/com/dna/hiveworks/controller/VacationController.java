@@ -250,11 +250,6 @@ public class VacationController {
 					
 					vacation.setEdocNo(edoc.getEdocNo());
 					result = service.insertVacation(vacation);
-					
-//					param.put("vacCount", vacation.getVacCount());
-//					param.put("empNo", vacation.getEmpNo());
-//					
-//					service.updateVacation(param);
 				}
 				
 			} else if(vacation.getVacOption().equals("조의 (부모 / 배우자 / 자녀)")){
