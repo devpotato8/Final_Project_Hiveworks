@@ -36,7 +36,7 @@
 				<div class="menu-content-wrap">
 					<div class="menu-group">
 						<ul class="navbar-nav flex-column">
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="${path}/">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
@@ -51,7 +51,6 @@
 										</span>
 									</span>
 									<span class="nav-link-text">Dashboard</span>
-									<span class="badge badge-sm badge-soft-blue ms-auto">Hot</span>
 								</a>
 							</li>
 						</ul>	
