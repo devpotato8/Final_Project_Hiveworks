@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -12,8 +13,8 @@ public interface VacationDao {
 	
 	List<Vacation> selectVacationByNo(SqlSession session, int empNo);
 		
-	int insertVacation(SqlSession session, Vacation v, int empNo);
-	int updateVacation(SqlSession session, Double vacCount, int empNo);
+	int insertVacation(SqlSession session, Vacation v);
+	int updateVacation(SqlSession session, Map<String, Object> param);
 	int deleteVacation(SqlSession session, int vacationNo);
 	
 	double selectLeftVacation(SqlSession session, int empNo);

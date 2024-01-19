@@ -39,24 +39,7 @@
 										</div>
 
 										<div class="row">
-											<div class="col-lg-3">
-												<div class="card border-dark">
-													<div class="card-body">
-														<div class="align-items-center">
-															<div>연차</div>
-														</div>
-													</div>
-													<div class="card-footer justify-content-between">
-														<div>
-															<p class="card-text">1일</p>
-														</div>
-														<div class="d-flex align-items-center">
-															<button class="btn btn-white" name="vacOption" id="연차"
-																value="연차">신청하기</button>
-														</div>
-													</div>
-												</div>
-											</div>
+											
 											<div class="col-lg-3">
 												<div class="card border-dark">
 													<div class="card-body">
@@ -76,6 +59,24 @@
 														<div class="d-flex align-items-center">
 															<button class="btn btn-white"
 																name="vacOption" id="반차" value="반차">신청하기</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="card border-dark">
+													<div class="card-body">
+														<div class="align-items-center">
+															<div>연차</div>
+														</div>
+													</div>
+													<div class="card-footer justify-content-between">
+														<div>
+															<p class="card-text">1일</p>
+														</div>
+														<div class="d-flex align-items-center">
+															<button class="btn btn-white" name="vacOption" id="연차"
+																value="연차">신청하기</button>
 														</div>
 													</div>
 												</div>
@@ -327,7 +328,7 @@
             element.addEventListener("click", openModal);
         });
         
-        // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
+        // 휴가신청 클릭시 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
         $(".card-footer>div>button").click(function(e){
         	      console.log(e.target.id);

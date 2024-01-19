@@ -77,7 +77,7 @@ public class EdocServiceImpl implements EdocService{
 			edoc.setEdocPreservePeriod(
 					Date.valueOf(
 							LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1))
-					);			
+					);
 		}
 		
 		int result = 0;
@@ -228,4 +228,22 @@ public class EdocServiceImpl implements EdocService{
 	public int updateAuto(Map<String, Object> param) {
 		return dao.updateAuto(session, param);
 	}
+	
+//	private Map<String,Object> makeMsg(int receiverEmpNo) {
+//		
+//		Map<String,Object> msg = new HashMap<>();
+//		Map<String,Object> receiver = 
+//		msg.put("receiverEmpNo", empNos);
+//		msg.put("receiverNames", receiverNames);
+//		msg.put("senderEmpNo", senderEmpNo);
+//		msg.put("msgCategory", msgCategory);
+//		msg.put("msgCategoryName", msgCategoryName);
+//		msg.put("msgTitle", sendMsgTitle);
+//		msg.put("msgContent", sendMsgContent);
+//		msg.put("fileOriname", fileOriname);
+//		msg.put("fileRename", fileRename);
+//		msg.put("fileSize", fileSize);
+//		
+//		return msg;
+//	}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Work;
@@ -23,13 +24,18 @@ public class ViewController {
 	private final WorkService service; 
 
 	@GetMapping("/")
-	public String index(Model m) {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		Employee loginEmp = (Employee) authentication.getPrincipal();
-//		
-//		// 직원 출퇴근기록 가져오기
-//		Work commute = service.selectCommute(loginEmp.getEmp_no());
-//		m.addAttribute("commute", commute);	
+	public String index() {
+		// 로그인 연결한 이후에 해야함
+		
+//public String index(@SessionAttribute("loginEmp")Employee loginEmp,Model m) {
+		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//Employee loginEmp = (Employee) authentication.getPrincipal();
+		
+		// 직원 출퇴근기록 가져오기
+		//if(httpSession.getAttribute("loginEmp") != null) {
+		//	Work commute = service.selectCommute(loginEmp.getEmp_no());
+		//	m.addAttribute("commute", commute);
+		//}
 		return "index";
 	}
 	
