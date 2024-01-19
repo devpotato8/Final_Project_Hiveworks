@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
@@ -82,6 +83,9 @@
 	.msg_receiver{
 		display:none;
 	}
+	.msgFile{
+		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+	}
 	
 
 </style>
@@ -108,8 +112,8 @@
 										<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
 										<label class="form-check-label" for="customCheck1"></label>
 									</span></th>
-									<th></th>
 									<th>No</th>
+									<th></th>
 									<th>Message</th>
 									<th>Content</th>
 									<th>Shared with</th>
@@ -123,35 +127,118 @@
 				<c:if test="${not empty msgList}">
 					<c:forEach var="msg" items="${msgList}">
 								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											 <c:choose>
-										        <c:when test="${msg.msg_marked_yn eq 'Y'}">
-										            <span class="file-star marked"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										        </c:when>
-										        <c:otherwise>
-										            <span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										        </c:otherwise>
-										    </c:choose>
-										</div>
-									</td>
 									<td>									
 										<div class="msg_no"><c:out value="${msg.msg_no}"/></div>
 									</td>
 									<td>
+										<div class="d-flex align-items-center">
+											 <c:choose>
+										        <c:when test="${msg.msg_marked_yn eq 'Y'}">
+										            <span class="file-star marked"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span></span>
+										        </c:when>
+										        <c:otherwise>
+										            <span class="file-star"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span></span>
+										        </c:otherwise>
+										    </c:choose>
+										</div>
+									</td>
+									<td>
 										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-											<c:if test="${empty msg.msg_file_oriname}">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="bi bi-chat-right-quote"></i>
-													</span>
+										<c:choose>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.pdf')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-danger avatar-sm">
+														<span class="initial-wrap">
+															<i class="fa-regular fa-file-pdf" style="color: #ff0000;"></i>
+														</span>
+													</div>
 												</div>
-											</div>
-											</c:if>
+											</c:when>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.txt')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-file-text-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.doc') 
+													or fn:endsWith(msg.msg_file_oriname, '.docx'))}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-file-word-2-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.zip')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-warning avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-folder-zip-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.xls') 
+													or fn:endsWith(msg.msg_file_oriname, '.xlsx'))}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-success avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-file-excel-2-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.ppt') 
+													or fn:endsWith(msg.msg_file_oriname, '.pptx'))}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-danger avatar-sm">
+														<span class="initial-wrap">
+															<i class="fa-regular fa-file-powerpoint" style="color: #ff0000;"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.jpg')
+													or fn:endsWith(msg.msg_file_oriname, '.jpeg')
+													or fn:endsWith(msg.msg_file_oriname, '.png')
+													or fn:endsWith(msg.msg_file_oriname, '.bmp')
+													or fn:endsWith(msg.msg_file_oriname, '.gif') )}">
+												<div class="media-head me-3">
+													<img src="${path}/resources/msgupload/${msg.msg_file_rename}" alt="user" class="d-block img-fluid w-50p">
+												</div>
+											</c:when>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.hwp')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="fa-regular fa-file-lines" style="color: #0080ff;"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											
+											<c:otherwise>
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="bi bi-chat-right-quote"></i>
+														</span>
+													</div>
+												</div>
+											</c:otherwise>
+											
+										</c:choose>
 											<div class="media-body">
 												<div class="msgTitle"><c:out value="${msg.msg_title}"/></div>
-												<div class="msgFile"><c:out value="${empty msg.msg_file_oriname ? '첨부파일 없음': msg.msg_file_oriname}"/></div>
+												<div class="msgFile">
+													<a class="msgFileTag" title="${msg.msg_file_oriname}">
+														<c:out value="${empty msg.msg_file_oriname ? '첨부파일 없음': msg.msg_file_oriname}"/>
+													</a>
+												</div>
 											</div>
 										</div>
 									</td>
@@ -166,7 +253,7 @@
 											</div>
 										</div>														
 									</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
+									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></span></span></a>
 										<div class="dropdown-menu">
 											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
 											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
@@ -230,6 +317,7 @@ $(document).on('click', '.file-star', function(event){
     });
 });
 
+
 /*MultiRow Select Checkbox*/
 /*Checkbox Add*/
 var tdCnt=0;
@@ -260,6 +348,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
 	}
 });
+
 
 											
 </script>
