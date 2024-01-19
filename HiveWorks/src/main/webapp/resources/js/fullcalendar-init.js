@@ -152,7 +152,72 @@ document.addEventListener('DOMContentLoaded', function() {
 				 success: function(data) {
 					 console.log(data);
 			        // 서버로부터 받은 데이터를 이벤트로 변환합니다.
-			        var events = data.map(function(event) {
+			        var events = [];
+			        data.searchList.forEach((v)=>{
+						let event = {
+							id: 'CAL008',
+			            	title: v.vacOption,
+			            	backgroundColor: '#eb34ab', // 색상 코드 형식을 수정했습니다.
+			            	extendedProps: {
+				              // 추가된 속성들...
+				              myEmpNo: v.empNo
+				              }
+				            };
+						let dateInfo = new Date(Date.parse(v.createDate));
+				        switch(v.vacOption){
+							case '오전반차': 
+								event.start = dateInfo.toJSON().substr(0,11)+'09:00:00.000';
+								event.end = dateInfo.toJSON().substr(0,11)+'14:00:00.000';
+								event.allDay = false;
+								break;
+							case '오후반차': 
+								event.start = dateInfo.toJSON().substr(0,11)+'14:00:00.000';
+								event.end = dateInfo.toJSON().substr(0,11)+'18:00:00.000';
+								event.allDay = false;
+								break;
+							case '연차': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+							case '병가': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+							case '공가': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+							case '결혼 (자녀)': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+							case '결혼 (본인)': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								dateInfo.setDate(dateInfo.getDate()+3);
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+							case '조의 (부모 / 배우자 / 자녀)': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								dateInfo.setDate(dateInfo.getDate()+5);
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+							case '조의 (조부모 / 형제 / 자매)': 
+								event.start = dateInfo.toJSON().substr(0,11)+'00:00:00.000';
+								dateInfo.setDate(dateInfo.getDate()+3);
+								event.end = dateInfo.toJSON().substr(0,11)+'23:59:00.000';
+								event.allDay = true;
+								break;
+						}
+			            	
+						events.push(event);
+					});
+			        /*var events = data.map(function(event) {
 			          return {
 						id: 'CAL008',
 			            title: event.vacOption,
@@ -164,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			              myEmpNo: event.empNo,
 			            }
 			          };
-			        });
+			        });*/
 					// 필터링을 통해 undefined가 된 요소를 제거합니다.
 					events = events.filter(function(event) {
 						return event !== undefined;
@@ -531,216 +596,219 @@ document.addEventListener('DOMContentLoaded', function() {
 
 					}
 
-					$("div[class^='reinvicontainer']").remove();
+							$("div[class^='reinvicontainer']").remove();
+	
+	// 수정 모달 list만큼 만들어주기(부서 직원)
+	for (var i = 0; i < invitationEmpListLength; i++) {
+	    var YourEmpNo = invitationEmpList[i].yourEmpNo;
+	    var YourEmpName = invitationEmpList[i].yourEmpName;
+	    var YourDeptName = invitationEmpList[i].yourDeptName;
+	    var YourDeptCode = invitationEmpList[i].yourDeptCode;
 
-					//수정 모달 list만큼 만들어주기(부서 직원)
-					for (var i = 0; i < invitationEmpList.length; i++) {
-						var YourEmpNo = invitationEmpList[i].yourEmpNo;
-						var YourEmpName = invitationEmpList[i].yourEmpName;
-						var YourDeptName = invitationEmpList[i].yourDeptName;
-						var YourDeptCode = invitationEmpList[i].yourDeptCode;
+	    // 다시 생성
+	    let reInviContainer = document.createElement('div');
+	    reInviContainer.className = 'reinvicontainer' + (i + 1);
+	    reInviContainer.style.display = 'flex';
+	    reInviContainer.style.paddingTop = '5px';
+	    reInviContainer.style.paddingBottom = '5px';
 
+	    let deptContainer = document.createElement('div');
+	    deptContainer.className = 'col-sm-5';
+	    let empContainer = document.createElement('div');
+	    empContainer.className = 'col-sm-5';
 
-						//다시 생성	
-						let reInviContainer = document.createElement('div');
-						reInviContainer.className = 'reinvicontainer' + (i + 1);
-						reInviContainer.style.display = 'flex';
-						reInviContainer.style.paddingTop = '5px';
-						reInviContainer.style.paddingBottom = '5px';
+	    let deptSelect = document.createElement('select');
+	    deptSelect.className = 'form-select me-3';
+	    deptSelect.name = 'recalDept';
+	    deptSelect.id = 'recalDept' + (i + 1);
 
-						let deptContainer = document.createElement('div');
-						deptContainer.className = 'col-sm-5';
-						let empContainer = document.createElement('div');
-						empContainer.className = 'col-sm-5';
+	    let empSelect = document.createElement('select');
+	    empSelect.className = 'form-select me-3';
+	    empSelect.name = 'recalEmp';
+	    empSelect.id = 'recalEmp' + (i + 1);
 
-						let deptSelect = document.createElement('select');
-						deptSelect.className = 'form-select me-3';
-						deptSelect.name = 'recalDept';
-						deptSelect.id = 'recalDept' + (i + 1);
+	    deptContainer.appendChild(deptSelect);
+	    empContainer.appendChild(empSelect);
 
+	    reInviContainer.appendChild(deptContainer);
+	    reInviContainer.appendChild(empContainer);
 
-						let empSelect = document.createElement('select');
-						empSelect.className = 'form-select me-3';
-						empSelect.name = 'recalEmp';
-						empSelect.id = 'recalEmp' + (i + 1);
+	    let someContainer2 = document.getElementById('shareListJob');
+	    someContainer2.appendChild(reInviContainer);
 
+	    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+	    let delButton = document.createElement('button');
+	    delButton.type = 'button';
+	    delButton.textContent = '삭제';
+	    delButton.addEventListener('click', function () {
+	        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+	        reInviContainer.remove();
+	        removedItemsCount++;
+	        count = invitationEmpListLength - removedItemsCount + 1; // count 업데이트
+	    });
 
-						deptContainer.appendChild(deptSelect);
-						empContainer.appendChild(empSelect);
+	    reInviContainer.appendChild(delButton);
 
-						reInviContainer.appendChild(deptContainer);
-						reInviContainer.appendChild(empContainer);
+	    // 나머지 코드는 그대로 유지
 
+	    for (var j = 0; j < deptCodes.length; j++) {
+	        let deptOption = document.createElement('option');
+	        deptOption.value = deptCodes[j];
+	        deptOption.text = deptNames[j];
+	        deptSelect.appendChild(deptOption);
+	    }
 
-						let someContainer2 = document.getElementById('shareListJob');
-						someContainer2.appendChild(reInviContainer);
+	    for (var j = 0; j < deptSelect.options.length; j++) {
+	        console.log("Option value: " + deptSelect.options[j].value);
+	        console.log("YourDeptCode: " + YourDeptCode);
+	        if (deptSelect.options[j].value == YourDeptCode) {
+	            deptSelect.options[j].selected = true;
+	            break;
+	        }
+	    }
 
+	 // 부서 선택 시 이벤트 핸들러 함수
+		function handleDeptSelect() {
+			// 선택된 부서의 인덱스를 가져옵니다.
+			var selectedDeptIndex = deptSelect.selectedIndex;
 
-						//공유 버튼 누르면 추가 되고 삭제 버튼 누르면 삭제 되는 코드 더하기
+			// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+			var matchingEmpNames = [];
+			var matchingEmpNos = [];
 
-						// Set the selected value of the select elements
+			// 선택된 부서의 코드를 가져옵니다.
+			var selectedDeptCode = deptCodes[selectedDeptIndex];
 
-						for (var j = 0; j < deptCodes.length; j++) {
-							let deptOption = document.createElement('option');
-							deptOption.value = deptCodes[j];
-							deptOption.text = deptNames[j];
-							deptSelect.appendChild(deptOption);
-						}
-
-						for (var j = 0; j < deptSelect.options.length; j++) {
-							console.log("Option value: " + deptSelect.options[j].value);
-							console.log("YourDeptCode: " + YourDeptCode);
-							if (deptSelect.options[j].value == YourDeptCode) {
-								deptSelect.options[j].selected = true;
-								break;
-							}
-						}
-
-						// 부서 선택 시 이벤트 핸들러 함수
-						function handleDeptSelect() {
-							// 선택된 부서의 인덱스를 가져옵니다.
-							var selectedDeptIndex = deptSelect.selectedIndex;
-
-							// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-							var matchingEmpNames = [];
-							var matchingEmpNos = [];
-
-							// 선택된 부서의 코드를 가져옵니다.
-							var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-							// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-							for (var k = 0; k < empDeptCodes.length; k++) {
-								if (empDeptCodes[k] === selectedDeptCode) {
-									matchingEmpNames.push(empNames[k]);
-									matchingEmpNos.push(empNos[k]);
-								}
-							}
-
-							// 직원 선택(select) 요소를 초기화합니다.
-							empSelect.innerHTML = "";
-
-							// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-							for (var l = 0; l < matchingEmpNames.length; l++) {
-								var empOption = document.createElement("option");
-								empOption.value = matchingEmpNos[l];
-								empOption.text = matchingEmpNames[l];
-								empSelect.appendChild(empOption);
-							}
-
-							for (var l = 0; l < empSelect.options.length; l++) {
-								if (empSelect.options[l].value == YourEmpNo) {
-									empSelect.options[l].selected = true;
-									break;
-								}
-
-
-							}
-
-
-						}
-
-
-						// 페이지가 로드될 때 handleDeptSelect() 함수를 호출하여 초기 상태를 설정합니다.
-						handleDeptSelect();
-
-						// 부서 선택(select) 요소에 이벤트 핸들러를 등록합니다.
-						deptSelect.addEventListener("change", handleDeptSelect);
-
-
-
-					}
+			// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+			for (var k = 0; k < empDeptCodes.length; k++) {
+				if (empDeptCodes[k] === selectedDeptCode) {
+					matchingEmpNames.push(empNames[k]);
+					matchingEmpNos.push(empNos[k]);
 				}
+			}
+
+			// 직원 선택(select) 요소를 초기화합니다.
+			empSelect.innerHTML = "";
+
+			// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+			for (var l = 0; l < matchingEmpNames.length; l++) {
+				var empOption = document.createElement("option");
+				empOption.value = matchingEmpNos[l];
+				empOption.text = matchingEmpNames[l];
+				empSelect.appendChild(empOption);
+			}
+
+			for (var l = 0; l < empSelect.options.length; l++) {
+				if (empSelect.options[l].value == YourEmpNo) {
+					empSelect.options[l].selected = true;
+					break;
+				}
+			}
+		}
 
 
-				//수정 부서 직원 추가 
-				let count = invitationEmpList.length + 1;
-				$('#addBtnRe').on('click', function() {
-					if (count <= 5) {
-						let reInviContainer = document.createElement('div');
-						reInviContainer.className = 'reinvicontainer' + count;
-						reInviContainer.style.display = 'flex';
-						reInviContainer.style.paddingTop = '5px';
-						reInviContainer.style.paddingBottom = '5px';
+	    handleDeptSelect();
 
-						let deptContainer = document.createElement('div');
-						deptContainer.className = 'col-sm-5';
-						let empContainer = document.createElement('div');
-						empContainer.className = 'col-sm-5';
+	    deptSelect.addEventListener("change", handleDeptSelect);
+	}
+}
 
-						let deptSelect = document.createElement('select');
-						deptSelect.className = 'form-select me-3';
-						deptSelect.name = 'recalDept';
-						deptSelect.id = 'recalDept' + count;
 
-						let empSelect = document.createElement('select');
-						empSelect.className = 'form-select me-3';
-						empSelect.name = 'recalEmp';
-						empSelect.id = 'recalEmp' + count;
+//수정 부서 직원 추가 
 
-						// 수정된 부분
-						for (var j = 0; j < deptCodes.length; j++) {
-							let deptOption = document.createElement('option');
-							deptOption.value = deptCodes[j];
-							deptOption.text = deptNames[j];
-							deptSelect.appendChild(deptOption);
-						}
+function createContainer(index) {
+    let reInviContainer = document.createElement('div');
+    reInviContainer.className = 'reinvicontainer' + index;
+    reInviContainer.style.display = 'flex';
+    reInviContainer.style.paddingTop = '5px';
+    reInviContainer.style.paddingBottom = '5px';
 
-						// 수정된 부분
-						var selectedDeptIndex = deptSelect.selectedIndex;
+    let deptContainer = document.createElement('div');
+    deptContainer.className = 'col-sm-5';
+    let empContainer = document.createElement('div');
+    empContainer.className = 'col-sm-5';
 
-						// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-						var matchingEmpNames = [];
-						var matchingEmpNos = [];
+    let deptSelect = document.createElement('select');
+    deptSelect.className = 'form-select me-3';
+    deptSelect.name = 'recalDept';
+    deptSelect.id = 'recalDept' + index;
 
-						// 수정된 부분
-						// 선택된 부서의 코드를 가져옵니다.
-						var selectedDeptCode = deptCodes[selectedDeptIndex];
+    let empSelect = document.createElement('select');
+    empSelect.className = 'form-select me-3';
+    empSelect.name = 'recalEmp';
+    empSelect.id = 'recalEmp' + index;
 
-						// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-						for (var k = 0; k < empDeptCodes.length; k++) {
-							if (empDeptCodes[k] === selectedDeptCode) {
-								matchingEmpNames.push(empNames[k]);
-								matchingEmpNos.push(empNos[k]);
-							}
-						}
+    for (var j = 0; j < deptCodes.length; j++) {
+        let deptOption = document.createElement('option');
+        deptOption.value = deptCodes[j];
+        deptOption.text = deptNames[j];
+        deptSelect.appendChild(deptOption);
+    }
 
-						// 직원 선택(select) 요소를 초기화합니다.
-						empSelect.innerHTML = "";
+    var selectedDeptIndex = deptSelect.selectedIndex;
+    var selectedDeptCode = deptCodes[selectedDeptIndex];
 
-						// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-						for (var l = 0; l < matchingEmpNames.length; l++) {
-							var empOption = document.createElement("option");
-							empOption.value = matchingEmpNos[l];
-							empOption.text = matchingEmpNames[l];
-							empSelect.appendChild(empOption);
-						}
+    var matchingEmpNames = [];
+    var matchingEmpNos = [];
 
-						deptContainer.appendChild(deptSelect);
-						empContainer.appendChild(empSelect);
+    for (var k = 0; k < empDeptCodes.length; k++) {
+        if (empDeptCodes[k] === selectedDeptCode) {
+            matchingEmpNames.push(empNames[k]);
+            matchingEmpNos.push(empNos[k]);
+        }
+    }
 
-						reInviContainer.appendChild(deptContainer);
-						reInviContainer.appendChild(empContainer);
+    empSelect.innerHTML = "";
 
-						// 수정된 부분
-						let someContainer2 = document.querySelector('#shareListJob');
-						someContainer2.appendChild(reInviContainer);
-						count++;
-					} else {
-						alert("공유인원은 5명까지 가능합니다.");
+    for (var l = 0; l < matchingEmpNames.length; l++) {
+        var empOption = document.createElement("option");
+        empOption.value = matchingEmpNos[l];
+        empOption.text = matchingEmpNames[l];
+        empSelect.appendChild(empOption);
+    }
 
-					}
-				});
+    deptContainer.appendChild(deptSelect);
+    empContainer.appendChild(empSelect);
 
-				$('#delBtnRe').on('click', function() {
-					// 수정된 부분 //여기 다 삭제 되도록 코드 수정필요
-					if (count > 0) {
-						let someContainer2 = document.querySelectorAll('#shareListJob>div');
-						if(someContainer2&&someContainer2.length>0)
-							someContainer2[someContainer2.length-1].remove();
-						count--;
-					}
+    reInviContainer.appendChild(deptContainer);
+    reInviContainer.appendChild(empContainer);
 
-				});
+    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+    let delButton = document.createElement('button');
+    delButton.type = 'button';
+    delButton.textContent = '삭제';
+    delButton.addEventListener('click', function () {
+        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+        reInviContainer.remove();
+        count--;
+    });
+
+    reInviContainer.appendChild(delButton);
+
+    return reInviContainer;
+}
+
+
+$('#addBtnRe').on('click', function () {
+    if (count <= 5) {
+        let reInviContainer = createContainer(count);
+
+        let someContainer2 = document.querySelector('#shareListJob');
+        someContainer2.appendChild(reInviContainer);
+
+        count++;
+    } else {
+        alert("공유인원은 5명까지 가능합니다.");
+    }
+    updateCount(); // count를 업데이트하는 함수 호출
+});
+
+function updateCount() {
+    count = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+}
+
+
+		
 
 
 
@@ -1090,7 +1158,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		if ($('#mycalendar').is(':checked')) {
 			// 선택되어 있으면 캘린더에 이벤트 소스 추가
 			calendar.addEventSource(mycalendar);
-			calendar.addEventSource(vacCalendar);
 		}
 
 		// 캘린더 렌더링
@@ -1169,6 +1236,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			case 'companycalendar':
 				eventSource = mycalendar;
 				break;
+			case 'vaccalendar':
+				eventSource = mycalendar;
+				break;
 		}
 
 		// if (this.checked) {
@@ -1184,6 +1254,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 		 	});
 		 	calendar.addEventSource(eventSource);
+		 	if($('#vaccalendar').is(':checked')){
+				calendar.addEventSource(vacCalendar);
+			 }
 		 //}
 
 		// 중복된 일정 숨기기

@@ -252,8 +252,6 @@
 								<button type="button" 
 									id="addBtnRe" class="btn btn-light btn-floating;">일정
 									공유 추가</button>
-								<button type="button"
-									id="delBtnRe" class="btn btn-light btn-floating;">삭제</button>
 								<div id="shareListJob" class="row gx-3">
 
 

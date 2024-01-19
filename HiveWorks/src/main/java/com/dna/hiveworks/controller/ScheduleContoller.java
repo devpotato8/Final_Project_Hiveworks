@@ -127,11 +127,11 @@ public class ScheduleContoller {
 	
 	//직원 휴가 조회
 	@PostMapping("/searchVacation")
-	@ResponseBody
-	public List<Vacation> searchVacation(@RequestBody Map<String, Object> param){
+	public ResponseEntity<Map<String,Object>> searchVacation(@RequestBody Map<String, Object> param){
 		int empNo = (Integer)param.get("empNo");
 		List<Vacation> searchList =  vacationservice.selectVacationByNo(empNo);
-		return searchList;
+		searchList = searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList();
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList));
 	}
 	
 
