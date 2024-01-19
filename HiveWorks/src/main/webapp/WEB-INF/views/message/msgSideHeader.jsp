@@ -279,8 +279,8 @@ var msg_file;
 var msg_sender_name;
 
 //쪽지 내용 보기
-$(document).ready(function() {
-    $(".msgTitle, .msgContent").click(function() {
+
+    $(document).on("click",".msgTitle, .msgContent",function() {
     	//받은편지함 목록에서 해당 row의 정보들 가져오기
         msg_no = $(this).closest('tr').find('.msg_no').text();
         msg_title = $(this).closest('tr').find('.msgTitle').text();
@@ -302,8 +302,7 @@ $(document).ready(function() {
         //모달 보여주기
         $("#modal_msgView").modal('show');        
     });
-    
-});
+
 
 
 //쪽지 글자 byte수 계산
