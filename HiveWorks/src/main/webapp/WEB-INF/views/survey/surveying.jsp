@@ -20,9 +20,7 @@
                 <div class="col-lg-10 col-sm-9 col-8">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab_block_1">
-                            <!-- 기존 설문 양식 요소들 -->
-
-                         <%-- <form id="surveyForm" name="surveyFrm" action="${path }/survey/insertSurvey" method="post"> --%>
+                            
                         
                             <div class="row gx-3">
 								    <div class="col-sm-6">
@@ -54,34 +52,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- 숨겨진 섹션 추가 버튼들 -->
-                        
-
-                            <!-- 숨겨진 섹션 템플릿 및 컨테이너 -->
-                            
-							   <div class="row gx-3">
-							   		<div class="col-sm-6">
-							   			<br>
-							   		<div class="form-group">
-							   		<input class="form-control" value="${survey.surveyQuestion }" type="text" placeholder="질문제목" readonly="readonly"/>
-							   	<div class="col-sm-6" style="width:530px;">
-							   		<br>
-								   	<div style="display: flex;" id="checkbox_' + newId + '">
-								   		<input class="" type="checkbox" /> 
-								   		<input class="form-control" type="text" style="margin-left: 10px;" readonly="readonly"/>
-								   	</div>
-								  </div>
-								 </div>
-								</div>
-							<br>
-							   <div class="row gx-3"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" value="${survey.surveyQuestion }" type="text" placeholder="질문제목" readonly="readonly"/><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" id="radio_' + newId + '"><input class="" type="radio" value="${survey.surveyType }" /> <input class="form-control" type="text" style="margin-left: 10px;" readonly="readonly"/></div></div></div></div><br>							
-                               <div class="row gx-3"><div class="col-sm-12"><div class="form-group"><div class="form-label-group"><input class="form-control" value="${survey.surveyQuestion }" type="text" placeholder="질문제목" readonly="readonly"/></div><textarea class="form-control" rows="8" placeholder="자유롭게 기재해주세요" style="resize: none; width: 523px;"></textarea></div></div></div>
-                          
-                            <div id="hiddenSectionContainer"></div>
-
-                        	
-                        <!-- </form> -->
+							 <div id="surveyForm" name="surveyForm">
+							 	<c:out value="${survey.surveyQuestion }"/>
+							 	
+							 </div>  
                             <input type="submit" name="name" id="submit"  onclick="btn()" class="btn btn-primary mt-5" value="설문완료">
                         </div>
                     </div>
@@ -100,6 +74,7 @@
     }
 </style>
 <script>
+    
     function btn() {
         alert('제출 완료하셨습니다 감사합니다.');
         location.href = "${path}/survey/survey";

@@ -1,17 +1,19 @@
 package com.dna.hiveworks.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.model.dto.board.SurveyQuestion;
 import com.dna.hiveworks.service.SurveyService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,13 @@ public class SurveyController {
 		return "survey/surveyresult";
 	}
 	@RequestMapping("/insertSurvey")
-	public String insertSurvey(Survey s, Model model) {
+	public String insertSurvey(Survey s, Model model, @RequestParam String surveyData) {
+		List<Map> data=new ArrayList<>();		
+		try {
+			data=new ObjectMapper().readValue(surveyData, List.class);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		String msg, loc;
 		int result=service.insertSurvey(s);
 

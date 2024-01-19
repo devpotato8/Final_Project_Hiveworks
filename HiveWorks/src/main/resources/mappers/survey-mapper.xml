@@ -37,7 +37,7 @@
 	
     <insert id="insertSurvey" parameterType="survey">
         INSERT INTO TBL_SURVEY
-        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',NULL,#{surveyQuestion})
+        VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',#{surveyType},#{surveyQuestion})
     </insert>
     
     <insert id="insertQuestion" parameterType="survey">
