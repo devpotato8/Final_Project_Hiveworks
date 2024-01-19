@@ -8,6 +8,8 @@ import java.sql.Date;
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dto.edoc.status.EdocStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

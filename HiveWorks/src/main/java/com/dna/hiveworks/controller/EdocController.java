@@ -394,4 +394,13 @@ public class EdocController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
+	@GetMapping("/test")
+	public ResponseEntity<Map<String,Object>> testMethod(){
+					Map<String, Object> param = new HashMap<>();
+					param.put("emp_id", "emp001");
+					param.put("status", "ALL");
+					List<ElectronicDocumentList> target = edocService.getEdocList(param);
+					
+					return ResponseEntity.status(HttpStatus.OK).body(Map.of("Data", target));
+				}
 }

@@ -61,4 +61,5 @@ public class ElectronicDocument implements Serializable{
 	private String createrJobName;
 	private String createrDeptName;
 	private PosCode posCode;
+	
 }
