@@ -153,7 +153,7 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">*비밀번호확인</label>
-													<input class="form-control" type="password" id="emp_pw_check" name="emp_pw_check" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
+													<input class="form-control" type="password" id="emp_pw_check" name="emp_pw_check" onkeyup="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
 													<div id="pwMessage"></div>
 												</div>
 											</div>

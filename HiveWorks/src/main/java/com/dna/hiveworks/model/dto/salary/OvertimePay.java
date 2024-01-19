@@ -21,8 +21,6 @@ public class OvertimePay {
 	private int work_no;
 	private int emp_no;
 	private int ot_pay_per_time;
-	private int overtime;
-	private Double overtimeByMonth;
 	private String ot_pay_month;
 	private List<Employee> employees;
 	private String use_yn;
