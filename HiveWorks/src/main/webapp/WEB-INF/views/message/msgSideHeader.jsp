@@ -478,6 +478,7 @@ $(document).ready(function(){
 	    var sendMsgTitle = $('input[name="sendMsgTitle"]').val();
 	    var sendMsgContent = $('#msgContentArea').val();
 	    var sendmsgFile = $('#msgFileAttach')[0].files[0]; // 파일 첨부의 경우
+	    console.log(sendmsgFile)
 		var senderEmpNo = '${loginEmp.emp_no}';
 	    var formData = new FormData();
 	    receiverEmpNo.forEach(function(no) {
@@ -487,11 +488,11 @@ $(document).ready(function(){
 	    formData.append('senderEmpNo', senderEmpNo);
 	    formData.append('sendMsgTitle', sendMsgTitle);
 	    formData.append('sendMsgContent', sendMsgContent);
-	    formData.append('sendmsgFile', sendmsgFile[0]);
+	    //formData.append('sendmsgFile', sendmsgFile[0]);
 	    // 파일이 첨부되었는지 확인하고, 첨부된 경우에만 formData에 추가
-        /* if(sendmsgFile.length > 0) {
-            formData.append('sendmsgFile', sendmsgFile[0]);
-        }; */
+        if(sendmsgFile) {
+		    formData.append('sendmsgFile', sendmsgFile);
+		};
 		
 	    $.ajax({
 	        type: 'POST',
@@ -511,25 +512,26 @@ $(document).ready(function(){
 	            }, false);
 	            return xhr;
 	        },
-	        success: function(response){
-	        	if(response.status === 'success'){
-	        		alert("쪽지 전송 성공!");
-		            $('#sendMsgModal').modal('hide'); // 모달창 닫기
-		            // 업로드 완료 후 Progress Bar 초기화
-		            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
-	            } else {
-	                alert("쪽지 전송 실패. 다시 시도해보세요.");
-	                $('#sendMsgModal').modal('hide'); // 모달창 닫기
-	                $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
-	            }
-	            
+	        success: function(response, textStatus, xhr){
+		        if(xhr.status===200){	
+		        	if(response.status === 'success'){
+		        		alert("쪽지 전송 성공!");
+			            $('#sendMsgModal').modal('hide'); // 모달창 닫기
+			            // 업로드 완료 후 Progress Bar 초기화
+			            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
+		            } else {
+		                alert("쪽지 전송 실패. 다시 시도해보세요.");
+		                $('#sendMsgModal').modal('hide'); // 모달창 닫기
+		                $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
+		            }
+		        }
 	        },
 	        error: function(xhr, status, error){
-	            // 요청 실패 시 처리
-	            console.error("Error status: ", status);
-			    console.error("Error thrown: ", error);
-			    console.error("Error response: ", xhr.responseText);
-	            alert("서버 통신 오류. 쪽지 전송 실패. 관리자 문의요망");
+	            if(xhr.status===400){
+		            alert("잘못된 요청입니다. 입력 내용을 확인해주세요.");            	
+	            }else{
+	            	alert("서버 통신 오류. 쪽지 전송 실패. 관리자 문의요망");
+	            }
 	            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
 	        }
 	    });

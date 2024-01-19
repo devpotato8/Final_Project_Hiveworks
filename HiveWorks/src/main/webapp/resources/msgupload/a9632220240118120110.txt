@@ -1,0 +1,21 @@
+Spring 프로젝트 만들기
+
+myspring프로젝트 생성해서 -> 현재 등록된 라이브러리 모두 등록
+com.myspring.test 패키지로 설정
+
+Employee클래스 이름, 나이 성별 부서
+emp : 유병승 19 남 강사부 (생성자 이용 bean으로 등록) -xml
+emp2 : 이규홍 31 남 학생부 (setter를 이용 bean으로 등록) -xml
+emp3 : 최경현 29 남 영업부 @Configuration으로 등록
+
+Department 클래스 부서명, 근무지역 선언
+dept1 : 강사부 서울 @Configuration으로 등록 -xml
+dept2 : 학생부 안양 생성자 이용 bean등록 
+dept3 : 영업부 강원도 setter이용 bean등록 -xml
+
+controller클래스를 생성해서
+/employee로 요청하면 bean으로 등록된 emp를 console창에 출력
+/employee/emp2로 요청하면 bean으로 등록된 emp2를 console창에 출력
+/employee/emp3로 요청하면 bean으로 등록된 emp3를 console창에 출력
+
+index에서 a태그로 요청할 것. lombok사용할 것.
