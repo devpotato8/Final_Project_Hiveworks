@@ -214,11 +214,12 @@
 					
 					<div class="right-container-down">
 						<div class="newsList">
+						<div class="badge badge-soft-blue" style="font-size: 14px;">뉴스게시판</div>
 							<div style="width: 750px; height: 500px"class="justify-content-center text-center">
 								<table class="table">
 									<thead>
 										<tr>
-											<th scope="col">번호</th>
+											<th scope="col"></th>
 											<th scope="col">제목</th>
 											<th scope="col">내용</th>
 											<th scope="col">날짜</th>
