@@ -15,9 +15,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.Message;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
+import com.dna.hiveworks.service.MsgService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -40,6 +42,8 @@ public class SideBarChecker {
 	
 	@Autowired
 	EdocService edocService;
+	@Autowired
+	MsgService msgService;
 	
 	@AfterReturning("execution(String com.dna.hiveworks.controller.*Controller.*(..))")
 	public void setEdocCountAll(JoinPoint joinPoint) {
@@ -66,6 +70,13 @@ public class SideBarChecker {
 		
 		// 전자문서에 결재 대기 항목이 있을경우 전자문서에 알림을 띄우는 항목 추가
 		request.setAttribute("edocCountWait", countWait);
+		
+		List<Message> msgList = msgService.msgList(loginEmp.getEmp_no());
+		System.out.println(msgList);
+		msgList = msgList.stream().filter(msg->msg.getMsg_read_yn().equals("N")).toList();
+		System.out.println(msgList);
+		request.setAttribute("msgUnreadCount", msgList.size());
+		
 		
 		log.info(" AOP  종료");
 	}

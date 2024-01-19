@@ -43,6 +43,7 @@
 				<button class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="align-left"></i></span></span></button>
 					
 				<!-- Search -->
+				<!-- 
 				<form class="dropdown navbar-search">
 					<div class="dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="outside">
 						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="search"></i></span></span></a>
@@ -59,7 +60,7 @@
 						</div>
 					</div>
 					<div  class="dropdown-menu p-0">
-						<!-- Mobile Search -->
+						Mobile Search
 						<div class="dropdown-item d-xl-none bg-transparent">
 							<div class="input-group mobile-search">
 								<span class="input-affix-wrapper input-search">
@@ -73,7 +74,7 @@
 								</span>
 							</div>
 						</div>
-						<!--/ Mobile Search -->
+						Mobile Search
 						<div data-simplebar class="dropdown-body p-2">
 							<h6 class="dropdown-header">Recent Search
 							</h6>
@@ -166,6 +167,7 @@
 						<div class="dropdown-footer d-xl-flex d-none"><a href="#"><u>Search all</u></a></div>
 					</div>
 				</form>
+				-->
 				<!-- /Search -->
 			</div>
 			<!-- /Start Nav -->
@@ -175,6 +177,7 @@
 			<div class="nav-end-wrap">
 				<ul class="navbar-nav flex-row">
 					<!-- email아이콘 -->
+					<!-- 
 					<li class="nav-item">
 						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
 							<span class="icon">
@@ -187,14 +190,15 @@
 							</span>
 						</a>
 					</li>
+					-->
 					<!-- /email아이콘 -->
 					
 					<!-- 쪽지 아이콘 -->
 					<li class="nav-item">
-						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
+						<a href="${path}/messageview" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover">
 							<span class="icon">
 								<span class=" position-relative">
-								<span class="nav-icon-wrap">
+									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
 													<line x1="22" y1="2" x2="11" y2="13"></line>
@@ -202,15 +206,18 @@
 											</svg>
 										</span>
 									</span>
-								<span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span>
+									
+									<span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">${msgUnreadCount }</span>
 								</span>
+								
 							</span>
 						</a>
 					</li>
 					<!-- /쪽지 아이콘 -->
 					
 					<!-- 알림 아이콘 -->
-					<li class="nav-item">
+					<!--  -->
+					<!-- <li class="nav-item">
 						<div class="dropdown dropdown-notifications">
 							<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation role="button" aria-haspopup="true" aria-expanded="false">
 							<span class="icon">
@@ -224,7 +231,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-end p-0">
 								<h6 class="dropdown-header px-4 fs-6">알림
-									<!-- <a href="#" class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a> -->
+									<a href="#" class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
 								</h6>
 								<div data-simplebar class="dropdown-body  p-2">
 									<a href="javascript:void(0);" class="dropdown-item">
@@ -342,7 +349,7 @@
 								<div class="dropdown-footer"><a href="#"><u>View all notifications</u></a></div>
 							</div>
 						</div>
-					</li>
+					</li>-->
 					<!-- /알림 아이콘 -->
 					
 					<!-- 프로필 아이콘 -->
@@ -350,20 +357,35 @@
 						<div class="dropdown ps-2">
 							<a class=" dropdown-toggle no-caret" href="#" role="button" data-bs-display="static" data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="outside" aria-expanded="false">
 								<div class="avatar avatar-rounded avatar-xs">
-									<img src="resources/img/avatar12.jpg" alt="user" class="avatar-img">
+									<c:choose>
+										<c:when test="${loginEmp.emp_profile_re_name ne null }">
+											<img src="${path }/resources/upload/profile/${loginEmp.emp_profile_re_name }" alt="user" class="avatar-img">
+										</c:when>
+										<c:otherwise>
+											<img src="${path }/resources/img/avatar12.jpg" alt="user" class="avatar-img">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
 								<div class="p-2">
 									<div class="media">
 										<div class="media-head me-2">
-											<div class="avatar avatar-primary avatar-sm avatar-rounded">
-												<span class="initial-wrap">Hk</span>
+											<div class="avatar avatar-rounded avatar-sm">
+												<c:choose>
+													<c:when test="${loginEmp.emp_profile_re_name ne null }">
+														<img src="${path }/resources/upload/profile/${loginEmp.emp_profile_re_name }" alt="user" class="avatar-img">
+													</c:when>
+													<c:otherwise>
+														<img src="${path }/resources/img/avatar12.jpg" alt="user" class="avatar-img">
+													</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 										<div class="media-body">
-											<div class="dropdown">
-												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside">${loginEmp.emp_name}</a>
+											<span class="d-block fw-medium">${loginEmp.emp_name}</span>
+											<!-- <div class="dropdown">
+												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside"></a>
 												<div class="dropdown-menu dropdown-menu-end">
 													<div class="p-2">
 														<div class="media align-items-center active-user mb-3">
@@ -394,12 +416,13 @@
 														</button>
 													</div>
 												</div>
-											</div>
-											<div class="fs-7">contact@hencework.com</div>
-											<a href="#" class="d-block fs-8 link-secondary"><u>Sign Out</u></a>
+											</div>-->
+											<div class="fs-7">${loginEmp.emp_email }</div>
+											<a href="${path }/logout" class="d-block fs-8 link-secondary"><u>Sign Out</u></a>
 										</div>
 									</div>
 								</div>
+								<!-- 
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="profile.html">Profile</a>
 								<a class="dropdown-item" href="#"><span class="me-2">Offers</span><span class="badge badge-sm badge-soft-pink">2</span></a><div class="dropdown-divider"></div>
@@ -412,6 +435,7 @@
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">Terms & Conditions</a>
 								<a class="dropdown-item" href="#">Help & Support</a>
+								-->
 							</div>
 						</div>
 					</li>
