@@ -56,5 +56,33 @@ public class VacationServiceImpl implements VacationService {
 		// TODO Auto-generated method stub
 		return dao.selectLeftVacation(session, empNo);
 	}
-
+	
+	@Override
+	public int confirmVacation(String edocNo) {
+		// TODO Auto-generated method stub
+		//tbl_vacation의 vac_permit 을 '승인'으로 바꾸기
+		int result = dao.confirmVacation(session, edocNo);
+		return result;
+	}
+	
+	@Override
+	public int revokeVacation(String edocNo) {
+		// TODO Auto-generated method stub
+		//tbl_vacation의 vac_permit 을 '반려'로 바꾸기
+		int result = dao.revokeVacation(session, edocNo);
+		//성공했을 때
+		if(result>0) {
+			//휴가정보를 가져와서
+			Vacation vac = dao.selectVacation(session, edocNo);
+			
+			if(vac.getVacOption().equals("연차")||vac.getVacOption().equals("오전반차")||vac.getVacOption().equals("오후반차")) {
+				dao.rollbackVacation(session, Map.of("empNo",vac.getEmpNo(),"count",vac.getVacCount()));
+				
+			}
+			
+		}
+		
+		
+		return 0;
+	}
 }

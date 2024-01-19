@@ -36,7 +36,7 @@
 				<div class="menu-content-wrap">
 					<div class="menu-group">
 						<ul class="navbar-nav flex-column">
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="${path}/">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
@@ -51,7 +51,6 @@
 										</span>
 									</span>
 									<span class="nav-link-text">Dashboard</span>
-									<span class="badge badge-sm badge-soft-blue ms-auto">Hot</span>
 								</a>
 							</li>
 						</ul>	
@@ -271,6 +270,16 @@
 													<span class="nav-link-text">내 휴가</span>
 												</a>
 											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/overtimepay/myovertimepay?emp_no=${loginEmp.emp_no}">
+													<span class="nav-link-text">내 시간 외 근로수당</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#">
+													<span class="nav-link-text">내 급여</span>
+												</a>
+											</li>
 										</ul>
 									</li>
 								</ul>
@@ -297,6 +306,9 @@
 										<ul class="nav flex-column">
 											<li class="nav-item">
 												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/overtimepay/overtimePayList"><span class="nav-link-text">시간 외 근로수당</span></a>
 											</li>
 										</ul>	
 									</li>	

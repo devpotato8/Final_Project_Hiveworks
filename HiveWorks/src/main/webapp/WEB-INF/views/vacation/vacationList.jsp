@@ -124,7 +124,7 @@
 														</div>
 														<div class="d-flex align-items-center">
 															<button class="btn btn-white"
-																name="vacOption" id="연차" value="연차">신청하기</button>
+																name="vacOption" id="공가" value="공가">신청하기</button>
 														</div>
 													</div>
 												</div>
@@ -138,7 +138,7 @@
 													<div class="card-body">
 														<div class="media align-items-center">
 															<div class="media-head"></div>
-																<span>조의 - (부모 / 배우자 / 자녀)</span>
+																<span>조의 (부모 / 배우자 / 자녀)</span>
 														</div>
 													</div>
 													<div class="card-footer justify-content-between">
@@ -162,7 +162,7 @@
 													<div class="card-body">
 														<div class="media align-items-center">
 															<div class="media-head"></div>
-																<span>조의 - (조부모 / 형제 / 자매)</span>
+																<span>조의 (조부모 / 형제 / 자매)</span>
 														</div>
 													</div>
 													<div class="card-footer justify-content-between">
@@ -186,7 +186,7 @@
 													<div class="card-body">
 														<div class="media align-items-center">
 															<div class="media-head"></div>
-																<span>결혼 - 본인</span>
+																<span>결혼 (본인)</span>
 														</div>
 													</div>
 													<div class="card-footer justify-content-between">
@@ -200,7 +200,7 @@
 														</div>
 														<div class="d-flex align-items-center">
 															<button class="btn btn-white"
-																name="vacOption" id="결혼 (본인)" value="결혼5일">신청하기</button>
+																name="vacOption" id="결혼 (본인)" value="결혼본인">신청하기</button>
 														</div>
 													</div>
 												</div>
@@ -210,7 +210,7 @@
 													<div class="card-body">
 														<div class="media align-items-center">
 															<div class="media-head"></div>
-																<span>결혼 - 자녀</span>
+																<span>결혼 (자녀)</span>
 														</div>
 													</div>
 													<div class="card-footer justify-content-between">
@@ -328,7 +328,7 @@
             element.addEventListener("click", openModal);
         });
         
-        // 휴가신청 클릭스 상단 제목 휴가신청 - 해당하는 휴가종류표시
+        // 휴가신청 클릭시 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
         $(".card-footer>div>button").click(function(e){
         	      console.log(e.target.id);

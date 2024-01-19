@@ -34,6 +34,7 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.Message" alias="message"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.board.SurveyQuestion" alias="question"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.board.SurveyAnswer" alias="answer"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.salary.OvertimePay" alias="overtimepay"/>
 	</typeAliases>
 	
 	<typeHandlers>
