@@ -293,11 +293,11 @@ var msg_sender_name;
         
         //가져온 정보들을 modal위치에 세팅
         $("#modal_msgView").find(".modal-title").text(msg_title);
-        $("#modal_msgView").find(".modal-body").text(msg_content);
+        $("#modal_msgView").find(".modal-body").html(msg_content);
         $("#modal_msgView").find(".sender").text(msg_sender_name);
         $("#modal_msgView").find(".receiver").text(msg_receiver);
         $("#modal_msgView").find(".msgtime").text(msg_date);
-        $("#modal_msgView").find(".msg_file").text(msg_file);
+        $("#modal_msgView").find(".msg_file").html('<a href="#">'+msg_file+'</a>');
         
         //모달 보여주기
         $("#modal_msgView").modal('show');        

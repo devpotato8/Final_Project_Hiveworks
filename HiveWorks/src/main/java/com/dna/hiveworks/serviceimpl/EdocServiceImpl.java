@@ -5,6 +5,7 @@ package com.dna.hiveworks.serviceimpl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,9 @@ import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.service.EdocService;
+import com.dna.hiveworks.service.MsgService;
+
+import jakarta.servlet.ServletContext;
 
 /**
  * @author : 이재연
@@ -37,11 +41,16 @@ import com.dna.hiveworks.service.EdocService;
  */
 @Service
 public class EdocServiceImpl implements EdocService{
-	@Autowired
-	private EdocDao dao;
 	
 	@Autowired
+	private EdocDao dao;
+	@Autowired
 	private SqlSession session;
+	@Autowired
+	ServletContext context;
+	@Autowired
+	MsgService msgService;
+
 	
 	@Override
 	public List<ElectronicDocumentList> getEdocList(Map<String, Object> param) {
@@ -77,7 +86,7 @@ public class EdocServiceImpl implements EdocService{
 			edoc.setEdocPreservePeriod(
 					Date.valueOf(
 							LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1))
-					);			
+					);
 		}
 		
 		int result = 0;
@@ -87,9 +96,12 @@ public class EdocServiceImpl implements EdocService{
 		if(result >0) {
 			List<ElectronicDocumentApproval> approval = edoc.getApproval();
 			approval.forEach((e)->e.setAprvlEdocNo(edoc.getEdocNo()));
-			int approvalresult = dao.insertEdocApproval(session, approval);
-			if(approvalresult == 1) {
+			dao.insertEdocApproval(session, approval);
+			if(approval.size() < 2) {
 				dao.edocFinalize(session, edoc);
+			}else {
+				ElectronicDocumentApproval apv = approval.stream().filter(t -> t.getAprvlStatus().equals("W")).findAny().get();
+				msgService.sendMsg(makeMsg(apv.getAprvlEmpNo(),edoc.getCreater(), apv.getAprvlEdocNo()));
 			}
 			
 			List<ElectronicDocumentReference> reference = edoc.getReference();
@@ -194,8 +206,10 @@ public class EdocServiceImpl implements EdocService{
 					ElectronicDocumentApproval nextApproval = approvalList.get(approvalIndex+1);
 					dao.setNextApprovalStatus(session, nextApproval);
 					
-					//TODO 다음차례 결재자에게 알림전송
+					// 다음차례 결재자에게 쪽지전송
+					msgService.sendMsg(makeMsg(nextApproval.getAprvlEmpNo(),edoc.getCreater(), aprvl.getAprvlEdocNo()));
 				}
+		// 결재코드가 'APV002(반려)'일때
 		}else if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV002)){
 			// 내 뒤로 남은 결재자가 남았을 때
 			List<ElectronicDocumentApproval> leftApproval = null;
@@ -229,21 +243,17 @@ public class EdocServiceImpl implements EdocService{
 		return dao.updateAuto(session, param);
 	}
 	
-//	private Map<String,Object> makeMsg(int receiverEmpNo) {
-//		
-//		Map<String,Object> msg = new HashMap<>();
-//		Map<String,Object> receiver = 
-//		msg.put("receiverEmpNo", empNos);
-//		msg.put("receiverNames", receiverNames);
-//		msg.put("senderEmpNo", senderEmpNo);
-//		msg.put("msgCategory", msgCategory);
-//		msg.put("msgCategoryName", msgCategoryName);
-//		msg.put("msgTitle", sendMsgTitle);
-//		msg.put("msgContent", sendMsgContent);
-//		msg.put("fileOriname", fileOriname);
-//		msg.put("fileRename", fileRename);
-//		msg.put("fileSize", fileSize);
-//		
-//		return msg;
-//	}
+	private Map<String,Object> makeMsg(int receiverEmpNo,int senderEmpNo, String edocNo) {
+		
+		Map<String,Object> msg = new HashMap<>();
+			msg.put("receiverEmpNo", List.of(receiverEmpNo));
+			msg.put("receiverNames", List.of(new String()));
+			msg.put("senderEmpNo",senderEmpNo);
+			msg.put("msgCategory", "MCT001");
+			msg.put("msgCategoryName", "업무연락");
+			msg.put("msgTitle", "결재 요망");
+			msg.put("msgContent", "문서번호 : "+edocNo+"<br><a href=\""+ context.getContextPath() +"/edoc/read?edocNo="+edocNo+"\">바로가기</a>");
+			
+		return msg;
+	}
 }
