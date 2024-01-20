@@ -32,8 +32,10 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.InvitationEmp" alias="InvitationEmp"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.board.Survey" alias="survey"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Message" alias="message"/>
-		<typeAlias type="com.dna.hiveworks.model.dto.board.SurveyQuestion" alias="surveyQuestion"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.board.SurveyQuestion" alias="question"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.board.SurveyAnswer" alias="answer"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.OvertimePay" alias="overtimepay"/>
+		<typeAlias type="com.dna.hiveworks.model.dto.Search" alias="search"/>
 	</typeAliases>
 	
 	<typeHandlers>

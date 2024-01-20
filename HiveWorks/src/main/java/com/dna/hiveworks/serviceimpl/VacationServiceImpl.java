@@ -76,7 +76,7 @@ public class VacationServiceImpl implements VacationService {
 			Vacation vac = dao.selectVacation(session, edocNo);
 			
 			if(vac.getVacOption().equals("연차")||vac.getVacOption().equals("오전반차")||vac.getVacOption().equals("오후반차")) {
-				dao.rollbackVacation(session, Map.of("empNo",vac.getEmpNo(),"count",vac.getVacCount()));
+				dao.rollbackVacation(session, Map.of("empNo",vac.getEmpNo(),"vacCount",vac.getVacCount()));
 				
 			}
 			

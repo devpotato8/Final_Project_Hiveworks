@@ -9,7 +9,7 @@ public interface BoardService {
 
 	Board selectBoardByNo(int boardNo);
 	
-	List<Board> selectAllBoard();
+	List<Board> selectAllBoard(String boardType);
 	
 	int insertBoard(Board b);
 	

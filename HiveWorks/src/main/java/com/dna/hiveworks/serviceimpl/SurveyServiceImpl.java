@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dna.hiveworks.model.dao.SurveyDao;
 import com.dna.hiveworks.model.dto.board.Survey;
+import com.dna.hiveworks.model.dto.board.SurveyQuestion;
 import com.dna.hiveworks.service.SurveyService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,9 @@ public class SurveyServiceImpl implements SurveyService{
 	@Transactional
 	public int insertSurvey(Survey s) {
 		return dao.insertSurvey(session, s);
+	}
+	@Override
+	public int insertQuestion(SurveyQuestion qustion) {
+		return dao.insertQuestion(session, qustion);
 	}
 }

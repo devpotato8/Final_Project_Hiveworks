@@ -5,4 +5,16 @@
 		SELECT * FROM TBL_EMPLOYEE
 		WHERE EMP_NO = #{empNo}
 	</select>
+	
+	<resultMap type="search" id="searchMap">
+		<id property="searchNo" column="SEARCH_NO" />
+		<result property="searchKeyword" column="SEARCH_KEYWORD"/>
+		<result property="searchAddress" column="SEARCH_ADDRESS"/>
+		<result property="searchCode" column="SEARCH_CODE"/>
+	</resultMap>
+	
+	<select id="integratedSearch" parameterType="string" resultMap="searchMap">
+		SELECT * FROM TBL_SEARCH
+		WHERE SEARCH_KEYWORD LIKE '%' || #{keyword}|| '%'
+	</select>
 </mapper>
