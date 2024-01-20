@@ -104,4 +104,18 @@
   		UPDATE TBL_SALARY SET USE_YN='N' WHERE SAL_NO = #{sal_no}
   	</delete>
   	
+  	<select id="selectMySalaryList" parameterType="_int" resultMap="salaryMap">
+  		SELECT S.*, D.*, O.*, P.*, E1.*, D1.*, C.*
+    	FROM TBL_SALARY S
+	       LEFT JOIN TBL_DEDUTION D ON S.DEDU_NO = D.DEDU_NO
+	       LEFT JOIN TBL_OVERTIME_PAY O ON O.SAL_NO = S.SAL_NO
+	       LEFT JOIN
+        	(SELECT E.*, EXTRACT(YEAR FROM TO_DATE(SUBSTR(EMP_RESIDENT_NO,1,2),'RR')) || '년' || SUBSTR(EMP_RESIDENT_NO,3,INSTR(EMP_RESIDENT_NO,'-')-5) || '월' || SUBSTR(EMP_RESIDENT_NO,5,2)  || '일' AS EMP_BIRTH_DATE
+	        	FROM (SELECT * FROM TBL_EMPLOYEE) E) E1 ON S.EMP_NO=E1.EMP_NO
+	       LEFT JOIN TBL_DEPARTMENT D1 ON D1.DEPT_CODE=E1.DEPT_CODE 
+	       LEFT JOIN TBL_CODE C ON E1.JOB_CODE = C.CODE_NO
+	       LEFT JOIN TBL_POSITION_PAY P ON P.POS_CODE = E1.POSITION_CODE
+	    WHERE S.USE_YN ='Y' AND E1.EMP_NO = ${emp_no}
+  	</select>
+  	
 </mapper>

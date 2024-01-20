@@ -23,4 +23,5 @@ public interface SalaryDao {
 	
 	Map<String, Integer> calculateSalary (SqlSession session, Map<String, Integer> data);
 	
+	List<Salary> selectMySalaryList (SqlSession session, int emp_no);
 }

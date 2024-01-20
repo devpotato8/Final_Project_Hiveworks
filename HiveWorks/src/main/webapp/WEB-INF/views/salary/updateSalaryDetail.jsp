@@ -417,8 +417,8 @@
     
     </style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
-<form action="${path }/salary/updateSalaryDetailEnd" method="post">
-<button class="btn btn-primary btn-rounded btn-block mb-4" >수정</button>
+<form id="form" action="${path }/salary/updateSalaryDetailEnd" method="post">
+<button class="btn btn-primary btn-rounded btn-block mb-4" style="width:100px;">수정</button>
 <table width="740px">
     <tbody>
     <tr align="center">
@@ -458,7 +458,10 @@
     <tbody>
     <tr>
         <th><span>사원코드</span></th>
-        <td><c:out value="${salary.emp_no }"/></td>
+        <td>
+        	<input type="hidden" id="emp_no" name="emp_no" value="${salary.emp_no }"/>
+        	<c:out value="${salary.emp_no }"/>
+        </td>
         <th><span>사원명</span></th>
         <td><c:out value="${salary.employee.emp_name }"/></td>
         <th><span>생년월일</span></th>
@@ -739,23 +742,23 @@
 			url:"${path}/salary/calculateSalary",
 			data:{"total":total,"notax":notax},
 			success:function(data){
-				$("#dedu_national_pension").val(data.o_pension);
-				$("#dedu_health_insur").val(data.o_insurance);
-				$("#dedu_longterm_care_insur").val(data.o_nursing);
-				$("#dedu_emp_insur").val(data.o_employ);
-				$("#dedu_income_tax").val(data.o_income);
-				$("#dedu_local_income_tax").val(data.o_local);
-				$("#sal_total").val(data.i_total);
+				$("#dedu_national_pension").val(fn_insert_comma(data.o_pension));
+				$("#dedu_health_insur").val(fn_insert_comma(data.o_insurance));
+				$("#dedu_longterm_care_insur").val(fn_insert_comma(data.o_nursing));
+				$("#dedu_emp_insur").val(fn_insert_comma(data.o_employ));
+				$("#dedu_income_tax").val(fn_insert_comma(data.o_income));
+				$("#dedu_local_income_tax").val(fn_insert_comma(data.o_local));
+				$("#sal_total").val(fn_insert_comma(data.i_total));
 				
 				let $dedu_total =Number(data.o_pension)
 								+Number(data.o_insurance+data.o_nursing)
 								+Number(data.o_employ)
 								+Number(data.o_income)
 								+Number(data.o_local);
-				$("#dedu_total").val($dedu_total);
+				$("#dedu_total").val(fn_insert_comma($dedu_total));
 				let $actual = Number(data.i_total)-$dedu_total;
 				
-				$("#sal_actual").val($actual);
+				$("#sal_actual").val(fn_insert_comma($actual));
 			},
 			error:function(){
                 alert("계산 실패");
@@ -781,6 +784,42 @@
 		payday.innerHTML = year + "년 " + month + "월 급여명세서";
 	};
 
+	</script>
+
+	<script>
+	//콤마 생성 및 삭제
+	fn_insert_comma=(num)=>{
+	    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	fn_delete_comma=(num)=>{
+	    return num.replaceAll(',','');
+	}
+	</script>
+	<script>
+	let $form = document.getElementById('form');
+	$form.addEventListener('submit',event=>{
+		event.preventDefault();
+		$("#sal_actual").val(fn_delete_comma($("#sal_actual").val()));
+		
+		if($("#sal_date").val()==0){
+			alert("날짜를 선택해 주세요.");
+			return false;
+		}
+		
+		if($("#sal_base").val()==0){
+			alert("기본 급여를 입력해 주세요.");
+			return false;
+		}
+		
+		if($("#emp_no").val()==0 || $("#emp_no").val()==null ){
+			alert("직원을 선택해 주세요.");
+			return false;
+		}	
+		
+		$form.submit();
+	});
+	
 	</script>
 
 	<!-- jQuery -->

@@ -54,5 +54,10 @@ public class SalaryDaoImpl implements SalaryDao {
 		return session.selectOne("salary.calculateSalary",data);
 	}
 
+	@Override
+	public List<Salary> selectMySalaryList(SqlSession session, int emp_no) {
+		return session.selectList("salary.selectMySalaryList",emp_no);
+	}
 
+	
 }
