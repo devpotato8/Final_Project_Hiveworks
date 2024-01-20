@@ -17,6 +17,11 @@ public class MsgDaoImpl implements MsgDao {
 	public List<Message> msgList(SqlSession session, int empNo) {
 		return session.selectList("message.msgList",empNo);
 	}
+	
+	@Override
+	public List<String> sharedEmp(SqlSession session, Map<String,String> msgSharedEmps) {
+		return session.selectList("message.sharedEmp",msgSharedEmps);
+	}
 
 	@Override
 	public int starMark(SqlSession session, int msgNo) {
@@ -43,6 +48,33 @@ public class MsgDaoImpl implements MsgDao {
 		return session.insert("message.sendMsg",params);
 	}
 
+	@Override
+	public int readMsg(SqlSession session, Map<String, Integer> params) {
+		return session.update("message.readMsg",params);
+	}
+
+	@Override
+	public int starChekedBtn(SqlSession session, Map<String, Integer> params) {
+		System.out.println(params);
+		return session.update("message.starChekedBtn",params);
+	}
+
+	@Override
+	public int trashChekedBtn(SqlSession session, Map<String, Integer> params) {
+		System.out.println(params);
+		return session.update("message.trashChekedBtn",params);
+	}
+
+	@Override
+	public int starUnchekedBtn(SqlSession session, Map<String, Integer> params) {
+		return session.update("message.starUnchekedBtn",params);
+	}
+
+	
+	
+	
+
+	
 	
 	
 

@@ -17,9 +17,17 @@
 			MSG_FILE_ORINAME,
 			MSG_FILE_RENAME,
 			MSG_MARKED_YN,
-			MSG_FILE_SIZE
+			MSG_FILE_SIZE,
+			EMP_PROFILE_RE_NAME
 		FROM TBL_MESSAGE
-		WHERE MSG_RECEIVER_NO = ${empNo}
+		LEFT JOIN TBL_EMPLOYEE ON (EMP_NO = MSG_SENDER_NO)
+		WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_DELETE = 'N'
+	</select>
+	
+	<select id="sharedEmp" resultType="string">
+		SELECT MSG_RECEIVER_NAME
+		FROM TBL_MESSAGE
+		WHERE MSG_SENDER_NO = ${emp_no} AND MSG_TITLE = #{msg_title} AND MSG_CONTENT = #{msg_content} AND MSG_NO != ${msg_no}
 	</select>
 	
 	<update id="starMark">
@@ -51,4 +59,21 @@
 	        #{fileOriname}, #{fileRename},'N', #{fileSize}
 	    )
 	</insert>
+	
+	<update id="readMsg">
+		UPDATE TBL_MESSAGE SET MSG_READ_YN = 'Y' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
+	</update>
+	
+	<update id="starChekedBtn">
+		UPDATE TBL_MESSAGE SET MSG_MARKED_YN = 'Y' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
+	</update>
+	
+	<update id="trashChekedBtn">
+		UPDATE TBL_MESSAGE SET MSG_DELETE = 'Y' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
+	</update>
+	
+	<update id="starUnchekedBtn">
+		UPDATE TBL_MESSAGE SET MSG_MARKED_YN = 'N' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
+	</update>
+	
 </mapper>

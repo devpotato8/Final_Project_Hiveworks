@@ -2,7 +2,6 @@ package com.dna.hiveworks.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -22,7 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dna.hiveworks.model.dto.Message;
@@ -55,6 +56,14 @@ public class MessageController {
 		return "message/message";
 	}
 	
+	//함께 쪽지받은 사람 list
+	@PostMapping("/sharedEmp")
+	public ResponseEntity<List<String>> sharedEmp(@RequestBody Map<String,String> msgSharedEmps){
+	    List<String> sharedEmp = service.sharedEmp(msgSharedEmps);
+	    System.out.println("결과 : " + sharedEmp);
+	    return ResponseEntity.ok(sharedEmp);
+	}
+	
 	//파일들만 보이는 페이지
 	@GetMapping("/msgFileView")
 	public String msgFileView() {
@@ -63,6 +72,7 @@ public class MessageController {
 	
 	//별표 표시하기
 	@PostMapping("/starmark")
+	@ResponseBody
 	public Map<String, String> starMark(@RequestParam String msg_no){
 		
 		int msgNo = Integer.parseInt(msg_no);
@@ -82,6 +92,7 @@ public class MessageController {
 	
 	//별표 표시 해제
 	@PostMapping("/starunmark")
+	@ResponseBody
 	public Map<String, String> starUnmark(@RequestParam String msg_no){
 		
 		int msgNo = Integer.parseInt(msg_no);
@@ -209,5 +220,109 @@ public class MessageController {
 	        throw new RuntimeException("첨부파일다운로드Error: " + e.getMessage());
 	    }
 	}
+	
+	//쪽지 읽음처리
+	@PostMapping("/readMsg")
+	@ResponseBody
+	public ResponseEntity<?> readMsg(@RequestParam int emp_no, @RequestParam int msg_no, HttpServletRequest request){
+		
+		Map<String,Integer> params = new HashMap<>();
+		params.put("empNo", emp_no);
+		params.put("msgNo", msg_no);
+		
+		int result = service.readMsg(params);
+		
+		Map<String,String> response = new HashMap<>();
+		
+		if (result > 0) {
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("status", "fail");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+	}
+	
+	//별표 버튼처리
+	@PostMapping("/starBtn")
+	@ResponseBody
+	public Map<String, Object> starChekedBtn(@RequestBody List<Map<String,Object>>data){
 
+		Map<String, Object> response = new HashMap<>();
+
+		int result = 0;
+
+		try {
+			for(Map<String,Object> row : data) {
+				Integer emp_no = (Integer) row.get("emp_no");
+				Integer msg_no = (Integer) row.get("msg_no");
+
+				Map<String, Integer> params = new HashMap<>();
+				params.put("empNo", emp_no);
+				params.put("msgNo", msg_no);
+
+				result += service.starChekedBtn(params);
+			}
+			if(result>0) response.put("status", "success");
+			else response.put("status", "fail");
+
+		}catch(Exception e){
+			e.printStackTrace();
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+		}
+
+		return response;
+	}
+	
+	//휴지통으로 버튼처리
+	@PostMapping("/trashBtn")
+	@ResponseBody
+	public Map<String, Object> trashChekedBtn(@RequestBody List<Map<String,Object>>data){
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		int result1 = 0,result2 = 0;
+
+		try {
+			for(Map<String,Object> row : data) {
+				Integer emp_no = (Integer) row.get("emp_no");
+				Integer msg_no = (Integer) row.get("msg_no");
+				
+				Map<String, Integer> params = new HashMap<>();
+				params.put("empNo", emp_no);
+				params.put("msgNo", msg_no);
+				result1 += service.starUncheckedBtn(params); //선택한 항목이 별표된 쪽지라면 해제
+				result2 += service.trashChekedBtn(params);
+			}
+			
+			if(result1>0 && result2>0) response.put("status", "success");
+			else response.put("status", "fail");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+		}
+		
+		return response;
+	}
+	
+	@PostMapping("/goTrash")
+	@ResponseBody
+	public Map<String,String> goTrash(@RequestParam int emp_no, @RequestParam int msg_no){
+		
+		Map<String,Integer> params = new HashMap<>();
+		params.put("empNo", emp_no);
+		params.put("msgNo", msg_no);
+		
+		int result = service.trashChekedBtn(params);
+		
+		Map<String,String> response = new HashMap<>();
+
+		if(result>0) response.put("status", "success");
+		else response.put("status", "fail");
+		
+		return response;
+	}
 }
