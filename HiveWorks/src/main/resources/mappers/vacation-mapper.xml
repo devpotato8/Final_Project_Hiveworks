@@ -12,6 +12,9 @@
 		<result property="modifier" column="MODIFIER"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="useYN" column="USE_TN"/>
+		
+		<result property="edocNo" column="EDOC_NO"/>
+		<result property="vacPermit" column="VAC_PERMIT"/>
 	</resultMap>
 	
 	<select id="selectVacationListAll" resultMap="vacationMap">
@@ -25,7 +28,7 @@
 	
 	<insert id="insertVacation" parameterType="vacation" >
 		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,#{empNo},
-		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y','','대기')
+		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y','#{edocNo}','대기')
 	</insert>
 	
 	<update id="updateVacation" parameterType="Map" >
@@ -40,39 +43,29 @@
 		SELECT VAC_LEFT FROM TBL_VACATION_BYYEAR WHERE EMP_NO = #{empNo}
 	</select>
 	
-	<!-- 전자문서 INSERT -->
-	<insert id="insertEdoc" parameterType="edoc">
-		<selectKey keyProperty="edocNo" keyColumn="EDOC_NO"
-			resultType="string" order="BEFORE">
-			SELECT 'VAC-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select
-			count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE
-			'%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
-		</selectKey>
-		INSERT INTO TBL_EDOC VALUES(
-		#{edocNo},<!-- EDOC_NO -->
-		#{edocDotCode},<!-- EDOC_DOT_CODE -->
-		#{edocTitle},<!-- EDOC_TITLE -->
-		#{edocPreservePeriod},<!-- EDOC_PRESERVE_PERIOD -->
-		#{edocDsgCode},<!-- EDOC_DSG_CODE -->
-		#{edocContent},<!-- EDOC_CONTENT -->
-		#{edocStartDate},<!-- EDOC_STARTDATE -->
-		#{edocEndDate},<!-- EDOC_ENDDATE -->		
-		'DST100',<!-- EDOC_STATUS -->
-		#{creater},<!-- CREATER -->
-		SYSDATE,<!-- CREATE_DATE -->
-		NULL,<!-- MODIFIER -->
-		NULL,<!-- MODIFY_DATE -->
-		DEFAULT,<!-- USE_YN -->
-		NULL<!-- FINALIZED_DATE -->
-		)
-	</insert>
+	<!-- tbl_vacation의 vac_permit 을 '승인'으로 바꾸기 -->
+	<update id="confirmVacation" parameterType="string">
+		UPDATE TBL_VACATION SET
+		VAC_PERMIT = '승인'
+		WHERE EDOC_NO = #{edocNo}
+	</update>
+	<!-- tbl_vacation의 vac_permit 을 '반려'로 바꾸기 -->
+	<update id="revokeVacation" parameterType="string">
+		UPDATE TBL_VACATION SET
+		VAC_PERMIT = '반려'
+		WHERE EDOC_NO = #{edocNo}
+	</update>
 	
+	<select id="selectVacation" parameterType="string" resultMap="vacationMap">
+		SELECT * FROM TBL_VACATION
+		WHERE EDOC_NO = #{edocNo}
+	</select>
 	
-	
-	
-	
-	
-	
+	<update id="rollbackVacation" parameterType="Map">
+		UPDATE TBL_VACATION_BYYEAR SET
+		VAC_LEFT = VAC_LEFT + #{vacCount}
+		WHERE EMP_NO = #{empNo}
+	</update>
 	
 	
 </mapper>

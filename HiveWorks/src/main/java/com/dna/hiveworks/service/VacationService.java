@@ -16,4 +16,7 @@ public interface VacationService {
 	int deleteVacation(int vacationNo);
 
 	double selectLeftVacation(int empNo);
+	
+	int confirmVacation(String edocNo);
+	int revokeVacation(String edocNo);
 }

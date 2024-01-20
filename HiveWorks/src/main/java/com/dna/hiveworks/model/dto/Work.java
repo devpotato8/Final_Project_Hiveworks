@@ -26,7 +26,8 @@ public class Work {
 	private char useYN;
 	
 	private WorkRealtime workRealtime;
-	
+	private Double overtimeBy;
+	private int overtime;
 	
 	
 	

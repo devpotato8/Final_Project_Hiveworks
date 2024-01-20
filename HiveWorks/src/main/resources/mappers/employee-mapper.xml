@@ -38,6 +38,8 @@
 		<result property="create_date" column="create_date"/>
 		<result property="modifier" column="modifier"/>
 		<result property="modify_date" column="modify_date"/>
+		<collection property="work" resultMap="work.workMap"/>
+	
 	</resultMap>
 	<resultMap type="account" id="acMap">
 		<result property="ac_no" column="ac_no"/>
@@ -87,32 +89,32 @@
 	
 	<select id="selectDeptList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS deptCode, CODE_NAME AS deptName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'DEP%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'DEP%' AND USE_YN ='Y'
 	</select>
 	
 	<select id="selectPositionList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS positionCode, CODE_NAME AS positionName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'POS%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'POS%' AND USE_YN ='Y'
 	</select>
 	
 	<select id="selectJobList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS jobCode, CODE_NAME AS jobName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'JOB%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'JOB%' AND USE_YN ='Y'
 	</select>
 	
 	<select id="selectWorkStatusList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS workStatusCode, CODE_NAME AS workStatusName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'WOS%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOS%' AND USE_YN ='Y'
 	</select>
 	
 	<select id="selectWorkPatternList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS workPatternCode, CODE_NAME AS workPatternName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'WOP%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOP%' AND USE_YN ='Y'
 	</select>
 	
 	<select id="selectWorkTypeList" parameterType="hashmap" resultType="hashmap">
 		SELECT CODE_NO AS workTypeCode, CODE_NAME AS workTypeName
-		FROM TBL_CODE WHERE CODE_NO LIKE 'WOT%'
+		FROM TBL_CODE WHERE CODE_NO LIKE 'WOT%' AND USE_YN ='Y'
 	</select>
 	
 	<insert id="insertEmployee" parameterType="employee">
@@ -178,19 +180,16 @@
 		</if>
 	</select>
 	
-	<select id="confirmEmployee" parameterType="hashmap" resultType="_int">
-		SELECT COUNT(*) FROM TBL_EMPLOYEE
+	<select id="confirmEmployee" parameterType="hashmap" resultMap="empMap">
+		SELECT * FROM TBL_EMPLOYEE
 		<trim prefix="where" prefixOverrides="AND|OR">
 			<if test="empId !=null and empId !=''">
 				EMP_ID LIKE #{empId}
 			</if>
-			<if test="empPassword !=null and empPassword !=''">
-				AND EMP_PW LIKE #{empPassword}
-			</if>
 		</trim>
 	</select>
 	<update id="updateEmployee" parameterType="employee">
-		UPDATE TBL_EMPLOYEE SET 
+		UPDATE TBL_EMPLOYEE SET
 			DEPT_CODE = #{dept_code},
 			POSITION_CODE = #{position_code},
 			JOB_CODE = #{job_code},
