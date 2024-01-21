@@ -19,6 +19,31 @@ public class MsgDaoImpl implements MsgDao {
 	}
 	
 	@Override
+	public List<Message> sendMsgList(SqlSession session, int empNo) {
+		return session.selectList("message.sendMsgList",empNo);
+	}
+	
+	@Override
+	public List<Message> starMsgList(SqlSession session, int empNo) {
+		return session.selectList("message.starMsgList",empNo);
+	}
+	
+	@Override
+	public List<Message> trashMsgList(SqlSession session, int empNo) {
+		return session.selectList("message.trashMsgList",empNo);
+	}
+	
+	@Override
+	public List<Message> msgFileList(SqlSession session, int empNo) {
+		return session.selectList("message.msgFileList",empNo);
+	}
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////
+	
+	
+	@Override
 	public List<String> sharedEmp(SqlSession session, Map<String,String> msgSharedEmps) {
 		return session.selectList("message.sharedEmp",msgSharedEmps);
 	}
@@ -69,6 +94,25 @@ public class MsgDaoImpl implements MsgDao {
 	public int starUnchekedBtn(SqlSession session, Map<String, Integer> params) {
 		return session.update("message.starUnchekedBtn",params);
 	}
+
+	@Override
+	public int returnMsg(SqlSession session, Map<String, Integer> params) {
+		return session.delete("message.returnMsg",params);
+	}
+
+	@Override
+	public int unstarBtn(SqlSession session, Map<String, Integer> params) {
+		return session.update("message.starUnchekedBtn",params);
+	}
+
+	@Override
+	public int returnTrash(SqlSession session, Map<String, Integer> params) {
+		return session.update("message.returnTrash",params);
+	}
+	
+	
+	
+	
 
 	
 	

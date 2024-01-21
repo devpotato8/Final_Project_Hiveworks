@@ -7,6 +7,7 @@
 			MSG_SENDER_NO,
 			MSG_SENDER_NAME,
 			MSG_RECEIVER_NO,
+			MSG_RECEIVER_NAME,
 			MSG_CATEGORY_NO,
 			MSG_CATEGORY_NAME,
 			MSG_TITLE,
@@ -24,10 +25,107 @@
 		WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_DELETE = 'N'
 	</select>
 	
+	<select id="sendMsgList" resultType="message">
+		SELECT
+			MSG_NO,
+			MSG_SENDER_NO,
+			MSG_SENDER_NAME,
+			MSG_RECEIVER_NO,
+			MSG_RECEIVER_NAME,
+			MSG_CATEGORY_NO,
+			MSG_CATEGORY_NAME,
+			MSG_TITLE,
+			MSG_CONTENT,
+			TO_CHAR(MSG_DATE, 'YYYY-MM-DD HH24:MI:SS') AS MSG_DATE,
+			MSG_READ_YN,
+			MSG_DELETE,
+			MSG_FILE_ORINAME,
+			MSG_FILE_RENAME,
+			MSG_MARKED_YN,
+			MSG_FILE_SIZE,
+			EMP_PROFILE_RE_NAME
+		FROM TBL_MESSAGE
+		JOIN TBL_EMPLOYEE ON (EMP_NO = MSG_RECEIVER_NO)
+		WHERE MSG_SENDER_NO = ${empNo} AND MSG_DELETE = 'N'
+	</select>
+	
+	<select id="starMsgList" resultType="message">
+		SELECT
+			MSG_NO,
+			MSG_SENDER_NO,
+			MSG_SENDER_NAME,
+			MSG_RECEIVER_NO,
+			MSG_RECEIVER_NAME,
+			MSG_CATEGORY_NO,
+			MSG_CATEGORY_NAME,
+			MSG_TITLE,
+			MSG_CONTENT,
+			TO_CHAR(MSG_DATE, 'YYYY-MM-DD HH24:MI:SS') AS MSG_DATE,
+			MSG_READ_YN,
+			MSG_DELETE,
+			MSG_FILE_ORINAME,
+			MSG_FILE_RENAME,
+			MSG_MARKED_YN,
+			MSG_FILE_SIZE,
+			EMP_PROFILE_RE_NAME
+		FROM TBL_MESSAGE
+		LEFT JOIN TBL_EMPLOYEE ON (EMP_NO = MSG_SENDER_NO)
+		WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_DELETE = 'N' AND MSG_MARKED_YN = 'Y'
+	</select>
+	
+	<select id="trashMsgList" resultType="message">
+		SELECT
+			MSG_NO,
+			MSG_SENDER_NO,
+			MSG_SENDER_NAME,
+			MSG_RECEIVER_NO,
+			MSG_RECEIVER_NAME,
+			MSG_CATEGORY_NO,
+			MSG_CATEGORY_NAME,
+			MSG_TITLE,
+			MSG_CONTENT,
+			TO_CHAR(MSG_DATE, 'YYYY-MM-DD HH24:MI:SS') AS MSG_DATE,
+			MSG_READ_YN,
+			MSG_DELETE,
+			MSG_FILE_ORINAME,
+			MSG_FILE_RENAME,
+			MSG_MARKED_YN,
+			MSG_FILE_SIZE,
+			EMP_PROFILE_RE_NAME
+		FROM TBL_MESSAGE
+		LEFT JOIN TBL_EMPLOYEE ON (EMP_NO = MSG_SENDER_NO)
+		WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_DELETE = 'Y'
+	</select>
+	
+	<select id="msgFileList" resultType="message">
+		SELECT
+			MSG_NO,
+			MSG_SENDER_NO,
+			MSG_SENDER_NAME,
+			MSG_RECEIVER_NO,
+			MSG_RECEIVER_NAME,
+			MSG_CATEGORY_NO,
+			MSG_CATEGORY_NAME,
+			MSG_TITLE,
+			MSG_CONTENT,
+			TO_CHAR(MSG_DATE, 'YYYY-MM-DD HH24:MI:SS') AS MSG_DATE,
+			MSG_READ_YN,
+			MSG_DELETE,
+			MSG_FILE_ORINAME,
+			MSG_FILE_RENAME,
+			MSG_MARKED_YN,
+			MSG_FILE_SIZE
+		FROM TBL_MESSAGE
+		WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_FILE_RENAME IS NOT NULL
+	</select>
+	
+	<!-- ================================================================================= -->
+	
+	
 	<select id="sharedEmp" resultType="string">
 		SELECT MSG_RECEIVER_NAME
 		FROM TBL_MESSAGE
-		WHERE MSG_SENDER_NO = ${emp_no} AND MSG_TITLE = #{msg_title} AND MSG_CONTENT = #{msg_content} AND MSG_NO != ${msg_no}
+		WHERE MSG_SENDER_NO = ${emp_no} AND MSG_TITLE = #{msg_title} AND MSG_CONTENT = #{msg_content}
 	</select>
 	
 	<update id="starMark">
@@ -74,6 +172,14 @@
 	
 	<update id="starUnchekedBtn">
 		UPDATE TBL_MESSAGE SET MSG_MARKED_YN = 'N' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
+	</update>
+	
+	<delete id="returnMsg">
+		DELETE FROM TBL_MESSAGE WHERE MSG_NO = ${msgNo} AND MSG_SENDER_NO = ${empNo}
+	</delete>
+	
+	<update id="returnTrash">
+		UPDATE TBL_MESSAGE SET MSG_DELETE = 'N' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
 	</update>
 	
 </mapper>

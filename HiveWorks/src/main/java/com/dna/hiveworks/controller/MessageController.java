@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Message;
 import com.dna.hiveworks.service.MsgService;
 
@@ -47,14 +49,58 @@ public class MessageController {
 	
 	private final MsgService service; 
 	
-	//쪽지함 페이지
+	//받은 쪽지함 페이지 진입
 	@GetMapping("/messageview")
-	public String messageView(@RequestParam int empNo, Model model) {
-		
+	public String messageView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
 		List<Message> msgs = service.msgList(empNo);
 		model.addAttribute("msgList",msgs);
 		return "message/message";
 	}
+	
+	//보낸 쪽지함 페이지 진입
+	@GetMapping("/sendmessageview")
+	public String sendMessageView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.sendMsgList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/sendMsg";
+	}
+	
+	
+	//별표 쪽지함 페이지 진입
+	@GetMapping("/starmessageview")
+	public String starMessageView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.starMsgList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/starMsg";
+	}
+	
+	//휴지통 페이지 진입
+	@GetMapping("/trashmessageview")
+	public String trashMessageView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.trashMsgList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/trashMsg";
+	}
+	
+	//첨부파일 페이지 진입
+	@GetMapping("/msgFileView")
+	public String msgFileView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.msgFileList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/messageFilePage";
+	}
+	
+
+	
+	///////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//▼▼▼ 받은 쪽지함 구현 로직 ▼▼▼ 
 	
 	//함께 쪽지받은 사람 list
 	@PostMapping("/sharedEmp")
@@ -64,11 +110,7 @@ public class MessageController {
 	    return ResponseEntity.ok(sharedEmp);
 	}
 	
-	//파일들만 보이는 페이지
-	@GetMapping("/msgFileView")
-	public String msgFileView() {
-		return "message/messageFilePage";
-	}
+	
 	
 	//별표 표시하기
 	@PostMapping("/starmark")
@@ -285,6 +327,7 @@ public class MessageController {
 		int result1 = 0,result2 = 0;
 
 		try {
+			
 			for(Map<String,Object> row : data) {
 				Integer emp_no = (Integer) row.get("emp_no");
 				Integer msg_no = (Integer) row.get("msg_no");
@@ -308,6 +351,7 @@ public class MessageController {
 		return response;
 	}
 	
+	//action메뉴에서 단일항목 삭제시
 	@PostMapping("/goTrash")
 	@ResponseBody
 	public Map<String,String> goTrash(@RequestParam int emp_no, @RequestParam int msg_no){
@@ -325,4 +369,149 @@ public class MessageController {
 		
 		return response;
 	}
+	
+	
+	//▼▼▼ 보낸쪽지함 구현 로직 ▼▼▼
+	
+	//보낸쪽지 삭제버튼(check된 항목 전체)
+	@PostMapping("/returnCheckedMsg")
+	@ResponseBody
+	public Map<String, Object> returnCheckedMsg(@RequestBody List<Map<String,Object>>data){
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		int result = 0;
+
+		try {
+			
+			for(Map<String,Object> row : data) {
+				Integer emp_no = (Integer) row.get("emp_no");
+				Integer msg_no = (Integer) row.get("msg_no");
+				
+				Map<String, Integer> params = new HashMap<>();
+				params.put("empNo", emp_no);
+				params.put("msgNo", msg_no);
+				
+				result += service.returnMsg(params);
+			}
+			
+			if(result>0) response.put("status", "success");
+			else response.put("status", "fail");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+		}
+		
+		return response;
+	}
+	
+	//보낸쪽지 삭제(action 메뉴)
+	@PostMapping("/returnMsg")
+	@ResponseBody
+	public Map<String, String> returnMsg(@RequestParam int emp_no, @RequestParam int msg_no){
+		
+		Map<String,Integer> params = new HashMap<>();
+		params.put("empNo", emp_no);
+		params.put("msgNo", msg_no);
+		
+		int result = service.returnMsg(params);
+		
+		Map<String,String> response = new HashMap<>();
+
+		if(result>0) response.put("status", "success");
+		else response.put("status", "fail");
+		
+		return response;
+	}
+	
+	
+	//▼▼▼ 별표쪽지함 구현 로직 ▼▼▼
+	
+		//별표 해제 버튼처리
+		@PostMapping("/unstarBtn")
+		@ResponseBody
+		public Map<String, Object> unstarBtn(@RequestBody List<Map<String,Object>>data){
+
+			Map<String, Object> response = new HashMap<>();
+
+			int result = 0;
+
+			try {
+				for(Map<String,Object> row : data) {
+					Integer emp_no = (Integer) row.get("emp_no");
+					Integer msg_no = (Integer) row.get("msg_no");
+
+					Map<String, Integer> params = new HashMap<>();
+					params.put("empNo", emp_no);
+					params.put("msgNo", msg_no);
+
+					result += service.unstarBtn(params);
+				}
+				if(result>0) response.put("status", "success");
+				else response.put("status", "fail");
+
+			}catch(Exception e){
+				e.printStackTrace();
+				response.put("status", "error");
+				response.put("message", e.getMessage());
+			}
+
+			return response;
+		}
+	
+		
+		//▼▼▼ 휴지통 구현 로직 ▼▼▼
+		
+		//휴지통에서 꺼내기 (Action메뉴)
+		@PostMapping("/returnTrash")
+		@ResponseBody
+		public Map<String, String> returnTrash(@RequestParam int emp_no, @RequestParam int msg_no){
+			
+			Map<String,Integer> params = new HashMap<>();
+			params.put("empNo", emp_no);
+			params.put("msgNo", msg_no);
+			
+			int result = service.returnTrash(params);
+			
+			Map<String,String> response = new HashMap<>();
+
+			if(result>0) response.put("status", "success");
+			else response.put("status", "fail");
+			
+			return response;
+		}
+		
+		//휴지통에서 꺼내기 버튼
+		@PostMapping("/returnTrashBtn")
+		@ResponseBody
+		public Map<String, Object> returnTrashBtn(@RequestBody List<Map<String,Object>>data){
+
+			Map<String, Object> response = new HashMap<>();
+
+			int result = 0;
+
+			try {
+				for(Map<String,Object> row : data) {
+					Integer emp_no = (Integer) row.get("emp_no");
+					Integer msg_no = (Integer) row.get("msg_no");
+
+					Map<String, Integer> params = new HashMap<>();
+					params.put("empNo", emp_no);
+					params.put("msgNo", msg_no);
+
+					result += service.returnTrash(params);
+				}
+				if(result>0) response.put("status", "success");
+				else response.put("status", "fail");
+
+			}catch(Exception e){
+				e.printStackTrace();
+				response.put("status", "error");
+				response.put("message", e.getMessage());
+			}
+
+			return response;
+		}
 }
