@@ -34,6 +34,8 @@ public interface EdocDao {
 	
 	Map<String, Object> getEmpData(SqlSession session, int empNo);
 	
+	List<ElectronicDocumentSample> getSampleAll(SqlSession session);
+	
 	List<ElectronicDocumentSample> getEdocSampleList(SqlSession session, DotCode edocDotCode);
 
 	ElectronicDocumentSample getSample(SqlSession session, String sampleNo);
@@ -73,6 +75,7 @@ public interface EdocDao {
 	List<ElectronicDocumentReference> selectElectronicDocumentReference(SqlSession session, String edocNo);
 
 	int referenceCheck(SqlSession session, int refperNo);
+
 	
 	
 }

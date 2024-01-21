@@ -40,4 +40,12 @@ public class SurveyServiceImpl implements SurveyService{
 	public int insertQuestion(SurveyQuestion qustion) {
 		return dao.insertQuestion(session, qustion);
 	}
+	@Override
+	public int surveyUpdate(Survey survey) {
+		return dao.surveyUpdate(session,survey);
+	}
+	@Override
+	public Survey surveyDelete(int surveyNo) {
+		return dao.surveyDelete(session,surveyNo);
+	}
 }

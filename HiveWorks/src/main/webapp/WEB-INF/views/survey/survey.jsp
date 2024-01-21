@@ -34,12 +34,10 @@
 					    <div class="col-xxl-3 col-xl-4 col-md-6" id="surveyOngoing" style="display: block;">
 					        <div class="card card-border card-int mb-4">
 					            <div class="card-body">
+					                <a href="${path}/survey/surveyUpdate?surveyNo=${s.surveyNo}" class="btn btn-sm btn-outline-secondary">수정</a>
+					                <a href="/survey/surveyDelete?surveyNo=${s.surveyNo}">삭제</a>
 					                <div class="avatar avatar-sm avatar-logo mb-3">
 					                    <span class="initial-wrap">
-					                        <%-- <c:if test="${s.surveyStart != null and s.surveyEnd != null}">
-					                            <c:if test="${s.surveyStart.before(now) and s.surveyEnd.after(now)}">진행 중</c:if>
-					                            <c:if test="${s.surveyEnd.before(now)}">완료</c:if>
-					                        </c:if> --%>
 					                    </span>
 					                </div>
 					                <c:out value="${s.surveyNo}" />

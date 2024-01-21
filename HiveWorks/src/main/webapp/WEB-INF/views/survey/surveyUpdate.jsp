@@ -14,27 +14,28 @@
 		<div class="container-xxl">
 			<!-- Page Header -->
 			<div class="hk-pg-header pt-7 pb-4">
-				<h1 class="pg-title">설문하기</h1>
+				<h1 class="pg-title">설문수정하기</h1>
 			</div>
 			<div class="hk-pg-body">
 				<div class="row edit-profile-wrap">
 					<div class="col-lg-10 col-sm-9 col-8">
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="tab_block_1">
+							<form id="updateForm" name="surveyUpdate" action="${path}/survey/surveyUpdate" method="post">
+								<input type="hidden" name="surveyNo" value="${survey.surveyNo}" />
 								<div class="row gx-3">
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">설문 시작일</label> <input
 												id="surveyStart" value="${survey.surveyStart }"
-												name="surveyStart" class="form-control" type="date"
-												readonly="readonly" />
+												name="surveyStart" class="form-control" type="date"/>
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="form-label">설문 종료일</label> <input
 												id="surveyEnd" value="${survey.surveyEnd }" name="surveyEnd"
-												class="form-control" type="date" readonly="readonly" />
+												class="form-control" type="date" />
 										</div>
 									</div>
 								</div>
@@ -43,7 +44,7 @@
 										<div class="form-group">
 											<label class="form-label">제목</label> <input id="surveyTitle"
 												value="${survey.surveyTitle }" name="surveyTitle"
-												class="form-control" type="text" readonly="readonly" />
+												class="form-control" type="text"  />
 										</div>
 									</div>
 								</div>
@@ -56,15 +57,10 @@
 										</div>
 									</div>
 								</div>
-								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">
-
-									
+								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">		
 								</div>
-								
-								
-								
-								<input type="submit" name="name" id="submit" onclick="btn()"
-									class="btn btn-primary mt-5" value="설문완료">
+								<input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
+							</form>
 							</div>
 						</div>
 					</div>
@@ -72,7 +68,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 	<style>
 .was-validated {
 	width: 1000px;
@@ -81,12 +77,6 @@
 	margin-top: 150px;
 }
 </style>
-	<script>
-		function btn() {
-			alert('제출 완료하셨습니다 감사합니다.');
-			location.href = "${path}/survey/survey";
-		}
-	</script>
 <script>
 // 서버에서 받아온 JSON 형식의 설문 데이터
 var surveyData = ${survey.surveyData};
@@ -119,7 +109,7 @@ var html = '<div class="row gx-3">';
 html += '<div class="col-sm-12">';
 html += '<div class="form-group">';
 html += '<div class="form-label-group">';
-html += '<input class="form-control" type="text" value="' + item.title + '" readonly="readonly" />';
+html += '<input class="form-control" type="text" value="' + item.title + '"  />';
 html += '</div>';
 html += '<textarea class="form-control" rows="8" style="resize: none;" placeholder="자유롭게 기재해주세요" ></textarea>';
 html += '</div>';
@@ -136,7 +126,7 @@ function addTypeChoiceSurvey(item) {
 var html = '<div class="row gx-3">';
 html += '<div class="col-sm-6">';
 html += '<div class="form-group">';
-html += '<input class="form-control" type="text" value="' + item.title + '" readonly="readonly" /><br>';
+html += '<input class="form-control" type="text" value="' + item.title + '"  /><br>';
                                             
 // 선택지 출력
 for (var j = 0; j < item.choices.length; j++) {
@@ -145,9 +135,9 @@ html += '<div style="display: flex;">';
 if (item.type === 'B') {
    html += '<input class="" type="checkbox" value=""  />';
    } else if (item.type === 'C') {
-   html += '<input class="" type="radio" name="choice_' + item.id + '" value="" />';
+   html += '<input class="" type="radio" value=""  />';
     }
-html += '<input class="form-control" type="text" style="margin-left: 10px;" value="' + item.choices[j] + '" readonly="readonly" />';
+html += '<input class="form-control" type="text" style="margin-left: 10px;" value="' + item.choices[j] + '" />';
 html += '</div>';
 html += '</div>';
 }
