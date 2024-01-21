@@ -31,9 +31,13 @@ public class MsgServiceImpl implements MsgService {
 	
 	@Override
 	public List<Message> msgList(int empNo) {
-		
 		List<Message> result = dao.msgList(session, empNo);
-		
+		return result;
+	}
+	
+	@Override
+	public List<String> sharedEmp(Map<String,String> msgSharedEmps) {
+		List<String> result = dao.sharedEmp(session, msgSharedEmps);
 		return result;
 	}
 
@@ -90,7 +94,30 @@ public class MsgServiceImpl implements MsgService {
 		
 	}
 
+	@Override
+	public int readMsg(Map<String,Integer>params) {
+		return dao.readMsg(session,params);
+	}
 
+	@Override
+	public int starChekedBtn(Map<String,Integer> params) {
+		return dao.starChekedBtn(session, params);
+	}
+	
+	@Override
+	public int trashChekedBtn(Map<String,Integer> params) {
+		return dao.trashChekedBtn(session, params);
+	}
+
+	@Override
+	public int starUncheckedBtn(Map<String, Integer> params) {
+		return dao.starUnchekedBtn(session, params);
+	}
+
+
+	
+	
+	
 	
 	
 }

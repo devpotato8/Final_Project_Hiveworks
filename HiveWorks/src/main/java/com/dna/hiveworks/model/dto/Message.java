@@ -38,5 +38,5 @@ public class Message {
 	private String msg_file_rename;
 	private String msg_marked_yn;
 	private String msg_file_size;
-	
+	private String emp_profile_re_name;
 }

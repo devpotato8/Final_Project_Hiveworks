@@ -85,7 +85,19 @@ public interface EdocService {
 	 * @return
 	 */
 	List<ElectronicDocumentSample> getEdocSampleList(DotCode edocDotCode);
-
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 5. 
+	 * @Return : List<ElectronicDocumentSample>
+	 * 
+	 * Description : 모든 문서양식 목록을 가져오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 5., 설명 : 최초 작성
+	 *
+	 * @return
+	 */
+	List<ElectronicDocumentSample> getEdocSampleList();
 	/**
 	 * @Author : 이재연 
 	 * @Since : 2024. 1. 8. 

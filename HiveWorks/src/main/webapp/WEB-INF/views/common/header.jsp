@@ -446,9 +446,10 @@
 													</c:choose>
 												</div>
 											</div>
-											<div class="media-body">
-												<span class="d-block fw-medium">${loginEmp.emp_name}</span>
-												<!-- <div class="dropdown">
+										</div>
+										<div class="media-body">
+											<span class="d-block fw-medium">${loginEmp.emp_name} 님</span>
+											<!-- <div class="dropdown">
 												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside"></a>
 												<div class="dropdown-menu dropdown-menu-end">
 													<div class="p-2">
@@ -481,10 +482,10 @@
 													</div>
 												</div>
 											</div>-->
-												<div class="fs-7">${loginEmp.emp_email }</div>
-												<a href="${path }/logout"
-													class="d-block fs-8 link-secondary"><u>Sign Out</u></a>
-											</div>
+
+											<div class="fs-7">${loginEmp.emp_email }</div>
+											<a href="${path}/logout" class="d-block fs-8 link-secondary"><u><b>로그아웃</b></u></a>
+
 										</div>
 									</div>
 									<!-- 
