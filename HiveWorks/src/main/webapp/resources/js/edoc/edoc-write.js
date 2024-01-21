@@ -111,6 +111,7 @@ function ElectronicDocumentImageUploadAdapterPlugin( editor ) {
 /*
  * CK Editer 초기화
  */
+let ckeditor;
 DecoupledEditor
 .create( document.querySelector("#content"),{
 	extraPlugins :[
@@ -119,6 +120,7 @@ DecoupledEditor
         ]
     })
 	.then( editor => {
+		ckeditor = editor;
         const toolbarContainer = document.querySelector( '.editor-toolbar-container' );
         toolbarContainer.appendChild( editor.ui.view.toolbar.element );
     })
@@ -130,11 +132,14 @@ DecoupledEditor
 /*
  * 문서종류를 고르면 양식 목록을 가져오는 메소드
  */
-
+let dotCode;
+let formatNo;
  $('#edocType').on('change',(e)=>{
-    let dotCode = e.target.value;
+    let dotCodeValue = e.target.value;
+	dotCode = dotCodeValue;
+	formatNo = null;
 	const $format = $('#edocFormat');
-	fetch(path+"/edoc/formatList?edocDotCode="+dotCode)
+	fetch(path+"/edoc/formatList?edocDotCode="+dotCodeValue)
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status);
 		return response.json();
@@ -148,7 +153,7 @@ DecoupledEditor
 		});
 
 		// 문서종류가 연장근무 신청서라면
-		if(dotCode === 'DOT005'){
+		if(dotCodeValue === 'DOT005'){
 			let dateInfo = document.querySelector('#edocDate');
 			if(dateInfo == null){
 				dateInfo = $('<tr id="edocDate">')
@@ -185,10 +190,9 @@ DecoupledEditor
 /*
  * 문서 양식을 고르면 본문 내용을 양식 내용으로 치환하는 메소드
  */
-let dotCode;
-let formatNo;
+
+
 $('#edocFormat').on('change',(e)=>{
-	let processContinue = confirm('작성중인 내용이 전부 사라질 수 있습니다. 진행하시겠습니까?');
 	const edocFormatNo = e.target.value;
 	if(processContinue){
 		fetch(path+"/edoc/formatData?formatNo="+edocFormatNo)
@@ -198,7 +202,6 @@ $('#edocFormat').on('change',(e)=>{
 		})
 		.then(data=>{
 			document.getElementById('content').ckeditorInstance.data.set(data.sampleContent);
-            dotCode = data.sampleDotCode;
             formatNo = data.sampleNo;
 		})
 		.catch(e=>{
@@ -415,6 +418,7 @@ const dataProcess = ()=>{
 	const edoc  = {
 				edocTitle : $('#edocTitle').val(),
 				edocDotCode : dotCode,
+				edocSampleNo : formatNo,
 				edocDsgCode : $('#edocDsgCode').val(),
 				creater : $('#edocCreter').val(),
 				period : $('#period').val(),

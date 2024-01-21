@@ -167,16 +167,21 @@ public class EdocController {
 	
 	@GetMapping("/format/lists")
 	public String formatLists(Model model) {
+		//TODO 양식 목록 페이지
+		model.addAttribute("title","양식 목록");
+		model.addAttribute("formatList", edocService.getEdocSampleList());
 		return "edoc/formatList";
 	}
 	
 	@GetMapping("/format/write")
 	public String formatWrite(Model model) {
+		//TODO 양식 입력 페이지
 		return "edoc/formatWrite";
 	}
 	
 	@GetMapping("/format/view")
 	public String formatView(Model model) {
+		//TODO 양식 보기 페이지
 		return "edoc/format";
 	}
 	
@@ -393,14 +398,4 @@ public class EdocController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
-	@GetMapping("/test")
-	public ResponseEntity<Map<String,Object>> testMethod(){
-					Map<String, Object> param = new HashMap<>();
-					param.put("emp_id", "emp001");
-					param.put("status", "ALL");
-					List<ElectronicDocumentList> target = edocService.getEdocList(param);
-					
-					return ResponseEntity.status(HttpStatus.OK).body(Map.of("Data", target));
-				}
 }

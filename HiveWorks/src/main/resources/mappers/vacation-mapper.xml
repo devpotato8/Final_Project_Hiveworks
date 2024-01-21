@@ -28,7 +28,7 @@
 	
 	<insert id="insertVacation" parameterType="vacation" >
 		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,#{empNo},
-		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y','#{edocNo}','대기')
+		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y',#{edocNo},'대기')
 	</insert>
 	
 	<update id="updateVacation" parameterType="Map" >
