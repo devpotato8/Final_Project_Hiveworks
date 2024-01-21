@@ -366,6 +366,8 @@ $('#submitButton').on('click',(e)=>{
 	try{
 		formData = dataProcess();
 	}catch(e){
+		alert(e);
+		console.log(e);
 		return;
 	}
 
@@ -400,7 +402,10 @@ $('#submitButton').on('click',(e)=>{
 // 데이터 처리해서 formData로 넘겨주는 함수
 const dataProcess = ()=>{
 	// form validate
-
+	if(!formValidate()){
+		throw new Error("폼이 유효하지 않음");
+	}
+	
 
 
 	// 결재목록 처리
@@ -409,7 +414,6 @@ const dataProcess = ()=>{
 		element.aprvlRank = i+1;
 		if(i==1){
 			element.aprvlStatus = 'W';
-		}else{
 			element.aprvlStatus = 'P';
 		}
 	}
@@ -455,3 +459,8 @@ const dataProcess = ()=>{
 
 	return formData;
 }
+
+const formValidate = ()=>{
+	//TODO 폼 데이터 확인
+	return true;
+};
