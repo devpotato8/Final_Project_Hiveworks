@@ -52,9 +52,6 @@
 			<nav class="blogapp-sidebar">
 				<div data-simplebar class="nicescroll-bar">
 					<div class="menu-content-wrap">
-						<a href="add-new-post.html"
-							class="btn btn-primary btn-rounded btn-block mb-4"> Create
-							Post </a>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
@@ -115,7 +112,7 @@
 							<a
 								class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret flex-shrink-0 d-lg-inline-block d-none"
 								href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-								title="" data-bs-original-title="Refresh"><span class="icon"><span
+								title="" data-bs-original-title="Refresh" id="refreshButton"><span class="icon"><span
 									class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
 							<div class="v-separator  d-lg-inline-block d-none"></div>
 							<a
@@ -139,12 +136,13 @@
 							    <div id='calendar'></div>
 							  </div>
 								<div style="width: 50%; display: block;">
-									<form action="${path}/schedule/reserveResourceEnd.do"
+									<form action="${path}/schedule/updateReservationEnd"
 										method="POST">
 										<input type="hidden" name="empNo" value="${loginEmp.emp_no}"/>
-										<input type="hidden" name="code" value="${currentResourceCalCode}"/>
+										<input type="hidden" name="code" value="${currentR.calCode}"/>
 										<input type="hidden" name="resourceNo" value="${currentResourceNo }"/>
 										<input type="hidden" name="backgroundColor" value="#87f542"/>
+										<input type="hidden" name="calNo" value="${currentCalNo }"/>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
@@ -163,7 +161,7 @@
 										</div>
 
 									<div class="form-group">
-							<div class="d-flex flex-wrap">
+							<div class="d-flex flex-wrap" >
 								<button type="button" 
 									id="addBtnRe" class="btn btn-light btn-floating;">일정
 									공유 추가</button>
@@ -174,12 +172,6 @@
 							</div>
 						</div>
 									
-										<div class="form-group">
-											<input class="form-check-input" type="checkbox"
-												id="flexCheckDefault" name="reminder" value=> <label
-												class="form-check-label" for="flexCheckDefault">
-												알림여부 </label>
-										</div>
 										<button type="button" class="btn btn-secondary">취소</button>
 										<button id="add_event" type="submit"
 											class="btn btn-primary fc-addEventButton-button">예약</button>
@@ -199,72 +191,6 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- Add Category -->
-					<div id="add_new_cat" class="modal fade" tabindex="-1"
-						role="dialog" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-sm"
-							role="document">
-							<div class="modal-content">
-								<div class="modal-body">
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">×</span>
-									</button>
-									<h6 class="text-uppercase fw-bold mb-3">Add Category</h6>
-									<form>
-										<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<input class="form-control" type="text"
-														placeholder="Category Name" />
-												</div>
-											</div>
-										</div>
-										<button type="button" class="btn btn-primary float-end"
-											data-bs-dismiss="modal">Add</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- /Add Category -->
-
-					<!-- Add Tag -->
-					<div id="add_new_tag" class="modal fade" tabindex="-1"
-						role="dialog" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-sm"
-							role="document">
-							<div class="modal-content">
-								<div class="modal-body">
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">×</span>
-									</button>
-									<h6 class="text-uppercase fw-bold mb-3">Add Tag</h6>
-									<form>
-										<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<select id="input_tags" class="form-control"
-														multiple="multiple">
-														<option selected="selected">Collaborator</option>
-														<option selected="selected">Designer</option>
-														<option selected="selected">React Developer</option>
-														<option selected="selected">Promotion</option>
-														<option selected="selected">Advertisement</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<button type="button" class="btn btn-primary float-end"
-											data-bs-dismiss="modal">Add</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Add Tag -->
 				</div>
 			</div>
 		</div>
@@ -300,7 +226,7 @@ empNos.push("${emp.emp_no}");
 
 
 //reminder 스트링으로 보내기
-var remindercheck = document.getElementById('flexCheckDefault');
+/* var remindercheck = document.getElementById('flexCheckDefault');
 
 remindercheck.addEventListener('change', function() {
  if (remindercheck.checked) {
@@ -308,7 +234,16 @@ remindercheck.addEventListener('change', function() {
  } else {
 	  remindercheck.value = 'N';
  }
-}); 
+});  */
+
+
+//페이지 새로고침
+$(document).ready(function() {
+    $("#refreshButton").click(function(e) {
+        e.preventDefault(); // 기본 클릭 이벤트를 방지함
+        location.reload(); // 페이지를 새로고침함
+    });
+});
 
 
 (function(){
@@ -439,6 +374,51 @@ remindercheck.addEventListener('change', function() {
         	    }
         	  });
         	},
+        	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
+				$.ajax({
+					url: `/schedule/selectReserveByresource`,
+					type: "POST",
+					dataType: "JSON",
+					data: JSON.stringify({ resourceNo: resourceNo }),
+					contentType: "application/json",
+					traditional: true,
+					async: false, //동기
+					success: function(data) {
+
+						var events = data.map(function(event, i) {
+							return {
+								id: event.calCode,
+								title: event.calSubject,
+								start: event.calStartDate,
+								end: event.calEndDate,
+								backgroundColor: event.calColor,
+								extendedProps: {
+									content: event.calContent,   // 추가
+									myEmpNo: event.myEmpNo,// 추가
+									myDeptCode: event.myDeptCode,
+									invitationEmpList: event.invitationEmpList,
+									calCode: event.calCode,//추가
+									important: event.calImportYn,
+									status: event.calStatus,
+									reminder: event.reminderYn,
+									allday: event.calAlldayYn,
+									calNo: event.calNo,
+									
+								}
+
+							};
+						});
+						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
+						console.log(events);
+
+
+					},
+					error: function(request, status, error) {
+						alert("code = " + request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+						console.log("code = " + request.status + " message = " + request.responseText + " error = " + error);
+					}
+				});
+			}
         //데이터 가져오는 이벤트
     /*     eventSources:[
           {
@@ -477,6 +457,7 @@ remindercheck.addEventListener('change', function() {
     });
   })();
   
+  
 $(document).ready(function() {
 	  // 서버에서 전달받은 날짜 값을 JavaScript Date 객체로 변환
 	  const calStartDate = new Date('${currentR.calStartDate}'); // 예: '2022-01-01T12:34:56'
@@ -491,7 +472,14 @@ $(document).ready(function() {
 	    locale: {
 	      format: 'YYYY/MM/DD HH:mm'
 	    }
-	  });
+	  }).on('show.daterangepicker', function(ev, picker) {
+		    $('.hourselect').empty();
+		    for (var i = 9; i <= 18; i++) {
+		        $('.hourselect').append($('<option />').val(i).text(i));
+		    }
+		});
+	  
+	  $('input[name="start"]').attr('readonly', 'readonly');
 
 	  // 서버에서 전달받은 종료 날짜 값을 JavaScript Date 객체로 변환
 	  const calEndDate = new Date('${currentR.calEndDate}'); // 예: '2022-01-01T15:45:30'
@@ -506,7 +494,14 @@ $(document).ready(function() {
 	    locale: {
 	      format: 'YYYY/MM/DD HH:mm'
 	    }
-	  });
+	  }).on('show.daterangepicker', function(ev, picker) {
+		    $('.hourselect').empty();
+		    for (var i = 9; i <= 18; i++) {
+		        $('.hourselect').append($('<option />').val(i).text(i));
+		    }
+		});
+	  
+	  $('input[name="end"]').attr('readonly', 'readonly');
 	});  
 
 const invitationEmpListLength = invitationEmpList.length;

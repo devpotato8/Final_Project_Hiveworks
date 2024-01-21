@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dna.hiveworks.model.dto.CheckList;
 import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
@@ -157,7 +158,7 @@ public class ScheduleContoller {
 		String reminderYn = (String) param.get("reminder");
 		String calAlldayYn = (String) param.get("allday");
 		String calStatus = (String) param.get("status");
-		int empNo = Integer.parseInt((String)param.get("empno"));
+		int empNo = (Integer)param.get("empno");
 		String empdeptcode = (String) param.get("empdeptcode");
 		List<String> empStrList = (List<String>) param.get("empList");
 		
@@ -195,10 +196,10 @@ public class ScheduleContoller {
 
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 		
-		/*
-		 * param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		 * instanceof String)); });
-		 */
+	
+		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+		  instanceof String)); });
+		 
 		
 		int result = 0;
 		System.out.println("파람"+param);
@@ -213,8 +214,8 @@ public class ScheduleContoller {
 		String reminderYn = (String)param.get("rereminder");
 		String calAlldayYn = (String)param.get("reallday");
 		String calStatus = (String)param.get("restatus");
-		int calNo = (Integer)param.get("recalno");
-		int reempNo = Integer.parseInt((String)param.get("reempno"));
+		int calNo = Integer.parseInt((String)param.get("recalno"));
+		int reempNo = (Integer)param.get("reempno");
 		List<String> empStrList = (List<String>)param.get("reempList");
 		List<Integer> reempList = new ArrayList<>();
 		if (empStrList != null && empStrList.size() > 0) {
@@ -305,18 +306,82 @@ public class ScheduleContoller {
 	// 프로젝트 상세조회
 	@GetMapping("/projectlistbycalno.do")
 	@ResponseBody
-	public Schedule projectListByCalNo(@RequestParam int calNo) {
+	public ResponseEntity<Schedule> projectListByCalNo(@RequestParam int calNo, Model model) {
 		Schedule project = scheduleService.selectprojectByCalNo(calNo);
-		return project;
+		 return ResponseEntity.ok(project);
 	}
 
 	// 사원번호별 프로젝트 조회
 	@GetMapping("/projectlistbyempno.do")
 	public String projectListByEmpNo(@RequestParam int empNo, Model model) {
 		List<Schedule> myProjectList = scheduleService.selectprojectByEmpNo(empNo);
+		List<Department> deptList = deptservice.deptListAll();
+		List<Employee> empList = scheduleService.selectEmployeesList();
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("empList", empList);
 		model.addAttribute("myProjectList", myProjectList);
 		return "schedule/myProjectList";
 	}
+	
+	
+	//체크리스트 등록
+	@PostMapping("/insertChecklist")
+	@ResponseBody
+	public ResponseEntity<Object> insertChecklist(@RequestBody Map<String, Object> param){	
+		System.out.println("파람람"+param);
+	    int empNo = (Integer)param.get("empNo");
+	    String checklistValue = (String)param.get("checklistValue");
+	    int calNo = (Integer)param.get("calNo");
+
+	    CheckList checklist = CheckList.builder().calNo(calNo).calChecklistContent(checklistValue).creater(empNo).modifier(empNo).build();
+
+	    int result = scheduleService.insertChecklist(checklist);
+
+	    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
+	          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+	}
+	
+	//체크리스트 삭제
+		@PostMapping("/deleteChecklist")
+		@ResponseBody
+		public ResponseEntity<Object> deleteChecklist(@RequestBody Map<String, Object> param){	
+			System.out.println("파람람"+param);
+		    int checklistNo = (Integer)param.get("checklistNo");
+		    
+		    int result = scheduleService.deleteChecklist(checklistNo);
+
+		    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
+		          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+		}
+		
+		//체크리스트 done 표시
+				@PostMapping("/doneChecklist")
+				@ResponseBody
+				public ResponseEntity<Object> doneChecklist(@RequestBody Map<String, Object> param){	
+					System.out.println("파람람"+param);
+				    int checklistNo = (Integer)param.get("checklistNo");
+				    
+				    int result = scheduleService.doneChecklist(checklistNo);
+
+				    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
+				          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+				}
+				
+		//체크리스트 undone으로 변경 
+				@PostMapping("/undoneChecklist")
+				@ResponseBody
+				public ResponseEntity<Object> undoneChecklist(@RequestBody Map<String, Object> param){	
+					System.out.println("파람람"+param);
+				    int checklistNo = (Integer)param.get("checklistNo");
+				    
+				    int result = scheduleService.undoneChecklist(checklistNo);
+
+				    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
+				          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+				}
+				
+	
+	
 
 	// calcode별로 스케쥴러 나누기
 	/*
@@ -362,6 +427,7 @@ public class ScheduleContoller {
 
 	}
 	
+	//날짜별 자산 예약 조회
 	@PostMapping("/selectReservationBydate")
 	@ResponseBody
 	public List<Schedule> selectReservationBydate(@RequestBody Map<String, Object> param){
@@ -386,6 +452,24 @@ public class ScheduleContoller {
 		List<Schedule> ReserveListByDate = scheduleService.selectReservationBydate(selectdate, resourceNo);
 
 		return ReserveListByDate;
+	}
+	
+	//자산별 예약 목록 조회
+	@PostMapping("/selectReserveByresource")
+	@ResponseBody
+	public List<Schedule> selectReserveByresource(@RequestBody Map<String, Object> param){
+		
+		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+				  instanceof String)); });
+		System.out.println(param);
+		
+		int resourceNo = (Integer)param.get("resourceNo");
+
+		System.out.println(resourceNo);
+		
+		List<Schedule> ReserveListByresource = scheduleService.selectReserveByresource(resourceNo);
+
+		return ReserveListByresource;
 	}
 		
 
@@ -471,6 +555,8 @@ public class ScheduleContoller {
 		return "schedule/updateReservation";
 	}
 	
+	
+	
 
 	// 자산 예약
 	@PostMapping("/reserveResourceEnd.do")
@@ -537,6 +623,66 @@ public class ScheduleContoller {
 
 		return "schedule/msg";
 	}
+	
+	//자산 예약 수정
+	@PostMapping("/updateReservationEnd")
+	public String updateReservationEnd(@RequestParam Map<String, Object> param, Model model, String[] recalEmp) {
+		
+		
+		/*
+		 * param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+		 * instanceof String)); });
+		 */
+		 
+
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+
+		int result = 0;
+		int calNo = Integer.parseInt((String)param.get("calNo"));
+		int empNo = Integer.parseInt((String)param.get("empNo"));
+		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
+		String startDateString = (String) param.get("start");
+		String endDateString = (String) param.get("end");
+		String calColor = (String) param.get("backgroundColor");
+		String calCode = (String) param.get("code");
+		String calSubject = "";
+		switch(calCode) {
+		case "CAL004": calSubject = "회의실 예약"; break;
+		case "CAL005": calSubject = "차량 예약"; break;
+		case "CAL006": calSubject = "빔프로젝터 예약"; break;
+		}
+		
+		String reminderYn = (String) param.get("reminder");
+		
+	    int[] empList = new int[recalEmp.length];
+        
+        for (int i = 0; i < recalEmp.length; i++) {
+        	empList[i] = Integer.parseInt(recalEmp[i]);
+        }
+
+		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
+
+		Schedule schedule = Schedule.builder().calNo(calNo).calStartDate(calStartDate).calEndDate(calEndDate).calCode(calCode).myEmpNo(empNo)
+				.reminderYn(reminderYn).creater(empNo).modifier(empNo).calColor(calColor).calSubject(calSubject).build();
+
+		result = scheduleService.updateReservation(schedule, calNo, empList);
+
+		String msg, loc;
+		if (result > 0) {
+			msg = "예약 수정 성공";
+			loc = "schedule/reservationlistbyno.do?empNo="+empNo;
+		} else {
+			msg = "예약 수정 실패";
+			loc = "schdule/reserveResource.do";
+		}
+
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+
+		return "schedule/msg";
+	}
+	
 	
 	//예약 삭제
 	@PostMapping("/deleteReservation")

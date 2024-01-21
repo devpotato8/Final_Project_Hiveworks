@@ -52,9 +52,6 @@
 			<nav class="blogapp-sidebar">
 				<div data-simplebar class="nicescroll-bar">
 					<div class="menu-content-wrap">
-						<a href="add-new-post.html"
-							class="btn btn-primary btn-rounded btn-block mb-4"> Create
-							Post </a>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
@@ -115,7 +112,7 @@
 							<a
 								class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret flex-shrink-0 d-lg-inline-block d-none"
 								href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-								title="" data-bs-original-title="Refresh"><span class="icon"><span
+								title="" data-bs-original-title="Refresh" id="refreshButton"><span class="icon"><span
 									class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
 							<div class="v-separator  d-lg-inline-block d-none"></div>
 							<a
@@ -144,7 +141,7 @@
 										<input type="hidden" name="empNo" value="${loginEmp.emp_no}"/>
 										<input type="hidden" name="code" value="${currentResourceCalCode}"/>
 										<input type="hidden" name="resourceNo" value="${currentResourceNo }"/>
-										<input type="hidden" name="backgroundColor" value="#87f542"/>
+										<input type="hidden" name="backgroundColor" value="#c2c2c2"/>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
@@ -209,21 +206,6 @@
 										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
 									</div>
 									<div name="someContainer"></div>
-									
-									
-									
-									
-									
-									
-									
-									
-									
-										<div class="form-group">
-											<input class="form-check-input" type="checkbox"
-												id="flexCheckDefault" name="reminder" value=> <label
-												class="form-check-label" for="flexCheckDefault">
-												알림여부 </label>
-										</div>
 										<button type="button" class="btn btn-secondary">취소</button>
 										<button id="add_event" type="submit"
 											class="btn btn-primary fc-addEventButton-button">예약</button>
@@ -243,72 +225,6 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- Add Category -->
-					<div id="add_new_cat" class="modal fade" tabindex="-1"
-						role="dialog" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-sm"
-							role="document">
-							<div class="modal-content">
-								<div class="modal-body">
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">×</span>
-									</button>
-									<h6 class="text-uppercase fw-bold mb-3">Add Category</h6>
-									<form>
-										<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<input class="form-control" type="text"
-														placeholder="Category Name" />
-												</div>
-											</div>
-										</div>
-										<button type="button" class="btn btn-primary float-end"
-											data-bs-dismiss="modal">Add</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- /Add Category -->
-
-					<!-- Add Tag -->
-					<div id="add_new_tag" class="modal fade" tabindex="-1"
-						role="dialog" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-sm"
-							role="document">
-							<div class="modal-content">
-								<div class="modal-body">
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">×</span>
-									</button>
-									<h6 class="text-uppercase fw-bold mb-3">Add Tag</h6>
-									<form>
-										<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<select id="input_tags" class="form-control"
-														multiple="multiple">
-														<option selected="selected">Collaborator</option>
-														<option selected="selected">Designer</option>
-														<option selected="selected">React Developer</option>
-														<option selected="selected">Promotion</option>
-														<option selected="selected">Advertisement</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<button type="button" class="btn btn-primary float-end"
-											data-bs-dismiss="modal">Add</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Add Tag -->
 				</div>
 			</div>
 		</div>
@@ -324,7 +240,7 @@ const resourceNo = ${currentResourceNo };
 
 
 //reminder 스트링으로 보내기
-var remindercheck = document.getElementById('flexCheckDefault');
+/* var remindercheck = document.getElementById('flexCheckDefault');
 
 remindercheck.addEventListener('change', function() {
  if (remindercheck.checked) {
@@ -332,11 +248,66 @@ remindercheck.addEventListener('change', function() {
  } else {
 	  remindercheck.value = 'N';
  }
-}); 
+});  */
+
+
+//페이지 새로고침
+$(document).ready(function() {
+    $("#refreshButton").click(function(e) {
+        e.preventDefault(); // 기본 클릭 이벤트를 방지함
+        location.reload(); // 페이지를 새로고침함
+    });
+});
+
 
 
 (function(){
     $(function(){
+    	/* Single Date*/
+    	$('input[name="start"]').daterangepicker({
+    		singleDatePicker: true,
+    		timePicker: true, // 시간 선택 기능 끄기
+    		timePicker24Hour: true, // 24시간 형식 활성화
+    		startDate: moment().startOf('day').hour(9), // 오늘 날짜의 9시로 설정
+    	    showDropdowns: true,
+    		showDropdowns: true,
+    		minYear: 1901,
+    		timePickerIncrement: 60, // 1시간 간격
+    		"cancelClass": "btn-secondary",
+    		locale:  {
+    		  format: 'YYYY/MM/DD HH:mm'
+    		}
+    	}).on('show.daterangepicker', function(ev, picker) {
+    	    $('.hourselect').empty();
+    	    for (var i = 9; i <= 18; i++) {
+    	        $('.hourselect').append($('<option />').val(i).text(i));
+    	    }
+    	});
+    	
+    	$('input[name="start"]').attr('readonly', 'readonly');
+    	
+    	/* Single Date*/
+    	$('input[name="end"]').daterangepicker({
+    		singleDatePicker: true,
+    		timePicker: true,
+    		timePicker24Hour: true, // 24시간 형식 활성화
+    		startDate: moment().startOf('day').hour(9), // 오늘 날짜의 9시로 설정
+    	    showDropdowns: true,
+    		showDropdowns: true,
+    		minYear: 1901,
+    		"cancelClass": "btn-secondary",
+    		locale:  {
+    		  format: 'YYYY/MM/DD HH:mm'
+    		}
+    	}).on('show.daterangepicker', function(ev, picker) {
+    	    $('.hourselect').empty();
+    	    for (var i = 9; i <= 18; i++) {
+    	        $('.hourselect').append($('<option />').val(i).text(i));
+    	    }
+    	});
+    	
+    	$('input[name="end"]').attr('readonly', 'readonly');
+    	
       // calendar element 취득
       var calendarEl = $('#calendar')[0];
       // full-calendar 생성하기
@@ -354,7 +325,7 @@ remindercheck.addEventListener('change', function() {
         },
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
         // initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
-        navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+        navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
         editable: true, // 수정 가능?
         selectable: true, // 달력 일자 드래그 설정가능
         nowIndicator: true, // 현재 시간 마크
@@ -369,56 +340,56 @@ remindercheck.addEventListener('change', function() {
         eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
           console.log(obj);
         },
-        select: function(info) {
-        	  // 시작과 종료 날짜의 기본값을 설정합니다.
-        	  var defaultStartDate = info.startStr; // 선택한 시작 날짜
-        	  var defaultEndDate = info.endStr; // 선택한 종료 날짜
+        select: function(selectionInfo) {
+        	var currentDate = new Date();
+			var currentHours = '09'; // 시간을 두 자리 숫자로 설정
+			var currentMinutes = '00'; // 항상 00으로 설정
 
-        	  // Date Range Picker를 초기화하거나 업데이트합니다.
-        	  $('.cal-event-date-start').daterangepicker({
-        	    singleDatePicker: true,
-        	    timePicker: true,
-        	    timePicker24Hour: true,
-        	    timePickerIncrement: 60,
-        	    startDate: defaultStartDate, // FullCalendar에서 선택한 시작 날짜를 기본값으로 사용합니다.
-        	    locale: {
-        	      format: 'YYYY/MM/DD HH:mm'
-        	    }
-        	  }, function(start, end, label) {
-        	    // 이 콜백 함수는 사용자가 날짜를 선택할 때 호출됩니다.
-        	    var startTime = start.format('HH');
-        	    var endTime = end.format('HH');
+			var startTime = selectionInfo.startStr + ' ' + currentHours + ':' + currentMinutes;
 
-        	    // 선택된 시간이 09시 이전이거나 18시 이후인 경우 시간을 조정합니다.
-        	    if(startTime < 9 || endTime > 18) {
-        	      start.hour(9).minute(0);
-        	      end.hour(18).minute(0);
-        	      $('.cal-event-date-start').data('daterangepicker').setStartDate(start);
-        	      $('.cal-event-date-end').data('daterangepicker').setEndDate(end);
-        	    }
-        	  });
+			// 종료일자에서 하루를 빼기
+			var endDate = new Date(selectionInfo.endStr);
+			endDate.setDate(endDate.getDate() - 1);
+			var endYear = endDate.getFullYear();
+			var endMonth = ('0' + (endDate.getMonth() + 1)).slice(-2);
+			var endDay = ('0' + endDate.getDate()).slice(-2);
+			var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + currentHours + ':' + currentMinutes;
 
-        	  // 'cal-event-date-end'에 대해 동일한 설정을 적용합니다.
-        	  $('.cal-event-date-end').daterangepicker({
-        	    singleDatePicker: true,
-        	    timePicker: true,
-        	    timePicker24Hour: true,
-        	    timePickerIncrement: 60,
-        	    startDate: defaultEndDate, // FullCalendar에서 선택한 종료 날짜를 기본값으로 사용합니다.
-        	    locale: {
-        	      format: 'YYYY/MM/DD HH:mm'
-        	    }
-        	  }, function(start, end, label) {
-        	    var startTime = start.format('HH');
-        	    var endTime = end.format('HH');
+			$('.cal-event-date-start').val(startTime);
+			$('.cal-event-date-end').val(endTime);
 
-        	    if(startTime < 9 || endTime > 18) {
-        	      start.hour(9).minute(0);
-        	      end.hour(18).minute(0);
-        	      $('.cal-event-date-start').data('daterangepicker').setStartDate(start);
-        	      $('.cal-event-date-end').data('daterangepicker').setEndDate(end);
-        	    }
-        	  });
+			// 달력도 해당 날짜 시각으로 바꾸는 코드 추가
+			$('.cal-event-date-start').daterangepicker({
+				timePicker: true,
+				singleDatePicker: true,
+				timePicker24Hour: true,
+				timePickerIncrement: 1,
+				startDate: startTime,
+				locale: {
+					format: 'YYYY/MM/DD HH:mm'
+				}
+			}).on('show.daterangepicker', function(ev, picker) {
+	    	    $('.hourselect').empty();
+	    	    for (var i = 9; i <= 18; i++) {
+	    	        $('.hourselect').append($('<option />').val(i).text(i));
+	    	    }
+	    	});
+
+			$('.cal-event-date-end').daterangepicker({
+				timePicker: true,
+				singleDatePicker: true,
+				timePicker24Hour: true,
+				timePickerIncrement: 1,
+				startDate: endTime,
+				locale: {
+					format: 'YYYY/MM/DD HH:mm'
+				}
+			}).on('show.daterangepicker', function(ev, picker) {
+	    	    $('.hourselect').empty();
+	    	    for (var i = 9; i <= 18; i++) {
+	    	        $('.hourselect').append($('<option />').val(i).text(i));
+	    	    }
+	    	});
 
         	  // 캘린더에서의 선택을 해제합니다.
         	  calendar.unselect();
@@ -428,7 +399,7 @@ remindercheck.addEventListener('change', function() {
         	    url: '/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
         	    method: 'POST',
         	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
-        	      data: JSON.stringify({ selectDate: defaultStartDate, resourceNo: resourceNo }),
+        	      data: JSON.stringify({ selectDate: startTime, resourceNo: resourceNo }),
         	    success: function(response) {
         	      // 예약 리스트를 성공적으로 가져왔을 때 처리하는 로직을 작성합니다.
         	      console.log(response); // 예약 리스트를 콘솔에 출력하거나 원하는 방식으로 화면에 표시합니다.
@@ -456,6 +427,7 @@ remindercheck.addEventListener('change', function() {
         	        // 생성한 행을 tbody에 추가합니다.
         	        tbody.append(newRow);
         	      }
+        	      
         	    },
         	    error: function(error) {
         	      // 예약 리스트를 가져오는 데 실패했을 때 처리하는 로직을 작성합니다.
@@ -463,6 +435,51 @@ remindercheck.addEventListener('change', function() {
         	    }
         	  });
         	},
+        	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
+				$.ajax({
+					url: `/schedule/selectReserveByresource`,
+					type: "POST",
+					dataType: "JSON",
+					data: JSON.stringify({ resourceNo: resourceNo }),
+					contentType: "application/json",
+					traditional: true,
+					async: false, //동기
+					success: function(data) {
+
+						var events = data.map(function(event, i) {
+							return {
+								id: event.calCode,
+								title: event.calSubject,
+								start: event.calStartDate,
+								end: event.calEndDate,
+								backgroundColor: event.calColor,
+								extendedProps: {
+									content: event.calContent,   // 추가
+									myEmpNo: event.myEmpNo,// 추가
+									myDeptCode: event.myDeptCode,
+									invitationEmpList: event.invitationEmpList,
+									calCode: event.calCode,//추가
+									important: event.calImportYn,
+									status: event.calStatus,
+									reminder: event.reminderYn,
+									allday: event.calAlldayYn,
+									calNo: event.calNo,
+									
+								}
+
+							};
+						});
+						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
+						console.log(events);
+
+
+					},
+					error: function(request, status, error) {
+						alert("code = " + request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+						console.log("code = " + request.status + " message = " + request.responseText + " error = " + error);
+					}
+				});
+			}
         //데이터 가져오는 이벤트
     /*     eventSources:[
           {

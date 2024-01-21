@@ -52,6 +52,46 @@
 		</collection>
 	</resultMap>
 	
+	
+	<resultMap id="projectMap" type="schedule">
+		<id property="calNo" column="cal_no"/>
+		<result property="calCode" column="cal_code"/>
+		<result property="myEmpNo" column="my_emp_no"/>
+		<result property="myEmpName" column="my_emp_name"/>
+		<result property="myDeptCode" column="my_dept_code"/>
+		<result property="calContent" column="cal_content"/>
+		<result property="calStartDate" column="cal_start_date"/>
+		<result property="calEndDate" column="cal_end_date"/>
+		<result property="calSubject" column="cal_subject"/>
+		<result property="calColor" column="cal_color"/>
+		<result property="calImportYn" column="cal_import_yn"/>
+		<result property="reminderYn" column="reminder_yn"/>
+		<result property="calAlldayYn" column="cal_allday_yn"/>
+		<result property="calStatus" column="cal_status"/>
+		<result property="creater" column="creater"/>
+		<result property="modifier" column="modifier"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="useYn" column="cal_use_yn"/>	
+		<collection property="invitationEmpList" resultMap="inviEmpMap" >
+			<result property="yourEmpNo" column="your_emp_no" />
+			<result property="yourEmpName" column="your_emp_name"/>
+			<result property="yourDeptName" column="your_dept_name"/>
+			<result property="yourDeptCode" column="your_dept_code"/>		
+		</collection>
+		<collection property="CheckList" resultMap="checklistMap">
+			<id property="calChecklistNo" column="cal_checklist_no"/>
+			<result property="calNo" column="cal_no"/>
+			<result property="calChecklistContent" column="cal_checklist_content"/>
+			<result property="createDate" column="create_date"/>
+			<result property="modifyDate" column="modify_date"/>
+			<result property="creater" column="creater"/>
+			<result property="modifier" column="modifier"/>
+			<result property="useYn" column="use_yn"/>
+			<result property="endYn" column="end_yn"/>
+		</collection>
+	</resultMap>
+	
 	<resultMap id="inviEmpMap" type="com.dna.hiveworks.model.dto.InvitationEmp">
 		<result property="yourEmpNo" column="your_emp_no" />
 		<result property="yourEmpName" column="your_emp_name"/>
@@ -73,8 +113,29 @@
 		<result property="UseEndTime" column="use_end_time"/>
 		<result property="useYn" column="use_yn"/>
 	</resultMap>
-
-
+	
+	
+	<resultMap id="remidnerMap" type="com.dna.hiveworks.model.dto.Reminder">
+		<id property="reminderNo" column="reminder_no"/>
+		<result property="calNo" column="cal_no"/>
+		<result property="empNo" column="emo_no"/>
+		<result property="recipientPhone" column="recipient_phone"/>
+		<result property="reminderContent" column="reminder_content"/>
+		<result property="reminderDate" column="reminderDate"/>
+		<result property="useYn" column="use_yn"/>
+	</resultMap>
+	
+	<resultMap id="checklistMap" type="com.dna.hiveworks.model.dto.CheckList">
+		<id property="calChecklistNo" column="cal_checklist_no"/>
+		<result property="calNo" column="cal_no"/>
+		<result property="calChecklistContent" column="cal_checklist_content"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="creater" column="creater"/>
+		<result property="modifier" column="modifier"/>
+		<result property="useYn" column="use_yn"/>
+		<result property="endYn" column="end_yn"/>
+	</resultMap>
 	
 	<insert id="insertSchedule" parameterType="schedule">
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
@@ -111,9 +172,13 @@
 		INSERT INTO TBL_RESOURCE_RESERVATION VALUES (#{resourceNo},SEQ_CAL_NO.CURRVAL)
 	</insert>
 	
+	<update id="updateReservation">
+	 	UPDATE TBL_CALENDAR SET CAL_CODE = #{calCode}, CAL_START_DATE = #{calStartDate}, CAL_END_DATE = #{calEndDate}, REMINDER_YN = #{reminderYn}, MODIFY_DATE = SYSDATE, MODIFIER = #{modifier} WHERE CAL_NO = #{calNo}
+	</update>
+	
 	
 	<update id="deleteReservation">
-		UPDATE TBL_CALENDAR SET USE_YN = 'N' WHERE CAL_NO = #{checkNo}
+		UPDATE TBL_CALENDAR SET USE_YN = 'N', CAL_STATUS = '취소' WHERE CAL_NO = #{checkNo}
 	</update>
 	
 	<delete id="deleteSchedule">
@@ -207,15 +272,12 @@
 		SELECT * FROM TBL_RESOUCE WHERE USE_YN = 'Y' AND RESOURCE_TYPE LIKE #{type} ORDER BY RESOURCE_NO DESC
 	</select>
 	
-	
-	
-	
 	<select id="selectReserveAll" resultMap="scheduleInviMap">
-		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND CAL_USE_YN = 'Y' ORDER BY V.CAL_NO DESC
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') ORDER BY V.CAL_NO DESC
 	</select>
 	
 	<select id="selectReserveByNo" resultMap="scheduleInviMap">
-		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND V.MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y' ORDER BY V.CAL_NO DESC
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND V.MY_EMP_NO = #{empNo} AND CAL_USE_YN = 'Y' AND CAL_STATUS = '승인완료' ORDER BY V.CAL_NO DESC
 	</select>
 	
 	
@@ -224,21 +286,52 @@
 	</select>
 	
 	<select id="selectReservationBydate" resultMap="scheduleInviMap" parameterType="hashMap">
-    SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TO_DATE(#{selectDate}, 'YY/MM/DD HH24:MI:SS') ORDER BY V.CAL_START_DATE
+    SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TO_DATE(#{selectDate}, 'YY/MM/DD HH24:MI:SS') AND CAL_STATUS = '승인완료' ORDER BY V.CAL_START_DATE
+</select>
+
+
+ 
+<select id="selectReserveByresource" resultMap="scheduleMap">
+SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND CAL_STATUS = '승인완료'
 </select>
 	
 	
-	<select id="selectprojectAll" resultMap="scheduleMap">
-		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007'
+	<select id="selectprojectAll" resultMap="scheduleInviMap">
+		SELECT * FROM V_CALENDAR_F WHERE CAL_CODE = 'CAL007' AND CAL_USE_YN = 'Y'
 	</select>
 	
-	<select id="selectprojectByCalNo" resultMap="scheduleMap">
-		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND CAL_NO = #{calNo}
+	<select id="selectprojectByCalNo" resultMap="projectMap">
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO WHERE V.CAL_CODE = 'CAL007' AND V.CAL_NO = #{calNo} AND CAL_USE_YN = 'Y'
 	</select>
 	
-	<select id="selectprojectByEmpNo" resultMap="scheduleMap">
-		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = 'CAL007' AND EMP_NO = #{empNo}
+	<select id="selectprojectByEmpNo" resultMap="scheduleInviMap">
+		SELECT * FROM V_CALENDAR_F WHERE CAL_CODE = 'CAL007' AND EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
 	</select>
+	
+	<insert id="insertChecklist" parameterType="com.dna.hiveworks.model.dto.CheckList">
+		INSERT INTO TBL_CAL_CHECKLIST VALUES (SEQ_CAL_CHECKLIST_NO.NEXTVAL, #{calNo}, #{calChecklistContent}, #{creater}, #{modifier}, DEFAULT, DEFAULT, 'N', 'Y')
+	</insert>
+	
+	<update id="deleteChecklist">
+		UPDATE  TBL_CAL_CHECKLIST SET USE_YN = 'N' WHERE CAL_CHECKLIST_NO = #{checklistNo}
+	</update>
+	
+	<update id="doneChecklist">
+		UPDATE  TBL_CAL_CHECKLIST SET END_YN = 'Y' WHERE CAL_CHECKLIST_NO = #{checklistNo}
+	</update>
+	
+	<update id="undoneChecklist">
+		UPDATE  TBL_CAL_CHECKLIST SET END_YN = 'N' WHERE CAL_CHECKLIST_NO = #{checklistNo}
+	</update>
+	
+	
+	<insert id="insertReminder" parameterType="com.dna.hiveworks.model.dto.Reminder">
+		INSERT INTO TBL_REMINDER VALUES (SEQ_REMINDER_NO.NEXTVAL,#{calNo},#{empNo},#{recipientPhone},#{reminderContent},#{reminderDate},'Y')
+	</insert>
+	
+	<update id="updateReminderYn">
+		UPDATE  TBL_CALENDAR SET REMINDER_YN = 'N' WHERE CAL_NO = #{calNo}
+	</update>
 	
 	
 </mapper>

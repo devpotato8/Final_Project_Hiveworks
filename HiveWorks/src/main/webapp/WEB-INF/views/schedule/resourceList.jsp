@@ -84,7 +84,7 @@
 							<a
 								class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret flex-shrink-0 d-lg-inline-block d-none"
 								href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-								title="" data-bs-original-title="Refresh"><span class="icon"><span
+								title="" data-bs-original-title="Refresh" id="refreshButton"><span class="icon"><span
 									class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
 							<div class="v-separator  d-lg-inline-block d-none"></div>
 							<a
@@ -124,7 +124,7 @@
 							</div>
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="all_post">
-									<table id="datable_1" class="table nowrap w-100 mb-5">
+									<table id="datable_4" class="table nowrap w-100 mb-5">
 										<thead>
 											<tr>
 												<th><span class="form-check"> <input
@@ -305,6 +305,49 @@
 </div>
 <!-- /Page Body -->
 <script>
+//페이지 새로고침
+$(document).ready(function() {
+    $("#refreshButton").click(function(e) {
+        e.preventDefault(); // 기본 클릭 이벤트를 방지함
+        location.reload(); // 페이지를 새로고침함
+    });
+});
+
+
+
+
+//페이징 시도
+var targetElem = $('#datable_4');
+var targetDt =targetElem.DataTable({
+	scrollX:  true,
+	autoWidth: false,
+	language: { search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+		paginate: {
+			next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+			previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+		}
+	},
+	select: {
+		style: 'multi'
+	},
+	"drawCallback": function () {
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+	}
+});
+/* $(document).on( 'click', '.del-button', function () {
+	targetDt.rows('.selected').remove().draw( false );
+});
+$('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.dataTables_length label')); */
+
+
+
+
+
+
+
+
 	//등록 모달
 	$(document).ready(function() {
 		// '자산등록' 버튼을 찾아옵니다.
@@ -381,140 +424,95 @@
 					});
 
 	// 자산 타입 별로 조회 
-	$(document)
-			.ready(
-					function() {
-						$('.dropdown-item')
-								.on(
-										'click',
-										function(e) {
-											e.preventDefault();
+	$(document).ready(function() {
+		$('.dropdown-item').on('click',function(e) {
+			e.preventDefault();
 
-											var type = $(this).data('type');
+			var type = $(this).data('type');
 
-											var selectedType = $(this).data(
-													'type');
+			var selectedType = $(this).data('type');
 											// 선택된 항목의 텍스트를 버튼에 업데이트
-											$('#dropdownMenuButton').text(
-													selectedType);
-
-											$.ajax({
-														url : '/schedule/resourcelistByType',
-														type : 'POST',
-														data : {
-															resourceType : type
-														},
-														dataType : 'json',
-														success : function(
-																response) {
-															response.forEach(function(item) {
-																var tableBody = $('#datable_1 tbody');
-																tableBody.empty();
-
-																
-															    // 테이블 행 요소 생성
-															    var row = document.createElement('tr');
-
-															    // 체크박스 셀 생성 및 추가
-															    var checkboxCell = document.createElement('td');
-															    checkboxCell.innerHTML = '<span class="form-check"><input type="checkbox" class="form-check-input check-select-all" id="customCheck1"><label class="form-check-label" for="customCheck1"></label></span>';
-															    row.appendChild(checkboxCell);
-
-															    // 데이터가 들어갈 셀 생성 및 추가
-															    var cells = ['resourceNo', 'resourceType', 'resourceName', 'resourceMax', 'useYn'];
-															    cells.forEach(function(cell) {
-															        var dataCell = document.createElement('td');
-															        dataCell.textContent = item[cell];
-															        row.appendChild(dataCell);
-															    });
-
-															    // 드롭다운 셀 생성 및 추가
-															    var dropdownCell = document.createElement('td');
-															    var dropdownButton = document.createElement('button');
-															    dropdownButton.className = 'btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret';
-															    dropdownButton.setAttribute('aria-expanded', 'false');
-															    dropdownButton.setAttribute('data-bs-toggle', 'dropdown');
-															    dropdownButton.innerHTML = '<span class="icon"><span class="feather-icon"><i data-feather="more-vertical"></i></span></span>';
-															    
-															    var dropdownMenu = document.createElement('div');
-															    dropdownMenu.className = 'dropdown-menu dropdown-menu-end';
-															    var updateLink = document.createElement('span');
-															    updateLink.className = 'dropdown-item update-link';
-															    updateLink.setAttribute('data-resourceNo', item.resourceNo);
-															    updateLink.textContent = '수정';
-
-															    dropdownMenu.appendChild(updateLink);
-															    dropdownButton.appendChild(dropdownMenu);
-															    dropdownCell.appendChild(dropdownButton);
-															    row.appendChild(dropdownCell);
-
-															    // 행을 테이블 바디에 추가
-															    var tableBody = document.getElementById('datable_1').getElementsByTagName('tbody')[0];
-															    tableBody.appendChild(row);
-															});
-
-															// "수정" 링크 클릭 이벤트를 정의합니다.
-															$('.update-link')
-																	.on(
-																			'click',
-																			function(
-																					e) {
-																				e
-																						.preventDefault();
-
-																				var resourceNo = $(
-																						this)
-																						.data(
-																								'resourceno');
-																				var $row = $(
-																						this)
-																						.closest(
-																								'tr');
-
-																				// 해당 행에서 데이터를 가져옵니다.
-																				var resourceType = $row
-																						.find(
-																								'td:eq(2)')
-																						.text();
-																				var resourceName = $row
-																						.find(
-																								'td:eq(3)')
-																						.text();
-																				var resourceMax = $row
-																						.find(
-																								'td:eq(4)')
-																						.text();
-
-																				// 모달창의 각 필드에 데이터를 채웁니다.
-																				$(
-																						'#updateResource')
-																						.find(
-																								'input[name="resourceNo"]')
-																						.val(
-																								resourceNo);
-																				$(
-																						'#updateResource select[name="resourceType"]')
-																						.val(
-																								resourceType);
-																				$(
-																						'#updateResource input[name="resourceName"]')
-																						.val(
-																								resourceName);
-																				$(
-																						'#updateResource input[name="resourceMax"]')
-																						.val(
-																								resourceMax);
-
-																				// 모달창을 표시합니다.
-																				$(
-																						'#updateResource')
-																						.modal(
-																								'show');
-																			});
-														}
-													});
-										});
+			$('#dropdownMenuButton').text(selectedType);
+	
+			$.ajax({
+				url : '/schedule/resourcelistByType',
+				type : 'POST',
+				data : {
+					resourceType : type
+				},
+				dataType : 'json',
+				success : function(response) {
+					response.forEach(function(item) {
+						var tableBody = $('#datable_1 tbody');
+						tableBody.empty();
+	
+						
+					    // 테이블 행 요소 생성
+					    var row = document.createElement('tr');
+	
+					    // 체크박스 셀 생성 및 추가
+					    var checkboxCell = document.createElement('td');
+					    checkboxCell.innerHTML = '<span class="form-check"><input type="checkbox" class="form-check-input check-select-all" id="customCheck1"><label class="form-check-label" for="customCheck1"></label></span>';
+					    row.appendChild(checkboxCell);
+	
+					    // 데이터가 들어갈 셀 생성 및 추가
+					    var cells = ['resourceNo', 'resourceType', 'resourceName', 'resourceMax', 'useYn'];
+					    cells.forEach(function(cell) {
+					        var dataCell = document.createElement('td');
+					        dataCell.textContent = item[cell];
+					        row.appendChild(dataCell);
+					    });
+	
+					    // 드롭다운 셀 생성 및 추가
+					    var dropdownCell = document.createElement('td');
+					    var dropdownButton = document.createElement('button');
+					    dropdownButton.className = 'btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret';
+					    dropdownButton.setAttribute('aria-expanded', 'false');
+					    dropdownButton.setAttribute('data-bs-toggle', 'dropdown');
+					    dropdownButton.innerHTML = '<span class="icon"><span class="feather-icon"><i data-feather="more-vertical"></i></span></span>';
+					    
+					    var dropdownMenu = document.createElement('div');
+					    dropdownMenu.className = 'dropdown-menu dropdown-menu-end';
+					    var updateLink = document.createElement('span');
+					    updateLink.className = 'dropdown-item update-link';
+					    updateLink.setAttribute('data-resourceNo', item.resourceNo);
+					    updateLink.textContent = '수정';
+	
+					    dropdownMenu.appendChild(updateLink);
+					    dropdownButton.appendChild(dropdownMenu);
+					    dropdownCell.appendChild(dropdownButton);
+					    row.appendChild(dropdownCell);
+	
+					    // 행을 테이블 바디에 추가
+					    var tableBody = document.getElementById('datable_1').getElementsByTagName('tbody')[0];
+					    tableBody.appendChild(row);
 					});
+
+					// "수정" 링크 클릭 이벤트를 정의합니다.
+					$('.update-link').on('click',function(e) {
+						e.preventDefault();
+
+						var resourceNo = $(this).data('resourceno');
+						var $row = $(this).closest('tr');
+
+						// 해당 행에서 데이터를 가져옵니다.
+						var resourceType = $row.find('td:eq(2)').text();
+						var resourceName = $row.find('td:eq(3)').text();
+						var resourceMax = $row.find('td:eq(4)').text();
+
+						// 모달창의 각 필드에 데이터를 채웁니다.
+						$('#updateResource').find('input[name="resourceNo"]').val(resourceNo);
+						$('#updateResource select[name="resourceType"]').val(resourceType);
+						$('#updateResource input[name="resourceName"]').val(resourceName);
+						$('#updateResource input[name="resourceMax"]').val(resourceMax);
+
+						// 모달창을 표시합니다.
+						$('#updateResource').modal('show');
+						});
+						}
+					});
+				});
+			});
 
 	$(document).ready(function() {
 		  // 전체 체크박스 클릭
@@ -564,5 +562,23 @@
 		console.log("")
 	};
 
-</script>
+ </script>
+<%-- <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="${path}/resources/vendors/jszip/dist/jszip.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
+<script src="${path}/resources/js/invoice-data.js"></script>
+<script src="${path}/resources/js/chips-init.js"></script>  --%>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
