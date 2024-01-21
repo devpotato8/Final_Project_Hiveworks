@@ -26,4 +26,5 @@ public interface BoardDao {
 
 	int updateBoardCount(SqlSession session, int boardNo);
 
+
 }

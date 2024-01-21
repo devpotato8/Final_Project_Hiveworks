@@ -51,5 +51,15 @@
     	INSERT INTO TBL_SURVEY_ANSWER
     	VALUES (SEQ_QUESTION_NO.NEXTVAL,NULL,NULL,NULL)
     </insert>
-
+	<update id="surveyUpdate" parameterType="survey">
+	    UPDATE TBL_SURVEY SET
+	    SURVEY_TITLE = #{surveyTitle},
+	    SURVEY_START = #{surveyStart},
+	    SURVEY_END = #{surveyEnd},
+	    SURVEY_DATA = #{surveyData}
+	    WHERE SURVEY_NO = #{surveyNo}
+	</update>
+	<delete id="surveyDelete" parameterType="survey">
+		DELETE FROM TBL_SURVEY WHERE SURVEY_NO = #{surveyNo}
+	</delete>
 </mapper>
