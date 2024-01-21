@@ -781,6 +781,21 @@
     <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 	<script>
+	
+	$('input[type=checkbox]').on('change',event=>{
+		
+		
+	});
+	
+	$(document).ready(function(){
+		$('input[type=radio]').change(function(){
+			
+			
+		});		
+	});
+	
+	
+	
 	fn_updateAuthorities=()=>{
 		let autCode = document.querySelectorAll('.aut_code');
 
@@ -794,7 +809,6 @@
 				input_values.push(e.value);
 				
 			}
-
 
 		});
  		$.ajax({
