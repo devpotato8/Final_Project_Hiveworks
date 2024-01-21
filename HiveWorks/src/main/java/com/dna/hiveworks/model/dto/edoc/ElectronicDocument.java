@@ -47,6 +47,7 @@ public class ElectronicDocument implements Serializable{
 	private int creater;
 	private Date createDate;
 	private Date finalizedDate;
+	private int edocSampleNo;
 	
 	// Has a 관계에 있는 내용
 	List<ElectronicDocumentComment> comments;

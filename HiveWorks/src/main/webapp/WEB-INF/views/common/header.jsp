@@ -446,16 +446,10 @@
 													</c:choose>
 												</div>
 											</div>
-<<<<<<< HEAD
 										</div>
 										<div class="media-body">
 											<span class="d-block fw-medium">${loginEmp.emp_name} 님</span>
 											<!-- <div class="dropdown">
-=======
-											<div class="media-body">
-												<span class="d-block fw-medium">${loginEmp.emp_name}</span>
-												<!-- <div class="dropdown">
->>>>>>> branch 'dev' of https://github.com/ljydev6/Hiveworks.git
 												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside"></a>
 												<div class="dropdown-menu dropdown-menu-end">
 													<div class="p-2">
