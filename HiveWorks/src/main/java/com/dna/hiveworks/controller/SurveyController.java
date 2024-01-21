@@ -55,6 +55,7 @@ public class SurveyController {
 			e.printStackTrace();
 		}
 		String msg, loc;
+		s.setSurveyData(surveyData);
 		int result=service.insertSurvey(s);
 
 		if(result>0) {

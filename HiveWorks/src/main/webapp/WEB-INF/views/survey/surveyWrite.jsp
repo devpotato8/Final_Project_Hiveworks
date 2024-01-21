@@ -20,8 +20,7 @@
                         <div class="tab-pane fade show active" id="tab_block_1">
                             <!-- 기존 설문 양식 요소들 -->
 
-                         <form id="surveyForm" name="surveyFrm" 
-                         action="${path }/survey/insertSurvey" method="post"
+                         <form id="surveyForm" name="surveyFrm" action="${path}/survey/insertSurvey" method="post"
                          onsubmit="return createSurvey();">
                             <div class="row gx-3">
 								    <div class="col-sm-6">
@@ -90,11 +89,11 @@
         console.log(hiddenSection.classList);//.add("surveyData");
         // 실제 추가되는 HTML
         if (type === 'A') {
-            hiddenSection.innerHTML = '<div class="row gx-3"><div class="col-sm-12"><div class="form-group"><div class="form-label-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /></div><textarea class="form-control" rows="8" placeholder="자유롭게 기재해주세요" style="resize: none; width: 523px;"></textarea><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button></div></div></div>';
+            hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-12"><div class="form-group"><div class="form-label-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /></div><textarea class="form-control" rows="8" placeholder="자유롭게 기재해주세요" style="resize: none; width: 523px;"></textarea><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button></div></div></div>';
         } else if (type === 'B') {
-            hiddenSection.innerHTML = '<div class="row gx-3"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" id="checkbox_' + newId + '"><input class="" type="checkbox" value="" /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addCheckboxItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
+            hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" id="checkbox_' + newId + '"><input class="" type="checkbox" value="" /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addCheckboxItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
         } else if (type === 'C') {
-            hiddenSection.innerHTML = '<div class="row gx-3"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" id="radio_' + newId + '"><input class="" type="radio" value="" /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addRadioItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
+            hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" id="radio_' + newId + '"><input class="" type="radio" value="" /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addRadioItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
         }
 
         document.getElementById('hiddenSectionContainer').appendChild(hiddenSection);
@@ -149,6 +148,7 @@
     	}).val(JSON.stringify(surveyData));
     	$("#surveyForm").append(surveyDataInput);
     	//return false;
+    	return true;
     }
 
     function makeTypeASurvey(target){
