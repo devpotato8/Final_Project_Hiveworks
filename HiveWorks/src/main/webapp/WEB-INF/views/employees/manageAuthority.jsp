@@ -431,7 +431,7 @@
 											</thead>
 											<tbody>
 												<c:forEach var="s" items="${employees }">
-												<tr>
+												<tr class="list">
 													<td></td>
 													<td><c:out value="${s.emp_no }" /></td>
 													<td><c:out value="${s.emp_name }" /></td>
@@ -782,19 +782,43 @@
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 	<script>
 	
-	$('input[type=checkbox]').on('change',event=>{
-		
-		
-	});
 	
 	$(document).ready(function(){
 		$('input[type=radio]').change(function(){
+
+			let $row = $(this).closest('tr').find('span');
 			
+			let checkbox = $row.find('input[type=checkbox]').eq(0);
+
+			checkbox.prop('checked',true);
 			
-		});		
+		});
 	});
 	
 	
+/* 	function getSelectedData() {
+		   
+		   var newData=[];
+
+		  $('.form-check-input:checked').each(function() {
+		      // 체크박스가 속한 행을 가져옴
+		      var $row = $(this).closest('tr');
+		   
+		      var msg_no = parseInt($row.find('td').eq(1).text());
+		      var emp_no = parseInt($row.find('td').eq(2).text());
+		      
+		      console.log(msg_no,emp_no);
+		      
+		      // 배열에 추가
+		      newData.push({
+		          msg_no: msg_no,
+		          emp_no: emp_no
+		      });
+		  });
+
+		  return newData; */
+	
+
 	
 	fn_updateAuthorities=()=>{
 		let autCode = document.querySelectorAll('.aut_code');
@@ -832,16 +856,24 @@
 	</script>
 	<script>
 		fn_changeDefault=(e)=>{
-			let empNo = e;
-			let sameBtns = document.querySelectorAll('input[type=radio][name="'+empNo+'"]');
 			
-			console.log(sameBtns);
+			let eName = e;
+			var $row = $(this).closest('tr').find('input[type=radio]');
 			
-			if(sameBtns.value="AUT007"){
-				
-			}
+			console.log($row);
+			
+			let $row_second = $('#list').children('td');
+			
+			console.log($row_second);
 			
 			
+			
+			/* let aut007 = $row.find('td').find('input[type=radio][name='+eName+']').eq(0);
+			
+			console.log(aut007);
+			
+			aut007.prop('checked',true); */
+		
 		};
 	</script>
 
