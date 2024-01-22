@@ -33,15 +33,17 @@
 	
 	        <div class="showView">
 	            <div class="profile">
-	                <div>프로필사진</div>
-	                <div></div>
+	                <div>
+	                		<img src="${path }/resources/img/logo_bee.png" alt="user"
+									class="brand-img img-fluid " width="200px" height="200px">
+					</div>
 	            </div>
-	            <div class="changeProfile">
-	                <form action="" method="post" id="login_form">
+	            <div class="updateProfile">
+	                <form action="${path }/mypage/updateProfile" method="post" id="login_form">
 	                    <input
 	                    class="form-control"
-	                        name="userPw"
-	                        id="userPw"
+	                        name="emp_pw"
+	                        id="password1"
 	                        type="password"
 	                        value="${employee.emp_pw}"
 	                        placeholder="비밀번호"
@@ -51,19 +53,18 @@
 	                    />
 	                    <input
 	                        class="form-control"
-	                        name="userPwCheck"
-	                        id="userPwCheck"
+	                        name="emp_pwChk"
+	                        id="password2"
 	                        type="password"
 	                        placeholder="비밀번호확인"
 	                        maxlength="20"
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='비밀번호확인'"
 	                    >
-	                    <!-- <span id="result" style="font-size: 1.5rem">비밀번호 일치여부</span> -->
-	                    
+	                    <span class="text-center" id="passwordMatchMessage">비밀번호 일치여부</span>
 	                    <input
 	                     class="form-control"
-	                        name="email"
+	                        name="emp_email"
 	                        type="email"
 	                        value="${employee.emp_email}"
 	                        placeholder="이메일"
@@ -73,7 +74,7 @@
 	                    />
 	                    <input
 	                        class="form-control"
-	                        name="phone"
+	                        name="emp_cellphone"
 	                        type="text"
 	                        value="${employee.emp_cellphone }"
 	                        placeholder="휴대폰번호"
@@ -83,7 +84,7 @@
 	                    />
 	                    <input
 	                        class="form-control"
-	                        name="phone"
+	                        name="emp_address"
 	                        type="text"
 	                        value="${employee.emp_address }"
 	                        placeholder="주소"
@@ -100,6 +101,26 @@
 			    
 	    </div>
     </div>
+<script>
+  let passwordInput1 = document.getElementById("password1");
+  let passwordInput2 = document.getElementById("password2");
+  let passwordMatchMessage = document.getElementById("passwordMatchMessage");
+
+  passwordInput1.addEventListener("keyup", checkPasswordMatch);
+  passwordInput2.addEventListener("keyup", checkPasswordMatch);
+
+  function checkPasswordMatch() {
+    let password1 = passwordInput1.value;
+    let password2 = passwordInput2.value;
+
+    if (password1 === password2) {
+      passwordMatchMessage.textContent = "비밀번호가 일치합니다.";
+    } else {
+      passwordMatchMessage.textContent = "비밀번호가 일치하지 않습니다.";
+    }
+  }
+</script>
+    
 <style>
         :root {
             --navy: rgba(14, 25, 90, 0.8);
@@ -130,14 +151,16 @@
             height: 50px;
             text-align: center;
         }
-        
+        .updateProfile{
+        	width: 350px;
+        }
         #login_form {
             width: 100%;
             display: flex;
             flex-direction: column;
             margin: 0px 30px;
-            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-            border-radius: 5px;
+            /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+            border-radius:10px;
         }
         #login_form input {
             padding: 15px 0px;
@@ -180,18 +203,24 @@
         }
         
         .showView{
+        	margin-top:50px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 400px;
-            width: 50%;
+            width: 800px;
         }
         .changeProfile{
             width: 50%;
         }
-        .profile{
-            width: 50%;
-            height: 100%;
+       .profile{
+        	display: flex;
+        	flex-direction:column;
+        	justify-content: center;
+        	align-items:center;
+        	border-radius:10px;
+            width: 350px;
+            height: 70%;
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         }
 

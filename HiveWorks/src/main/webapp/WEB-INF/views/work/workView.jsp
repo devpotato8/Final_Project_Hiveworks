@@ -45,7 +45,6 @@
 						<th>출근일자</th>
 						<th>출근시간</th>
 						<th>퇴근시간</th>
-						<th>시간외 근무</th>
 						<th>지각여부</th>
 						<th>조퇴여부</th>
 						<th>결근여부</th>
@@ -70,11 +69,10 @@
 								</td>
 								<td><span class="badge badge-soft-success my-1  me-2"><c:out value="${w.workDay }"/></span></td>
 								<td><span class="badge badge-soft-violet my-1  me-2"><fmt:formatDate value="${w.workStartTime }" pattern="HH:mm:ss"/></span></td>
-								<td><span class="badge badge-soft-danger my-1  me-2"><fmt:formatDate value="${w.workEndTime }" pattern="HH:mm:ss"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workPermit }"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workLate }"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workFastEnd }"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${w.workRealtime.workAbsence }"/></span></td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><fmt:formatDate value="${w.workEndTime }" pattern="HH:mm:ss"/></span></td>
+								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${w.workRealtime.workLate }"/></span></td>
+								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${w.workRealtime.workFastEnd }"/></span></td>
+								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${w.workRealtime.workAbsence }"/></span></td>
 							</tr>
 						</c:forEach>
 					</c:if>

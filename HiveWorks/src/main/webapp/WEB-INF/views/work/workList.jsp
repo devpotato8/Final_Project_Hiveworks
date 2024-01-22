@@ -37,9 +37,8 @@
 					</div>
 					<div class="thrid-line">
 						<div class="day-filter">
-							<button class="btn btn-dark" onclick="workListWeek();">주</button>
-							<button class="btn btn-dark" onclick="workListMonth();">월</button>
-							<button class="btn btn-dark" onclick="workListYear();">년</button>
+							<button class="btn btn-dark" onclick="workListWeek();">주별</button>
+							<button class="btn btn-dark" onclick="workListMonth();">월별</button>
 						</div>
 						<div class="filter-right-part">
 							<div id="currentTime"></div>
@@ -201,7 +200,15 @@
 .filter-right-part>button {
 	background-color: var(--navy);
 }
-
+#currentTime{
+	text-align:center;
+	width:220px;
+	border: none;
+	background-color: var(--navy);
+	color: white;
+	border-radius: 5px;
+	padding: 8px;
+}
 .container {
 	width: 100%;
 	height: 100%;
@@ -254,9 +261,34 @@
 }
 </style>
 <script>
+	const day = 1;
 	const week = 7;
 	const month = 30;
-	const year = 365;
+	function workListDay() {
+    	fetch("${path}/work/workListYear?day="+day)
+	    .then(response => response.json())
+	    .then(data => {
+	      // 데이터 처리 로직
+	      let avgStartWork = data.avgStartWork;
+	      let avgEndWork = data.avgEndWork;
+	      let overWork = data.overWork;
+	      let lateWork = data.lateWork;
+	      let fastEnd = data.fastEnd;
+	      let absence = data.absence;
+	      
+	      document.getElementById('avgStartWork').textContent = avgStartWork;
+	      document.getElementById('avgEndWork').textContent = avgEndWork;
+	      document.getElementById('overWork').textContent = overWork+" 회";
+	      document.getElementById('lateWork').textContent = lateWork+" 회";
+	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
+	      document.getElementById('absence').textContent = absence+" 회";
+	      console.log(avgStartWork);
+	    })
+	    .catch(error => {
+	      // 에러 처리 로직
+	      console.error(error);
+	    });
+	}
     function workListWeek() {
     	fetch("${path}/work/workListWeek?week=" + week)
     	//fetch("${path}/work/workListWeek?week=${week}") 이건 전달이 안됌...
@@ -272,10 +304,10 @@
 	      
 	      document.getElementById('avgStartWork').textContent = avgStartWork;
 	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork;
-	      document.getElementById('lateWork').textContent = lateWork;
-	      document.getElementById('fastEnd').textContent = fastEnd;
-	      document.getElementById('absence').textContent = absence;
+	      document.getElementById('overWork').textContent = overWork+" 회";
+	      document.getElementById('lateWork').textContent = lateWork+" 회";
+	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
+	      document.getElementById('absence').textContent = absence+" 회";
 	      console.log(avgStartWork);
 	    })
 	    .catch(error => {
@@ -284,7 +316,7 @@
 	    });
 	}
     function workListMonth() {
-    	fetch("${path}/work/workListMonth")
+    	fetch("${path}/work/workListMonth?month="+month)
 	    .then(response => response.json())
 	    .then(data => {
 	      // 데이터 처리 로직
@@ -297,10 +329,10 @@
 	      
 	      document.getElementById('avgStartWork').textContent = avgStartWork;
 	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork;
-	      document.getElementById('lateWork').textContent = lateWork;
-	      document.getElementById('fastEnd').textContent = fastEnd;
-	      document.getElementById('absence').textContent = absence;
+	      document.getElementById('overWork').textContent = overWork+" 회";
+	      document.getElementById('lateWork').textContent = lateWork+" 회";
+	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
+	      document.getElementById('absence').textContent = absence+" 회";
 	      console.log(avgStartWork);
 	    })
 	    .catch(error => {
@@ -308,31 +340,7 @@
 	      console.error(error);
 	    });
 	}
-    function workListYear() {
-    	fetch("${path}/work/workListYear")
-	    .then(response => response.json())
-	    .then(data => {
-	      // 데이터 처리 로직
-	      let avgStartWork = data.avgStartWork;
-	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
-	      let lateWork = data.lateWork;
-	      let fastEnd = data.fastEnd;
-	      let absence = data.absence;
-	      
-	      document.getElementById('avgStartWork').textContent = avgStartWork;
-	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork;
-	      document.getElementById('lateWork').textContent = lateWork;
-	      document.getElementById('fastEnd').textContent = fastEnd;
-	      document.getElementById('absence').textContent = absence;
-	      console.log(avgStartWork);
-	    })
-	    .catch(error => {
-	      // 에러 처리 로직
-	      console.error(error);
-	    });
-	}
+    
 	</script>
 	<script>
   // 현재 시간을 가져오는 함수

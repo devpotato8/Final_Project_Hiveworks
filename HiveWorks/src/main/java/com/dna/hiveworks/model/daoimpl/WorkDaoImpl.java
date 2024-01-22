@@ -94,33 +94,33 @@ public class WorkDaoImpl implements WorkDao {
 	}
 
 	@Override
-	public String avgEndWorkFilter(SqlSession session, int empNo) {
+	public String avgEndWorkFilter(SqlSession session, Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("work.avgEndWorkFilter", empNo);
+		return session.selectOne("work.avgEndWorkFilter", param);
 	}
 
 	@Override
-	public int lateWorkFilter(SqlSession session, int empNo) {
+	public int lateWorkFilter(SqlSession session, Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("work.lateWorkFilter", empNo);
+		return session.selectOne("work.lateWorkFilter", param);
 	}
 
 	@Override
-	public int fastEndFilter(SqlSession session, int empNo) {
+	public int fastEndFilter(SqlSession session, Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("work.fastEndFilter", empNo);
+		return session.selectOne("work.fastEndFilter", param);
 	}
 
 	@Override
-	public int absenceFilter(SqlSession session, int empNo) {
+	public int absenceFilter(SqlSession session, Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("work.absenceFilter", empNo);
+		return session.selectOne("work.absenceFilter", param);
 	}
 
 	@Override
-	public int overWorkFilter(SqlSession session, int empNo) {
+	public int overWorkFilter(SqlSession session, Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("work.overWorkFilter", empNo);
+		return 0;
 	}
 	
 	

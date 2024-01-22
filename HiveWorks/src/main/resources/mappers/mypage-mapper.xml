@@ -17,4 +17,12 @@
 		SELECT * FROM TBL_SEARCH
 		WHERE SEARCH_KEYWORD LIKE '%' || #{keyword}|| '%'
 	</select>
+	
+	<update id="updateProfile" parameterType="Map">
+		UPDATE TBL_EMPLOYEE SET
+		EMP_EMAIL = #{employee.emp_email},
+		EMP_CELLPHONE = #{employee.emp_cellphone},
+		EMP_ADDRESS = #{employee.emp_address}
+		WHERE EMP_NO = #{empNo}
+	</update>
 </mapper>
