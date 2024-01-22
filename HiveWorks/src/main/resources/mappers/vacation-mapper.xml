@@ -28,7 +28,7 @@
 	
 	<insert id="insertVacation" parameterType="vacation" >
 		INSERT INTO TBL_VACATION VALUES (SEQ_VAC_NO.NEXTVAL,#{empNo},
-		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y','#{edocNo}','대기')
+		#{vacCount},1,#{vacOption},#{empNo},#{createDate},#{empNo},DEFAULT,'Y',#{edocNo},'대기')
 	</insert>
 	
 	<update id="updateVacation" parameterType="Map" >
@@ -43,8 +43,29 @@
 		SELECT VAC_LEFT FROM TBL_VACATION_BYYEAR WHERE EMP_NO = #{empNo}
 	</select>
 	
-
+	<!-- tbl_vacation의 vac_permit 을 '승인'으로 바꾸기 -->
+	<update id="confirmVacation" parameterType="string">
+		UPDATE TBL_VACATION SET
+		VAC_PERMIT = '승인'
+		WHERE EDOC_NO = #{edocNo}
+	</update>
+	<!-- tbl_vacation의 vac_permit 을 '반려'로 바꾸기 -->
+	<update id="revokeVacation" parameterType="string">
+		UPDATE TBL_VACATION SET
+		VAC_PERMIT = '반려'
+		WHERE EDOC_NO = #{edocNo}
+	</update>
 	
+	<select id="selectVacation" parameterType="string" resultMap="vacationMap">
+		SELECT * FROM TBL_VACATION
+		WHERE EDOC_NO = #{edocNo}
+	</select>
+	
+	<update id="rollbackVacation" parameterType="Map">
+		UPDATE TBL_VACATION_BYYEAR SET
+		VAC_LEFT = VAC_LEFT + #{vacCount}
+		WHERE EMP_NO = #{empNo}
+	</update>
 	
 	
 </mapper>
