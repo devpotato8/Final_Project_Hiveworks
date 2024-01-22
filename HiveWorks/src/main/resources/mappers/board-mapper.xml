@@ -23,20 +23,20 @@
 		 LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
 		 WHERE BOARD_NO = #{boardNo}
 	</select>
-    <select id="selectAllBoard" resultMap="boardMap">
+    <select id="selectAllBoard" parameterType="string" resultMap="boardMap">
         SELECT * FROM TBL_BOARD 
         LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
-        WHERE BOARD_TYPE = 'BRD001'
+        WHERE BOARD_TYPE = #{boardType}
     </select>
     <update id="updateBoardCount" parameterType="int">
-    	UPDATE TBL_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_NO = ${boardNo}
+    	UPDATE TBL_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_NO = #{boardNo}
 	</update>
     <insert id="insertBoard" parameterType="board">
     	<selectKey keyProperty="boardNo" resultType="int" keyColumn="BOARD_NO" order="BEFORE">
     		SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
     	</selectKey>
     	INSERT INTO TBL_BOARD VALUES 
-		(#{boardNo},'BRD001',#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
+		(#{boardNo},#{boardType},#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
 	    UPDATE TBL_BOARD SET

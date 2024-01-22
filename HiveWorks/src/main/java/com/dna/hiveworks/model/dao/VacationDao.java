@@ -18,4 +18,10 @@ public interface VacationDao {
 	int deleteVacation(SqlSession session, int vacationNo);
 	
 	double selectLeftVacation(SqlSession session, int empNo);
+	
+	int confirmVacation(SqlSession session, String edocNo);
+	int revokeVacation(SqlSession session, String edocNo);
+	
+	Vacation selectVacation(SqlSession session, String edocNo);
+	int rollbackVacation(SqlSession session, Map<String, Object>param);
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class EmpServiceImpl implements EmpService {
 
 	private final EmpDaoImpl dao;
 	private final SqlSession session;
-	
+	private final BCryptPasswordEncoder passwordEncoder;
 	
 	@Override
 	public Employee selectEmployeeById(String empId) {
@@ -143,12 +144,21 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public int updatePassword(Map<String, Object> IdAndPassword) {
 		
-		int result_first = dao.confirmEmployee(session,IdAndPassword);
-
-		if(result_first!=0) {
+		Employee employee = dao.confirmEmployee(session,IdAndPassword);
+		
+		int result_first = 0;
+		
+		if(employee!=null && passwordEncoder.matches((String)IdAndPassword.get("empPassword"),employee.getPassword())) {
+			
+			String passwordNew = passwordEncoder.encode((String)IdAndPassword.get("empPassword"));
+			
+			IdAndPassword.put("empPasswordNew", passwordNew);
+			
 			int result_second = dao.updatePassword(session,IdAndPassword);
+			result_first = 1;
 			if(result_second==0) {
 				new RuntimeException("비밀번호 업데이트 실패");
+				result_first = 0;
 			}
 		}else {
 			new RuntimeException("유저 확인 실패");

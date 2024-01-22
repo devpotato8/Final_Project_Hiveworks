@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
@@ -10,410 +11,11 @@
 	<jsp:param value="data-hover='active'" name="hover"/>
 </jsp:include>
 	
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<jsp:include page="/WEB-INF/views/message/msgSideHeader.jsp">
+	<jsp:param value="보낸 쪽지함" name="nameofmsglist"/>
+</jsp:include>
 
-<%@ include file="/WEB-INF/views/message/msgSideHeader.jsp" %>
-
-<!-- MSG Main Content -->		
-<div class="fm-body">
-	<div data-simplebar class="nicescroll-bar">
-		<div class="file-list-view">
-			<div class="text-end">
-				<button class="btn btn-soft-primary moveStarBtn">별표 쪽지함으로</button>
-				<button class="btn btn-soft-primary moveTrashBtn">휴지통으로</button>
-			</div>
-			<div class="tab-content">
-				<div class="tab-pane fade show active" id="cloud_doc">
-					<div class="table-responsive">
-						<table id="datable_1" class="table nowrap w-100 mb-5">
-							<thead>
-								<tr>
-									<th class="w-30p"><span class="form-check mb-0">
-										<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
-										<label class="form-check-label" for="customCheck1"></label>
-									</span></th>
-									<th>Message</th>
-									<th>Shared with</th>
-									<th>Send Date</th>
-									<th>File Size</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star marked"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-file-excel-2-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<div class="file-name">Website_content.exl</div>
-												<div>exel</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="avatar-group avatar-group-overlapped">
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Dean">
-												<img src="${path}/resources/img/avatar13.jpg" alt="user" class="avatar-img">
-											</div>
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Danial">
-												<img src="${path}/resources/img/avatar14.jpg" alt="user" class="avatar-img">
-											</div>
-										</div>														
-									</td>
-									<td>Today 11:02 AM</td>
-									<td>2,637KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함으로</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>쪽지 삭제</span></a>
-										</div>
-									</td>
-								</tr>
-								
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-file-text-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<div class="file-name">expenses.doc</div>
-												<div>document</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="avatar-group avatar-group-overlapped">
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Dean">
-												<img src="${path}/resources/img/avatar12.jpg" alt="user" class="avatar-img">
-											</div>
-										</div>														
-									</td>
-									<td>12 Feb, 12:30 PM</td>
-									<td>76.3 KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<img src="${path}/resources/img/gallery/mock8.jpg" alt="user" class="d-block img-fluid w-50p">
-											</div>
-											<div class="media-body">
-												<div class="file-name">joel-mott-LaK153ghdigdss</div>
-												<div>jpeg</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										-													
-									</td>
-									<td>02 Jan, 4:32 PM</td>
-									<td>3,028 KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-file-word-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<div class="file-name">proposal.doc</div>
-												<div>word document</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="avatar-group avatar-group-overlapped">
-											<div class="avatar avatar-soft-success avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
-												<span class="initial-wrap">A</span>
-											</div>
-											<div class="avatar avatar-soft-success avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
-												<span class="initial-wrap">B</span>
-											</div>
-											<div class="avatar avatar-soft-success avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
-												<span class="initial-wrap">C</span>
-											</div>
-											<div class="avatar avatar-soft-primary avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tom">
-												<span class="initial-wrap">D</span>
-											</div>
-										</div>														
-									</td>
-									<td>02 Jan, 9:45 AM</td>
-									<td>951 KB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="file-star"><span class="feather-icon"><i data-feather="star"></i></span></span>
-										</div>
-									</td>
-									<td>
-										<div class="media fmapp-info-trigger">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-folder-zip-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<div class="file-name">themeforest-pack.zip</div>
-												<div>zip</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="avatar-group avatar-group-overlapped">
-											<div class="avatar avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Danial">
-												<img src="${path}/resources/img/avatar12.jpg" alt="user" class="avatar-img">
-											</div>
-										</div>														
-									</td>
-									<td>10 Jun, 8:00 AM</td>
-									<td>2.45 GB</td>
-									<td class="text-right"><a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>Preview</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="copy"></i></span><span>Duplicate</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="skip-forward"></i></span><span>Move</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="user-plus"></i></span><span>Invite</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="link-2"></i></span><span>Share Link</span></a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="info"></i></span><span>View Details</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Download</span></a>
-											<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Delete</span></a>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-	<div class="file-info">
-	<div data-simplebar class="nicescroll-bar">
-		<div class="text-end">
-			<button type="button" class="info-close btn-close">
-				<span aria-hidden="false">×</span>
-			</button>
-		</div>
-		<div class="file-name">쪽지 제목</div>
-		<span>첨부파일종류(ex: JPG File)</span>
-		
-		
-		<div class="tab-content mt-5">
-			<div class="tab-pane fade show active" id="tab_info">
-				<div class="collapse-simple">
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#fl_info" aria-expanded="true">쪽지 정보</a>
-						</div>
-						<div id="fl_info" class="collapse show">
-							<div class="card-body">
-								<ul class="fm-info">
-									<li>
-										<span>보낸사람</span>
-										<span>김이사</span>
-									</li>
-									<li>
-										<span>받는사람</span>
-										<span>내이름</span>  
-									</li>
-									<li>
-										<span>첨부파일</span>
-										<span>파일명.jpg</span>
-									</li>
-									<li>
-										<span>전송일자</span>
-										<span>00-00-00 23:00</span>
-									</li>
-									
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#fl_info" aria-expanded="true">쪽지 내용</a>
-						</div>
-						<div id="fl_info" class="collapse show">
-							<div class="card-body">
-								<ul class="fm-info">
-									<li>
-										<p class="msgContent">
-											여기에 메시지 내용이 들어갈겁니다. 모든 국민은 능력에 따라 균등하게 교육을 받을 권리를 가진다. 국회나 그 위원회의 요구가 있을 때에는 국무총리·국무위원 또는 정부위원은 출석·답변하여야 하며, 국무총리 또는 국무위원이 출석요구를 받은 때에는 국무위원 또는 정부위원으로 하여금 출석·답변하게 할 수 있다.
-										</p>
-									</li>
-									<li>
-										<div class="text-end">
-											<button class="btn btn-soft-primary btn-sm">000님에게 답장하기</button>
-										</div>
-									</li>
-									<li>
-										<span>첨부파일</span>
-									</li>
-									<li>
-										<img src="${path}/resources/img/gallery/mock2.jpg"  class="d-block img-fluid my-4 w-250p">
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#shared_with" aria-expanded="true">함께 받은사람</a>
-						</div>
-						<div id="shared_with" class="collapse show">
-							<div class="card-body">
-								<ul class="hk-list">
-									<li>
-										<div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-											<img src="${path}/resources/img/avatar9.jpg" alt="user" class="avatar-img">
-											<div class="badge-icon badge-circle text-blue badge-icon-xxs position-bottom-end-overflow-1">
-												<div class="badge-icon-wrap">
-													<i class="ri-upload-2-fill"></i>
-												</div>
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127 127">
-													<g data-name="Ellipse 302" transform="translate(8 8)" stroke-width="3">
-													<circle cx="55.5" cy="55.5" r="55.5" stroke="currentColor"></circle>
-													<circle cx="55.5" cy="55.5" r="59.5" fill="currentColor"></circle>
-													</g>
-												</svg>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="avatar avatar-sm  avatar-rounded">
-											<img src="${path}/resources/img/avatar10.jpg" alt="user" class="avatar-img">
-										</div>
-									</li>
-									<li>	
-										<div class="avatar avatar-sm avatar-soft-danger avatar-rounded" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Winston">
-											<span class="initial-wrap">W</span>
-										</div>
-									</li>
-									
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<a role="button" data-bs-toggle="collapse" href="#settings" aria-expanded="true">설정하기</a>
-						</div>
-						<div id="settings" class="collapse show">
-							<div class="card-body">
-								<ul class="fm-action">
-									<li>
-										<a href="javascript:void(0);">
-											<span class="text-danger">휴지통으로</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);">
-											별표 쪽지함으로
-										</a>
-									</li>
-								</ul>	
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-		</div>
-	</div>
-</div>
-
-				</div>
-			</div>
-		</div>
-		<!-- /MSG Main Content END-->		
-	</div>
-	<!-- /Page Body -->
-</div>
-<!-- /Main Content -->
-
-<!-- /Wrapper -->
+<fmt:formatDate value="${msg.msg_date}" pattern="yy-MM-dd HH:mm:ss"/>
 
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
@@ -439,3 +41,611 @@
 <script src="${path}/resources/js/init.js"></script>
 <script src="${path}/resources/js/fm-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>
+
+<!-- Data Table JS -->
+<script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="${path}/resources/vendors/jszip/dist/jszip.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
+
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js" integrity="sha512-ekwRoEshEqHU64D4luhOv/WNmhml94P8X5LnZd9FNOiOfSKgkY12cDFz3ZC6Ws+7wjMPQ4bPf94d+zZ3cOjlig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<style>
+	.msgTitle{
+		
+		font-size : 1.0rem;
+		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+		cursor: pointer;
+	}
+	.msgTitle:hover{
+		color :  #3d9ca5;
+		cursor: pointer;
+	}
+	.msgContent{
+		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+		cursor: pointer;
+	}
+	.msg_sender{
+		display:none;
+	}
+	.msg_receiver{
+		display:none;
+	}
+	.msgFile{
+		white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:200px;
+		font-size:0.8rem;
+	}
+	.msgCateName{
+		font-size:0.6rem;
+	}
+	.headerContainer{
+		display:flex;
+		justify-content:space-between;
+		align-items:center;
+	}
+	.msg_date{
+		font-size:0.9rem;
+	}
+</style>
+
+	
+
+<!-- MSG Main Content -->		
+<div class="fm-body">
+	
+	<div data-simplebar class="nicescroll-bar">
+		<div class="list-view">
+			<div class="headerContainer">
+				<div class="text-start">
+					<button class="btn btn-soft-primary returnMsgBtn">보낸쪽지 회수하기</button>
+				</div>
+			</div>	
+			<br>
+			<div>
+				<div class="file-list-view" id="cloud_doc">
+					<div class="table-responsive">
+						<table id="datable_4c" class="table nowrap w-100 mb-5">
+							<thead>
+								<tr>
+									<th class="w-30p"><span class="form-check mb-0">
+										<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
+										<label class="form-check-label" for="customCheck1"></label>
+									</span></th>
+									<th>No</th>
+									<th style="display:none;"></th>
+									<th>Message Title</th>
+									<th>Message Content</th>
+									<th>Send Date</th>
+									<th>Receiver</th>
+									<th>Action</th>
+									<th style="display:none;"></th>
+									<th style="display:none;"></th>
+									<th style="display:none;"></th>
+								</tr>
+							</thead>
+							<tbody>
+				<c:if test="${not empty msgList}">
+					<c:forEach var="msg" items="${msgList}">
+								<tr>
+									<td>									
+										<div class="msg_no"><c:out value="${msg.msg_no}"/></div>
+									</td>
+									<td style="display:none;">
+										<div class="emp_no"><c:out value="${loginEmp.emp_no}"/></div>
+									</td>
+									
+									<td>
+										<div class="media fmapp-info-trigger attachfile">
+										<c:choose>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.pdf')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-danger avatar-sm">
+														<span class="initial-wrap">
+															<i class="fa-regular fa-file-pdf" style="color: #ff0000;"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.txt')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-file-text-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.doc') 
+													or fn:endsWith(msg.msg_file_oriname, '.docx'))}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-file-word-2-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.zip')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-warning avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-folder-zip-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.xls') 
+													or fn:endsWith(msg.msg_file_oriname, '.xlsx'))}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-success avatar-sm">
+														<span class="initial-wrap">
+															<i class="ri-file-excel-2-fill"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.ppt') 
+													or fn:endsWith(msg.msg_file_oriname, '.pptx'))}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-danger avatar-sm">
+														<span class="initial-wrap">
+															<i class="fa-regular fa-file-powerpoint" style="color: #ff0000;"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.jpg')
+													or fn:endsWith(msg.msg_file_oriname, '.jpeg')
+													or fn:endsWith(msg.msg_file_oriname, '.png')
+													or fn:endsWith(msg.msg_file_oriname, '.bmp')
+													or fn:endsWith(msg.msg_file_oriname, '.gif') )}">
+												<div class="media-head me-3">
+													<img src="${path}/resources/msgupload/${msg.msg_file_rename}" alt="user" class="d-block img-fluid w-50p">
+												</div>
+											</c:when>
+											<c:when test="${fn:endsWith(msg.msg_file_oriname, '.hwp')}">
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="fa-regular fa-file-lines" style="color: #0080ff;"></i>
+														</span>
+													</div>
+												</div>
+											</c:when>
+											
+											<c:otherwise>
+												<div class="media-head me-3">
+													<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
+														<span class="initial-wrap">
+															<i class="bi bi-chat-right-quote"></i>
+														</span>
+													</div>
+												</div>
+											</c:otherwise>
+											
+										</c:choose>
+											<div class="media-body">
+												<c:choose>
+													<c:when test="${msg.msg_read_yn == 'Y'}">
+													<div class="msgCateName mb-1">
+														<c:out value="${empty msg.msg_category_name ? '미지정' : msg.msg_category_name}"/>
+														<span style="font-size:0.6rem; font-weight:bolder; color:red;">[상대방이 읽음]</span>
+													</div>
+													</c:when>
+													<c:when test="${msg.msg_read_yn == 'N'}">
+														<div class="msgCateName mb-1">
+														<c:out value="${empty msg.msg_category_name ? '미지정' : msg.msg_category_name}"/>
+														</div>
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when test="${msg.msg_read_yn == 'Y'}">
+														<div class="msgTitle mb-1"><c:out value="${msg.msg_title}"/></div>
+													</c:when>
+													<c:when test="${msg.msg_read_yn == 'N'}">
+														<div class="msgTitle mb-1" style="font-weight:bolder;"><c:out value="${msg.msg_title}"/></div>
+													</c:when>
+												</c:choose>
+												<div class="msgFile">
+												<c:choose>
+													<c:when test="${empty msg.msg_file_oriname}">
+														<a class="msgFileTag" title="${msg.msg_file_oriname}" href="#">
+	   														첨부파일 없음
+	   													</a>
+   													</c:when>
+   													<c:when test="${not empty msg.msg_file_oriname}">
+														<a class="msgFileTag" title="${msg.msg_file_oriname}" href="${path}/downfile?fn=${msg.msg_file_rename}">
+	   														<c:out value="${msg.msg_file_oriname}"/>
+	   													</a>
+   													</c:when>
+												</c:choose>
+												</div>
+											</div>
+										</div>
+									</td>
+									<td><div class="msgContent"><c:out value="${msg.msg_content}"/></div></td>
+									<td class="msg_date"><c:out value="${msg.msg_date}"/></td>
+									<td>
+										<div class="avatar-group avatar-group-overlapped">
+											<div class="avatar avatar-rounded avatar-xs" data-bs-original-title="${msg.msg_receiver_name}">
+												<c:choose>
+													<c:when test="${not empty msg.emp_profile_re_name}">
+														<img src="${path}/resources/upload/profile/${msg.emp_profile_re_name}" alt="user" class="avatar-img">
+													</c:when>
+													<c:otherwise>
+														<img src="${path}/resources/img/avatar12.jpg" alt="user" class="avatar-img">
+													</c:otherwise>
+												</c:choose>
+												<span style="font-size:0.9rem">${msg.msg_receiver_name}</span>
+											</div>
+										</div>														
+									</td>
+									<td class="text-right"><a class="actionbtn btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></span></span></a>
+										<div class="dropdown-menu">
+											<a class="dropdown-item detailView" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
+											
+											<c:choose>
+												<c:when test="${empty msg.msg_file_oriname}">
+													<a class="dropdown-item filedown" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
+												</c:when>
+												<c:when test="${not empty msg.msg_file_oriname}">
+													<a class="dropdown-item filedown" href="${path}/downfile?fn=${msg.msg_file_rename}"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
+												</c:when>
+											</c:choose>
+											<c:if test="${msg.msg_read_yn =='N'}">
+												<a class="dropdown-item returnMsg" href="#"><span class="feather-icon dropdown-icon"><i data-feather="corner-down-left"></i></span><span>보낸쪽지 회수</span></a>
+											</c:if>
+										</div>
+									</td>
+									<td class="msg_sender" style="display:none;"><c:out value="${msg.msg_sender_no}"/></td>
+									<td class="msg_sender_name" style="display:none;"><c:out value="${msg.msg_sender_name}"/></td>
+									<td class="msg_read_yn" style="display:none;"><c:out value="${msg.msg_read_yn}"/></td>
+								</tr>
+					</c:forEach>
+				</c:if>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+<!-- 보낸쪽지 회수하기 버튼 클릭 이벤트 jq -->
+
+//체크된 행의 데이터를 저장할 배열
+var selectedData = [];
+
+//Ajax 요청
+function btnAjax(selectedData, url){
+	$.ajax({
+	    url: url,  // 요청을 보낼 URL
+	    type: 'POST',  // HTTP 메서드
+	    data: JSON.stringify(selectedData),  // 전송할 데이터
+	    contentType: 'application/json',  // 요청 본문의 형식
+	    success: function(response) {
+	    	if(response.status === 'success') {
+	            alert("요청 처리 완료");
+	            location.reload();
+	        } else {
+	            alert("요청 처리 실패");
+	        }
+	    },
+	    error: function(error) {
+	        // 요청이 실패했을 때의 처리
+	        alert("서버 통신 실패. 관리자에게 문의하세요.")
+	    }
+	});
+}
+
+//체크된 행 데이터 가져오기 함수
+function getSelectedData() {
+	var newData=[];
+
+    $('.form-check-input:checked').each(function() {
+        // 체크박스가 속한 행을 가져옴
+        var $row = $(this).closest('tr');
+        var msg_no = parseInt($row.find('td').eq(1).text());
+        var emp_no = parseInt($row.find('td').eq(2).text());
+        var msg_read_yn = $row.find('.msg_read_yn').text();
+		
+        console.log(msg_no,emp_no);
+
+        // 배열에 추가
+        newData.push({
+            msg_no: msg_no,
+            emp_no: emp_no,
+            msg_read_yn: msg_read_yn
+        });
+    });
+
+    return newData;
+}
+
+//보낸쪽지 회수하기 버튼 클릭시
+$('.returnMsgBtn').on('click', function() {
+	selectedData = getSelectedData();
+	if(selectedData.length > 0) {	
+        for(var i = 0; i < selectedData.length; i++) {
+            if(selectedData[i].msg_read_yn !== 'N') {
+                alert("상대방이 이미 읽어서 회수할 수 없는 쪽지가 포함되어 있습니다. 다시 선택해주세요");
+                return;
+            }
+        }
+
+		if(confirm("쪽지를 회수할까요? (회수 시, 쪽지가 완전삭제됩니다.)")) {
+		    btnAjax(selectedData, '/returnCheckedMsg');
+		} else {
+		    console.log("회수 취소");
+		}
+	} else {
+        alert('회수 할 쪽지들을 먼저 선택하세요');
+    }
+});
+
+<!-- 행 어디를 선택해도 checkbox 선택되도록 -->
+$(document).on('click', 'td', function(event){
+	// '.file-star'를 클릭했을 때는 동작안함.
+    if ($(event.target).is('.file-star') || $(event.target).closest('.file-star').length) {
+        return;
+    }
+	
+    if ($(event.target).is('.actionbtn') || $(event.target).closest('.actionbtn').length) {
+        return;
+    }
+    
+    if (!$(event.target).is('input[type="checkbox"]')) {
+        var checkbox = $(this).closest('tr').find('input[type="checkbox"]');
+        checkbox.prop('checked', !checkbox.prop('checked'));
+    }
+});
+
+
+<!-- data테이블관련 js -->
+<!-- data테이블에서 생성된 버튼이나 check박스들은 여기서 jq를 직접 지정해주는 편이 좋다. -->
+/*MultiRow Select Checkbox*/
+/*Checkbox Add*/
+var tdCnt=0;
+$(' table#datable_4c tbody tr').each(function(){
+	$('<td><span class="form-check"><input type="checkbox" class="form-check-input" id="chk_sel_'+tdCnt+'"><label class="form-check-label" for="chk_sel_'+tdCnt+'"></label></span></td>').prependTo($(this));
+	tdCnt++;
+});
+/*DataTable Init*/
+var targetDt1 = $('#datable_4c').DataTable({
+	scrollX:  true,
+	autoWidth: false,
+	"columnDefs": [ {
+		"searchable": false,
+		"orderable": false,
+		"targets": 0
+	} ],
+	"order": [[ 5, 'desc' ]],
+	language: { 
+		search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+			paginate: {
+				next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+				previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+			}
+	},
+	
+	//data테이블이 그려질때마다 실행시킬 함수는 여기에 넣으면 됨.
+	"drawCallback": function () {
+		// 최상단 체크박스 클릭 이벤트
+		$('thead input[type="checkbox"]').on('click', function() {
+		  	// 최상단 체크박스의 체크 상태를 가져옴
+		  	var isChecked = $(this).is(':checked');
+		  
+		  	// tbody의 모든 체크박스를 최상단 체크박스와 동일한 상태로 만듦
+			$('tbody input[type="checkbox"]').prop('checked', isChecked);
+		});
+		
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+		
+		//목록에서 카테고리이름 색상부여하기
+		$(".media-body .msgCateName").each(function() {
+	        var $msgCate = $(this);
+	        var msg_cate_name = $msgCate.text().trim();
+
+	        switch(msg_cate_name) {
+	            case '긴급/중요':
+	                $msgCate.css('color', 'red'); break;
+	            case '업무연락':
+	                $msgCate.css('color', '#5050FF'); break;
+	            case '전체공지':
+	                $msgCate.css('color', '#FFB914'); break;
+	            case '답장':
+	                $msgCate.css('color', '#50C785'); break;   
+	            case '미지정':
+	            	$msgCate.text('카테고리 없음');	break;
+	            case '일반':
+	            	$msgCate.css('color', 'black'); break;
+	        }
+	    });
+
+		//쪽지리스트랑 Action 옵션에서 첨부파일 다운로드 클릭시
+		$(".msgFileTag, .filedown").click(function(e) {
+		    e.preventDefault();  // 버블링 방지
+		
+		    var downloadUrl = $(this).attr("href");
+			console.log(downloadUrl);
+		    if(downloadUrl === '#'){
+		        alert("첨부파일이 없습니다.");
+		    }else{
+		        // AJAX 요청으로 파일 존재 여부 확인
+		        $.ajax({
+		            url: downloadUrl,
+		            type: "HEAD",  // HEAD 요청은 실제 파일을 다운로드하지 않고 메타데이터만 요청
+		            error: function() {
+		                // 파일이 없거나 다른 오류가 발생한 경우
+		                alert("파일을 찾을 수 없습니다.");
+		            },
+		            success: function() {
+		                // 파일이 존재하면 실제 파일 다운로드를 진행
+		                location.href = downloadUrl;
+		            }
+		        });
+		    }
+		});
+		
+		//Action옵션에서 쪽지 세부 내용 보기 modal창
+		$(document).on("click",".detailView",function() {
+			//받은편지함 목록에서 해당 row의 정보들 가져오기
+		    msg_no = $(this).closest('tr').find('.msg_no').text();
+		    msg_title = $(this).closest('tr').find('.msgTitle').text();
+		    msg_content = $(this).closest('tr').find('.msgContent').text();
+		    msg_date = $(this).closest('tr').find('.msg_date').text();
+		    msg_sender = $(this).closest('tr').find('.msg_sender').text();
+		    msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
+		    msg_file = $(this).closest('tr').find('.msgFile').text();
+		    msg_file_rename= $(this).closest('tr').find('.msgFileTag').attr('href');
+		    msg_sender_name = $(this).closest('tr').find('.msg_sender_name').text();
+		    msg_cate_name = $(this).closest('tr').find('.msgCateName').text();
+		    
+		    //가져온 정보들을 modal위치에 세팅
+		    $("#modal_msgView").find(".modal-title").text(msg_title);
+		    $("#modal_msgView").find(".modal-body").html(msg_content);
+		    $("#modal_msgView").find(".sender").text(msg_sender_name);
+		    $("#modal_msgView").find(".receiver").text(msg_receiver);
+		    $("#modal_msgView").find(".msgtime").text(msg_date);
+		    $("#modal_msgView").find(".msg_file").text(msg_file);
+		    
+		    $("#modal_msgView").find(".msg_file").attr('href',msg_file_rename);
+		    
+		  //함께 쪽지받은 사람 가져와서 modal에 세팅
+		    var msgSharedEmps = {
+		    	emp_no:emp_no,
+		    	msg_no:msg_no,
+		    	msg_title:msg_title,
+		    	msg_content:msg_content
+		    };
+		    
+		    $.ajax({
+		    	url: '/sharedEmp',
+		    	type: 'POST',
+		    	data: JSON.stringify(msgSharedEmps),
+		    	contentType:'application/json; charset=utf-8',
+		 		success:function(response){
+		 			console.log(response);
+		 	        var sharedEmps = '';
+		 	        if(response && response.length > 0) {
+		 	            sharedEmps = response.join(', ');
+		 	        } else {
+		 	            sharedEmps = '없음';
+		 	        }
+		 	        $("#modal_msgView").find(".msgshared").text(sharedEmps);
+		 		},
+		 		error:function(error){
+		 			console.log("서버통신오류")
+		 		}
+		    });
+		    
+		    //카테고리에 따라 카테고리글자색 다르게 표시
+			$msgCate = $("#modal_msgView").find(".msgCate");
+			$msgCate.text(msg_cate_name);
+					
+			switch(msg_cate_name) {
+			    case '긴급/중요':
+			        $msgCate.css('color', 'red');
+			        break;
+			    case '업무연락':
+			        $msgCate.css('color', '#5050FF');
+			        break;
+			    case '전체공지':
+			        $msgCate.css('color', '#FFB914');
+			        break;
+			    case '답장':
+			        $msgCate.css('color', '#50C785');
+			        break;   
+			}
+		        //모달 보여주기
+		        $("#modal_msgView").modal('show');
+		        
+		        $.ajax({
+		        	url: '/readMsg',
+		        	type: 'POST',
+		        	data: { 
+		        		'emp_no' : emp_no,
+		        		'msg_no' : msg_no
+		        	},
+		     		success:function(){
+						console.log("읽음처리");
+		     		},
+		     		error:function(response){
+		     			console.log("서버통신오류")
+		     		}
+		        });
+		    });
+
+		
+		//Action 옵션에서 회수하기 클릭시
+		$(document).on('click', '.returnMsg', function(event){
+		    event.stopPropagation();  //이벤트버블링 방지. 상위요소에 event영향 미치지 않도록 함.
+		    
+		    var msg_no = $(this).closest('tr').find('.msg_no').text();
+		    var emp_no = $(this).closest('tr').find('.emp_no').text();
+		    console.log('쪽지번호', msg_no, emp_no);
+		    
+		    var isConfirmed = confirm("쪽지를 회수할까요? (회수 시, 쪽지가 완전삭제됩니다.)");
+		    if(isConfirmed){
+			    $.ajax({
+			        url: 'returnMsg',
+			        type: 'POST',
+			        data: {
+			        	'emp_no': emp_no,
+			            'msg_no': msg_no 
+			        },
+			        success: function(response) {
+			            if(response.status === 'success'){
+			                console.log("쪽지 회수 성공");
+			                location.reload();
+			            } else {
+			                console.log("쪽지 회수 실패");
+			            }
+			        },
+			        error: function(error) {
+			            console.log("서버 연결 실패");
+			        }
+			    });
+		    }
+		});
+		
+		
+		//리스트에서 check박스 선택시 해당 checkbox데이터 가져오는 함수 실행
+		$('.form-check-input').on('change', function() {
+		    selectedData = getSelectedData();
+		    console.log(selectedData);
+		});
+		
+		
+	}
+});
+
+
+
+
+
+											
+</script>
+
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
+
+

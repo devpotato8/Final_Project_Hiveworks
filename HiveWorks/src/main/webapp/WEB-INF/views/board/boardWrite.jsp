@@ -15,6 +15,12 @@
     </div>
     <div id="board-container">
         <form id="userForm" name="boardFrm" action="${path }/board/insertBoard" method="post" enctype="multipart/form-data">
+		    <select id="boardType" class="form-select" name="boardType">
+				<option selected>게시판 선택</option>
+				<option value="BRD001">공지사항</option>
+			    <option value="BRD002">건의사항</option>
+				<option value="BRD003">블라인드</option>
+			</select>
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
             <div class="input-group mb-3" style="padding:0px;">
   				<div class="input-group-prepend" style="padding:0px;">

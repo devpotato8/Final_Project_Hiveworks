@@ -42,6 +42,7 @@
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
 									<a href="/board/boardView?boardNo=${b.boardNo}&count=1"><c:out value="${b.boardNo}" /></a>
+									
 									<td><c:out value="${b.createDate}" /></td>
 									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>

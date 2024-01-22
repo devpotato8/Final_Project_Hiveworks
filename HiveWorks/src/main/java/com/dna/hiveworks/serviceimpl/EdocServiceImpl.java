@@ -27,6 +27,7 @@ import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentReference;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.service.EdocService;
 import com.dna.hiveworks.service.MsgService;
+import com.dna.hiveworks.service.VacationService;
 
 import jakarta.servlet.ServletContext;
 
@@ -50,6 +51,8 @@ public class EdocServiceImpl implements EdocService{
 	ServletContext context;
 	@Autowired
 	MsgService msgService;
+	@Autowired
+	VacationService vacService;
 
 	
 	@Override
@@ -73,7 +76,10 @@ public class EdocServiceImpl implements EdocService{
 	public List<ElectronicDocumentSample> getEdocSampleList(DotCode edocDotCode) {
 		return dao.getEdocSampleList(session, edocDotCode);
 	}
-	
+	@Override
+	public List<ElectronicDocumentSample> getEdocSampleList() {
+		return dao.getSampleAll(session);
+	}
 	@Override
 	public ElectronicDocumentSample getSample(String formatNo) {
 		return dao.getSample(session, formatNo);
@@ -86,6 +92,10 @@ public class EdocServiceImpl implements EdocService{
 			edoc.setEdocPreservePeriod(
 					Date.valueOf(
 							LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1))
+					);
+		}else if(edoc.getEdocPreservePeriod() == null && edoc.getPeriod() == 0) {
+			edoc.setEdocPreservePeriod(
+					Date.valueOf(LocalDate.of(LocalDate.now().getYear()+3+1, 1, 1))
 					);
 		}
 		
@@ -197,7 +207,8 @@ public class EdocServiceImpl implements EdocService{
 					// 전자문서 완료처리
 					dao.edocFinalize(session, edoc);
 					if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
-						// TODO 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
+						// 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
+						vacService.confirmVacation(edoc.getEdocNo());
 					}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
 						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
 					}
@@ -222,6 +233,14 @@ public class EdocServiceImpl implements EdocService{
 			}
 			// 문서의 반려처리
 			dao.revokeDocument(session, edoc);
+			
+			if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
+				// 반려처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
+				vacService.revokeVacation(edoc.getEdocNo());
+			}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
+				// TODO 반려처리된 문서가 연장근무신청서일때 처리로직
+			}
+			
 		}else {
 			throw new HiveworksException("결재처리중 에러가 발생하였습니다");
 		}

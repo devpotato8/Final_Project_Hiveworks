@@ -42,6 +42,8 @@
     	width:auto;
     	max-width:300px;
 	}
+	
+	
 	.autocomplete-dropdown-item.selected {
 	    background-color: #f2f2f2;
 	}
@@ -66,6 +68,15 @@
 	.no-employees {
 	    display: none;
 	}
+	.msgInfoText {
+		margin-bottom: 10px;
+	}
+	.msgmenu:hover{
+		background-color: #ebf5f5;
+    	cursor: pointer;
+    	width:auto;
+    	max-width:300px;
+	}
 </style>
 
 
@@ -79,11 +90,13 @@
 			  				  	
 			</div>
 			<div class="modal-info mt-3">
-				<p><span>보낸사람 : </span><span class="sender"></span></p>
-				<p><span>전송시간 : </span><span class="msgtime"></span></p>
-				<p><span>첨부파일 : </span><span class="msg_file"></span></p>
-				
+				<p class="msgInfoText"><span>카테고리 : </span><span class="msgCate"></span></p>
+				<p class="msgInfoText"><span>보낸사람 : </span><span class="sender"></span></p>
+				<p class="msgInfoText"><span>공유된사람 : </span><span class="msgshared"></span></p>
+				<p class="msgInfoText"><span>전송시간 : </span><span class="msgtime"></span></p>
+				<p><span>첨부파일 : </span><a class="msg_file"></a></p>
 			</div>
+			<div class="separator-full"></div>
 			<div class="modal-body" style="font-weight:bold;">
 			
 			</div>
@@ -135,7 +148,8 @@
 					<div id="byteCount" class="text-end mb-3">0 / 1500 byte</div>
 					
 					<div class="input-group mb-3">
-						<input type="file" class="form-control" id="msgFileAttach" name="sendmsgFile" aria-label="Upload">
+						<input type="file" class="form-control" id="msgFileAttach" name="sendmsgFile" aria-label="Upload"
+						accept=".txt, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .hwp, .pdf, .jpg, .jpeg, .bmp, .gif, .png, .zip">
 					</div>
 				  	<p style="font-size:0.8rem;">파일 전송상태</p>
 					<div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100">
@@ -170,7 +184,29 @@
   </div>
 </div>
 
-
+<!-- 파일 상세보기 modal -->
+<div id="modal_fileView" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  				  	
+			</div>
+			<div class="modal-info mt-3">
+				<p class="msgInfoText"><span>보낸사람 : </span><span id="modalMsgSender"></span></p>
+				<p class="msgInfoText"><span>파일명 : </span><span id="modalOriName"></span></p>
+				<p class="msgInfoText"><span>공유된사람 : </span><span id=""></span></p>
+				<p class="msgInfoText"><span>전송시간 : </span><span id="modalMsgDate"></span></p>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-soft-secondary" data-bs-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <!-- Main Content -->
@@ -188,26 +224,26 @@
 						</div>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active">
-									<a class="nav-link" href="${path}/messageview?empNo=${loginEmp.emp_no}">
-										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="hard-drive"></i></span></span>
+								<li class="nav-item msgmenu">
+									<a class="nav-link" href="${path}/messageview">
+										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="inbox"></i></span></span>
 										<span class="nav-link-text">받은 쪽지함</span>
 									</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="${path}/sendmessageview?empNo=${loginEmp.emp_no}">
+								<li class="nav-item msgmenu">
+									<a class="nav-link" href="${path}/sendmessageview">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="send"></i></span></span>
 										<span class="nav-link-text">보낸 쪽지함</span>
 									</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="${path}/starmessageview?empNo=${loginEmp.emp_no}">
+								<li class="nav-item msgmenu">
+									<a class="nav-link" href="${path}/starmessageview">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="star"></i></span></span>
 										<span class="nav-link-text">별표 쪽지함</span>
 									</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="${path}/delmessageview?empNo=${loginEmp.emp_no}">
+								<li class="nav-item msgmenu">
+									<a class="nav-link" href="${path}/trashmessageview">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span>
 										<span class="nav-link-text">휴지통</span>
 									</a>
@@ -221,17 +257,31 @@
 							</div>
 							<br>
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item">
-									<a class="nav-link" href="javascript:void(0);">
+								<li class="nav-item msgmenu1">
+									<a class="nav-link" href="${path}/msgFileView">
+										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="folder"></i></span></span>
+										<span class="nav-link-text">전체 파일</span>
+									</a>
+								</li>
+							
+								<li class="nav-item msgmenu2">
+									<a class="nav-link" href="${path}/imgFileView">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="image"></i></span></span>
 										<span class="nav-link-text">사진 파일</span>
 									</a>
 								</li>
 								
-								<li class="nav-item">
-									<a class="nav-link" href="javascript:void(0);">
+								<li class="nav-item msgmenu3">
+									<a class="nav-link" href="${path}/docFileView">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="file-text"></i></span></span>
 										<span class="nav-link-text">문서 파일</span>
+									</a>
+								</li>
+								
+								<li class="nav-item msgmenu4">
+									<a class="nav-link" href="${path}/otherFileView">
+										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="file"></i></span></span>
+										<span class="nav-link-text">기타 파일</span>
 									</a>
 								</li>
 							</ul>
@@ -247,12 +297,22 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						
-							<h4>${loginEmp.emp_name}님의 쪽지함</h4>
+							<h4>${loginEmp.emp_name}님의 ${param.nameofmsglist}</h4>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark flush-soft-hover dropdown-toggle no-caret active ms-lg-0 d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown"><span class="icon"><span class="feather-icon"><i data-feather="list"></i></span></span></a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="${path}/messageview"><span class="feather-icon dropdown-icon"><i data-feather="list"></i></span><span>목록으로 보기</span></a>
-								<a class="dropdown-item active" href="${path}/msgFileView"><span class="feather-icon dropdown-icon"><i data-feather="grid"></i></span><span>첨부파일만 보기</span></a>
+								<a class="dropdown-item" href="${path}/messageview">
+									<span class="feather-icon dropdown-icon">
+										<i data-feather="list"></i>
+									</span>
+									<span>목록으로 보기</span>
+								</a>
+								<a class="dropdown-item" href="${path}/msgFileView">
+									<span class="feather-icon dropdown-icon">
+										<i data-feather="grid"></i>
+									</span>
+									<span>첨부파일 전체보기</span>
+								</a>
 							</div>
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
 								<span class="icon">
@@ -264,11 +324,10 @@
 						<div class="hk-sidebar-togglable"></div>
 					</header>
 			<!--/ MSG Header Line END-->
-			
+		
 
 <script>
-
-
+var emp_no = "${loginEmp.emp_no}";
 var msg_no;
 var msg_title;
 var msg_content;
@@ -276,32 +335,128 @@ var msg_date;
 var msg_sender;
 var msg_receiver;
 var msg_file;
+var msg_file_rename;
 var msg_sender_name;
+var msg_cate_name;
+var $msgCate;
+var path = "${path}";
 
-//쪽지 내용 보기
-
-    $(document).on("click",".msgTitle, .msgContent",function() {
-    	//받은편지함 목록에서 해당 row의 정보들 가져오기
-        msg_no = $(this).closest('tr').find('.msg_no').text();
-        msg_title = $(this).closest('tr').find('.msgTitle').text();
-        msg_content = $(this).closest('tr').find('.msgContent').text();
-        msg_date = $(this).closest('tr').find('.msg_date').text();
-        msg_sender = $(this).closest('tr').find('.msg_sender').text();
-        msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
-        msg_file = $(this).closest('tr').find('.msgFile').text();
-        msg_sender_name = $(this).closest('tr').find('.msg_sender_name').text();
-        
-        //가져온 정보들을 modal위치에 세팅
-        $("#modal_msgView").find(".modal-title").text(msg_title);
-        $("#modal_msgView").find(".modal-body").html(msg_content);
-        $("#modal_msgView").find(".sender").text(msg_sender_name);
-        $("#modal_msgView").find(".receiver").text(msg_receiver);
-        $("#modal_msgView").find(".msgtime").text(msg_date);
-        $("#modal_msgView").find(".msg_file").html('<a href="#">'+msg_file+'</a>');
-        
-        //모달 보여주기
-        $("#modal_msgView").modal('show');        
+//쪽지 세부 내용 보기 modal창
+$(document).on("click",".msgTitle, .msgContent, .msgCateName",function() {
+	//받은편지함 목록에서 해당 row의 정보들 가져오기
+    msg_no = $(this).closest('tr').find('.msg_no').text();
+    msg_title = $(this).closest('tr').find('.msgTitle').text();
+    msg_content = $(this).closest('tr').find('.msgContent').text();
+    msg_date = $(this).closest('tr').find('.msg_date').text();
+    msg_sender = $(this).closest('tr').find('.msg_sender').text();
+    msg_receiver = $(this).closest('tr').find('.msg_receiver').text();
+    msg_file = $(this).closest('tr').find('.msgFile').text();
+    msg_file_rename= $(this).closest('tr').find('.msgFileTag').attr('href');
+    msg_sender_name = $(this).closest('tr').find('.msg_sender_name').text();
+    msg_cate_name = $(this).closest('tr').find('.msgCateName').text();
+    
+    //가져온 정보들을 modal위치에 세팅
+    $("#modal_msgView").find(".modal-title").text(msg_title);
+    $("#modal_msgView").find(".modal-body").html(msg_content);
+    $("#modal_msgView").find(".sender").text(msg_sender_name);
+    $("#modal_msgView").find(".receiver").text(msg_receiver);
+    $("#modal_msgView").find(".msgtime").text(msg_date);
+    $("#modal_msgView").find(".msg_file").text(msg_file);
+    $("#modal_msgView").find(".msg_file").attr('href',msg_file_rename);
+    
+    //함께 쪽지받은 사람 가져와서 modal에 세팅
+    var msgSharedEmps = {
+    	emp_no:emp_no,
+    	msg_no:msg_no,
+    	msg_title:msg_title,
+    	msg_content:msg_content
+    };
+    
+    $.ajax({
+    	url: path+'/sharedEmp',
+    	type: 'POST',
+    	data: JSON.stringify(msgSharedEmps),
+    	contentType:'application/json; charset=utf-8',
+    	dataType:'JSON',
+ 		success:function(response){
+ 			console.log(response);
+ 	        var sharedEmps = '';
+ 	        if(response && response.length > 0) {
+ 	            sharedEmps = response.join(', ');
+ 	        } else {
+ 	            sharedEmps = '없음';
+ 	        }
+ 	        $("#modal_msgView").find(".msgshared").text(sharedEmps);
+ 	        
+ 		},
+ 		error:function(error){
+ 			console.log("서버통신오류")
+ 		}
     });
+    
+    
+    //카테고리에 따라 카테고리글자색 다르게 표시
+	$msgCate = $("#modal_msgView").find(".msgCate");
+	$msgCate.text(msg_cate_name);
+			
+	switch(msg_cate_name) {
+	    case '긴급/중요':
+	        $msgCate.css('color', 'red');
+	        break;
+	    case '업무연락':
+	        $msgCate.css('color', '#5050FF');
+	        break;
+	    case '전체공지':
+	        $msgCate.css('color', '#FFB914');
+	        break;
+	    case '답장':
+	        $msgCate.css('color', '#50C785');
+	        break;   
+	}
+        //모달 보여주기
+        $("#modal_msgView").modal('show');
+        
+        $.ajax({
+        	url: path+'/readMsg',
+        	type: 'POST',
+        	data: { 
+        		'emp_no' : emp_no,
+        		'msg_no' : msg_no
+        	},
+     		success:function(){
+				console.log("읽음처리");
+     		},
+     		error:function(response){
+     			console.log("서버통신오류")
+     		}
+        });
+    });
+
+//쪽지 세부내용 modal창에서 첨부파일 클릭시 다운로드
+$(".msg_file").click(function(e) {
+	    e.preventDefault();  // 버블링 방지
+	    
+	    var downloadUrl = $(this).attr("href");
+		var $tagText = $(this).text().trim();
+	    
+		if($tagText === '첨부파일 없음'){
+	    	alert("첨부파일이 없습니다.");
+	    }else{
+		    // AJAX 요청으로 파일 존재 여부 확인
+		    $.ajax({
+		        url: downloadUrl,
+		        type: "HEAD",  // HEAD 요청은 실제 파일을 다운로드하지 않고 메타데이터만 요청
+		        success: function() {
+		            // 파일이 존재하면 실제 파일 다운로드를 진행
+		            location.href = downloadUrl;
+		        },
+		        error: function() {
+		            // 파일이 없거나 다른 오류가 발생한 경우
+		            alert("파일을 찾을 수 없습니다.");
+		        }
+		    });
+	    }
+	});
 
 
 
@@ -320,7 +475,7 @@ $('#msgContentArea').on('input', function() {
 //답장 modal에 받는사람 정보 미리 입력해주기
 $(document).ready(function(){
     $("#sendReply").click(function(){
-        $("#modal_msgView").modal('hide');
+        /* $("#modal_msgView").modal('hide'); */
         $("#sendMsgModal").modal('show');
         $("#msgCategory").val("MCT005");
         $("#searchEmp").val(msg_sender_name);
@@ -329,6 +484,94 @@ $(document).ready(function(){
 });
 
 
+//쪽지보내기 modal창 닫힐때 값 초기화
+$(document).ready(function(){
+	$('#sendMsgModal').on('hide.bs.modal', function() {
+	    // 모달이 닫힐 때 입력 필드 초기화
+	    $('#searchEmp').val('');
+	    $('#receiverEmpNo').val('');
+	    $('#msgFileAttach').val('');
+	    $('input[name="sendMsgTitle"]').val('');
+	    $('#msgContentArea').val('');
+	    $('#msgCategory').prop('selectedIndex',0); 
+	});
+	
+	$('#modal_msgView').on('hide.bs.modal', function() {
+		//modal이 닫힐때 새로고침
+	    location.reload();		
+	});
+	
+});
+
+
+//쪽지 보내기 버튼 클릭시
+$(document).ready(function(){
+	$('#sendMsgBtn').click(function(){
+		var receiverEmpNo = $('#receiverEmpNo').val().split(','); // 쉼표로 구분된 문자열을 배열로 변환
+	    var msgCategory = $('#msgCategory').val();
+	    var sendMsgTitle = $('input[name="sendMsgTitle"]').val();
+	    var sendMsgContent = $('#msgContentArea').val();
+	    var sendmsgFile = $('#msgFileAttach')[0].files[0]; // 파일 첨부의 경우
+	    console.log(sendmsgFile)
+		var senderEmpNo = '${loginEmp.emp_no}';
+	    var formData = new FormData();
+	    receiverEmpNo.forEach(function(no) {
+	        formData.append('receiverEmpNo', no.trim()); // 공백 제거 후 추가
+	    });
+	    formData.append('msgCategory', msgCategory);
+	    formData.append('senderEmpNo', senderEmpNo);
+	    formData.append('sendMsgTitle', sendMsgTitle);
+	    formData.append('sendMsgContent', sendMsgContent);
+	    //formData.append('sendmsgFile', sendmsgFile[0]);
+	    // 파일이 첨부되었는지 확인하고, 첨부된 경우에만 formData에 추가
+        if(sendmsgFile) {
+		    formData.append('sendmsgFile', sendmsgFile);
+		};
+		
+	    $.ajax({
+	        type: 'POST',
+	        url: path+'/sendMsg', // 실제 요청 URL
+	        data: formData,
+	        processData: false, // 파일 첨부를 위해 필요
+	        contentType: false, // 파일 첨부를 위해 필요
+	        xhr: function() {
+	            var xhr = new window.XMLHttpRequest();
+	            // 업로드 진행 상태 이벤트 핸들러 등록
+	            xhr.upload.addEventListener("progress", function(evt){
+	                if(evt.lengthComputable) {
+	                    var percentComplete = (evt.loaded / evt.total) * 100;
+	                    // 진행 상태를 백분율로 계산하여 Progress Bar에 반영
+	                    $('#uploadProgressBar').css('width', percentComplete + '%').attr('aria-valuenow', percentComplete);
+	                }
+	            }, false);
+	            return xhr;
+	        },
+	        success: function(response, textStatus, xhr){
+		        if(xhr.status===200){	
+		        	if(response.status === 'success'){
+		        		alert("쪽지 전송 성공!");
+			            $('#sendMsgModal').modal('hide'); // 모달창 닫기
+			            // 업로드 완료 후 Progress Bar 초기화
+			            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
+			            msgListAjax();
+		            } else {
+		                alert("쪽지 전송 실패. 다시 시도해보세요.");
+		                $('#sendMsgModal').modal('hide'); // 모달창 닫기
+		                $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
+		            }
+		        }
+	        },
+	        error: function(xhr, status, error){
+	            if(xhr.status===400){
+		            alert("잘못된 요청입니다. 입력 내용을 확인해주세요.");            	
+	            }else{
+	            	alert("서버 통신 오류. 쪽지 전송 실패. 관리자 문의요망");
+	            }
+	            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
+	        }
+	    });
+	});
+});
 
 
 //modal창 내 jstree, 직원선택 로직
@@ -338,7 +581,7 @@ $('#searchEmpBtn').click(function(){
     function getJson(){
         $.ajax({
             type:'GET',
-            url:'/modalDeptEmp',
+            url: path+'/modalDeptEmp',
             dataType:'JSON',
             success: function(data){
                 var deptlist = new Array();
@@ -451,96 +694,6 @@ $('#searchEmpBtn').click(function(){
 });
 
 
-
-//쪽지보내기 modal창 닫힐때 값 초기화
-$(document).ready(function(){
-	$('#sendMsgModal').on('hide.bs.modal', function() {
-	    // 모달이 닫힐 때 입력 필드 초기화
-	    $('#searchEmp').val('');
-	    $('#receiverEmpNo').val('');
-	    $('#msgFileAttach').val('');
-	    $('input[name="sendMsgTitle"]').val('');
-	    $('#msgContentArea').val('');
-	    $('#msgCategory').prop('selectedIndex',0);
-	    
-	});	
-});
-
-
-
-
-//쪽지 보내기 버튼 클릭시
-$(document).ready(function(){
-	$('#sendMsgBtn').click(function(){
-		var receiverEmpNo = $('#receiverEmpNo').val().split(','); // 쉼표로 구분된 문자열을 배열로 변환
-	    var msgCategory = $('#msgCategory').val();
-	    var sendMsgTitle = $('input[name="sendMsgTitle"]').val();
-	    var sendMsgContent = $('#msgContentArea').val();
-	    var sendmsgFile = $('#msgFileAttach')[0].files[0]; // 파일 첨부의 경우
-	    console.log(sendmsgFile)
-		var senderEmpNo = '${loginEmp.emp_no}';
-	    var formData = new FormData();
-	    receiverEmpNo.forEach(function(no) {
-	        formData.append('receiverEmpNo', no.trim()); // 공백 제거 후 추가
-	    });
-	    formData.append('msgCategory', msgCategory);
-	    formData.append('senderEmpNo', senderEmpNo);
-	    formData.append('sendMsgTitle', sendMsgTitle);
-	    formData.append('sendMsgContent', sendMsgContent);
-	    //formData.append('sendmsgFile', sendmsgFile[0]);
-	    // 파일이 첨부되었는지 확인하고, 첨부된 경우에만 formData에 추가
-        if(sendmsgFile) {
-		    formData.append('sendmsgFile', sendmsgFile);
-		};
-		
-	    $.ajax({
-	        type: 'POST',
-	        url: '/sendMsg', // 실제 요청 URL
-	        data: formData,
-	        processData: false, // 파일 첨부를 위해 필요
-	        contentType: false, // 파일 첨부를 위해 필요
-	        xhr: function() {
-	            var xhr = new window.XMLHttpRequest();
-	            // 업로드 진행 상태 이벤트 핸들러 등록
-	            xhr.upload.addEventListener("progress", function(evt){
-	                if(evt.lengthComputable) {
-	                    var percentComplete = (evt.loaded / evt.total) * 100;
-	                    // 진행 상태를 백분율로 계산하여 Progress Bar에 반영
-	                    $('#uploadProgressBar').css('width', percentComplete + '%').attr('aria-valuenow', percentComplete);
-	                }
-	            }, false);
-	            return xhr;
-	        },
-	        success: function(response, textStatus, xhr){
-		        if(xhr.status===200){	
-		        	if(response.status === 'success'){
-		        		alert("쪽지 전송 성공!");
-			            $('#sendMsgModal').modal('hide'); // 모달창 닫기
-			            // 업로드 완료 후 Progress Bar 초기화
-			            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
-		            } else {
-		                alert("쪽지 전송 실패. 다시 시도해보세요.");
-		                $('#sendMsgModal').modal('hide'); // 모달창 닫기
-		                $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
-		            }
-		        }
-	        },
-	        error: function(xhr, status, error){
-	            if(xhr.status===400){
-		            alert("잘못된 요청입니다. 입력 내용을 확인해주세요.");            	
-	            }else{
-	            	alert("서버 통신 오류. 쪽지 전송 실패. 관리자 문의요망");
-	            }
-	            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
-	        }
-	    });
-	});
-});
-
-
-
-
-
 <!-- 직원 검색창 자동완성 결과 ajax -->
 var empNo;
 var isLeader;
@@ -567,7 +720,7 @@ $(document).ready(function(){
             ajaxRequest=true;
             $.ajax({
                 type:'GET',
-                url:'/searchEmp',
+                url: path+'/searchEmp',
                 data:{ name : searchText },
                 dataType:'JSON',
                 success: function(response){
@@ -648,6 +801,31 @@ $(document).ready(function(){
 });
 
 
+//(...)메뉴 preview클릭 시 모달창 띄우기
+$(document).ready(function(){
+    $('.flieDetailView').on('click', function(e){
+        e.preventDefault();
+
+        // 현재 클릭한 요소의 부모 요소 데이터 가져오기
+        var parent = $(this).closest('.media-body');
+
+        var fileMsgNo = parent.find('.fileMsgNo').text();
+        var fileOriName = parent.find('.fileOriName').text();
+        var fileMsgDate = parent.find('.fileMsgDate').text();
+        var fileMsgReceiver = parent.find('.fileMsgReceiver').text();
+        var fileMsgSender = parent.find('.fileMsgSender').text();
+
+        // 모달에 데이터 넣기
+       
+        $('#modalOriName').text(fileOriName);
+        $('#modalMsgDate').text(fileMsgDate);
+        $('#modalMsgReceiver').text(fileMsgReceiver);
+        $('#modalMsgSender').text(fileMsgSender);
+
+        // 모달 열기
+        $('#modal_fileView').modal('show');
+    });
+});
 
 
 </script>

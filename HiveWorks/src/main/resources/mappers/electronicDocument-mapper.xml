@@ -16,6 +16,7 @@
 		<result column="CREATER" property="creater" />
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="FINALIZED_DATE" property="finalizedDate" />
+		<result column="EDOC_SAMPLE_NO" property="edocSampleNo" />
 		
 		<!-- <collection property="approval" resultMap="approvalMap"/>
 		<collection property="reference" resultMap="referenceMap"/>
@@ -293,6 +294,10 @@
 		WHERE E.EMP_NO = #{empNo}
 	</select>
 
+	<select id="getSampleAll" resultMap="edocSampleMap">
+		SELECT * FROM TBL_EDOC_SAMPLE
+	</select>
+
 	<select id="getEdocSampleList" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
 		SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE SAMPLE_DOT_CODE =
 		#{edocDotCode}
@@ -325,7 +330,8 @@
 		NULL,<!-- MODIFY_DATE -->
 		DEFAULT,<!-- USE_YN -->
 		NULL,<!-- FINALIZED_DATE -->
-		#{edocVacationCount} <!-- EDOC_VACATION_COUNT -->
+		#{edocVacationCount}, <!-- EDOC_VACATION_COUNT -->
+		#{edocSampleNo}<!-- EDOC_SAMPLE_NO-->
 		)
 	</insert>
 	

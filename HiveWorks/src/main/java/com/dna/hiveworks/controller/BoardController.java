@@ -48,18 +48,24 @@ public class BoardController {
 	
 	@GetMapping("/board")
 	public String board(Model model) {
-	    List<Board> boardList = service.selectAllBoard();
+	    List<Board> boardList = service.selectAllBoard("BRD001");
 	    model.addAttribute("boardList", boardList);
 	    
 	    return "board/board";
 	}
 	
 	@GetMapping("/suggestions")
-	public String suggestions() {
+	public String suggestions(Model model) {
+		List<Board> boardList = service.selectAllBoard("BRD002");
+	    model.addAttribute("boardList", boardList);
+	    
 		return "board/suggestions";
 	}
 	@GetMapping("/blind")
-	public String blind() {
+	public String blind(Model model) {
+		List<Board> boardList = service.selectAllBoard("BRD003");
+	    model.addAttribute("boardList", boardList);
+	    
 		return "board/blind";
 	}
 	@GetMapping("/boardWrite")
@@ -78,7 +84,7 @@ public class BoardController {
 	public String boardDelete(@RequestParam("boardNo") int boardNo,Model model) {
 		Board board = service.boardDelete(boardNo);
 		log.debug("보드 번호{}",boardNo);
-		List<Board> boardList = service.selectAllBoard();
+		List<Board> boardList = service.selectAllBoard(board.getBoardType());
 	    model.addAttribute("boardList", boardList);
 	    return "board/board";
 	}
@@ -115,6 +121,7 @@ public class BoardController {
 	@PostMapping("/insertBoard")
 	public String insertBoard(@RequestParam("upFile") MultipartFile[] upFiles,Board b, Model model, HttpSession session) {
 	    
+		
 		String path=session.getServletContext().getRealPath("/resources/upload/board/");
 		List<Uploadfile> files=new ArrayList<>();
 		
