@@ -407,6 +407,9 @@
 									<div class="invoice-list-view">
 										<button class="btn btn-primary btn-rounded" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px; display:inline-block;">직원 등록</button>
 										<button class="btn btn-primary btn-rounded" onclick="fn_excelDownload();" style="width:150px; display:inline-block;">엑셀 다운로드</button>
+										<label for="excelUpFile">엑셀 파일 첨부</label>
+										<input type="file" id="excelUpFile" name="excelUpFile" class="btn btn-primary btn-rounded" style="width:150px; display:inline-block;">
+										<button type="button" onclick="fn_excelUpload();"></button>
 										<table id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
@@ -813,8 +816,26 @@ fn_excelDownload=()=>{
 	location.replace("${path}/employees/excelEmployeeDownload");
 
 }
+</script>
+<script>
+fn_excelUpload=()=>{
+	
+	let $excelUpFile = document.getElementById('excelUpFile');
+	
+	if($excelUpFile.value==""){
+		alert("파일을 업로드해주세요.");
+		$excelUpFile.addEventListener('focus',event);
+		return false;
+	}
+	
+	
+	
+	
+}
 
 </script>
+
+
     <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
