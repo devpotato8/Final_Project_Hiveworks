@@ -114,12 +114,14 @@
 					<button class="btn btn-soft-primary moveStarBtn">별표 쪽지함에 저장</button>
 					<button class="btn btn-soft-primary moveTrashBtn">휴지통으로 이동</button>
 				</div>
+				<c:if test="${msgUnreadCount > 0}">
 				<div class="alert alert-warning alert-wth-icon alert-dismissible fade show" role="alert">
 					<span class="alert-icon-wrap"><i class="ri-alert-line"></i></span>
 					<div class="d-flex align-items-center flex-wrap flex-sm-nowrap">
 						<p>안읽은 쪽지가 <b>${msgUnreadCount}개</b> 있습니다</p>
 					</div>
 				</div>
+				</c:if>
 			</div>	
 			<br>
 			<div>
