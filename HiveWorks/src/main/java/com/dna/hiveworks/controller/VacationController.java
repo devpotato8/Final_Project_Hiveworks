@@ -80,6 +80,7 @@ public class VacationController {
 					}
 					// 전자문서 insert로직 추가 
 					edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
+					edoc.setEdocSampleNo(4);
 					edoc.setEdocTitle("반차신청");
 					
 					edoc.setEdocDsgCode(DsgCode.DSG003);
@@ -137,7 +138,7 @@ public class VacationController {
 					
 					// 전자문서 insert로직 추가 
 					edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
-					
+					edoc.setEdocSampleNo(4);
 					if (vacation.getVacOption().equals("병가")) {
 						edoc.setEdocTitle("병가신청");
 						edoc.setEdocContent("<p>병가신청</p>");
@@ -202,7 +203,7 @@ public class VacationController {
 					
 					// 전자문서 insert로직 추가 
 					edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
-					
+					edoc.setEdocSampleNo(4);
 					if (vacation.getVacOption().equals("병가")) {
 						edoc.setEdocTitle("병가신청");
 						edoc.setEdocContent("<p>병가신청</p>");
@@ -258,6 +259,7 @@ public class VacationController {
 				vacation.setEmpNo(empNo);
 				// 전자문서 insert로직 추가 
 				edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
+				edoc.setEdocSampleNo(4);
 				edoc.setEdocTitle("휴가신청 - 조의 (부모 / 배우자 / 자녀) 신청");
 				
 				edoc.setEdocDsgCode(DsgCode.DSG003);
@@ -302,6 +304,7 @@ public class VacationController {
 				vacation.setEmpNo(empNo);
 				// 전자문서 insert로직 추가 
 				edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
+				edoc.setEdocSampleNo(4);
 				edoc.setEdocTitle("휴가신청 - 결혼(자녀)");
 				
 				edoc.setEdocDsgCode(DsgCode.DSG003);
@@ -346,7 +349,7 @@ public class VacationController {
 				vacation.setEmpNo(empNo);
 				// 전자문서 insert로직 추가 
 				edoc.setEdocDotCode(DotCode.DOT004); // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
-				
+				edoc.setEdocSampleNo(4);
 				if (vacation.getVacOption().equals("조의 (조부모 / 형제 / 자매)")) {
 					edoc.setEdocTitle("휴가신청 - 조의 (조부모 / 형제 / 자매)");
 					edoc.setEdocContent("<p>휴가신청 - 조의 (조부모 / 형제 / 자매)</p>");
