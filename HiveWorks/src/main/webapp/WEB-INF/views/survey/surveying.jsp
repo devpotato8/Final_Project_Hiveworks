@@ -58,7 +58,7 @@
 										</div>
 									</div>
 								</div>
-							<form id="surveyForm" name="surveyFrm" action="${path}/survey/insertQuestion" method="post">	
+							<form id="surveyForm" name="surveyFrm" action="${path}/survey/insertSurvey" method="post">	
 								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">								
 								</div>
 								<input type="submit" name="name" id="submit" onclick="btn()"
