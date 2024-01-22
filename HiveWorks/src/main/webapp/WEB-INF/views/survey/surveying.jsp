@@ -58,13 +58,9 @@
 										</div>
 									</div>
 								</div>
-							<form id="surveyForm" name="surveyFrm" action="${path}/survey/insertSurvey" method="post">	
-								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">
-
-									
+							<form id="surveyForm" name="surveyFrm" action="${path}/survey/insertQuestion" method="post">	
+								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">								
 								</div>
-								
-								
 								<input type="submit" name="name" id="submit" onclick="btn()"
 									class="btn btn-primary mt-5" onclick="sendData()" value="설문완료">
 							</form>
@@ -94,6 +90,39 @@
 	</script>
 <script>
 
+let $check = document.getElementById('checkbox_');
+$(document).ready(function() {
+    $('input[type="checkbox"]').change(function() {
+        if (this.checked) {
+            var divContainer = $(this).closest('div'); // checkbox 상위의 div를 찾음
+            console.log(divContainer);
+            
+            // 첫 번째 input[type="text"]의 값을 찾음
+            var firstCell = divContainer.find('input[type="text"]').val();
+            
+            // 두 번째 div의 내용을 찾음
+            var secondCell = divContainer.find('div:eq(1)').text();
+            
+            console.log(firstCell, secondCell);
+        }
+    });
+});
+$(document).ready(function() {
+    $('input[type="radio"]').change(function() {
+        if (this.checked) {
+            var divContainer = $(this).closest('div'); // checkbox 상위의 div를 찾음
+            console.log(divContainer);
+            
+            // 첫 번째 input[type="text"]의 값을 찾음
+            var firstCell = divContainer.find('input[type="text"]').val();
+            
+            // 두 번째 div의 내용을 찾음
+            var secondCell = divContainer.find('div:eq(1)').text();
+            
+            console.log(firstCell, secondCell);
+        }
+    });
+});
 // 서버에서 받아온 JSON 형식의 설문 데이터
 var surveyData = ${survey.surveyData};
 

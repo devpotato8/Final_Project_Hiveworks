@@ -114,8 +114,10 @@ public class SurveyController {
 		return "board/msg";
 	}
 	@RequestMapping("/insertQuestion")
-	public void insertQuestion(SurveyQuestion qustion, Model model) {
+	public String insertQuestion(SurveyQuestion qustion, Model model, @RequestParam("surveyData")String surveyData) {
 		int result=service.insertQuestion(qustion);
+		System.out.println(surveyData);
+		return "survey/survey";
 		
 	}
 }
