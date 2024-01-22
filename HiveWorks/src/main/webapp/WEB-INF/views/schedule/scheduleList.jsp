@@ -252,8 +252,6 @@
 								<button type="button" 
 									id="addBtnRe" class="btn btn-light btn-floating;">일정
 									공유 추가</button>
-								<button type="button"
-									id="delBtnRe" class="btn btn-light btn-floating;">삭제</button>
 								<div id="shareListJob" class="row gx-3">
 
 
@@ -329,7 +327,8 @@
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" id="mycalendar"
 									checked> <label class="form-check-label"
-									for="mycalendar" style="padding-right: 116px">내일정</label> <!-- <a
+									for="mycalendar">내일정</label>
+									<span class="badge badge-danger badge-indicator badge-indicator-lg me-2"></span> <!-- <a
 									href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
 									data-bs-toggle="modal" data-bs-target="#add_new_cat" id="shareall"><span
 									class="icon" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -342,11 +341,19 @@
 								<input type="checkbox" class="form-check-input"
 									id="mydeptcalendar"> <label class="form-check-label"
 									for="mydeptcalendar">내부서일정</label>
+								<span class="badge badge-success badge-indicator badge-indicator-lg me-2"></span>
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
 									id="companycalendar"> <label class="form-check-label"
 									for="companycalendar">전사일정</label>
+								<span class="badge badge-dark badge-indicator badge-indicator-lg me-2"></span>
+							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input"
+									id="vaccalendar"> <label class="form-check-label"
+									for="vaccalendar">휴가일정</label>
+								<span class="badge badge-info badge-indicator badge-indicator-lg me-2"></span>
 							</div>
 						<!-- 	<div
 								class="d-flex align-items-center justify-content-between mb-2">
@@ -735,7 +742,7 @@ console.log(empDeptCodes);
       
       employeeList.forEach(function(employee) {
         var option = document.createElement('option');
-        option.value = employee.EMP_NO;
+        option.value = employee.emp_no;
         option.textContent = employee.name;
         employeeSelect.appendChild(option);
       });

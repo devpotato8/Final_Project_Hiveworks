@@ -11,12 +11,21 @@
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<!-- Bootstrap Dropzone CSS -->
-<link href="${path}/resources/vendors/dropzone/dist/dropzone.min.css"
-	rel="stylesheet" type="text/css" />
-<!-- Dragula CSS -->
-<link href="${path}/resources/vendors/dragula/dist/dragula.min.css"
-	rel="stylesheet" type="text/css">
+	<!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+	
+	<!-- Daterangepicker CSS -->
+    <link href="${path}/resources/vendors/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
+	
+	<!-- Bootstrap Dropzone CSS -->
+	<link href="${path}/resources/vendors/dropzone/dist/dropzone.min.css" rel="stylesheet" type="text/css"/>
+	
+	<!-- Dragula CSS -->
+    <link href="${path}/resources/vendors/dragula/dist/dragula.min.css" rel="stylesheet" type="text/css">
+
+	<!-- CSS -->
+    <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -26,7 +35,7 @@
 				<div data-simplebar class="nicescroll-bar">
 					<div class="menu-content-wrap">
 						<button class="btn btn-primary btn-rounded btn-block mb-4"
-							data-bs-toggle="modal" data-bs-target="#add_new_task">프로젝트
+							data-bs-toggle="modal" data-bs-target="#add_new_task">새 프로젝트
 							등록</button>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
@@ -93,9 +102,9 @@
 									class="feather-icon dropdown-icon"><i
 										data-feather="droplet"></i></span><span>마감된 프로젝트</span></a>
 								<div class="dropdown-divider"></div>
-								<!-- <a class="dropdown-item" href="#">Urgent Priority</a>
+								 <a class="dropdown-item" href="#">Urgent Priority</a>
 										<a class="dropdown-item" href="#">High Priority</a>
-										<a class="dropdown-item" href="#">Low Priority</a> -->
+										<a class="dropdown-item" href="#">Low Priority</a>
 							</div>
 
 						</div>
@@ -185,416 +194,79 @@
 																		<div>
 																			<span class="todo-star marked"><span
 																				class="feather-icon"><i data-feather="star"></i></span></span>
-																			<span
-																				class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																			<span class="todo-text text-dark text-truncate"
-																				id="projectView" data-projectNo="${pro.calNo }">${pro.calSubject}</span>
+																				
+																			<c:if test="${pro.calStatus == '마감'}">
+																			<span class="badge badge-danger badge-indicator badge-indicator-xl"></span>
+																			</c:if>		
+																			<c:if test="${pro.calStatus == '진행중'}">
+																			<span class="badge badge-orange badge-indicator badge-indicator-xl"></span>
+																			</c:if>	
+																			<c:if test="${pro.calStatus == '대기'}">
+																			<span class="badge badge-warning badge-indicator badge-indicator-xl"></span>
+																			</c:if>			
+																				
+																			<span class="todo-text text-dark text-truncate projectView" data-projectNo="${pro.calNo }">${pro.calSubject}</span>
+																			
+																			
+																			
+																			<c:if test="${pro.calStatus == '마감'}">
 																			<span
 																				class="badge badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																					class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
+																					class="badge-dot ri-checkbox-blank-circle-fill"></i>마감</span></span>
+																			</c:if>		
+																			<c:if test="${pro.calStatus == '진행중'}">
+																			<span class="badge  badge-sm badge-outline badge-orange badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
+																			class="badge-dot ri-checkbox-blank-circle-fill"></i>진행중</span></span>	
+																			</c:if>	
+																			<c:if test="${pro.calStatus == '대기'}">
+																			<span class="badge  badge-sm badge-outline badge-warning badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
+																			class="badge-dot ri-checkbox-blank-circle-fill"></i>대기</span></span>
+																			</c:if>				
+																								
+																					
+																					
 																		</div>
 																	</div>
 																	<div
 																		class="d-flex flex-shrink-0 align-items-center ms-3">
 																		<span
-																			class="todo-time d-lg-inline-block d-none text-primary me-3">Tomorrow</span>
+																			class="todo-time d-lg-inline-block d-none text-primary me-3">~ ${pro.calEndDate }</span>
 																		<div
 																			class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																			<img src="dist/img/avatar7.jpg" alt="user"
-																				class="avatar-img">
+																			<span class="d-block">${pro.myEmpName}</span> 
 																		</div>
-																		<span
-																			class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span>
-																		<div class="dropdown">
-																			<button
-																				class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																				aria-expanded="false" data-bs-toggle="dropdown">
-																				<span class="icon"><span class="feather-icon"><i
-																						data-feather="more-vertical"></i></span></span>
-																			</button>
-																			<div role="menu"
-																				class="dropdown-menu dropdown-menu-end">
-																				<a class="dropdown-item edit-task" href="#">Edit
-																					Task</a> <a class="dropdown-item view-task" href="#">View
-																					Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																					Task</a>
-																			</div>
-																		</div>
+																	<!-- 	<span
+																			class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span> -->
+															<div class="d-flex align-items-center">
+																<div class="dropdown">
+																	<button
+																		class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+																		aria-expanded="false" data-bs-toggle="dropdown">
+																		<span class="icon"><span class="feather-icon"><i
+																				data-feather="more-vertical"></i></span></span>
+																	</button>
+																	<div role="menu"
+																		class="dropdown-menu dropdown-menu-end">
+																		<span class="dropdown-item" id="updateBtn"
+																			data-resourceNo="${r.resourceNo}"
+																			data-resourceType="${r.resourceType}"
+																			data-resourceName="${r.resourceName}"
+																			data-resourceMax="${r.resourceMax}"
+																			data-useYn="${r.useYn}">수정</span>
+																	</div>
+																</div>
+															</div>
 																	</div>
 																</div>
 															</li>
 																</c:forEach>
-					</c:if>
+														</c:if>
 												</ul>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="collapse-simple mt-4">
-									<div class="card">
-										<div class="card-header">
-											<a role="button" data-bs-toggle="collapse"
-												href="#todo_collapse_2" aria-expanded="true">
-												<h5 class="mb-0">Yesterday</h5>
-											</a>
-										</div>
-										<div id="todo_collapse_2" class="collapse show">
-											<div class="card-body">
-												<ul id="todo_list_1" class="advance-list">
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo8"> <label
-																		class="form-check-label" for="customCheckTodo8"></label>
-																</div>
-																<div>
-																	<span class="todo-star"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-warning badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Fix
-																		tooltip word wrap/break rules</span> <span
-																		class="badge  badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span
-																	class="todo-time d-lg-inline-block d-none text-danger me-3">4
-																	Days ago</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar2.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<span
-																	class="badge badge-warning ms-3 d-md-inline-block d-none">Project</span>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo9"> <label
-																		class="form-check-label" for="customCheckTodo9"></label>
-																</div>
-																<div>
-																	<span class="todo-star"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-warning badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Redesigning
-																		the base model</span> <span
-																		class="badge  badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>Urgent</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span class="todo-time d-lg-inline-block d-none me-3">2
-																	Aug, 2020</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar13.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo10"> <label
-																		class="form-check-label" for="customCheckTodo10"></label>
-																</div>
-																<div>
-																	<span class="todo-star marked"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-gold badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Configure
-																		security analysis feature</span> <span
-																		class="badge  badge-sm badge-outline badge-orange badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>Medium</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span class="todo-time d-lg-inline-block d-none me-3">8
-																	Aug, 2020</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar7.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<span
-																	class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo11"> <label
-																		class="form-check-label" for="customCheckTodo11"></label>
-																</div>
-																<div>
-																	<span class="todo-star"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Remove
-																		notifications panel from inbox</span> <span
-																		class="badge  badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>Urgent</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span class="todo-time d-lg-inline-block d-none me-3">24
-																	Sep, 2020</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar15.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<span
-																	class="badge badge-pink ms-3 d-md-inline-block d-none">Meetings</span>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-												</ul>
-
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="collapse-simple mt-4">
-									<div class="card">
-										<div class="card-header">
-											<a role="button" data-bs-toggle="collapse"
-												href="#todo_collapse_3" aria-expanded="true">
-												<h5 class="mb-0">15 July, 20</h5>
-											</a>
-										</div>
-										<div id="todo_collapse_3" class="collapse show">
-											<div class="card-body">
-												<ul id="todo_list_2" class="advance-list">
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo12"> <label
-																		class="form-check-label" for="customCheckTodo12"></label>
-																</div>
-																<div>
-																	<span class="todo-star"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-warning badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Send
-																		an invite to join project</span> <span
-																		class="badge  badge-sm badge-outline badge-warning badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>Low</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span
-																	class="todo-time d-lg-inline-block d-none text-danger me-3">Yesterday</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar7.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<span
-																	class="badge badge-warning ms-3 d-md-inline-block d-none">Project</span>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo13"> <label
-																		class="form-check-label" for="customCheckTodo13"></label>
-																</div>
-																<div>
-																	<span class="todo-star"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Connect
-																		to software tools</span> <span
-																		class="badge  badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span class="todo-time d-lg-inline-block d-none me-3">Saturday</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar10.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-													<li class="advance-list-item single-task-list">
-														<div
-															class="d-flex align-items-center justify-content-between">
-															<div class="d-flex align-items-center">
-																<div class="form-check">
-																	<input type="checkbox" class="form-check-input"
-																		id="customCheckTodo14"> <label
-																		class="form-check-label" for="customCheckTodo14"></label>
-																</div>
-																<div>
-																	<span class="todo-star"><span
-																		class="feather-icon"><i data-feather="star"></i></span></span>
-																	<span
-																		class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-																	<span class="todo-text text-dark text-truncate">Speed
-																		up project review with planner</span> <span
-																		class="badge  badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none"><span><i
-																			class="badge-dot ri-checkbox-blank-circle-fill"></i>High</span></span>
-																</div>
-															</div>
-															<div class="d-flex flex-shrink-0 align-items-center ms-3">
-																<span class="todo-time d-lg-inline-block d-none me-3">15
-																	Oct, 2020</span>
-																<div
-																	class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																	<img src="dist/img/avatar9.jpg" alt="user"
-																		class="avatar-img">
-																</div>
-																<span
-																	class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span>
-																<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item edit-task" href="#">Edit
-																			Task</a> <a class="dropdown-item view-task" href="#">View
-																			Task</a> <a class="dropdown-item delete-task" href="#">Delete
-																			Task</a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 								<div class="row mt-3">
 									<div class="col-sm-12">
 										<div class="float-end text-end">
@@ -618,6 +290,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="task-info">
 						<div data-simplebar class="nicescroll-bar">
 							<header class="task-header">
@@ -636,41 +309,12 @@
 										href="#" data-bs-toggle="dropdown"><span class="icon"><span
 											class="feather-icon"><i data-feather="more-vertical"></i></span></span></a>
 									<div class="dropdown-menu dropdown-menu-end">
-										<h6 class="dropdown-header">Action</h6>
-										<a class="dropdown-item" href="#"><span
+										<span class="dropdown-item" id="editBtn"><span
 											class="feather-icon dropdown-icon"><i
-												data-feather="edit"></i></span><span>Assign to</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="user"></i></span><span>Attach files</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="paperclip"></i></span><span>Apply Labels</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="tag"></i></span><span>Set Due Date</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="calendar"></i></span><span>Follow Task</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="bookmark"></i></span><span>Set Due Date</span></a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="arrow-up"></i></span><span>Set as Top Priority</span></a>
-										<a class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="repeat"></i></span><span>Change Status</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="pocket"></i></span><span>Save as Template</span></a> <a
-											class="dropdown-item" href="#"><span
-											class="feather-icon dropdown-icon"><i
-												data-feather="archive"></i></span><span>Move to archive</span></a> <a
+												data-feather="edit"></i></span><span>수정</span></span><a
 											class="dropdown-item delete-task" href="#"><span
 											class="feather-icon dropdown-icon"><i
-												data-feather="trash-2"></i></span><span>Delete</span></a>
+												data-feather="trash-2"></i></span><span>삭제</span></a>
 									</div>
 									<a
 										class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover close-task-info"
@@ -680,63 +324,60 @@
 							</header>
 							<div class="task-detail-body">
 							<form class="row">
+							<input type="hidden" class="form-control"class="form-control" id="recalno" value="${project.calNo}"/>
 								<h4
 									class="d-flex align-items-center fw-bold mb-0 inline-editable-wrap">
-									<span class="editable" id="proName">${project.calSubject }</span><a
-										class="btn btn-sm btn-icon btn-flush-light btn-rounded flush-soft-hover edit-tyn ms-1"
-										href="#"><span class="icon"><span
-											class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
+									 <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" 
+									 id="reproSubject" value="${project.calSubject}">
 								</h4>
 								<p class="d-flex align-items-center inline-editable-wrap">
-									<span class="editable" id="proContent">${project.calContent }</span><a
-										class="btn btn-sm btn-icon btn-flush-light btn-rounded flush-soft-hover edit-tyn ms-1"
-										href="#"><span class="icon"><span
-											class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
+									  
+									 <div class="form-floating">
+						  <textarea class="form-control" id="reproContent">${project.calContent}</textarea>
+						</div>	 
 								</p>
-								<div
-									class="avatar-group avatar-group avatar-group-overlapped mt-3">
-									<div class="avatar avatar-rounded" data-bs-toggle="tooltip"
-										data-bs-placement="top" title=""
-										data-bs-original-title="Katharine">
-										<img src="dist/img/avatar8.jpg" alt="user" class="avatar-img">
-									</div>
-									<div class="avatar avatar-xs avatar-soft-danger avatar-rounded"
-										data-bs-toggle="tooltip" data-bs-placement="top" title=""
-										data-bs-original-title="Tom">
-										<span class="initial-wrap">T</span>
-									</div>
-									<div class="avatar avatar-icon avatar-primary avatar-rounded"
-										data-bs-toggle="tooltip" data-bs-placement="top" title=""
-										data-bs-original-title="Add new">
-										<span class="initial-wrap"><span class="feather-icon"><i
-												data-feather="plus"></i></span></span>
-									</div>
-								</div>
 									<div class="col-md-6">
 										<div class="title title-wth-divider my-4">
 											<span>시작 일자</span>
 										</div>
 										<input class="form-control" type="text" name="single-date"
-											id="proStartDate" />
+											id="reproStartDate" />
 									</div>
 									<div class="col-md-6">
 										<div class="title title-wth-divider my-4">
 											<span>마감 일자</span>
 										</div>
 										<input class="form-control" type="text" name="single-date"
-											id="proEndDate" />
+											id="reproEndDate" />
+									</div>
+									<div class="col-sm-12 form-group">
+										<input class="cal-event-allday"
+											name="reallday" type="checkbox" id="realldaycheck"> <label
+											class="form-check-label" for="realldaycheck">종일여부</label>
 									</div>
 									<div class="col-md-12">
 										<div class="title title-wth-divider my-4">
 											<span>진행 상태</span>
 										</div>
-										<select class="form-select" id="proStatus"
+										<select class="form-select" id="reproStatus"
 											aria-label="Default select example">
 											<option value="대기">대기</option>
 											<option value="진행중">진행중</option>
 											<option value="마감">마감</option>
 										</select>
 									</div>
+									<div class="separator separator-light"></div>
+									<div class="form-group">
+							<div class="d-flex flex-wrap">
+								<button type="button" 
+									id="addBtnRe" class="btn btn-light btn-floating;">프로젝트
+									공유 추가</button>
+								<div id="shareListJob" class="row gx-3">
+
+
+								</div>
+							</div>
+						</div>
 								</form>
 								<ul
 									class="nav nav-justified nav-light nav-tabs nav-segmented-tabs active-theme mt-4">
@@ -761,10 +402,6 @@
 											<div class="title title-lg mb-0">
 												<span>Checklist</span>
 											</div>
-									<!-- 		<a href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
-												data-bs-toggle="tooltip" data-bs-placement="top" title=""
-												data-bs-original-title="Add Category"><span class="icon"><span
-													class="feather-icon"><i data-feather="plus"></i></span></span></a> -->
 										</div>
 										<div class="hk-checklist">
 											<div class="form-check">
@@ -773,10 +410,9 @@
 													class="form-check-label" for="customCheckList1">
 													Video conference with canada Team <span
 													class="done-strikethrough"></span>
-												</label> <a href="#"
-													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
+												</label> <span class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
 													class="icon"><span class="feather-icon"><i
-															data-feather="trash-2"></i></span></span></a>
+															data-feather="trash-2"></i></span></span></span>
 											</div>
 											<a href="#"
 												class="d-flex align-items-center add-new-checklist"> <span
@@ -829,90 +465,6 @@
 													data-feather="plus-square"></i></span> <span>New Item</span>
 											</a>
 										</div>
-										<div
-											class="d-flex align-items-center justify-content-between mt-5 mb-2">
-											<div class="title title-lg mb-0">
-												<span>Notes</span>
-											</div>
-											<a href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
-												data-bs-toggle="tooltip" data-bs-placement="top" title=""
-												data-bs-original-title="Add Category"><span class="icon"><span
-													class="feather-icon"><i data-feather="plus"></i></span></span></a>
-										</div>
-										<div class="card card-border note-block bg-orange-light-5">
-											<div class="card-body">
-												<div class="card-action-wrap">
-													<button
-														class="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-														aria-expanded="false" data-bs-toggle="dropdown">
-														<span class="icon"><span class="feather-icon"><i
-																data-feather="more-vertical"></i></span></span>
-													</button>
-													<div role="menu" class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">Action</a> <a
-															class="dropdown-item" href="#">Another action</a> <a
-															class="dropdown-item" href="#">Something else here</a>
-														<div class="dropdown-divider"></div>
-														<a class="dropdown-item" href="#">Separated link</a>
-													</div>
-												</div>
-												<div class="media align-items-center">
-													<div class="media-head">
-														<div class="avatar avatar-xs avatar-rounded">
-															<img src="dist/img/avatar2.jpg" alt="user"
-																class="avatar-img">
-														</div>
-													</div>
-													<div class="media-body">
-														<div>Martin Luther</div>
-														<div>9 Apr, 20, 7:14 AM</div>
-													</div>
-												</div>
-												<p>
-													@<a href="#" class="fw-medium">Charlie Darvin</a> From
-													there, you can run grunt compile, grunt migrate and grunt
-													test to compile your contracts, deploy those contracts to
-													the network, and run their associated unit tests.
-												</p>
-											</div>
-										</div>
-										<div class="card card-border note-block bg-orange-light-5">
-											<div class="card-body">
-												<div class="card-action-wrap">
-													<button
-														class="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-														aria-expanded="false" data-bs-toggle="dropdown">
-														<span class="icon"><span class="feather-icon"><i
-																data-feather="more-vertical"></i></span></span>
-													</button>
-													<div role="menu" class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">Action</a> <a
-															class="dropdown-item" href="#">Another action</a> <a
-															class="dropdown-item" href="#">Something else here</a>
-														<div class="dropdown-divider"></div>
-														<a class="dropdown-item" href="#">Separated link</a>
-													</div>
-												</div>
-												<div class="media align-items-center">
-													<div class="media-head">
-														<div class="avatar avatar-xs avatar-rounded">
-															<img src="dist/img/avatar3.jpg" alt="user"
-																class="avatar-img">
-														</div>
-													</div>
-													<div class="media-body">
-														<div>Katherine Jones</div>
-														<div>8 Apr, 20, 5:30 PM</div>
-													</div>
-												</div>
-												<p>
-													@<a href="#" class="fw-medium">Martin Luther</a> Viscosity
-													ratio for "Appear view" link text is 3.7:1 which is less
-												</p>
-											</div>
-										</div>
-										<a href="#" class="btn btn-outline-light btn-block">View
-											more</a>
 									</div>
 									<div class="tab-pane fade" id="tab_comments">
 										<div
@@ -929,7 +481,7 @@
 											<div class="media">
 												<div class="media-head">
 													<div class="avatar avatar-xs avatar-rounded">
-														<img src="dist/img/avatar4.jpg" alt="user"
+														<img src="${path}/resources/img/avatar4.jpg" alt="user"
 															class="avatar-img">
 													</div>
 												</div>
@@ -956,7 +508,7 @@
 											<div class="media">
 												<div class="media-head">
 													<div class="avatar avatar-xs avatar-rounded">
-														<img src="dist/img/avatar2.jpg" alt="user"
+														<img src="${path}/resources/img/avatar2.jpg" alt="user"
 															class="avatar-img">
 													</div>
 												</div>
@@ -976,7 +528,7 @@
 													<div class="media">
 														<div class="media-head">
 															<div class="avatar avatar-xs avatar-rounded">
-																<img src="dist/img/avatar3.jpg" alt="user"
+																<img src="${path}/resources/img/avatar3.jpg" alt="user"
 																	class="avatar-img">
 															</div>
 														</div>
@@ -1055,7 +607,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar2.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar2.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1088,7 +640,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar3.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar3.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1144,7 +696,7 @@
 																		<div class="media-head">
 																			<div class="avatar avatar-logo avatar-sm">
 																				<span class="initial-wrap"> <img
-																					src="dist/img/6image.png" alt="user">
+																					src="${path}/resources/img/6image.png" alt="user">
 																				</span>
 																			</div>
 																		</div>
@@ -1155,7 +707,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar5.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar5.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1177,7 +729,7 @@
 																		<div class="media-head">
 																			<div class="avatar avatar-logo avatar-sm">
 																				<span class="initial-wrap"> <img
-																					src="dist/img/2image.png" alt="user">
+																					src="${path}/resources/img/2image.png" alt="user">
 																				</span>
 																			</div>
 																		</div>
@@ -1188,7 +740,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar6.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar6.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1235,7 +787,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar5.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar5.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1268,7 +820,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar2.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar2.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1289,7 +841,7 @@
 																	<div class="media">
 																		<div class="media-head">
 																			<div class="avatar avatar-sm">
-																				<img src="dist/img/img-thumb1.jpg" alt="user"
+																				<img src="${path}/resources/img/img-thumb1.jpg" alt="user"
 																					class="avatar-img">
 																			</div>
 																		</div>
@@ -1300,7 +852,7 @@
 																			</div>
 																			<div>
 																				<div class="avatar avatar-xs avatar-rounded me-2">
-																					<img src="dist/img/avatar8.jpg" alt="user"
+																					<img src="${path}/resources/img/avatar8.jpg" alt="user"
 																						class="avatar-img">
 																				</div>
 																				<a href="#"
@@ -1361,7 +913,7 @@
 																<div class="media">
 																	<div class="media-head">
 																		<div class="avatar avatar-xs avatar-rounded">
-																			<img src="dist/img/avatar2.jpg" alt="user"
+																			<img src="${path}/resources/img/avatar2.jpg" alt="user"
 																				class="avatar-img">
 																		</div>
 																	</div>
@@ -1380,7 +932,7 @@
 																<div class="media">
 																	<div class="media-head">
 																		<div class="avatar avatar-xs avatar-rounded">
-																			<img src="dist/img/avatar13.jpg" alt="user"
+																			<img src="${path}/resources/img/avatar13.jpg" alt="user"
 																				class="avatar-img">
 																		</div>
 																	</div>
@@ -1398,7 +950,7 @@
 																<div class="media">
 																	<div class="media-head">
 																		<div class="avatar avatar-xs avatar-rounded">
-																			<img src="dist/img/avatar7.jpg" alt="user"
+																			<img src="${path}/resources/img/avatar7.jpg" alt="user"
 																				class="avatar-img">
 																		</div>
 																	</div>
@@ -1447,7 +999,7 @@
 																<div class="media">
 																	<div class="media-head">
 																		<div class="avatar avatar-xs avatar-rounded">
-																			<img src="dist/img/avatar2.jpg" alt="user"
+																			<img src="${path}/resources/img/avatar2.jpg" alt="user"
 																				class="avatar-img">
 																		</div>
 																	</div>
@@ -1466,7 +1018,7 @@
 																<div class="media">
 																	<div class="media-head">
 																		<div class="avatar avatar-xs avatar-rounded">
-																			<img src="dist/img/avatar13.jpg" alt="user"
+																			<img src="${path}/resources/img/avatar13.jpg" alt="user"
 																				class="avatar-img">
 																		</div>
 																	</div>
@@ -1504,7 +1056,7 @@
 																<div class="media">
 																	<div class="media-head">
 																		<div class="avatar avatar-xs avatar-rounded">
-																			<img src="dist/img/avatar7.jpg" alt="user"
+																			<img src="${path}/resources/img/avatar7.jpg" alt="user"
 																				class="avatar-img">
 																		</div>
 																	</div>
@@ -1573,8 +1125,7 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<div class="form-label-group">
-													<label class="form-label">프로젝트 내용</label><small
-														class="text-muted">200</small>
+													<label class="form-label">프로젝트 내용</label>
 												</div>
 												<textarea class="form-control" id="projectContent" rows="3"></textarea>
 											</div>
@@ -1617,53 +1168,54 @@
 										<div
 											class="title title-xs title-wth-divider text-primary text-uppercase my-4">
 										</div>
-										<div class="row gx-3">
-											<div class="col-sm-3">
-												<span>프로젝트 공유</span>
-											</div>
-											<div class="col-sm-5">
-												<div class="form-group">
-													<button type="button" onclick="fn_addFileForm();"
-														id="delBtn">추가</button>
-													<button type="button" onclick="fn_deleteFileForm();"
-														id="addBtn">삭제</button>
-												</div>
+					<div class="row gx-3" style="display: flex">
+									<div class="row gx-3">
+										<div class="col-sm-3">
+											<span>프로젝트 공유</span>
+										</div>
+										<div class="col-sm-5">
+											<div class="form-group">
+												<button type="button" onclick="window.adddelFunction.util.addFile();"
+													id="delBtn">추가</button>
+<%--												<button type="button"--%>
+<%--													id="addBtn">삭제</button>--%>
 											</div>
 										</div>
-
-										<div class="inviteContainer" style="display: flex">
-											<div class="col-sm-4">
-												<div class="form-groupddddd">
-													<label class="form-label">부서</label>
-													<div class="d-flex">
-														<select class="form-select me-3" name="calDept"
-															id="calDept1">
-															<c:if test="${not empty deptList}">
-																<c:forEach var="dept" items="${deptList}">
-																	<option value="${dept.deptCode}">${dept.deptName}</option>
-																</c:forEach>
-															</c:if>
-														</select>
-													</div>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label class="form-label">직원</label>
-													<div class="d-flex">
-														<select class="form-select me-3" name="calEmp"
-															id="calEmp1">
-															<option value=""></option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-
-
 									</div>
 
-									<div name="someContainer"></div>
+									<div class="inviteContainer inviteContainer_1" style="display: flex">
+										<div class="col-sm-4">
+											<div class="form-groupddddd">
+												<label class="form-label">부서</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calDept"
+														id="calDept1">
+														<c:if test="${not empty deptList}">
+															<c:forEach var="dept" items="${deptList}">
+																<option value="${dept.deptCode}">${dept.deptName}</option>
+															</c:forEach>
+														</c:if>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">직원</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calEmp" id="calEmp1">
+														<option value=""></option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+									</div>
+
+
+								</div>
+
+								<div name="someContainer"></div>
 									<div class="modal-footer align-items-center">
 										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal" id="cancelBtn">취소</button>
@@ -1688,56 +1240,213 @@ var loginEmpNo = ${loginEmp.emp_no}
 var loginDeptCode = '${loginEmp.dept_code}';
 
 
+var deptCodes = [];
+var deptNames = [];
 
+<c:forEach items="${deptList }" var="dept">
+    deptCodes.push("${dept.deptCode}");
+    deptNames.push("${dept.deptName}");
+</c:forEach>
+
+var empDeptCodes = [];
+var empNames = [];
+var empNos = []
+
+<c:forEach items="${empList }" var="emp">
+empDeptCodes.push("${emp.dept_code}");
+empNames.push("${emp.emp_name}");
+empNos.push("${emp.emp_no}");
+</c:forEach>
+
+
+//프로젝트 등록
 $(document).on("click", "#add_project", function(e) {
+	e.preventDefault();
 	const projectName = document.getElementById('projectName').value;
 	const projectContent = document.getElementById('projectContent').value;
 	const projectStart = document.getElementById('proStartDate').value;
 	const projectEnd = document.getElementById('proEndDate').value;
 	const projectStatus = document.querySelector('#projectStatus').value;
 
+	//select empNo를 리스트로 담아줌
 	const selectElements = $('select[name="calEmp"]');
-	let empList = [];
-
-	if (selectElements.length > 0) {
-	selectElements.each(function() {
-	const empValue = $(this).val();
-	if (empValue) { // empValue가 비어있지 않을 경우에만 empList에 추가
-	 empList.push(empValue);
-	}
-	});
+	    let empList = null;
+	    
+	 if (selectElements.length > 0) {
+	    empList = [];
+	    selectElements.each(function() {
+	        const empValue = $(this).val();
+	        if (empValue) { // empValue가 비어있지 않을 경우에만 empList에 추가
+	            empList.push(empValue);
+	        }
+	    });
 	if (empList.length === 0) { // 모든 empValue가 비어있어 empList에 아무 값도 추가되지 않았을 경우 empList를 null로 설정
-	empList = null;
-	}
+	        empList = null;
+	    }
 	} else {
-	empList = null; // selectElements.length가 0인 경우 empList를 null로 설정
+	    empList = null; // selectElements.length가 0인 경우 empList를 null로 설정
 	}
 	
-	   e.preventDefault();
+	console.log(empList)
+	
+	const addProject = {
+			title: document.getElementById('projectName').value,
+			code: "CAL007",
+			empno: loginEmpNo,
+			empdeptcode: loginDeptCode,
+			empList: empList, // empList를 addEvent 객체의 속성으로 추가
+			backgroundColor: '#9b42f5',
+			allday: $('#alldaycheck').is(':checked') ? 'Y' : 'N',
+			start: document.getElementById('proStartDate').value,
+			end: document.getElementById('proEndDate').value,
+			content: document.getElementById('projectContent').value,
+			status: document.querySelector('#projectStatus').value
+		};
+	
 	   $.ajax({
 			url: "/schedule/insertschedule.do",
 			method: "POST",
 			dataType: "json",
-			data: JSON.stringify({
-				code:"CAL007",
-				title: projectName,
-				content: projectContent,
-				start: projectStart,
-				end: projectEnd,
-				allday:$('#allDayCheck').is(':checked') ? 'Y' : 'N',
-				status: projectStatus,
-				backgroundColor: "#fc03c2",
-				status: projectStatus,
-				empno: loginEmpNo,
-				empdeptcode: loginDeptCode,
-				empList: empList
-				
-			}),
+			data: JSON.stringify(addProject),
 			contentType: 'application/json'
 		})
 			.done(function(result) {
 				alert("프로젝트 등록 성공");
 				console.log(result);
+				
+				
+				
+				// 새로운 프로젝트 항목 생성
+			    var newItem = document.createElement("li");
+			    newItem.classList.add("advance-list-item", "single-task-list", "active-todo");
+
+			    // 프로젝트 항목 내용 작성
+			    var itemContent = document.createElement("div");
+			    itemContent.classList.add("d-flex", "align-items-center", "justify-content-between");
+
+			    // 예시: 프로젝트 제목
+			    var projectTitle = document.createElement("div");
+			    projectTitle.classList.add("d-flex", "align-items-center");
+
+			    var checkbox = document.createElement("div");
+			    checkbox.classList.add("form-check");
+
+			    var checkboxInput = document.createElement("input");
+			    checkboxInput.setAttribute("type", "checkbox");
+			    checkboxInput.classList.add("form-check-input");
+
+			    var checkboxLabel = document.createElement("label");
+			    checkboxLabel.classList.add("form-check-label");
+
+			    checkbox.appendChild(checkboxInput);
+			    checkbox.appendChild(checkboxLabel);
+
+			    projectTitle.appendChild(checkbox);
+
+			    var projectName = document.createElement("span");
+			    projectName.classList.add("todo-text", "text-dark", "text-truncate", "projectView");
+			    projectName.setAttribute("data-projectNo", result.calNo);  // 여기서 result.calNo는 서버에서 받아온 프로젝트 번호
+
+			    projectTitle.appendChild(projectName);
+
+			    itemContent.appendChild(projectTitle);
+
+			 // 프로젝트 항목 상태 뱃지
+			    var badgeContainer = document.createElement("div");
+			    badgeContainer.classList.add("d-flex", "flex-shrink-0", "align-items-center", "ms-3");
+
+			    // 상태에 따른 뱃지 생성 (마감, 진행중, 대기)
+			    var statusBadge = document.createElement("span");
+			    statusBadge.classList.add("badge", "badge-sm", "badge-outline", "badge-wth-indicator", "badge-wth-icon", "ms-3", "d-lg-inline-block", "d-none");
+
+			    // 상태가 '마감'인 경우
+			    if (result.calStatus === '마감') {
+			        statusBadge.classList.add("badge-danger");
+
+			        // 뱃지 내용 설정
+			        statusBadge.innerHTML = '<span><i class="badge-dot ri-checkbox-blank-circle-fill"></i>마감</span>';
+			    }
+			    // 상태가 '진행중'인 경우
+			    else if (result.calStatus === '진행중') {
+			        statusBadge.classList.add("badge-orange");
+
+			        // 뱃지 내용 설정
+			        statusBadge.innerHTML = '<span><i class="badge-dot ri-checkbox-blank-circle-fill"></i>진행중</span>';
+			    }
+			    // 상태가 '대기'인 경우
+			    else if (result.calStatus === '대기') {
+			        statusBadge.classList.add("badge-warning");
+
+			        // 뱃지 내용 설정
+			        statusBadge.innerHTML = '<span><i class="badge-dot ri-checkbox-blank-circle-fill"></i>대기</span>';
+			    }
+
+			    badgeContainer.appendChild(statusBadge);
+			    itemContent.appendChild(badgeContainer);
+			    
+			 // 예시: 프로젝트 항목의 더보기(ellipsis) 메뉴
+			    var ellipsisMenu = document.createElement("div");
+			    ellipsisMenu.classList.add("d-flex", "flex-shrink-0", "align-items-center", "ms-3");
+
+			    // 더보기 버튼
+			    var dropdownButton = document.createElement("button");
+			    dropdownButton.classList.add("btn", "btn-icon", "btn-rounded", "btn-flush-light", "flush-soft-hover", "dropdown-toggle", "no-caret");
+			    dropdownButton.setAttribute("aria-expanded", "false");
+			    dropdownButton.setAttribute("data-bs-toggle", "dropdown");
+
+			    // 더보기 아이콘
+			    var dropdownIcon = document.createElement("span");
+			    dropdownIcon.classList.add("icon");
+			    var featherIcon = document.createElement("span");
+			    featherIcon.classList.add("feather-icon");
+			    var icon = document.createElement("i");
+			    icon.setAttribute("data-feather", "more-vertical");
+			    featherIcon.appendChild(icon);
+			    dropdownIcon.appendChild(featherIcon);
+
+			    dropdownButton.appendChild(dropdownIcon);
+
+			    // 더보기 메뉴 목록
+			    var dropdownMenu = document.createElement("div");
+			    dropdownMenu.classList.add("dropdown-menu", "dropdown-menu-end");
+
+			    // Edit Task
+			    var editTaskLink = document.createElement("a");
+			    editTaskLink.classList.add("dropdown-item", "edit-task");
+			    editTaskLink.setAttribute("href", "#");
+			    editTaskLink.textContent = "Edit Task";
+
+			    // View Task
+			    var viewTaskLink = document.createElement("a");
+			    viewTaskLink.classList.add("dropdown-item", "view-task");
+			    viewTaskLink.setAttribute("href", "#");
+			    viewTaskLink.textContent = "View Task";
+
+			    // Delete Task
+			    var deleteTaskLink = document.createElement("a");
+			    deleteTaskLink.classList.add("dropdown-item", "delete-task");
+			    deleteTaskLink.setAttribute("href", "#");
+			    deleteTaskLink.textContent = "Delete Task";
+
+			    dropdownMenu.appendChild(editTaskLink);
+			    dropdownMenu.appendChild(viewTaskLink);
+			    dropdownMenu.appendChild(deleteTaskLink);
+
+			    // 더보기 버튼과 메뉴를 ellipsisMenu에 추가
+			    ellipsisMenu.appendChild(dropdownButton);
+			    ellipsisMenu.appendChild(dropdownMenu);
+
+			    // itemContent에 ellipsisMenu를 추가
+			    itemContent.appendChild(ellipsisMenu);
+
+
+			    // 프로젝트 목록에 새로운 항목 추가
+			    document.getElementById("todo_list").appendChild(newItem);
+			    
+			    
+				
+			    
+			    
 			})
 			.fail(function(request, status, error) {
 				alert("프로젝트 등록 실패" + error);
@@ -1746,56 +1455,560 @@ $(document).on("click", "#add_project", function(e) {
 			});
 });
 
-document.getElementById("projectView").onclick=(e)=>{
-	const $project = e.currentTarget
-	$('#task-info').modal('show');
-	searchProjectbyCalNo($project.getAttribute('data-projectNo'));	
-}
 
+//프로젝트 수정
+document.getElementById('editBtn').addEventListener('click', fn_update);
+
+function fn_update() {
+	
+	//select empNo를 리스트로 담아줌
+	const selectEmps = $('select[name="recalEmp"]');
+	const reempList = [];
+
+	selectEmps.each(function() {
+		const reempValue = $(this).val();
+		reempList.push(reempValue);
+		console.log(typeof (reempValue));
+	});
+
+	const editProject = {
+			retitle: document.getElementById('reproSubject').value,
+			recode: "CAL007",
+			reempno: loginEmpNo,
+			reempList: reempList, // empList를 addEvent 객체의 속성으로 추가
+			rebackgroundColor: '#9b42f5',
+			reallday: $('#realldaycheck').is(':checked') ? 'Y' : 'N',
+			restart: document.getElementById('reproStartDate').value,
+			reend: document.getElementById('reproEndDate').value,
+			recontent: document.getElementById('reproContent').textContent,
+			restatus: document.querySelector('#reproStatus').value,
+			recalno: document.querySelector('#recalno').value
+		};
+
+	$.ajax({
+		url: "/schedule/updateschedule",
+		method: "POST",
+		data: JSON.stringify(editProject),
+		contentType: 'application/json',
+	})
+		.done(function(result) {
+			console.log(result);
+			alert("프로젝트 수정 성공");
+		})
+		.fail(function(request, status, error) {
+			alert("프로젝트 수정 실패" + error);
+			console.log(request, status);
+			console.log(error);
+		});
+};
+
+document.querySelectorAll(".projectView").forEach(element => {
+    element.onclick = (e) => {
+        const $project = e.currentTarget
+        todoAppTarget.addClass('todoapp-info-active');
+        searchProjectbyCalNo($project.getAttribute('data-projectNo'));
+    }
+});
+
+//프로젝트 상세조회
 function searchProjectbyCalNo(calNo) {
-    fetch('${path}/schedule/projectlistbycalno.do?calNo='+calNo)
-    .then(response => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.json();
-    })
-    .then(data => {
-    	function formatDate(date) {
-			  var formattedDate = new Date(date);
-			  var year = formattedDate.getFullYear();
-			  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
-			  var day = ("0" + formattedDate.getDate()).slice(-2);
-			  var hours = ("0" + formattedDate.getHours()).slice(-2);
-			  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
-			  
-			  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
-				}
-    	
-    	
-    	
-        console.log(data);
-        document.querySelector('#proName').textContent = data.calSubject;
-        document.querySelector('#proContent').textContent = data.calContent;
-        document.getElementById('proEndDate').value = formatDate(data.calEndDate);
-        document.getElementById('proStartDate').value = formatDate(data.calStartDate);
-        
-        const selectElement = document.getElementById('proStatus');
+	$.ajax({
+		url: "/schedule/projectlistbycalno.do?calNo="+calNo,
+		method: "GET",
+		contentType: 'application/json',
+		dataType: 'json',
+	})
+		.done(function(data) {
+			console.log(data);
+			console.log("프로젝트 상세 조회 성공");
+			
+			
+	    	function formatDate(date) {
+				  var formattedDate = new Date(date);
+				  var year = formattedDate.getFullYear();
+				  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
+				  var day = ("0" + formattedDate.getDate()).slice(-2);
+				  var hours = ("0" + formattedDate.getHours()).slice(-2);
+				  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
+				  
+				  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
+					}
+	    	
+	    	
+	    	
+	        console.log(data);
+	        document.getElementById('recalno').value = data.calNo;
+	        document.getElementById('reproSubject').value = data.calSubject;
+	        document.getElementById('reproContent').textContent = data.calContent;
+	        document.getElementById('reproEndDate').value = formatDate(data.calEndDate);
+	        document.getElementById('reproStartDate').value = formatDate(data.calStartDate);
+	        
+	        const selectElement = document.getElementById('reproStatus');
 
-     // select 요소의 options를 순회하면서 서버로부터 받아온 'calStatus' 값과 일치하는 
-     // option을 찾아 'selected' 속성을 true로 설정합니다.
-     Array.from(selectElement.options).forEach(option => {
-         if (option.value === data.calStatus) {
-             option.selected = true;
-         };  
-     });
-        
-    })
-    .catch(e => {
-        alert("요청실패! 에러!");
-        console.log(e);
-    });
-}
+	     // select 요소의 options를 순회하면서 서버로부터 받아온 'calStatus' 값과 일치하는 
+	     // option을 찾아 'selected' 속성을 true로 설정합니다.
+	     Array.from(selectElement.options).forEach(option => {
+	         if (option.value === data.calStatus) {
+	             option.selected = true;
+	         };  
+	     });
+	     
+	     
+	     switch (data.calAlldayYn) {
+	     	case 'Y':
+	     		$('#realldaycheck').prop('checked', true);
+	     		break;
+	     	case 'N':
+	     		$('#realldaycheck').prop('checked', false);
+	     		break;
+	     }
+	     
+	     
+	     $('#realldaycheck').on('click', function() {
+	    		var startPicker = $('#reproStartDate').data('daterangepicker');
+	    		var endPicker = $('#reproEndDate').data('daterangepicker');
 
-// 부서 선택 시 직원 표시
+	    		if ($(this).is(':checked')) {
+	    			console.log('종일여부 수정 체크됨');
+
+	    			var startD = moment(startPicker.startDate);
+	    			startD.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+	    			startPicker.setStartDate(startD);
+
+	    			var endD = moment(endPicker.endDate); // 수정된 부분
+	    			endD.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+	    			endPicker.setStartDate(endD);
+
+
+	    		} else {
+	    			console.log('종일여부 수정 체크 해제됨');
+	    			$('#reproStartDate').daterangepicker({
+	    				timePicker: true,
+	    				singleDatePicker: true,
+	    				timePicker24Hour: true,
+	    				timePickerIncrement: 1,
+	    				startDate: formatDate(data.calStartDate),
+	    				locale: {
+	    					format: 'YYYY/MM/DD HH:mm'
+	    				}
+	    			});
+
+
+
+
+	    			$('#reproEndDate').daterangepicker({
+	    				timePicker: true,
+	    				singleDatePicker: true,
+	    				timePicker24Hour: true,
+	    				timePickerIncrement: 1,
+	    				startDate: formatDate(data.calEndDate),
+	    				locale: {
+	    					format: 'YYYY/MM/DD HH:mm'
+	    				}
+	    			});
+
+	    		}
+	    	});
+	     
+	     
+	     const invitationEmpList = data.invitationEmpList;
+	     const invitationEmpListLength = invitationEmpList.length;
+	     let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
+	     let count = 0;
+
+	     if (invitationEmpListLength > 0) {
+	     	$("div[class^='reinvicontainer']").remove();
+	     	
+	     	// 수정 모달 list만큼 만들어주기(부서 직원)
+	     	for (var i = 0; i < invitationEmpListLength; i++) {
+	     	    var YourEmpNo = invitationEmpList[i].yourEmpNo;
+	     	    var YourEmpName = invitationEmpList[i].yourEmpName;
+	     	    var YourDeptName = invitationEmpList[i].yourDeptName;
+	     	    var YourDeptCode = invitationEmpList[i].yourDeptCode;
+
+	     	    // 다시 생성
+	     	    let reInviContainer = document.createElement('div');
+	     	    reInviContainer.className = 'reinvicontainer' + (i + 1);
+	     	    reInviContainer.style.display = 'flex';
+	     	    reInviContainer.style.paddingTop = '5px';
+	     	    reInviContainer.style.paddingBottom = '5px';
+
+	     	    let deptContainer = document.createElement('div');
+	     	    deptContainer.className = 'col-sm-5';
+	     	    let empContainer = document.createElement('div');
+	     	    empContainer.className = 'col-sm-5';
+
+	     	    let deptSelect = document.createElement('select');
+	     	    deptSelect.className = 'form-select me-3';
+	     	    deptSelect.name = 'recalDept';
+	     	    deptSelect.id = 'recalDept' + (i + 1);
+
+	     	    let empSelect = document.createElement('select');
+	     	    empSelect.className = 'form-select me-3';
+	     	    empSelect.name = 'recalEmp';
+	     	    empSelect.id = 'recalEmp' + (i + 1);
+
+	     	    deptContainer.appendChild(deptSelect);
+	     	    empContainer.appendChild(empSelect);
+
+	     	    reInviContainer.appendChild(deptContainer);
+	     	    reInviContainer.appendChild(empContainer);
+
+	     	    let someContainer2 = document.getElementById('shareListJob');
+	     	    someContainer2.appendChild(reInviContainer);
+
+	     	    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+	     	    let delButton = document.createElement('button');
+	     	    delButton.type = 'button';
+	     	    delButton.textContent = '삭제';
+	     	    delButton.addEventListener('click', function () {
+	     	        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+	     	        reInviContainer.remove();
+	     	        removedItemsCount++;
+	     	        count = invitationEmpListLength - removedItemsCount + 1; // count 업데이트
+	     	    });
+
+	     	    reInviContainer.appendChild(delButton);
+
+	     	    // 나머지 코드는 그대로 유지
+
+	     	    for (var j = 0; j < deptCodes.length; j++) {
+	     	        let deptOption = document.createElement('option');
+	     	        deptOption.value = deptCodes[j];
+	     	        deptOption.text = deptNames[j];
+	     	        deptSelect.appendChild(deptOption);
+	     	    }
+
+	     	    for (var j = 0; j < deptSelect.options.length; j++) {
+	     	        console.log("Option value: " + deptSelect.options[j].value);
+	     	        console.log("YourDeptCode: " + YourDeptCode);
+	     	        if (deptSelect.options[j].value == YourDeptCode) {
+	     	            deptSelect.options[j].selected = true;
+	     	            break;
+	     	        }
+	     	    }
+
+	     	 // 부서 선택 시 이벤트 핸들러 함수
+	     		function handleDeptSelect() {
+	     			// 선택된 부서의 인덱스를 가져옵니다.
+	     			var selectedDeptIndex = deptSelect.selectedIndex;
+
+	     			// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+	     			var matchingEmpNames = [];
+	     			var matchingEmpNos = [];
+
+	     			// 선택된 부서의 코드를 가져옵니다.
+	     			var selectedDeptCode = deptCodes[selectedDeptIndex];
+
+	     			// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+	     			for (var k = 0; k < empDeptCodes.length; k++) {
+	     				if (empDeptCodes[k] === selectedDeptCode) {
+	     					matchingEmpNames.push(empNames[k]);
+	     					matchingEmpNos.push(empNos[k]);
+	     				}
+	     			}
+
+	     			// 직원 선택(select) 요소를 초기화합니다.
+	     			empSelect.innerHTML = "";
+
+	     			// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+	     			for (var l = 0; l < matchingEmpNames.length; l++) {
+	     				var empOption = document.createElement("option");
+	     				empOption.value = matchingEmpNos[l];
+	     				empOption.text = matchingEmpNames[l];
+	     				empSelect.appendChild(empOption);
+	     			}
+
+	     			for (var l = 0; l < empSelect.options.length; l++) {
+	     				if (empSelect.options[l].value == YourEmpNo) {
+	     					empSelect.options[l].selected = true;
+	     					break;
+	     				}
+	     			}
+	     		}
+
+
+	     	    handleDeptSelect();
+
+	     	    deptSelect.addEventListener("change", handleDeptSelect);
+	     	}
+	     }
+
+
+	     //수정 부서 직원 추가 
+	     function createContainer(index) {
+	         let reInviContainer = document.createElement('div');
+	         reInviContainer.className = 'reinvicontainer' + index;
+	         reInviContainer.style.display = 'flex';
+	         reInviContainer.style.paddingTop = '5px';
+	         reInviContainer.style.paddingBottom = '5px';
+
+	         let deptContainer = document.createElement('div');
+	         deptContainer.className = 'col-sm-5';
+	         let empContainer = document.createElement('div');
+	         empContainer.className = 'col-sm-5';
+
+	         let deptSelect = document.createElement('select');
+	         deptSelect.className = 'form-select me-3';
+	         deptSelect.name = 'recalDept';
+	         deptSelect.id = 'recalDept' + index;
+
+	         let empSelect = document.createElement('select');
+	         empSelect.className = 'form-select me-3';
+	         empSelect.name = 'recalEmp';
+	         empSelect.id = 'recalEmp' + index;
+
+	         for (var j = 0; j < deptCodes.length; j++) {
+	             let deptOption = document.createElement('option');
+	             deptOption.value = deptCodes[j];
+	             deptOption.text = deptNames[j];
+	             deptSelect.appendChild(deptOption);
+	         }
+
+	         var selectedDeptIndex = deptSelect.selectedIndex;
+	         var selectedDeptCode = deptCodes[selectedDeptIndex];
+
+	         var matchingEmpNames = [];
+	         var matchingEmpNos = [];
+
+	         for (var k = 0; k < empDeptCodes.length; k++) {
+	             if (empDeptCodes[k] === selectedDeptCode) {
+	                 matchingEmpNames.push(empNames[k]);
+	                 matchingEmpNos.push(empNos[k]);
+	             }
+	         }
+
+	         empSelect.innerHTML = "";
+
+	         for (var l = 0; l < matchingEmpNames.length; l++) {
+	             var empOption = document.createElement("option");
+	             empOption.value = matchingEmpNos[l];
+	             empOption.text = matchingEmpNames[l];
+	             empSelect.appendChild(empOption);
+	         }
+
+	         deptContainer.appendChild(deptSelect);
+	         empContainer.appendChild(empSelect);
+
+	         reInviContainer.appendChild(deptContainer);
+	         reInviContainer.appendChild(empContainer);
+
+	         // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+	         let delButton = document.createElement('button');
+	         delButton.type = 'button';
+	         delButton.textContent = '삭제';
+	         delButton.addEventListener('click', function () {
+	             // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+	             reInviContainer.remove();
+	             count--;
+	         });
+
+	         reInviContainer.appendChild(delButton);
+
+	         return reInviContainer;
+	     }
+
+
+	     $('#addBtnRe').on('click', function () {
+	         if (count <= 5) {
+	             let reInviContainer = createContainer(count);
+
+	             let someContainer2 = document.querySelector('#shareListJob');
+	             someContainer2.appendChild(reInviContainer);
+
+	             count++;
+	         } else {
+	             alert("공유인원은 5명까지 가능합니다.");
+	         }
+	         updateCount(); // count를 업데이트하는 함수 호출
+	     });
+
+	     function updateCount() {
+	         count = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+	     }
+	     
+	     
+	   //체크리스트 조회
+	     const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');
+	     console.log(data.checkList)
+				if(data.checkList.length > 0){
+	            // data.checklist 배열을 순회하면서 DOM 요소 생성 및 추가
+	            for (let i = 0; i < data.checkList.length; i++) {
+	                const checklistItem = data.checkList[i];
+
+	                // 새로운 div.form-check 요소 생성
+	                const addNewChecklist = document.querySelector('.add-new-checklist');
+	                const checklistDiv = document.createElement('div');
+	                checklistDiv.classList.add('form-check');
+
+	                // 새로운 input 요소 생성
+	                const checkboxInput = document.createElement('input');
+	                checkboxInput.type = 'checkbox';
+	                checkboxInput.classList.add('form-check-input');
+	                checkboxInput.id = `customCheckList${i + 2}`;
+	                checkboxInput.checked = checklistItem.endYn === 'Y' ? true : false;
+	                checkboxInput.dataset.checklistNo = checklistItem.calChecklistNo;
+
+	                // 새로운 label 요소 생성
+	                const label = document.createElement('label');
+	                label.classList.add('form-check-label');
+	                label.htmlFor = `customCheckList${i + 2}`;
+	                label.innerText = checklistItem.calChecklistContent;
+	                
+	                // 새로운 span 요소 생성
+	                const span = document.createElement('span');
+	                span.classList.add('done-strikethrough');
+
+	                // label에 span 추가
+	                label.appendChild(span);
+
+	                // 새로운 a 요소 생성
+	                const deleteLink = document.createElement('span');
+	                deleteLink.href = '#';
+	                deleteLink.dataset.checklistNo = checklistItem.calChecklistNo; 
+	                deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
+
+	                // 새로운 span 요소 생성
+	                const iconSpan = document.createElement('span');
+	                iconSpan.classList.add('icon');
+
+	                // 새로운 feather-icon 요소 생성
+	                const featherIcon = document.createElement('span');
+	                featherIcon.classList.add('feather-icon');
+
+	                // 새로운 i 요소 생성
+	                const trashIcon = document.createElement('i');
+	                trashIcon.dataset.feather = 'trash-2';
+
+	                // i를 feather-icon에 추가
+	                featherIcon.appendChild(trashIcon);
+
+	                // feather-icon을 icon에 추가
+	                iconSpan.appendChild(featherIcon);
+
+	                // icon을 a에 추가
+	                deleteLink.appendChild(iconSpan);
+
+	                // div.form-check에 input, label, a 추가
+	                checklistDiv.appendChild(checkboxInput);
+	                checklistDiv.appendChild(label);
+	                checklistDiv.appendChild(deleteLink);
+
+	                // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내부에 추가
+	                hkChecklist.appendChild(checklistDiv);
+	                hkChecklist.insertBefore(checklistDiv, addNewChecklist);
+	            }
+			}
+
+	     
+	  // 체크리스트 추가
+	     var id;
+
+	     $(document).on("click", ".add-new-checklist", function (e) {
+	         id = uniqId(); // 고유한 ID 생성
+
+	         $('<div class="form-check"> <input type="checkbox" class="form-check-input" id="customCheckListAppend_'+id+'"> <label class="form-check-label" for="customCheckListAppend_'+id+'"><span class="done-strikethrough"></span> </label> <input class="form-control checklist-input" type="text" placeholder="Add new Item"> <a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><span class="icon"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></span></span></a></div>')
+	             .insertBefore($(this)) // 새로운 체크리스트를 현재 요소의 이전에 삽입
+	             .find('input[type="text"]')
+	             .on('keypress', function (e) {
+	                 if (e.which == 13) { // Enter 키의 ASCII 코드는 13입니다.
+	                     e.preventDefault();
+	                     var checklistValue = $(this).val(); // 체크리스트 입력값 저장
+
+	                     // Ajax 호출
+	                     $.ajax({
+	                         url: "/schedule/insertChecklist",
+	                         method: "POST",
+	                         dataType: "json",
+	                         data: JSON.stringify({
+	                             checklistValue: checklistValue,
+	                             calNo: data.calNo, // data.calNo는 현재 정의되어 있지 않습니다. 적절한 값을 설정해주세요.
+	                             empNo: loginEmpNo // loginEmpNo는 현재 정의되어 있지 않습니다. 적절한 값을 설정해주세요.
+	                         }),
+	                         contentType: 'application/json',
+	                         success: function (response) {
+	                             // 성공 시 처리
+	                             console.log(response);
+	                             $(this).prev().find('input').trigger('focus');
+	                         },
+	                         error: function (error) {
+	                             // 에러 시 처리
+	                             console.error(error);
+	                         }
+	                     });
+	                 }
+	             });
+	         return false;
+	     });
+			
+	     //체크리스트 삭제
+			$(document).on("click",".delete-checklist",function (e) {
+				e.preventDefault();
+				
+				var checklistNo = $(this).data('checklistNo');
+			     
+				   $.ajax({
+	                   url: "/schedule/deleteChecklist",
+	                   method: "POST",
+	                   dataType: "json",
+	                   data: JSON.stringify({
+	                       checklistNo: checklistNo
+	                   }),
+	                   contentType: 'application/json',
+	                   success: function (response) {
+	                       // 성공 시 처리
+	                       console.log(response);
+	                       $(this).closest('.form-check').remove();
+	                   },
+	                   error: function (error) {
+	                       // 에러 시 처리
+	                       console.error(error);
+	                   }
+	               });
+			});
+			
+			//체크리스트 완료 표시
+			$(document).on("change",".form-check-input",function (e) {
+				e.preventDefault();
+				
+				var checklistNo = $(this).data('checklistNo');
+			    var isChecked = $(this).prop('checked'); // 체크박스의 체크 여부 확인
+
+			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
+					
+					   $.ajax({
+		                   url: checkUrl,
+		                   method: "POST",
+		                   dataType: "json",
+		                   data: JSON.stringify({
+		                       checklistNo: checklistNo
+		                   }),
+		                   contentType: 'application/json',
+		                   success: function (response) {
+		                       // 성공 시 처리
+		                       console.log(response);
+		                   },
+		                   error: function (error) {
+		                       // 에러 시 처리
+		                       console.error(error);
+		                   }
+
+					})
+
+			});
+			
+		})
+		.fail(function(request, status, error) {
+			console.log("프로젝트 상세 조회 실패" + error);
+			console.log(request, status);
+			console.log(error);
+		});
+};
+	
+	
+
+
+//부서 선택 시 직원 표시
 document.getElementById('calDept1').addEventListener('change', function() {
  var selectedDeptCode = this.value;
  
@@ -1813,7 +2026,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      
      employeeList.forEach(function(employee) {
        var option = document.createElement('option');
-       option.value = employee.EMP_NO;
+       option.value = employee.no;
        option.textContent = employee.name;
        employeeSelect.appendChild(option);
      });
@@ -1823,13 +2036,18 @@ document.getElementById('calDept1').addEventListener('change', function() {
    });
 }); 
 
+
+
+
 //부서 직원 추가
-const adddelFunction=(function(){
+const adddelFunction=(function(adddelFunction){
+	let self = {};
   let count = 2;
-  const addFile=()=>{
+  self.addFile=()=>{
      if(count<=5){
-        const fileForm = $(".inviteContainer").clone(true);
-        fileForm.removeClass("inviteContainer").addClass(count + "inviteContainer");
+        const fileForm = $(".inviteContainer").eq(0).clone(true);
+	     fileForm.removeClass("inviteContainer_1");
+        fileForm.addClass("inviteContainer_"+count);
            const deptId = "calDept" + count;
            const empId = "calEmp" + count;
            
@@ -1854,8 +2072,9 @@ const adddelFunction=(function(){
                  employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
            
                  employeeList.forEach(function(employee) {
+                	 console.log(employee)
                    var option = document.createElement('option');
-                   option.value = employee.EMP_NO;
+                   option.value = employee.no;
                    option.textContent = employee.name;
                    employeeSelect.appendChild(option);
                  });
@@ -1871,18 +2090,27 @@ const adddelFunction=(function(){
            alert("공유인원은 5명까지 가능합니다.");
          }
   };
-  const delFile=()=>{
+  self.delFile=(e)=>{
      if(count!=2){
-   	  $("div[name=someContainer]").prev().remove();
+		  $(e).parent().remove();
+		  $(".inviteContainer").each(function(index, item){
+			  item.removeAttribute('class');
+			  $(item).addClass('inviteContainer').addClass('inviteContainer_'+(index+1));
+		  });
+   	  //$("div[name=someContainer]").prev().remove();
         count--;
      }
   };
-  
-  return [addFile,delFile];
+
+	/**
+	 * REGIST
+	 */
+	if (!adddelFunction) {
+		window.adddelFunction = adddelFunction = {};
+	}
+	adddelFunction.util = self;
 })();
 
-const fn_addFileForm=adddelFunction[0];
-const fn_deleteFileForm=adddelFunction[1]; 
 
 $('#alldaycheck').on(
         'click',
@@ -1943,6 +2171,10 @@ $('#alldaycheck').on(
            }
         });
         
+
+
+
+        
 /* document.querySelector('#closeBtn').addEventListener('click', function() {
     resetForm();
   });
@@ -1982,29 +2214,59 @@ $('#alldaycheck').on(
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
           + ':' + seconds;
  };
+ 
+ /*Select Dropdown*/
+	$(document).on('click', '.selectable-dropdown .dropdown-menu .dropdown-item', function (e) {
+		var selText = $(this).text(),
+		selbg = $(this).attr('data-color');
+		$(this).parents('.selectable-dropdown').find('.dropdown-toggle').css({"border-color": selbg, "background": selbg}).html(selText);
+	});
+	$(document).on('click', '.selectable-split-dropdown .dropdown-menu .dropdown-item', function (e) {
+		var selText = $(this).text(),
+		selbg = $(this).attr('data-color');
+		$(this).parents('.selectable-split-dropdown').find('.btn-dyn-text').html(selText);
+	});
 
+	
+	
+ 
+ 
 </script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-<!-- Daterangepicker JS -->
-<script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
-<script
-	src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
-<script src="${path}/resources/js/daterangepicker-data.js"></script>
 
-<!-- Tinymce JS -->
-<script src="${path}/resources/vendors/tinymce/tinymce.min.js"></script>
+    
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	<!-- Bootstrap Core JS -->
+ <%--   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script> --%>
 
-<!-- Dropzone JS -->
-<script src="${path}/resources/vendors/dropzone/dist/dropzone.min.js"></script>
+    <!-- FeatherIcons JS -->
+    <%-- <script src="${path}/resources/js/feather.min.js"></script> --%>
 
-<!-- Apex JS -->
-<script
-	src="${path}/resources/vendors/apexcharts/dist/apexcharts.min.js"></script>
+    <!-- Fancy Dropdown JS -->
+    <%-- <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script> --%>
 
-<!-- Repeater JS -->
-<script
-	src="${path}/resources/vendors/jquery.repeater/jquery.repeater.min.js"></script>
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
 
-<!-- Drag JS -->
-<script src="${path}/resources/vendors/dragula/dist/dragula.min.js"></script>
-<script src="${path}/resources/js/todo-data.js"></script>
+	<!-- Daterangepicker JS -->
+    <script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
+    <script src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
+    <script src="${path}/resources/js/daterangepicker-data.js"></script>
+	
+	<!-- Tinymce JS -->
+    <script src="${path}/resources/vendors/tinymce/tinymce.min.js"></script>
+	
+	<!-- Dropzone JS -->
+	<script src="${path}/resources/vendors/dropzone/dist/dropzone.min.js"></script>
+	
+	<!-- Repeater JS -->
+    <script src="${path}/resources/vendors/jquery.repeater/jquery.repeater.min.js"></script>
+	
+	<!-- Drag JS -->
+	<script src="${path}/resources/vendors/dragula/dist/dragula.min.js"></script>
+	
+	<!-- Init JS -->
+	<%-- <script src="${path}/resources/js/init.js"></script> --%>
+	<script src="${path}/resources/js/todo-data.js"></script>
+	<%-- <script src="${path}/resources/js/chips-init.js"></script> --%>
+   
+

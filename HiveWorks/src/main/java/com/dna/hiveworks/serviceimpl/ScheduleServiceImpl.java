@@ -1,5 +1,6 @@
 package com.dna.hiveworks.serviceimpl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
+import com.dna.hiveworks.model.dto.CheckList;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -114,13 +116,46 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
-	public int reserveResource(Schedule schedule, int resourceNo) {
+	public int reserveResource(Schedule schedule, int resourceNo, int[] empList) {
+		int inviresult = 0;
 		int reserveResource = dao.reserveResource(session, schedule);
 		if (reserveResource > 0) {
 			int reserveResourceEnd = dao.reserveResourceEnd(session, resourceNo);
+			if (empList != null && empList.length > 0) {
+				inviresult = dao.insertInvitationRe(session, empList);
+				if (inviresult == 0) {
+					throw new RuntimeException("예약 등록 실패");
+				}
+			}
+
+		} else {
+			throw new RuntimeException("예약 등록 실패");
+
 		}
 		return reserveResource;
 	}
+	
+	@Override
+	public int updateReservation(Schedule schedule, int calNo, int[] empList) {
+		int inviresult = 0;
+		int updateReservation = dao.updateReservation(session, schedule);
+		if(updateReservation > 0) {
+			int deleteInvi = dao.deleteInvitaion(session, calNo); // delete지만 useYn을 n으로
+			if (empList != null && empList.length > 0) {
+				inviresult = dao.updateInvitationRe(session, empList, calNo);
+				if (inviresult == 0) {
+					throw new RuntimeException("예약 수정 실패");
+				}
+			}
+
+		} else {
+			throw new RuntimeException("예약 수정 실패");
+
+		}
+		return updateReservation;
+		};
+		
+	
 
 	@Override
 	public int insertResource(Resource resource) {
@@ -153,6 +188,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Schedule> selectReserveByNo(int empNo) {
 		return dao.selectReserveByNo(session, empNo);
 	}
+	
+	@Override
+	public List<Schedule> selectReservationBydate(Date selectDate, int resourceNo) {
+		System.out.println(resourceNo+"서비스");
+		return dao.selectReservationBydate(session, selectDate, resourceNo);
+	}
+	
+	@Override
+	public List<Schedule> selectReserveByresource(int resourceNo) {
+		return dao.selectReserveByresource(session, resourceNo);
+	}
 
 	@Override
 	public List<Schedule> selectReserveAll() {
@@ -183,6 +229,26 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> selectprojectByEmpNo(int empNo) {
 		return dao.selectprojectByEmpNo(session, empNo);
+	}
+	
+	@Override
+	public int insertChecklist(CheckList checklist) {
+		return dao.insertChecklist(session, checklist);
+	}
+	
+	@Override
+	public int deleteChecklist(int checklistNo) {
+		return dao.deleteChecklist(session, checklistNo);
+	}
+	
+	@Override
+	public int doneChecklist(int checklistNo) {
+		return dao.doneChecklist(session, checklistNo);
+	}
+	
+	@Override
+	public int undoneChecklist(int checklistNo) {
+		return dao.undoneChecklist(session, checklistNo);
 	}
 
 }
