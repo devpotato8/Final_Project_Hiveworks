@@ -31,11 +31,13 @@
 										</div>
 									</div>
 									<div class="col-sm-6">
+									<form>
 										<div class="form-group">
 											<label class="form-label">설문 종료일</label> <input
 												id="surveyEnd" value="${survey.surveyEnd }" name="surveyEnd"
 												class="form-control" type="date" readonly="readonly" />
 										</div>
+										</form>
 									</div>
 								</div>
 								<div class="row gx-3">
@@ -56,16 +58,18 @@
 										</div>
 									</div>
 								</div>
+							<form id="surveyForm" name="surveyFrm" action="${path}/survey/insertSurvey" method="post">	
 								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">
 
 									
 								</div>
 								
 								
-								
 								<input type="submit" name="name" id="submit" onclick="btn()"
-									class="btn btn-primary mt-5" value="설문완료">
+									class="btn btn-primary mt-5" onclick="sendData()" value="설문완료">
+							</form>
 							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -86,8 +90,10 @@
 			alert('제출 완료하셨습니다 감사합니다.');
 			location.href = "${path}/survey/survey";
 		}
+		
 	</script>
 <script>
+
 // 서버에서 받아온 JSON 형식의 설문 데이터
 var surveyData = ${survey.surveyData};
 
@@ -143,9 +149,9 @@ for (var j = 0; j < item.choices.length; j++) {
 html += '<div class="col-sm-6" style="width:530px;">';
 html += '<div style="display: flex;">';
 if (item.type === 'B') {
-   html += '<input class="" type="checkbox" value=""  />';
+   html += '<input class="" name="check_" type="checkbox" value=""  />';
    } else if (item.type === 'C') {
-   html += '<input class="" type="radio" name="choice_' + item.id + '" value="" />';
+   html += '<input class="" type="radio" name="radio_' + item.id + '" value="" />';
     }
 html += '<input class="form-control" type="text" style="margin-left: 10px;" value="' + item.choices[j] + '" readonly="readonly" />';
 html += '</div>';
