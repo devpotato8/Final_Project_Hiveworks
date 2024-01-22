@@ -19,6 +19,12 @@ public class QuartzDaoImpl implements QuartzDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public String selectWorkByEmpNo(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("work.selectWorkByEmpNo", empNo);
+	}
 	
 	
 }

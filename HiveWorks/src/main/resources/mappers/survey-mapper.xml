@@ -42,7 +42,7 @@
         VALUES (SEQ_SURVEY_NO.NEXTVAL, #{surveyTitle}, #{surveyStart}, #{surveyEnd}, NULL, NULL, DEFAULT, DEFAULT, 'Y',#{surveyType},#{surveyQuestion}, #{surveyData})
     </insert>
     
-    <insert id="insertQuestion" parameterType="survey">
+    <insert id="insertQuestion" parameterType="question">
     	INSERT INTO TBL_SURVEY_QUESTION
     	VALUES (SEQ_QUESTION_NO.NEXTVAL,#{questionTitle},#{surveyNo},#{surveyData})
     </insert>

@@ -94,58 +94,7 @@
 		<div class="file-card-view imgCol">					
 			<div class="collapse-simple mt-2">
 				<div class="card imgContainer">
-					<div class="card-header">
-						<a role="button" data-bs-toggle="collapse" href="#fm_collapse_1" aria-expanded="true">
-							<h5 class="mb-0">사진 파일</h5>
-						</a>
-					</div>
-					<div id="fm_collapse_1" class="collapse show" >
-						<div class="row gx-3 row-cols-xxl-6 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 mt-3">
-							<c:forEach var="msg" items="${msgList}">
-								<c:choose>
-									<c:when test="${(fn:endsWith(msg.msg_file_oriname, '.jpg')
-											or fn:endsWith(msg.msg_file_oriname, '.jpeg')
-											or fn:endsWith(msg.msg_file_oriname, '.png')
-											or fn:endsWith(msg.msg_file_oriname, '.bmp')
-											or fn:endsWith(msg.msg_file_oriname, '.gif') )}">
-										<div class="col "  style="width:300px;">
-											<div class="card file-compact-card card-border fmapp-info-trigger ">
-												<div class="card-body d-flex justify-content-between">
-													<div class="media">
-														<div class="media-head me-3">
-															<img id="imgPreview" src="${path}/resources/msgupload/${msg.msg_file_rename}" alt="user" class="d-block img-fluid w-50p">
-														</div>
-														<div class="media-body">
-															<span class="fileMsgNo"style="display:none">${msg.msg_no}</span>
-															<a class="fileOriName" title="${msg.msg_file_oriname}" href="${path}/downfile?fn=${msg.msg_file_rename}">
-		   														<c:out value="${msg.msg_file_oriname}"/>
-		   													</a>
-		   													<span class="fileRename" style="display:none">${msg.msg_file_rename}</span>
-															<div class="text-truncate fs-8 mb-2 fileSizeType"><c:out value="${msg.msg_file_size}"/></div>
-															<div class="text-truncate fs-8 fileMsgDate">${msg.msg_date}</div>
-															<span class="fileMsgReceiver" style="display:none">${msg.msg_receiver_no}</span>
-															<div class="text-truncate fs-8 mb-2 fileMsgSender">${msg.msg_sender_name}</div>
-															<img id="imgPreview" src="${path}/resources/msgupload/${msg.msg_file_rename}" style="display:none">
-														</div>
-													</div>
-													<div class="d-flex">
-														<a class="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover flex-shrink-0" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-														<div class="dropdown-menu">
-															<a class="dropdown-item flieDetailView" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>자세히 보기</span></a>
-															<a class="dropdown-item fileDownAction" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운로드</span></a>
-															<a class="dropdown-item fileDeletAction" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>첨부파일 삭제하기</span></a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</c:when>
-								</c:choose>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
+					
 			
 		<div class="collapse-simple mt-2 docCol">
 				<div class="card imgContainer">
@@ -273,62 +222,7 @@
 			</div>
 
 
-			<div class="collapse-simple mt-2 otherCol">
-				<div class="card imgContainer">
 			
-					<div class="card-header">
-						<a role="button" data-bs-toggle="collapse" href="#fm_collapse_4" aria-expanded="true">
-							<h5 class="mb-0">기타 파일</h5>
-						</a>
-					</div>
-			
-
-					<div id="fm_collapse_3" class="collapse show">
-						<div class="row gx-3 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 mt-4">
-						<c:forEach var="msg" items="${msgList}">
-							<c:choose>
-							<c:when test="${fn:endsWith(msg.msg_file_oriname, '.zip')}">
-							<div class="col "  style="width:300px;">
-								<div class="card file-compact-card card-border fmapp-info-trigger ">
-									<div class="card-body d-flex justify-content-between">
-										<div class="media">
-											<div class="media-head me-3">
-												<div class="avatar avatar-icon avatar-soft-blue avatar-sm">
-													<span class="initial-wrap">
-														<i class="ri-folder-zip-fill"></i>
-													</span>
-												</div>
-											</div>
-											<div class="media-body">
-												<span class="fileMsgNo"style="display:none">${msg.msg_no}</span>
-												<a class="fileOriName" title="${msg.msg_file_oriname}" href="${path}/downfile?fn=${msg.msg_file_rename}">
-													<c:out value="${msg.msg_file_oriname}"/>
-												</a>
-												<span class="fileRename" style="display:none">${msg.msg_file_rename}</span>
-												<div class="text-truncate fs-8 mb-2 fileSizeType"><c:out value="${msg.msg_file_size}"/></div>
-												<div class="text-truncate fs-8 fileMsgDate">${msg.msg_date}</div>
-												<span class="fileMsgReceiver" style="display:none">${msg.msg_receiver_no}</span>
-												<div class="text-truncate fs-8 mb-2 fileMsgSender">${msg.msg_sender_name}</div>
-											</div>
-										</div>
-										<div class="d-flex">
-											<a class="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover flex-shrink-0" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><i data-feather="more-horizontal"></i></span></span></a>
-											<div class="dropdown-menu">
-												<a class="dropdown-item flieDetailView" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>자세히 보기</span></a>
-												<a class="dropdown-item fileDownAction" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운로드</span></a>
-												<a class="dropdown-item fileDeletAction" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>첨부파일 삭제하기</span></a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							</c:when>
-							</c:choose>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>		
 	</div>
 </c:if>

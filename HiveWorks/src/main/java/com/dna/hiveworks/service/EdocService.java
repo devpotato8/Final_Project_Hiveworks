@@ -203,4 +203,68 @@ public interface EdocService {
 	 * @return
 	 */
 	int updateAuto(Map<String, Object> param);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 22. 
+	 * @Return : int
+	 * 
+	 * Description : 전자문서 양식을 저장하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 22., 설명 : 최초 작성
+	 *
+	 * @param sampleInstance
+	 * @return
+	 */
+	
+	int insertSample(ElectronicDocumentSample sample);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 22. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 전자문서 양식을 복사하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 22., 설명 : 최초 작성
+	 *
+	 * @param of
+	 * @return
+	 */
+	
+	Map<String, Object> copySample(Map<String, Object> param);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 22. 
+	 * @Return : int
+	 * 
+	 * Description : 전자문서 양식을 수정하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 22., 설명 : 최초 작성
+	 *
+	 * @param sampleInstance
+	 * @return
+	 */
+	int updateSample(ElectronicDocumentSample sampleInstance);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 22. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 전자문서 양식을 삭제하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 22., 설명 : 최초 작성
+	 *
+	 * @param of
+	 * @return
+	 */
+	
+	Map<String, Object> deleteSample(Map<String, Object>param);
+	
 }

@@ -111,6 +111,7 @@ function ElectronicDocumentImageUploadAdapterPlugin( editor ) {
 /*
  * CK Editer 초기화
  */
+let ckeditor;
 DecoupledEditor
 .create( document.querySelector("#content"),{
 	extraPlugins :[
@@ -119,9 +120,75 @@ DecoupledEditor
         ]
     })
 	.then( editor => {
+        ckeditor = editor;
         const toolbarContainer = document.querySelector( '.editor-toolbar-container' );
         toolbarContainer.appendChild( editor.ui.view.toolbar.element );
     })
     .catch( error => {
         console.error( error );
     });
+
+
+let dotCode;
+
+$('#docType').on('change',(e)=>{
+    dotCode = e.target.value;
+});
+
+$('#submitButton').on('click',(e)=>{
+    e.preventDefault();
+
+    const $btn = e.target;
+
+	$btn.disabled = true;
+	$($btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>전송중');
+
+	let formData;
+    
+	
+	formData = dataProcess();
+	
+
+    // fetch로 전송
+	fetch(path+'/edoc/format/write',{
+		method : 'post',
+    	body : formData
+	})
+	.then(response =>{
+		if(response.status != 200) throw new Error(response.error);
+		return response.json();
+	})
+	.then(data=>{
+		if(data.status != 200){
+			alert(data.status+"\n"+data.error);
+			
+		}else{
+			alert('양식이 정상적으로 전송되었습니다.');
+			location.replace(path+"/edoc/format/lists");
+		}
+	})
+	.catch(e=>{
+		alert(e);
+		console.log(e);
+	}).finally(()=>{
+		$btn.disabled = false;
+		$($btn).html('기안하기');
+	});
+});
+
+const dataProcess = ()=>{
+    
+    let formData = new FormData();
+    
+    let sample = {
+        sampleDotCode : dotCode,
+        sampleName : $('#sampleName').val(),
+        sampleDesc : $('#sampleDesc').val(),
+        sampleContent : ckeditor.getData()
+    }
+
+    formData.append("sample",JSON.stringify(sample));
+	
+    return formData;
+
+}

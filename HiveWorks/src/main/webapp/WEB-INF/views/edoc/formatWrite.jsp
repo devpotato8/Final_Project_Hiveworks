@@ -30,7 +30,8 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
-							<h1 class="fmapp-title">양식 작성</h1>
+							<h1 class="fmapp-title">양식 작성</h1>&emsp;
+							<button type="button" class="btn btn-primary" id="submitButton">양식 전송하기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -57,39 +58,48 @@
 								<div class="tab-content">
 									<!-- 문서 작성 탭 -->
 									<div class="tab-pane fade show active" id="write_doc">
-										<div class="table-responsive col-sm-8">
-											<table class="table">
-												<tbody>
-													<tr>
-														<th scope="row">문서종류</th>
-														<td>
-															<div class="input-group mb-3">
-																<select class="form-select" name="edocDotCode" id="edocType">
-																	<option disabled="disabled" selected="selected">문서종류</option>
-																	<c:forEach items="${dotcode }" var="t">
-																		<option value="${t }">${DotCode.valueOf(t).code }</option>
-																	</c:forEach>
-																</select>
-															</div>
-														</td>
-														<th scope="row">문서이름</th>
-														<td>
-															<input type="text" name="edocCreater" value="${emp.EMPNO }" id="edocCreter">
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div class="col-sm-2">
-											<button type="button" class="btn btn-primary" id="submitButton">전송하기</button>
-										</div>
-										
-										<span class="form-label">본문 : </span>
-										<div class="editor">
-											<div class="editor-toolbar-container">
+										<div class="container">
+											<div class="table-responsive">
+												<table class="table">
+													<tbody>
+														<tr>
+															<th scope="row">문서종류</th>
+															<td>
+																<div class="input-group mb-3">
+																	<select class="form-select" name="sampleDotCode" id="docType">
+																		<option disabled="disabled" selected="selected">문서종류</option>
+																		<c:forEach items="${dotcode }" var="t">
+																			<option value="${t }">${DotCode.valueOf(t).code }</option>
+																		</c:forEach>
+																	</select>
+																</div>
+															</td>
+															<th scope="row">문서이름</th>
+															<td>
+																<input type="text" class="form-control" name="sampleName" id="sampleName">
+															</td>
+														</tr>
+														<tr>
+															<th scope="row">문서설명</th>
+															<td colspan="3">
+																<input type="text"  class="form-control" name="sampleDesc" id="sampleDesc">
+															</td>
+														</tr>
+													</tbody>
+												</table>
 											</div>
-											<div class="editor-editable-container">
-												<div class="editor-editable"  id="content">
+										</div>	
+										<div class="ckeditor-container">
+											<span class="form-label">본문 : </span>
+											<div class="row">
+												<div class="editor-toolbar-container">
+												</div>
+											</div>
+											<div class="row row-editor">
+												<div class="editor-container">
+													<div class="editor editor-editable-container editor-editable-container--with-sidebar" id="content">
+	
+													</div>
 												</div>
 											</div>
 										</div>
@@ -128,10 +138,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 	
-<link type="text/css" rel="stylesheet" href="${path }/resources/css/edoc/edocwrite.css">
-
 <script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
-<script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
+<script type="text/javascript" src="${path}/resources/js/edoc/edoc-format-write.js"></script>
+<link rel="stylesheet" href="${path}/resources/css/edoc/formatwrite.css">
+
 
 </div>
 </body>

@@ -46,8 +46,7 @@
 	</select>
 	
 	<select id="selectWorkByEmpNo" parameterType="_int" resultType="String">
-		SELECT WORK_START_TIME
-		FROM TBL_WORK
+		SELECT WORK_START_TIME FROM TBL_WORK
 		WHERE EMP_NO = #{empNo}
 		AND TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
@@ -86,7 +85,7 @@
 		ORDER BY WORK_DAY DESC
 	</select>
 	
-	<select id="avgStartWork" resultType="String">
+	<select id="avgStartWork" parameterType="_int" resultType="String">
 		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
                AVG(TO_NUMBER(TO_CHAR(WORK_START_TIME, 'SSSSS')))/86400, 
                'HH24:MI:SS') 
@@ -97,24 +96,24 @@
 	<select id="avgEndWork" parameterType="_int" resultType="String">
 		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
                AVG(TO_NUMBER(TO_CHAR(WORK_END_TIME, 'SSSSS')))/86400, 
-               'HH24:MI:SS') 
+               'HH24:MI:SS')
 		FROM TBL_WORK
 		WHERE EMP_NO = #{empNo}
 	</select>
-	<select id="lateWork" resultType="_int">
+	<select id="lateWork" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_LATE = 'Y' AND EMP_NO = 1
+		WHERE WORK_LATE = 'Y' AND EMP_NO = #{empNo}
 	</select>
-	<select id="fastEnd" resultType="_int">
+	<select id="fastEnd" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_FAST_END = 'Y' AND EMP_NO = 1
+		WHERE WORK_FAST_END = 'Y' AND EMP_NO = #{empNo}
 	</select>
-	<select id="absence" resultType="_int">
+	<select id="absence" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = 1
+		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = #{empNo}
 	</select>
 	<!-- <select id="overWork" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
@@ -129,7 +128,12 @@
                'HH24:MI:SS') 
 		FROM TBL_WORK
 		WHERE EMP_NO = #{empNo}
-		AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		<if test="week !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		</if>
+		<if test="month !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
+		</if>
 	</select>
 	
 	<select id="avgEndWorkFilter" parameterType="_int" resultType="String">
@@ -138,22 +142,45 @@
                'HH24:MI:SS') 
 		FROM TBL_WORK
 		WHERE EMP_NO = #{empNo}
-		AND (SYSDATE - WORK_END_TIME) &lt; #{week}
+		<if test="week !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		</if>
+		<if test="month !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
+		</if>
 	</select>
-	<select id="lateWorkFilter" resultType="_int">
+	<select id="lateWorkFilter" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_LATE = 'Y' AND EMP_NO = 1
+		WHERE WORK_LATE = 'Y' AND EMP_NO = #{empNo}
+		<if test="week !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		</if>
+		<if test="month !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
+		</if>
 	</select>
-	<select id="fastEndFilter" resultType="_int">
+	<select id="fastEndFilter" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_FAST_END = 'Y' AND EMP_NO = 1
+		WHERE WORK_FAST_END = 'Y' AND EMP_NO = #{empNo}
+		<if test="week !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		</if>
+		<if test="month !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
+		</if>
 	</select>
-	<select id="absenceFilter" resultType="_int">
+	<select id="absenceFilter" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = 1
+		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = #{empNo}
+		<if test="week !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+		</if>
+		<if test="month !=null">
+			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
+		</if>
 	</select>
 	<!-- <select id="overWork" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
@@ -166,6 +193,7 @@
 	<insert id="insertQuartzWork" parameterType="_int">
 		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',NULL,NULL,NULL,NULL,#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
 	</insert>
+	
 	
 	
 	

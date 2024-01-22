@@ -18,13 +18,16 @@ public class QuartzController {
 		@Scheduled(cron = "0 0 1 ? * MON-FRI")
 		public void insertQuartzWork() {
 			for(int i =1; i<4; i++) {
-				service.insertQuartzWork(i);
+				try {
+					service.insertQuartzWork(i);
+				} catch (RuntimeException e) {
+				}
 			}
 		}
-		// 매년 매월 매일 매시 1분마다 0초에 실행
+		 // 매년 매월 매일 매시 1분마다 0초에 실행
 //		@Scheduled(cron = "0 0/1 * * * MON-FRI")
 //		public void insertQuartzWork() {
-//			for(int i =7; i<10; i++) {
+//			for(int i =1; i<4; i++) {
 //				service.insertQuartzWork(i);
 //			}
 //		}
