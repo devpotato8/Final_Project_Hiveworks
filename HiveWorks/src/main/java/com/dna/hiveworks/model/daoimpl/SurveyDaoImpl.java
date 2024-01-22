@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.SurveyDao;
+import com.dna.hiveworks.model.dto.board.Board;
 import com.dna.hiveworks.model.dto.board.Survey;
+import com.dna.hiveworks.model.dto.board.SurveyQuestion;
 
 import lombok.extern.slf4j.Slf4j;
 @Repository
@@ -26,6 +28,19 @@ public class SurveyDaoImpl implements SurveyDao{
 		public int insertSurvey(SqlSession session,Survey s) {
 			return session.insert("survey.insertSurvey", s);
 		}
+		@Override
+		public int insertQuestion(SqlSession session,SurveyQuestion qustion) {
+			return session.insert("question.insertQuestion",qustion);
+		}
+		@Override
+		public int surveyUpdate(SqlSession session, Survey survey) {	
+			return session.update("survey.surveyUpdate",survey);
+		}
+		@Override
+		public Survey surveyDelete(SqlSession session, int surveyNo) {
+			return session.selectOne("survey.surveyDelete",surveyNo);
+		}
+		
 		
 		
 }

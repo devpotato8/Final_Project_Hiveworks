@@ -13,7 +13,7 @@ public interface BoardDao {
 
 	Board selectBoardByNo(SqlSession session, int boardNo);
 
-	List<Board> selectAllBoard(SqlSession session);
+	List<Board> selectAllBoard(SqlSession session,String boardType);
 
 	int insertBoard(SqlSession session, Board b);
 
@@ -25,5 +25,6 @@ public interface BoardDao {
 	int insertUploadfile(SqlSession session, Uploadfile uploadfile);
 
 	int updateBoardCount(SqlSession session, int boardNo);
+
 
 }
