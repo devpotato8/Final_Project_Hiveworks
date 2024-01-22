@@ -51,11 +51,22 @@ public class EdocCounter {
 		
 		List<ElectronicDocumentList> docList = service.getEdocList(Map.of("emp_id",loginEmp.getEmp_id(),"status",ListStatus.ALL.name()));
 		
-		int countAll = docList.size();
-		long countWait =  docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_W)).count();
-		long countCheck = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_C)).count();
-		long countExpect = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_P)).count();
-		long countProcess = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.PROCESS)).count();
+		
+		
+		int countAll = 0;
+		long countWait =  0;
+		long countCheck = 0;
+		long countExpect = 0;
+		long countProcess = 0;
+		
+		if(docList != null && docList.size()>0) {
+			countAll = docList.size();
+			countWait =  docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_W)).count();
+			countCheck = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_C)).count();
+			countExpect = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_P)).count();
+			countProcess = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.PROCESS)).count();
+		}
+		
 		
 		model.addAttribute("countAll", countAll);
 		model.addAttribute("countWait", countWait);

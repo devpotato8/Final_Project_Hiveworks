@@ -64,7 +64,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											<table data-order='[[ 4, "asc" ]]' id="docTable" class="table nowrap table-hover">
+											<table data-order='[[ 2, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
 														<th>양식번호</th>
@@ -78,7 +78,7 @@
 													<c:forEach items="${formatList }" var="fmt">
 														<tr>
 															<td>${fmt.sampleNo }</td>
-															<td>${DotCode.valueOf(fmt.sampleDotCode).name() }</td>
+															<td>${DotCode.valueOf(fmt.sampleDotCode).code }</td>
 															<td>${fmt.sampleName }</td>
 															<td>${fmt.createDate }</td>
 															<td>${fmt.sampleDesc }</td>

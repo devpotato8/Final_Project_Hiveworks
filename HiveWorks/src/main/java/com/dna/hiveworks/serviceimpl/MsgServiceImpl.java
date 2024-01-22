@@ -36,6 +36,35 @@ public class MsgServiceImpl implements MsgService {
 	}
 	
 	@Override
+	public List<Message> sendMsgList(int empNo) {
+		List<Message> result = dao.sendMsgList(session, empNo);
+		return result;
+	}
+	
+	@Override
+	public List<Message> starMsgList(int empNo) {
+		List<Message> result = dao.starMsgList(session, empNo);
+		return result;
+	}
+	
+	@Override
+	public List<Message> trashMsgList(int empNo) {
+		List<Message> result = dao.trashMsgList(session, empNo);
+		return result;
+	}
+	
+	@Override
+	public List<Message> msgFileList(int empNo) {
+		List<Message> result = dao.msgFileList(session, empNo);
+		return result;
+	}
+	
+	
+	
+	////////////////////////////////////////////////////////////////////
+	
+	
+	@Override
 	public List<String> sharedEmp(Map<String,String> msgSharedEmps) {
 		List<String> result = dao.sharedEmp(session, msgSharedEmps);
 		return result;
@@ -113,6 +142,25 @@ public class MsgServiceImpl implements MsgService {
 	public int starUncheckedBtn(Map<String, Integer> params) {
 		return dao.starUnchekedBtn(session, params);
 	}
+
+	@Override
+	public int returnMsg(Map<String, Integer> params) {
+		return dao.returnMsg(session, params);
+	}
+
+	@Override
+	public int unstarBtn(Map<String, Integer> params) {
+		return dao.unstarBtn(session, params);
+	}
+
+	@Override
+	public int returnTrash(Map<String, Integer> params) {
+		return dao.returnTrash(session, params);
+	}
+	
+
+
+	
 
 
 	

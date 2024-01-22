@@ -267,7 +267,10 @@
 								</span>
 
 							</span>
-						</a></li>
+						</a>
+						
+									
+						</li>
 						<!-- /쪽지 아이콘 -->
 
 						<!-- 알림 아이콘 -->
@@ -432,7 +435,7 @@
 									<div class="p-2">
 										<div class="media">
 											<div class="media-head me-2">
-												<div class="avatar avatar-rounded avatar-sm">
+												<div class="avatar avatar-rounded avatar-xs">
 													<c:choose>
 														<c:when test="${loginEmp.emp_profile_re_name ne null }">
 															<img
@@ -446,8 +449,22 @@
 													</c:choose>
 												</div>
 											</div>
+
 										</div>
 										<div class="media-body">
+											<c:choose>
+												<c:when test="${not empty loginEmp}">
+													<span class="d-block fw-medium">${loginEmp.emp_name} 님 반가워요!</span>
+													<div class="fs-7">${loginEmp.emp_email }</div>		
+													<a href="${path}/logout" class="d-block fs-8 link-secondary"><u><b>로그아웃</b></u></a>
+												</c:when>
+												<c:when test="${empty loginEmp}">
+													<span class="d-block fw-medium">로그인 하세요!</span>
+													<a href="${path}/MyLoginPage" class="d-block fs-8 link-secondary"><u><b>로그인하러 가기</b></u></a>
+												</c:when>
+											</c:choose>
+											
+												<!-- <div class="dropdown">
 											<span class="d-block fw-medium">${loginEmp.emp_name} 님</span>
 											<!-- <div class="dropdown">
 												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside"></a>

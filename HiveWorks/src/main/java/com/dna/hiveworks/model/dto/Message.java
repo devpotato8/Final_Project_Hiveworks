@@ -23,9 +23,9 @@ import lombok.NoArgsConstructor;
 public class Message {
 	
 	private int msg_no;
-	private int msg_sender;
+	private int msg_sender_no;
 	private String msg_sender_name;
-	private int msg_receiver;
+	private int msg_receiver_no;
 	private String msg_receiver_name;
 	private String msg_category_no;
 	private String msg_category_name;

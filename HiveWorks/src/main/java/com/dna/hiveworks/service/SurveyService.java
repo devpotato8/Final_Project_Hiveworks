@@ -2,6 +2,7 @@ package com.dna.hiveworks.service;
 
 import java.util.List;
 
+import com.dna.hiveworks.model.dto.board.Board;
 import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.model.dto.board.SurveyQuestion;
 
@@ -15,5 +16,7 @@ public interface SurveyService {
 
 	int insertQuestion(SurveyQuestion qustion);
 	
+	int surveyUpdate(Survey survey);
 	
+	Survey surveyDelete(int surveyNo);
 }

@@ -12,7 +12,7 @@
 </jsp:include>
 	
 <jsp:include page="/WEB-INF/views/message/msgSideHeader.jsp">
-	<jsp:param value="받은 쪽지함" name="nameofmsglist"/>
+	<jsp:param value="쪽지 휴지통" name="nameofmsglist"/>
 </jsp:include>
 
 <fmt:formatDate value="${msg.msg_date}" pattern="yy-MM-dd HH:mm:ss"/>
@@ -111,14 +111,7 @@
 		<div class="list-view">
 			<div class="headerContainer">
 				<div class="text-start">
-					<button class="btn btn-soft-primary moveStarBtn">별표 쪽지함에 저장</button>
-					<button class="btn btn-soft-primary moveTrashBtn">휴지통으로 이동</button>
-				</div>
-				<div class="alert alert-warning alert-wth-icon alert-dismissible fade show" role="alert">
-					<span class="alert-icon-wrap"><i class="ri-alert-line"></i></span>
-					<div class="d-flex align-items-center flex-wrap flex-sm-nowrap">
-						<p>안읽은 쪽지가 <b>${msgUnreadCount}개</b> 있습니다</p>
-					</div>
+					<button class="btn btn-soft-primary returnMsgBtn">휴지통에서 꺼내기</button>
 				</div>
 			</div>	
 			<br>
@@ -134,12 +127,12 @@
 									</span></th>
 									<th>No</th>
 									<th style="display:none;"></th>
-									<th></th>
 									<th>Message Title</th>
 									<th>Message Content</th>
 									<th>Send Date</th>
 									<th>Sender</th>
 									<th>Action</th>
+									<th style="display:none;"></th>
 									<th style="display:none;"></th>
 									<th style="display:none;"></th>
 								</tr>
@@ -154,18 +147,7 @@
 									<td style="display:none;">
 										<div class="emp_no"><c:out value="${loginEmp.emp_no}"/></div>
 									</td>
-									<td>
-										<div class="d-flex align-items-center msg_marked_yn">
-											 <c:choose>
-										        <c:when test="${msg.msg_marked_yn eq 'Y'}">
-										            <span class="file-star marked"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span></span>
-										        </c:when>
-										        <c:otherwise>
-										            <span class="file-star"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span></span>
-										        </c:otherwise>
-										    </c:choose>
-										</div>
-									</td>
+									
 									<td>
 										<div class="media fmapp-info-trigger attachfile">
 										<c:choose>
@@ -286,7 +268,7 @@
 									<td><div class="msgContent"><c:out value="${msg.msg_content}"/></div></td>
 									<td class="msg_date"><c:out value="${msg.msg_date}"/></td>
 									<td>
-										<div class="avatar-group">
+										<div class="avatar-group avatar-group-overlapped">
 											<div class="avatar avatar-rounded avatar-xs" data-bs-original-title="${msg.msg_sender_name}">
 												<c:choose>
 													<c:when test="${not empty msg.emp_profile_re_name}">
@@ -296,16 +278,14 @@
 														<img src="${path}/resources/img/avatar12.jpg" alt="user" class="avatar-img">
 													</c:otherwise>
 												</c:choose>
-												<span style="font-size:0.9rem">${msg.msg_sender_name}</span>			
+												<span style="font-size:0.9rem">${msg.msg_sender_name}</span>
 											</div>
-										</div>											
+										</div>														
 									</td>
 									<td class="text-right"><a class="actionbtn btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></span></span></a>
 										<div class="dropdown-menu">
 											<a class="dropdown-item detailView" href="#"><span class="feather-icon dropdown-icon"><i data-feather="eye"></i></span><span>내용보기</span></a>
-											<c:if test="${msg.msg_marked_yn =='N'}">
-												<a class="dropdown-item filestar" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>별표 쪽지함에 저장</span></a>
-											</c:if>
+											
 											<c:choose>
 												<c:when test="${empty msg.msg_file_oriname}">
 													<a class="dropdown-item filedown" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
@@ -314,12 +294,13 @@
 													<a class="dropdown-item filedown" href="${path}/downfile?fn=${msg.msg_file_rename}"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>첨부파일 다운</span></a>
 												</c:when>
 											</c:choose>
-											<a class="dropdown-item goTrash" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>휴지통으로</span></a>
+											<a class="dropdown-item returnMsg" href="#"><span class="feather-icon dropdown-icon"><i data-feather="corner-down-left"></i></span><span>휴지통에서 꺼내기</span></a>
+											
 										</div>
 									</td>
-									
 									<td class="msg_sender" style="display:none;"><c:out value="${msg.msg_sender_no}"/></td>
 									<td class="msg_sender_name" style="display:none;"><c:out value="${msg.msg_sender_name}"/></td>
+									<td class="msg_read_yn" style="display:none;"><c:out value="${msg.msg_read_yn}"/></td>
 								</tr>
 					</c:forEach>
 				</c:if>
@@ -333,8 +314,7 @@
 </div>
 
 <script>
-
-<!-- 별표쪽지함으로, 휴지통으로 이동 버튼 클릭 이벤트 jq -->
+<!-- 보낸쪽지 회수하기 버튼 클릭 이벤트 jq -->
 
 //체크된 행의 데이터를 저장할 배열
 var selectedData = [];
@@ -385,32 +365,19 @@ function getSelectedData() {
   return newData;
 }
 
-//별표 버튼 클릭 이벤트
+//휴지통에서 꺼내기 버튼 클릭 이벤트
 $(document).ready(function(){
-    $('.moveStarBtn').on('click', function() {
+    $('.returnMsgBtn').on('click', function() {
         if(selectedData && selectedData.length > 0) {
-            if(confirm("선택한 쪽지들을 별표 쪽지로 등록합니까?")) {
-                btnAjax(selectedData, '/starBtn');
+            if(confirm("선택한 쪽지들을 복구합니까?")) {
+                btnAjax(selectedData, '/returnTrashBtn');
             } else {
                 console.log("등록 취소");
             }
         } else {
-            alert('저장할 쪽지들을 먼저 선택하세요');
+            alert('복구할 쪽지들을 먼저 선택하세요');
         }
     });
-});
-
-//휴지통 버튼 클릭 이벤트
-$('.moveTrashBtn').on('click', function() {
-	if(selectedData && selectedData.length > 0) {	
-		if(confirm("쪽지를 삭제합니까? 삭제된 쪽지는 휴지통에서 확인 가능합니다.")) {
-		    btnAjax(selectedData, '/trashBtn');
-		} else {
-		    console.log("삭제 취소");
-		}
-	} else {
-        alert('휴지통으로 내보낼 쪽지들을 먼저 선택하세요');
-    }
 });
 
 <!-- 행 어디를 선택해도 checkbox 선택되도록 -->
@@ -449,7 +416,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		"orderable": false,
 		"targets": 0
 	} ],
-	"order": [[ 6, 'desc' ]],
+	"order": [[ 5, 'desc' ]],
 	language: { 
 		search: "",
 		searchPlaceholder: "Search",
@@ -561,7 +528,6 @@ var targetDt1 = $('#datable_4c').DataTable({
 		 	        var sharedEmps = '';
 		 	        if(response && response.length > 0) {
 		 	            sharedEmps = response.join(', ');
-		 	            
 		 	        } else {
 		 	            sharedEmps = '없음';
 		 	        }
@@ -609,46 +575,16 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        });
 		    });
 
-
-		//목록에서 별표 직접 클릭시, Action옵션에서 별표 저장 클릭시
-		$(document).on('click', '.file-star, .filestar', function(event){
-		    event.stopPropagation();  //이벤트버블링 방지. 상위요소에 event영향 미치지 않도록 함.
-		    var $star = $(this);
-		    $star.toggleClass("marked");
-		    var msg_no = $star.closest('tr').find('.msg_no').text();
-		    var isMarked = $star.hasClass("marked");
-		    var url = isMarked ? '/starmark' : '/starunmark';
-		    
-		    $.ajax({
-		        url: url, 
-		        type: 'POST',
-		        data: {
-		            'msg_no': msg_no 
-		        },
-		        success: function(response) {
-		            if(response.status === 'success'){
-		                console.log(isMarked ? "즐겨찾기 설정 완료" : "즐겨찾기 해제 완료");
-		                location.reload();
-		            } else {
-		                console.log(isMarked ? "즐겨찾기 설정 실패" : "즐겨찾기 해제 실패");
-		            }
-		        },
-		        error: function(error) {
-		            console.log("서버 연결 실패");
-		        }
-		    });
-		});
 		
-		
-		//Action 옵션에서 휴지통으로 클릭시
-		$(document).on('click', '.goTrash', function(event){
+		//Action 옵션에서 휴지통에서 꺼내기 클릭시
+		$(document).on('click', '.returnMsg', function(event){
 		    event.stopPropagation();  //이벤트버블링 방지. 상위요소에 event영향 미치지 않도록 함.
 		    
 		    var msg_no = $(this).closest('tr').find('.msg_no').text();
 		    var emp_no = $(this).closest('tr').find('.emp_no').text();
 		    console.log('쪽지번호', msg_no, emp_no);
 		    $.ajax({
-		        url: 'goTrash',
+		        url: '/returnTrash',
 		        type: 'POST',
 		        data: {
 		        	'emp_no': emp_no,

@@ -27,5 +27,5 @@ public class Survey {
     private int modifier;
     private Date modifyDate;
     private char useYN;
-	
+	private String surveyData;
 }
