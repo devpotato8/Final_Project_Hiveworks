@@ -77,6 +77,7 @@ public class MessageController {
 		return "message/starMsg";
 	}
 	
+	
 	//휴지통 페이지 진입
 	@GetMapping("/trashmessageview")
 	public String trashMessageView(@SessionAttribute Employee loginEmp, Model model) {
@@ -86,7 +87,8 @@ public class MessageController {
 		return "message/trashMsg";
 	}
 	
-	//첨부파일 페이지 진입
+		
+	//첨부파일 전체 페이지 진입
 	@GetMapping("/msgFileView")
 	public String msgFileView(@SessionAttribute Employee loginEmp, Model model) {
 		int empNo = loginEmp.getEmp_no();
@@ -95,7 +97,35 @@ public class MessageController {
 		return "message/messageFilePage";
 	}
 	
-
+	//첨부파일 사진파일 페이지 진입
+	@GetMapping("/imgFileView")
+	public String imgFileView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.msgFileList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/imgFilePage";
+	}
+	
+	//첨부파일 문서파일 페이지 진입
+	@GetMapping("/docFileView")
+	public String docFileView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.msgFileList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/docFilePage";
+	}
+	
+	//첨부파일 기타파일 페이지 진입
+	@GetMapping("/otherFileView")
+	public String otherFileView(@SessionAttribute Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
+		List<Message> msgs = service.msgFileList(empNo);
+		model.addAttribute("msgList", msgs);
+		return "message/otherFilePage";
+	}
+	
+	
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////
 	
@@ -429,89 +459,118 @@ public class MessageController {
 	
 	//▼▼▼ 별표쪽지함 구현 로직 ▼▼▼
 	
-		//별표 해제 버튼처리
-		@PostMapping("/unstarBtn")
-		@ResponseBody
-		public Map<String, Object> unstarBtn(@RequestBody List<Map<String,Object>>data){
+	//별표 해제 버튼처리
+	@PostMapping("/unstarBtn")
+	@ResponseBody
+	public Map<String, Object> unstarBtn(@RequestBody List<Map<String,Object>>data){
 
-			Map<String, Object> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 
-			int result = 0;
+		int result = 0;
 
-			try {
-				for(Map<String,Object> row : data) {
-					Integer emp_no = (Integer) row.get("emp_no");
-					Integer msg_no = (Integer) row.get("msg_no");
+		try {
+			for(Map<String,Object> row : data) {
+				Integer emp_no = (Integer) row.get("emp_no");
+				Integer msg_no = (Integer) row.get("msg_no");
 
-					Map<String, Integer> params = new HashMap<>();
-					params.put("empNo", emp_no);
-					params.put("msgNo", msg_no);
+				Map<String, Integer> params = new HashMap<>();
+				params.put("empNo", emp_no);
+				params.put("msgNo", msg_no);
 
-					result += service.unstarBtn(params);
-				}
-				if(result>0) response.put("status", "success");
-				else response.put("status", "fail");
-
-			}catch(Exception e){
-				e.printStackTrace();
-				response.put("status", "error");
-				response.put("message", e.getMessage());
+				result += service.unstarBtn(params);
 			}
-
-			return response;
-		}
-	
-		
-		//▼▼▼ 휴지통 구현 로직 ▼▼▼
-		
-		//휴지통에서 꺼내기 (Action메뉴)
-		@PostMapping("/returnTrash")
-		@ResponseBody
-		public Map<String, String> returnTrash(@RequestParam int emp_no, @RequestParam int msg_no){
-			
-			Map<String,Integer> params = new HashMap<>();
-			params.put("empNo", emp_no);
-			params.put("msgNo", msg_no);
-			
-			int result = service.returnTrash(params);
-			
-			Map<String,String> response = new HashMap<>();
-
 			if(result>0) response.put("status", "success");
 			else response.put("status", "fail");
+
+		}catch(Exception e){
+			e.printStackTrace();
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+		}
+
+		return response;
+	}
+
+	
+	//▼▼▼ 휴지통 구현 로직 ▼▼▼
+	
+	//휴지통에서 꺼내기 (Action메뉴)
+	@PostMapping("/returnTrash")
+	@ResponseBody
+	public Map<String, String> returnTrash(@RequestParam int emp_no, @RequestParam int msg_no){
+		
+		Map<String,Integer> params = new HashMap<>();
+		params.put("empNo", emp_no);
+		params.put("msgNo", msg_no);
+		
+		int result = service.returnTrash(params);
+		
+		Map<String,String> response = new HashMap<>();
+
+		if(result>0) response.put("status", "success");
+		else response.put("status", "fail");
+		
+		return response;
+	}
+	
+	//휴지통에서 꺼내기 버튼
+	@PostMapping("/returnTrashBtn")
+	@ResponseBody
+	public Map<String, Object> returnTrashBtn(@RequestBody List<Map<String,Object>>data){
+
+		Map<String, Object> response = new HashMap<>();
+
+		int result = 0;
+
+		try {
+			for(Map<String,Object> row : data) {
+				Integer emp_no = (Integer) row.get("emp_no");
+				Integer msg_no = (Integer) row.get("msg_no");
+
+				Map<String, Integer> params = new HashMap<>();
+				params.put("empNo", emp_no);
+				params.put("msgNo", msg_no);
+
+				result += service.returnTrash(params);
+			}
+			if(result>0) response.put("status", "success");
+			else response.put("status", "fail");
+
+		}catch(Exception e){
+			e.printStackTrace();
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+		}
+
+		return response;
+	}
+	
+	
+	//▼▼▼ 첨부파일함 구현 로직 ▼▼▼
+	
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public Map<String,String> deleteFile(@RequestBody Map<String,Object> params, HttpServletRequest request){
+		
+		int result = service.deleteFile(params);
+		
+		Map<String, String> response = new HashMap<>();
+		
+		//파일명
+		String fileRename = (String)params.get("fileRename");
+		//실제 경로
+		String realPath = request.getServletContext().getRealPath("/resources/msgupload/");
+		
+		File file = new File(realPath+fileRename);
+		
+		if(result>0) {
+			response.put("status", "success");
+			file.delete(); //실제 파일 삭제
 			
-			return response;
+		}else {
+			response.put("status", "fail");
 		}
 		
-		//휴지통에서 꺼내기 버튼
-		@PostMapping("/returnTrashBtn")
-		@ResponseBody
-		public Map<String, Object> returnTrashBtn(@RequestBody List<Map<String,Object>>data){
-
-			Map<String, Object> response = new HashMap<>();
-
-			int result = 0;
-
-			try {
-				for(Map<String,Object> row : data) {
-					Integer emp_no = (Integer) row.get("emp_no");
-					Integer msg_no = (Integer) row.get("msg_no");
-
-					Map<String, Integer> params = new HashMap<>();
-					params.put("empNo", emp_no);
-					params.put("msgNo", msg_no);
-
-					result += service.returnTrash(params);
-				}
-				if(result>0) response.put("status", "success");
-				else response.put("status", "fail");
-
-			}catch(Exception e){
-				e.printStackTrace();
-				response.put("status", "error");
-				response.put("message", e.getMessage());
-			}
-
-			return response;
-		}
+		return response;
+	}
 }

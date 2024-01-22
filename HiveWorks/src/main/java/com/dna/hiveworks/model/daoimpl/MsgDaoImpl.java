@@ -109,6 +109,11 @@ public class MsgDaoImpl implements MsgDao {
 	public int returnTrash(SqlSession session, Map<String, Integer> params) {
 		return session.update("message.returnTrash",params);
 	}
+
+	@Override
+	public int deleteFile(SqlSession session, Map<String, Object> params) {
+		return session.update("message.deleteFile",params);
+	}
 	
 	
 	

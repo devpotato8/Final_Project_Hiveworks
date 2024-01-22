@@ -50,7 +50,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Dashboard</span>
+									<span class="nav-link-text">메인 페이지</span>
 								</a>
 							</li>
 						</ul>	
