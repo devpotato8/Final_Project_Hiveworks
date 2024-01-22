@@ -27,4 +27,6 @@ public interface SalaryService {
 	
 	Map<String, Integer> calculateSalary(Map<String,Integer> data);
 	
+	List<Salary> selectMySalaryList(int emp_no);
+	
 }
