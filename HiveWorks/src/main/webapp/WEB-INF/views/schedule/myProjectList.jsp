@@ -11,24 +11,21 @@
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<!-- Favicon -->
-<link rel="shortcut icon" href="favicon.ico">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+	
+	<!-- Daterangepicker CSS -->
+    <link href="${path}/resources/vendors/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
+	
+	<!-- Bootstrap Dropzone CSS -->
+	<link href="${path}/resources/vendors/dropzone/dist/dropzone.min.css" rel="stylesheet" type="text/css"/>
+	
+	<!-- Dragula CSS -->
+    <link href="${path}/resources/vendors/dragula/dist/dragula.min.css" rel="stylesheet" type="text/css">
 
-<!-- Daterangepicker CSS -->
-<link href="${path}/resources/vendors/daterangepicker/daterangepicker.css"
-	rel="stylesheet" type="text/css" />
-
-<!-- Bootstrap Dropzone CSS -->
-<link href="${path}/resources/vendors/dropzone/dist/dropzone.min.css" rel="stylesheet"
-	type="text/css" />
-
-<!-- Dragula CSS -->
-<link href="${path}/resources/vendors/dragula/dist/dragula.min.css" rel="stylesheet"
-	type="text/css">
-
-<!-- CSS -->
-<link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
+	<!-- CSS -->
+    <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
 	<!-- Main Content -->
 	<div class="hk-pg-wrapper pb-0">
 		<!-- Page Body -->
@@ -1678,8 +1675,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<div class="form-label-group">
-														<label class="form-label">프로젝트 내용</label><small
-															class="text-muted">200</small>
+														<label class="form-label">프로젝트 내용</label>
 													</div>
 													<textarea class="form-control" name="projectContent" rows="3"></textarea>
 												</div>
@@ -1700,12 +1696,6 @@
 											</div>
 										</div>
 										<div class="col-sm-3">
-											<div class="form-group">
-												<div class="form-check form-check-sm mt-2">
-													<input type="checkbox" class="form-check-input" id="allDayCheck">
-													<label class="form-check-label" for="allDayCheck">종일여부</label>
-												</div>
-											</div>
 										</div>
 										<div class="row gx-3">
 											<div class="col-sm-12">
@@ -1719,74 +1709,58 @@
 												</div>
 											</div>
 										</div>
-							<!-- 			<div class="row gx-3">
-											<div class="col-sm-12">
-												<div class="form-inline">
-													<div class="form-group">
-														<label class="form-label">Set priority:</label>
-														<div class="form-check form-check-inline ms-2">
-															<div class="custom-control custom-radio radio-primary">
-																<input type="radio" id="customRadioc2"
-																	name="customRadioc2" class="form-check-input">
-																<label class="form-check-label" for="customRadioc2">High</label>
-															</div>
-														</div>
-														<div class="form-check form-check-inline">
-															<div class="custom-control custom-radio radio-primary">
-																<input type="radio" id="customRadioc3"
-																	name="customRadioc2" class="form-check-input">
-																<label class="form-check-label" for="customRadioc3">Medium</label>
-															</div>
-														</div>
-														<div class="form-check form-check-inline">
-															<div class="custom-control custom-radio radio-primary">
-																<input type="radio" id="customRadioc4"
-																	name="customRadioc2" class="form-check-input">
-																<label class="form-check-label" for="customRadioc4">Low</label>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div> -->
-										<div
-											class="title title-xs title-wth-divider text-primary text-uppercase my-4">
-											<span>Assign to</span>
+														<div class="row gx-3" style="display: flex">
+									<div class="col-sm-12 form-group">
+										<input class="form-check-input cal-event-allday"
+											id="alldaycheck" type="checkbox"> <label
+											class="form-check-label" for="alldaycheck"> 종일여부</label>
+									</div>
+									<div class="row gx-3">
+										<div class="col-sm-3">
+											<span>프로젝트 공유</span>
 										</div>
-										<div class="repeater">
-											<div data-repeater-list="category-group">
+										<div class="col-sm-5">
+											<div class="form-group">
+												<button type="button" onclick="window.adddelFunction.util.addFile();"
+													id="delBtn">추가</button>
+<%--												<button type="button"--%>
+<%--													id="addBtn">삭제</button>--%>
+											</div>
+										</div>
+									</div>
+
+									<div class="inviteContainer inviteContainer_1" style="display: flex">
+										<div class="col-sm-4">
+											<div class="form-groupddddd">
+												<label class="form-label">부서</label>
 												<div class="d-flex">
-													<div class="row gx-3 flex-1">
-														<div class="col-sm-6 form-group mb-0">
-															<label class="form-label">Add Person</label>
-														</div>
-														<div class="col-sm-6 form-group mb-0">
-															<label class="form-label">Role</label>
-														</div>
-													</div>
-													<a href="#"
-														class="btn btn-xs btn-icon btn-rounded btn-light mb-2"
-														data-repeater-create data-bs-toggle="tooltip"
-														data-bs-placement="top" title=""
-														data-bs-original-title="Add Person"><span class="icon"><span
-															class="feather-icon"><i data-feather="plus"></i></span></span></a>
-												</div>
-												<div class="d-flex" data-repeater-item>
-													<div class="row gx-3 flex-1">
-														<div class="col-sm-6 form-group">
-															<input class="form-control" placeholder="--" type="text" />
-														</div>
-														<div class="col-sm-6 form-group">
-															<input class="form-control" placeholder="--" type="text" />
-														</div>
-													</div>
-													<a href="#"
-														class="btn btn-xs btn-icon btn-rounded btn-light ms-2 mt-1"
-														data-repeater-delete><span class="icon"><i
-															class="ri-delete-bin-6-line"></i></span></a>
+													<select class="form-select me-3" name="calDept"
+														id="calDept1">
+														<c:if test="${not empty deptList}">
+															<c:forEach var="dept" items="${deptList}">
+																<option value="${dept.deptCode}">${dept.deptName}</option>
+															</c:forEach>
+														</c:if>
+													</select>
 												</div>
 											</div>
 										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">직원</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calEmp" id="calEmp1">
+														<option value=""></option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+									</div>
+								</div>
+
+								<div name="someContainer"></div>
+			
 								<div class="modal-footer align-items-center">
 									<button type="button" class="btn btn-secondary">취소</button>
 									<button type="submit" class="btn btn-primary"
@@ -1805,30 +1779,113 @@
 		<!-- /Page Body -->
 	</div>
 	<!-- /Main Content -->
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-<!-- Daterangepicker JS -->
-<script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
-<script
-	src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
-<script src="${path}/resources/js/daterangepicker-data.js"></script>
-
-<!-- Tinymce JS -->
-<script src="${path}/resources/vendors/tinymce/tinymce.min.js"></script>
-
-<!-- Dropzone JS -->
-<script src="${path}/resources/vendors/dropzone/dist/dropzone.min.js"></script>
-
-<!-- Apex JS -->
-<script
-	src="${path}/resources/vendors/apexcharts/dist/apexcharts.min.js"></script>
-
-<!-- Repeater JS -->
-<script
-	src="${path}/resources/vendors/jquery.repeater/jquery.repeater.min.js"></script>
-
-<!-- Drag JS -->
-<script src="${path}/resources/vendors/dragula/dist/dragula.min.js"></script>
 <script>
+
+
+
+
+//부서 선택 시 직원 표시
+document.getElementById('calDept1').addEventListener('change', function() {
+ var selectedDeptCode = this.value;
+ 
+ fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+   .then(function(response) {
+     if (response.ok) {
+       return response.json();
+     } else {
+       throw new Error('요청이 실패하였습니다.');
+     }
+   })
+   .then(function(employeeList) {
+     var employeeSelect = document.getElementById('calEmp1');
+     employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+     
+     employeeList.forEach(function(employee) {
+       var option = document.createElement('option');
+       option.value = employee.emp_no;
+       option.textContent = employee.name;
+       employeeSelect.appendChild(option);
+     });
+   })
+   .catch(function(error) {
+     console.error(error);
+   });
+}); 
+
+
+
+
+//부서 직원 추가
+const adddelFunction=(function(adddelFunction){
+	let self = {};
+  let count = 2;
+  self.addFile=()=>{
+     if(count<=5){
+        const fileForm = $(".inviteContainer").eq(0).clone(true);
+	     fileForm.removeClass("inviteContainer_1");
+        fileForm.addClass("inviteContainer_"+count);
+           const deptId = "calDept" + count;
+           const empId = "calEmp" + count;
+           
+           fileForm.find("#calDept1").attr("id", deptId).val("").change(); // 부서 선택 시 직원 표시
+           fileForm.find("#calEmp1").attr("id", empId).val(""); // 초기화
+           
+           // 부서 선택 시 해당 부서의 직원 표시
+           fileForm.find("#" + deptId).on("change", function() {
+             var selectedDeptCode = $(this).val();
+             
+             fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+               .then(function(response) {
+                 if (response.ok) {
+                   return response.json();
+                 } else {
+                   throw new Error('요청이 실패하였습니다.');
+                 }
+               })
+               .then(function(employeeList) {
+                 var employeeSelect = document.getElementById(empId);
+           
+                 employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+           
+                 employeeList.forEach(function(employee) {
+                   var option = document.createElement('option');
+                   option.value = employee.EMP_NO;
+                   option.textContent = employee.name;
+                   employeeSelect.appendChild(option);
+                 });
+               })
+               .catch(function(error) {
+                 console.error(error);
+               });
+           });
+           
+           $("div[name=someContainer]").before(fileForm);
+           count++;
+         } else {
+           alert("공유인원은 5명까지 가능합니다.");
+         }
+  };
+  self.delFile=(e)=>{
+     if(count!=2){
+		  $(e).parent().remove();
+		  $(".inviteContainer").each(function(index, item){
+			  item.removeAttribute('class');
+			  $(item).addClass('inviteContainer').addClass('inviteContainer_'+(index+1));
+		  });
+   	  //$("div[name=someContainer]").prev().remove();
+        count--;
+     }
+  };
+
+	/**
+	 * REGIST
+	 */
+	if (!adddelFunction) {
+		window.adddelFunction = adddelFunction = {};
+	}
+	adddelFunction.util = self;
+})();
+
 const addTodolist=(e)=>{
 	const projectName = document.querySelector('#projectName').value;
 	const projectContent = document.querySelector('#todoForm [name="projectContent"]').value;
@@ -1863,7 +1920,116 @@ const addTodolist=(e)=>{
 }
 
 
+$('#alldaycheck').on(
+        'click',
+        function() {
+           console.log(this);
+           if ($(this).is(':checked')) {
+              console.log('종일여부 체크됨');
+              var clickedDate = $('#startDate').data(
+                    'daterangepicker').startDate;
+           
+              clickedDate.set({
+                 hour : 0,
+                 minute : 0,
+                 second : 0,
+                 millisecond : 0
+              });
+              $('#startDate').data('daterangepicker')
+                    .setStartDate(clickedDate);
+              
+              
+              
+              clickedDate = $('#endDate').data(
+                    'daterangepicker').startDate;
+              clickedDate.set({
+                 hour : 23,
+                 minute : 59,
+                 second : 59,
+                 millisecond : 999
+              });
+              
+
+              $('#endDate').data('daterangepicker')
+                    .setEndDate(clickedDate);
+              
+           } else {
+              console.log('종일 체크 안됨');
+              var clickedDate = $('#startDate').data(
+                    'daterangepicker').startDate;
+              clickedDate.set({
+                 hour : 0,
+                 minute : 0,
+                 second : 0,
+                 millisecond : 0
+              });
+              $('#startDate').data('daterangepicker')
+                    .setStartDate(clickedDate);
+
+              clickedDate = $('#endDate').data(
+                    'daterangepicker').startDate;
+              clickedDate.set({
+                 hour : 0,
+                 minute : 0,
+                 second : 0,
+                 millisecond : 0
+              });
+              $('#endDate').data('daterangepicker')
+                    .setEndDate(clickedDate);
+           }
+        });
+
+   document.querySelector('#closeBtn').addEventListener('click', function() {
+     resetForm();
+   });
+  
+
+  // 취소 버튼 클릭 이벤트 처리
+  document.querySelector('#cancelBtn').addEventListener('click', function() {
+     resetForm();
+  });
+
 </script>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<!-- jQuery -->
+    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Simplebar JS -->
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+
+	<!-- Daterangepicker JS -->
+    <script src="${path}/resources/vendors/moment/min/moment.min.js"></script>
+    <script src="${path}/resources/vendors/daterangepicker/daterangepicker.js"></script>
+    <script src="${path}/resources/js/daterangepicker-data.js"></script>
+	
+	<!-- Tinymce JS -->
+    <script src="${path}/resources/vendors/tinymce/tinymce.min.js"></script>
+	
+	<!-- Dropzone JS -->
+	<script src="${path}/resources/vendors/dropzone/dist/dropzone.min.js"></script>
+	
+	<!-- Apex JS -->
+	<script src="${path}/resources/vendors/apexcharts/dist/apexcharts.min.js"></script>
+	
+	<!-- Repeater JS -->
+    <script src="${path}/resources/vendors/jquery.repeater/jquery.repeater.min.js"></script>
+	
+	<!-- Drag JS -->
+	<script src="${path}/resources/vendors/dragula/dist/dragula.min.js"></script>
+	
+	<!-- Init JS -->
+	<<%-- script src="${path}/resources/js/init.js"></script> --%>
+	<script src="${path}/resources/js/todo-data.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
 
 
 

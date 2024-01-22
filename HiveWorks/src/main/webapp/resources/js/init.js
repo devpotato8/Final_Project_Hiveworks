@@ -938,12 +938,12 @@ var taskboardApp = function() {
 /***** Checklist App function start *****/
 var checklistApp = function() {
 	var id;
-	$(document).on("click",".add-new-checklist",function (e) {
+	/*$(document).on("click",".add-new-checklist",function (e) {
 		id = uniqId();
 		$('<div class="form-check"> <input type="checkbox" class="form-check-input" id="customCheckListAppend_'+id+'"> <label class="form-check-label" for="customCheckListAppend_'+id+'"><span class="done-strikethrough"></span> </label> <input class="form-control checklist-input" type="text" placeholder="Add new Item"> <a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><span class="icon"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></span></span></a></div>').insertBefore($(this));
 		$(this).prev().find('input').trigger('focus');
 		return false;
-	});
+	});*/
 	$(document).on("click",".delete-checklist",function (e) {
 		$(this).closest('.form-check').remove();
 		return false;
@@ -1061,7 +1061,8 @@ $(window).on("resize", function () {
 	
 	/*Todo App Resopnsive*/
 	if(width>1499 && !(todoAppTarget.hasClass('ganttapp-wrap'))) {
-		todoAppTarget.addClass('todoapp-info-active');
+		//todoAppTarget.addClass('todoapp-info-active');
+		todoAppTarget.removeClass('todoapp-info-active');
 	}
 	else {
 		todoAppTarget.removeClass('todoapp-info-active');
