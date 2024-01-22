@@ -436,8 +436,10 @@ public class EdocController {
 		if(!loginEmp.getAut_code().equals("AUT004")) {
 			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
 		}
-		
-		Map<String, Object> result = edocService.copySample(Map.of("creater",loginEmp.getEmp_no(),"sampleNo", sampleNo));
+		Map<String, Object> param = new HashMap<>();
+		param.put("creater",loginEmp.getEmp_no());
+		param.put("sampleNo", sampleNo);
+		Map<String, Object> result = edocService.copySample(param);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}

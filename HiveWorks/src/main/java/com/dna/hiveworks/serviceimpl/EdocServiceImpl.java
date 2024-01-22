@@ -202,9 +202,10 @@ public class EdocServiceImpl implements EdocService{
 					if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
 						// 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
 						vacService.confirmVacation(edoc.getEdocNo());
-					}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
-						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
 					}
+//					else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
+//						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
+//					}
 				}else {
 					// 다음차례 결재자의 상태를 P에서 W로 변경
 					ElectronicDocumentApproval nextApproval = approvalList.get(approvalIndex+1);
@@ -229,9 +230,10 @@ public class EdocServiceImpl implements EdocService{
 			//반려된 문서가 휴가 / 연가 신청서라면
 			if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
 				vacService.revokeVacation(edoc.getEdocNo());
-			}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
-				// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
 			}
+//			else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
+//				// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
+//			}
 		}else {
 			throw new HiveworksException("결재처리중 에러가 발생하였습니다");
 		}
@@ -278,18 +280,21 @@ public class EdocServiceImpl implements EdocService{
 	}
 	
 	@Override
+	@Transactional
 	public Map<String, Object> copySample(Map<String, Object> param) {
 		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
-		
+		param.put("newSampleNo", 0);
 		if(sample != null && sample.isUseYn()) {
 			int result = dao.copySample(session, param);
+			sample.setSampleNo((int)param.get("newSampleNo"));
+			sample.setDotCodeName(sample.getSampleDotCode().getCode());
 			if(result>0) {
-				return Map.of("status","200","data","복사성공");
+				return Map.of("status","200","data",sample);
 			}else {
-				return Map.of("status","500","data","복사실패");
+				return Map.of("status","500","error","복사실패");
 			}
 		}else {
-			return Map.of("status","500","data","해당번호의 양식이 존재하지 않습니다.");
+			return Map.of("status","500","error","해당번호의 양식이 존재하지 않습니다.");
 		}
 	}
 	
@@ -299,6 +304,7 @@ public class EdocServiceImpl implements EdocService{
 	}
 	
 	@Override
+	@Transactional
 	public Map<String, Object> deleteSample(Map<String, Object> param) {
 		
 		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
@@ -308,10 +314,10 @@ public class EdocServiceImpl implements EdocService{
 			if(result>0) {
 				return Map.of("status","200","data","삭제성공");
 			}else {
-				return Map.of("status","500","data","삭제실패");
+				return Map.of("status","500","error","삭제실패");
 			}
 		}else {
-			return Map.of("status","500","data","해당번호의 양식이 존재하지 않습니다.");
+			return Map.of("status","500","error","해당번호의 양식이 존재하지 않습니다.");
 		}
 	}
 }
