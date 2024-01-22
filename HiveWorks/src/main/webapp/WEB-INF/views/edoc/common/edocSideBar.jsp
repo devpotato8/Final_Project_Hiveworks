@@ -186,8 +186,8 @@
 							</a>
 							<ul id="edoc_format" class="nav flex-column collapse nav-children">
 								<li class="nav-item">
-									<a class="nav-link" href="${path }/edoc/format/write"><span class="nav-link-text">양식 작성</span></a>
 									<a class="nav-link" href="${path }/edoc/format/lists"><span class="nav-link-text">양식 목록</span></a>
+									<a class="nav-link" href="${path }/edoc/format/write"><span class="nav-link-text">양식 작성</span></a>
 								</li>	
 							</ul>
 						</li>

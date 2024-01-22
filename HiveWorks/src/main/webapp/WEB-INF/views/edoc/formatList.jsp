@@ -64,7 +64,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											<table data-order='[[ 2, "asc" ]]' id="docTable" class="table nowrap table-hover">
+											<table data-order='[[ 1, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
 														<th>양식번호</th>
@@ -72,16 +72,29 @@
 														<th>양식이름</th>
 														<th>생성일</th>
 														<th>설명</th>
+														<th></th>
 													</tr>
 												</thead>
 												<tbody>
 													<c:forEach items="${formatList }" var="fmt">
 														<tr>
 															<td>${fmt.sampleNo }</td>
-															<td>${DotCode.valueOf(fmt.sampleDotCode).code }</td>
+															<td>${fmt.sampleDotCode.code }</td>
 															<td>${fmt.sampleName }</td>
 															<td>${fmt.createDate }</td>
 															<td>${fmt.sampleDesc }</td>
+															<td>
+																<a class="btn" href="#">
+																	<span class="icon">
+																		<span class="zmdi-icon">
+																			<i class="zmdi zmdi-collection-item"></i>
+																		</span>
+																	</span>
+																</a>
+																<a class="btn" href="#">
+																	<i class="zmdi zmdi-delete"></i>
+																</a>
+															</td>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -160,8 +173,8 @@ $('#docTable').DataTable( {
 	$(document).on('click','#docTable tbody tr', (e)=>{
 		e.stopPropagation();
 		const $target = $(e.currentTarget);
-		const edocNo = $target.children().first().text();
-		location.assign('${path}/edoc/read?edocNo='+edocNo);
+		const formatNo = $target.children().first().text();
+		location.assign('${path}/edoc/format/view?formatNo='+formatNo);
 	});
 </script>
 </div>
