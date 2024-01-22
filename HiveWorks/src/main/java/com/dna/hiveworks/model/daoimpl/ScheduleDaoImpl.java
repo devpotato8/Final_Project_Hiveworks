@@ -1,5 +1,6 @@
 package com.dna.hiveworks.model.daoimpl;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
+import com.dna.hiveworks.model.dto.CheckList;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -32,7 +34,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public List<Schedule> searchEmpSchedule(SqlSession session, Map<String, Object> param) {
-		return session.selectList("schedule.searchSchedule",param);
+		return session.selectList("schedule.searchEmpSchedule",param);
 
 	}
 	
@@ -51,6 +53,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	    }
 	    return count;
 	}
+	
+	
 	
 	//일정 변경 
 	@Override
@@ -150,6 +154,20 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return session.selectList("schedule.selectReserveByCode");
 	}
 	
+	@Override
+	public List<Schedule> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
+		System.out.println(resourceNo+"dao");
+		Map<String, Object> parameters = new HashMap<>();
+		 parameters.put("selectDate", selectDate);
+		 parameters.put("resourceNo", resourceNo);
+		return session.selectList("schedule.selectReservationBydate",parameters);
+	}
+	
+	@Override
+	public List<Schedule> selectReserveByresource(SqlSession session, int resourceNo) {
+		return session.selectList("schedule.selectReserveByresource",resourceNo);
+	}
+	
 	
 	@Override
 	public int reserveResourceEnd(SqlSession session, int resourceNo) {
@@ -157,6 +175,39 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		 parameters.put("resourceNo", resourceNo);
 		return session.insert("schedule.reserveResourceEnd",parameters);
 	}
+	
+	@Override
+	public int updateReservation(SqlSession session, Schedule schedule) {
+		return session.update("schedule.updateReservation", schedule);
+	}
+	
+	@Override
+	public int insertInvitationRe(SqlSession session, int[] empList) {
+	    int count = 0;
+	    for (int empNo : empList) {
+	        if (empNo != 0) { // null 체크 추가
+	            count += session.insert("schedule.insertInvitation", empNo);
+	        }
+	    }
+	    return count;
+	}
+	
+	@Override
+	public int updateInvitationRe(SqlSession session, int[] empList, int calNo) {
+		int count = 0;
+		 for (int empNo : empList) {
+		        if (empNo != 0) { // null 체크 추가
+		        	Map<String, Object> parameters = new HashMap<>();
+		     	    parameters.put("empNo", empNo);
+		     	    parameters.put("calNo", calNo);
+		            count += session.insert("schedule.updateInvitation", parameters);
+		        }
+		    }
+		    return count;
+	}
+	
+	
+	
 	
 	@Override
 	public int deleteReservation(SqlSession session, List<Integer> checkedList) {
@@ -182,6 +233,26 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	@Override
 	public Schedule selectprojectByCalNo(SqlSession session, int calNo) {
 		return session.selectOne("schedule.selectprojectByCalNo", calNo);
+	}
+	
+	@Override
+	public int insertChecklist(SqlSession session, CheckList checklist) {
+		return session.insert("schedule.insertChecklist",checklist);
+	}
+	
+	@Override
+	public int deleteChecklist(SqlSession session, int checklistNo) {
+		return session.update("schedule.deleteChecklist",checklistNo);
+	}
+	
+	@Override
+	public int doneChecklist(SqlSession session, int checklistNo) {
+		return session.update("schedule.doneChecklist",checklistNo);
+	}
+	
+	@Override
+	public int undoneChecklist(SqlSession session, int checklistNo) {
+		return session.update("schedule.undoneChecklist",checklistNo);
 	}
 
 }

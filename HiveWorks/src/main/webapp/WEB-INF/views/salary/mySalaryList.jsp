@@ -1,25 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    pageEncoding="UTF-8"%>
 
-<c:set var="path" value="${pageContext.request.contextPath}" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="default" name="style" />
-	<jsp:param value="" name="hover" />
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<jsp:include page= "/WEB-INF/views/common/header.jsp">
+	<jsp:param value="default" name="style"/>
+	<jsp:param value="" name="hover"/>
 </jsp:include>
 
-<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
-<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
-   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
-</jsp:include>
-
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<!-- Wrapper -->
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+   	<!-- Wrapper -->
 	<div class="hk-wrapper" data-layout="vertical" data-layout-style="collapsed" data-menu="light" data-footer="simple" data-hover="active">
 		<!-- Top Navbar -->
 		<nav class="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
@@ -372,8 +365,8 @@
 						<div class="invoiceapp-detail-wrap">
 							<header class="invoice-header">
 								<div class="d-flex align-items-center">
-									<a class="invoiceapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-										<h1>권한 관리</h1>
+									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<h1>급여 관리</h1>
 									</a>
 									<!-- <div class="dropdown-menu">
 										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="users"></i></span><span>All Invoices</span></a>
@@ -410,50 +403,58 @@
 								
 							</header>
 							<div class="invoice-body">
-							<button class="btn btn-primary btn-rounded" type="button" onclick="fn_updateAuthorities();">저장</button>
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
-										<table id="datable_1" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 1, "desc" ]]' id="datable_1" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
 													<th><span class="form-check mb-0">
 														<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
 														<label class="form-check-label" for="customCheck1"></label>
 													</span></th>
+													<th>날짜</th>
 													<th>사원번호</th>
 													<th>이름</th>
 													<th>아이디</th>
-													<c:forEach var="a" items="${autCodeList.authorityList }">
-													<th><c:out value="${a.AUTNAME }" /></th>
-													</c:forEach>
-													<th>수정/삭제</th>
+													<th>부서명</th>
+													<th>지급 합계액</th>
+													<th>공제액</th>
+													<th>실수령액</th>
+													<!-- <th>수정/삭제</th> -->
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="s" items="${employees }">
-												<tr class="list">
+												<c:forEach var="s" items="${list }">
+												<tr>
 													<td></td>
-													<td><c:out value="${s.emp_no }" /></td>
-													<td><c:out value="${s.emp_name }" /></td>
+													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
+													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
-														<div class="text-dark"><c:out value="${s.emp_id }" /></div>
+														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
-														<c:forEach var="a" items="${autCodeList.authorityList }">
+													<td><span><c:out value="${s.employee.emp_id }" /></span></td>
+													<td><c:out value="${s.employee.dept_name }" /></td>
 													<td>
- 														<input type="radio" class="aut_code" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
+														<c:set var="sal_total" value="${s.sal_base+s.sal_meal+s.sal_bonus+s.position_pay}"/>
+														<fmt:formatNumber value="${sal_total}" type="number" />원
 													</td>
-														</c:forEach>
+													
 													<td>
-														<div>
+														<c:set var="sal_dedu" value="${sal_total - s.sal_actual}" />
+														<fmt:formatNumber value="${sal_dedu}" type="number" />원
+													</td>
+													<td>
+														<c:set var="sal_actual" value="${s.sal_actual}" />
+														<fmt:formatNumber value="${sal_actual}" type="number" />원
+													</td>
+													<%-- <td>
 															<div class="d-flex">
-																<button class="btn btn-soft-primary btn-file mb-1" type="button" onclick="fn_changeDefault(${s.emp_no});">초기화</button>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
-														</div>
-													</td>
+													</td> --%>
 												</tr>
 												</c:forEach>
-												
-												
 												<!-- <tr>
 													<td></td>
 													<td><a href="#" class="table-link-text link-high-em">11235</a></td>
@@ -780,102 +781,8 @@
     <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
-	<script>
-	
-	
-	$(document).ready(function(){
-		$('input[type=radio]').change(function(){
-
-			let $row = $(this).closest('tr').find('span');
-			
-			let checkbox = $row.find('input[type=checkbox]').eq(0);
-
-			checkbox.prop('checked',true);
-			
-		});
-	});
-	
-	
-/* 	function getSelectedData() {
-		   
-		   var newData=[];
-
-		  $('.form-check-input:checked').each(function() {
-		      // 체크박스가 속한 행을 가져옴
-		      var $row = $(this).closest('tr');
-		   
-		      var msg_no = parseInt($row.find('td').eq(1).text());
-		      var emp_no = parseInt($row.find('td').eq(2).text());
-		      
-		      console.log(msg_no,emp_no);
-		      
-		      // 배열에 추가
-		      newData.push({
-		          msg_no: msg_no,
-		          emp_no: emp_no
-		      });
-		  });
-
-		  return newData; */
-	
-
-	
-	fn_updateAuthorities=()=>{
-		let autCode = document.querySelectorAll('.aut_code');
-
-		let autCodeArray = Array.from(autCode);
-		
-		let input_values =[];
-		let input_names =[];
-		autCodeArray.forEach(e=>{
-			if(e.checked){		
-				input_names.push(e.name);
-				input_values.push(e.value);
-				
-			}
-
-		});
- 		$.ajax({
-			type:'POST',
-			url:'${path}/employees/updateAuthorities',
-			contentType:'application/json',
-			data:JSON.stringify({
-				names:input_names,
-				values:input_values
-			}),
-			success:data=>{
-				alert("업데이트 완료");
-			},
-			error:data=>{
-				alert("업데이트 실패");
-			}
-		});
-
-	}
-	
-	</script>
-	<script>
-		fn_changeDefault=(e)=>{
-			
-			let eName = e;
-			var $row = $(this).closest('tr').find('input[type=radio]');
-			
-			console.log($row);
-			
-			let $row_second = $('#list').children('td');
-			
-			console.log($row_second);
-			
-			
-			
-			/* let aut007 = $row.find('td').find('input[type=radio][name='+eName+']').eq(0);
-			
-			console.log(aut007);
-			
-			aut007.prop('checked',true); */
-		
-		};
-	</script>
+     
+	<!-- Init JS -->
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

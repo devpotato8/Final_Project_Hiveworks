@@ -75,7 +75,13 @@ public interface EdocDao {
 	List<ElectronicDocumentReference> selectElectronicDocumentReference(SqlSession session, String edocNo);
 
 	int referenceCheck(SqlSession session, int refperNo);
-
 	
+	int insertSample(SqlSession session, ElectronicDocumentSample sample);
+	
+	int copySample(SqlSession session, Map<String, Object> param);
+	
+	int updateSample(SqlSession session, ElectronicDocumentSample sample);
+	
+	int deleteSample(SqlSession session, Map<String, Object> param);
 	
 }

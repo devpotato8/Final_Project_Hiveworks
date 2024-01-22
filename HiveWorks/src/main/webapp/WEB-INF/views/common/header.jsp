@@ -190,7 +190,7 @@
 							</div>
 						</div>
 					</form>
-					<script>
+					<!-- <script>
 						const searchInput = document.getElementById('searchInput');
 						const searchBox = document.getElementById('searchBox');
 						
@@ -222,7 +222,7 @@
 							      console.error(`요청 실패: ${error}`);
 						    });
 					 	});
-					</script>
+					</script> -->
 					<!-- /Search -->
 				</div>
 				<!-- /Start Nav -->
@@ -454,7 +454,7 @@
 										<div class="media-body">
 											<c:choose>
 												<c:when test="${not empty loginEmp}">
-													<span class="d-block fw-medium">${loginEmp.emp_name} 님 반가워요!</span>
+													<span class="d-block fw-medium" style="font-size:0.9rem">${loginEmp.emp_name}님 반가워요!</span>
 													<div class="fs-7">${loginEmp.emp_email }</div>		
 													<a href="${path}/logout" class="d-block fs-8 link-secondary"><u><b>로그아웃</b></u></a>
 												</c:when>
@@ -500,8 +500,6 @@
 												</div>
 											</div>-->
 
-											<div class="fs-7">${loginEmp.emp_email }</div>
-											<a href="${path}/logout" class="d-block fs-8 link-secondary"><u><b>로그아웃</b></u></a>
 
 										</div>
 									</div>

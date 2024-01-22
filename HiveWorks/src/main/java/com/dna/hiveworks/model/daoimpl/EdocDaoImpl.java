@@ -163,4 +163,24 @@ public class EdocDaoImpl implements EdocDao{
 	public int revokeDocument(SqlSession session, ElectronicDocument edoc) {
 		return session.update("edoc.revokeDocument", edoc);
 	}
+	
+	@Override
+	public int insertSample(SqlSession session, ElectronicDocumentSample sample) {
+		return session.insert("edoc.insertSample", sample);
+	}
+	
+	@Override
+	public int copySample(SqlSession session, Map<String, Object> param) {
+		return session.insert("edoc.copySample",param);
+	}
+	
+	@Override
+	public int updateSample(SqlSession session, ElectronicDocumentSample sample) {
+		return session.update("edoc.updateSample", sample);
+	}
+	
+	@Override
+	public int deleteSample(SqlSession session, Map<String, Object> param) {
+		return session.delete("edoc.deleteSample", param);
+	}
 }

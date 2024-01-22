@@ -28,4 +28,5 @@ public interface MsgDao {
 	int returnMsg(SqlSession session, Map<String,Integer> params);
 	int unstarBtn(SqlSession session, Map<String,Integer> params);
 	int returnTrash(SqlSession session, Map<String,Integer> params);
+	int deleteFile(SqlSession session, Map<String,Object> params);
 }

@@ -63,6 +63,12 @@ public class SalaryServiceImpl implements SalaryService {
 	public Map<String, Integer> calculateSalary(Map<String,Integer> data) {
 		return dao.calculateSalary(session, data);
 	}
+
+	@Override
+	public List<Salary> selectMySalaryList(int emp_no) {
+		
+		return dao.selectMySalaryList(session, emp_no);
+	}
 	
 	
 

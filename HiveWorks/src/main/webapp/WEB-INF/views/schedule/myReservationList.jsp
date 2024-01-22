@@ -18,9 +18,6 @@
 					<nav class="blogapp-sidebar">
 						<div data-simplebar class="nicescroll-bar">
 							<div class="menu-content-wrap">
-								<a href="add-new-post.html" class="btn btn-primary btn-rounded btn-block mb-4">
-									Create Post
-								</a>
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
@@ -80,7 +77,7 @@
 									</a>
 								</div>
 								<div class="blog-options-wrap">	
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret flex-shrink-0 d-lg-inline-block d-none" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Refresh"><span class="icon"><span class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
+									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret flex-shrink-0 d-lg-inline-block d-none" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Refresh" id="refreshButton"><span class="icon"><span class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
 									<div class="v-separator  d-lg-inline-block d-none"></div>
 									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable flex-shrink-0  d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
 										<span class="icon">
@@ -140,7 +137,7 @@
 															</td>
 															<td>${myres.resource.resourceType }</td>
 															<td>${myres.calStartDate }~${myres.calEndDate }</td>
-															<td>승인완료</td>
+															<td>${myres.calStatus }</td>
 															<td>${myres.createDate }</td>
 															<td>
 																<div class="d-flex align-items-center">
@@ -153,7 +150,8 @@
 																	</button>
 																	<div role="menu"
 																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation.do?calNo=${myres.calNo}">수정</a>
+																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation?resourceNo=${myres.resource.resourceNo}&calNo=${myres.calNo}">수정</a>
+																		<span class="dropdown-item reminderBtn">메시지알림요청</span>
 																	</div>
 																</div>
 																</div>
@@ -176,6 +174,20 @@
 		</div>
 		<!-- /Main Content -->	
 <script>
+const empPhone = '${loginEmp.emp_cellphone}'; //수정필요
+const empNo = ${loginEmp.emp_no}; //수정 필요
+console.log(empPhone, empNo);
+
+//페이지 새로고침
+$(document).ready(function() {
+    $("#refreshButton").click(function(e) {
+        e.preventDefault(); // 기본 클릭 이벤트를 방지함
+        location.reload(); // 페이지를 새로고침함
+    });
+});
+
+
+
 $(document).ready(function() {
     // 전체 체크박스 클릭
     $("#customCheck1").click(function() {
@@ -183,16 +195,28 @@ $(document).ready(function() {
         var isChecked = $("#customCheck1").prop("checked");
 
         // 모든 체크박스의 상태를 전체 체크박스에 맞춰 변경
-        $(".form-check-input").prop("checked", isChecked);
+        $(".check-select").prop("checked", isChecked);
     });
 
     $("#delReserveBtn").click(function() {
         var checkedList = [];
+        var selectedDataList = [];
 
         // 체크된 체크박스를 찾아 예약 번호를 checkedList에 추가
-        $(".form-check-input:checked").each(function() {
+        $(".check-select:checked").each(function() {
             var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
+            var resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
+            var calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+
             checkedList.push(reserveNo);
+            
+            selectedDataList.push({
+                reserveNo: reserveNo,
+                resourceName: resourceName,
+                calStartDate: calStartDate,
+                empPhone: empPhone,
+                empNo: empNo
+            });
         });
 
         if (checkedList.length > 0) {
@@ -209,7 +233,20 @@ $(document).ready(function() {
                         // 요청 성공 시 처리할 코드
                         alert("취소 성공");
                         // 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
-                        $(".form-check-input:checked").closest("tr").remove();
+                        $(".check-select:checked").closest("tr").remove();
+                        
+                        $.ajax({
+                            url: "/sendCancelMessage",
+                            type: "POST",
+                            data: JSON.stringify(selectedDataList),
+                            contentType: "application/json", 
+                            success: function(response) {
+                                console.log("메시지 전송 성공")
+                            },
+                            error: function(request, status, error) {
+                                console.log("메시지 전송 실패: " + error);
+                            }
+                        });
                     },
                     error: function(request, status, error) {
                         // 요청 실패 시 처리할 코드
@@ -222,6 +259,39 @@ $(document).ready(function() {
             alert("취소할 예약을 선택해주세요.");
         }
     });
+    
+    
+    $(".reminderBtn").on("click", function(event) {
+    	event.preventDefault();
+
+        let resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
+        let calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+        let calNo = $(this).closest('tr').find('td:nth-child(2)').text().trim();
+
+        var confirmed = confirm("알림 메시지를 요청하시겠습니까?");
+
+        if (confirmed) {
+            $.ajax({
+                url: "/sendMessage",
+                type: "POST",
+                data: {
+                    resourceName: resourceName,
+                    calStartDate: calStartDate,
+                    empPhone: empPhone,
+                    empNo: empNo,
+                    calNo: calNo
+                },
+                success: function(response) {
+                    alert("메시지 전송 성공");
+                },
+                error: function(request, status, error) {
+                    alert("메시지 전송 실패");
+                    console.log("취소 실패" + error);
+                }
+            });
+        }
+    });
+    
 });
 
 </script>

@@ -50,7 +50,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Dashboard</span>
+									<span class="nav-link-text">메인 페이지</span>
 								</a>
 							</li>
 						</ul>	
@@ -271,12 +271,12 @@
 												</a>
 											</li> --%>
 											<li class="nav-item">
-												<a class="nav-link" href="${path }/overtimepay/myovertimepay?emp_no=${loginEmp.emp_no}">
+												<a class="nav-link" href="${path }/overtimepay/myovertimepay">
 													<span class="nav-link-text">내 시간 외 근로수당</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">
+												<a class="nav-link" href="${path }/salary/mySalaryList">
 													<span class="nav-link-text">내 급여</span>
 												</a>
 											</li>

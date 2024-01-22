@@ -1,8 +1,10 @@
 package com.dna.hiveworks.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.dna.hiveworks.model.dto.CheckList;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -51,7 +53,14 @@ public interface ScheduleService {
 
 	List<Schedule> selectReserveByCode(String calCode);
 	
-	int reserveResource(Schedule schedule, int resourceNo);
+	List<Schedule> selectReservationBydate(Date selectDate, int resourceNo);
+	
+	List<Schedule> selectReserveByresource(int resourceNo);
+
+	
+	int reserveResource(Schedule schedule, int resourceNo, int[] empList);
+	
+	int updateReservation(Schedule schedule, int calNo, int[] empList);
 	
 	int deleteReservation(List<Integer> checkedList);
 	
@@ -61,6 +70,16 @@ public interface ScheduleService {
 	List<Schedule> selectprojectByEmpNo(int empNo);
 	
 	Schedule selectprojectByCalNo(int calNo);
+	
+	int insertChecklist(CheckList checklist);
+	
+	int deleteChecklist(int checklistNo);
+	
+	int doneChecklist(int checklistNo);
+	
+	int undoneChecklist(int checklistNo);
+
+
 	
 	
 	

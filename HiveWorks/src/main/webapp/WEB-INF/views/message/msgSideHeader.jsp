@@ -195,11 +195,15 @@
 			</div>
 			<div class="modal-info mt-3">
 				<p class="msgInfoText"><span>보낸사람 : </span><span id="modalMsgSender"></span></p>
-				<p class="msgInfoText"><span>파일명 : </span><span id="modalOriName"></span></p>
+				<p class="msgInfoText"><span>파일명 : </span><span><a id="modalOriName" class="msg_file"></a></span></p>
+				<p class="msgInfoText"><span>파일크기 : </span><span id="modalFileSizeType"></span></p>
 				<p class="msgInfoText"><span>공유된사람 : </span><span id=""></span></p>
 				<p class="msgInfoText"><span>전송시간 : </span><span id="modalMsgDate"></span></p>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" width="450px" height="300px">
+				<div id="msgImgContainer">
+					<img id="modalImgPreView" src="#" style="width:100%; height:100%; object-fit:contain;">
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-soft-secondary" data-bs-dismiss="modal">닫기</button>
@@ -265,21 +269,21 @@
 								</li>
 							
 								<li class="nav-item msgmenu2">
-									<a class="nav-link" href="${path}/imgFileView">
+									<a class="nav-link imgFileList" href="${path}/imgFileView">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="image"></i></span></span>
 										<span class="nav-link-text">사진 파일</span>
 									</a>
 								</li>
 								
 								<li class="nav-item msgmenu3">
-									<a class="nav-link" href="${path}/docFileView">
+									<a class="nav-link docFileList" href="${path}/docFileView">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="file-text"></i></span></span>
 										<span class="nav-link-text">문서 파일</span>
 									</a>
 								</li>
 								
 								<li class="nav-item msgmenu4">
-									<a class="nav-link" href="${path}/otherFileView">
+									<a class="nav-link otherFileList" href="${path}/otherFileView">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="file"></i></span></span>
 										<span class="nav-link-text">기타 파일</span>
 									</a>
@@ -305,7 +309,7 @@
 									<span class="feather-icon dropdown-icon">
 										<i data-feather="list"></i>
 									</span>
-									<span>목록으로 보기</span>
+									<span>받은쪽지 전체보기</span>
 								</a>
 								<a class="dropdown-item" href="${path}/msgFileView">
 									<span class="feather-icon dropdown-icon">
@@ -437,6 +441,7 @@ $(".msg_file").click(function(e) {
 	    e.preventDefault();  // 버블링 방지
 	    
 	    var downloadUrl = $(this).attr("href");
+	    console.log(downloadUrl);
 		var $tagText = $(this).text().trim();
 	    
 		if($tagText === '첨부파일 없음'){
@@ -801,31 +806,10 @@ $(document).ready(function(){
 });
 
 
-//(...)메뉴 preview클릭 시 모달창 띄우기
-$(document).ready(function(){
-    $('.flieDetailView').on('click', function(e){
-        e.preventDefault();
 
-        // 현재 클릭한 요소의 부모 요소 데이터 가져오기
-        var parent = $(this).closest('.media-body');
 
-        var fileMsgNo = parent.find('.fileMsgNo').text();
-        var fileOriName = parent.find('.fileOriName').text();
-        var fileMsgDate = parent.find('.fileMsgDate').text();
-        var fileMsgReceiver = parent.find('.fileMsgReceiver').text();
-        var fileMsgSender = parent.find('.fileMsgSender').text();
 
-        // 모달에 데이터 넣기
-       
-        $('#modalOriName').text(fileOriName);
-        $('#modalMsgDate').text(fileMsgDate);
-        $('#modalMsgReceiver').text(fileMsgReceiver);
-        $('#modalMsgSender').text(fileMsgSender);
 
-        // 모달 열기
-        $('#modal_fileView').modal('show');
-    });
-});
 
 
 </script>

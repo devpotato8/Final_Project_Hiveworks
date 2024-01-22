@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.salary.OvertimePay;
 import com.dna.hiveworks.serviceimpl.OvertimePayServiceImpl;
 
@@ -31,7 +33,9 @@ public class OvertimePayController {
 	}
 	
 	@GetMapping("/myovertimepay")
-	public String selectMyOvertimePayByempNo(Model model, int emp_no) {
+	public String selectMyOvertimePayByempNo(Model model, @SessionAttribute("loginEmp")Employee loginEmp) {
+		
+		int emp_no = loginEmp.getEmp_no();
 		
 		List<OvertimePay> myWorkList = service.selectMyOvertimePayByEmpNo(emp_no);
 		
