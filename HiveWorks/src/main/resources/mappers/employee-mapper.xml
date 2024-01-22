@@ -38,6 +38,8 @@
 		<result property="create_date" column="create_date"/>
 		<result property="modifier" column="modifier"/>
 		<result property="modify_date" column="modify_date"/>
+		<result property="emp_profile_ori_name" column="emp_profile_ori_name"/>
+		<result property="emp_profile_re_name" column="emp_profile_re_name"/>
 		<collection property="work" resultMap="work.workMap"/>
 	
 	</resultMap>
