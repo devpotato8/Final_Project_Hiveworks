@@ -36,10 +36,7 @@ public class WorkController {
 	private final WorkService service;
 	
 	@GetMapping("workList")
-		public String workList(Model m) {
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Employee loginEmp = (Employee) authentication.getPrincipal();
+		public String workList(@SessionAttribute("loginEmp")Employee loginEmp , Model m) {
 		int empNo = loginEmp.getEmp_no();
 		
 		// 평균 출근시간
@@ -69,24 +66,23 @@ public class WorkController {
 		return "work/workList";
 	}
 	
+	
 	@GetMapping("workListWeek")
 	@ResponseBody
-	public Map<String, Object> workListWeek(Model m, @RequestParam("week") Integer week) {
+	public Map<String, Object> workListWeek(@SessionAttribute("loginEmp")Employee loginEmp , Model m, @RequestParam("week") Integer week) {
 		Map<String, Object> response = new HashMap<>();
 		Map<String, Integer> param = new HashMap<>();
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Employee loginEmp = (Employee) authentication.getPrincipal();
 		int empNo = loginEmp.getEmp_no();
 		
 		param.put("empNo", empNo);
 		param.put("week", week);
 		
 		String avgStartWork = service.avgStartWorkFilter(param);
-		String avgEndWork = service.avgEndWork(empNo);
-		int overWork = service.overWork(empNo);
-		int lateWork = service.lateWork(empNo);
-		int fastEnd = service.fastEnd(empNo);
-		int absence = service.absence(empNo);
+		String avgEndWork = service.avgEndWorkFilter(param);
+		int overWork = service.overWorkFilter(param);
+		int lateWork = service.lateWorkFilter(param);
+		int fastEnd = service.fastEndFilter(param);
+		int absence = service.absenceFilter(param);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
@@ -100,45 +96,20 @@ public class WorkController {
 	
 	@GetMapping("workListMonth")
 	@ResponseBody
-	public Map<String, Object> workListMonth(Model m, @RequestParam("week") Integer week) {
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Employee loginEmp = (Employee) authentication.getPrincipal();
+	public Map<String, Object> workListMonth(@SessionAttribute("loginEmp")Employee loginEmp , Model m, @RequestParam("month") Integer month) {
+		Map<String, Object> response = new HashMap<>();
+		Map<String, Integer> param = new HashMap<>();
 		int empNo = loginEmp.getEmp_no();
 		
-		Map<String, Object> response = new HashMap<>();
-		String avgStartWork = service.avgStartWork(empNo);
-		String avgEndWork = service.avgEndWork(empNo);
-		int overWork = service.overWork(empNo);
-		int lateWork = service.lateWork(empNo);
-		int fastEnd = service.fastEnd(empNo);
-		int absence = service.absence(empNo);
+		param.put("empNo", empNo);
+		param.put("month", month);
 		
-		response.put("avgStartWork", avgStartWork);
-		response.put("avgEndWork", avgEndWork);
-		response.put("overWork", overWork);
-		response.put("lateWork", lateWork);
-		response.put("fastEnd", fastEnd);
-		response.put("absence", absence);
-		
-		return response;
-	}
-	
-	@GetMapping("workListYear")
-	@ResponseBody
-	public Map<String, Object> workListYear(Model m, @RequestParam("week") Integer week) {
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Employee loginEmp = (Employee) authentication.getPrincipal();
-		int empNo = loginEmp.getEmp_no();
-		
-		Map<String, Object> response = new HashMap<>();
-		String avgStartWork = service.avgStartWork(empNo);
-		String avgEndWork = service.avgEndWork(empNo);
-		int overWork = service.overWork(empNo);
-		int lateWork = service.lateWork(empNo);
-		int fastEnd = service.fastEnd(empNo);
-		int absence = service.absence(empNo);
+		String avgStartWork = service.avgStartWorkFilter(param);
+		String avgEndWork = service.avgEndWorkFilter(param);
+		int overWork = service.overWorkFilter(param);
+		int lateWork = service.lateWorkFilter(param);
+		int fastEnd = service.fastEndFilter(param);
+		int absence = service.absenceFilter(param);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
@@ -152,10 +123,8 @@ public class WorkController {
 	
 	@GetMapping("workView")
 	public String workView(@SessionAttribute("loginEmp")Employee loginEmp , Model m) {
-		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//Employee loginEmp = (Employee) authentication.getPrincipal();
 		int empNo = loginEmp.getEmp_no();
-		
+	
 		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp(empNo);
 		m.addAttribute("workView", selectWorkListAllByEmp);
 		return "work/workView";

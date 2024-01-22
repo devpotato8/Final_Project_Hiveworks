@@ -157,6 +157,11 @@ public class MsgServiceImpl implements MsgService {
 	public int returnTrash(Map<String, Integer> params) {
 		return dao.returnTrash(session, params);
 	}
+
+	@Override
+	public int deleteFile(Map<String, Object> params) {
+		return dao.deleteFile(session, params);
+	}
 	
 
 

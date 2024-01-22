@@ -43,8 +43,8 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
-							<h1 class="fmapp-title">문서 열람</h1>
-							<button type="button" class="btn btn-secondary" id="printButton"disabled>인쇄 미리보기</button>
+							<h1 class="fmapp-title">문서 열람</h1>&emsp;
+							<button type="button" class="btn btn-secondary" id="printButton" disabled>인쇄 미리보기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">

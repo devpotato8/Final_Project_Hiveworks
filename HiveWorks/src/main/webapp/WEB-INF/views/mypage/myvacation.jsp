@@ -36,62 +36,6 @@
 	        <div class="showView">
 	            <div class="profile">
 	                <div></div>
-	                <div></div>
-	            </div>
-	            <div class="changeProfile">
-	                <form action="" method="post" id="login_form">
-	                    <input
-	                        class="form-control"
-	                        name="userId"
-	                        type="text"
-	                        value=""
-	                        readonly="readonly"
-	                        placeholder="아이디"
-	                    />
-	                    <input
-	                    class="form-control"
-	                        name="userPw"
-	                        id="userPw"
-	                        type="password"
-	                        placeholder="비밀번호"
-	                        maxlength="20"
-	                        onfocus="this.placeholder=''"
-	                        onblur="this.placeholder='비밀번호'"
-	                    />
-	                    <input
-	                        class="form-control"
-	                        name="userPwCheck"
-	                        id="userPwCheck"
-	                        type="password"
-	                        placeholder="비밀번호확인"
-	                        maxlength="20"
-	                        onfocus="this.placeholder=''"
-	                        onblur="this.placeholder='비밀번호확인'"
-	                    >
-	                    <!-- <span id="result" style="font-size: 1.5rem">비밀번호 일치여부</span> -->
-	                    
-	                    <input
-	                     class="form-control"
-	                        name="email"
-	                        type="email"
-	                        value=""
-	                        placeholder="이메일"
-	                        maxlength="20"
-	                        onfocus="this.placeholder=''"
-	                        onblur="this.placeholder='이메일'"
-	                    />
-	                    <input
-	                        class="form-control"
-	                        name="phone"
-	                        type="text"
-	                        value=""
-	                        placeholder="휴대폰번호"
-	                        maxlength="13"
-	                        onfocus="this.placeholder=''"
-	                        onblur="this.placeholder='휴대폰번호'"
-	                    />
-	                    <input class="form-control" type="submit" value="수정하기" />
-	                </form>
 	            </div>
 	        </div>
 			</section>
