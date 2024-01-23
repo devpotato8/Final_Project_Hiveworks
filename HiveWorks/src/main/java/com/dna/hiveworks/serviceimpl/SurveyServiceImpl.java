@@ -37,8 +37,8 @@ public class SurveyServiceImpl implements SurveyService{
 		return dao.insertSurvey(session, s);
 	}
 	@Override
-	public int insertQuestion(SurveyQuestion qustion) {
-		return dao.insertQuestion(session, qustion);
+	public int insertQuestion(SurveyQuestion question) {
+		return dao.insertQuestion(session, question);
 	}
 	@Override
 	public int surveyUpdate(Survey survey) {

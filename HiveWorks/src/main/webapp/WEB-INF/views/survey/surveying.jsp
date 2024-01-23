@@ -58,12 +58,9 @@
 										</div>
 									</div>
 								</div>
-							<form id="surveyForm" name="surveyFrm" action="${path}/survey/insertSurvey" method="post">	
 								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">								
 								</div>
-								<input type="submit" name="name" id="submit" onclick="btn()"
-									class="btn btn-primary mt-5" onclick="sendData()" value="설문완료">
-							</form>
+								<input type="submit" name="name" id="submit" class="btn btn-primary mt-5" onclick="sendData()" value="설문완료">
 							</div>
 							
 						</div>
@@ -81,14 +78,35 @@
 	margin-top: 150px;
 }
 </style>
-	<script>
-		function btn() {
-			alert('제출 완료하셨습니다 감사합니다.');
-			location.href = "${path}/survey/survey";
-		}
-		
-	</script>
 <script>
+function sendData() {
+    var surveyData = {
+        checkboxValues: [],
+        radioValues: []
+    };
+
+    $('input[type="checkbox"]:checked').each(function () {
+        surveyData.checkboxValues.push($(this).val());
+    });
+
+    $('input[type="radio"]:checked').each(function () {
+        surveyData.radioValues.push($(this).val());
+    });
+
+    // Ajax를 사용하여 서버에 선택한 값을 보냄
+    $.ajax({
+        type: "POST",
+        url: "${path}/survey/surveyresult",
+        data: { surveyData: JSON.stringify(surveyData) },  // JSON 문자열로 변환
+        contentType: 'application/json',  // 콘텐츠 유형 지정
+        success: function () {
+            location.href = "${path}/survey/surveyresult";
+        },
+        error: function (error) {
+            console.log("에러:", error);
+        }
+    });
+}
 
 let $check = document.getElementById('checkbox_');
 $(document).ready(function() {

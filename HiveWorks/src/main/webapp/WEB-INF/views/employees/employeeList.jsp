@@ -807,9 +807,7 @@ $('#datable_2').DataTable( {
 				alert("취소하였습니다.");
 			}
 		}
-	
-	
-	
+
 	}
 });
 													
@@ -827,7 +825,7 @@ fn_excelDownload=()=>{
 <script>
 let $form = document.getElementById('form_real');
 fn_excelUpload=(e)=>{
-	$form.preventDefault();
+	e.preventDefault();
 	
 	let $excelUpFile = document.getElementById('excelUpFile');
 	
