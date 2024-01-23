@@ -96,101 +96,13 @@
 								</div>
 							</div>
 
-							<!-- <div data-simplebar class="dropdown-body p-2">
-							<h6 class="dropdown-header">Recent Search
-							</h6>
-							<div class="dropdown-item bg-transparent">
-								<a href="#" class="badge badge-pill badge-soft-secondary">Grunt</a>
-								<a href="#" class="badge badge-pill badge-soft-secondary">Node JS</a>
-								<a href="#" class="badge badge-pill badge-soft-secondary">SCSS</a>
-							</div>
-							<div class="dropdown-divider"></div>
-							<h6 class="dropdown-header">Help
-							</h6>
-							<a href="javascript:void(0);" class="dropdown-item">
-								<div class="media align-items-center">
-									<div class="media-head me-2">
-										<div class="avatar avatar-icon avatar-xs avatar-soft-light avatar-rounded">
-											<span class="initial-wrap">
-												<span class="svg-icon">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-corner-down-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-														<path d="M6 6v6a3 3 0 0 0 3 3h10l-4 -4m0 8l4 -4"></path>
-													 </svg>
-												</span>
-											</span>
-										</div>
-									</div>
-									<div class="media-body">
-										How to setup theme?
-									</div>
-								</div>
-							</a>
-							<a href="javascript:void(0);" class="dropdown-item">
-								<div class="media align-items-center">
-									<div class="media-head me-2">
-										<div class="avatar avatar-icon avatar-xs avatar-soft-light avatar-rounded">
-											<span class="initial-wrap">
-												<span class="svg-icon">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-corner-down-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-														<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-														<path d="M6 6v6a3 3 0 0 0 3 3h10l-4 -4m0 8l4 -4"></path>
-													 </svg>
-												</span>
-											</span>
-										</div>
-									</div>
-									<div class="media-body">
-										View detail documentation
-									</div>
-								</div>
-							</a>
-							<div class="dropdown-divider"></div>
-							<h6 class="dropdown-header">Users
-							</h6>
-							<a href="javascript:void(0);" class="dropdown-item">
-								<div class="media align-items-center">
-									<div class="media-head me-2">
-										<div class="avatar avatar-xs avatar-rounded">
-											<img src="resources/img/avatar3.jpg" alt="user" class="avatar-img">
-										</div>
-									</div>
-									<div class="media-body">
-										Sarah Jone
-									</div>
-								</div>
-							</a>
-							<a href="javascript:void(0);" class="dropdown-item">
-								<div class="media align-items-center">
-									<div class="media-head me-2">
-										<div class="avatar avatar-xs avatar-soft-primary avatar-rounded">
-											<span class="initial-wrap">J</span>
-										</div>
-									</div>
-									<div class="media-body">
-										Joe Jackson
-									</div>
-								</div>
-							</a>
-							<a href="javascript:void(0);" class="dropdown-item">
-								<div class="media align-items-center">
-									<div class="media-head me-2">
-										<div class="avatar avatar-xs avatar-rounded">
-											<img src="resources/img/avatar4.jpg" alt="user" class="avatar-img">
-										</div>
-									</div>
-									<div class="media-body">
-										Maria Richard
-									</div>
-								</div>
-							</a>
-						</div> -->
 							<div class="dropdown-footer d-xl-flex d-none">
 								<div id="searchBox" style="font-size: 16px">검색하세요</div>
 							</div>
 						</div>
 					</form>
-					<!-- <script>
+					<!-- 통합검색 -->
+					<script>
 						const searchInput = document.getElementById('searchInput');
 						const searchBox = document.getElementById('searchBox');
 						
@@ -222,7 +134,7 @@
 							      console.error(`요청 실패: ${error}`);
 						    });
 					 	});
-					</script> -->
+					</script>
 					<!-- /Search -->
 				</div>
 				<!-- /Start Nav -->

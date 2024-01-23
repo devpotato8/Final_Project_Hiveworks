@@ -23,19 +23,18 @@ public class ViewController {
 	
 	private final WorkService service; 
 
-	@GetMapping("/")
-	public String index() {
+		//	public String index() {
 		// 로그인 연결한 이후에 해야함
-		
-//public String index(@SessionAttribute("loginEmp")Employee loginEmp,Model m) {
-		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//Employee loginEmp = (Employee) authentication.getPrincipal();
-		
-		// 직원 출퇴근기록 가져오기
-		//if(httpSession.getAttribute("loginEmp") != null) {
-		//	Work commute = service.selectCommute(loginEmp.getEmp_no());
-		//	m.addAttribute("commute", commute);
-		//}
+	@GetMapping("/")
+	public String home() {
+//	public String home(HttpSession session, Model m) {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		Employee loginEmp = (Employee) authentication.getPrincipal();
+//		session.setAttribute("loginEmp", loginEmp);
+//		
+//		 //직원 출퇴근기록 가져오기
+//		Work commute = service.selectCommute(loginEmp.getEmp_no());
+//		m.addAttribute("commute", commute);
 		return "index";
 	}
 	
