@@ -36,4 +36,6 @@ public class ElectronicDocumentSample {
 	private int modifier;
 	private Date modifyDate;
 	private boolean useYn;
+	
+	private String dotCodeName;
 }

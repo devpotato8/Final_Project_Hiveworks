@@ -62,28 +62,29 @@
 								<div class="tab-content">
 									<!-- 문서 작성 탭 -->
 									<div class="tab-pane fade show active" id="write_doc">
-										<div class="table-responsive col-sm-8">
-											<table class="table">
-												<tbody>
-													<tr>
-														<th scope="row">양식종류</th>
-														<td>
-															${format.sampleDotCode.getCode()}
-														</td>
-														<th scope="row">양식이름</th>
-														<td>
-															${format.sampleName}
-														</td>
-													</tr>
-													<tr>
-														<th scope="row">양식설명</th>
-														<td colspan="3">${format.sampleDesc}</td>
-													</tr>
-												</tbody>
-											</table>
+										<div class="container">
+											<div class="table-responsive">
+												<table class="table">
+													<tbody>
+														<tr>
+															<th scope="row">양식종류</th>
+															<td>
+																${format.sampleDotCode.getCode()}
+															</td>
+															<th scope="row">양식이름</th>
+															<td>
+																${format.sampleName}
+															</td>
+														</tr>
+														<tr>
+															<th scope="row">양식설명</th>
+															<td colspan="3">${format.sampleDesc}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 										
-										<span class="form-label">본문 : </span>
 										<div class="container document-container">
 											<div class="document">
 												<div class="document-content">
