@@ -170,7 +170,6 @@ public class EdocController {
 	
 	@GetMapping("/format/lists")
 	public String formatLists(Model model) {
-		//TODO 양식 목록 페이지
 		model.addAttribute("title","양식 목록");
 		model.addAttribute("formatList", edocService.getEdocSampleList());
 		return "edoc/formatList";
@@ -184,10 +183,7 @@ public class EdocController {
 	
 	@GetMapping("/format/view")
 	public String formatView(Model model, @RequestParam String formatNo) {
-		//TODO 양식 보기 페이지
-		
 		model.addAttribute("format", edocService.getSample(formatNo));
-		
 		return "edoc/format";
 	}
 	
@@ -478,8 +474,17 @@ public class EdocController {
 		Map<String, Object> result = edocService.deleteSample(Map.of("modifier",loginEmp.getEmp_no(),"sampleNo", sampleNo));
 		
 		return ResponseEntity.status(HttpStatus.OK).body(result);
-		
 	}
 	
-
+	@PostMapping("/print")
+	public ResponseEntity<Map<String,Object>> edocPrint(@RequestParam String edocNo, @SessionAttribute Employee loginEmp) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("edocNo", edocNo);
+		param.put("empNo", loginEmp.getEmp_no());
+		param.put("posCode", loginEmp.getPosition_code());
+		
+		Map<String,Object> document = edocService.edocPrint(param);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(document);
+	}
 }

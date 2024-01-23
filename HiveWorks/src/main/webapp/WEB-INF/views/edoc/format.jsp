@@ -88,7 +88,9 @@
 										<div class="container document-container">
 											<div class="document">
 												<div class="document-content">
-													${format.sampleContent}
+													<div class="container">
+														${format.sampleContent}
+													</div>
 												</div>
 											</div>
 										</div>

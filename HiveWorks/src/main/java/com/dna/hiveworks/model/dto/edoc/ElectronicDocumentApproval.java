@@ -43,5 +43,6 @@ public class ElectronicDocumentApproval {
 	
 	private String aprvlEmpName;
 	private String aprvlAutoFilename;
-	
+	private String aprvlDeptName;
+	private String aprvlPosName;
 }

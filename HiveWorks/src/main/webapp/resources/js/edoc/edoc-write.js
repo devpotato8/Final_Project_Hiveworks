@@ -300,11 +300,13 @@ const fnAddApprovalListLoginEmp = (empNo, deptName, jobName, empName)=>{
 }
 
 const fnAddApprovalList = (empNo)=>{
-	if(!isExistInLists(empNo)){
-		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($approvalList);
+	if($approvalList.length >6){
+		alert('결재목록에는 6명까지만 가능합니다.');
+	}else if(!isExistInLists(empNo)){
+		$('#employee-list').find('option[value="'+empNo+'"]').clone().appendTo($approvalList);
 		approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV000',aprvlStatus:'P',aprvlRank:1});
 	}else{
-		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		const emp = $('#employee-list').find('option[value="'+empNo+'"]').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
 	}
 }
@@ -316,10 +318,10 @@ const fnDelApprovalList = (empNo)=>{
 
 const fnAddreferenceList = (empNo)=>{
 	if(!isExistInLists(empNo)){
-		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
+		$('#employee-list').find('option[value="'+empNo+'"]').clone().appendTo($referenceList);
 		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
 	}else{
-		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		const emp = $('#employee-list').find('option[value="'+empNo+'"]').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
 	}
 }
@@ -429,7 +431,8 @@ const dataProcess = ()=>{
 				period : $('#period').val(),
 				edocContent : $('#content').html(),
 				approval: approvalList,
-				reference: referenceList
+				reference: referenceList,
+				edocSampleNo : formatNo
 			};
 	
 	// 연장근무 신청서일경우 시작/종료일 처리

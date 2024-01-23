@@ -18,12 +18,11 @@
     width: 100%;
     justify-content: center;
 }
-.document .document-content{
+.document-content{
     width: calc(21cm + 2px);
     min-height: calc(29.7cm + 2px);
     height: fit-content;
     padding: 3cm 1.5cm 1.5cm 2cm;
-    margin: 2.5rem;
     border: 1px hsl( 0, 0%, 82.7% ) solid;
     background-color: #fff;
     box-shadow: 0 0 5px hsla( 0, 0%, 0%, .1 );
