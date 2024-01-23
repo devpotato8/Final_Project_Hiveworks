@@ -304,13 +304,24 @@ SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO =
 		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO WHERE V.CAL_CODE = 'CAL007' AND V.CAL_NO = #{calNo} AND CAL_USE_YN = 'Y'
 	</select>
 	
+	
+	
 	<select id="selectprojectByEmpNo" resultMap="scheduleInviMap">
 		SELECT * FROM V_CALENDAR_F WHERE CAL_CODE = 'CAL007' AND EMP_NO = #{empNo} AND CAL_USE_YN = 'Y'
 	</select>
+
 	
 	<insert id="insertChecklist" parameterType="com.dna.hiveworks.model.dto.CheckList">
 		INSERT INTO TBL_CAL_CHECKLIST VALUES (SEQ_CAL_CHECKLIST_NO.NEXTVAL, #{calNo}, #{calChecklistContent}, #{creater}, #{modifier}, DEFAULT, DEFAULT, 'N', 'Y')
+		 <selectKey keyProperty="calChecklistNo" resultType="int" order="AFTER">
+	        SELECT MAX(CAL_CHECKLIST_NO) FROM TBL_CAL_CHECKLIST
+	    </selectKey>	
 	</insert>
+	
+	
+	
+	
+	
 	
 	<update id="deleteChecklist">
 		UPDATE  TBL_CAL_CHECKLIST SET USE_YN = 'N' WHERE CAL_CHECKLIST_NO = #{checklistNo}

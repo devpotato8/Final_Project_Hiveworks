@@ -960,6 +960,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					console.log(result);
 					alert("일정 삭제 성공");
 					//	calendar.addEvent(editEvent);
+					 // 성공 후 현재 페이지 새로고침
+                	//location.reload();
 					calendar.refetchEvents();
 				})
 				.fail(function(request, status, error) {

@@ -205,8 +205,7 @@
 																			<span class="badge badge-warning badge-indicator badge-indicator-xl"></span>
 																			</c:if>			
 																				
-																			<span class="todo-text text-dark text-truncate projectView" data-projectNo="${pro.calNo }">${pro.calSubject}</span>
-																			
+																			 <span class="todo-text text-dark text-truncate projectView" data-projectNo="${pro.calNo }">${pro.calSubject}</span>
 																			
 																			
 																			<c:if test="${pro.calStatus == '마감'}">
@@ -230,10 +229,10 @@
 																	<div
 																		class="d-flex flex-shrink-0 align-items-center ms-3">
 																		<span
-																			class="todo-time d-lg-inline-block d-none text-primary me-3">~ ${pro.calEndDate }</span>
+																			class="todo-time d-lg-inline-block d-none text-primary me-3 projectViewDate" data-projectNo="${pro.calNo }">~ ${pro.calEndDate }</span>
 																		<div
 																			class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																			<span class="d-block">${pro.myEmpName}</span> 
+																			<span class="d-block projectViewName">${pro.myEmpName}</span> 
 																		</div>
 																	<!-- 	<span
 																			class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span> -->
@@ -309,12 +308,12 @@
 										href="#" data-bs-toggle="dropdown"><span class="icon"><span
 											class="feather-icon"><i data-feather="more-vertical"></i></span></span></a>
 									<div class="dropdown-menu dropdown-menu-end">
-										<span class="dropdown-item" id="editBtn"><span
+										<span class="dropdown-item" id="proeditBtn"><span
 											class="feather-icon dropdown-icon"><i
-												data-feather="edit"></i></span><span>수정</span></span><a
-											class="dropdown-item delete-task" href="#"><span
+												data-feather="edit"></i></span><span>수정</span></span><span
+											class="dropdown-item delete-task" id="prodelBtn"><span
 											class="feather-icon dropdown-icon"><i
-												data-feather="trash-2"></i></span><span>삭제</span></a>
+												data-feather="trash-2"></i></span><span>삭제</span></span>
 									</div>
 									<a
 										class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover close-task-info"
@@ -328,12 +327,12 @@
 								<h4
 									class="d-flex align-items-center fw-bold mb-0 inline-editable-wrap">
 									 <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" 
-									 id="reproSubject" value="${project.calSubject}">
+									 id="reproSubject">
 								</h4>
 								<p class="d-flex align-items-center inline-editable-wrap">
 									  
 									 <div class="form-floating">
-						  <textarea class="form-control" id="reproContent">${project.calContent}</textarea>
+						  <textarea class="form-control" id="reproContent"></textarea>
 						</div>	 
 								</p>
 									<div class="col-md-6">
@@ -403,7 +402,7 @@
 												<span>Checklist</span>
 											</div>
 										</div>
-										<div class="hk-checklist">
+										 <div class="hk-checklist">
 											<div class="form-check">
 												<input type="checkbox" class="form-check-input"
 													id="customCheckList1" checked=""> <label
@@ -419,7 +418,7 @@
 												class="feather-icon fe-x me-2"><i
 													data-feather="plus-square"></i></span> <span>New Item</span>
 											</a>
-										</div>
+										</div> 
 										<div class="d-flex align-items-center justify-content-between">
 											<div class="title title-wth-divider flex-grow-1 my-4 me-2">
 												<span>Canada team task</span>
@@ -1110,14 +1109,18 @@
 									<span aria-hidden="true">×</span>
 								</button>
 								<h5 class="mb-4">프로젝트 등록</h5>
-								<form id="todoForm">
-									<input type="hidden" name="empNo" id="projectEmpno"
+								<form id="todoForm" action="${path}/schedule/insertproject" method="POST">
+									<input type="hidden" name="empno" id="projectEmpno"
 										value="${loginEmp.emp_no}" />
+										<input type="hidden" name="code" id="projectCode"
+										value="CAL007" />
+										<input type="hidden" name="backgroundColor" id="projectColor"
+										value="#9b42f5" />
 									<div class="row gx-3">
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="form-label">프로젝트명</label> <input
-													class="form-control" type="text" id="projectName" />
+													class="form-control" type="text" name="title" id="projectName" />
 											</div>
 										</div>
 									</div>
@@ -1127,7 +1130,7 @@
 												<div class="form-label-group">
 													<label class="form-label">프로젝트 내용</label>
 												</div>
-												<textarea class="form-control" id="projectContent" rows="3"></textarea>
+												<textarea class="form-control" name="content" id="projectContent" rows="3"></textarea>
 											</div>
 										</div>
 									</div>
@@ -1135,7 +1138,7 @@
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="form-label">진행상태</label> <select
-													class="form-control custom-select" id="projectStatus">
+													class="form-control custom-select" name="status" id="projectStatus">
 													<option value="대기">대기</option>
 													<option value="진행중">진행중</option>
 													<option value="마감">마감</option>
@@ -1148,21 +1151,21 @@
 											<div class="form-group">
 												<label class="form-label">시작일자</label> <input
 													class="form-control cal-event-date-start" id="startDate"
-													name="single-date" type="text" />
+													name="start" type="text" />
 											</div>
 										</div>
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label class="form-label">종료일자</label> <input
 													class="form-control cal-event-date-end" id="endDate"
-													name="single-date" type="text" />
+													name="end" type="text" />
 											</div>
 										</div>
 									</div>
 									<div class="row gx-3" style="display: flex">
 										<div class="col-sm-12 form-group">
 											<input class="form-check-input cal-event-allday"
-												id="alldaycheck" type="checkbox"> <label
+												id="alldaycheck" name="allday" type="checkbox"> <label
 												class="form-check-label" for="alldaycheck"> 종일여부</label>
 										</div>
 										<div
@@ -1219,7 +1222,7 @@
 									<div class="modal-footer align-items-center">
 										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal" id="cancelBtn">취소</button>
-										<button id="add_project" type="button" class="btn btn-primary"
+										<button id="add_project" type="submit" class="btn btn-primary"
 											data-bs-dismiss="modal">등록</button>
 									</div>
 								</form>
@@ -1259,208 +1262,593 @@ empNos.push("${emp.emp_no}");
 </c:forEach>
 
 
-//프로젝트 등록
-$(document).on("click", "#add_project", function(e) {
-	e.preventDefault();
-	const projectName = document.getElementById('projectName').value;
-	const projectContent = document.getElementById('projectContent').value;
-	const projectStart = document.getElementById('proStartDate').value;
-	const projectEnd = document.getElementById('proEndDate').value;
-	const projectStatus = document.querySelector('#projectStatus').value;
 
-	//select empNo를 리스트로 담아줌
-	const selectElements = $('select[name="calEmp"]');
-	    let empList = null;
-	    
-	 if (selectElements.length > 0) {
-	    empList = [];
-	    selectElements.each(function() {
-	        const empValue = $(this).val();
-	        if (empValue) { // empValue가 비어있지 않을 경우에만 empList에 추가
-	            empList.push(empValue);
-	        }
-	    });
-	if (empList.length === 0) { // 모든 empValue가 비어있어 empList에 아무 값도 추가되지 않았을 경우 empList를 null로 설정
-	        empList = null;
-	    }
-	} else {
-	    empList = null; // selectElements.length가 0인 경우 empList를 null로 설정
+
+/* $('input[name="start"]').daterangepicker({
+	singleDatePicker: true,
+	timePicker: true, 
+	timePicker24Hour: true, // 24시간 형식 활성화
+	startDate: moment().startOf('hour'), // 오늘 날짜의 9시로 설정
+    showDropdowns: true,
+	showDropdowns: true,
+	minYear: 1901,
+	timePickerIncrement: 60, // 1시간 간격
+	"cancelClass": "btn-secondary",
+	locale:  {
+	  format: 'YYYY/MM/DD HH:mm'
 	}
-	
-	console.log(empList)
-	
-	const addProject = {
-			title: document.getElementById('projectName').value,
-			code: "CAL007",
-			empno: loginEmpNo,
-			empdeptcode: loginDeptCode,
-			empList: empList, // empList를 addEvent 객체의 속성으로 추가
-			backgroundColor: '#9b42f5',
-			allday: $('#alldaycheck').is(':checked') ? 'Y' : 'N',
-			start: document.getElementById('proStartDate').value,
-			end: document.getElementById('proEndDate').value,
-			content: document.getElementById('projectContent').value,
-			status: document.querySelector('#projectStatus').value
-		};
-	
-	   $.ajax({
-			url: "/schedule/insertschedule.do",
-			method: "POST",
-			dataType: "json",
-			data: JSON.stringify(addProject),
-			contentType: 'application/json'
-		})
-			.done(function(result) {
-				alert("프로젝트 등록 성공");
-				console.log(result);
-				
-				
-				
-				// 새로운 프로젝트 항목 생성
-			    var newItem = document.createElement("li");
-			    newItem.classList.add("advance-list-item", "single-task-list", "active-todo");
+});
 
-			    // 프로젝트 항목 내용 작성
-			    var itemContent = document.createElement("div");
-			    itemContent.classList.add("d-flex", "align-items-center", "justify-content-between");
+$('input[name="start"]').attr('readonly', 'readonly');
 
-			    // 예시: 프로젝트 제목
-			    var projectTitle = document.createElement("div");
-			    projectTitle.classList.add("d-flex", "align-items-center");
+/* Single Date*/
+/* $('input[name="end"]').daterangepicker({
+	singleDatePicker: true,
+	timePicker: true,
+	timePicker24Hour: true, // 24시간 형식 활성화
+	sstartDate: moment().startOf('hour'), // 오늘 날짜의 9시로 설정
+    showDropdowns: true,
+	showDropdowns: true,
+	minYear: 1901,
+	"cancelClass": "btn-secondary",
+	locale:  {
+	  format: 'YYYY/MM/DD HH:mm'
+	}
+});
 
-			    var checkbox = document.createElement("div");
-			    checkbox.classList.add("form-check");
-
-			    var checkboxInput = document.createElement("input");
-			    checkboxInput.setAttribute("type", "checkbox");
-			    checkboxInput.classList.add("form-check-input");
-
-			    var checkboxLabel = document.createElement("label");
-			    checkboxLabel.classList.add("form-check-label");
-
-			    checkbox.appendChild(checkboxInput);
-			    checkbox.appendChild(checkboxLabel);
-
-			    projectTitle.appendChild(checkbox);
-
-			    var projectName = document.createElement("span");
-			    projectName.classList.add("todo-text", "text-dark", "text-truncate", "projectView");
-			    projectName.setAttribute("data-projectNo", result.calNo);  // 여기서 result.calNo는 서버에서 받아온 프로젝트 번호
-
-			    projectTitle.appendChild(projectName);
-
-			    itemContent.appendChild(projectTitle);
-
-			 // 프로젝트 항목 상태 뱃지
-			    var badgeContainer = document.createElement("div");
-			    badgeContainer.classList.add("d-flex", "flex-shrink-0", "align-items-center", "ms-3");
-
-			    // 상태에 따른 뱃지 생성 (마감, 진행중, 대기)
-			    var statusBadge = document.createElement("span");
-			    statusBadge.classList.add("badge", "badge-sm", "badge-outline", "badge-wth-indicator", "badge-wth-icon", "ms-3", "d-lg-inline-block", "d-none");
-
-			    // 상태가 '마감'인 경우
-			    if (result.calStatus === '마감') {
-			        statusBadge.classList.add("badge-danger");
-
-			        // 뱃지 내용 설정
-			        statusBadge.innerHTML = '<span><i class="badge-dot ri-checkbox-blank-circle-fill"></i>마감</span>';
-			    }
-			    // 상태가 '진행중'인 경우
-			    else if (result.calStatus === '진행중') {
-			        statusBadge.classList.add("badge-orange");
-
-			        // 뱃지 내용 설정
-			        statusBadge.innerHTML = '<span><i class="badge-dot ri-checkbox-blank-circle-fill"></i>진행중</span>';
-			    }
-			    // 상태가 '대기'인 경우
-			    else if (result.calStatus === '대기') {
-			        statusBadge.classList.add("badge-warning");
-
-			        // 뱃지 내용 설정
-			        statusBadge.innerHTML = '<span><i class="badge-dot ri-checkbox-blank-circle-fill"></i>대기</span>';
-			    }
-
-			    badgeContainer.appendChild(statusBadge);
-			    itemContent.appendChild(badgeContainer);
-			    
-			 // 예시: 프로젝트 항목의 더보기(ellipsis) 메뉴
-			    var ellipsisMenu = document.createElement("div");
-			    ellipsisMenu.classList.add("d-flex", "flex-shrink-0", "align-items-center", "ms-3");
-
-			    // 더보기 버튼
-			    var dropdownButton = document.createElement("button");
-			    dropdownButton.classList.add("btn", "btn-icon", "btn-rounded", "btn-flush-light", "flush-soft-hover", "dropdown-toggle", "no-caret");
-			    dropdownButton.setAttribute("aria-expanded", "false");
-			    dropdownButton.setAttribute("data-bs-toggle", "dropdown");
-
-			    // 더보기 아이콘
-			    var dropdownIcon = document.createElement("span");
-			    dropdownIcon.classList.add("icon");
-			    var featherIcon = document.createElement("span");
-			    featherIcon.classList.add("feather-icon");
-			    var icon = document.createElement("i");
-			    icon.setAttribute("data-feather", "more-vertical");
-			    featherIcon.appendChild(icon);
-			    dropdownIcon.appendChild(featherIcon);
-
-			    dropdownButton.appendChild(dropdownIcon);
-
-			    // 더보기 메뉴 목록
-			    var dropdownMenu = document.createElement("div");
-			    dropdownMenu.classList.add("dropdown-menu", "dropdown-menu-end");
-
-			    // Edit Task
-			    var editTaskLink = document.createElement("a");
-			    editTaskLink.classList.add("dropdown-item", "edit-task");
-			    editTaskLink.setAttribute("href", "#");
-			    editTaskLink.textContent = "Edit Task";
-
-			    // View Task
-			    var viewTaskLink = document.createElement("a");
-			    viewTaskLink.classList.add("dropdown-item", "view-task");
-			    viewTaskLink.setAttribute("href", "#");
-			    viewTaskLink.textContent = "View Task";
-
-			    // Delete Task
-			    var deleteTaskLink = document.createElement("a");
-			    deleteTaskLink.classList.add("dropdown-item", "delete-task");
-			    deleteTaskLink.setAttribute("href", "#");
-			    deleteTaskLink.textContent = "Delete Task";
-
-			    dropdownMenu.appendChild(editTaskLink);
-			    dropdownMenu.appendChild(viewTaskLink);
-			    dropdownMenu.appendChild(deleteTaskLink);
-
-			    // 더보기 버튼과 메뉴를 ellipsisMenu에 추가
-			    ellipsisMenu.appendChild(dropdownButton);
-			    ellipsisMenu.appendChild(dropdownMenu);
-
-			    // itemContent에 ellipsisMenu를 추가
-			    itemContent.appendChild(ellipsisMenu);
+$('input[name="end"]').attr('readonly', 'readonly');
+  */
 
 
-			    // 프로젝트 목록에 새로운 항목 추가
-			    document.getElementById("todo_list").appendChild(newItem);
-			    
-			    
-				
-			    
-			    
-			})
-			.fail(function(request, status, error) {
-				alert("프로젝트 등록 실패" + error);
-				console.log(request, status);
-				console.log(error);
-			});
+document.querySelectorAll(".projectView").forEach(element => {
+    element.onclick = (e) => {
+        const $project = e.currentTarget
+        todoAppTarget.addClass('todoapp-info-active');
+        searchProjectbyCalNo($project.getAttribute('data-projectNo'));
+    }
 });
 
 
+
+//프로젝트 상세조회
+  function searchProjectbyCalNo(calNo) {
+  	$.ajax({
+  		url: "/schedule/projectlistbycalno.do?calNo="+calNo,
+  		method: "GET",
+  		contentType: 'application/json',
+  		dataType: 'json',
+  	})
+  		.done(function(data) {
+  			console.log(data);
+  			console.log("프로젝트 상세 조회 성공");
+  			
+  			
+  	    	function formatDate(date) {
+  				  var formattedDate = new Date(date);
+  				  var year = formattedDate.getFullYear();
+  				  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
+  				  var day = ("0" + formattedDate.getDate()).slice(-2);
+  				  var hours = ("0" + formattedDate.getHours()).slice(-2);
+  				  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
+  				  
+  				  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
+  					}
+  	    	
+  	    	
+  	    	
+  	        console.log(data);
+  	        document.getElementById('recalno').value = data.calNo;
+  	        document.getElementById('reproSubject').value = data.calSubject;
+  	        document.getElementById('reproContent').textContent = data.calContent;
+  	        document.getElementById('reproEndDate').value = formatDate(data.calEndDate);
+  	        document.getElementById('reproStartDate').value = formatDate(data.calStartDate);
+  	        
+  	        const selectElement = document.getElementById('reproStatus');
+
+  	     // select 요소의 options를 순회하면서 서버로부터 받아온 'calStatus' 값과 일치하는 
+  	     // option을 찾아 'selected' 속성을 true로 설정합니다.
+  	     Array.from(selectElement.options).forEach(option => {
+  	         if (option.value === data.calStatus) {
+  	             option.selected = true;
+  	         };  
+  	     });
+  	     
+  	     
+  	     switch (data.calAlldayYn) {
+  	     	case 'Y':
+  	     		$('#realldaycheck').prop('checked', true);
+  	     		break;
+  	     	case 'N':
+  	     		$('#realldaycheck').prop('checked', false);
+  	     		break;
+  	     }
+  	     
+  	     
+  	     $('#realldaycheck').on('click', function() {
+  	    		var startPicker = $('#reproStartDate').data('daterangepicker');
+  	    		var endPicker = $('#reproEndDate').data('daterangepicker');
+
+  	    		if ($(this).is(':checked')) {
+  	    			console.log('종일여부 수정 체크됨');
+
+  	    			var startD = moment(startPicker.startDate);
+  	    			startD.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  	    			startPicker.setStartDate(startD);
+
+  	    			var endD = moment(endPicker.endDate); // 수정된 부분
+  	    			endD.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+  	    			endPicker.setStartDate(endD);
+
+
+  	    		} else {
+  	    			console.log('종일여부 수정 체크 해제됨');
+  	    			$('#reproStartDate').daterangepicker({
+  	    				timePicker: true,
+  	    				singleDatePicker: true,
+  	    				timePicker24Hour: true,
+  	    				timePickerIncrement: 1,
+  	    				startDate: formatDate(data.calStartDate),
+  	    				locale: {
+  	    					format: 'YYYY/MM/DD HH:mm'
+  	    				}
+  	    			});
+
+
+
+
+  	    			$('#reproEndDate').daterangepicker({
+  	    				timePicker: true,
+  	    				singleDatePicker: true,
+  	    				timePicker24Hour: true,
+  	    				timePickerIncrement: 1,
+  	    				startDate: formatDate(data.calEndDate),
+  	    				locale: {
+  	    					format: 'YYYY/MM/DD HH:mm'
+  	    				}
+  	    			});
+
+  	    		}
+  	    	});
+  	     
+  	     
+  	     const invitationEmpList = data.invitationEmpList;
+  	     const invitationEmpListLength = invitationEmpList.length;
+  	     let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
+  	     let count = 0;
+
+  	     if (invitationEmpListLength > 0) {
+  	     	$("div[class^='reinvicontainer']").remove();
+  	     	
+  	     	// 수정 모달 list만큼 만들어주기(부서 직원)
+  	     	for (var i = 0; i < invitationEmpListLength; i++) {
+  	     	    var YourEmpNo = invitationEmpList[i].yourEmpNo;
+  	     	    var YourEmpName = invitationEmpList[i].yourEmpName;
+  	     	    var YourDeptName = invitationEmpList[i].yourDeptName;
+  	     	    var YourDeptCode = invitationEmpList[i].yourDeptCode;
+
+  	     	    // 다시 생성
+  	     	    let reInviContainer = document.createElement('div');
+  	     	    reInviContainer.className = 'reinvicontainer' + (i + 1);
+  	     	    reInviContainer.style.display = 'flex';
+  	     	    reInviContainer.style.paddingTop = '5px';
+  	     	    reInviContainer.style.paddingBottom = '5px';
+
+  	     	    let deptContainer = document.createElement('div');
+  	     	    deptContainer.className = 'col-sm-5';
+  	     	    let empContainer = document.createElement('div');
+  	     	    empContainer.className = 'col-sm-5';
+
+  	     	    let deptSelect = document.createElement('select');
+  	     	    deptSelect.className = 'form-select me-3';
+  	     	    deptSelect.name = 'recalDept';
+  	     	    deptSelect.id = 'recalDept' + (i + 1);
+
+  	     	    let empSelect = document.createElement('select');
+  	     	    empSelect.className = 'form-select me-3';
+  	     	    empSelect.name = 'recalEmp';
+  	     	    empSelect.id = 'recalEmp' + (i + 1);
+
+  	     	    deptContainer.appendChild(deptSelect);
+  	     	    empContainer.appendChild(empSelect);
+
+  	     	    reInviContainer.appendChild(deptContainer);
+  	     	    reInviContainer.appendChild(empContainer);
+
+  	     	    let someContainer2 = document.getElementById('shareListJob');
+  	     	    someContainer2.appendChild(reInviContainer);
+
+  	     	    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+  	     	    let delButton = document.createElement('button');
+  	     	    delButton.type = 'button';
+  	     	    delButton.textContent = '삭제';
+  	     	    delButton.addEventListener('click', function () {
+  	     	        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+  	     	        reInviContainer.remove();
+  	     	        removedItemsCount++;
+  	     	        count = invitationEmpListLength - removedItemsCount + 1; // count 업데이트
+  	     	    });
+
+  	     	    reInviContainer.appendChild(delButton);
+
+  	     	    // 나머지 코드는 그대로 유지
+
+  	     	    for (var j = 0; j < deptCodes.length; j++) {
+  	     	        let deptOption = document.createElement('option');
+  	     	        deptOption.value = deptCodes[j];
+  	     	        deptOption.text = deptNames[j];
+  	     	        deptSelect.appendChild(deptOption);
+  	     	    }
+
+  	     	    for (var j = 0; j < deptSelect.options.length; j++) {
+  	     	        console.log("Option value: " + deptSelect.options[j].value);
+  	     	        console.log("YourDeptCode: " + YourDeptCode);
+  	     	        if (deptSelect.options[j].value == YourDeptCode) {
+  	     	            deptSelect.options[j].selected = true;
+  	     	            break;
+  	     	        }
+  	     	    }
+
+  	     	 // 부서 선택 시 이벤트 핸들러 함수
+  	     		function handleDeptSelect() {
+  	     			// 선택된 부서의 인덱스를 가져옵니다.
+  	     			var selectedDeptIndex = deptSelect.selectedIndex;
+
+  	     			// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+  	     			var matchingEmpNames = [];
+  	     			var matchingEmpNos = [];
+
+  	     			// 선택된 부서의 코드를 가져옵니다.
+  	     			var selectedDeptCode = deptCodes[selectedDeptIndex];
+
+  	     			// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+  	     			for (var k = 0; k < empDeptCodes.length; k++) {
+  	     				if (empDeptCodes[k] === selectedDeptCode) {
+  	     					matchingEmpNames.push(empNames[k]);
+  	     					matchingEmpNos.push(empNos[k]);
+  	     				}
+  	     			}
+
+  	     			// 직원 선택(select) 요소를 초기화합니다.
+  	     			empSelect.innerHTML = "";
+
+  	     			// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+  	     			for (var l = 0; l < matchingEmpNames.length; l++) {
+  	     				var empOption = document.createElement("option");
+  	     				empOption.value = matchingEmpNos[l];
+  	     				empOption.text = matchingEmpNames[l];
+  	     				empSelect.appendChild(empOption);
+  	     			}
+
+  	     			for (var l = 0; l < empSelect.options.length; l++) {
+  	     				if (empSelect.options[l].value == YourEmpNo) {
+  	     					empSelect.options[l].selected = true;
+  	     					break;
+  	     				}
+  	     			}
+  	     		}
+
+
+  	     	    handleDeptSelect();
+
+  	     	    deptSelect.addEventListener("change", handleDeptSelect);
+  	     	}
+  	     }
+
+
+  	     //수정 부서 직원 추가 
+  	     function createContainer(index) {
+  	         let reInviContainer = document.createElement('div');
+  	         reInviContainer.className = 'reinvicontainer' + index;
+  	         reInviContainer.style.display = 'flex';
+  	         reInviContainer.style.paddingTop = '5px';
+  	         reInviContainer.style.paddingBottom = '5px';
+
+  	         let deptContainer = document.createElement('div');
+  	         deptContainer.className = 'col-sm-5';
+  	         let empContainer = document.createElement('div');
+  	         empContainer.className = 'col-sm-5';
+
+  	         let deptSelect = document.createElement('select');
+  	         deptSelect.className = 'form-select me-3';
+  	         deptSelect.name = 'recalDept';
+  	         deptSelect.id = 'recalDept' + index;
+
+  	         let empSelect = document.createElement('select');
+  	         empSelect.className = 'form-select me-3';
+  	         empSelect.name = 'recalEmp';
+  	         empSelect.id = 'recalEmp' + index;
+
+  	         for (var j = 0; j < deptCodes.length; j++) {
+  	             let deptOption = document.createElement('option');
+  	             deptOption.value = deptCodes[j];
+  	             deptOption.text = deptNames[j];
+  	             deptSelect.appendChild(deptOption);
+  	         }
+
+  	         var selectedDeptIndex = deptSelect.selectedIndex;
+  	         var selectedDeptCode = deptCodes[selectedDeptIndex];
+
+  	         var matchingEmpNames = [];
+  	         var matchingEmpNos = [];
+
+  	         for (var k = 0; k < empDeptCodes.length; k++) {
+  	             if (empDeptCodes[k] === selectedDeptCode) {
+  	                 matchingEmpNames.push(empNames[k]);
+  	                 matchingEmpNos.push(empNos[k]);
+  	             }
+  	         }
+
+  	         empSelect.innerHTML = "";
+
+  	         for (var l = 0; l < matchingEmpNames.length; l++) {
+  	             var empOption = document.createElement("option");
+  	             empOption.value = matchingEmpNos[l];
+  	             empOption.text = matchingEmpNames[l];
+  	             empSelect.appendChild(empOption);
+  	         }
+
+  	         deptContainer.appendChild(deptSelect);
+  	         empContainer.appendChild(empSelect);
+
+  	         reInviContainer.appendChild(deptContainer);
+  	         reInviContainer.appendChild(empContainer);
+
+  	         // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+  	         let delButton = document.createElement('button');
+  	         delButton.type = 'button';
+  	         delButton.textContent = '삭제';
+  	         delButton.addEventListener('click', function () {
+  	             // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+  	             reInviContainer.remove();
+  	             count--;
+  	         });
+
+  	         reInviContainer.appendChild(delButton);
+
+  	         return reInviContainer;
+  	     }
+
+
+  	     $('#addBtnRe').on('click', function () {
+  	         if (count <= 5) {
+  	             let reInviContainer = createContainer(count);
+
+  	             let someContainer2 = document.querySelector('#shareListJob');
+  	             someContainer2.appendChild(reInviContainer);
+
+  	             count++;
+  	         } else {
+  	             alert("공유인원은 5명까지 가능합니다.");
+  	         }
+  	         updateCount(); // count를 업데이트하는 함수 호출
+  	     });
+
+  	     function updateCount() {
+  	         count = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+  	     }
+  	     
+  	     
+  	   //체크리스트 조회
+  	     const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');
+  	     console.log(data.checkList)
+  				if(data.checkList.length > 0){
+  	            // data.checklist 배열을 순회하면서 DOM 요소 생성 및 추가
+  	            for (let i = 0; i < data.checkList.length; i++) {
+  	                const checklistItem = data.checkList[i];
+
+  	                // 새로운 div.form-check 요소 생성
+  	                const addNewChecklist = document.querySelector('.add-new-checklist');
+  	                const checklistDiv = document.createElement('div');
+  	                checklistDiv.classList.add('form-check');
+
+  	                // 새로운 input 요소 생성
+  	                const checkboxInput = document.createElement('input');
+  	                checkboxInput.type = 'checkbox';
+  	                checkboxInput.classList.add('form-check-input');
+  	                checkboxInput.id = `customCheckList${i + 2}`;
+  	                checkboxInput.checked = checklistItem.endYn === 'Y' ? true : false;
+  	                checkboxInput.dataset.checklistNo = checklistItem.calChecklistNo;
+
+  	                // 새로운 label 요소 생성
+  	                const label = document.createElement('label');
+  	                label.classList.add('form-check-label');
+  	                label.htmlFor = `customCheckList${i + 2}`;
+  	                label.innerText = checklistItem.calChecklistContent;
+  	                
+  	                // 새로운 span 요소 생성
+  	                const span = document.createElement('span');
+  	                span.classList.add('done-strikethrough');
+
+  	                // label에 span 추가
+  	                label.appendChild(span);
+
+  	                // 새로운 a 요소 생성
+  	                const deleteLink = document.createElement('span');
+  	                deleteLink.href = '#';
+  	                deleteLink.dataset.checklistNo = checklistItem.calChecklistNo; 
+  	                deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
+
+  	                // 새로운 span 요소 생성
+  	                const iconSpan = document.createElement('span');
+  	                iconSpan.classList.add('icon');
+
+  	                // 새로운 feather-icon 요소 생성
+  	                const featherIcon = document.createElement('span');
+  	                featherIcon.classList.add('feather-icon');
+
+  	                // 새로운 i 요소 생성
+  	                const trashIcon = document.createElement('i');
+  	                trashIcon.dataset.feather = 'trash-2';
+
+  	                // i를 feather-icon에 추가
+  	                featherIcon.appendChild(trashIcon);
+
+  	                // feather-icon을 icon에 추가
+  	                iconSpan.appendChild(featherIcon);
+
+  	                // icon을 a에 추가
+  	                deleteLink.appendChild(iconSpan);
+
+  	                // div.form-check에 input, label, a 추가
+  	                checklistDiv.appendChild(checkboxInput);
+  	                checklistDiv.appendChild(label);
+  	                checklistDiv.appendChild(deleteLink);
+
+  	                // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내부에 추가
+  	                hkChecklist.appendChild(checklistDiv);
+  	                hkChecklist.insertBefore(checklistDiv, addNewChecklist);
+  	            }
+  			}
+
+  	     
+  	  // 체크리스트 추가
+  	   var id;
+  	   var checklistNo;
+
+  	   $(document).on("click", ".add-new-checklist", function (e) {
+  		    var id = uniqId(); // Generate unique ID
+
+  		    var checklistItem = $('<div class="form-check">' +
+  		    	'<input type="hidden" id="checkNohidden" value=""' +
+  		        '<input type="checkbox" class="form-check-input" id="customCheckListAppend_' + id + '" data-checklistNo="">' +
+  		        '<label class="form-check-label" for="customCheckListAppend_' + id + '">' +
+  		        '<span class="done-strikethrough"></span>' +
+  		        '</label>' +
+  		        '<input class="form-control checklist-input" type="text" placeholder="Add new Item">' +
+  		        '<a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">' +
+  		        '<span class="icon">' +
+  		        '<span class="feather-icon">' +
+  		        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">' +
+  		        '<polyline points="3 6 5 6 21 6"></polyline>' +
+  		        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+  		        '<line x1="10" y1="11" x2="10" y2="17"></line>' +
+  		        '<line x1="14" y1="11" x2="14" y2="17"></line>' +
+  		        '</svg>' +
+  		        '</span>' +
+  		        '</span>' +
+  		        '</a>' +
+  		        '</div>');
+
+  		    checklistItem.insertBefore($(this)) // Insert new checklist before the current element
+  		        .find('input[type="text"]')
+  		        .on('keypress', function (e) {
+  		            if (e.which == 13) { // Enter key pressed
+  		                e.preventDefault();
+  		                var checklistValue = $(this).val(); // Save checklist input value
+
+  		                // Ajax call
+  		                $.ajax({
+  		                    url: "/schedule/insertChecklist",
+  		                    method: "POST",
+  		                    dataType: "json",
+  		                    data: JSON.stringify({
+  		                        checklistValue: checklistValue,
+  		                        calNo: data.calNo, // Set the appropriate value for data.calNo
+  		                        empNo: loginEmpNo // Set the appropriate value for loginEmpNo
+  		                    }),
+  		                    contentType: 'application/json',
+  		                    success: function (response) {
+  		                        // Success handling
+  		                        console.log("버노"+response);
+  		                         
+  		                      var newChecklistItem = $(this).prev().find('input').trigger('focus');
+
+  		                  
+  		                 	// Set the value of #checkNohidden to the response
+  		                    $('#checkNohidden').val(response);
+
+  		                    // Save the value of #checkNohidden in const checklistNo
+  		                  checklistItem.find('#checkNohidden').val(response);
+
+                          // Save the value of .checkNohidden in const checklistNo
+                          const checklistNo = checklistItem.find('#checkNohidden').val();
+                          console.log(checklistNo);
+  		                      
+  		                    },
+  		                    error: function (error) {
+  		                        // Error handling
+  		                        console.error(error);
+  		                    }
+  		                });
+  		            }
+  		        });
+
+  		    return false;
+  		});
+  			
+  	     //체크리스트 삭제 //바로 만든게 삭제가 안됨
+  			$(document).on("click",".delete-checklist",function (e) {
+  				e.preventDefault();
+  				
+  				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
+  				console.log("체크버노"+checklistNo)
+  			     
+  				   $.ajax({
+  	                   url: "/schedule/deleteChecklist",
+  	                   method: "POST",
+  	                   dataType: "json",
+  	                   data: JSON.stringify({
+  	                       checklistNo: checklistNo
+  	                   }),
+  	                   contentType: 'application/json',
+  	                   success: function (response) {
+  	                       // 성공 시 처리
+  	                       console.log(response);
+  	                       $(this).closest('.form-check').remove();
+ 
+  	                   },
+  	                   error: function (error) {
+  	                       // 에러 시 처리
+  	                       console.error(error+"에러"+checklistNo);
+  	                   }
+  	               });
+  			});
+  			
+  			//체크리스트 완료 표시 //만든거 바로 안됨
+  			$(document).on("change",".form-check-input",function (e) {
+  				e.preventDefault();
+  				
+  				var checklistNo = $('#checkNohidden').val;
+  			    var isChecked = $(this).prop('checked'); // 체크박스의 체크 여부 확인
+
+  			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
+  					
+  					   $.ajax({
+  		                   url: checkUrl,
+  		                   method: "POST",
+  		                   dataType: "json",
+  		                   data: JSON.stringify({
+  		                       checklistNo: checklistNo
+  		                   }),
+  		                   contentType: 'application/json',
+  		                   success: function (response) {
+  		                       // 성공 시 처리
+  		                       console.log(response);
+  		                   },
+  		                   error: function (error) {
+  		                       // 에러 시 처리
+  		                       console.error(error);
+  		                   }
+
+  					})
+
+  			});
+  			
+  		})
+  		.fail(function(request, status, error) {
+  			console.log("프로젝트 상세 조회 실패" + error);
+  			console.log(request, status);
+  			console.log(error);
+  		});
+  };
+	
+	
+	
 //프로젝트 수정
-document.getElementById('editBtn').addEventListener('click', fn_update);
+document.getElementById('proeditBtn').addEventListener('click', fn_update);
 
 function fn_update() {
-	
+
 	//select empNo를 리스트로 담아줌
 	const selectEmps = $('select[name="recalEmp"]');
 	const reempList = [];
@@ -1484,526 +1872,69 @@ function fn_update() {
 			restatus: document.querySelector('#reproStatus').value,
 			recalno: document.querySelector('#recalno').value
 		};
-
-	$.ajax({
-		url: "/schedule/updateschedule",
-		method: "POST",
-		data: JSON.stringify(editProject),
-		contentType: 'application/json',
-	})
-		.done(function(result) {
-			console.log(result);
-			alert("프로젝트 수정 성공");
-		})
-		.fail(function(request, status, error) {
-			alert("프로젝트 수정 실패" + error);
-			console.log(request, status);
-			console.log(error);
-		});
+	
+	fetch("${path}/schedule/updateproject",{
+		method:"POST",
+		headers:{
+			"Content-Type":"application/json"
+		},body:JSON.stringify(editProject)
+	}).then(response=>{
+		if(response.status!=200) throw new Error(response.status);
+		return response.json();
+	}).then(result=>{
+		console.log(result);
+		alert("프로젝트 수정 성공");
+		
+		location.reload();
+		
+		/* document.querySelectorAll(".projectView").forEach(element => {
+	        if (element.getAttribute('data-projectNo') === String(result.calNo)) {
+	            element.innerHTML = result.calSubject;
+	        }
+	    }); */
+		
+	}).catch(e=>{
+		alert("프로젝트 수정 실패");
+		console.log(e);
+	})	
 };
 
-document.querySelectorAll(".projectView").forEach(element => {
-    element.onclick = (e) => {
-        const $project = e.currentTarget
-        todoAppTarget.addClass('todoapp-info-active');
-        searchProjectbyCalNo($project.getAttribute('data-projectNo'));
-    }
+
+//프로젝트 삭제
+$(document).ready(function() {
+    $('#prodelBtn').on('click', function(e) {
+        e.preventDefault();
+        
+        var project = document.querySelector('.projectView');
+        var calNo = project.getAttribute('data-projectNo');
+        
+        
+        $.ajax({
+        	url: "/schedule/deleteschedule",
+			method: "POST",
+			data: JSON.stringify({ calNo: calNo }),
+			contentType: 'application/json',
+        })
+    		.done(function(result) {
+    			console.log(result);
+    			 alert('프로젝트 삭제 성공');
+                 todoAppTarget.removeClass('todoapp-info-active');
+                 //$(this).closest('.advance-list-item').remove();
+                 
+              // 성공 후 현재 페이지 새로고침
+                 location.reload();
+                
+    		})
+    		.fail(function(request, status, error) {
+    			alert("프로젝트 삭제 실패" + error);
+    			console.log(request, status);
+    			console.log(error);
+    		});
+	});
 });
 
-//프로젝트 상세조회
-function searchProjectbyCalNo(calNo) {
-	$.ajax({
-		url: "/schedule/projectlistbycalno.do?calNo="+calNo,
-		method: "GET",
-		contentType: 'application/json',
-		dataType: 'json',
-	})
-		.done(function(data) {
-			console.log(data);
-			console.log("프로젝트 상세 조회 성공");
-			
-			
-	    	function formatDate(date) {
-				  var formattedDate = new Date(date);
-				  var year = formattedDate.getFullYear();
-				  var month = ("0" + (formattedDate.getMonth() + 1)).slice(-2);
-				  var day = ("0" + formattedDate.getDate()).slice(-2);
-				  var hours = ("0" + formattedDate.getHours()).slice(-2);
-				  var minutes = ("0" + formattedDate.getMinutes()).slice(-2);
-				  
-				  return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
-					}
-	    	
-	    	
-	    	
-	        console.log(data);
-	        document.getElementById('recalno').value = data.calNo;
-	        document.getElementById('reproSubject').value = data.calSubject;
-	        document.getElementById('reproContent').textContent = data.calContent;
-	        document.getElementById('reproEndDate').value = formatDate(data.calEndDate);
-	        document.getElementById('reproStartDate').value = formatDate(data.calStartDate);
-	        
-	        const selectElement = document.getElementById('reproStatus');
 
-	     // select 요소의 options를 순회하면서 서버로부터 받아온 'calStatus' 값과 일치하는 
-	     // option을 찾아 'selected' 속성을 true로 설정합니다.
-	     Array.from(selectElement.options).forEach(option => {
-	         if (option.value === data.calStatus) {
-	             option.selected = true;
-	         };  
-	     });
-	     
-	     
-	     switch (data.calAlldayYn) {
-	     	case 'Y':
-	     		$('#realldaycheck').prop('checked', true);
-	     		break;
-	     	case 'N':
-	     		$('#realldaycheck').prop('checked', false);
-	     		break;
-	     }
-	     
-	     
-	     $('#realldaycheck').on('click', function() {
-	    		var startPicker = $('#reproStartDate').data('daterangepicker');
-	    		var endPicker = $('#reproEndDate').data('daterangepicker');
 
-	    		if ($(this).is(':checked')) {
-	    			console.log('종일여부 수정 체크됨');
-
-	    			var startD = moment(startPicker.startDate);
-	    			startD.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-	    			startPicker.setStartDate(startD);
-
-	    			var endD = moment(endPicker.endDate); // 수정된 부분
-	    			endD.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
-	    			endPicker.setStartDate(endD);
-
-
-	    		} else {
-	    			console.log('종일여부 수정 체크 해제됨');
-	    			$('#reproStartDate').daterangepicker({
-	    				timePicker: true,
-	    				singleDatePicker: true,
-	    				timePicker24Hour: true,
-	    				timePickerIncrement: 1,
-	    				startDate: formatDate(data.calStartDate),
-	    				locale: {
-	    					format: 'YYYY/MM/DD HH:mm'
-	    				}
-	    			});
-
-
-
-
-	    			$('#reproEndDate').daterangepicker({
-	    				timePicker: true,
-	    				singleDatePicker: true,
-	    				timePicker24Hour: true,
-	    				timePickerIncrement: 1,
-	    				startDate: formatDate(data.calEndDate),
-	    				locale: {
-	    					format: 'YYYY/MM/DD HH:mm'
-	    				}
-	    			});
-
-	    		}
-	    	});
-	     
-	     
-	     const invitationEmpList = data.invitationEmpList;
-	     const invitationEmpListLength = invitationEmpList.length;
-	     let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
-	     let count = 0;
-
-	     if (invitationEmpListLength > 0) {
-	     	$("div[class^='reinvicontainer']").remove();
-	     	
-	     	// 수정 모달 list만큼 만들어주기(부서 직원)
-	     	for (var i = 0; i < invitationEmpListLength; i++) {
-	     	    var YourEmpNo = invitationEmpList[i].yourEmpNo;
-	     	    var YourEmpName = invitationEmpList[i].yourEmpName;
-	     	    var YourDeptName = invitationEmpList[i].yourDeptName;
-	     	    var YourDeptCode = invitationEmpList[i].yourDeptCode;
-
-	     	    // 다시 생성
-	     	    let reInviContainer = document.createElement('div');
-	     	    reInviContainer.className = 'reinvicontainer' + (i + 1);
-	     	    reInviContainer.style.display = 'flex';
-	     	    reInviContainer.style.paddingTop = '5px';
-	     	    reInviContainer.style.paddingBottom = '5px';
-
-	     	    let deptContainer = document.createElement('div');
-	     	    deptContainer.className = 'col-sm-5';
-	     	    let empContainer = document.createElement('div');
-	     	    empContainer.className = 'col-sm-5';
-
-	     	    let deptSelect = document.createElement('select');
-	     	    deptSelect.className = 'form-select me-3';
-	     	    deptSelect.name = 'recalDept';
-	     	    deptSelect.id = 'recalDept' + (i + 1);
-
-	     	    let empSelect = document.createElement('select');
-	     	    empSelect.className = 'form-select me-3';
-	     	    empSelect.name = 'recalEmp';
-	     	    empSelect.id = 'recalEmp' + (i + 1);
-
-	     	    deptContainer.appendChild(deptSelect);
-	     	    empContainer.appendChild(empSelect);
-
-	     	    reInviContainer.appendChild(deptContainer);
-	     	    reInviContainer.appendChild(empContainer);
-
-	     	    let someContainer2 = document.getElementById('shareListJob');
-	     	    someContainer2.appendChild(reInviContainer);
-
-	     	    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-	     	    let delButton = document.createElement('button');
-	     	    delButton.type = 'button';
-	     	    delButton.textContent = '삭제';
-	     	    delButton.addEventListener('click', function () {
-	     	        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-	     	        reInviContainer.remove();
-	     	        removedItemsCount++;
-	     	        count = invitationEmpListLength - removedItemsCount + 1; // count 업데이트
-	     	    });
-
-	     	    reInviContainer.appendChild(delButton);
-
-	     	    // 나머지 코드는 그대로 유지
-
-	     	    for (var j = 0; j < deptCodes.length; j++) {
-	     	        let deptOption = document.createElement('option');
-	     	        deptOption.value = deptCodes[j];
-	     	        deptOption.text = deptNames[j];
-	     	        deptSelect.appendChild(deptOption);
-	     	    }
-
-	     	    for (var j = 0; j < deptSelect.options.length; j++) {
-	     	        console.log("Option value: " + deptSelect.options[j].value);
-	     	        console.log("YourDeptCode: " + YourDeptCode);
-	     	        if (deptSelect.options[j].value == YourDeptCode) {
-	     	            deptSelect.options[j].selected = true;
-	     	            break;
-	     	        }
-	     	    }
-
-	     	 // 부서 선택 시 이벤트 핸들러 함수
-	     		function handleDeptSelect() {
-	     			// 선택된 부서의 인덱스를 가져옵니다.
-	     			var selectedDeptIndex = deptSelect.selectedIndex;
-
-	     			// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-	     			var matchingEmpNames = [];
-	     			var matchingEmpNos = [];
-
-	     			// 선택된 부서의 코드를 가져옵니다.
-	     			var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-	     			// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-	     			for (var k = 0; k < empDeptCodes.length; k++) {
-	     				if (empDeptCodes[k] === selectedDeptCode) {
-	     					matchingEmpNames.push(empNames[k]);
-	     					matchingEmpNos.push(empNos[k]);
-	     				}
-	     			}
-
-	     			// 직원 선택(select) 요소를 초기화합니다.
-	     			empSelect.innerHTML = "";
-
-	     			// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-	     			for (var l = 0; l < matchingEmpNames.length; l++) {
-	     				var empOption = document.createElement("option");
-	     				empOption.value = matchingEmpNos[l];
-	     				empOption.text = matchingEmpNames[l];
-	     				empSelect.appendChild(empOption);
-	     			}
-
-	     			for (var l = 0; l < empSelect.options.length; l++) {
-	     				if (empSelect.options[l].value == YourEmpNo) {
-	     					empSelect.options[l].selected = true;
-	     					break;
-	     				}
-	     			}
-	     		}
-
-
-	     	    handleDeptSelect();
-
-	     	    deptSelect.addEventListener("change", handleDeptSelect);
-	     	}
-	     }
-
-
-	     //수정 부서 직원 추가 
-	     function createContainer(index) {
-	         let reInviContainer = document.createElement('div');
-	         reInviContainer.className = 'reinvicontainer' + index;
-	         reInviContainer.style.display = 'flex';
-	         reInviContainer.style.paddingTop = '5px';
-	         reInviContainer.style.paddingBottom = '5px';
-
-	         let deptContainer = document.createElement('div');
-	         deptContainer.className = 'col-sm-5';
-	         let empContainer = document.createElement('div');
-	         empContainer.className = 'col-sm-5';
-
-	         let deptSelect = document.createElement('select');
-	         deptSelect.className = 'form-select me-3';
-	         deptSelect.name = 'recalDept';
-	         deptSelect.id = 'recalDept' + index;
-
-	         let empSelect = document.createElement('select');
-	         empSelect.className = 'form-select me-3';
-	         empSelect.name = 'recalEmp';
-	         empSelect.id = 'recalEmp' + index;
-
-	         for (var j = 0; j < deptCodes.length; j++) {
-	             let deptOption = document.createElement('option');
-	             deptOption.value = deptCodes[j];
-	             deptOption.text = deptNames[j];
-	             deptSelect.appendChild(deptOption);
-	         }
-
-	         var selectedDeptIndex = deptSelect.selectedIndex;
-	         var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-	         var matchingEmpNames = [];
-	         var matchingEmpNos = [];
-
-	         for (var k = 0; k < empDeptCodes.length; k++) {
-	             if (empDeptCodes[k] === selectedDeptCode) {
-	                 matchingEmpNames.push(empNames[k]);
-	                 matchingEmpNos.push(empNos[k]);
-	             }
-	         }
-
-	         empSelect.innerHTML = "";
-
-	         for (var l = 0; l < matchingEmpNames.length; l++) {
-	             var empOption = document.createElement("option");
-	             empOption.value = matchingEmpNos[l];
-	             empOption.text = matchingEmpNames[l];
-	             empSelect.appendChild(empOption);
-	         }
-
-	         deptContainer.appendChild(deptSelect);
-	         empContainer.appendChild(empSelect);
-
-	         reInviContainer.appendChild(deptContainer);
-	         reInviContainer.appendChild(empContainer);
-
-	         // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-	         let delButton = document.createElement('button');
-	         delButton.type = 'button';
-	         delButton.textContent = '삭제';
-	         delButton.addEventListener('click', function () {
-	             // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-	             reInviContainer.remove();
-	             count--;
-	         });
-
-	         reInviContainer.appendChild(delButton);
-
-	         return reInviContainer;
-	     }
-
-
-	     $('#addBtnRe').on('click', function () {
-	         if (count <= 5) {
-	             let reInviContainer = createContainer(count);
-
-	             let someContainer2 = document.querySelector('#shareListJob');
-	             someContainer2.appendChild(reInviContainer);
-
-	             count++;
-	         } else {
-	             alert("공유인원은 5명까지 가능합니다.");
-	         }
-	         updateCount(); // count를 업데이트하는 함수 호출
-	     });
-
-	     function updateCount() {
-	         count = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
-	     }
-	     
-	     
-	   //체크리스트 조회
-	     const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');
-	     console.log(data.checkList)
-				if(data.checkList.length > 0){
-	            // data.checklist 배열을 순회하면서 DOM 요소 생성 및 추가
-	            for (let i = 0; i < data.checkList.length; i++) {
-	                const checklistItem = data.checkList[i];
-
-	                // 새로운 div.form-check 요소 생성
-	                const addNewChecklist = document.querySelector('.add-new-checklist');
-	                const checklistDiv = document.createElement('div');
-	                checklistDiv.classList.add('form-check');
-
-	                // 새로운 input 요소 생성
-	                const checkboxInput = document.createElement('input');
-	                checkboxInput.type = 'checkbox';
-	                checkboxInput.classList.add('form-check-input');
-	                checkboxInput.id = `customCheckList${i + 2}`;
-	                checkboxInput.checked = checklistItem.endYn === 'Y' ? true : false;
-	                checkboxInput.dataset.checklistNo = checklistItem.calChecklistNo;
-
-	                // 새로운 label 요소 생성
-	                const label = document.createElement('label');
-	                label.classList.add('form-check-label');
-	                label.htmlFor = `customCheckList${i + 2}`;
-	                label.innerText = checklistItem.calChecklistContent;
-	                
-	                // 새로운 span 요소 생성
-	                const span = document.createElement('span');
-	                span.classList.add('done-strikethrough');
-
-	                // label에 span 추가
-	                label.appendChild(span);
-
-	                // 새로운 a 요소 생성
-	                const deleteLink = document.createElement('span');
-	                deleteLink.href = '#';
-	                deleteLink.dataset.checklistNo = checklistItem.calChecklistNo; 
-	                deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
-
-	                // 새로운 span 요소 생성
-	                const iconSpan = document.createElement('span');
-	                iconSpan.classList.add('icon');
-
-	                // 새로운 feather-icon 요소 생성
-	                const featherIcon = document.createElement('span');
-	                featherIcon.classList.add('feather-icon');
-
-	                // 새로운 i 요소 생성
-	                const trashIcon = document.createElement('i');
-	                trashIcon.dataset.feather = 'trash-2';
-
-	                // i를 feather-icon에 추가
-	                featherIcon.appendChild(trashIcon);
-
-	                // feather-icon을 icon에 추가
-	                iconSpan.appendChild(featherIcon);
-
-	                // icon을 a에 추가
-	                deleteLink.appendChild(iconSpan);
-
-	                // div.form-check에 input, label, a 추가
-	                checklistDiv.appendChild(checkboxInput);
-	                checklistDiv.appendChild(label);
-	                checklistDiv.appendChild(deleteLink);
-
-	                // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내부에 추가
-	                hkChecklist.appendChild(checklistDiv);
-	                hkChecklist.insertBefore(checklistDiv, addNewChecklist);
-	            }
-			}
-
-	     
-	  // 체크리스트 추가
-	     var id;
-
-	     $(document).on("click", ".add-new-checklist", function (e) {
-	         id = uniqId(); // 고유한 ID 생성
-
-	         $('<div class="form-check"> <input type="checkbox" class="form-check-input" id="customCheckListAppend_'+id+'"> <label class="form-check-label" for="customCheckListAppend_'+id+'"><span class="done-strikethrough"></span> </label> <input class="form-control checklist-input" type="text" placeholder="Add new Item"> <a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><span class="icon"><span class="feather-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></span></span></a></div>')
-	             .insertBefore($(this)) // 새로운 체크리스트를 현재 요소의 이전에 삽입
-	             .find('input[type="text"]')
-	             .on('keypress', function (e) {
-	                 if (e.which == 13) { // Enter 키의 ASCII 코드는 13입니다.
-	                     e.preventDefault();
-	                     var checklistValue = $(this).val(); // 체크리스트 입력값 저장
-
-	                     // Ajax 호출
-	                     $.ajax({
-	                         url: "/schedule/insertChecklist",
-	                         method: "POST",
-	                         dataType: "json",
-	                         data: JSON.stringify({
-	                             checklistValue: checklistValue,
-	                             calNo: data.calNo, // data.calNo는 현재 정의되어 있지 않습니다. 적절한 값을 설정해주세요.
-	                             empNo: loginEmpNo // loginEmpNo는 현재 정의되어 있지 않습니다. 적절한 값을 설정해주세요.
-	                         }),
-	                         contentType: 'application/json',
-	                         success: function (response) {
-	                             // 성공 시 처리
-	                             console.log(response);
-	                             $(this).prev().find('input').trigger('focus');
-	                         },
-	                         error: function (error) {
-	                             // 에러 시 처리
-	                             console.error(error);
-	                         }
-	                     });
-	                 }
-	             });
-	         return false;
-	     });
-			
-	     //체크리스트 삭제
-			$(document).on("click",".delete-checklist",function (e) {
-				e.preventDefault();
-				
-				var checklistNo = $(this).data('checklistNo');
-			     
-				   $.ajax({
-	                   url: "/schedule/deleteChecklist",
-	                   method: "POST",
-	                   dataType: "json",
-	                   data: JSON.stringify({
-	                       checklistNo: checklistNo
-	                   }),
-	                   contentType: 'application/json',
-	                   success: function (response) {
-	                       // 성공 시 처리
-	                       console.log(response);
-	                       $(this).closest('.form-check').remove();
-	                   },
-	                   error: function (error) {
-	                       // 에러 시 처리
-	                       console.error(error);
-	                   }
-	               });
-			});
-			
-			//체크리스트 완료 표시
-			$(document).on("change",".form-check-input",function (e) {
-				e.preventDefault();
-				
-				var checklistNo = $(this).data('checklistNo');
-			    var isChecked = $(this).prop('checked'); // 체크박스의 체크 여부 확인
-
-			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
-					
-					   $.ajax({
-		                   url: checkUrl,
-		                   method: "POST",
-		                   dataType: "json",
-		                   data: JSON.stringify({
-		                       checklistNo: checklistNo
-		                   }),
-		                   contentType: 'application/json',
-		                   success: function (response) {
-		                       // 성공 시 처리
-		                       console.log(response);
-		                   },
-		                   error: function (error) {
-		                       // 에러 시 처리
-		                       console.error(error);
-		                   }
-
-					})
-
-			});
-			
-		})
-		.fail(function(request, status, error) {
-			console.log("프로젝트 상세 조회 실패" + error);
-			console.log(request, status);
-			console.log(error);
-		});
-};
 	
 	
 
@@ -2200,20 +2131,8 @@ $('#alldaycheck').on(
   	  
  } */
  
- 
 
- // 현재 날짜와 시간을 가져오는 함수
- function getCurrentDateTime() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = ('0' + (now.getMonth() + 1)).slice(-2);
-    var day = ('0' + now.getDate()).slice(-2);
-    var hours = ('0' + now.getHours()).slice(-2);
-    var minutes = ('0' + now.getMinutes()).slice(-2);
-    var seconds = ('0' + now.getSeconds()).slice(-2);
-    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
-          + ':' + seconds;
- };
+ 
  
  /*Select Dropdown*/
 	$(document).on('click', '.selectable-dropdown .dropdown-menu .dropdown-item', function (e) {
