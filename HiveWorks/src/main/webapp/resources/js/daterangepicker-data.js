@@ -32,6 +32,32 @@ $(function() {
 		}
 	});
 	
+	$('input[name="start"]').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+		timePicker24Hour: true, // 24시간 형식 활성화
+		startDate: moment().startOf('hour'),
+		showDropdowns: true,
+		minYear: 1901,
+		"cancelClass": "btn-secondary",
+		locale:  {
+		  format: 'YYYY/MM/DD HH:mm'
+		}
+	});
+	
+	$('input[name="end"]').daterangepicker({
+		singleDatePicker: true,
+		timePicker: true,
+		timePicker24Hour: true, // 24시간 형식 활성화
+		startDate: moment().startOf('hour'),
+		showDropdowns: true,
+		minYear: 1901,
+		"cancelClass": "btn-secondary",
+		locale:  {
+		  format: 'YYYY/MM/DD HH:mm'
+		}
+	});
+	
 	/* Single*/
 	$('input[name="birthday"]').daterangepicker({
 		singleDatePicker: true,

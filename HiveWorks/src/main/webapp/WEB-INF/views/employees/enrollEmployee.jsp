@@ -658,7 +658,7 @@ let msg = "";
 
 let password_check=-2;
 
-fn_check_password=()=>{
+ fn_check_password=()=>{
 	
 	if(!reg_ver1.test(pw_first.value)){
 		msg = "숫자와 영문자 조합으로 8~25자리를 사용해야 합니다.";

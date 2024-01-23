@@ -92,7 +92,7 @@
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='주소'"
 	                    />
-	                    <input class="form-control" type="submit" value="수정하기" />
+	                    <input id="submitModify" class="form-control" type="submit" value="수정하기" />
 	                </form>
 	            </div>
 	        </div>
@@ -102,12 +102,12 @@
 	    </div>
     </div>
 <script>
-  let passwordInput1 = document.getElementById("password1");
-  let passwordInput2 = document.getElementById("password2");
-  let passwordMatchMessage = document.getElementById("passwordMatchMessage");
-
-  passwordInput1.addEventListener("keyup", checkPasswordMatch);
-  passwordInput2.addEventListener("keyup", checkPasswordMatch);
+	let passwordInput1 = document.getElementById("password1");
+	let passwordInput2 = document.getElementById("password2");
+	let passwordMatchMessage = document.getElementById("passwordMatchMessage");
+	let submitModify = document.getElementById("submitModify");
+	passwordInput1.addEventListener("keyup", checkPasswordMatch);
+	passwordInput2.addEventListener("keyup", checkPasswordMatch);
 
   function checkPasswordMatch() {
     let password1 = passwordInput1.value;
@@ -115,8 +115,10 @@
 
     if (password1 === password2) {
       passwordMatchMessage.textContent = "비밀번호가 일치합니다.";
+      submitModify.disabled = false;
     } else {
       passwordMatchMessage.textContent = "비밀번호가 일치하지 않습니다.";
+      submitModify.disabled = true;
     }
   }
 </script>

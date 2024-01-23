@@ -82,6 +82,11 @@ public interface ScheduleDao {
 	
 	Schedule selectprojectByCalNo(SqlSession session, int calNo);
 	
+	//int insertProject(SqlSession session, Schedule schedule);
+	
+	
+	CheckList selectChecklistByNo(SqlSession session, int checklistNo);
+	
 	int insertChecklist(SqlSession session, CheckList checklist);
 	
 	int deleteChecklist(SqlSession session, int checklistNo);

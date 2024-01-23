@@ -146,14 +146,14 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">시작일자</label> <input
-														class="form-control cal-event-date-start" name="start"
+														class="form-control cal-event-date-start" name="resstart"
 														type="text" />
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">종료일자</label> <input
-														class="form-control cal-event-date-end" name="end"
+														class="form-control cal-event-date-end" name="resend"
 														type="text" />
 												</div>
 											</div>
@@ -264,7 +264,7 @@ $(document).ready(function() {
 (function(){
     $(function(){
     	/* Single Date*/
-    	$('input[name="start"]').daterangepicker({
+    	$('input[name="resstart"]').daterangepicker({
     		singleDatePicker: true,
     		timePicker: true, // 시간 선택 기능 끄기
     		timePicker24Hour: true, // 24시간 형식 활성화
@@ -284,10 +284,10 @@ $(document).ready(function() {
     	    }
     	});
     	
-    	$('input[name="start"]').attr('readonly', 'readonly');
+    	$('input[name="resstart"]').attr('readonly', 'readonly');
     	
     	/* Single Date*/
-    	$('input[name="end"]').daterangepicker({
+    	$('input[name="resend"]').daterangepicker({
     		singleDatePicker: true,
     		timePicker: true,
     		timePicker24Hour: true, // 24시간 형식 활성화
@@ -306,7 +306,7 @@ $(document).ready(function() {
     	    }
     	});
     	
-    	$('input[name="end"]').attr('readonly', 'readonly');
+    	$('input[name="resend"]').attr('readonly', 'readonly');
     	
       // calendar element 취득
       var calendarEl = $('#calendar')[0];

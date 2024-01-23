@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dna.hiveworks.model.dto.board.Board;
 import com.dna.hiveworks.model.dto.board.Survey;
 import com.dna.hiveworks.model.dto.board.SurveyQuestion;
 import com.dna.hiveworks.service.SurveyService;
@@ -47,8 +47,9 @@ public class SurveyController {
 	     model.addAttribute("surveyList", surveyList);
 		return "survey/surveyWrite";
 	}
-	@GetMapping("/surveyresult")
-	public String surveyresult() {
+	@ResponseBody
+	@RequestMapping("/surveyresult")
+	public String surveyresult(HttpSession session) {
 		return "survey/surveyresult";
 	}
 	@RequestMapping("/surveyDelete")
@@ -114,9 +115,27 @@ public class SurveyController {
 		return "board/msg";
 	}
 	@RequestMapping("/insertQuestion")
-	public String insertQuestion(SurveyQuestion qustion, Model model) {
-		int result=service.insertQuestion(qustion);
-		return "survey/survey";
+	public String insertQuestion(SurveyQuestion question, Model model,@RequestParam String surveyData) {		
+		List<Map> data=new ArrayList<>();		
+		try {
+			data=new ObjectMapper().readValue(surveyData, List.class);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		String msg, loc;
+		question.setSurveyData(surveyData);
+		int result=service.insertQuestion(question);
+		if(result>0) {
+			msg = "설문 성공";
+			loc = "survey/survey";
+		} else {
+			msg = "설문실패";
+			loc = "survey/surveyWrite";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		
+		return "board/msg";
 		
 	}
 }
