@@ -412,7 +412,7 @@
 											<input type="file" id="excelUpFile" name="excelUpFile" accept=".xlsx, .xls" style="width:150px; display:inline-block;">
 											<button type="button" class="btn btn-primary btn-rounded" onclick="fn_excelUpload(event);">업로드 하기</button>
 										</form>
-										<button type="button">양식 다운 받기</button>
+										<a href="${path }/employees/sampleDownlaod ">양식 다운 받기</a>
 										<table id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
@@ -814,12 +814,6 @@ $('#datable_2').DataTable( {
 													
 </script>
 <script>
-fn_excelDownload=()=>{
-	location.replace("${path}/employees/excelEmployeeDownload");
-
-}
-</script>
-<script>
 let $form = document.getElementById('form_real');
 fn_excelUpload=(e)=>{
 	e.preventDefault();
@@ -836,6 +830,7 @@ fn_excelUpload=(e)=>{
 }
 
 </script>
+
 
 
     <!-- Bootstrap Core JS -->

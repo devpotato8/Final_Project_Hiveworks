@@ -1,7 +1,10 @@
 package com.dna.hiveworks.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.util.URLEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -544,6 +548,34 @@ public class EmpController {
 		
 		return "common/msg";
 	}
+	
+	
+	@GetMapping("/sampleDownlaod")
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+		// 서버에 저장된 파일의 경로
+		String realPath = request.getServletContext().getRealPath("/resources/upload/excelformat/");
 		
+        String fileName = "upload_excel_format.xlsx";
+		File sample = new File(realPath+fileName);
+
+        try (FileInputStream fileInputStream = new FileInputStream(sample);
+             OutputStream output = response.getOutputStream()) {
+            response.reset();
+            response.setContentType("application/vnd.ms-excel");
+            URLEncoder encoder = new URLEncoder();
+            response.setHeader("Content-Disposition", "attachment; filename=" +  encoder.encode(fileName, StandardCharsets.UTF_8));
+
+            byte[] buffer = new byte[1024];
+            int b;
+
+            while ((b = fileInputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, b);
+            }
+
+            output.flush();
+        }
+    }
+	
 }
 
