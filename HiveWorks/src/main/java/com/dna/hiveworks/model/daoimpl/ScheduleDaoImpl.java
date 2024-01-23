@@ -236,6 +236,12 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public CheckList selectChecklistByNo(SqlSession session, int checklistNo) {
+		return session.selectOne("schedule.selectChecklistByNo", checklistNo);
+	}
+	
+	
+	@Override
 	public int insertChecklist(SqlSession session, CheckList checklist) {
 		return session.insert("schedule.insertChecklist",checklist);
 	}

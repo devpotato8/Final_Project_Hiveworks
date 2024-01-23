@@ -232,6 +232,31 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
+	public int insertProject(Schedule schedule, int[] empList) {
+		int inviresult = 0;
+		int insertProject = dao.insertSchedule(session, schedule);
+		if (insertProject > 0) {
+			if (empList != null && empList.length > 0) {
+				inviresult = dao.insertInvitationRe(session, empList);
+				if (inviresult == 0) {
+					throw new RuntimeException("예약 등록 실패");
+				}
+			}
+
+		} else {
+			throw new RuntimeException("예약 등록 실패");
+
+		}
+		return insertProject;
+	}
+	
+	@Override
+	public CheckList selectChecklistByNo(int checklistNo) {
+		return dao.selectChecklistByNo(session, checklistNo);
+	}
+
+	
+	@Override
 	public int insertChecklist(CheckList checklist) {
 		return dao.insertChecklist(session, checklist);
 	}

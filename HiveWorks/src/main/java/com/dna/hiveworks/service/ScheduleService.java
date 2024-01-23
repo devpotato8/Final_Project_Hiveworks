@@ -69,7 +69,11 @@ public interface ScheduleService {
 	
 	List<Schedule> selectprojectByEmpNo(int empNo);
 	
+	int insertProject(Schedule schedule, int[] empList);
+	
 	Schedule selectprojectByCalNo(int calNo);
+	
+	CheckList selectChecklistByNo(int checklistNo);
 	
 	int insertChecklist(CheckList checklist);
 	
