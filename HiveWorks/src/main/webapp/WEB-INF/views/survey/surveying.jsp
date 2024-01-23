@@ -96,7 +96,7 @@ function sendData() {
     // Ajax를 사용하여 서버에 선택한 값을 보냄
     $.ajax({
         type: "POST",
-        url: "${path}survey/surveyresult",
+        url: "${path}/survey/surveyresult",
         data: { surveyData: JSON.stringify(surveyData) },  // JSON 문자열로 변환
         contentType: 'application/json',  // 콘텐츠 유형 지정
         success: function () {

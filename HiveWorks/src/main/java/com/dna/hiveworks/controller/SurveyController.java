@@ -49,7 +49,7 @@ public class SurveyController {
 	}
 	@ResponseBody
 	@RequestMapping("/surveyresult")
-	public String surveyresult(@RequestParam(value="checkboxValues[]")List<String>checkboxValues,HttpSession session) {
+	public String surveyresult(HttpSession session) {
 		return "survey/surveyresult";
 	}
 	@RequestMapping("/surveyDelete")
