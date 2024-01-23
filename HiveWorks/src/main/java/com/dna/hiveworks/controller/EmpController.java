@@ -194,7 +194,6 @@ public class EmpController {
 		
 		int value =0;
 		Map<String,Object> param = new HashMap<>();
-		System.out.println(emp_id);
 		
 		param.put("type","emp_id");
 		param.put("keyword",emp_id);
@@ -433,9 +432,10 @@ public class EmpController {
 	    Map<String,Object> empData = new HashMap<>();
 	    List<Employee> employees = new ArrayList<>();
 	    List<Account> accounts = new ArrayList<>();
-	    
+	    System.out.println("결과값 :"+enrollEmployeesList);
 	    for(int i = 0; i < enrollEmployeesList.size(); i++){
-	     
+	    	employee = new Employee();
+	    	account = new Account();
 			/*addHeader(sheet1,
 					List.of("사원번호","아이디","이름","주민번호","입사일","퇴사일","사내전화","핸드폰번호"
 							,"이메일","부서명","직위","직무","근로상태","근로형태","근무유형","권한","우편번호","주소","상세주소","메모","계좌번호","은행","소유주"));*/
@@ -457,12 +457,15 @@ public class EmpController {
 	    	Date utilHiredDate = format.parse(enrollEmployeesList.get(i).get("cell_5"));
 	    	java.sql.Date sqlHiredDate = new java.sql.Date(utilHiredDate.getTime());
 	    	
-	    	Date utilRetiredDate = format.parse(enrollEmployeesList.get(i).get("cell_6"));
+	    	SimpleDateFormat format_se = new SimpleDateFormat("yyyy-MM-dd");
+	    	Date utilRetiredDate = format_se.parse(enrollEmployeesList.get(i).get("cell_6"));
 	    	java.sql.Date sqlRetiredDate = new java.sql.Date(utilRetiredDate.getTime());
 	    	
+	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_0")));
+	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_1"));
 	    	
-	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_1")));
-	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_2"));
+	    	String encodePassword = passwordEncoder.encode(enrollEmployeesList.get(i).get("cell_2"));
+	    	employee.setEmp_pw(encodePassword);
 	    	employee.setEmp_name(enrollEmployeesList.get(i).get("cell_3"));
 	    	employee.setEmp_resident_no(enrollEmployeesList.get(i).get("cell_4"));
 	    	employee.setEmp_hired_date(sqlHiredDate);
@@ -470,19 +473,20 @@ public class EmpController {
 	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("cell_7"));
 	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("cell_8"));
 	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_9"));
-	    	employee.setDept_name(enrollEmployeesList.get(i).get("cell_10"));
-	    	employee.setJob_name(enrollEmployeesList.get(i).get("cell_11"));
-	    	employee.setPosition_name(enrollEmployeesList.get(i).get("cell_12"));
-	    	employee.setWork_status_name(enrollEmployeesList.get(i).get("cell_13"));
-	    	employee.setWork_pattern_name(enrollEmployeesList.get(i).get("cell_14"));
-	    	employee.setAut_name(enrollEmployeesList.get(i).get("cell_15"));
-	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_16"));
-	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_17"));
-	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_18"));
-	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_19"));
+	    	
+	    	employee.setDept_code(enrollEmployeesList.get(i).get("cell_10").toUpperCase());
+	    	employee.setJob_code(enrollEmployeesList.get(i).get("cell_11").toUpperCase());
+	    	employee.setPosition_code(enrollEmployeesList.get(i).get("cell_12").toUpperCase());
+	    	employee.setWork_status(enrollEmployeesList.get(i).get("cell_13").toUpperCase());
+	    	employee.setWork_pattern(enrollEmployeesList.get(i).get("cell_14").toUpperCase());
+	    	employee.setWork_type_code(enrollEmployeesList.get(i).get("cell_15").toUpperCase());
+	    	employee.setAut_code(enrollEmployeesList.get(i).get("cell_16").toUpperCase());
+	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_17"));
+	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_18"));
+	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_19"));
 	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_20"));
   	
-	    	account.setAc_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_21")));
+	    	account.setAc_no(enrollEmployeesList.get(i).get("cell_21"));
 	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_22"));
 	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_23"));
 	    	
@@ -516,8 +520,12 @@ public class EmpController {
 	    	 System.out.println("직원 정보 :"+employee);
 		     System.out.println("계좌 정보 :"+account);
 	    }
+	    System.out.println("for문 돌리고 실제 남은 값 :"+employees);
+	    
+	    
 	    empData.put("employees",employees);
 	    empData.put("accounts",accounts);
+	    System.out.println("hashmap에 넣은 값 :"+empData);
 
 	    int result = service.insertEmployeeByExcel(empData);
 	    

@@ -218,7 +218,7 @@
 		WHERE EMP_NO = ${emp_no}
 	</update>
 	<update id="updateAccount" parameterType="account">
-		UPDATE TBL_ACCOUNT SET AC_NO=${ac_no}, AC_BANK=#{ac_bank}, AC_NAME=#{ac_name}
+		UPDATE TBL_ACCOUNT SET AC_NO=#{ac_no}, AC_BANK=#{ac_bank}, AC_NAME=#{ac_name}
 		WHERE EMP_NO = ${emp_no}
 	</update>
 	<update id="updatePassword" parameterType="hashmap">

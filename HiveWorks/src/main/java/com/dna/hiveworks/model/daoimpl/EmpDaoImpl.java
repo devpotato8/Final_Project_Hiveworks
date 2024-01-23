@@ -47,8 +47,6 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public int insertEmployee(SqlSession session, Employee e) {
-		System.out.println(e);
-		
 		return session.insert("employee.insertEmployee", e);
 	}
 
