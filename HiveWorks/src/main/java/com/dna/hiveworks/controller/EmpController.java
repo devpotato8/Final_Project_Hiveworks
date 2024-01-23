@@ -512,7 +512,8 @@ public class EmpController {
 			 */
 	                                     
 	       // reserveService.insertReserveVO(searchVO);
-	        
+	    	 System.out.println(employee);
+		     System.out.println(account);
 	    }
 	    empData.put("employees",employees);
 	    empData.put("accounts",accounts);
