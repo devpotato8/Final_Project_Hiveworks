@@ -6,4 +6,5 @@ public interface QuartzDao {
 		
 	int insertQuartzWork(SqlSession session, int empNo);
 	int insertQuartzWorkRealTime(SqlSession session);
+	String selectWorkByEmpNo(SqlSession session, int empNo);
 }

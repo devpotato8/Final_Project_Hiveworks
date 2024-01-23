@@ -22,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +50,7 @@ import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.model.dto.edoc.status.BoxStatus;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
 import com.dna.hiveworks.service.EdocService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletContext;
@@ -175,13 +178,16 @@ public class EdocController {
 	
 	@GetMapping("/format/write")
 	public String formatWrite(Model model) {
-		//TODO 양식 입력 페이지
+		model.addAttribute("dotcode",DotCode.values());
 		return "edoc/formatWrite";
 	}
 	
 	@GetMapping("/format/view")
-	public String formatView(Model model) {
+	public String formatView(Model model, @RequestParam String formatNo) {
 		//TODO 양식 보기 페이지
+		
+		model.addAttribute("format", edocService.getSample(formatNo));
+		
 		return "edoc/format";
 	}
 	
@@ -398,4 +404,82 @@ public class EdocController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
+	@PostMapping("/format/write")
+	public ResponseEntity<Map<String,Object>> insertSample(@RequestParam String sample, @SessionAttribute Employee loginEmp){
+		
+		if(!loginEmp.getAut_code().equals("AUT004")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		}
+		
+		ElectronicDocumentSample sampleInstance = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			sampleInstance = mapper.readValue(sample, ElectronicDocumentSample.class);
+			sampleInstance.setCreater(loginEmp.getEmp_no());
+		}catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","양식파싱중 에러"));
+		}
+		int result = edocService.insertSample(sampleInstance);
+		if(result>0) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","200","data",""));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","DB입력중 에러발생"));
+		}
+	}
+	
+	@PostMapping("/format/copy")
+	public ResponseEntity<Map<String,Object>> copySample(@RequestParam String sampleNo, @SessionAttribute Employee loginEmp){
+		if(!loginEmp.getAut_code().equals("AUT004")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		}
+		Map<String, Object> param = new HashMap<>();
+		param.put("creater",loginEmp.getEmp_no());
+		param.put("sampleNo", sampleNo);
+		Map<String, Object> result = edocService.copySample(param);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
+	@PatchMapping("/format/update")
+	public ResponseEntity<Map<String,Object>> updateSample(@RequestParam String sample, @SessionAttribute Employee loginEmp){
+
+		if(!loginEmp.getAut_code().equals("AUT004")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		}
+		ElectronicDocumentSample sampleInstance = null;
+			
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			sampleInstance = mapper.readValue(sample, ElectronicDocumentSample.class);
+			sampleInstance.setModifier(loginEmp.getEmp_no());
+		}catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","양식파싱중 에러"));
+		}
+		int result = edocService.updateSample(sampleInstance);
+		if(result>0) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","200","data",""));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","DB 수정 중 에러발생"));
+		}
+	}
+	
+	@DeleteMapping("/format/delete")
+	public ResponseEntity<Map<String,Object>> deleteSample(@RequestParam String sampleNo, @SessionAttribute Employee loginEmp){
+		if(!loginEmp.getAut_code().equals("AUT004")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		}
+
+		Map<String, Object> result = edocService.deleteSample(Map.of("modifier",loginEmp.getEmp_no(),"sampleNo", sampleNo));
+		
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+		
+	}
+	
+
 }

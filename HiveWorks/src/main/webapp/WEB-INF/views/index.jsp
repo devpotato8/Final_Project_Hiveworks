@@ -13,7 +13,7 @@
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
 <%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
 <jsp:include page="/WEB-INF/views/common/sideBar.jsp">
-   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+	<jsp:param value="${edocCountWait }" name="edocCountWait" />
 </jsp:include>
 
 <script
@@ -54,12 +54,12 @@
 			<div class="container d-flex justify-content-center">
 				<div class="left-container">
 					<!-- 프로필부분 -->
-					<div class="card card-border contact-card" style="margin-bottom: 50px">
+					<div class="card card-border contact-card"
+						style="margin-bottom: 50px">
 						<div class="card-body text-center">
 							<div class="card-action-wrap"></div>
 
-							<div
-								class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
+							<div class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
 								<%-- <img src="${path }/resources/img/logo_bee.png" alt="user" class="avatar-img" width="100px" height="100px"> --%>
 								<img src="${path }/resources/img/logo_bee.png" alt="user"
 									class="brand-img img-fluid " width="100px" height="100px">
@@ -136,46 +136,47 @@
 							</c:choose>
 					</div> --%>
 					<div>
-							<div>
-									<div class="d-flex flex-column align-items-center clockAndCheck">
-											<div class="btn-block">출퇴근을 눌러주세요 😊</div>
-											<div class="btn-block" id="currentTime"></div>
-										</div>
-										<div class="button-container d-flex justify-content-center mt-3">
-											<form action="${path}/work/updateStartWork" method="post">
-												<input class="btn btn-flush-light btn-animated" type="submit"
-													value="출근하기" /> <input type="hidden" id="workStartTime"
-													name="workStartTime" value="" />
-											</form>
-											<form action="${path}/work/updateEndWork" method="post">
-												<input class="btn btn-flush-light btn-animated" type="submit"
-													value="퇴근하기" /> <input type="hidden" id="workEndTime"
-													name="workEndTime" value="" />
-											</form>
-										</div>
-										<div class="SEWork">
-											<c:if test="${not empty commute.workStartTime }">
-												<fmt:formatDate value="${commute.workStartTime}"
-													pattern="HH:mm:ss" var="workStartTime" />
-												<div class="btn-block" style="background-color: #f1c40f">출근시간
-													- ${workStartTime}</div>
-												<!-- 포맷팅된 날짜와 시간을 출력 -->
-											</c:if>
-											<c:if test="${not empty commute.workEndTime }">
-												<fmt:formatDate value="${commute.workEndTime}"
-													pattern="HH:mm:ss" var="workEndTime" />
-												<div class="btn-block" style="background-color: #f1c40f">퇴근시간
-													- ${workEndTime }</div>
-											</c:if>
-										</div>
-									</div>
+						<div>
+							<div class="d-flex flex-column align-items-center clockAndCheck">
+								<div class="btn-block">출퇴근을 눌러주세요 😊</div>
+								<div class="btn-block" id="currentTime"></div>
+							</div>
+							<div class="button-container d-flex justify-content-center mt-3">
+								<form action="${path}/work/updateStartWork" method="post">
+									<input class="btn btn-flush-light btn-animated" type="submit"
+										value="출근하기" /> <input type="hidden" id="workStartTime"
+										name="workStartTime" value="" />
+								</form>
+								<form action="${path}/work/updateEndWork" method="post">
+									<input class="btn btn-flush-light btn-animated" type="submit"
+										value="퇴근하기" /> <input type="hidden" id="workEndTime"
+										name="workEndTime" value="" />
+								</form>
+							</div>
+							<div class="SEWork">
+								<c:if test="${not empty commute.workStartTime }">
+									<fmt:formatDate value="${commute.workStartTime}"
+										pattern="HH:mm:ss" var="workStartTime" />
+									<div class="btn-block" style="background-color: #f1c40f">출근시간
+										- ${workStartTime}</div>
+									<!-- 포맷팅된 날짜와 시간을 출력 -->
+								</c:if>
+								<c:if test="${not empty commute.workEndTime }">
+									<fmt:formatDate value="${commute.workEndTime}"
+										pattern="HH:mm:ss" var="workEndTime" />
+									<div class="btn-block" style="background-color: #f1c40f">퇴근시간
+										- ${workEndTime }</div>
+								</c:if>
+							</div>
 						</div>
-						<!-- <button onclick="printAPI();">뉴스 출력</button> -->
+					</div>
+					<!-- <button onclick="printAPI();">뉴스 출력</button> -->
 
 				</div>
 				<div class="right-container">
 					<div class="right-container-up ">
-						<div class="cal-section align-items-center" style="width: 500px; margin-right: 50px">
+						<div class="cal-section align-items-center"
+							style="width: 500px; margin-right: 50px">
 							<!-- 캘린더 -->
 							<div class="sec_cal contact-card">
 								<div class="cal_nav">
@@ -202,7 +203,21 @@
 						</div>
 						<!-- 2 -->
 						<div class="d-flex justify-content-center">
-							<div style="width: 400px; height: 400px" class="d-flex justify-content-center">
+							<div style="width: 400px; height: 400px"
+								class="d-flex justify-content-center">
+								<!-- <div class="wrapper" style="width: 350px; height: 350px">
+									<header>TodoList</header>
+									<div class="inputField d-flex justify-content-around">
+										<input type="text" id="addValue" placeholder="할 일 추가하기" autofocus />
+										<button id="btn" onclick="addTodo()">추가</button>
+										<button id="allClear" onclick="allClearList()">모두삭제</button>
+									</div>
+									<div>
+										<ul id="addTodo" class="Todolist">
+											<li><div id="result"></div></li>
+										</ul>
+									</div>
+								</div> -->
 								<img alt=""
 									src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium"
 									style="width: 350px; height: 350px">
@@ -211,11 +226,12 @@
 					</div>
 
 					<!-- 3 -->
-					
+
 					<div class="right-container-down">
 						<div class="newsList">
-						<div class="badge badge-soft-blue" style="font-size: 14px;">뉴스게시판</div>
-							<div style="width: 750px; height: 500px"class="justify-content-center text-center">
+							<div class="badge badge-soft-blue" style="font-size: 14px;">뉴스게시판</div>
+							<div style="width: 750px; height: 500px"
+								class="justify-content-center text-center">
 								<table class="table">
 									<thead>
 										<tr>
@@ -307,12 +323,12 @@
 	font-family: 'Pretendard-Regular';
 }
 
-button {
+.inputField>button {
 	border: none;
 	background-color: var(--navy);
 	color: white;
 	border-radius: 5px;
-	padding: 11px;
+	padding: 5px 10px;
 }
 
 .btn-block {
@@ -362,12 +378,12 @@ button {
 	/* gap: 15px; */
 }
 
-.right-container-up{
-	display:flex;
+.right-container-up {
+	display: flex;
 	width: 100%;
 }
 
-.right-container-down{
+.right-container-down {
 	display: flex;
 	width: 100%;
 }
@@ -377,17 +393,21 @@ button {
 	/* border-radius: 5px;
 	width: 470px;
 	height: 350px; */
+	
 }
 
-.newsList{
+.newsList {
 	overflow: auto;
 }
+
 .newsList::-webkit-scrollbar {
-  display: block;
+	display: block;
 }
+
 ::-webkit-scrollbar-thumb {
-    background-color: lightblue;
+	background-color: lightblue;
 }
+
 table>thead {
 	background-color: var(--navy);
 }
@@ -510,8 +530,74 @@ table>thead {
 .sec_cal .cal_wrap .day.disable {
 	color: #ddd;
 }
+.inputField input{
+    color: black;
+    border: none;
+    outline: none;
+}
+.wrapper{
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+	border-radius: 5px;
+	padding: 10px;
+}
+#addValue{
+	width: 150px;
+	text-align: center;
+}
 </style>
-
+<!-- 투두리스트 -->
+<script>
+	const btn = document.getElementById('btn'); //버튼
+	let addValue = document.getElementById('addValue'); //할일 입력
+	let result = document.getElementById('result');// 추가된 할일
+	
+	//할일 추가시
+	function addTodo(){
+	    if(addValue.value==false){ /*''가능 */
+	        alert('내용을 입력하세요!');
+		    }else{
+		    let list = document.createElement("li");
+		    let del = document.createElement("button");
+		    list.innerHTML = addValue.value;
+		    
+		    result.appendChild(list); //추가된 할일에 할일 리스트 추가하기
+		    list.appendChild(del);    //할일 리스트 추가시 삭제버튼도 추가    
+		    del.innerText = "x";      //삭제버튼에 들어갈 'x'자 문자
+		    del.style.fontSize = "14px";
+		    del.style.border = "none";
+		    del.style.float = "right";
+		    //del.style.right = "115px";
+		    //del.style.marginTop = "10px";
+		    del.style.cursor = "pointer";
+		    del.addEventListener("click", deleteList); //삭제버튼 클릭시 리스트지우기 이벤트 실행
+		    //del.style.position='relative';
+		    
+		    addValue.value = "";                            //할일 입력창 초기화
+		    addValue.focus();                               //강제 커서 깜빡임
+		    list.addEventListener("click", function(){      //할일 완료 후 클릭시 밑줄로 표시
+		        list.style.textDecoration = "line-through";
+		        list.style.color = "gray";                  //클릭시 색변환
+		    })
+		}
+	}
+	//할일 목록 삭제시
+	function deleteList(e){ //삭제 버튼(x) 클릭시 
+	    let removeOne = e.target.parentElement;  //선택한 목록 한개만 지우기(부모 객체를 지운다)
+	    removeOne.remove();
+	}
+	// //모두 삭제시
+	function allClearList(e){
+	    if(confirm("정말 삭제하시겠습니까?")==true){ //취소메시지가 true(ok)일때
+	        if(result.innerText==''){                      //목록칸이 비어있다면
+	            alert("삭제할 목록이 없습니다");            //삭제할 목록이 없다는 경고창뜨기
+	        }else{                                         //삭제할 목록이 있다면
+	            result.innerText='';                       //전체 삭제
+	        }
+	    }else{                                      //취소메시지가 false(no)일때
+	        return false;                           //삭제 취소
+	    }
+	}
+</script>
 <!-- naverAPI -->
 <script>
 	function printAPI(){

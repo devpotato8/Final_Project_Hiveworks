@@ -2,6 +2,7 @@ package com.dna.hiveworks.model.daoimpl;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -20,9 +21,9 @@ public class MypageDaoImpl implements MypageDao {
 	}
 
 	@Override
-	public int updateMyProfile(SqlSession session, int empNo) {
+	public int updateProfile(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return 0;
+		return session.update("mypage.updateProfile", param);
 	}
 
 	@Override

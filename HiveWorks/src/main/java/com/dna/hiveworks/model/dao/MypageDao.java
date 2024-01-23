@@ -1,6 +1,7 @@
 package com.dna.hiveworks.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -11,7 +12,7 @@ public interface MypageDao {
 	
 	Employee selectMyInfo(SqlSession session, int empNo);
 	
-	int updateMyProfile(SqlSession session, int empNo);
+	int updateProfile(SqlSession session, Map<String, Object> param);
 	
 	List<Search> integratedSearch(SqlSession session, String keyword);
 }

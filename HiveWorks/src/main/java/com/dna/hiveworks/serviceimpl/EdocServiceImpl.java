@@ -76,10 +76,7 @@ public class EdocServiceImpl implements EdocService{
 	public List<ElectronicDocumentSample> getEdocSampleList(DotCode edocDotCode) {
 		return dao.getEdocSampleList(session, edocDotCode);
 	}
-	@Override
-	public List<ElectronicDocumentSample> getEdocSampleList() {
-		return dao.getSampleAll(session);
-	}
+	
 	@Override
 	public ElectronicDocumentSample getSample(String formatNo) {
 		return dao.getSample(session, formatNo);
@@ -92,10 +89,6 @@ public class EdocServiceImpl implements EdocService{
 			edoc.setEdocPreservePeriod(
 					Date.valueOf(
 							LocalDate.of(LocalDate.now().getYear()+edoc.getPeriod()+1, 1, 1))
-					);
-		}else if(edoc.getEdocPreservePeriod() == null && edoc.getPeriod() == 0) {
-			edoc.setEdocPreservePeriod(
-					Date.valueOf(LocalDate.of(LocalDate.now().getYear()+3+1, 1, 1))
 					);
 		}
 		
@@ -209,9 +202,10 @@ public class EdocServiceImpl implements EdocService{
 					if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
 						// 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
 						vacService.confirmVacation(edoc.getEdocNo());
-					}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
-						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
 					}
+//					else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
+//						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
+//					}
 				}else {
 					// 다음차례 결재자의 상태를 P에서 W로 변경
 					ElectronicDocumentApproval nextApproval = approvalList.get(approvalIndex+1);
@@ -233,14 +227,13 @@ public class EdocServiceImpl implements EdocService{
 			}
 			// 문서의 반려처리
 			dao.revokeDocument(session, edoc);
-			
+			//반려된 문서가 휴가 / 연가 신청서라면
 			if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
-				// 반려처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
 				vacService.revokeVacation(edoc.getEdocNo());
-			}else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
-				// TODO 반려처리된 문서가 연장근무신청서일때 처리로직
 			}
-			
+//			else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
+//				// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
+//			}
 		}else {
 			throw new HiveworksException("결재처리중 에러가 발생하였습니다");
 		}
@@ -266,7 +259,7 @@ public class EdocServiceImpl implements EdocService{
 		
 		Map<String,Object> msg = new HashMap<>();
 			msg.put("receiverEmpNo", List.of(receiverEmpNo));
-			msg.put("receiverNames", List.of(new String()));
+			msg.put("receiverNames", List.of(dao.getEmpData(session, receiverEmpNo).get("EMPNAME")));
 			msg.put("senderEmpNo",senderEmpNo);
 			msg.put("msgCategory", "MCT001");
 			msg.put("msgCategoryName", "업무연락");
@@ -274,5 +267,57 @@ public class EdocServiceImpl implements EdocService{
 			msg.put("msgContent", "문서번호 : "+edocNo+"<br><a href=\""+ context.getContextPath() +"/edoc/read?edocNo="+edocNo+"\">바로가기</a>");
 			
 		return msg;
+	}
+
+	@Override
+	public List<ElectronicDocumentSample> getEdocSampleList() {
+		return dao.getSampleAll(session);
+	}
+	
+	@Override
+	public int insertSample(ElectronicDocumentSample sample) {
+		return dao.insertSample(session, sample);
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> copySample(Map<String, Object> param) {
+		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
+		param.put("newSampleNo", 0);
+		if(sample != null && sample.isUseYn()) {
+			int result = dao.copySample(session, param);
+			sample.setSampleNo((int)param.get("newSampleNo"));
+			sample.setDotCodeName(sample.getSampleDotCode().getCode());
+			if(result>0) {
+				return Map.of("status","200","data",sample);
+			}else {
+				return Map.of("status","500","error","복사실패");
+			}
+		}else {
+			return Map.of("status","500","error","해당번호의 양식이 존재하지 않습니다.");
+		}
+	}
+	
+	@Override
+	public int updateSample(ElectronicDocumentSample sample) {
+		return dao.updateSample(session, sample);
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> deleteSample(Map<String, Object> param) {
+		
+		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
+		
+		if(sample != null && sample.isUseYn()) {
+			int result = dao.deleteSample(session, param);
+			if(result>0) {
+				return Map.of("status","200","data","삭제성공");
+			}else {
+				return Map.of("status","500","error","삭제실패");
+			}
+		}else {
+			return Map.of("status","500","error","해당번호의 양식이 존재하지 않습니다.");
+		}
 	}
 }

@@ -218,5 +218,30 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 
+	@Override
+	public int insertEmployeeByExcel(Map<String, Object> empData) {
+		
+		List<Employee> employees = (List<Employee>)empData.get("employees");
+		List<Account> accounts = (List<Account>)empData.get("accounts");
+		
+		int result=0;
+		for(int i=0;i<employees.size();i++) {
+			result = dao.insertEmployee(session, employees.get(i));
+			if(result>0) {
+				accounts.get(i).setEmp_no(employees.get(i).getEmp_no());
+				int result2 = dao.insertAccount(session, accounts.get(i));
+				if(result2==0) new RuntimeException("등록 실패");
+				
+			}else {
+				new RuntimeException("등록 실패");
+			}
+		}
+		
+
+		return result;
+	}
+
+	
+
 	
 }

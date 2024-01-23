@@ -44,7 +44,6 @@
 						<th>신청일</th>
 						<th>종류</th>
 						<th>승인여부</th>
-						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -66,9 +65,9 @@
 								</td>
 								<td><span class="badge badge-soft-primary my-1  me-2"><c:out value="${v.createDate }"/></span></td>
 								<td><span class="badge badge-soft-violet my-1  me-2"><c:out value="${v.modifyDate }"/></span></td>
-								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${v.vacOption }"/></span></td>
-								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${v.vacPermit }"/></span></td>
-								<td>
+								<td><span class="badge badge-soft-warning my-1  me-2"><c:out value="${v.vacOption }"/></span></td>
+								<td><span class="badge badge-soft-danger my-1  me-2"><c:out value="${v.vacPermit }"/></span></td>
+								<!-- <td>
 									<div class="d-flex align-items-center">
 										<div class="d-flex">
 										 	<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
@@ -84,7 +83,7 @@
 											</span></a>
 										</div>
 									</div>
-								</td>
+								</td> -->
 							</tr>
 						</c:forEach>
 					</c:if>

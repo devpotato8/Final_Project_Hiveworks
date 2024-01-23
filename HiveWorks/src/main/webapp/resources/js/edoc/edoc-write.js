@@ -414,6 +414,7 @@ const dataProcess = ()=>{
 		element.aprvlRank = i+1;
 		if(i==1){
 			element.aprvlStatus = 'W';
+		}else{
 			element.aprvlStatus = 'P';
 		}
 	}
