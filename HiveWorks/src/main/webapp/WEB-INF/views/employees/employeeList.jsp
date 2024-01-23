@@ -813,10 +813,6 @@ $('#datable_2').DataTable( {
 													
 </script>
 <script>
-
-
-</script>
-<script>
 fn_excelDownload=()=>{
 	location.replace("${path}/employees/excelEmployeeDownload");
 

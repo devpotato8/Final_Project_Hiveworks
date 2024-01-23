@@ -396,7 +396,7 @@ public class EmpController {
 	
 	}
 
-	@GetMapping("excelEmployeeDownload")
+	@GetMapping("/excelEmployeeDownload")
 	public View downloadEmployeesAndAccount(Model model) {
 		
 		Map<String, Object> employeesAndAccounts = service.downloadEmployeesAndAccount();
@@ -407,7 +407,7 @@ public class EmpController {
 		return new ExcelEmployeeListConvert();
 	}
 	
-	@PostMapping("excelEmployeeUpload")
+	@PostMapping("/excelEmployeeUpload")
 	public String uploadEmployeesAndAccount(
 			Employee employee,
 			Account account,
@@ -417,6 +417,7 @@ public class EmpController {
 	        Model model) throws Exception {
 	 
 	//LoginVO loginVO = loginService.getLoginInfo();
+		System.out.println("multiRequest 안녕:"+multiRequest);
 	 
 	
 	String msg,loc;
@@ -512,8 +513,8 @@ public class EmpController {
 			 */
 	                                     
 	       // reserveService.insertReserveVO(searchVO);
-	    	 System.out.println(employee);
-		     System.out.println(account);
+	    	 System.out.println("직원 정보 :"+employee);
+		     System.out.println("계좌 정보 :"+account);
 	    }
 	    empData.put("employees",employees);
 	    empData.put("accounts",accounts);
@@ -527,7 +528,7 @@ public class EmpController {
 	}catch(Exception e){
 	    System.out.println(e.toString());
 	    msg="정보 수정 실패";
-		loc="employees/enrollEmployee";
+		loc="employees/employeeList";
 	    }
 	 
 		model.addAttribute("msg", msg);
