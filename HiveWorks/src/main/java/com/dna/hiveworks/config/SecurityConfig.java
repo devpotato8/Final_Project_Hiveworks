@@ -1,6 +1,7 @@
 package com.dna.hiveworks.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,16 +22,18 @@ public class SecurityConfig {
 	SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception{
 		return http.csrf(csrf->csrf.disable())
 				.authorizeHttpRequests(request->{
-					request.requestMatchers("/").permitAll()
+					request.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+							.requestMatchers("/").permitAll()
 							.requestMatchers("/WEB-INF/views/**").permitAll()
 							.requestMatchers("/resources/**").permitAll()
-							.requestMatchers("/**").permitAll();
+							//.requestMatchers("/**").permitAll()
+							.anyRequest().authenticated();
 				})
 				.formLogin(formlogin->{
-					formlogin.loginPage("/MyLoginPage")
+					formlogin.loginPage("/")
+							.loginProcessingUrl("/loginend")
 							.usernameParameter("emp_Id")
 							.passwordParameter("emp_Pw")
-							.loginProcessingUrl("/loginend")
 							.failureForwardUrl("/loginfail")
 							.successForwardUrl("/login/index")
 							.permitAll();
