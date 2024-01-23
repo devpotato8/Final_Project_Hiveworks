@@ -64,7 +64,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											<table data-order='[[ 2, "asc" ]]' id="docTable" class="table nowrap table-hover">
+											<table data-order='[[ 1, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
 														<th>양식번호</th>
@@ -72,16 +72,21 @@
 														<th>양식이름</th>
 														<th>생성일</th>
 														<th>설명</th>
+														<th></th>
 													</tr>
 												</thead>
 												<tbody>
 													<c:forEach items="${formatList }" var="fmt">
-														<tr>
+														<tr data-sampleNo="${fmt.sampleNo}">
 															<td>${fmt.sampleNo }</td>
-															<td>${DotCode.valueOf(fmt.sampleDotCode).code }</td>
+															<td>${fmt.sampleDotCode.code }</td>
 															<td>${fmt.sampleName }</td>
 															<td>${fmt.createDate }</td>
 															<td>${fmt.sampleDesc }</td>
+															<td>
+																<button type="button" class="btn btn-outline-secondary btn-icon btn-format-copy" title="양식복사"><span class="zmdi-icon"><i class="zmdi zmdi-collection-item"></i></span></button>
+																<button type="button" class="btn btn-outline-secondary btn-icon btn-format-delete" title="양식삭제"><span class="zmdi-icon"><i class="zmdi zmdi-delete"></i></span></button>
+															</td>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -99,7 +104,9 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
-
+<script type="text/javascript">
+	const path = '${path}';
+</script>
 <!-- Bootstrap Core JS -->
 <script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- FeatherIcons JS -->
@@ -134,36 +141,14 @@
 <script src="${path }/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
 <script src="${path }/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>
 
+<script type="text/javascript" src="${path}/resources/js/edoc/edoc-format-list.js"></script>
+
 <style>
 	#docTable tbody tr{
 		cursor:pointer;
 	}
 </style>
-<script>
-$('#docTable').DataTable( {
-	scrollX:  true,
-	autoWidth: false,
-	language: { search: "",
-		searchPlaceholder: "Search",
-		sLengthMenu: "_MENU_items",
-		paginate: {
-			next: '', // or '→'
-			previous: '' // or '←' 
-		}
-	},
-	"drawCallback": function () {
-		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
-	}
-});
-</script>
-<script>
-	$(document).on('click','#docTable tbody tr', (e)=>{
-		e.stopPropagation();
-		const $target = $(e.currentTarget);
-		const edocNo = $target.children().first().text();
-		location.assign('${path}/edoc/read?edocNo='+edocNo);
-	});
-</script>
+
 </div>
 </body>
 </html>

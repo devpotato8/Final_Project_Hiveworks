@@ -42,7 +42,9 @@ public class SurveyController {
 		   model.addAttribute("survey", survey);
 	}
 	@GetMapping("/surveyWrite")
-	public String surveyWrite() {
+	public String surveyWrite(Model model) {
+		List<Survey> surveyList = service.selectAllSurvey();
+	     model.addAttribute("surveyList", surveyList);
 		return "survey/surveyWrite";
 	}
 	@GetMapping("/surveyresult")
@@ -73,6 +75,7 @@ public class SurveyController {
 	   
 	    int result=service.surveyUpdate(s);
 	    s.setSurveyData((String) model.getAttribute("surveyData"));
+	    
 	    System.out.println(result);
 	    if(result>0) {
 	    	msg = "게시글 수정 성공 :)";
@@ -111,8 +114,9 @@ public class SurveyController {
 		return "board/msg";
 	}
 	@RequestMapping("/insertQuestion")
-	public void insertQuestion(SurveyQuestion qustion, Model model) {
+	public String insertQuestion(SurveyQuestion qustion, Model model) {
 		int result=service.insertQuestion(qustion);
+		return "survey/survey";
 		
 	}
 }

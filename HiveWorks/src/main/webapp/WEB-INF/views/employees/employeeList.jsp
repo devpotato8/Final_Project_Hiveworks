@@ -407,6 +407,11 @@
 									<div class="invoice-list-view">
 										<button class="btn btn-primary btn-rounded" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px; display:inline-block;">직원 등록</button>
 										<button class="btn btn-primary btn-rounded" onclick="fn_excelDownload();" style="width:150px; display:inline-block;">엑셀 다운로드</button>
+										<form action="${path }/employees/excelEmployeeUpload" id="form_real" method="post" enctype="multipart/form-data">
+										<label for="excelUpFile">엑셀 파일 첨부</label>
+											<input type="file" id="excelUpFile" name="excelUpFile" accept=".xlsx, .xls" style="width:150px; display:inline-block;">
+											<button type="button" class="btn btn-primary btn-rounded" onclick="fn_excelUpload(event);">업로드 하기</button>
+										</form>
 										<table id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
@@ -791,21 +796,26 @@ $('#datable_2').DataTable( {
 	},
 	"drawCallback": function () {
 		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+	
+		fn_deleteEmployee=(e)=>{
+			
+			let result = confirm("해당 사용자의 정보를 삭제하시겠습니까?");
+			
+			if(result){
+				location.replace("${path }/employees/deleteEmployee?emp_no="+e);
+			}else{
+				alert("취소하였습니다.");
+			}
+		}
+	
+	
+	
 	}
 });
 													
 </script>
 <script>
-fn_deleteEmployee=(e)=>{
-	
-	let result = confirm("해당 사용자의 정보를 삭제하시겠습니까?");
-	
-	if(result){
-		location.replace("${path }/employees/deleteEmployee?emp_no="+e);
-	}else{
-		alert("취소하였습니다.");
-	}
-}
+
 
 </script>
 <script>
@@ -813,8 +823,26 @@ fn_excelDownload=()=>{
 	location.replace("${path}/employees/excelEmployeeDownload");
 
 }
+</script>
+<script>
+let $form = document.getElementById('form_real');
+fn_excelUpload=(e)=>{
+	$form.preventDefault();
+	
+	let $excelUpFile = document.getElementById('excelUpFile');
+	
+	if($excelUpFile.value==""){
+		alert("파일을 업로드해주세요.");
+		$excelUpFile.addEventListener('focus',event);
+		return false;
+	}	
+	
+	$form.submit();
+}
 
 </script>
+
+
     <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -827,4 +855,4 @@ fn_excelDownload=()=>{
 	<!-- Init JS -->
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
-	<script src="${path}/resources/js/dashboard-data.js"></script>
+	<%-- <script src="${path}/resources/js/dashboard-data.js"></script> --%>

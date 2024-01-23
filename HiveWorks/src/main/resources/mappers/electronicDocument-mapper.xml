@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/DTD/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/DTD/mybatis-3-mapper.dtd" >
 <mapper namespace="edoc">
 
 	<resultMap type="edoc" id="edocMap">
@@ -295,11 +295,11 @@
 	</select>
 
 	<select id="getSampleAll" resultMap="edocSampleMap">
-		SELECT * FROM TBL_EDOC_SAMPLE
+		SELECT * FROM TBL_EDOC_SAMPLE WHERE USE_YN = 'Y'
 	</select>
 
 	<select id="getEdocSampleList" resultMap="edocSampleMap" parameterType="com.dna.hiveworks.model.code.DotCode">
-		SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE SAMPLE_DOT_CODE =
+		SELECT SAMPLE_NO, SAMPLE_NAME FROM TBL_EDOC_SAMPLE WHERE USE_YN = 'Y' AND SAMPLE_DOT_CODE =
 		#{edocDotCode}
 	</select>
 
@@ -449,4 +449,51 @@
 		UPDATE TBL_EDOC SET EDOC_STATUS='DST300', FINALIZED_DATE = SYSDATE WHERE EDOC_NO = #{edocNo}
 	</update>
 	
+	<insert id="insertSample" parameterType="edocSample">
+		<selectKey keyProperty="sampleNo" resultType="_int" order="BEFORE">
+			SELECT SEQ_SAMPLE_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TBL_EDOC_SAMPLE VALUES(
+			#{sampleNo},<!-- SAMPLE_NO -->
+			#{sampleDotCode},<!-- SAMPLE_DOT_CODE -->
+			#{sampleDesc},<!-- SAMPLE_DESC -->
+			#{sampleContent},<!-- SAMPLE_CONTENT -->
+			#{creater},<!-- CREATER -->
+			SYSDATE,<!-- CREATE_DATE -->
+			NULL,<!-- MODIFIER -->
+			NULL,<!-- MODIFY_DATE -->
+			DEFAULT,<!-- USE_YN -->
+			#{sampleName}<!-- SAMPLE_NAME -->
+		)
+	</insert>
+	
+	<insert id="copySample" parameterType="map">
+		<selectKey keyProperty="newSampleNo" order="BEFORE" resultType="_int" >
+			SELECT SEQ_SAMPLE_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TBL_EDOC_SAMPLE(SAMPLE_NO, SAMPLE_DOT_CODE, SAMPLE_NAME, SAMPLE_DESC, 
+			SAMPLE_CONTENT, CREATER, CREATE_DATE, MODIFIER, MODIFY_DATE, USE_YN)
+			SELECT #{newSampleNo}, SAMPLE_DOT_CODE, SAMPLE_NAME, SAMPLE_DESC,
+			SAMPLE_CONTENT, #{creater}, SYSDATE, NULL, NULL, 'Y' FROM TBL_EDOC_SAMPLE
+			WHERE SAMPLE_NO = #{sampleNo}
+	</insert>
+	
+	<update id="updateSample" parameterType="edocSample">
+		UPDATE TBL_EDOC_SAMPLE SET
+			SAMPLE_DOT_CODE = #{sampleDotCode},<!-- SAMPLE_DOT_CODE -->
+			SAMPLE_DESC = #{sampleDesc},<!-- SAMPLE_DESC -->
+			SAMPLE_CONTENT = #{sampleContent},<!-- SAMPLE_CONTENT -->
+			MODIFIER = #{modifier},<!-- MODIFIER -->
+			MODIFY_DATE = SYSDATE,<!-- MODIFY_DATE -->
+			SAMPLE_NAME = #{sampleName}<!-- SAMPLE_NAME -->
+		WHERE SAMPLE_NO = #{sampleNo}
+	</update>
+	
+	<delete id="deleteSample" parameterType="map" >
+		UPDATE TBL_EDOC_SAMPLE SET
+			MODIFIER = #{modifier},<!-- MODIFIER -->
+			MODIFY_DATE = SYSDATE,<!-- MODIFY_DATE -->
+			USE_YN = 'N'
+		WHERE SAMPLE_NO = #{sampleNo}
+	</delete>
 </mapper>

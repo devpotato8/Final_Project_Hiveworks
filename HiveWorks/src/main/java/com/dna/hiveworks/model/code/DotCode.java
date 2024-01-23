@@ -16,8 +16,8 @@ public enum DotCode {
 	DOT001 ("기안서"),
 	DOT002("보고서"),
 	DOT003("품의서"),
-	DOT004("휴가/연차 신청서"),
-	DOT005("연장근무 신청서");
+	DOT004("휴가/연차 신청서");
+	//DOT005("연장근무 신청서");
 	
 	private String code;
 	private DotCode(String code) {

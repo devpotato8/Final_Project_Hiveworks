@@ -20,7 +20,7 @@
 				<div class="d-flex">
 					<div class="d-flex flex-wrap justify-content-between flex-1">
 						<div class="mb-lg-0 mb-2 me-8">
-							<h1 class="pg-title">마이페이지</h1>
+							<h1 class="pg-title">마이페이지 - 프로필보기</h1>
 						</div>
 					</div>
 				</div>
@@ -35,39 +35,48 @@
 	
 	        <div class="showView">
 	            <div class="profile">
-	                <div></div>
-	                <div></div>
+	                <div>
+	                		<img src="${path }/resources/img/logo_bee.png" alt="user"
+									class="brand-img img-fluid " width="200px" height="200px">
+					</div>
 	            </div>
 	            <div class="changeProfile">
 	                <form action="" method="post" id="login_form">
 	                    <input
 	                        class="form-control"
-	                        name="userId"
 	                        type="text"
-	                        value=""
+	                        value="아이디 : ${employee.emp_id}"
 	                        readonly="readonly"
-	                        placeholder="아이디"
-	                    />
-	                    <!-- <span id="result" style="font-size: 1.5rem">비밀번호 일치여부</span> -->
-	                    <input
-	                     class="form-control"
-	                        name="email"
-	                        type="email"
-	                        value=""
-	                        placeholder="이메일"
-	                        maxlength="20"
-	                        onfocus="this.placeholder=''"
-	                        onblur="this.placeholder='이메일'"
 	                    />
 	                    <input
 	                        class="form-control"
-	                        name="phone"
 	                        type="text"
-	                        value=""
-	                        placeholder="휴대폰번호"
-	                        maxlength="13"
-	                        onfocus="this.placeholder=''"
-	                        onblur="this.placeholder='휴대폰번호'"
+	                        value="입사일 : ${employee.emp_hired_date}"
+	                        readonly="readonly"
+	                    />
+	                    <input
+	                        class="form-control"
+	                        type="text"
+	                        value="직책 : ${employee.emp_memo}"
+                        	readonly="readonly"
+	                    />
+	                    <input
+	                     class="form-control"
+	                     	type="text"
+	                        value="이메일 : ${employee.emp_email}"
+                        	readonly="readonly"
+	                    />
+	                    <input
+	                        class="form-control"
+	                        type="text"
+	                        value="전화번호 : ${employee.emp_cellphone}"
+                        	readonly="readonly"
+	                    />
+	                    <input
+	                        class="form-control"
+	                        type="text"
+	                        value="주소 : ${employee.emp_address}"
+                        	readonly="readonly"
 	                    />
 	                </form>
 	            </div>
@@ -113,32 +122,17 @@
             display: flex;
             flex-direction: column;
             margin: 0px 30px;
-            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
             border-radius: 5px;
         }
         #login_form input {
-            padding: 15px 0px;
+            padding: 15px 15px;
             margin-bottom: 10px;
             font-size: 1rem;
             border-radius: 10px;
             border: none;
-            text-align: center;
-        }
-        
-        #login_form input::placeholder {
-            color: rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-        
-        #login_form input[type="submit"] {
+            text-align: left;
             background-color: var(--navy);
             color: white;
-            cursor: pointer;
-            padding: 15px 0px;
-            border-radius: 5px;
-        }
-        #login_form input[type="submit"]:hover {
-            scale: 1.005;
         }
         
         #login_form a {
@@ -149,13 +143,6 @@
             margin-bottom: 10px;
             color: rgba(255, 255, 255, 0.2);
         }
-        .success{
-            color: cornflowerblue;
-        }
-        .fail{
-            color: tomato;
-        }
-        
         .showView{
             display: flex;
             justify-content: center;
@@ -167,10 +154,14 @@
             width: 50%;
         }
         .profile{
+        	display: flex;
+        	flex-direction:column;
+        	justify-content: center;
+        	align-items:center;
+        	border-radius:10px;
             width: 50%;
-            height: 100%;
+            height: 70%;
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         }
-
     </style>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

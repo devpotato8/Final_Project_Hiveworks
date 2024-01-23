@@ -15,4 +15,5 @@ public class SurveyAnswer {
 	private int questionNo;
 	private String answerComent;
 	private String userInfor;
+	
 }

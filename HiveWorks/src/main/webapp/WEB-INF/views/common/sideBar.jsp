@@ -50,7 +50,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Dashboard</span>
+									<span class="nav-link-text">메인 페이지</span>
 								</a>
 							</li>
 						</ul>	
@@ -124,7 +124,7 @@
 												<a class="nav-link" href="${path}/work/workList"><span class="nav-link-text">근무현황</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/work/workView?empNo=${loginEmp.emp_no}"><span class="nav-link-text">세부근무현황</span></a>
+												<a class="nav-link" href="${path}/work/workView"><span class="nav-link-text">세부근무현황</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -265,18 +265,18 @@
 													<span class="nav-link-text">프로필 수정</span>
 												</a>
 											</li>
-											<li class="nav-item">
+											<%-- <li class="nav-item">
 												<a class="nav-link" href="${path }/mypage/myvacation">
 													<span class="nav-link-text">내 휴가</span>
 												</a>
-											</li>
+											</li> --%>
 											<li class="nav-item">
-												<a class="nav-link" href="${path }/overtimepay/myovertimepay?emp_no=${loginEmp.emp_no}">
+												<a class="nav-link" href="${path }/overtimepay/myovertimepay">
 													<span class="nav-link-text">내 시간 외 근로수당</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#">
+												<a class="nav-link" href="${path }/salary/mySalaryList">
 													<span class="nav-link-text">내 급여</span>
 												</a>
 											</li>

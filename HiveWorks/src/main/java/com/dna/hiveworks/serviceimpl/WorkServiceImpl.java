@@ -110,33 +110,33 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public String avgEndWorkFilter(int empNo) {
+	public String avgEndWorkFilter(Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return dao.avgEndWorkFilter(session, empNo);
+		return dao.avgEndWorkFilter(session, param);
 	}
 
 	@Override
-	public int lateWorkFilter(int empNo) {
+	public int lateWorkFilter(Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return dao.lateWorkFilter(session, empNo);
+		return dao.lateWorkFilter(session, param);
 	}
 
 	@Override
-	public int fastEndFilter(int empNo) {
+	public int fastEndFilter(Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return dao.fastEndFilter(session, empNo);
+		return dao.fastEndFilter(session, param);
 	}
 
 	@Override
-	public int absenceFilter(int empNo) {
+	public int absenceFilter(Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return dao.absenceFilter(session, empNo);
+		return dao.absenceFilter(session, param);
 	}
 
 	@Override
-	public int overWorkFilter(int empNo) {
+	public int overWorkFilter(Map<String, Integer>param) {
 		// TODO Auto-generated method stub
-		return dao.overWorkFilter(session, empNo);
+		return dao.overWorkFilter(session, param);
 	}
 
 	

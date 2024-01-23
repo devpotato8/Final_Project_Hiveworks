@@ -1,6 +1,7 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public int updateMyProfile(int empNo) {
+	public int updateProfile(Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.updateProfile(session,param);
 	}
 
 	@Override

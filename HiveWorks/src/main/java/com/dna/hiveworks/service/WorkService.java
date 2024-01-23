@@ -25,9 +25,9 @@ public interface WorkService {
 	int overWork(int empNo);
 	
 	String avgStartWorkFilter(Map<String, Integer>param);
-	String avgEndWorkFilter(int empNo);
-	int lateWorkFilter(int empNo);
-	int fastEndFilter(int empNo);
-	int absenceFilter(int empNo);
-	int overWorkFilter(int empNo);
+	String avgEndWorkFilter(Map<String, Integer>param);
+	int lateWorkFilter(Map<String, Integer>param);
+	int fastEndFilter(Map<String, Integer>param);
+	int absenceFilter(Map<String, Integer>param);
+	int overWorkFilter(Map<String, Integer>param);
 }

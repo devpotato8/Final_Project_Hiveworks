@@ -182,4 +182,8 @@
 		UPDATE TBL_MESSAGE SET MSG_DELETE = 'N' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
 	</update>
 	
+	<update id="deleteFile">
+		UPDATE TBL_MESSAGE SET MSG_FILE_ORINAME = NULL, MSG_FILE_RENAME = NULL WHERE MSG_NO = ${msgNo} AND MSG_RECEIVER_NO = ${empNo}
+	</update>
+	
 </mapper>
