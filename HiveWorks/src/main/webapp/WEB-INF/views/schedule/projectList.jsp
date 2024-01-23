@@ -1640,6 +1640,12 @@ document.querySelectorAll(".projectView").forEach(element => {
   	                const addNewChecklist = document.querySelector('.add-new-checklist');
   	                const checklistDiv = document.createElement('div');
   	                checklistDiv.classList.add('form-check');
+  	                
+  	          		// 새로운 input-hidden 요소 생성
+  	                const hiddenInput = document.createElement('input');
+					hiddenInput.type = 'hidden';
+					hiddenInput.id = 'checkNohidden';
+					hiddenInput.value = checklistItem.calChecklistNo;
 
   	                // 새로운 input 요소 생성
   	                const checkboxInput = document.createElement('input');
@@ -1647,7 +1653,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   	                checkboxInput.classList.add('form-check-input');
   	                checkboxInput.id = `customCheckList${i + 2}`;
   	                checkboxInput.checked = checklistItem.endYn === 'Y' ? true : false;
-  	                checkboxInput.dataset.checklistNo = checklistItem.calChecklistNo;
+ 
 
   	                // 새로운 label 요소 생성
   	                const label = document.createElement('label');
