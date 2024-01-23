@@ -8,7 +8,7 @@
 			<!-- Brand -->
 			<div class="menu-header">
 				<span>
-					<a class="navbar-brand" href="${path}/">
+					<a class="navbar-brand" href="${path}/login/index">
 						<img class="brand-img img-fluid" src="${path}/resources/img/logo_bee.png" alt="brand" width="30px" height="35px"/>
 						<img class="brand-img img-fluid" src="${path}/resources/img/logo-title.png" alt="brand" width="150px" height="35px"/>
 					</a>
@@ -37,7 +37,7 @@
 					<div class="menu-group">
 						<ul class="navbar-nav flex-column">
 							<li class="nav-item">
-								<a class="nav-link" href="${path}/">
+								<a class="nav-link" href="${path}/login/index">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-template" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

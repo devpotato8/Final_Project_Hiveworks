@@ -130,10 +130,9 @@
 						<table id="datable_4c" class="table nowrap w-100 mb-5">
 							<thead>
 								<tr>
-									<th class="w-30p"><span class="form-check mb-0">
-										<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
-										<label class="form-check-label" for="customCheck1"></label>
-									</span></th>
+									<th>
+										<input type="checkbox" name="" id="chkRowAll">
+									</th>
 									<th>No</th>
 									<th style="display:none;"></th>
 									<th></th>

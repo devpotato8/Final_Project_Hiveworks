@@ -6,6 +6,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.dna.hiveworks.model.dao.EmpDao;
@@ -19,7 +20,7 @@ public class DBConnectionProvider implements AuthenticationProvider{
 	
 	private final EmpDao dao;
 	private final SqlSession session;
-//	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -29,14 +30,10 @@ public class DBConnectionProvider implements AuthenticationProvider{
 		
 		Employee loginEmp = dao.selectEmployeeById(session,empId);
 		
-		if(loginEmp== null||!loginEmp.getEmp_pw().equals(empPw)) {
+		//DB 완성 이후에 BCrypt이용해서 pw 재설정한 더미데이터 삽입 후 이용할 로직
+		if(loginEmp==null||!encoder.matches(empPw,loginEmp.getEmp_pw())) {
 			throw new BadCredentialsException("인증실패!");
 		}
-
-//DB 완성 이후에 BCrypt이용해서 pw 재설정한 더미데이터 삽입 후 이용할 로직
-//		if(loginEmp==null||!encoder.matches(empPw,loginEmp.getEmpPw())) {
-//			throw new BadCredentialsException("인증실패!");
-//		}
 		return new UsernamePasswordAuthenticationToken(loginEmp, loginEmp.getEmp_pw(),loginEmp.getAuthorities());
 	}
 

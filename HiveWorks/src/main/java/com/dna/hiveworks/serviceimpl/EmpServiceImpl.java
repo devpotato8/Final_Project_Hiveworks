@@ -225,18 +225,20 @@ public class EmpServiceImpl implements EmpService {
 		List<Account> accounts = (List<Account>)empData.get("accounts");
 		
 		int result=0;
+		int count=0;
 		for(int i=0;i<employees.size();i++) {
 			result = dao.insertEmployee(session, employees.get(i));
 			if(result>0) {
 				accounts.get(i).setEmp_no(employees.get(i).getEmp_no());
 				int result2 = dao.insertAccount(session, accounts.get(i));
+				count++;
 				if(result2==0) new RuntimeException("등록 실패");
 				
 			}else {
 				new RuntimeException("등록 실패");
 			}
 		}
-		
+		System.out.println(count);
 
 		return result;
 	}

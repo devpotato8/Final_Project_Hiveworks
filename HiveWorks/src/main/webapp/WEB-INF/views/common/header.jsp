@@ -190,7 +190,7 @@
 							</div>
 						</div>
 					</form>
-					<!-- <script>
+					<script>
 						const searchInput = document.getElementById('searchInput');
 						const searchBox = document.getElementById('searchBox');
 						
@@ -219,10 +219,10 @@
 								searchBox.style.flexDirection = "column";
 							})
 							.catch(error => {
-							      console.error(`요청 실패: ${error}`);
+							      console.error('요청 실패: ${error}');
 						    });
 					 	});
-					</script> -->
+					</script>
 					<!-- /Search -->
 				</div>
 				<!-- /Start Nav -->
