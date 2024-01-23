@@ -68,7 +68,6 @@
 											<table data-order='[[ 1, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
-														<th>양식번호</th>
 														<th>양식구분</th>
 														<th>양식이름</th>
 														<th>생성일</th>
@@ -79,7 +78,6 @@
 												<tbody>
 													<c:forEach items="${formatList }" var="fmt">
 														<tr data-sampleNo="${fmt.sampleNo}">
-															<td>${fmt.sampleNo }</td>
 															<td>${fmt.sampleDotCode.code }</td>
 															<td>${fmt.sampleName }</td>
 															<td>${fmt.createDate }</td>

@@ -194,6 +194,7 @@ let formatNo;
 
 $('#edocFormat').on('change',(e)=>{
 	const edocFormatNo = e.target.value;
+	const processContinue = confirm('작성중이던 내용이 사라질 수 있습니다.\n계속하시겠습니까?');
 	if(processContinue){
 		fetch(path+"/edoc/formatData?formatNo="+edocFormatNo)
 		.then(response=>{
@@ -201,13 +202,18 @@ $('#edocFormat').on('change',(e)=>{
 			return response.json();
 		})
 		.then(data=>{
-			document.getElementById('content').ckeditorInstance.data.set(data.sampleContent);
+			if(data.sampleFormat != null){
+				document.getElementById('content').ckeditorInstance.data.set(data.sampleFormat);
+			}
             formatNo = data.sampleNo;
 		})
 		.catch(e=>{
 				alert(e);
 				console.log(e);
 			})
+	}else{
+		$('#edocFormat option:eq(0)').prop('selected',true);
+		formatNo = '';
 	}
 });
 
@@ -429,7 +435,7 @@ const dataProcess = ()=>{
 				edocDsgCode : $('#edocDsgCode').val(),
 				creater : $('#edocCreter').val(),
 				period : $('#period').val(),
-				edocContent : $('#content').html(),
+				edocContent : document.getElementById('content').ckeditorInstance.data.get(),
 				approval: approvalList,
 				reference: referenceList,
 				edocSampleNo : formatNo

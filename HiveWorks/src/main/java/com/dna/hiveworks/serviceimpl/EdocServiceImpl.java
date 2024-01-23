@@ -81,7 +81,15 @@ public class EdocServiceImpl implements EdocService{
 	
 	@Override
 	public ElectronicDocumentSample getSample(String formatNo) {
-		return dao.getSample(session, formatNo);
+		ElectronicDocumentSample sample = dao.getSample(session, formatNo);
+		System.out.println(sample);
+		if(sample.getSampleFormat() != null) {
+			sample.setFullSample(sample.getSampleContent().replace("{{상세내용}}", sample.getSampleFormat()));
+		}else {
+			sample.setFullSample(sample.getSampleContent());
+		}
+		System.out.println(sample.getFullSample());
+		return sample; 
 	}
 	
 	@Transactional
@@ -381,6 +389,15 @@ public class EdocServiceImpl implements EdocService{
 				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+document.getCreateDate().toLocalDate().format(dateFormat)+"</span>");
 			}
 		}
+		while(content.indexOf("{{기안일시}}")!= -1) {
+			int startIndex = content.indexOf("{{기안일시}}");
+			int endIndex = startIndex + 8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createDate\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
+			}
+		}
 		while(content.indexOf("{{기안자사번}}")!= -1) {
 			int startIndex = content.indexOf("{{기안자사번}}");
 			int endIndex = startIndex +9;
@@ -421,9 +438,18 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{상세내용}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<div class=\"container edocContent\"></div>");
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
 			}else {
-				content.replace(startIndex, endIndex, "<div class=\"container edocContent\">"+document.getEdocContent()+"</div>");
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
+			}
+		}
+		while(content.indexOf("{{시작일자}}")!= -1) {
+			int startIndex = content.indexOf("{{시작일자}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+document.getEdocStartDate().toLocalDate().format(dateFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{시작일시}}")!= -1) {
@@ -433,6 +459,15 @@ public class EdocServiceImpl implements EdocService{
 				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\"></span>");
 			}else {
 				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{종료일자}}")!= -1) {
+			int startIndex = content.indexOf("{{종료일자}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\">"+document.getEdocEndDate().toLocalDate().format(dateFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{종료일시}}")!= -1) {
@@ -448,11 +483,11 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{결재선}}");
 			int endIndex = startIndex +7;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<figure class=\"table approval-container\" style=\"width:100%\"></figure>");
+				content.replace(startIndex, endIndex, "<figure class=\"table approval-container\" style=\"width:100%;height:100%\"></figure>");
 			}else {
 				StringBuilder sb = new StringBuilder();
 				List<ElectronicDocumentApproval> approvalList = document.getApproval();
-				sb.append("<figure class=\"table approval-container\" style=\"width:100%\">");
+				sb.append("<figure class=\"table approval-container\" style=\"width:100%;height:100%;\">");
 				sb.append("<table class=\"ck-table-resized\" style=\"border 1px solid black\">");
 				sb.append("<colgroup>");
 				for(int i=0; i<approvalList.size(); i++) {
@@ -462,14 +497,14 @@ public class EdocServiceImpl implements EdocService{
 				sb.append("<tbody>");
 				sb.append("<tr>");
 				for(ElectronicDocumentApproval apv : approvalList) {
-					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;\">");
+					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center; height:20%;\">");
 					sb.append(apv.getAprvlEmpName());
 					sb.append("</td>");
 				}
 				sb.append("</tr>");
 				sb.append("<tr>");
 				for(ElectronicDocumentApproval apv : approvalList) {
-					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;height:48px\">");
+					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;min-height:48px\">");
 					if(!apv.getAprvlApvCode().equals(ApvCode.APV000)) {
 						sb.append("<img class=\"img-autograph\" src=\""+context.getContextPath()+"/resources/upload/edoc/autograph/"+apv.getAprvlAutoFilename()+"\">");
 					}
@@ -478,7 +513,7 @@ public class EdocServiceImpl implements EdocService{
 				sb.append("</tr>");
 				sb.append("<tr>");
 				for(ElectronicDocumentApproval apv : approvalList) {
-					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;\">");
+					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;height:20%;\">");
 					if(!apv.getAprvlApvCode().equals(ApvCode.APV000)) {
 						sb.append(apv.getAprvlDate().toLocalDate().format(dateFormat));
 					}

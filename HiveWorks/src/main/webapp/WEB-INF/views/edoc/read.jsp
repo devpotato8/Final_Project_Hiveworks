@@ -165,8 +165,12 @@
 										<span class="form-control-plaintext">제목 : ${edoc.edocTitle}</span>
 										
 										<span class="form-label">본문 : </span>
-										<div class="container document-content-container">									
-											${edoc.edocContent}
+										<div class="container">
+											<div class="document-content">
+												<div class="container">
+													${edoc.edocContent}
+												</div>
+											</div>
 										</div>
 									</div>
 									<!-- 첨부파일 탭 -->
