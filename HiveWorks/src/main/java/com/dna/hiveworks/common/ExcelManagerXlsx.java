@@ -53,21 +53,21 @@ private static ExcelManagerXlsx excelXlsxMng;
            String valueStr = ""; 
            int cellLength = (int) row.getLastCellNum();
            for(int j=0; j<cellLength; j++){
-        Cell cell = row.getCell(j);
-           
-          if (cell == null || cell.getCellType() == CellType.BLANK) {
-        valueStr = "";
-      }else{
-        switch(cell.getCellType()){
-            case STRING :
-                valueStr = cell.getStringCellValue();
-                break;
-            case NUMERIC : // 날짜 형식이든 숫자 형식이든 다 CELL_TYPE_NUMERIC으로 인식함.
-                if(DateUtil.isCellDateFormatted(cell)){ // 날짜 유형의 데이터일 경우,
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-                    String formattedStr = dateFormat.format(cell.getDateCellValue());
-                    valueStr = formattedStr;
-                    break;
+		        Cell cell = row.getCell(j);
+		           
+		          if (cell == null || cell.getCellType() == CellType.BLANK) {
+		        valueStr = "";
+		      }else{
+		        switch(cell.getCellType()){
+		            case STRING :
+		                valueStr = cell.getStringCellValue();
+		                break;
+		            case NUMERIC : // 날짜 형식이든 숫자 형식이든 다 CELL_TYPE_NUMERIC으로 인식함.
+		                if(DateUtil.isCellDateFormatted(cell)){ // 날짜 유형의 데이터일 경우,
+		                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		                    String formattedStr = dateFormat.format(cell.getDateCellValue());
+		                    valueStr = formattedStr;
+		                    break;
                 }else{ // 순수하게 숫자 데이터일 경우,
                     Double numericCellValue = cell.getNumericCellValue();
                     if(Math.floor(numericCellValue) == numericCellValue){ // 소수점 이하를 버린 값이 원래의 값과 같다면,,

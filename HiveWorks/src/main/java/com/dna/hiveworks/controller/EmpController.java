@@ -452,29 +452,38 @@ public class EmpController {
 			 * System.out.println(sqlDate); // 출력: 2024-01-22
 			 */	    	
 	    	
-	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("사원번호")));
-	    	employee.setEmp_id(enrollEmployeesList.get(i).get("아이디"));
-	    	employee.setEmp_name(enrollEmployeesList.get(i).get("이름"));
-	    	employee.setEmp_resident_no(enrollEmployeesList.get(i).get("주민번호"));
-	    	//employee.setEmp_hired_date(enrollEmployeesList.get(i).get("입사일"));
-	    	//employee.setEmp_retired_date(enrollEmployeesList.get(i).get("퇴사일"));
-	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("사내전화"));
-	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("핸드폰번호"));
-	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_8"));
-	    	employee.setDept_name(enrollEmployeesList.get(i).get("cell_9"));
-	    	employee.setJob_name(enrollEmployeesList.get(i).get("cell_10"));
-	    	employee.setPosition_name(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setWork_status_name(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setWork_pattern_name(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setAut_name(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_0"));
-	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_0"));
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    	Date utilHiredDate = format.parse(enrollEmployeesList.get(i).get("cell_5"));
+	    	java.sql.Date sqlHiredDate = new java.sql.Date(utilHiredDate.getTime());
 	    	
-	    	account.setAc_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_0")));
-	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_0"));
-	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_0"));
+	    	Date utilRetiredDate = format.parse(enrollEmployeesList.get(i).get("cell_6"));
+	    	java.sql.Date sqlRetiredDate = new java.sql.Date(utilRetiredDate.getTime());
+	    	
+	    	
+	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_1")));
+	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_2"));
+	    	employee.setEmp_name(enrollEmployeesList.get(i).get("cell_3"));
+	    	employee.setEmp_resident_no(enrollEmployeesList.get(i).get("cell_4"));
+	    	employee.setEmp_hired_date(sqlHiredDate);
+	    	employee.setEmp_retired_date(sqlRetiredDate);
+	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("cell_7"));
+	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("cell_8"));
+	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_9"));
+	    	employee.setDept_name(enrollEmployeesList.get(i).get("cell_10"));
+	    	employee.setJob_name(enrollEmployeesList.get(i).get("cell_11"));
+	    	employee.setPosition_name(enrollEmployeesList.get(i).get("cell_12"));
+	    	employee.setWork_status_name(enrollEmployeesList.get(i).get("cell_13"));
+	    	employee.setWork_pattern_name(enrollEmployeesList.get(i).get("cell_14"));
+	    	employee.setAut_name(enrollEmployeesList.get(i).get("cell_15"));
+	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_16"));
+	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_17"));
+	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_18"));
+	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_19"));
+	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_20"));
+  	
+	    	account.setAc_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_21")));
+	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_22"));
+	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_23"));
 	    	
 	    	employees.add(employee);
 	    	accounts.add(account);
