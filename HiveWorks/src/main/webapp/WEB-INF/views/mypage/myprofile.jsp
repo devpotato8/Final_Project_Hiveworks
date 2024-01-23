@@ -28,9 +28,8 @@
 				<!-- /Page Header -->
 			<section>
 				<div class="selectBtn">
-		            <div><button class="btn"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
-		            <div><button class="btn"><i class="fa-solid fa-plane fa-lg"></i>&nbsp; 내휴가</button></div>
-		            <div><button class="btn"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 변경</button></div>
+		            <div><button class="btn" onclick="location.assign('${path}/mypage/myprofile')"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
+		            <div><button class="btn" onclick="location.assign('${path}/mypage/editmyprofile')"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 변경</button></div>
 	        	</div>
 	
 	        <div class="showView">
@@ -109,7 +108,7 @@
         }
         .selectBtn{
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
         }
         .selectBtn>div{
             width: 120px;
@@ -118,14 +117,14 @@
         }
         
         #login_form {
-            width: 100%;
+            width: 90%;
             display: flex;
             flex-direction: column;
             margin: 0px 30px;
-            border-radius: 5px;
+            border-radius:10px;
         }
         #login_form input {
-            padding: 15px 15px;
+            padding: 15px 30px;
             margin-bottom: 10px;
             font-size: 1rem;
             border-radius: 10px;
@@ -144,11 +143,12 @@
             color: rgba(255, 255, 255, 0.2);
         }
         .showView{
+        	margin-top:50px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 400px;
-            width: 50%;
+            width: 800px;
         }
         .changeProfile{
             width: 50%;
@@ -159,8 +159,8 @@
         	justify-content: center;
         	align-items:center;
         	border-radius:10px;
-            width: 50%;
-            height: 70%;
+            width: 400px;
+            height: 80%;
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         }
     </style>

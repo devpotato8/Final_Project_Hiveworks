@@ -97,7 +97,7 @@
 							</div>
 
 							<div class="dropdown-footer d-xl-flex d-none">
-								<div id="searchBox" style="font-size: 16px">검색하세요</div>
+								<div id="searchBox" style="font-size: 16px">검색하세요 (예)근태, 캘린더, 인사</div>
 							</div>
 						</div>
 					</form>
@@ -114,7 +114,7 @@
 							.then(data => {
 								searchBox.innerHTML = "";
 								if (keyword === "" || /^\s+$/.test(keyword)) { // 입력값이 공백 또는 띄어쓰기만 있는 경우
-									searchBox.textContent = "검색하세요";
+									searchBox.textContent = "검색하세요 (예)근태, 캘린더, 인사";
 								} else {
 									data.forEach( items =>{
 										const span = document.createElement('span');

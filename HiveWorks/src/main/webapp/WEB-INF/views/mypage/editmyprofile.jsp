@@ -19,7 +19,7 @@
 				<div class="d-flex">
 					<div class="d-flex flex-wrap justify-content-between flex-1">
 						<div class="mb-lg-0 mb-2 me-8">
-							<h1 class="pg-title">프로필 변경</h1>
+							<h1 class="pg-title">프로필 수정</h1>
 						</div>
 					</div>
 				</div>
@@ -27,8 +27,8 @@
 				<!-- /Page Header -->
 			<section>
 				<div class="selectBtn d-flex justify-content-center">
-		            <div style="width: 100%"><button class="btn" style="width: 200px"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
-		            <div style="width: 100%"><button class="btn" style="width: 200px"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 프로필 변경</button></div>
+		            <div><button class="btn" onclick="location.assign('${path}/mypage/myprofile')"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
+		            <div><button class="btn" onclick="location.assign('${path}/mypage/editmyprofile')"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 수정</button></div>
 	        	</div>
 	
 	        <div class="showView">
@@ -40,7 +40,7 @@
 	            </div>
 	            <div class="updateProfile">
 	                <form action="${path }/mypage/updateProfile" method="post" id="login_form">
-	                    <input
+	                    <%-- <input
 	                    class="form-control"
 	                        name="emp_pw"
 	                        id="password1"
@@ -61,7 +61,7 @@
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='비밀번호확인'"
 	                    >
-	                    <span class="text-center" id="passwordMatchMessage">비밀번호 일치여부</span>
+	                    <span class="text-center" id="passwordMatchMessage">비밀번호 일치여부</span> --%>
 	                    <input
 	                     class="form-control"
 	                        name="emp_email"
@@ -71,6 +71,7 @@
 	                        maxlength="20"
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='이메일'"
+	                        required="required"
 	                    />
 	                    <input
 	                        class="form-control"
@@ -81,6 +82,7 @@
 	                        maxlength="13"
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='휴대폰번호'"
+	                        	required="required"
 	                    />
 	                    <input
 	                        class="form-control"
@@ -91,6 +93,7 @@
 	                        maxlength="13"
 	                        onfocus="this.placeholder=''"
 	                        onblur="this.placeholder='주소'"
+	                        	required="required"
 	                    />
 	                    <input id="submitModify" class="form-control" type="submit" value="수정하기" />
 	                </form>
@@ -146,7 +149,7 @@
         }
         .selectBtn{
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
         }
         .selectBtn>div{
             width: 120px;
@@ -154,14 +157,13 @@
             text-align: center;
         }
         .updateProfile{
-        	width: 350px;
+        	width: 400px;
         }
         #login_form {
             width: 100%;
             display: flex;
             flex-direction: column;
             margin: 0px 30px;
-            /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
             border-radius:10px;
         }
         #login_form input {
@@ -221,8 +223,8 @@
         	justify-content: center;
         	align-items:center;
         	border-radius:10px;
-            width: 350px;
-            height: 70%;
+            width: 400px;
+            height: 80%;
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         }
 
