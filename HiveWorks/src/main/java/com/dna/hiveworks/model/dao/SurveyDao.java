@@ -16,7 +16,7 @@ public interface SurveyDao {
 
 	int insertSurvey(SqlSession session, Survey s);
 
-	int insertQuestion(SqlSession session, SurveyQuestion qustion);
+	int insertQuestion(SqlSession session, SurveyQuestion question);
 	
 	int surveyUpdate(SqlSession session, Survey survey);
 	
