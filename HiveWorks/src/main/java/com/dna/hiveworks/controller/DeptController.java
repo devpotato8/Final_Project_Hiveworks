@@ -221,7 +221,11 @@ public class DeptController {
 	    return response;
 	}
 	
-	
+	@GetMapping("/insertDeptList")
+	public String insertDeptExcel(){
+		return "department/deptExcelUpload";
+	}
+		
 	@PostMapping("/deptExcelUpload")
 	public String uploadExcel(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		try {

@@ -1,12 +1,14 @@
 package com.dna.hiveworks.controller;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Work;
@@ -14,33 +16,28 @@ import com.dna.hiveworks.service.WorkService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ViewController {
 	
 	private final WorkService service; 
-
-		//	public String index() {
-		// 로그인 연결한 이후에 해야함
+	
 	@GetMapping("/")
-	public String home() {
-//	public String home(HttpSession session, Model m) {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		Employee loginEmp = (Employee) authentication.getPrincipal();
-//		session.setAttribute("loginEmp", loginEmp);
-//		
-//		 //직원 출퇴근기록 가져오기
-//		Work commute = service.selectCommute(loginEmp.getEmp_no());
-//		m.addAttribute("commute", commute);
-		return "index";
+	public String loginPage() {
+		return "common/loginPage";
 	}
 	
-	@PostMapping("/login/index")
+	@RequestMapping(value="/login/index",method= {RequestMethod.GET, RequestMethod.POST})
 	public String index(HttpSession session, Model m) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+	        // 인증되지 않은 사용자일 경우 로그인 페이지로 리다이렉트
+	        return "redirect:/";
+	    }
+		
 		Employee loginEmp = (Employee) authentication.getPrincipal();
 		session.setAttribute("loginEmp", loginEmp);
 		
@@ -49,11 +46,7 @@ public class ViewController {
 		m.addAttribute("commute", commute);
 		return "index";
 	}
-	
-	@GetMapping("/MyLoginPage")
-	public String loginPage() {
-		return "common/loginPage";
-	}
+		
 	
 	@PostMapping("/loginfail")
 	public String loginFailPage(HttpServletRequest request, Model model) {
@@ -62,11 +55,4 @@ public class ViewController {
 		return "common/loginError";
 	}
 	
-	
-	@GetMapping("/insertDeptList")
-	public String insertDeptExcel(){
-		return "department/deptExcelUpload";
-	}
-	
-
 }

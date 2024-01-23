@@ -136,10 +136,10 @@ public class ScheduleContoller {
 	}
 	
 
-	// 프로젝트 & 일정 등록
+	//일정 등록
 	@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Integer> insertSchedule(@RequestBody Map<String, Object> param) throws Exception {
+	public ResponseEntity<Object> insertSchedule(@RequestBody Map<String, Object> param) throws Exception {
 		
 		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
 				  instanceof String)); });
@@ -182,12 +182,68 @@ public class ScheduleContoller {
 				.calAlldayYn(calAlldayYn).calStatus(calStatus).myEmpNo(empNo).myDeptCode(empdeptcode).creater(empNo).modifier(empNo).build();
 
 		result = scheduleService.insertSchedule(schedule, empList);
-
+	    
 		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result)
 				: ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 
 	}
+	
+	// 프로젝트 등록
+	@PostMapping("/insertproject")
+	public String insertProject(@RequestParam Map<String, Object> param, Model model, String[] calEmp) {
+		
+		log.debug(Arrays.toString(calEmp));
+		
+		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+		 instanceof String)); });
+		 
 
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+
+		int result = 0;
+		String calSubject = (String) param.get("title");
+		String calStatus = (String) param.get("status");
+		String calContent = (String) param.get("content");
+		String startDateString = (String) param.get("start");
+		String endDateString = (String) param.get("end");
+		String calAlldayYn = (String) param.get("allday");
+		String calCode = (String) param.get("code");
+		String calColor = (String) param.get("backgroundColor");
+		int empNo = Integer.parseInt((String) param.get("empno"));
+
+		
+	    int[] empList = new int[calEmp.length];
+        
+        for (int i = 0; i < calEmp.length; i++) {
+        	empList[i] = Integer.parseInt(calEmp[i]);
+        }
+
+		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
+
+		Schedule schedule = Schedule.builder().calStartDate(calStartDate).calEndDate(calEndDate).calCode(calCode).myEmpNo(empNo)
+				.creater(empNo).modifier(empNo).calColor(calColor).calSubject(calSubject).calContent(calContent).calStatus(calStatus).build();
+
+		result = scheduleService.insertProject(schedule, empList);
+
+		String msg, loc;
+		if (result > 0) {
+			msg = "프로젝트 등록 성공";
+			loc = "schedule/projectlist.do";
+		} else {
+			msg = "프로젝트 등록 실패 ";
+			loc = "schdule/projectlist.do";
+		}
+
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+
+		return "schedule/msg";
+	}
+	
+	
+
+		
 	// 일정 수정
 	@PostMapping(value= "/updateschedule", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -252,6 +308,68 @@ public class ScheduleContoller {
 	}
 	
 	
+	//프로젝트 수정
+	@PostMapping(value= "/updateproject", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Schedule updateProject(@RequestBody Map<String, Object> param){///@RequestParam(name="reempList", required = false) List<String> param2
+		
+
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
+		
+	
+		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
+		  instanceof String)); });
+		 
+		
+		int result = 0;
+		System.out.println("파람"+param);
+		String calSubject = (String)param.get("retitle");
+		System.out.println(calSubject);
+		
+		String startDateString = (String)param.get("restart");
+		String endDateString = (String)param.get("reend");
+		String calCode = (String)param.get("recode");
+		String calColor = (String)param.get("rebackgroundColor");
+		String calContent = (String)param.get("recontent");
+		String reminderYn = (String)param.get("rereminder");
+		String calAlldayYn = (String)param.get("reallday");
+		String calStatus = (String)param.get("restatus");
+		int calNo = Integer.parseInt((String)param.get("recalno"));
+		int reempNo = (Integer)param.get("reempno");
+		List<String> empStrList = (List<String>)param.get("reempList");
+		List<Integer> reempList = new ArrayList<>();
+		if (empStrList != null && empStrList.size() > 0) {
+			for (String emp : empStrList) {
+				if (!emp.isEmpty()) { // emp가 빈 문자열이 아닌 경우에만 parseInt 실행
+					int empInt = Integer.parseInt(emp);
+					reempList.add(empInt);
+				}
+			}
+		}
+
+		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
+		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
+
+		
+		
+		  Schedule schedule =
+		  Schedule.builder().calSubject(calSubject).calStartDate(
+		  calStartDate)
+		  .calEndDate(calEndDate).calCode(calCode).calColor(calColor).calContent(
+		  calContent).calNo(calNo)
+		  .reminderYn(reminderYn).calAlldayYn(calAlldayYn).calStatus(calStatus).
+		  modifier(reempNo).build();
+		 
+		 
+		  result = scheduleService.updateSchedule(schedule, reempList, calNo);
+		  
+		  return result>0?schedule:null;
+		
+		
+		
+		
+	}
+	
 	
 	//중요일정 수정
 	@PostMapping("/updateImportYn")
@@ -273,22 +391,14 @@ public class ScheduleContoller {
 
 	// 일정 삭제
 	@PostMapping("/deleteschedule")
-	public String deleteSchedule(@RequestBody Map<String, Object> param, Model model) {
-		int calNo = (Integer)param.get("calNo");
+	@ResponseBody
+	public ResponseEntity<Object> deleteSchedule(@RequestBody Map<String, Object> param, Model model) {
+		//int calNo = (Integer)param.get("calNo");
+		int calNo = Integer.parseInt((String)param.get("calNo"));
 		int result = scheduleService.deleteSchedule(calNo);
-		String msg, loc;
-		if (result > 0) {
-			msg = "삭제성공";
-			loc = "schedule/schedulelist.do";
-		} else {
-			msg = "삭제실패";
-			loc = "schedule/schedulelist.do";
-		}
-
-		model.addAttribute("msg", msg);
-		model.addAttribute("loc", loc);
-
-		return "schedule/msg";
+		
+		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
+			  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 	}
 
 	// 프로젝트 조회
@@ -303,7 +413,7 @@ public class ScheduleContoller {
 		return "schedule/projectList";
 	}
 
-	// 프로젝트 상세조회
+	//프로젝트 상세 조회
 	@GetMapping("/projectlistbycalno.do")
 	@ResponseBody
 	public ResponseEntity<Schedule> projectListByCalNo(@RequestParam int calNo, Model model) {
@@ -323,30 +433,45 @@ public class ScheduleContoller {
 		return "schedule/myProjectList";
 	}
 	
-	
-	//체크리스트 등록
+
+	// 체크리스트 등록
 	@PostMapping("/insertChecklist")
 	@ResponseBody
-	public ResponseEntity<Object> insertChecklist(@RequestBody Map<String, Object> param){	
-		System.out.println("파람람"+param);
-	    int empNo = (Integer)param.get("empNo");
-	    String checklistValue = (String)param.get("checklistValue");
-	    int calNo = (Integer)param.get("calNo");
+	public int insertChecklist(@RequestBody Map<String, Object> param) throws Exception {
+	    int empNo = (Integer) param.get("empNo");
+        String checklistValue = (String) param.get("checklistValue");
+        int calNo = (Integer) param.get("calNo");
 
-	    CheckList checklist = CheckList.builder().calNo(calNo).calChecklistContent(checklistValue).creater(empNo).modifier(empNo).build();
+        CheckList checklist = CheckList.builder()
+                .calNo(calNo)
+                .calChecklistContent(checklistValue)
+                .creater(empNo)
+                .modifier(empNo)
+                .build();
 
-	    int result = scheduleService.insertChecklist(checklist);
+        int result = scheduleService.insertChecklist(checklist);
+        
+        int checklistNo = checklist.getCalChecklistNo();
 
-	    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
-	          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
-	}
+        if(result == 0) {
+            throw new Exception("체크리스트 등록에 실패했습니다.");
+        }
+        // 체크리스트 등록 성공 시
+        return checklistNo;
+    } 
+
+	          
+	
+	
+	
+	
 	
 	//체크리스트 삭제
 		@PostMapping("/deleteChecklist")
 		@ResponseBody
 		public ResponseEntity<Object> deleteChecklist(@RequestBody Map<String, Object> param){	
 			System.out.println("파람람"+param);
-		    int checklistNo = (Integer)param.get("checklistNo");
+		    int checklistNo = Integer.parseInt((String)param.get("checklistNo"));
 		    
 		    int result = scheduleService.deleteChecklist(checklistNo);
 
@@ -573,8 +698,8 @@ public class ScheduleContoller {
 		int result = 0;
 		int empNo = Integer.parseInt((String)param.get("empNo"));
 		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
-		String startDateString = (String) param.get("start");
-		String endDateString = (String) param.get("end");
+		String startDateString = (String) param.get("resstart");
+		String endDateString = (String) param.get("reend");
 		String calColor = (String) param.get("backgroundColor");
 		String calCode = (String) param.get("code");
 		String calSubject = "";

@@ -7,126 +7,63 @@
 	<jsp:param value="" name="hover" />
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<!-- 이 페이지에서는 해당 설문이 완료가 되면 해당 설문의 데이터들을 보여주는 페이지 -->
-<div class="was-validated">
-    <h1>설문 결과</h1>
-    
-	<div id="pie_chart_1" style="height: 500px; margin-bottom:500px; margin-left:500px;"><h2>TypeB(다중선택)</h2></div>
-	
-	<div id="pie_chart_2" style="height: 500px; margin-bottom:500px; margin-left:500px;"><h2>TypeC(단일선택)</h2></div>
-    
-</div>
-<script src="${path}/resources/vendors/apexcharts/dist/apexcharts.min.js"></script>
-<script src="${path}/resources/dist/js/pie-chart-init.js"></script>
-<script>
-/*Basic Chart*/
-var options = {
- series: [50, 20, 10, 7, 13],
- chart: {
- width: 380,
- type: 'pie',
-},
-colors: ['#ff0000', '#008FFB', '#e92990', '#c02ff3', '#7429f8'],
-labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-responsive: [{
- breakpoint: 480,
- options: {
-	chart: {
-	  width: 200
-	},
-	legend: {
-	  position: 'bottom'
-	}
- }
-}]
-};
-
-var chart = new ApexCharts(document.querySelector("#pie_chart_1"), options);
-chart.render();
-var options = {
-		 series: [50, 20, 10, 7, 13],
-		 chart: {
-		 width: 380,
-		 type: 'pie',
-		},
-		colors: ['#ff0000', '#008FFB', '#e92990', '#c02ff3', '#7429f8'],
-		labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-		responsive: [{
-		 breakpoint: 480,
-		 options: {
-			chart: {
-			  width: 200
-			},
-			legend: {
-			  position: 'bottom'
-			}
-		 }
-		}]
-		};
-
-		var chart = new ApexCharts(document.querySelector("#pie_chart_2"), options);
-		chart.render();
+<div class="hk-wrapper" data-layout="vertical"
+	data-layout-style="collapsed" data-menu="light" data-footer="simple"
+	data-hover="active">
+	<div class="integrations-options-wrap">
 		
-</script>
-<script>
-    // Basic Chart for TypeB (다중선택)
-    var chartData1 = parseSurveyData("${s.surveyData}");
-    var options1 = {
-        series: chartData1.series,
-        chart: {
-            width: 380,
-            type: 'pie',
-        },
-        colors: chartData1.colors,
-        labels: chartData1.labels,
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    };
+	<div class="hk-sidebar-togglable"></div>
+	</header>
+	<div class="integrations-body">
+		<div data-simplebar class="nicescroll-bar">
+			<div class="container mt-md-7 mt-3">
+				<div
+					class="d-flex flex-md-nowrap flex-wrap align-items-center justify-content-between mb-5">
+					<div>
+						<h5>설문결과</h5>
+					</div>
+				</div>
+				<div class="row">
+					제발
 
-    var chart1 = new ApexCharts(document.querySelector("#pie_chart_1"), options1);
-    chart1.render();
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-    // Basic Chart for TypeC (단일선택)
-    var chartData2 = parseSurveyData("${s.surveyData}");
-    var options2 = {
-        series: chartData2.series,
-        chart: {
-            width: 380,
-            type: 'pie',
-        },
-        colors: chartData2.colors,
-        labels: chartData2.labels,
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    };
 
-    var chart2 = new ApexCharts(document.querySelector("#pie_chart_2"), options2);
-    chart2.render();
 
-    // Function to parse survey data
-    function parseSurveyData(surveyData) {
-        // Implement the logic to parse surveyData and return chartData
-        // Example: surveyData format - '{"labels": [...], "series": [...], "colors": [...]}' 
-        return JSON.parse(surveyData);
-    }
-</script>
+
+<!-- /Page Body -->
+</div>
+<!-- /Main Content -->
+</div>
+<!-- /Wrapper -->
+<style>
+.form-select {
+	margin-top: 100px;
+	width: 350px;
+	margin-left: 300px;
+}
+</style>
+<!-- jQuery -->
+<script src="vendors/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- FeatherIcons JS -->
+<script src="dist/js/feather.min.js"></script>
+
+<!-- Fancy Dropdown JS -->
+<script src="dist/js/dropdown-bootstrap-extended.js"></script>
+
+<!-- Simplebar JS -->
+<script src="vendors/simplebar/dist/simplebar.min.js"></script>
+
+<!-- Init JS -->
+<script src="dist/js/init.js"></script>
+<script src="dist/js/chips-init.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

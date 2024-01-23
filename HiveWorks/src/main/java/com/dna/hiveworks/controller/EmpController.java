@@ -3,6 +3,7 @@ package com.dna.hiveworks.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.configurers.ldap.LdapAuthenticationProviderConfigurer.PasswordCompareConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.View;
 
 import com.dna.hiveworks.common.ExcelEmployeeListConvert;
+import com.dna.hiveworks.common.ExcelRequestManager;
 import com.dna.hiveworks.model.dto.Account;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.serviceimpl.EmpServiceImpl;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -157,7 +160,6 @@ public class EmpController {
 		emp.setEmp_email(empEmail);
 		
 		String encodePassword = passwordEncoder.encode(emp.getEmp_pw());
-		System.out.println(encodePassword);
 		
 		emp.setEmp_pw(encodePassword);
 		
@@ -405,4 +407,134 @@ public class EmpController {
 		return new ExcelEmployeeListConvert();
 	}
 	
+	@PostMapping("excelEmployeeUpload")
+	public String uploadEmployeesAndAccount(
+			Employee employee,
+			Account account,
+	        HttpServletRequest request,
+	        HttpSession session,
+	        final MultipartHttpServletRequest multiRequest,
+	        Model model) throws Exception {
+	 
+	//LoginVO loginVO = loginService.getLoginInfo();
+	 
+	
+	String msg,loc;
+	String path = session.getServletContext().getRealPath("/resources/upload");
+	try{
+	    
+	    ExcelRequestManager em = new ExcelRequestManager();
+	    final Map<String, MultipartFile> files = multiRequest.getFileMap();
+	    List<HashMap<String,String>> enrollEmployeesList =null;
+	    
+	    
+	    enrollEmployeesList = em.parseExcelSpringMultiPart(files,"employees", 0, "", path);
+	    Map<String,Object> empData = new HashMap<>();
+	    List<Employee> employees = new ArrayList<>();
+	    List<Account> accounts = new ArrayList<>();
+	    
+	    for(int i = 0; i < enrollEmployeesList.size(); i++){
+	     
+			/*addHeader(sheet1,
+					List.of("사원번호","아이디","이름","주민번호","입사일","퇴사일","사내전화","핸드폰번호"
+							,"이메일","부서명","직위","직무","근로상태","근로형태","근무유형","권한","우편번호","주소","상세주소","메모","계좌번호","은행","소유주"));*/
+	    	
+	    	
+			/*
+			 * String strDate = "2024-01-22"; // 변환하려는 날짜 문자열
+			 * 
+			 * // String 값을 java.util.Date 형으로 변환 SimpleDateFormat format = new
+			 * SimpleDateFormat("yyyy-MM-dd"); Date utilDate = format.parse(strDate);
+			 * 
+			 * // java.util.Date 값을 java.sql.Date 형으로 변환 java.sql.Date sqlDate = new
+			 * java.sql.Date(utilDate.getTime());
+			 * 
+			 * System.out.println(sqlDate); // 출력: 2024-01-22
+			 */	    	
+	    	
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    	Date utilHiredDate = format.parse(enrollEmployeesList.get(i).get("cell_5"));
+	    	java.sql.Date sqlHiredDate = new java.sql.Date(utilHiredDate.getTime());
+	    	
+	    	Date utilRetiredDate = format.parse(enrollEmployeesList.get(i).get("cell_6"));
+	    	java.sql.Date sqlRetiredDate = new java.sql.Date(utilRetiredDate.getTime());
+	    	
+	    	
+	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_1")));
+	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_2"));
+	    	employee.setEmp_name(enrollEmployeesList.get(i).get("cell_3"));
+	    	employee.setEmp_resident_no(enrollEmployeesList.get(i).get("cell_4"));
+	    	employee.setEmp_hired_date(sqlHiredDate);
+	    	employee.setEmp_retired_date(sqlRetiredDate);
+	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("cell_7"));
+	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("cell_8"));
+	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_9"));
+	    	employee.setDept_name(enrollEmployeesList.get(i).get("cell_10"));
+	    	employee.setJob_name(enrollEmployeesList.get(i).get("cell_11"));
+	    	employee.setPosition_name(enrollEmployeesList.get(i).get("cell_12"));
+	    	employee.setWork_status_name(enrollEmployeesList.get(i).get("cell_13"));
+	    	employee.setWork_pattern_name(enrollEmployeesList.get(i).get("cell_14"));
+	    	employee.setAut_name(enrollEmployeesList.get(i).get("cell_15"));
+	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_16"));
+	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_17"));
+	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_18"));
+	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_19"));
+	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_20"));
+  	
+	    	account.setAc_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_21")));
+	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_22"));
+	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_23"));
+	    	
+	    	employees.add(employee);
+	    	accounts.add(account);
+	    	
+			/*
+			 * searchVO.setResv_program_type(apply.get(i).get("cell_0"));
+			 * searchVO.setResv_program(apply.get(i).get("cell_1"));
+			 * searchVO.setResv_biz_name(apply.get(i).get("cell_2"));
+			 * searchVO.setResv_biz_owner(apply.get(i).get("cell_3"));
+			 * searchVO.setResv_postno(apply.get(i).get("cell_4").replaceAll(",", ""));
+			 * searchVO.setResv_adrs1(apply.get(i).get("cell_5").replaceAll(",", ""));
+			 * searchVO.setResv_adrs2(apply.get(i).get("cell_6").replaceAll(",", ""));
+			 * searchVO.setResv_biz_tel(apply.get(i).get("cell_7"));
+			 * searchVO.setResv_name(apply.get(i).get("cell_8"));
+			 * searchVO.setResv_birth(apply.get(i).get("cell_9"));
+			 * searchVO.setResv_gender(apply.get(i).get("cell_10"));
+			 * searchVO.setResv_tel(apply.get(i).get("cell_11"));
+			 * searchVO.setResv_email(apply.get(i).get("cell_12"));
+			 * searchVO.setResv_depositor(apply.get(i).get("cell_13"));
+			 * searchVO.setResv_refund(apply.get(i).get("cell_14"));
+			 * searchVO.setResv_state(stateType.getMain_code());
+			 * 
+			 * searchVO.setSite_code(loginService.getSiteCode());
+			 * searchVO.setCret_id(loginVO.getId());
+			 * searchVO.setCret_ip(request.getRemoteAddr()); searchVO.setResv_gubun("L");
+			 */
+	                                     
+	       // reserveService.insertReserveVO(searchVO);
+	    	 System.out.println(employee);
+		     System.out.println(account);
+	    }
+	    empData.put("employees",employees);
+	    empData.put("accounts",accounts);
+
+	    int result = service.insertEmployeeByExcel(empData);
+	    
+	    msg="정보 수정 성공";
+		loc="employees/employeeList";
+	    
+	 
+	}catch(Exception e){
+	    System.out.println(e.toString());
+	    msg="정보 수정 실패";
+		loc="employees/enrollEmployee";
+	    }
+	 
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+		
 }
+
