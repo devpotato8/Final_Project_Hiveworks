@@ -18,7 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author : 김태윤
@@ -49,6 +49,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MessageController {
 	
 	private final MsgService service;
@@ -292,7 +293,7 @@ public class MessageController {
 		                "/topic/messages",
 		                jsonMsg
 		            );
-			        
+			        log.debug("Sending message to user: {}, destination: {}, message: {}", receiverUserId, "/topic/messages", jsonMsg);
 		            System.err.println(jsonMsg);
 		        }
 		    }
