@@ -35,7 +35,7 @@ class ElectronicDocumentImageUploadAdapter{
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open( 'POST', path+'/edoc/imgupload', true );
+        xhr.open( 'POST', contextPath+'/edoc/imgupload', true );
         xhr.responseType = 'json';
     }
 
@@ -150,7 +150,7 @@ $('#submitButton').on('click',(e)=>{
 	
 
     // fetch로 전송
-	fetch(path+'/edoc/format/write',{
+	fetch(contextPath+'/edoc/format/write',{
 		method : 'post',
     	body : formData
 	})
@@ -164,7 +164,7 @@ $('#submitButton').on('click',(e)=>{
 			
 		}else{
 			alert('양식이 정상적으로 전송되었습니다.');
-			location.replace(path+"/edoc/format/lists");
+			location.replace(contextPath+"/edoc/format/lists");
 		}
 	})
 	.catch(e=>{
@@ -179,12 +179,34 @@ $('#submitButton').on('click',(e)=>{
 const dataProcess = ()=>{
     
     let formData = new FormData();
-    
+    let data = ckeditor.getData();
+    let format;
+    if(data.indexOf('{{서식시작}}') != -1 && data.indexOf('{{서식종료}}') != -1){
+
+        let formatStart = data.indexOf('{{서식시작}}')-3;
+        let formatEnd = data.indexOf('{{서식종료}}')+12;
+
+        let format = data.substring(formatStart, formatEnd);
+        data = data.replace(format, '{{상세내용}}');
+
+        if(format.substr(0,3) != '<p>'){
+            format = format.substr(3+8);
+        }else{
+            format = format.substr(3+8+4);
+        }
+        if(format.substr(format.length-4) != '</p>'){
+            format = format.substr(0,format.length-(4+8));
+        }else{
+            format = format.substr(0,format.length-(4+8+3));
+        }
+    }
+
     let sample = {
         sampleDotCode : dotCode,
         sampleName : $('#sampleName').val(),
         sampleDesc : $('#sampleDesc').val(),
-        sampleContent : ckeditor.getData()
+        sampleContent : data,
+        sampleFormat : format
     }
 
     formData.append("sample",JSON.stringify(sample));
@@ -192,3 +214,27 @@ const dataProcess = ()=>{
     return formData;
 
 }
+$('#helpButton').on('click',()=>{
+    const helpWindow = window.open('','_blank','height=500, width=600, scrollbars=yes, toolbar=no, left=0, top=0');
+    const $ul = $('<ul>');
+    $ul.append($('<li>').text('{{문서번호}} : 해당위치에 문서 번호를 불러옴'));
+    $ul.append($('<li>').text('{{제목}} : 해당위치에 문서 제목을 불러옴'));
+    $ul.append($('<li>').text('{{기안자}} : 해당위치에 기안자 이름을 불러옴'));
+    $ul.append($('<li>').text('{{기안일자}} : 해당위치에 기안일자(yyyy.MM.dd)를 불러옴'));
+    $ul.append($('<li>').text('{{기안일시}} : 해당위치에 기안일시(yyyy.MM.dd hh:mm)를 불러옴'));
+    $ul.append($('<li>').text('{{기안자사번}} : 해당위치에 기안자 사번을 불러옴'));
+    $ul.append($('<li>').text('{{기안자부서}} : 해당위치에 기안자 부서이름을 불러옴'));
+    $ul.append($('<li>').text('{{기안자직급}} : 해당위치에 기안자 직급을 불러옴'));
+    $ul.append($('<li>').text('{{시작일자}} : 해당위치에 시작일자(yyyy.MM.dd)를 불러옴'));
+    $ul.append($('<li>').text('{{시작일시}} : 해당위치에 시작일시(yyyy.MM.dd hh:mm)를 불러옴'));
+    $ul.append($('<li>').text('{{종료일자}} : 해당위치에 종료일자(yyyy.MM.dd)를 불러옴'));
+    $ul.append($('<li>').text('{{종료일시}} : 해당위치에 종료일시(yyyy.MM.dd hh:mm)를 불러옴'));
+    $ul.append($('<li>').html('{{결재선}} : 해당위치에 결재선정보를 불러옴,<br>'
+    +'결재정보는 정보당 1x3의 테이블로 구성되어있으며,'
+    +'<br>위로부터 결재자 이름, 서명, 결재일 정보가 들어감'));
+    $ul.append($('<li>').text('{{첨부목록}} : 해당위치에 첨부파일 목록을 불러옴'));
+    $ul.append($('<li>').text('{{상세내용}} : 해당위치에 문서의 내용을 불러옴. 한 양식에 1번만 사용이가능하다.'));
+    $ul.append($('<li>').html('{{서식시작}}, {{서식종료}} : {{서식시작}}과 {{서식종료}} 사이를 사용자가 입력할 수 있는 서식으로 제공함<br>'
+    +'해당부분은 {{상세내용}}으로 자동으로 치환되며, {{상세내용}}과 동시에 사용이 불가능하다'));
+    $(helpWindow.document.body).append($ul);
+});

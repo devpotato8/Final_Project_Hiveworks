@@ -38,6 +38,20 @@
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 
+<style>
+#msgStack{
+	width: 280px;
+	right: 10px;
+	bottom: 10px;
+	position: fixed;
+	z-index: 9999;
+}
+
+.toast{
+	cursor: pointer;
+}
+</style>
+
 </head>
 
 <body>
@@ -45,6 +59,10 @@
 	<div class="hk-wrapper" data-layout="vertical"
 		data-layout-style="${param.style}" data-menu="light"
 		data-footer="simple" ${param.hover}>
+		
+		
+		
+		
 		<!-- Top Navbar -->
 		<nav class="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
 			<div class="container-fluid">
@@ -58,7 +76,7 @@
 
 					<!-- Search -->
 
-					<form class="dropdown navbar-search">
+					<%-- <form class="dropdown navbar-search">
 						<div class="dropdown-toggle no-caret" data-bs-toggle="dropdown"
 							data-dropdown-animation data-bs-auto-close="outside">
 							<a href="#"
@@ -97,7 +115,7 @@
 							</div>
 
 							<div class="dropdown-footer d-xl-flex d-none">
-								<div id="searchBox" style="font-size: 16px">검색하세요</div>
+								<div id="searchBox" style="font-size: 16px">검색하세요 (예)근태, 캘린더, 인사</div>
 							</div>
 						</div>
 					</form>
@@ -114,7 +132,7 @@
 							.then(data => {
 								searchBox.innerHTML = "";
 								if (keyword === "" || /^\s+$/.test(keyword)) { // 입력값이 공백 또는 띄어쓰기만 있는 경우
-									searchBox.textContent = "검색하세요";
+									searchBox.textContent = "검색하세요 (예)근태, 캘린더, 인사";
 								} else {
 									data.forEach( items =>{
 										const span = document.createElement('span');
@@ -134,7 +152,7 @@
 							      console.error(`요청 실패: ${error}`);
 						    });
 					 	});
-					</script>
+					</script> --%>
 					<!-- /Search -->
 				</div>
 				<!-- /Start Nav -->
@@ -438,4 +456,47 @@
 				<!-- /End Nav -->
 			</div>
 		</nav>
+		<div id="msgStack"></div>
 		<!-- /Top Navbar -->
+		
+		<!-- WebSocket연결 -->
+
+<!--sockJs 라이브러리-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<!--stomp.js 라이브러리-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<script>
+
+var socket = new SockJS('/ws/msg');  //WebSocketConfig에서 지정한 endpoint와 연결
+var stompClient = Stomp.over(socket); //STOMP 클라이언트 생성
+stompClient.debug = function(str){
+	console.log(str);
+};
+var userId = '${loginEmp.emp_id}';
+console.log(userId);
+//연결 함수
+stompClient.connect({userId:userId},onConnected,onError);
+
+	function onConnected(){
+	    console.log('연결함수실행');
+	    //쪽지가 도착하면 콜백 함수 실행
+	    stompClient.subscribe('/topic/messages',onMessageReceived);	    
+	}
+ 
+	//메시지 수신
+    function onMessageReceived(payload){
+	
+	   	console.log(payload.body);
+	   	console.log('콜백함수실행');
+	   	
+	    var data = JSON.parse(payload.body);
+	    var title = data.title;
+	    var sender = data.senderName;
+	    
+	    console.log(data,"공습경보!!!");
+	}
+    function onError(){
+    	console.log('통신에러');
+    }
+</script>

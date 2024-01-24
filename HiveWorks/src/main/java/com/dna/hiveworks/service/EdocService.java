@@ -266,5 +266,42 @@ public interface EdocService {
 	 */
 	
 	Map<String, Object> deleteSample(Map<String, Object>param);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 23. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 전자문서를 출력하는 화면을 만드는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 23., 설명 : 최초 작성
+	 *
+	 * @param edocNo 전자문서 번호
+	 * @param empNo 열람하려는 사람의 empno
+	 * @param posCode 열람하려는 사람의 poscode
+	 * @return status  httpstatus
+	 * @return error 에러시 에러발생 원인
+	 * @return data 정상 리턴시 전자문서 String
+	 * 
+	 */
+	Map<String, Object> edocPrint(Map<String, Object> param);
+
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 24. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 전자문서를 미리보는 화면을 만드는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 24., 설명 : 최초 작성
+	 *
+	* @param sampleNo 전자문서 번호
+	 * @return status  httpstatus
+	 * @return error 에러시 에러발생 원인
+	 * @return data 정상 리턴시 전자문서 String
+	 */
+	Map<String, Object> edocPrintPreview(Map<String, Object> param);
 	
 }

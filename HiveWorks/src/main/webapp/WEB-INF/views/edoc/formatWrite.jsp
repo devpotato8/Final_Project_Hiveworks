@@ -31,7 +31,8 @@
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
 							<h1 class="fmapp-title">양식 작성</h1>&emsp;
-							<button type="button" class="btn btn-primary" id="submitButton">양식 전송하기</button>
+							<button type="button" class="btn btn-primary" id="submitButton">양식 전송하기</button>&emsp;
+							<button type="button" class="btn btn-outline-primary" id="helpButton">양식 작성 서식</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -98,7 +99,6 @@
 											<div class="row row-editor">
 												<div class="editor-container">
 													<div class="editor editor-editable-container editor-editable-container--with-sidebar" id="content">
-	
 													</div>
 												</div>
 											</div>
@@ -116,7 +116,7 @@
 </div>
 <!-- /Main Content -->
 <script>
-	const path = "${path}";
+	const contextPath = "${path}";
 </script>
 <!-- Bootstrap Core JS -->
 <script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -142,6 +142,12 @@
 <script type="text/javascript" src="${path}/resources/js/edoc/edoc-format-write.js"></script>
 <link rel="stylesheet" href="${path}/resources/css/edoc/formatwrite.css">
 
+<script>
+
+$(function(){
+	ckeditor.data.set('<table style="width:17.5cm;height:25.2cm;padding:0;"><tbody><tr><td style="padding:0;">&nbsp;</td></tr></tbody></table>');
+});
+</script>
 
 </div>
 </body>

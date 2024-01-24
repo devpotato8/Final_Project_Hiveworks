@@ -40,12 +40,13 @@
 		<result column="sample_dot_code" property="sampleDotCode" />
 		<result column="SAMPLE_NAME" property="sampleName" />
 		<result column="SAMPLE_DESC" property="sampleDesc" />
-		<result column="SAMPLE_CONTENT" property="sampleContent" jdbcType="CLOB" />
+		<result column="SAMPLE_CONTENT" property="sampleContent"/>
 		<result column="CREATER" property="creater" />
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="MODIFIER" property="modifier" />
 		<result column="MODIFY_DATE" property="modifyDate" />
 		<result column="USE_YN" property="useYn" />
+		<result column="SAMPLE_FORMAT" property="sampleFormat"/>
 	</resultMap>
 	
 	<resultMap type="edocApproval" id="approvalMap">
@@ -59,6 +60,8 @@
 		<result column="APRVL_DATE" property="aprvlDate"/>
 		<result column="APRVL_EMP_NAME" property="aprvlEmpName"/>
 		<result column="APRVL_AUTO_FILENAME" property="aprvlAutoFilename"/>
+		<result column="APRVL_DEPT_NAME" property="aprvlDeptName"/>
+		<result column="APRVL_POS_NAME" property="aprvlPosName"/>
 	</resultMap>
 	
 	<resultMap type="edocAttachFile" id="attachFileMap">
@@ -84,7 +87,7 @@
 	</resultMap>
 	
 	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
-		SELECT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE,
+		SELECT DISTINCT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE,
 		FN_EDOC_STATUS(#{emp_id}, D.CREATER, A.APRVL_STATUS, A.APRVL_EMP_NO, D.EDOC_STATUS, R.REFPER_EMP_NO, R.REFPER_STATUS) AS EDOC_STATUS
 		FROM TBL_EDOC D
 		    JOIN TBL_EMPLOYEE DC ON D.CREATER = DC.EMP_NO
@@ -387,13 +390,16 @@
 		WHERE D.EDOC_NO = #{edocNo}
 	</select>
 	<select id="selectElectronicDocumentApproval" parameterType="string" resultMap="approvalMap">
-		SELECT A.*, E.EMP_NAME AS APRVL_EMP_NAME, 
+		SELECT A.*, E.EMP_NAME AS APRVL_EMP_NAME, D.CODE_NAME AS APRVL_DEPT_NAME, P.CODE_NAME AS APRVL_POS_NAME,
 			CASE
 				WHEN A.APRVL_APV_CODE = 'APV002' THEN 'defaultRevoke.png'
-				ELSE NVL(E.EMP_AUTO_FILENAME,'defaultApprove.png')
+				WHEN A.APRVL_APV_CODE = 'APV001' THEN NVL(E.EMP_AUTO_FILENAME,'defaultApprove.png') 
+				ELSE NULL
 			END AS APRVL_AUTO_FILENAME
 		FROM TBL_EDOC_APPROVAL A
 			LEFT JOIN TBL_EMPLOYEE E ON A.APRVL_EMP_NO = E.EMP_NO
+			LEFT JOIN TBL_CODE D ON E.DEPT_CODE = D.CODE_NO
+			LEFT JOIN TBL_CODE P ON E.POSITION_CODE = P.CODE_NO
 		WHERE APRVL_EDOC_NO = #{edocNo} 
 		ORDER BY APRVL_RANK
 	</select>
@@ -463,7 +469,8 @@
 			NULL,<!-- MODIFIER -->
 			NULL,<!-- MODIFY_DATE -->
 			DEFAULT,<!-- USE_YN -->
-			#{sampleName}<!-- SAMPLE_NAME -->
+			#{sampleName},<!-- SAMPLE_NAME -->
+			#{sampleFormat}
 		)
 	</insert>
 	
@@ -496,4 +503,8 @@
 			USE_YN = 'N'
 		WHERE SAMPLE_NO = #{sampleNo}
 	</delete>
+	
+	 <select id="getPosCodeByDsgCode" parameterType="string" resultType="string">
+	 	SELECT POS_CODE FROM TBL_EDOC_ACCESS_GRANT WHERE DSG_CODE = #{dsgCode}
+	 </select>
 </mapper>

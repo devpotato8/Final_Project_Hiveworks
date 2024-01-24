@@ -23,6 +23,11 @@ const dataTable = $('#docTable').DataTable( {
 	}
 });
 
+// 양식 생성 버튼 클릭 했을 때
+$('#btnFormatWrite').on('click',()=>{
+    location.href = contextPath+'/edoc/format/write';
+});
+
 
 // 양식 복사 버튼 클릭 했을 때
 $(document).on('click','Button.btn-format-copy', (e)=>{
@@ -36,7 +41,7 @@ $(document).on('click','Button.btn-format-copy', (e)=>{
 
     formData.append('sampleNo',formatNo);
 
-    fetch(path+'/edoc/format/copy',{
+    fetch(contextPath+'/edoc/format/copy',{
         method : 'POST',
         body : formData
     }).then(response=>{
@@ -47,14 +52,13 @@ $(document).on('click','Button.btn-format-copy', (e)=>{
         alert('정상적으로 복사 되었습니다.');
 
         dataTable.row.add([
-            data.data.sampleNo,
             data.data.dotCodeName,
             data.data.sampleName,
             data.data.createDate,
             data.data.sampleDesc,
             '<button type="button" class="btn btn-outline-secondary btn-icon btn-format-copy" title="양식복사"><span class="zmdi-icon"><i class="zmdi zmdi-collection-item"></i></span></button> <button type="button" class="btn btn-outline-secondary btn-icon btn-format-delete" title="양식삭제"><span class="zmdi-icon"><i class="zmdi zmdi-delete"></i></span></button>'
         ]).draw();
-        document.querySelectorAll('#docTable tbody tr').forEach((v)=>{if(v.dataset.sampleno == null){v.dataset.sampleno = v.firstElementChild.innerText}});
+        document.querySelectorAll('#docTable tbody tr').forEach((v)=>{if(v.dataset.sampleno == null){v.dataset.sampleno = data.data.sampleNo}});
     }).catch(e=>{
         alert(e);
         console.log(e);
@@ -73,7 +77,7 @@ $(document).on('click','Button.btn-format-delete', (e)=>{
 
     formData.append('sampleNo',formatNo);
 
-    fetch(path+'/edoc/format/delete',{
+    fetch(contextPath+'/edoc/format/delete',{
         method : 'DELETE',
         body : formData
     }).then(response=>{
@@ -98,5 +102,5 @@ $(document).on('click','#docTable tbody tr', (e)=>{
     const target = e.currentTarget;
     const formatNo = target.dataset.sampleno;
 
-    location.assign(path+'/edoc/format/view?formatNo='+formatNo);
+    location.assign(contextPath+'/edoc/format/view?formatNo='+formatNo);
 });

@@ -35,7 +35,7 @@ class ElectronicDocumentImageUploadAdapter{
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open( 'POST', path+'/edoc/imgupload', true );
+        xhr.open( 'POST', contextPath+'/edoc/imgupload', true );
         xhr.responseType = 'json';
     }
 
@@ -139,7 +139,7 @@ let formatNo;
 	dotCode = dotCodeValue;
 	formatNo = null;
 	const $format = $('#edocFormat');
-	fetch(path+"/edoc/formatList?edocDotCode="+dotCodeValue)
+	fetch(contextPath+"/edoc/formatList?edocDotCode="+dotCodeValue)
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status);
 		return response.json();
@@ -194,26 +194,32 @@ let formatNo;
 
 $('#edocFormat').on('change',(e)=>{
 	const edocFormatNo = e.target.value;
+	const processContinue = confirm('작성중이던 내용이 사라질 수 있습니다.\n계속하시겠습니까?');
 	if(processContinue){
-		fetch(path+"/edoc/formatData?formatNo="+edocFormatNo)
+		fetch(contextPath+"/edoc/formatData?formatNo="+edocFormatNo)
 		.then(response=>{
 			if(response.status != 200) throw new Error(response.status)
 			return response.json();
 		})
 		.then(data=>{
-			document.getElementById('content').ckeditorInstance.data.set(data.sampleContent);
+			if(data.sampleFormat != null){
+				document.getElementById('content').ckeditorInstance.data.set(data.sampleFormat);
+			}
             formatNo = data.sampleNo;
 		})
 		.catch(e=>{
 				alert(e);
 				console.log(e);
 			})
+	}else{
+		$('#edocFormat option:eq(0)').prop('selected',true);
+		formatNo = '';
 	}
 });
 
 function getDeptList(){
 	let rootDeptCode;
-	fetch(path+'/deptlist')
+	fetch(contextPath+'/deptlist')
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status)
 		return response.json();
@@ -251,7 +257,7 @@ function getDeptList(){
 }
 //선택된 부서의 구성원 목록을 가져오는 ajax함수
 function loadDeptEmpList(nodeId) {
-	fetch(path+'/edoc/approvalList?deptCode='+nodeId)
+	fetch(contextPath+'/edoc/approvalList?deptCode='+nodeId)
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status)
 		return response.json();
@@ -300,11 +306,13 @@ const fnAddApprovalListLoginEmp = (empNo, deptName, jobName, empName)=>{
 }
 
 const fnAddApprovalList = (empNo)=>{
-	if(!isExistInLists(empNo)){
-		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($approvalList);
+	if($approvalList.length >6){
+		alert('결재목록에는 6명까지만 가능합니다.');
+	}else if(!isExistInLists(empNo)){
+		$('#employee-list').find('option[value="'+empNo+'"]').clone().appendTo($approvalList);
 		approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV000',aprvlStatus:'P',aprvlRank:1});
 	}else{
-		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		const emp = $('#employee-list').find('option[value="'+empNo+'"]').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
 	}
 }
@@ -316,10 +324,10 @@ const fnDelApprovalList = (empNo)=>{
 
 const fnAddreferenceList = (empNo)=>{
 	if(!isExistInLists(empNo)){
-		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
+		$('#employee-list').find('option[value="'+empNo+'"]').clone().appendTo($referenceList);
 		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
 	}else{
-		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		const emp = $('#employee-list').find('option[value="'+empNo+'"]').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
 	}
 }
@@ -372,7 +380,7 @@ $('#submitButton').on('click',(e)=>{
 	}
 
     // fetch로 전송
-	fetch(path+'/edoc/write',{
+	fetch(contextPath+'/edoc/write',{
 		method : 'post',
     	body : formData
 	})
@@ -386,7 +394,7 @@ $('#submitButton').on('click',(e)=>{
 			
 		}else{
 			alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
-			location.replace(path+"/edoc/lists/process");
+			location.replace(contextPath+"/edoc/lists/process");
 		}
 	})
 	.catch(e=>{
@@ -427,9 +435,10 @@ const dataProcess = ()=>{
 				edocDsgCode : $('#edocDsgCode').val(),
 				creater : $('#edocCreter').val(),
 				period : $('#period').val(),
-				edocContent : $('#content').html(),
+				edocContent : document.getElementById('content').ckeditorInstance.data.get(),
 				approval: approvalList,
-				reference: referenceList
+				reference: referenceList,
+				edocSampleNo : formatNo
 			};
 	
 	// 연장근무 신청서일경우 시작/종료일 처리
@@ -465,3 +474,133 @@ const formValidate = ()=>{
 	//TODO 폼 데이터 확인
 	return true;
 };
+
+
+// 인쇄 미리보기 버튼 눌렀을때 내용 가져오기
+let printModal = document.getElementById('modal_print');
+$('#printPreviewButton').on('click',(e)=>{
+    const sampleNo = formatNo;
+	if(sampleNo == null || sampleNo == 0 || sampleNo == ''){
+		alert('서식이 선택되지 않았습니다.');
+		return;
+	}
+
+	const previewModal = new bootstrap.Modal(printModal);
+	previewModal.show();
+
+    const formData = new FormData();
+    formData.append('sampleNo',sampleNo);
+    fetch(contextPath+'/edoc/printpreview',{
+        method:'POST',
+        body:formData
+    }).then(response=>{
+        if(response.status!=200) throw new Error(response.status);
+        return response.json();
+    }).then(data=>{
+        if(data.status!=200) throw new Error(data.error);
+		//모달 창 안에 서식을 불러오기
+        $(printModal).find('.document-content .container').html(data.data);
+		setTimeout(()=>{
+		// 기안자 정보 등록
+		// 기안자 이름
+		let $createrName = document.querySelectorAll('.createrName');
+		if($createrName.length >0){
+			$createrName.forEach((v)=>{v.innerText = creater.createrName});
+		}
+		let $createrNo = document.querySelectorAll('.creater');
+		if($createrNo.length >0){
+			$createrNo.forEach((v)=>{v.innerText = creater.createrNo});
+		}
+		let $createrDeptName = document.querySelectorAll('.createrDeptName');
+		if($createrDeptName.length >0){
+			$createrDeptName.forEach((v)=>{v.innerText = creater.createrDept});
+		}
+		let $createrJobName = document.querySelectorAll('.createrPosCode');
+		if($createrJobName.length >0){
+			$createrJobName.forEach((v)=>{v.innerText = createrJob});
+		}
+
+		//기안날짜 등록
+		//기안일자
+		let $createDate = document.querySelectorAll('.createDate');
+		if($createDate.length >0){
+			let now = new Date();
+			$createDate.forEach((v)=>{v.innerText = now.getFullYear()+'.'+now.getMonth()+'.'+now.getDate()})
+		}
+		//기안일시
+		let $createDateTime = document.querySelectorAll('.createDateTime');
+		if($createDateTime.length > 0){
+			let now = new Date();
+			$createDateTime.forEach((v)=>{v.innerText = now.getFullYear()+'.'+now.getMonth()+'.'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()});
+		}
+		
+		//제목
+		let $title = document.querySelectorAll('.edocTitle');
+		if($title.length > 0){
+			$title.forEach((v)=>{v.innerText = $('#edocTitle').val()});
+		}
+		//날짜정보가져오기
+		const dateTimePicker = $('#dateTimePicker');
+		let dateValue;
+		if(dateTimePicker != null){
+
+		dateValue = $('#dateTimePicker').val();
+		}
+		if(dateValue != null && dateValue != ''){
+			//시작날짜 등록
+			//시작일자
+			const startDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
+			let $startDate = document.querySelectorAll('.edocStartDate');
+			if($startDate.length >0){
+				$startDate.forEach((v)=>{v.innerText = startDate.getFullYear()+'.'+startDate.getMonth()+'.'+startDate.getDate()});
+			}
+			//시작일시
+			let $startDateTime = document.querySelectorAll('.edocStartDateTime');
+			if($startDateTime.length > 0){
+				$startDateTime.forEach((v)=>{v.innerText = startDate.getFullYear()+'.'+startDate.getMonth()+'.'+startDate.getDate()+' '+startDate.getHours()+':'+startDate.getMinutes()});
+			}
+			//종료날짜 등록
+			//종료일자
+			const endDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
+			let $endDate = document.querySelectorAll('.edocEndDate');
+			if($endDate.length >0){
+				$endDate.forEach((v)=>{v.innerText = endDate.getFullYear()+'.'+endDate.getMonth()+'.'+endDate.getDate()});
+			}
+			//종료일시
+			let $endDateTime = document.querySelectorAll('.edocEndDateTime');
+			if($endDateTime.length > 0){
+				$endDateTime.forEach((v)=>{v.innerText = endDate.getFullYear()+'.'+endDate.getMonth()+'.'+endDate.getDate()+' '+endDate.getHours()+':'+endDate.getMinutes()});
+			}
+		}
+		// 결재선 등록
+		let $aprvlList = document.querySelectorAll('figure.approval-container');
+		let aprvlList = document.querySelector('#approvalList').children;
+		if($aprvlList.length >0){
+			let aprvlTable = '<table style="border:solid 1px black;"><tbody><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td>'+v.innerText.substr(0,v.innerText.indexOf('('))+'</td>'});
+			aprvlTable +='</tr><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlTable +='</tr><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlTable +='</tr></tbody></table>';
+			$aprvlList.forEach((v)=>{v.innerHTML = aprvlTable});
+		}
+		// 첨부파일 목록 등록
+		let $attachList = document.querySelectorAll('ol.attach-file-container');
+		let attachList = document.querySelector('#file').files;
+		if($attachList.length >0 && attachList.length > 0){
+			let attachLists = '';
+			attachList.forEach((v)=>{attachLists += '<li>'+v.name+'</li>';});
+			$attachList.forEach((v)=>{v.innerHTML = attachLists;});
+		}
+		// 상세내용 등록
+		let $content = document.querySelectorAll('.document-content .edocContent');
+		if($content.length > 0){
+			$content.innerHTML = ckeditor.data.get();
+		}
+		},500);
+    }).catch(e=>{
+        console.log(e);
+        alert(e);
+    })
+});

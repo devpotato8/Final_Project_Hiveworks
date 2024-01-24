@@ -1,5 +1,7 @@
 package com.dna.hiveworks.controller;
 
+import java.util.List;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,7 +41,11 @@ public class ViewController {
 	    }
 		
 		Employee loginEmp = (Employee) authentication.getPrincipal();
+		int empNo = loginEmp.getEmp_no();
 		session.setAttribute("loginEmp", loginEmp);
+		
+		// 직원 근무일 가져오기
+		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp(empNo);
 		
 		// 직원 출퇴근기록 가져오기
 		Work commute = service.selectCommute(loginEmp.getEmp_no());
@@ -47,8 +53,7 @@ public class ViewController {
 		return "index";
 	}
 		
-	
-	@PostMapping("/loginfail")
+	@RequestMapping(value="/loginfail",method= {RequestMethod.GET, RequestMethod.POST})
 	public String loginFailPage(HttpServletRequest request, Model model) {
 		String referrer = request.getHeader("Referer");
 	    model.addAttribute("url", referrer);  //이전 주소를 model에 담아서 보내기

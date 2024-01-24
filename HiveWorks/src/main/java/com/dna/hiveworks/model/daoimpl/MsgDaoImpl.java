@@ -114,6 +114,11 @@ public class MsgDaoImpl implements MsgDao {
 	public int deleteFile(SqlSession session, Map<String, Object> params) {
 		return session.update("message.deleteFile",params);
 	}
+
+	@Override
+	public List<String> receiverIds(SqlSession session, List<Integer> empNos) {
+		return session.selectList("message.receiverIds",empNos);
+	}
 	
 	
 	

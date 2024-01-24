@@ -181,6 +181,7 @@
 
 
 	<build>
+		<finalName>GDJ71_DNA_final</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

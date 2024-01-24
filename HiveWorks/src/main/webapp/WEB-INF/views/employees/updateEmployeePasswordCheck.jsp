@@ -121,7 +121,7 @@ input::-webkit-inner-spin-button {
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" >
+										<a href="${path }/employees/updateEmployeePasswordCheck?emp_no=${employee.emp_no}" >
 											<span>비밀번호 수정</span>
 										</a>
 									</li>
@@ -152,22 +152,7 @@ input::-webkit-inner-spin-button {
 												</div>
 											</div>
 										</div>
-										<div class="row gx-3">
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">새 비밀번호</label>
-													<input class="form-control" type="password" id="emp_pw_new" name="emp_pw_new" value="" min="8" maxlength="25" required="required" />
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">새 비밀번호 확인</label>
-													<input class="form-control" type="password" id="emp_pw_newCheck" name="emp_pw_newCheck" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
-													<div id="pwMessage"></div>
-												</div>
-											</div>
-										</div>
-										<button type="button" class="btn btn-primary mt-5" id="submitBtn">수정</button>
+										<button type="button" class="btn btn-primary mt-5" id="submitBtn">확인</button>
 									</form>
 								</div>
 							</div>
@@ -214,63 +199,31 @@ let reg_ver1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
 //영문 숫자 특수기호 조합 8자리 이상
 let reg_ver2 = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
-let pw_first = document.getElementById('emp_pw_new');
-let pw_second = document.getElementById('emp_pw_newCheck');
-let pw_message = document.getElementById('pwMessage');
-let msg = "";
-let count=0;
-
-fn_check_password=()=>{
-	if(!reg_ver1.test(pw_first.value)){
-		msg = "숫자와 영문자 조합으로 8~25자리를 사용해야 합니다.";
-		pw_message.innerHTML = msg;
-		count=1;
-	}else{
-		if(pw_first.value!==pw_second.value){
-			msg = "비밀번호가 서로 다릅니다!";
-			pw_message.innerHTML = msg;
-			count=1;
-		}else{
-			msg = "비밀번호가 일치합니다!";
-			pw_message.innerHTML = msg;
-			count=0;
-		}
-	}
-}
 
 let submitBtn = document.getElementById("submitBtn");
 let emp_id = document.getElementById("emp_id");
 let emp_pw = document.getElementById("emp_pw");
-let modifier = document.getElementById("modifier");
 
 submitBtn.addEventListener('click',(event)=>{
-	fn_check_password();
-	
- 	if(count===1){
-		alert("새 비밀번호를 확인해 주세요.")
-		return;
-	}
- 	if(count!==1){
 		$.ajax({
 			method:"POST",
-			url:"${path}/employees/updatePassword",
+			url:"${path}/employees/updateEmployeePasswordCheckEnd",
 			data:{
 				empId:emp_id.value,
-				empPassword:emp_pw.value,
-				empPasswordNew:pw_first.value,
-				modifier:modifier.value
+				empPassword:emp_pw.value
 				},
 			success:data=>{
-				if(data>0){
-					alert("비밀번호 변경 성공!");
-					location.assign("${path}/employees/employeeList");
+				if(data!=null){
+					alert("해당 직원을 확인했습니다.");
+					console.log(data.emp_no);
+					let empNo = data.emp_no;
+					location.assign("${path}/employees/updateEmployeePasswordWrite?empNo="+empNo);
 				}
 				else{
 					alert("비밀번호가 다릅니다!")
 				}
 			}
 		})
-	}
 });
 
 

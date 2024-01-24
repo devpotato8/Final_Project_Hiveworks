@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				success: function(data) {
 					var events = data.map(function(event, i) {
 						//로그인 한 사람의 번호가 만든 사람이거나 초대받는 사람일때
-						if (event.myEmpNo === loginEmpNo || event.invitationEmpList.some(invite => invite.yourEmpNo === loginEmpNo)) {
 							return {
 								id: event.calCode,
 								title: event.calSubject,
@@ -117,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
 									calNo: event.calNo,
 								}
 							};
-						}
 					});
 
 					// 필터링을 통해 undefined가 된 요소를 제거합니다.
@@ -482,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			},
 
-			eventClick: function(info) {
+			eventClick: function(info, initcount=2) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
 				
@@ -558,10 +556,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				var existingContainer = document.getElementById("someContainer1");
 				existingContainer.innerHTML = '';
 				$("div[class^='reinvicontainer']").remove();
-				
-				const invitationEmpListLength = invitationEmpList.length;
-				let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
-				let count = 0;
 
 
 				//조회 모달 list만큼 만들어주기
@@ -596,10 +590,17 @@ document.addEventListener('DOMContentLoaded', function() {
 						invicon.appendChild(div);
 
 					}
+				}
+					
+				const invitationEmpListLength = invitationEmpList.length;
+				let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
+				shareProjectCount = initcount;
+				
+				$("div#shareListJob>*").remove();
 
-							$("div[class^='reinvicontainer']").remove();
 	
 				// 수정 모달 list만큼 만들어주기(부서 직원)
+				if (invitationEmpList.length > 0) {
 				for (var i = 0; i < invitationEmpListLength; i++) {
 				    var YourEmpNo = invitationEmpList[i].yourEmpNo;
 				    var YourEmpName = invitationEmpList[i].yourEmpName;
@@ -715,107 +716,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			
 			
-			//수정 부서 직원 추가 
-			
-			function createContainer(index) {
-			    let reInviContainer = document.createElement('div');
-			    reInviContainer.className = 'reinvicontainer' + index;
-			    reInviContainer.style.display = 'flex';
-			    reInviContainer.style.paddingTop = '5px';
-			    reInviContainer.style.paddingBottom = '5px';
-			
-			    let deptContainer = document.createElement('div');
-			    deptContainer.className = 'col-sm-5';
-			    let empContainer = document.createElement('div');
-			    empContainer.className = 'col-sm-5';
-			
-			    let deptSelect = document.createElement('select');
-			    deptSelect.className = 'form-select me-3';
-			    deptSelect.name = 'recalDept';
-			    deptSelect.id = 'recalDept' + index;
-			
-			    let empSelect = document.createElement('select');
-			    empSelect.className = 'form-select me-3';
-			    empSelect.name = 'recalEmp';
-			    empSelect.id = 'recalEmp' + index;
-			
-			    for (var j = 0; j < deptCodes.length; j++) {
-			        let deptOption = document.createElement('option');
-			        deptOption.value = deptCodes[j];
-			        deptOption.text = deptNames[j];
-			        deptSelect.appendChild(deptOption);
-			    }
-			
-			    var selectedDeptIndex = deptSelect.selectedIndex;
-			    var selectedDeptCode = deptCodes[selectedDeptIndex];
-			
-			    var matchingEmpNames = [];
-			    var matchingEmpNos = [];
-			
-			    for (var k = 0; k < empDeptCodes.length; k++) {
-			        if (empDeptCodes[k] === selectedDeptCode) {
-			            matchingEmpNames.push(empNames[k]);
-			            matchingEmpNos.push(empNos[k]);
-			        }
-			    }
-			
-			    empSelect.innerHTML = "";
-			
-			    for (var l = 0; l < matchingEmpNames.length; l++) {
-			        var empOption = document.createElement("option");
-			        empOption.value = matchingEmpNos[l];
-			        empOption.text = matchingEmpNames[l];
-			        empSelect.appendChild(empOption);
-			    }
-			
-			    deptContainer.appendChild(deptSelect);
-			    empContainer.appendChild(empSelect);
-			
-			    reInviContainer.appendChild(deptContainer);
-			    reInviContainer.appendChild(empContainer);
-			
-			    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-			    let delButton = document.createElement('button');
-			    delButton.type = 'button';
-			    delButton.textContent = '삭제';
-			    delButton.addEventListener('click', function () {
-			        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-			        reInviContainer.remove();
-			        count--;
-			    });
-			
-			    reInviContainer.appendChild(delButton);
-			
-			    return reInviContainer;
-			}
-			
-			
-			$('#addBtnRe').on('click', function () {
-			    if (count <= 5) {
-			        let reInviContainer = createContainer(count);
-			
-			        let someContainer2 = document.querySelector('#shareListJob');
-			        someContainer2.appendChild(reInviContainer);
-			
-			        count++;
-			    } else {
-			        alert("공유인원은 5명까지 가능합니다.");
-			    }
-			    updateCount(); // count를 업데이트하는 함수 호출
-			});
-			
-			function updateCount() {
-			    count = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
-			}
-
-
-		
-
-
-
-
-
-
 				//변경 부분
 				$('#modifyContainer').find('#recalno').val(targetE.extendedProps.calNo);
 				$('#modifyContainer').find('.event-name').val(targetE.title);
@@ -936,6 +836,112 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		});
 	calendar.render();
+	
+	
+	
+			//수정 부서 직원 추가 
+			function createContainer(index) {
+			    let reInviContainer = document.createElement('div');
+			    reInviContainer.className = 'reinvicontainer' + index;
+			    reInviContainer.style.display = 'flex';
+			    reInviContainer.style.paddingTop = '5px';
+			    reInviContainer.style.paddingBottom = '5px';
+			
+			    let deptContainer = document.createElement('div');
+			    deptContainer.className = 'col-sm-5';
+			    let empContainer = document.createElement('div');
+			    empContainer.className = 'col-sm-5';
+			
+			    let deptSelect = document.createElement('select');
+			    deptSelect.className = 'form-select me-3';
+			    deptSelect.name = 'recalDept';
+			    deptSelect.id = 'recalDept' + index;
+			
+			    let empSelect = document.createElement('select');
+			    empSelect.className = 'form-select me-3';
+			    empSelect.name = 'recalEmp';
+			    empSelect.id = 'recalEmp' + index;
+			
+			    for (var j = 0; j < deptCodes.length; j++) {
+			        let deptOption = document.createElement('option');
+			        deptOption.value = deptCodes[j];
+			        deptOption.text = deptNames[j];
+			        deptSelect.appendChild(deptOption);
+			    }
+			
+			    var selectedDeptIndex = deptSelect.selectedIndex;
+			    var selectedDeptCode = deptCodes[selectedDeptIndex];
+			
+			    var matchingEmpNames = [];
+			    var matchingEmpNos = [];
+			
+			    for (var k = 0; k < empDeptCodes.length; k++) {
+			        if (empDeptCodes[k] === selectedDeptCode) {
+			            matchingEmpNames.push(empNames[k]);
+			            matchingEmpNos.push(empNos[k]);
+			        }
+			    }
+			
+			    empSelect.innerHTML = "";
+			
+			    for (var l = 0; l < matchingEmpNames.length; l++) {
+			        var empOption = document.createElement("option");
+			        empOption.value = matchingEmpNos[l];
+			        empOption.text = matchingEmpNames[l];
+			        empSelect.appendChild(empOption);
+			    }
+			
+			    deptContainer.appendChild(deptSelect);
+			    empContainer.appendChild(empSelect);
+			
+			    reInviContainer.appendChild(deptContainer);
+			    reInviContainer.appendChild(empContainer);
+			
+			    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+			    let delButton = document.createElement('button');
+			    delButton.type = 'button';
+			    delButton.textContent = '삭제';
+			    delButton.addEventListener('click', function () {
+			        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+			        reInviContainer.remove();
+			        shareProjectCount--;
+			    });
+			
+			    reInviContainer.appendChild(delButton);
+			
+			    return reInviContainer;
+			}
+			
+			function updateCount() {
+			    shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+			}
+			
+			$('#addBtnRe').on('click', function () {
+			    if (shareProjectCount <= 5) {
+			        let reInviContainer = createContainer(shareProjectCount);
+			
+			        let someContainer2 = document.querySelector('#shareListJob');
+			        someContainer2.appendChild(reInviContainer);
+			
+			        shareProjectCount++;
+			    } else {
+			        alert("공유인원은 5명까지 가능합니다.");
+			    }
+			    updateCount(); // count를 업데이트하는 함수 호출
+			});
+			
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 	var targetDrawer = '.hk-drawer.calendar-drawer',
@@ -963,6 +969,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					 // 성공 후 현재 페이지 새로고침
                 	//location.reload();
 					calendar.refetchEvents();
+					//조회창 없어지게
+					$(this).closest('.hk-drawer').removeClass('drawer-toggle');
+
 				})
 				.fail(function(request, status, error) {
 					alert("일정 삭제 실패" + error);
@@ -1133,7 +1142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		};
 
 		$.ajax({
-			url: "/schedule/insertschedule.do",
+			url: "/schedule/insertschedule",
 			method: "POST",
 			dataType: "json",
 			data: JSON.stringify(addEvent),
