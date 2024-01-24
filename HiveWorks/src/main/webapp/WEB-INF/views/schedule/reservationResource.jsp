@@ -536,7 +536,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      
      employeeList.forEach(function(employee) {
        var option = document.createElement('option');
-       option.value = employee.no;
+       option.value = employee.EMP_NO;
        option.textContent = employee.name;
        employeeSelect.appendChild(option);
      });
