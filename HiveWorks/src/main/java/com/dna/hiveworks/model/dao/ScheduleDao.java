@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.dna.hiveworks.model.dto.CheckList;
+import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -94,5 +95,13 @@ public interface ScheduleDao {
 	int doneChecklist(SqlSession session, int checklistNo);
 	
 	int undoneChecklist(SqlSession session, int checklistNo);
+	
+	int insertComment(SqlSession session, Comment comment);
+	
+	Comment selectCommentByNo(SqlSession session, int calCommenttNo);
+	
+	int updateComment(SqlSession session, Comment comment);
+	
+	int deleteComment(SqlSession session, int calCommentNo);
 
 }

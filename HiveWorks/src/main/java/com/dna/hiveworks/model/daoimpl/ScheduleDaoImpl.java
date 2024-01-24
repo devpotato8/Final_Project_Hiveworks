@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
 import com.dna.hiveworks.model.dto.CheckList;
+import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -259,6 +260,26 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	@Override
 	public int undoneChecklist(SqlSession session, int checklistNo) {
 		return session.update("schedule.undoneChecklist",checklistNo);
+	}
+	
+	@Override
+	public int insertComment(SqlSession session, Comment comment) {
+		return session.insert("schedule.insertComment",comment);
+	}
+	
+	@Override
+	public Comment selectCommentByNo(SqlSession session, int calCommenttNo) {
+		return session.selectOne("schedule.selectCommentByNo", calCommenttNo);
+	}
+	
+	@Override
+	public int updateComment(SqlSession session, Comment comment) {
+		return session.update("schedule.updateComment",comment);
+	}
+	
+	@Override
+	public int deleteComment(SqlSession session, int calCommentNo) {
+		return session.update("schedule.deleteComment",calCommentNo);
 	}
 
 }
