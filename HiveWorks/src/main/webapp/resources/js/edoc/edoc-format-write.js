@@ -35,7 +35,7 @@ class ElectronicDocumentImageUploadAdapter{
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open( 'POST', path+'/edoc/imgupload', true );
+        xhr.open( 'POST', contextPath+'/edoc/imgupload', true );
         xhr.responseType = 'json';
     }
 
@@ -150,7 +150,7 @@ $('#submitButton').on('click',(e)=>{
 	
 
     // fetch로 전송
-	fetch(path+'/edoc/format/write',{
+	fetch(contextPath+'/edoc/format/write',{
 		method : 'post',
     	body : formData
 	})
@@ -164,7 +164,7 @@ $('#submitButton').on('click',(e)=>{
 			
 		}else{
 			alert('양식이 정상적으로 전송되었습니다.');
-			location.replace(path+"/edoc/format/lists");
+			location.replace(contextPath+"/edoc/format/lists");
 		}
 	})
 	.catch(e=>{
@@ -180,7 +180,7 @@ const dataProcess = ()=>{
     
     let formData = new FormData();
     let data = ckeditor.getData();
-
+    let format;
     if(data.indexOf('{{서식시작}}') != -1 && data.indexOf('{{서식종료}}') != -1){
 
         let formatStart = data.indexOf('{{서식시작}}')-3;

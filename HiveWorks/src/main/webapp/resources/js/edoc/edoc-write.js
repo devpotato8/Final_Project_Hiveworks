@@ -35,7 +35,7 @@ class ElectronicDocumentImageUploadAdapter{
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open( 'POST', path+'/edoc/imgupload', true );
+        xhr.open( 'POST', contextPath+'/edoc/imgupload', true );
         xhr.responseType = 'json';
     }
 
@@ -139,7 +139,7 @@ let formatNo;
 	dotCode = dotCodeValue;
 	formatNo = null;
 	const $format = $('#edocFormat');
-	fetch(path+"/edoc/formatList?edocDotCode="+dotCodeValue)
+	fetch(contextPath+"/edoc/formatList?edocDotCode="+dotCodeValue)
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status);
 		return response.json();
@@ -196,7 +196,7 @@ $('#edocFormat').on('change',(e)=>{
 	const edocFormatNo = e.target.value;
 	const processContinue = confirm('작성중이던 내용이 사라질 수 있습니다.\n계속하시겠습니까?');
 	if(processContinue){
-		fetch(path+"/edoc/formatData?formatNo="+edocFormatNo)
+		fetch(contextPath+"/edoc/formatData?formatNo="+edocFormatNo)
 		.then(response=>{
 			if(response.status != 200) throw new Error(response.status)
 			return response.json();
@@ -219,7 +219,7 @@ $('#edocFormat').on('change',(e)=>{
 
 function getDeptList(){
 	let rootDeptCode;
-	fetch(path+'/deptlist')
+	fetch(contextPath+'/deptlist')
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status)
 		return response.json();
@@ -257,7 +257,7 @@ function getDeptList(){
 }
 //선택된 부서의 구성원 목록을 가져오는 ajax함수
 function loadDeptEmpList(nodeId) {
-	fetch(path+'/edoc/approvalList?deptCode='+nodeId)
+	fetch(contextPath+'/edoc/approvalList?deptCode='+nodeId)
 	.then(response=>{
 		if(response.status != 200) throw new Error(response.status)
 		return response.json();
@@ -380,7 +380,7 @@ $('#submitButton').on('click',(e)=>{
 	}
 
     // fetch로 전송
-	fetch(path+'/edoc/write',{
+	fetch(contextPath+'/edoc/write',{
 		method : 'post',
     	body : formData
 	})
@@ -394,7 +394,7 @@ $('#submitButton').on('click',(e)=>{
 			
 		}else{
 			alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
-			location.replace(path+"/edoc/lists/process");
+			location.replace(contextPath+"/edoc/lists/process");
 		}
 	})
 	.catch(e=>{
@@ -490,7 +490,7 @@ $('#printPreviewButton').on('click',(e)=>{
 
     const formData = new FormData();
     formData.append('sampleNo',sampleNo);
-    fetch(path+'/edoc/printpreview',{
+    fetch(contextPath+'/edoc/printpreview',{
         method:'POST',
         body:formData
     }).then(response=>{

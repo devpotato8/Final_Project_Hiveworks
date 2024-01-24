@@ -228,7 +228,7 @@
 </div>
 <!-- Modal Content -->
 <script>
-	const path = "${path}";
+	const contextPath = "${path}";
 	const creater ={
 		createrNo :'${emp.EMPNO}',
 		createrName : '${emp.EMPNAME}',
