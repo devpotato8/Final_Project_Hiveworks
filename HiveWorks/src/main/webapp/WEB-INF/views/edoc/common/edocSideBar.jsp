@@ -177,19 +177,12 @@
 						<li class="nav-item
 							<c:if test="${currentPage eq 'format' }">active</c:if> 
 						">
-							<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#edoc_format">
+							<a class="nav-link" href="${path }/edoc/format/lists">
 								<span class="nav-icon-wrap">
 									<i class="icon" data-icon="p"></i>
 								</span>
 								<span class="nav-link-text">문서양식 설정</span>
-								
 							</a>
-							<ul id="edoc_format" class="nav flex-column collapse nav-children">
-								<li class="nav-item">
-									<a class="nav-link" href="${path }/edoc/format/lists"><span class="nav-link-text">양식 목록</span></a>
-									<a class="nav-link" href="${path }/edoc/format/write"><span class="nav-link-text">양식 작성</span></a>
-								</li>	
-							</ul>
 						</li>
 						<li class="nav-item
 							<c:if test="${currentPage eq 'format' }">active</c:if> 

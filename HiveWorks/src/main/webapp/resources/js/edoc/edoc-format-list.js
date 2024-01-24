@@ -23,6 +23,11 @@ const dataTable = $('#docTable').DataTable( {
 	}
 });
 
+// 양식 생성 버튼 클릭 했을 때
+$('#btnFormatWrite').on('click',()=>{
+    location.href = path+'/edoc/format/write';
+});
+
 
 // 양식 복사 버튼 클릭 했을 때
 $(document).on('click','Button.btn-format-copy', (e)=>{

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -130,7 +131,7 @@ public class WorkController {
 		return "work/workView";
 	}
 	
-	@RequestMapping("updateStartWork")
+	@RequestMapping(value = "updateStartWork", method= {RequestMethod.GET, RequestMethod.POST})
 	public String updateStartWork(@SessionAttribute("loginEmp")Employee loginEmp, Model m) {
 		int empNo = loginEmp.getEmp_no();
 		
@@ -138,17 +139,17 @@ public class WorkController {
 		try {
 			service.updateStartWork(empNo);
 			msg = "오늘 하루도 힘내세요! :)";
-			loc = "";
+			loc = "login/index";
 		} catch (RuntimeException e) {
 			msg = "이미 누르셨습니다 :(";
-			loc = "";
+			loc = "login/index";
 		}
 		m.addAttribute("msg", msg);
 		m.addAttribute("loc", loc);
 		return "common/msg";
 	}
 	
-	@RequestMapping("updateEndWork")
+	@RequestMapping(value = "updateEndWork", method= {RequestMethod.GET, RequestMethod.POST})
 	public String updateEndWork(@SessionAttribute("loginEmp")Employee loginEmp, Model m) {
 		int empNo = loginEmp.getEmp_no();
 		
@@ -156,17 +157,17 @@ public class WorkController {
 		try {
 			service.updateEndWork(empNo);
 			msg = "오늘 하루도 고생하셨습니다! :)";
-			loc = "";
+			loc = "login/index";
 		} catch (RuntimeException e) {
 			msg = "이미 누르셨습니다 :(";
-			loc = "";
+			loc = "login/index";
 		}
 		m.addAttribute("msg", msg);
 		m.addAttribute("loc", loc);
 		return "common/msg";
 	}
 	
-	@RequestMapping("exceldownload")
+	@RequestMapping(value = "exceldownload", method= {RequestMethod.GET, RequestMethod.POST})
 	public View exceldownload(@SessionAttribute("loginEmp")Employee loginEmp , Model m) {
 		
 		int empNo = loginEmp.getEmp_no();

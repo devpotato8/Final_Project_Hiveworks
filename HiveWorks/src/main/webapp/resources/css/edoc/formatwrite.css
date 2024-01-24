@@ -191,6 +191,10 @@ main .ck-editor[role='application'] .ck.ck-content,
 	fill: currentColor;
 }
 
+.ck-content .table {
+	margin : 0;
+}
+
 
 /* --------- PAGINATION FEATURE ------------------------------------------------------------------------------------ */
 

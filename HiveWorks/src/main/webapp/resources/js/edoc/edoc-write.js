@@ -194,6 +194,7 @@ let formatNo;
 
 $('#edocFormat').on('change',(e)=>{
 	const edocFormatNo = e.target.value;
+	const processContinue = confirm('작성중이던 내용이 사라질 수 있습니다.\n계속하시겠습니까?');
 	if(processContinue){
 		fetch(path+"/edoc/formatData?formatNo="+edocFormatNo)
 		.then(response=>{
@@ -201,13 +202,18 @@ $('#edocFormat').on('change',(e)=>{
 			return response.json();
 		})
 		.then(data=>{
-			document.getElementById('content').ckeditorInstance.data.set(data.sampleContent);
+			if(data.sampleFormat != null){
+				document.getElementById('content').ckeditorInstance.data.set(data.sampleFormat);
+			}
             formatNo = data.sampleNo;
 		})
 		.catch(e=>{
 				alert(e);
 				console.log(e);
 			})
+	}else{
+		$('#edocFormat option:eq(0)').prop('selected',true);
+		formatNo = '';
 	}
 });
 
@@ -300,11 +306,13 @@ const fnAddApprovalListLoginEmp = (empNo, deptName, jobName, empName)=>{
 }
 
 const fnAddApprovalList = (empNo)=>{
-	if(!isExistInLists(empNo)){
-		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($approvalList);
+	if($approvalList.length >6){
+		alert('결재목록에는 6명까지만 가능합니다.');
+	}else if(!isExistInLists(empNo)){
+		$('#employee-list').find('option[value="'+empNo+'"]').clone().appendTo($approvalList);
 		approvalList.push({aprvlEmpNo:empNo,aprvlApvCode:'APV000',aprvlStatus:'P',aprvlRank:1});
 	}else{
-		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		const emp = $('#employee-list').find('option[value="'+empNo+'"]').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
 	}
 }
@@ -316,10 +324,10 @@ const fnDelApprovalList = (empNo)=>{
 
 const fnAddreferenceList = (empNo)=>{
 	if(!isExistInLists(empNo)){
-		$('#employee-list').find('option[value="'+empNo+'"').clone().appendTo($referenceList);
+		$('#employee-list').find('option[value="'+empNo+'"]').clone().appendTo($referenceList);
 		referenceList.push({refperEmpNo:empNo,refperStatus:'N'});
 	}else{
-		const emp = $('#employee-list').find('option[value="'+empNo+'"').text();
+		const emp = $('#employee-list').find('option[value="'+empNo+'"]').text();
 		alert('이미 결재 혹은 참조 목록에 있는 사람입니다.\n'+emp);
 	}
 }
@@ -427,9 +435,10 @@ const dataProcess = ()=>{
 				edocDsgCode : $('#edocDsgCode').val(),
 				creater : $('#edocCreter').val(),
 				period : $('#period').val(),
-				edocContent : $('#content').html(),
+				edocContent : document.getElementById('content').ckeditorInstance.data.get(),
 				approval: approvalList,
-				reference: referenceList
+				reference: referenceList,
+				edocSampleNo : formatNo
 			};
 	
 	// 연장근무 신청서일경우 시작/종료일 처리
