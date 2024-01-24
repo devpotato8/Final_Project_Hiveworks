@@ -498,7 +498,107 @@ $('#printPreviewButton').on('click',(e)=>{
         return response.json();
     }).then(data=>{
         if(data.status!=200) throw new Error(data.error);
+		//모달 창 안에 서식을 불러오기
         $(printModal).find('.document-content .container').html(data.data);
+		setTimeout(()=>{
+		// 기안자 정보 등록
+		// 기안자 이름
+		let $createrName = document.querySelectorAll('.createrName');
+		if($createrName.length >0){
+			$createrName.forEach((v)=>{v.innerText = creater.createrName});
+		}
+		let $createrNo = document.querySelectorAll('.creater');
+		if($createrNo.length >0){
+			$createrNo.forEach((v)=>{v.innerText = creater.createrNo});
+		}
+		let $createrDeptName = document.querySelectorAll('.createrDeptName');
+		if($createrDeptName.length >0){
+			$createrDeptName.forEach((v)=>{v.innerText = creater.createrDept});
+		}
+		let $createrJobName = document.querySelectorAll('.createrPosCode');
+		if($createrJobName.length >0){
+			$createrJobName.forEach((v)=>{v.innerText = createrJob});
+		}
+
+		//기안날짜 등록
+		//기안일자
+		let $createDate = document.querySelectorAll('.createDate');
+		if($createDate.length >0){
+			let now = new Date();
+			$createDate.forEach((v)=>{v.innerText = now.getFullYear()+'.'+now.getMonth()+'.'+now.getDate()})
+		}
+		//기안일시
+		let $createDateTime = document.querySelectorAll('.createDateTime');
+		if($createDateTime.length > 0){
+			let now = new Date();
+			$createDateTime.forEach((v)=>{v.innerText = now.getFullYear()+'.'+now.getMonth()+'.'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()});
+		}
+		
+		//제목
+		let $title = document.querySelectorAll('.edocTitle');
+		if($title.length > 0){
+			$title.forEach((v)=>{v.innerText = $('#edocTitle').val()});
+		}
+		//날짜정보가져오기
+		const dateTimePicker = $('#dateTimePicker');
+		let dateValue;
+		if(dateTimePicker != null){
+
+		dateValue = $('#dateTimePicker').val();
+		}
+		if(dateValue != null && dateValue != ''){
+			//시작날짜 등록
+			//시작일자
+			const startDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
+			let $startDate = document.querySelectorAll('.edocStartDate');
+			if($startDate.length >0){
+				$startDate.forEach((v)=>{v.innerText = startDate.getFullYear()+'.'+startDate.getMonth()+'.'+startDate.getDate()});
+			}
+			//시작일시
+			let $startDateTime = document.querySelectorAll('.edocStartDateTime');
+			if($startDateTime.length > 0){
+				$startDateTime.forEach((v)=>{v.innerText = startDate.getFullYear()+'.'+startDate.getMonth()+'.'+startDate.getDate()+' '+startDate.getHours()+':'+startDate.getMinutes()});
+			}
+			//종료날짜 등록
+			//종료일자
+			const endDate = new Date(Date.parse(dateValue.substr(0,dateValue.indexOf('-'))));
+			let $endDate = document.querySelectorAll('.edocEndDate');
+			if($endDate.length >0){
+				$endDate.forEach((v)=>{v.innerText = endDate.getFullYear()+'.'+endDate.getMonth()+'.'+endDate.getDate()});
+			}
+			//종료일시
+			let $endDateTime = document.querySelectorAll('.edocEndDateTime');
+			if($endDateTime.length > 0){
+				$endDateTime.forEach((v)=>{v.innerText = endDate.getFullYear()+'.'+endDate.getMonth()+'.'+endDate.getDate()+' '+endDate.getHours()+':'+endDate.getMinutes()});
+			}
+		}
+		// 결재선 등록
+		let $aprvlList = document.querySelectorAll('figure.approval-container');
+		let aprvlList = document.querySelector('#approvalList').children;
+		if($aprvlList.length >0){
+			let aprvlTable = '<table style="border:solid 1px black;"><tbody><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td>'+v.innerText.substr(0,v.innerText.indexOf('('))+'</td>'});
+			aprvlTable +='</tr><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlTable +='</tr><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlTable +='</tr></tbody></table>';
+			$aprvlList.forEach((v)=>{v.innerHTML = aprvlTable});
+		}
+		// 첨부파일 목록 등록
+		let $attachList = document.querySelectorAll('ol.attach-file-container');
+		let attachList = document.querySelector('#file').files;
+		if($attachList.length >0 && attachList.length > 0){
+			let attachLists = '';
+			attachList.forEach((v)=>{attachLists += '<li>'+v.name+'</li>';});
+			$attachList.forEach((v)=>{v.innerHTML = attachLists;});
+		}
+		// 상세내용 등록
+		let $content = document.querySelectorAll('.document-content .edocContent');
+		if($content.length > 0){
+			$content.innerHTML = ckeditor.data.get();
+		}
+		},500);
     }).catch(e=>{
         console.log(e);
         alert(e);

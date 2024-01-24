@@ -377,7 +377,7 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{문서번호}}");
 			int endIndex = startIndex + 8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"edocNo\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocNo\">문서번호</span>");
 			}else {
 				content.replace(startIndex, endIndex, "<span  class=\"edocNo\">"+document.getEdocNo()+"</span>");
 			}
@@ -404,18 +404,18 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{기안일시}}");
 			int endIndex = startIndex + 8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"createDate\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{기안자사번}}")!= -1) {
 			int startIndex = content.indexOf("{{기안자사번}}");
 			int endIndex = startIndex +9;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"creater\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createrNo\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"creater\">"+document.getApproval().get(0).getAprvlEmpNo()+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createrNo\">"+document.getApproval().get(0).getAprvlEmpNo()+"</span>");
 			}
 		}
 		while(content.indexOf("{{기안자부서}}")!= -1) {
@@ -449,7 +449,7 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{상세내용}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+sample.getSampleFormat()+"</div>");
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
 			}else {
 				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
 			}
@@ -467,9 +467,9 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{시작일시}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{종료일자}}")!= -1) {
@@ -485,9 +485,9 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{종료일시}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\">"+document.getEdocEndDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\">"+document.getEdocEndDate().toLocalDate().format(dateTimeFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{결재선}}")!= -1) {
