@@ -124,7 +124,7 @@
 							</div>
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="all_post">
-									<table id="datable_4" class="table nowrap w-100 mb-5">
+									<table id="datable_1" class="table nowrap w-100 mb-5">
 										<thead>
 											<tr>
 												<th><span class="form-check"> <input
@@ -317,7 +317,7 @@ $(document).ready(function() {
 
 
 //페이징 시도
-var targetElem = $('#datable_4');
+/* var targetElem = $('#datable_4');
 var targetDt =targetElem.DataTable({
 	scrollX:  true,
 	autoWidth: false,
@@ -335,7 +335,7 @@ var targetDt =targetElem.DataTable({
 	"drawCallback": function () {
 		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
 	}
-});
+}); */
 /* $(document).on( 'click', '.del-button', function () {
 	targetDt.rows('.selected').remove().draw( false );
 });

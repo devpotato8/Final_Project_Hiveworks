@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dna.hiveworks.model.dto.CheckList;
+import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
@@ -137,7 +138,7 @@ public class ScheduleContoller {
 	
 
 	//일정 등록
-	@PostMapping(value = "/insertschedule.do", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/insertschedule", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Object> insertSchedule(@RequestBody Map<String, Object> param) throws Exception {
 		
@@ -158,7 +159,7 @@ public class ScheduleContoller {
 		String reminderYn = (String) param.get("reminder");
 		String calAlldayYn = (String) param.get("allday");
 		String calStatus = (String) param.get("status");
-		int empNo = (Integer)param.get("empno");
+		int empNo = Integer.parseInt((String)param.get("empno"));
 		String empdeptcode = (String) param.get("empdeptcode");
 		List<String> empStrList = (List<String>) param.get("empList");
 		
@@ -270,8 +271,8 @@ public class ScheduleContoller {
 		String reminderYn = (String)param.get("rereminder");
 		String calAlldayYn = (String)param.get("reallday");
 		String calStatus = (String)param.get("restatus");
-		int calNo = Integer.parseInt((String)param.get("recalno"));
-		int reempNo = (Integer)param.get("reempno");
+		int calNo = (Integer)param.get("recalno");
+		int reempNo = Integer.parseInt((String)param.get("reempno"));
 		List<String> empStrList = (List<String>)param.get("reempList");
 		List<Integer> reempList = new ArrayList<>();
 		if (empStrList != null && empStrList.size() > 0) {
@@ -394,7 +395,7 @@ public class ScheduleContoller {
 	@ResponseBody
 	public ResponseEntity<Object> deleteSchedule(@RequestBody Map<String, Object> param, Model model) {
 		//int calNo = (Integer)param.get("calNo");
-		int calNo = Integer.parseInt((String)param.get("calNo"));
+		int calNo = (Integer)param.get("calNo");
 		int result = scheduleService.deleteSchedule(calNo);
 		
 		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
@@ -440,7 +441,7 @@ public class ScheduleContoller {
 	public int insertChecklist(@RequestBody Map<String, Object> param) throws Exception {
 	    int empNo = (Integer) param.get("empNo");
         String checklistValue = (String) param.get("checklistValue");
-        int calNo = (Integer) param.get("calNo");
+        int calNo = Integer.parseInt((String)param.get("calNo"));
 
         CheckList checklist = CheckList.builder()
                 .calNo(calNo)
@@ -484,7 +485,7 @@ public class ScheduleContoller {
 				@ResponseBody
 				public ResponseEntity<Object> doneChecklist(@RequestBody Map<String, Object> param){	
 					System.out.println("파람람"+param);
-				    int checklistNo = (Integer)param.get("checklistNo");
+					int checklistNo = Integer.parseInt((String)param.get("checklistNo"));
 				    
 				    int result = scheduleService.doneChecklist(checklistNo);
 
@@ -497,13 +498,83 @@ public class ScheduleContoller {
 				@ResponseBody
 				public ResponseEntity<Object> undoneChecklist(@RequestBody Map<String, Object> param){	
 					System.out.println("파람람"+param);
-				    int checklistNo = (Integer)param.get("checklistNo");
+					int checklistNo = Integer.parseInt((String)param.get("checklistNo"));
 				    
 				    int result = scheduleService.undoneChecklist(checklistNo);
 
 				    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
 				          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 				}
+		
+		//댓글 등록
+		@PostMapping("/insertComment")
+		@ResponseBody
+		public Comment insertComment(@RequestBody Map<String, Object> param) throws Exception {
+		    int empNo = (Integer) param.get("empNo");
+	        String commentText = (String) param.get("commentText");
+	        int calNo = Integer.parseInt((String) param.get("calNo"));
+	        int calCommentLevel = (Integer) param.get("calCommentLevel");
+	        int calCommentRef = (Integer) param.get("calCommentRef");
+	        
+
+	        Comment comment = Comment.builder().calNo(calNo).calCommentContent(commentText)
+	        		.calCommentLevel(calCommentLevel).calCommentRef(calCommentRef).creater(empNo).modifier(empNo).build();
+
+	        int result = scheduleService.insertComment(comment);
+	        
+	        int calCommenttNo = comment.getCalCommentNo();
+	        
+	        
+	        //  댓글 등록 실패 시
+	        if(result > 0) {
+	        	comment = scheduleService.selectCommentByNo(calCommenttNo);
+	        	System.out.println(comment);
+	        }else {
+	        	  throw new Exception("댓글 등록에 실패했습니다.");
+	        }
+	        return comment;
+	        
+	    } 
+		
+		//댓글 수정
+		@PostMapping("/updateComment")
+		@ResponseBody
+		public Comment updateComment(@RequestBody Map<String, Object> param) throws Exception {
+	        String commentText = (String) param.get("commentText");
+	        int calCommentNo = Integer.parseInt((String)param.get("calCommentNo"));
+
+	        Comment comment = Comment.builder().calCommentContent(commentText).calCommentNo(calCommentNo).build();
+
+	        int result = scheduleService.updateComment(comment);
+	        
+	     
+	        //  댓글 수정 실패 시
+	        if(result == 0) {
+	        	throw new Exception("댓글 수정에 실패했습니다.");
+	        }
+
+	        return comment;
+	          
+	    } 
+		
+		//댓글 삭제
+		@PostMapping("/deleteComment")
+		@ResponseBody
+		public ResponseEntity<Object> deleteComment(@RequestBody Map<String, Object> param) throws Exception {
+	        int calCommentNo = Integer.parseInt((String)param.get("calCommentNo"));
+
+	        int result = scheduleService.deleteComment(calCommentNo);
+	        
+	     
+	        //  댓글 수정 실패 시
+	        if(result == 0) {
+	        	throw new Exception("댓글 삭제에 실패했습니다.");
+	        }
+
+	        return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
+		          ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+	          
+	    } 
 				
 	
 	

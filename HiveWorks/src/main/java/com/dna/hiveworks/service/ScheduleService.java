@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dna.hiveworks.model.dto.CheckList;
+import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -82,6 +83,14 @@ public interface ScheduleService {
 	int doneChecklist(int checklistNo);
 	
 	int undoneChecklist(int checklistNo);
+	
+	int insertComment(Comment comment);
+	 
+	Comment selectCommentByNo(int calCommenttNo);
+	
+	int updateComment(Comment comment);
+	
+	int deleteComment(int calCommentNo);
 
 
 	
