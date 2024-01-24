@@ -116,7 +116,7 @@ input::-webkit-inner-spin-button {
 													<div class="media align-items-center">
 														<div class="media-head me-5">
 															<div class="avatar avatar-rounded avatar-xxl" id="imgContainer">
-																<img src="dist/img/avatar3.jpg" alt="user" class="avatar-img">
+																<img src="${path }/resources/img/avatar12.jpg" alt="user" class="avatar-img">
 															</div>
 														</div>
 														<div class="media-body">

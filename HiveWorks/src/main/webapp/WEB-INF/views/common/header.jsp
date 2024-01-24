@@ -467,8 +467,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
-var path = '/ws/msg';
-var socket = new SockJS(path);  //WebSocketConfig에서 지정한 endpoint와 연결
+
+var socket = new SockJS('/ws/msg');  //WebSocketConfig에서 지정한 endpoint와 연결
 var stompClient = Stomp.over(socket); //STOMP 클라이언트 생성
 stompClient.debug = function(str){
 	console.log(str);
@@ -487,8 +487,9 @@ stompClient.connect({userId:userId},onConnected,onError);
 	//메시지 수신
     function onMessageReceived(payload){
 	
-	   	console.log('payload.body');
+	   	console.log(payload.body);
 	   	console.log('콜백함수실행');
+	   	
 	    var data = JSON.parse(payload.body);
 	    var title = data.title;
 	    var sender = data.senderName;

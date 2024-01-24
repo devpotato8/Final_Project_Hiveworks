@@ -37,7 +37,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
                     String userId = userIdHeader.get(0);
                     sessionUserMap.put(sessionId, userId);
                     System.err.println("CONNECT:sessionId= "+sessionId + ", userId= "+userId);
-                    System.err.println("sessionUserMap: "+sessionUserMap);
+                    
                 }
                 break;
             case DISCONNECT:

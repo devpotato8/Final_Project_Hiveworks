@@ -1,6 +1,7 @@
 package com.dna.hiveworks.common;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,14 +56,13 @@ public class ExcelRequestManager {
 	        
 	        int index = orginFileName.lastIndexOf(".");
 	        String fileExt = orginFileName.substring(index + 1);
-	        String newName = KeyStr + today + fileKey;
+			String newName = KeyStr + (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(today)) + fileKey;
 	 
 	        if (!"".equals(orginFileName)) {
 	        filePath = storePathString + File.separator + newName+"."+fileExt;
 	        file.transferTo(new File(EgovWebUtil.filePathBlackList(filePath)));
 	        }
 	            list = ExcelManagerXlsx.getInstance().getListXlsxRead(filePath);
-	        
 	        fileKey++;
 	    }    
 	    return list;
