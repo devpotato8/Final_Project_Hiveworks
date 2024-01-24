@@ -47,8 +47,7 @@ public class ViewController {
 		return "index";
 	}
 		
-	
-	@PostMapping("/loginfail")
+	@RequestMapping(value="/loginfail",method= {RequestMethod.GET, RequestMethod.POST})
 	public String loginFailPage(HttpServletRequest request, Model model) {
 		String referrer = request.getHeader("Referer");
 	    model.addAttribute("url", referrer);  //이전 주소를 model에 담아서 보내기

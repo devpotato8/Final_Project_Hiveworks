@@ -34,7 +34,7 @@ public class SecurityConfig {
 							.loginProcessingUrl("/loginend")
 							.usernameParameter("emp_Id")
 							.passwordParameter("emp_Pw")
-							.failureForwardUrl("/loginfail")
+							.failureUrl("/loginfail")
 							.successForwardUrl("/login/index")
 							.permitAll();
 				})
