@@ -1,7 +1,6 @@
 package com.dna.hiveworks.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,9 +49,9 @@ public class SurveyController {
 		return "survey/surveyWrite";
 	}
 	@GetMapping("/surveyresult")
-	public String surveyresult(Model model) {
+	public String surveyresult(Survey s,Model model) {
 		List<Survey> surveyList = service.selectAllSurvey();
-	     model.addAttribute("surveyList", surveyList);
+	    model.addAttribute("surveyList", surveyList);
         return "survey/surveyresult";
     }
 	@RequestMapping("/surveyDelete")
@@ -132,13 +131,7 @@ public class SurveyController {
 	    return surveyResult;
 	}
 	 	@PostMapping("/questionInsert")
-	    @ResponseBody
-	    public String questionInsert(@RequestBody SurveyQuestion surveyquestion) {
-	        // surveyResult를 사용하여 필요한 작업 수행
-	        System.out.println("Checkbox Values: " + surveyquestion.getCheckboxValues());
-	        System.out.println("Radio Values: " + surveyquestion.getRadioValues());
-
-	        // 클라이언트에게 응답
+	    public String questionInsert(SurveyQuestion surveyquestion) {
 	        return "설문 결과가 성공적으로 처리되었습니다.";
 	    }
 

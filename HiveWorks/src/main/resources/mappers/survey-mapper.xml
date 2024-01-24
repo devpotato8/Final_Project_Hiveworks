@@ -27,7 +27,7 @@
   		<result column="ANSWER_COMENT" property="answerComent"/>
   		<result column="USER_INFOR" property="userInfor"/>
   	</resultMap>
-    
+   
     <select id="selectSurveyByNo" parameterType="_int" resultMap="surveyMap">
         SELECT * FROM TBL_SURVEY
         WHERE SURVEY_NO = #{surveyNo}      

@@ -62,7 +62,7 @@
 								</div>
 								<%-- <a href="${path}/survey/survey"> --%>
 								<input type="submit" name="name" id="submit" class="btn btn-primary mt-5" onclick="sendData()" value="설문완료">
-								<!-- </a> -->
+								<!-- </a>  -->
 							</div>
 						</div>
 					</div>
@@ -220,4 +220,4 @@ html += '</div>';
 $("#surveyForm").append(html);
 }
 </script>
-	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>       

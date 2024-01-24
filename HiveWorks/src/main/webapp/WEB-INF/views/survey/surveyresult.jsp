@@ -7,6 +7,7 @@
 </jsp:include>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
+ <div id="pie_chart_1"></div>
 <div class="hk-wrapper" data-layout="vertical" data-layout-style="collapsed" data-menu="light" data-footer="simple" data-hover="active" style="height: 600px;">
     <div class="integrations-options-wrap">
         <div class="hk-sidebar-togglable"></div>
@@ -16,25 +17,43 @@
             <div class="container mt-md-7 mt-3">
                 <div class="d-flex flex-md-nowrap flex-wrap align-items-center justify-content-between mb-5">
                     <div>
-                        <h5>설문결과</h5>
+                      <h5>
+                      
+					    <c:forEach var="a" items="${surveyList}">
+					    	<c:out value="${a.surveyQuestion }"/>
+					    </c:forEach>
+					   </h5>
+					      
+					   <p>체크:
+					        <c:forEach var="checkboxValue" items="${sessionScope.response.checkboxValues}">
+					            ${checkboxValue}
+					        </c:forEach>
+					   </p>
+					    <p>라디오:
+					        <c:forEach var="radioValue" items="${sessionScope.response.radioValues}">
+					            ${radioValue}
+					        </c:forEach>
+					    </p>
+
                     </div>
-                </div>
-                <div class="row">
-                    <h6>Checkbox 값:</h6>
-                    <c:forEach var="value" items="${paramValues.checkboxValues}">
-                        ${value}<br/>
-                    </c:forEach>
-                </div>
-                <div class="row">
-                    <h6>라디오 값:</h6>
-                    <c:forEach var="value" items="${paramValues.radioValues}">
-                        ${value}<br/>
-                    </c:forEach>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+$.ajax({ 
+    type:"post", 
+    url:"${path}/survey/insertQuestion", //값을 가져올 경로
+    dataType:"json",
+    success: function(data){   
+        console.log("성공");
+    },
+    error:function(){		 
+        console.log("에러");
+    }
+});
+</script>
 
 <!-- jQuery -->
 <script src="vendors/jquery/dist/jquery.min.js"></script>

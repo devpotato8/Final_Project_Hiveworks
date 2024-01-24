@@ -17,6 +17,4 @@ public class SurveyQuestion {
 	private int surveyNo;
 	private String questionTitle;
 	private String surveyData;
-	private List<String> checkboxValues;
-	private List<String> radioValues;
 }
