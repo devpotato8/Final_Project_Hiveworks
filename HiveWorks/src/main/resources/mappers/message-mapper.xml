@@ -186,4 +186,13 @@
 		UPDATE TBL_MESSAGE SET MSG_FILE_ORINAME = NULL, MSG_FILE_RENAME = NULL WHERE MSG_NO = ${msgNo} AND MSG_RECEIVER_NO = ${empNo}
 	</update>
 	
+	<select id="receiverIds" resultType="string">
+		SELECT EMP_ID 
+		FROM TBL_EMPLOYEE
+		WHERE EMP_NO IN
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+	        ${item}
+	    </foreach>
+	</select>
+	
 </mapper>
