@@ -140,7 +140,14 @@ input::-webkit-inner-spin-button {
 													<div class="media align-items-center">
 														<div class="media-head me-5">
 															<div class="avatar avatar-rounded avatar-xxl" id="imgContainer">
-																<img src="${path}/resources/upload/profile/${employee.emp_profile_re_name}" alt="user" class="avatar-img">
+																<c:choose>
+																	<c:when test="${employee.emp_profile_re_name eq null }">
+																		<img src="${path }/resources/img/avatar12.jpg" alt="user" class="avatar-img">
+																	</c:when>
+																	<c:otherwise>
+																		<img src="${path}/resources/upload/profile/${employee.emp_profile_re_name}" alt="user" class="avatar-img">
+																	</c:otherwise>
+																</c:choose>
 															</div>
 														</div>
 														<div class="media-body">

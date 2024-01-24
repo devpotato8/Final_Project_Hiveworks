@@ -14,7 +14,20 @@
 <jsp:include page="/WEB-INF/views/common/sideBar.jsp">
    <jsp:param value="${edocCountWait }" name="edocCountWait"/>
 </jsp:include>
+<style>
 
+	.table td, .table th {
+    vertical-align: middle;
+    padding: 0;
+	}
+
+ 	.table td:nth-child(n+5){
+	text-align: left;
+	padding-left: 10px;
+
+	}
+
+</style>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -426,7 +439,7 @@
 													<c:forEach var="a" items="${autCodeList.authorityList }">
 													<th><c:out value="${a.AUTNAME }" /></th>
 													</c:forEach>
-													<th>수정/삭제</th>
+													<th>권한해제</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -446,7 +459,7 @@
 													<td>
 														<div>
 															<div class="d-flex">
-																<button class="btn btn-soft-primary btn-file mb-1" type="button" onclick="fn_changeDefault(${s.emp_no});">초기화</button>
+																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no});">초기화</button>
 															</div>
 														</div>
 													</td>
@@ -845,9 +858,11 @@
 			}),
 			success:data=>{
 				alert("업데이트 완료");
+				location.reload();
 			},
 			error:data=>{
 				alert("업데이트 실패");
+				location.reload();
 			}
 		});
 
@@ -856,26 +871,22 @@
 	</script>
 	<script>
 		fn_changeDefault=(e)=>{
-			
-			let eName = e;
-			var $row = $(this).closest('tr').find('input[type=radio]');
-			
-			console.log($row);
-			
-			let $row_second = $('#list').children('td');
-			
-			console.log($row_second);
-			
-			
-			
-			/* let aut007 = $row.find('td').find('input[type=radio][name='+eName+']').eq(0);
-			
-			console.log(aut007);
-			
-			aut007.prop('checked',true); */
+			let $radio=$('input[name='+e+']').eq(6);	
+			$radio.prop('checked',true);
 		
 		};
 	</script>
+	 <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>
+

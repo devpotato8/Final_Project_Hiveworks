@@ -423,7 +423,7 @@
     <tbody>
     <tr align="center">
     	<c:set var="test1" value="${salary.sal_date }"/>
-        <b><td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;">
+        <td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;">
         <b id="payday">
         <fmt:formatDate var="year" value="${test1 }" pattern="yyyy"/>
         <fmt:formatDate var="month" value="${test1 }" pattern="M"/>
@@ -605,7 +605,7 @@
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly" value="${dedution.o_pension }" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly" value="${dedution.o_insurance }" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" value="${dedution.o_nursing }" style="border: none;"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly"value="${dedution.o_employ }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly" value="${dedution.o_employ }" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly" value="${dedution.o_income }" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly" value="${dedution.o_local }" style="border: none;"/></td>
                 </tr>
@@ -718,7 +718,11 @@
         <th>지급액</th>
     </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+    	<td>-</td>
+    	<td>자세한 사항은 인사담당자에게 문의하세요.</td>
+    	<td>-</td>
+    </tbody>
 </table><!--하단글-->
 <table width="740px">
     <tbody>
@@ -729,13 +733,15 @@
 </table>
 	<script>	
 	fn_cal_salary=()=>{
-		let total = parseInt($("#sal_base").val())
+
+		let total = Number($("#sal_base").val())
 					+Number($("#overtime_pay").val())
 					+Number($("#sal_meal").val())
-					+Number($("#position_pay").val())
+					+Number(fn_delete_comma($("#position_pay").val()))
 					+Number($("#sal_bonus").val());
 		
 		let notax = Number($("#sal_meal").val());
+		
 		
 		$.ajax({
 			type:'get',
@@ -801,6 +807,7 @@
 	$form.addEventListener('submit',event=>{
 		event.preventDefault();
 		$("#sal_actual").val(fn_delete_comma($("#sal_actual").val()));
+		$("#position_pay").val(fn_delete_comma($("#position_pay").val()));
 		
 		if($("#sal_date").val()==0){
 			alert("날짜를 선택해 주세요.");

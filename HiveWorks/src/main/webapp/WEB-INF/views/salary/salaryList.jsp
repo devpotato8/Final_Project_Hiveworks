@@ -10,6 +10,18 @@
 	<jsp:param value="default" name="style"/>
 	<jsp:param value="" name="hover"/>
 </jsp:include>
+<style>
+/* 스타일 추가 */
+    .button-group {
+       	/* text-align: center; */
+		white-space: nowrap; /* 줄 바꿈을 방지합니다. */    
+    }
+
+	.d-xxl-flex{
+    	display:none !important;
+    	
+    }
+</style>
 
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
    	<!-- Wrapper -->
@@ -365,7 +377,7 @@
 						<div class="invoiceapp-detail-wrap">
 							<header class="invoice-header">
 								<div class="d-flex align-items-center">
-									<a class="invoiceapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 										<h1>급여 관리</h1>
 									</a>
 									<!-- <div class="dropdown-menu">
@@ -402,7 +414,10 @@
 								</div> -->
 								
 							</header>
-							<button class="btn btn-primary btn-sm" onclick="location.assign('${path}/salary/salaryWrite')" style="width:100px">등록</button>
+							<div id="button-group">
+							<button class="btn btn-primary btn-sm" onclick="location.assign('${path}/salary/salaryWrite')" style="width:120px; display:inline-block;">급여 신규 등록</button>
+<!-- 							<button class="btn btn-primary btn-sm" onclick="fn_deleteChoice();" style="width:100px; display:inline-block;">선택 삭제</button> -->
+							</div>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
@@ -428,6 +443,7 @@
 												<c:forEach var="s" items="${list }">
 												<tr>
 													<td></td>
+													<input type="hidden" value="${s.sal_no }" />
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
@@ -449,10 +465,9 @@
 														<fmt:formatNumber value="${sal_actual}" type="number" />원
 													</td>
 													<td>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
+														<div class="d-flex">
+															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 														</div>
 													</td>
 												</tr>
@@ -798,4 +813,82 @@
 
 </script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<script>
+
+let salaryNoList=[];
+let employeeNoList=[];
+
+
+$(document).ready(function() {
+    $('input[type="checkbox"]').change(function() {
+        if (this.checked) {
+            var row = $(this).closest('tr');
+			
+            var salaryNo = row.find('input[type=hidden]').val();
+            
+            var employeeNo = row.find('td:eq(2)').text(); 
+			
+            console.log(salaryNo, employeeNo);
+            
+           	salaryNoList.push(salaryNo);
+           	employeeNoList.push(employeeNo);
+            
+            console.log(salaryNoList, employeeNoList);
+        }
+    });
+});
+
+
+//선택삭제 버튼 기능 작업X
+/* fn_deleteChoice=()=>{
+	if(salaryNoList.length===0 ||employeeNoList.length===0){
+		alert("삭제할 급여 항목을 선택해 주세요.");
+		return false;
+	}
+	
+	if(confirm("정말 삭제하시겠습니까?")){
+		fetch('${path}/salary/deleteChoice',{
+			method:'post',
+			headers:{
+				'Content-Type' : 'application/json',
+			},
+			body: JSON.stringify({
+				salaryNoList:salaryNoList,
+				employeeNoList:employeeNoList
+			}),
+		})
+		
+		
+		
+	}else{
+		alert("취소하였습니다.");
+	}
+	
+	
+	
+}; */
+
+
+//상단 view All, Monitored 필터 안보이게 하는 코드로, 다른 css로 작동 안됨
+document.addEventListener("DOMContentLoaded",function(){
+	let $div = document.querySelector('.d-xxl-flex');
+	console.log($div);
+	$div.style.display = "none";
+	/* d-xxl-flex d-none align-items-center */
+});
+
+</script>
+
+ <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
+	<!-- Init JS -->
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>

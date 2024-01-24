@@ -697,7 +697,11 @@
         <th>지급액</th>
     </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+    	<td>-</td>
+    	<td>자세한 사항은 인사담당자에게 문의하세요.</td>
+    	<td>-</td>
+    </tbody>
 </table><!--하단글-->
 <table width="740px">
     <tbody>

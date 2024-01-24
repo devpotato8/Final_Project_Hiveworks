@@ -265,7 +265,7 @@ public class EmpController {
 		
 		Map<String,Object> IdAndPassword = new HashMap<>();
 		
-		
+	
 		
 		IdAndPassword.put("empId", empId);
 		IdAndPassword.put("empPassword", empPassword);
@@ -521,15 +521,10 @@ public class EmpController {
 			 */
 	                                     
 	       // reserveService.insertReserveVO(searchVO);
-	    	 System.out.println("직원 정보 :"+employee);
-		     System.out.println("계좌 정보 :"+account);
 	    }
-	    System.out.println("for문 돌리고 실제 남은 값 :"+employees);
-	    
 	    
 	    empData.put("employees",employees);
 	    empData.put("accounts",accounts);
-	    System.out.println("hashmap에 넣은 값 :"+empData);
 
 	    int result = service.insertEmployeeByExcel(empData);
 	    
@@ -550,7 +545,7 @@ public class EmpController {
 	}
 	
 	
-	@GetMapping("/sampleDownlaod")
+	@GetMapping("/sampleDownload")
     public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
 		// 서버에 저장된 파일의 경로

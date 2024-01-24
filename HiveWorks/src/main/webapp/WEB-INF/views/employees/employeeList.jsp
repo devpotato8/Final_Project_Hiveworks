@@ -10,6 +10,40 @@
 	<jsp:param value="default" name="style"/>
 	<jsp:param value="" name="hover"/>
 </jsp:include>
+  <style>
+    /* 스타일 추가 */
+    .button-group {
+       	/* text-align: center; */
+		white-space: nowrap; /* 줄 바꿈을 방지합니다. */    
+    }
+
+    .button-group button {
+      margin-left: 10px; /* 버튼 간의 간격을 조절합니다. */
+      display: inline-block; /* 버튼을 인라인 블록으로 표시합니다. */
+    }
+    
+    .button-group>#form_real {
+      margin-left: 5px; /* 버튼 간의 간격을 조절합니다. */
+      display: inline-block; /* 버튼을 인라인 블록으로 표시합니다. */
+    }
+   	
+   	.button-group>#excelDownload_btn {
+     justify-content: flex-end;
+    }
+    
+    .right-btn {
+ 	 float:right;
+	}
+
+/*     enrollEmployee_btn
+   	excelDownload_btn */
+    .invoice-toolbar-left{
+    	display:none !important;
+    	
+    }
+
+  </style>
+
 
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
    	<!-- Wrapper -->
@@ -404,16 +438,17 @@
 							</header>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
+										<div class="button-group">
+											<button class="btn btn-primary btn-rounded" id="enrollEmployee_btn" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px;">개별 등록</button>
+											<button class="btn btn-primary btn-rounded right-btn" id="excelDownload_btn" onclick="fn_excelDownload();" style="width:140px; "><span><i class="ri-file-excel-2-fill"></i>&nbsp 전체 다운로드</span></button>
+											<form action="${path }/employees/excelEmployeeUpload" id="form_real" method="post" enctype="multipart/form-data">
+												<input type="file" id="excelUpFile" name="excelUpFile" accept=".xlsx, .xls" style="width:220px; ">
+												<button type="button" class="btn btn-primary btn-rounded" onclick="fn_excelUpload(event);">일괄 업로드</button>
+											</form>
+											<a href="${path }/employees/sampleDownload ">업로드 샘플 양식 다운 받기</a>
+										</div>
 									<div class="invoice-list-view">
-										<button class="btn btn-primary btn-rounded" onclick="location.assign('${path}/employees/enrollEmployee')" style="width:120px; display:inline-block;">직원 등록</button>
-										<button class="btn btn-primary btn-rounded" onclick="fn_excelDownload();" style="width:150px; display:inline-block;">엑셀 다운로드</button>
-										<form action="${path }/employees/excelEmployeeUpload" id="form_real" method="post" enctype="multipart/form-data">
-										<label for="excelUpFile">엑셀 파일 첨부</label>
-											<input type="file" id="excelUpFile" name="excelUpFile" accept=".xlsx, .xls" style="width:150px; display:inline-block;">
-											<button type="button" class="btn btn-primary btn-rounded" onclick="fn_excelUpload(event);">업로드 하기</button>
-										</form>
-										<a href="${path }/employees/sampleDownlaod ">양식 다운 받기</a>
-										<table id="datable_2" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 1, "desc" ]]' id="datable_1" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
 													<th><span class="form-check mb-0">
@@ -425,7 +460,6 @@
 													<th>아이디</th>
 													<th>부서명</th>
 													<th>직위</th>
-													<th>직급</th>
 													<th>사내전화</th>
 													<th>핸드폰번호</th>
 													<th>수정/삭제</th>
@@ -442,7 +476,6 @@
 													</td>
 													<td><span><c:out value="${s.dept_name }" /></span></td>
 													<td><c:out value="${s.position_name }" /></td>
-													<td><c:out value="${s.job_name}" /></td>
 													<td><c:out value="${s.emp_phone }"/></td>
 													<td><c:out value="${s.emp_cellphone }" /></td>
 													<td>
@@ -830,9 +863,15 @@ fn_excelUpload=(e)=>{
 }
 
 </script>
+<script>
+//엑셀 다운로드
+fn_excelDownload=()=>{
+	location.replace("${path}/employees/excelEmployeeDownload");
+};
 
+</script>
 
-
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
     <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
