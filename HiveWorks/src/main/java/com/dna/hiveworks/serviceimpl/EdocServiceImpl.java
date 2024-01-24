@@ -5,6 +5,7 @@ package com.dna.hiveworks.serviceimpl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.ApvCode;
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
@@ -79,7 +81,15 @@ public class EdocServiceImpl implements EdocService{
 	
 	@Override
 	public ElectronicDocumentSample getSample(String formatNo) {
-		return dao.getSample(session, formatNo);
+		ElectronicDocumentSample sample = dao.getSample(session, formatNo);
+		System.out.println(sample);
+		if(sample.getSampleFormat() != null) {
+			sample.setFullSample(sample.getSampleContent().replace("{{상세내용}}", sample.getSampleFormat()));
+		}else {
+			sample.setFullSample(sample.getSampleContent());
+		}
+		System.out.println(sample.getFullSample());
+		return sample; 
 	}
 	
 	@Transactional
@@ -203,9 +213,6 @@ public class EdocServiceImpl implements EdocService{
 						// 완료처리된 문서가 휴가/연가 신청서 일때, 휴가/연가 완료처리
 						vacService.confirmVacation(edoc.getEdocNo());
 					}
-//					else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
-//						// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
-//					}
 				}else {
 					// 다음차례 결재자의 상태를 P에서 W로 변경
 					ElectronicDocumentApproval nextApproval = approvalList.get(approvalIndex+1);
@@ -231,9 +238,6 @@ public class EdocServiceImpl implements EdocService{
 			if(edoc.getEdocDotCode().equals(DotCode.DOT004)) {
 				vacService.revokeVacation(edoc.getEdocNo());
 			}
-//			else if(edoc.getEdocDotCode().equals(DotCode.DOT005)) {
-//				// TODO 완료처리된 문서가 연장근무신청서일때 처리로직
-//			}
 		}else {
 			throw new HiveworksException("결재처리중 에러가 발생하였습니다");
 		}
@@ -319,5 +323,239 @@ public class EdocServiceImpl implements EdocService{
 		}else {
 			return Map.of("status","500","error","해당번호의 양식이 존재하지 않습니다.");
 		}
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> edocPrint(Map<String, Object> param) {
+		
+		ElectronicDocument document = dao.selectElectronicDocument(session, (String)param.get("edocNo"));
+		if(document == null) return Map.of("status","404","error","해당문서가 존재하지 않습니다");
+		document.setApproval(dao.selectElectronicDocumentApproval(session, document.getEdocNo()));
+		document.setAttachFiles(dao.selectElectronicDocumentAttachFiles(session, document.getEdocNo()));
+		document.setReference(dao.selectElectronicDocumentReference(session, document.getEdocNo()));
+		
+		PosCode documentAccessGrant = PosCode.valueOf(dao.getPosCodeByDsgCode(session, document.getEdocDsgCode().name()));
+		int empNo  = (int)param.get("empNo");
+		boolean isApprovalContainsEmp = document.getApproval().stream().anyMatch(apv -> apv.getAprvlEmpNo()==empNo);
+		boolean isReferenceContainsEmp = document.getReference().stream().anyMatch(ref -> ref.getRefperEmpNo()==empNo);
+		boolean isUserPosCodeLowerThenAccessGrant = PosCode.valueOf((String)param.get("posCode")).compareTo(documentAccessGrant)<0;
+		
+		System.out.println("isApprovalContainsEmp : "+isApprovalContainsEmp);
+		System.out.println("isReferenceContainsEmp : "+isReferenceContainsEmp);
+		System.out.println("isUserPosCodeLowerThenAccessGrant : "+isUserPosCodeLowerThenAccessGrant);
+		System.out.println("accessGrant : "+documentAccessGrant);
+		System.out.println("userPosCode : "+PosCode.valueOf((String)param.get("posCode")));
+		
+		if(!isApprovalContainsEmp && !isReferenceContainsEmp&& !isUserPosCodeLowerThenAccessGrant) return Map.of("status","403","error","권한이 부족합니다.");
+		ElectronicDocumentSample sample = dao.getSample(session, String.valueOf(document.getEdocSampleNo()));
+		
+		String content = makePrint(sample, document);
+		
+		return Map.of("status","200","data",content);
+	}
+	
+	@Override
+	public Map<String, Object> edocPrintPreview(Map<String, Object> param) {
+		
+		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
+		if(sample == null) return Map.of("status","404","error","해당번호의 서식을 찾을 수 없습니다.");
+		
+		String content = makePrint(sample, null);
+		
+		return Map.of("status","200","data",content);
+	}
+	
+
+	private String makePrint(ElectronicDocumentSample sample, ElectronicDocument document) {
+		boolean isEdocNull = document == null;
+		StringBuilder content = new StringBuilder();
+		content.append(sample.getSampleContent());
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("YY.MM.DD");
+		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("YY.MM.DD HH:mm");
+		while(content.indexOf("{{문서번호}}")!= -1) {
+			int startIndex = content.indexOf("{{문서번호}}");
+			int endIndex = startIndex + 8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocNo\">문서번호</span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocNo\">"+document.getEdocNo()+"</span>");
+			}
+		}
+		while(content.indexOf("{{기안자}}")!= -1) {
+			int startIndex = content.indexOf("{{기안자}}");
+			int endIndex = startIndex + 7;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createrName\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createrName\">"+document.getApproval().get(0).getAprvlEmpName()+"</span>");
+			}
+		}
+		while(content.indexOf("{{기안일자}}")!= -1) {
+			int startIndex = content.indexOf("{{기안일자}}");
+			int endIndex = startIndex + 8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createDate\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+document.getCreateDate().toLocalDate().format(dateFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{기안일시}}")!= -1) {
+			int startIndex = content.indexOf("{{기안일시}}");
+			int endIndex = startIndex + 8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{기안자사번}}")!= -1) {
+			int startIndex = content.indexOf("{{기안자사번}}");
+			int endIndex = startIndex +9;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createrNo\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createrNo\">"+document.getApproval().get(0).getAprvlEmpNo()+"</span>");
+			}
+		}
+		while(content.indexOf("{{기안자부서}}")!= -1) {
+			int startIndex = content.indexOf("{{기안자부서}}");
+			int endIndex = startIndex +9;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createrDeptName\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createrDeptName\">"+document.getApproval().get(0).getAprvlDeptName()+"</span>");
+			}
+		}
+		while(content.indexOf("{{기안자직급}}")!= -1) {
+			int startIndex = content.indexOf("{{기안자직급}}");
+			int endIndex = startIndex +9;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"createrPosName\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"createrPosName\">"+document.getApproval().get(0).getAprvlPosName()+"</span>");
+			}
+		}
+		while(content.indexOf("{{제목}}")!= -1) {
+			int startIndex = content.indexOf("{{제목}}");
+			int endIndex = startIndex +6;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocTitle\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocTitle\">"+document.getEdocTitle()+"</span>");
+			}
+		}
+		while(content.indexOf("{{상세내용}}")!= -1) {
+			int startIndex = content.indexOf("{{상세내용}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
+			}else {
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
+			}
+		}
+		while(content.indexOf("{{시작일자}}")!= -1) {
+			int startIndex = content.indexOf("{{시작일자}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+document.getEdocStartDate().toLocalDate().format(dateFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{시작일시}}")!= -1) {
+			int startIndex = content.indexOf("{{시작일시}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{종료일자}}")!= -1) {
+			int startIndex = content.indexOf("{{종료일자}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\">"+document.getEdocEndDate().toLocalDate().format(dateFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{종료일시}}")!= -1) {
+			int startIndex = content.indexOf("{{종료일시}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\"></span>");
+			}else {
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\">"+document.getEdocEndDate().toLocalDate().format(dateTimeFormat)+"</span>");
+			}
+		}
+		while(content.indexOf("{{결재선}}")!= -1) {
+			int startIndex = content.indexOf("{{결재선}}");
+			int endIndex = startIndex +7;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<figure class=\"table approval-container\" style=\"width:100%;height:100%\"></figure>");
+			}else {
+				StringBuilder sb = new StringBuilder();
+				List<ElectronicDocumentApproval> approvalList = document.getApproval();
+				sb.append("<figure class=\"table approval-container\" style=\"width:100%;height:100%;\">");
+				sb.append("<table class=\"ck-table-resized\" style=\"border 1px solid black\">");
+				sb.append("<colgroup>");
+				for(int i=0; i<approvalList.size(); i++) {
+					sb.append("<col style=\"width:"+(Math.round(10000/approvalList.size())/100)+"%\">");
+				}
+				sb.append("</colgroup>");
+				sb.append("<tbody>");
+				sb.append("<tr>");
+				for(ElectronicDocumentApproval apv : approvalList) {
+					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center; height:20%;\">");
+					sb.append(apv.getAprvlEmpName());
+					sb.append("</td>");
+				}
+				sb.append("</tr>");
+				sb.append("<tr>");
+				for(ElectronicDocumentApproval apv : approvalList) {
+					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;min-height:48px\">");
+					if(!apv.getAprvlApvCode().equals(ApvCode.APV000)) {
+						sb.append("<img class=\"img-autograph\" src=\""+context.getContextPath()+"/resources/upload/edoc/autograph/"+apv.getAprvlAutoFilename()+"\">");
+					}
+					sb.append("</td>");
+				}
+				sb.append("</tr>");
+				sb.append("<tr>");
+				for(ElectronicDocumentApproval apv : approvalList) {
+					sb.append("<td style=\"border:1px solid hsl(0, 0%, 0%);padding:0px;text-align:center;height:20%;\">");
+					if(!apv.getAprvlApvCode().equals(ApvCode.APV000)) {
+						sb.append(apv.getAprvlDate().toLocalDate().format(dateFormat));
+					}
+					sb.append("</td>");
+				}
+				sb.append("</tr>");
+				sb.append("</tbody>");
+				sb.append("</table>");
+				sb.append("</figure>");
+				content.replace(startIndex, endIndex, sb.toString());
+			}
+		}
+		while(content.indexOf("{{첨부목록}}")!= -1) {
+			int startIndex = content.indexOf("{{첨부목록}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<ol class=\"attach-file-container\"></ol>");
+			}else {
+				StringBuilder sb = new StringBuilder();
+				List<ElectronicDocumentAttachFile> attachFileList = document.getAttachFiles();
+				sb.append("<ol class=\"attach-file-container\">");
+				for(ElectronicDocumentAttachFile attachFile : attachFileList) {
+					sb.append("<li>");
+					sb.append(attachFile.getAttachOriginalFilename());
+					sb.append("</li>");
+				}
+				sb.append("</ol>");
+				content.replace(startIndex, endIndex, sb.toString());
+			}
+		}
+		
+		return content.toString();
 	}
 }

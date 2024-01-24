@@ -60,25 +60,12 @@
 							<div class="card-action-wrap"></div>
 
 							<div class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
-								<%-- <img src="${path }/resources/img/logo_bee.png" alt="user" class="avatar-img" width="100px" height="100px"> --%>
 								<img src="${path }/resources/img/logo_bee.png" alt="user"
 									class="brand-img img-fluid " width="100px" height="100px">
 							</div>
-							<c:choose>
-								<c:when test="${not empty loginEmp }">
 									<div class="user-name">나는 ${loginEmp.emp_name} 입니다</div>
 									<div class="user-email">부서 ${loginEmp.dept_code }</div>
 									<div class="user-contact">${loginEmp.emp_phone }</div>
-								</c:when>
-								<c:otherwise>
-									<div>로그인하세요</div>
-								</c:otherwise>
-							</c:choose>
-							<!-- <div class="user-desg">
-								<span
-									class="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>
-								접속중
-							</div> -->
 						</div>
 						<div class="card-footer text-muted position-relative">
 							<a href="${path }/mypage/myprofile"
@@ -91,50 +78,6 @@
 							</a>
 						</div>
 					</div>
-					<!-- 출퇴근찍기 -->
-					<%-- <div>
-						<div></div>
-						<c:choose>
-								<c:when test="${not empty loginEmp }">
-									<div>
-										<div class="d-flex flex-column align-items-center clockAndCheck">
-											<div class="btn-block">출퇴근을 눌러주세요 😊</div>
-											<div class="btn-block" id="currentTime"></div>
-										</div>
-										<div class="button-container d-flex justify-content-center mt-3">
-											<form action="${path}/work/updateStartWork" method="post">
-												<input class="btn btn-flush-light btn-animated" type="submit"
-													value="출근하기" /> <input type="hidden" id="workStartTime"
-													name="workStartTime" value="" />
-											</form>
-											<form action="${path}/work/updateEndWork" method="post">
-												<input class="btn btn-flush-light btn-animated" type="submit"
-													value="퇴근하기" /> <input type="hidden" id="workEndTime"
-													name="workEndTime" value="" />
-											</form>
-										</div>
-										<div class="SEWork">
-											<c:if test="${not empty commute.workStartTime }">
-												<fmt:formatDate value="${commute.workStartTime}"
-													pattern="HH:mm:ss" var="workStartTime" />
-												<div class="btn-block" style="background-color: #f1c40f">출근시간
-													- ${workStartTime}</div>
-												<!-- 포맷팅된 날짜와 시간을 출력 -->
-											</c:if>
-											<c:if test="${not empty commute.workEndTime }">
-												<fmt:formatDate value="${commute.workEndTime}"
-													pattern="HH:mm:ss" var="workEndTime" />
-												<div class="btn-block" style="background-color: #f1c40f">퇴근시간
-													- ${workEndTime }</div>
-											</c:if>
-										</div>
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div>로그인하세요</div>
-								</c:otherwise>
-							</c:choose>
-					</div> --%>
 					<div>
 						<div>
 							<div class="d-flex flex-column align-items-center clockAndCheck">
@@ -142,15 +85,15 @@
 								<div class="btn-block" id="currentTime"></div>
 							</div>
 							<div class="button-container d-flex justify-content-center mt-3">
-								<form action="${path}/work/updateStartWork" method="post">
+								<form action="${path}/work/updateStartWork" method="post" id="workStartForm">
 									<input class="btn btn-flush-light btn-animated" type="submit"
-										value="출근하기" /> <input type="hidden" id="workStartTime"
-										name="workStartTime" value="" />
+										value="출근하기" onclick="workStartForm(event)"/> 
+										<input type="hidden" id="workStartTime" name="workStartTime" value="" />
 								</form>
-								<form action="${path}/work/updateEndWork" method="post">
+								<form action="${path}/work/updateEndWork" method="post" id="workEndForm">
 									<input class="btn btn-flush-light btn-animated" type="submit"
-										value="퇴근하기" /> <input type="hidden" id="workEndTime"
-										name="workEndTime" value="" />
+										value="퇴근하기" onclick="workEndForm(event)"/> 
+										<input type="hidden" id="workEndTime" name="workEndTime" value="" />
 								</form>
 							</div>
 							<div class="SEWork">
@@ -170,7 +113,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- <button onclick="printAPI();">뉴스 출력</button> -->
 
 				</div>
 				<div class="right-container">
@@ -545,6 +487,23 @@ table>thead {
 	text-align: center;
 }
 </style>
+<!-- 출퇴근제출 -->
+<script >
+function workStartForm(event) {
+	event.preventDefault(); // 기본 동작인 폼 제출을 막음
+	if (confirm("출근하시겠습니까?")) {
+		document.getElementById("workStartForm").submit();
+	} else {
+	}
+}
+function workEndForm(event) {
+	event.preventDefault(); // 기본 동작인 폼 제출을 막음
+	if (confirm("퇴근하시겠습니까?")) {
+		document.getElementById("workEndForm").submit();
+	} else {
+	}
+}
+</script>
 <!-- 투두리스트 -->
 <script>
 	const btn = document.getElementById('btn'); //버튼
@@ -613,6 +572,7 @@ table>thead {
 				const link = document.createElement("a");
 				
 				/* 링크를넣고 text를 추가해야함 */
+				link.target = "_blank";
 				link.href = e['link'];
 				link.textContent = e['title'].replace(/<[^>]+>|&quot;/g, "");
 				
@@ -676,14 +636,10 @@ function onGeoOk() {
         });
 }
 onGeoOk();
-
 /* function onGeoError() {
     alert("위치정보를 찾을 수 없습니다.")
-    
 } */
-
 /* navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError); */
-
 </script>
 <script>
   // 현재 시간을 가져오는 함수

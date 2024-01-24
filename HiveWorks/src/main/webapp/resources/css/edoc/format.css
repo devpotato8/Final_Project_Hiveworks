@@ -18,20 +18,25 @@
     width: 100%;
     justify-content: center;
 }
-.document .document-content{
+.document-content{
     width: calc(21cm + 2px);
     min-height: calc(29.7cm + 2px);
     height: fit-content;
     padding: 3cm 1.5cm 1.5cm 2cm;
-    margin: 2.5rem;
     border: 1px hsl( 0, 0%, 82.7% ) solid;
     background-color: #fff;
     box-shadow: 0 0 5px hsla( 0, 0%, 0%, .1 );
     box-sizing: border-box;
 }
-.document-content .ck-table-resized{
+.document-content table{
     width: inherit;
     height: inherit;
+}
+.document-content .edocContent{
+    width: 100%;
+    height:100%;
+    margin: 0;
+    padding: 0;
 }
 figure.table{
     margin-bottom : 0;

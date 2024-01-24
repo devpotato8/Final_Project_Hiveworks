@@ -159,9 +159,6 @@
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
 							class="event-content">이벤트입니다</span></li>
-						<li><span class="ev-icon-wrap"><span
-								class="feather-icon"><i data-feather="bell"></i></span></span><span
-							class="event-reminder">알림여부</span></li>
 					</ul>
 				</div>
 			</div>
@@ -238,12 +235,6 @@
 									</div>
 								</div>
 								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<input class="form-check-input cal-event-reminder"
-											type="checkbox" id="reremindercheck" name="rereminder">
-										<label class="form-check-label" for="reremindercheck">알림여부
-										</label>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -549,14 +540,6 @@
 										<textarea class="form-control cal-event-content" rows="3"></textarea>
 									</div>
 								</div>
-								<div class="row gx-3">
-									<div class="col-sm-12 form-group">
-										<input class="form-check-input cal-event-reminder"
-											type="checkbox" value="" id="remindercheck" name="reminder">
-										<label class="form-check-label" for="remindercheck">
-											알림여부 </label>
-									</div>
-								</div>
 							</form>
 						</div>
 						<div class="modal-footer align-items-center">
@@ -694,6 +677,20 @@ console.log(empDeptCodes);
       resetForm();
    });
 
+   // 현재 날짜와 시간을 가져오는 함수
+   function getCurrentDateTime() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = ('0' + (now.getMonth() + 1)).slice(-2);
+      var day = ('0' + now.getDate()).slice(-2);
+      var hours = ('0' + now.getHours()).slice(-2);
+      var minutes = ('0' + now.getMinutes()).slice(-2);
+      var seconds = ('0' + now.getSeconds()).slice(-2);
+      return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
+            + ':' + seconds;
+   };
+   
+   
    // 값 초기화 함수
    function resetForm() {
       document.querySelector('.cal-event-code').selectedIndex = "CAL001";
@@ -708,22 +705,7 @@ console.log(empDeptCodes);
       $(".inviteContainer:first").find("select").val("");
     	  
    }
-   
-   
 
-   // 현재 날짜와 시간을 가져오는 함수
-   function getCurrentDateTime() {
-      var now = new Date();
-      var year = now.getFullYear();
-      var month = ('0' + (now.getMonth() + 1)).slice(-2);
-      var day = ('0' + now.getDate()).slice(-2);
-      var hours = ('0' + now.getHours()).slice(-2);
-      var minutes = ('0' + now.getMinutes()).slice(-2);
-      var seconds = ('0' + now.getSeconds()).slice(-2);
-      return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
-            + ':' + seconds;
-   };
-   
 // 부서 선택 시 직원 표시
  document.getElementById('calDept1').addEventListener('change', function() {
   var selectedDeptCode = this.value;
@@ -742,7 +724,7 @@ console.log(empDeptCodes);
       
       employeeList.forEach(function(employee) {
         var option = document.createElement('option');
-        option.value = employee.emp_no;
+        option.value = employee.no;
         option.textContent = employee.name;
         employeeSelect.appendChild(option);
       });
@@ -780,13 +762,15 @@ const adddelFunction=(function(adddelFunction){
                   }
                 })
                 .then(function(employeeList) {
+                	console.log(employeeList);
+
                   var employeeSelect = document.getElementById(empId);
             
                   employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
             
                   employeeList.forEach(function(employee) {
                     var option = document.createElement('option');
-                    option.value = employee.EMP_NO;
+                    option.value = employee.no;
                     option.textContent = employee.name;
                     employeeSelect.appendChild(option);
                   });

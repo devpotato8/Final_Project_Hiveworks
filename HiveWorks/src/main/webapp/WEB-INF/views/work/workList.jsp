@@ -53,7 +53,7 @@
 				<div class="row mb-5">
 
 					<div class="col-lg-4">
-						<div class="card board-card card-border">
+						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
 									<div class="media-head"></div>
@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<div class="card board-card card-border">
+						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
 									<div class="media-head"></div>
@@ -94,7 +94,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<div class="card board-card card-border">
+						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
 									<div class="media-head"></div>
@@ -118,7 +118,7 @@
 
 				<div class="row">
 					<div class="col-lg-4">
-						<div class="card board-card card-border">
+						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
 									<div class="media-head"></div>
@@ -139,7 +139,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<div class="card board-card card-border">
+						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
 									<div class="media-head"></div>
@@ -160,7 +160,7 @@
 						</div>
 					</div>
 					<div class="col-lg-4">
-						<div class="card board-card card-border">
+						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
 									<div class="media-head"></div>
@@ -173,8 +173,7 @@
 								<div
 									class="d-flex align-items-center avatar-group avatar-group-me">
 									<div style="width: 120%" class="avatar avatar-soft-red">
-										<span style="width: 120%" id="absence" class="initial-wrap">${absence }
-											회</span>
+										<span style="width: 120%" id="absence" class="initial-wrap">${absence }	회</span>
 									</div>
 								</div>
 							</div>

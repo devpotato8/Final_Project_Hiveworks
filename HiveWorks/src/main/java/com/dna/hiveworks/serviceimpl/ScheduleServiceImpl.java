@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
 import com.dna.hiveworks.model.dto.CheckList;
+import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
@@ -274,6 +275,26 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public int undoneChecklist(int checklistNo) {
 		return dao.undoneChecklist(session, checklistNo);
+	}
+	
+	@Override
+	public  int insertComment(Comment comment) {
+		return dao.insertComment(session, comment);
+	}
+	
+	@Override
+	public Comment selectCommentByNo(int calCommenttNo) {
+		return dao.selectCommentByNo(session, calCommenttNo);
+	}
+	
+	@Override
+	public int updateComment(Comment comment) {
+		return dao.updateComment(session, comment);
+	}
+	
+	@Override
+	public int deleteComment(int calCommentNo) {
+		return dao.deleteComment(session, calCommentNo);
 	}
 
 }

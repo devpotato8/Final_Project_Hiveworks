@@ -37,4 +37,6 @@ public interface MsgService {
 	int unstarBtn(Map<String,Integer> params);
 	int returnTrash(Map<String,Integer> params);
 	int deleteFile(Map<String,Object> params);
+	
+	List<String>receiverIds(List<Integer> empNos);
 }

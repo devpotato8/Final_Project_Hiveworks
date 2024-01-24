@@ -970,12 +970,12 @@ var todoApp = function() {
 		todoAppTarget.toggleClass('todoapp-info-active');	
 		return false;
 	});
-	$(document).on("click",".todoapp-wrap .edit-task,.todoapp-wrap .view-task,.todoapp-wrap .todo-text",function (e) {
+/*	$(document).on("click",".todoapp-wrap .edit-task,.todoapp-wrap .view-task,.todoapp-wrap .todo-text",function (e) {
 		todoAppTarget.addClass('todoapp-info-active');	
 		$('.single-task-list').removeClass('active-todo');
 		$(this).closest('li.single-task-list').addClass('active-todo');
 		return;
-	});
+	});*/
 	$(document).on("click",".todoapp-wrap .delete-task",function (e) {
 		$(this).closest('li.single-task-list').remove();	
 		return false;

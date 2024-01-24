@@ -83,5 +83,7 @@ public interface EdocDao {
 	int updateSample(SqlSession session, ElectronicDocumentSample sample);
 	
 	int deleteSample(SqlSession session, Map<String, Object> param);
+
+	String getPosCodeByDsgCode(SqlSession session, String name);
 	
 }

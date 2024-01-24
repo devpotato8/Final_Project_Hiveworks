@@ -26,6 +26,7 @@
 
 	<!-- CSS -->
     <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
+    
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -45,37 +46,32 @@
 												data-feather="layout"></i></span></span> <span class="nav-link-text">전체
 											프로젝트</span>
 								</a></li>
-								<li class="nav-item"><a class="nav-link"
+			<%-- 					<li class="nav-item"><a class="nav-link"
 									href="${path }/schedule/projectlistbyempno.do?empNo=1234">
 										<span class="nav-icon-wrap"><span class="feather-icon"><i
 												data-feather="list"></i></span></span> <span class="nav-link-text">내
 											프로젝트</span>
-								</a></li>
+								</a></li> --%>
 							</ul>
 						</div>
 						<div class="separator separator-light"></div>
-						<div class="title-sm text-primary">Priority</div>
+						<div class="title-sm text-primary">프로젝트 상태</div>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link link-with-badge"
 									href="#"> <span
 										class="badge badge-danger badge-indicator badge-indicator-lg me-2"></span>
-										<span class="nav-link-text">Urgent</span>
+										<span class="nav-link-text">마감</span>
 								</a></li>
 								<li class="nav-item"><a class="nav-link link-with-badge"
 									href="#"> <span
 										class="badge badge-orange badge-indicator badge-indicator-lg me-2"></span>
-										<span class="nav-link-text">High</span>
+										<span class="nav-link-text">진행중</span>
 								</a></li>
 								<li class="nav-item"><a class="nav-link link-with-badge"
 									href="#"> <span
 										class="badge badge-yellow badge-indicator badge-indicator-lg me-2"></span>
-										<span class="nav-link-text">Medium</span>
-								</a></li>
-								<li class="nav-item"><a class="nav-link link-with-badge"
-									href="#"> <span
-										class="badge badge-gold badge-indicator badge-indicator-lg me-2"></span>
-										<span class="nav-link-text">Low</span>
+										<span class="nav-link-text">대기</span>
 								</a></li>
 							</ul>
 						</div>
@@ -397,33 +393,34 @@
 								<div class="tab-content mt-7">
 									<div class="tab-pane fade show active" id="tab_checklist">
 										<div
-											class="d-flex align-items-center justify-content-between mb-2">
+											class="d-flex align-items-center justify-content-between mb-2" id="commentAllArea">
 											<div class="title title-lg mb-0">
 												<span>Checklist</span>
 											</div>
 										</div>
 										 <div class="hk-checklist">
-											<div class="form-check">
-												<input type="checkbox" class="form-check-input"
+											<!-- <div class="form-check">
+											 <input type="hidden" id="checkNohidden" value=""/>
+												<input type="checkbox" class="form-check-input" name="checkListBox"
 													id="customCheckList1" checked=""> <label
 													class="form-check-label" for="customCheckList1">
 													Video conference with canada Team <span
 													class="done-strikethrough"></span>
 												</label> <span class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
 													class="icon"><span class="feather-icon"><i
-															data-feather="trash-2"></i></span></span></span>
-											</div>
+															data-feather="trash-2"></i></span></span></span> 
+											</div> -->
 											<a href="#"
 												class="d-flex align-items-center add-new-checklist"> <span
 												class="feather-icon fe-x me-2"><i
-													data-feather="plus-square"></i></span> <span>New Item</span>
+													data-feather="plus-square"></i></span> <span>체크리스트 추가</span>
 											</a>
-										</div> 
-										<div class="d-flex align-items-center justify-content-between">
-											<div class="title title-wth-divider flex-grow-1 my-4 me-2">
+										 </div> 
+										 <div class="d-flex align-items-center justify-content-between">
+											<!-- <div class="title title-wth-divider flex-grow-1 my-4 me-2">
 												<span>Canada team task</span>
-											</div>
-											<div>
+											</div> -->
+										<!-- 	 <div>
 												<a href="#"
 													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"
 													data-bs-toggle="tooltip" data-bs-placement="top" title=""
@@ -433,9 +430,9 @@
 													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
 													class="icon"><span class="feather-icon"><i
 															data-feather="trash-2"></i></span></span></a>
-											</div>
-										</div>
-										<div class="hk-checklist">
+											</div>  -->
+										</div> 
+						<!-- 				<div class="hk-checklist">
 											<div class="form-check">
 												<input type="checkbox" class="form-check-input"
 													id="customCheckList5" checked=""> <label
@@ -447,124 +444,65 @@
 													class="icon"><span class="feather-icon"><i
 															data-feather="trash-2"></i></span></span></a>
 											</div>
-											<div class="form-check">
-												<input type="checkbox" class="form-check-input"
-													id="customCheckList6"> <label
-													class="form-check-label" for="customCheckList6">
-													Invite jaqueline on video conference <span
-													class="done-strikethrough"></span>
-												</label> <a href="#"
-													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
-													class="icon"><span class="feather-icon"><i
-															data-feather="trash-2"></i></span></span></a>
-											</div>
-											<a href="#"
+										 	<a href="#"
 												class="d-flex align-items-center add-new-checklist"> <span
 												class="feather-icon fe-x me-2"><i
 													data-feather="plus-square"></i></span> <span>New Item</span>
-											</a>
-										</div>
-									</div>
+											</a> 
+										</div> -->
+									</div> 
 									<div class="tab-pane fade" id="tab_comments">
 										<div
 											class="d-flex align-items-center justify-content-between mb-2">
-											<div class="title title-lg mb-0">
-												<span>3 Responses</span>
-											</div>
-											<a href="#" class="btn btn-xs btn-icon btn-rounded btn-light"
-												data-bs-toggle="tooltip" data-bs-placement="top" title=""
-												data-bs-original-title="Add Board"><span class="icon"><span
-													class="feather-icon"><i data-feather="plus"></i></span></span></a>
-										</div>
+
 										<div class="comment-block">
-											<div class="media">
-												<div class="media-head">
-													<div class="avatar avatar-xs avatar-rounded">
-														<img src="${path}/resources/img/avatar4.jpg" alt="user"
-															class="avatar-img">
-													</div>
-												</div>
+											<div class="media" id="level1">
+												<input type="hidden" id="commentNo" value="">
 												<div class="media-body">
 													<div>
-														<span class="cm-name">Martin Luther</span> <span
-															class="badge badge-soft-violet">Manager</span>
+														<span class="cm-name">이름</span>
 													</div>
-													<p>
-														@<a href="#" class="fw-medium">Charlie Darvin</a> From
-														there, you can run truffle compile, truffle migrate and
-														truffle test to compile your contracts, deploy those
-														contracts to the network, and run their associated unit
-														tests.
+													<p id="commentContent">
+														내용
 													</p>
 													<div class="comment-action-wrap mt-3">
 														<span>3 hours ago</span> <span class="comment-dot-sep">●</span>
-														<a href="#">Reply</a> <span class="comment-dot-sep">●</span>
-														<a href="#">Like</a>
+														<a href="#">Reply</a> 
 													</div>
 												</div>
 											</div>
 											<div class="separator separator-light"></div>
-											<div class="media">
-												<div class="media-head">
-													<div class="avatar avatar-xs avatar-rounded">
-														<img src="${path}/resources/img/avatar2.jpg" alt="user"
-															class="avatar-img">
-													</div>
-												</div>
-												<div class="media-body">
-													<div>
-														<span class="cm-name">Katherine Jones</span>
-													</div>
-													<p>
-														Dynamically beautiful work done by @<a href="#"
-															class="fw-medium">Ashton Kutcher</a>
-													</p>
-													<div class="comment-action-wrap mt-3">
-														<span>3 hours ago</span> <span class="comment-dot-sep">●</span>
-														<a href="#">Reply</a> <span class="comment-dot-sep">●</span>
-														<a href="#">Like</a>
-													</div>
-													<div class="media">
-														<div class="media-head">
-															<div class="avatar avatar-xs avatar-rounded">
-																<img src="${path}/resources/img/avatar3.jpg" alt="user"
-																	class="avatar-img">
-															</div>
-														</div>
+													<div class="media" id="level2">
 														<div class="media-body">
 															<div>
-																<span class="cm-name">Ashton Kutche</span> <span
-																	class="badge badge-soft-danger">Designer</span>
+																<span class="cm-name">Ashton Kutche</span>
 															</div>
 															<p>
 																@<a href="#" class="fw-medium">Katherine Jones</a> Thank
 																you :)
 															</p>
 															<div class="comment-action-wrap mt-3">
-																<span>3 hours ago</span> <span class="comment-dot-sep">●</span>
-																<a href="#">Reply</a> <span class="comment-dot-sep">●</span>
-																<a href="#">Like</a>
+																<span>3 hours ago</span>
+																<span class="comment-dot-sep">●</span><span id="replyComment">답글</span>
+																<span class="comment-dot-sep">●</span><span id="updateComment">수정</span>
+																<span class="comment-dot-sep">●</span><span id="deleteComment">삭제</span>
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="separator separator-light"></div>
-											<form>
 												<div class="form-group">
-													<label class="form-label">Add Comment</label>
-													<textarea class="form-control" rows="5"></textarea>
+													<label class="form-label">댓글 등록</label>
+													<textarea class="form-control" id="commentInput" rows="5"></textarea>
 												</div>
 												<div
 													class="d-flex align-items-center justify-content-between">
-													<button class="btn btn-primary">Send</button>
-													<small class="form-text text-muted mt-0">Basic HTML
-														is allowed</small>
+													<button class="btn btn-primary" id="addComment">등록</button>
 												</div>
-											</form>
 										</div>
 									</div>
-									<div class="tab-pane fade" id="tab_files">
+		<%-- 							<div class="tab-pane fade" id="tab_files">
 										<div class="row">
 											<div class="col-sm">
 												<form action="#" class="dropzone" id="remove_link">
@@ -873,8 +811,8 @@
 												</div>
 											</div>
 										</div>
-									</div>
-									<div class="tab-pane fade" id="tab_activity">
+									</div> --%>
+			<%-- 						<div class="tab-pane fade" id="tab_activity">
 										<div class="mt-5 mb-2">
 											<div class="title title-lg mb-0">
 												<span>Latest activity</span>
@@ -1092,7 +1030,7 @@
 												</div>
 											</div>
 										</div>
-									</div>
+									</div> --%>
 								</div>
 							</div>
 						</div>
@@ -1304,14 +1242,15 @@ document.querySelectorAll(".projectView").forEach(element => {
     element.onclick = (e) => {
         const $project = e.currentTarget
         todoAppTarget.addClass('todoapp-info-active');
-        searchProjectbyCalNo($project.getAttribute('data-projectNo'));
+        
+        searchProjectbyCalNo($project.getAttribute('data-projectNo'),0);
     }
 });
 
 
 
 //프로젝트 상세조회
-  function searchProjectbyCalNo(calNo) {
+  function searchProjectbyCalNo(calNo,initcount=2) {
   	$.ajax({
   		url: "/schedule/projectlistbycalno.do?calNo="+calNo,
   		method: "GET",
@@ -1414,10 +1353,11 @@ document.querySelectorAll(".projectView").forEach(element => {
   	     const invitationEmpList = data.invitationEmpList;
   	     const invitationEmpListLength = invitationEmpList.length;
   	     let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
-  	     let count = 0;
+  	     shareProjectCount = initcount;
+  	     
+  	   	$("div#shareListJob>*").remove();
 
   	     if (invitationEmpListLength > 0) {
-  	     	$("div[class^='reinvicontainer']").remove();
   	     	
   	     	// 수정 모달 list만큼 만들어주기(부서 직원)
   	     	for (var i = 0; i < invitationEmpListLength; i++) {
@@ -1535,281 +1475,304 @@ document.querySelectorAll(".projectView").forEach(element => {
   	     }
 
 
-  	     //수정 부서 직원 추가 
-  	     function createContainer(index) {
-  	         let reInviContainer = document.createElement('div');
-  	         reInviContainer.className = 'reinvicontainer' + index;
-  	         reInviContainer.style.display = 'flex';
-  	         reInviContainer.style.paddingTop = '5px';
-  	         reInviContainer.style.paddingBottom = '5px';
-
-  	         let deptContainer = document.createElement('div');
-  	         deptContainer.className = 'col-sm-5';
-  	         let empContainer = document.createElement('div');
-  	         empContainer.className = 'col-sm-5';
-
-  	         let deptSelect = document.createElement('select');
-  	         deptSelect.className = 'form-select me-3';
-  	         deptSelect.name = 'recalDept';
-  	         deptSelect.id = 'recalDept' + index;
-
-  	         let empSelect = document.createElement('select');
-  	         empSelect.className = 'form-select me-3';
-  	         empSelect.name = 'recalEmp';
-  	         empSelect.id = 'recalEmp' + index;
-
-  	         for (var j = 0; j < deptCodes.length; j++) {
-  	             let deptOption = document.createElement('option');
-  	             deptOption.value = deptCodes[j];
-  	             deptOption.text = deptNames[j];
-  	             deptSelect.appendChild(deptOption);
-  	         }
-
-  	         var selectedDeptIndex = deptSelect.selectedIndex;
-  	         var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-  	         var matchingEmpNames = [];
-  	         var matchingEmpNos = [];
-
-  	         for (var k = 0; k < empDeptCodes.length; k++) {
-  	             if (empDeptCodes[k] === selectedDeptCode) {
-  	                 matchingEmpNames.push(empNames[k]);
-  	                 matchingEmpNos.push(empNos[k]);
-  	             }
-  	         }
-
-  	         empSelect.innerHTML = "";
-
-  	         for (var l = 0; l < matchingEmpNames.length; l++) {
-  	             var empOption = document.createElement("option");
-  	             empOption.value = matchingEmpNos[l];
-  	             empOption.text = matchingEmpNames[l];
-  	             empSelect.appendChild(empOption);
-  	         }
-
-  	         deptContainer.appendChild(deptSelect);
-  	         empContainer.appendChild(empSelect);
-
-  	         reInviContainer.appendChild(deptContainer);
-  	         reInviContainer.appendChild(empContainer);
-
-  	         // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-  	         let delButton = document.createElement('button');
-  	         delButton.type = 'button';
-  	         delButton.textContent = '삭제';
-  	         delButton.addEventListener('click', function () {
-  	             // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-  	             reInviContainer.remove();
-  	             count--;
-  	         });
-
-  	         reInviContainer.appendChild(delButton);
-
-  	         return reInviContainer;
-  	     }
-
-
-  	     $('#addBtnRe').on('click', function () {
-  	         if (count <= 5) {
-  	             let reInviContainer = createContainer(count);
-
-  	             let someContainer2 = document.querySelector('#shareListJob');
-  	             someContainer2.appendChild(reInviContainer);
-
-  	             count++;
-  	         } else {
-  	             alert("공유인원은 5명까지 가능합니다.");
-  	         }
-  	         updateCount(); // count를 업데이트하는 함수 호출
-  	     });
-
-  	     function updateCount() {
-  	         count = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
-  	     }
   	     
   	     
   	   //체크리스트 조회
-  	     const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');
-  	     console.log(data.checkList)
-  				if(data.checkList.length > 0){
-  	            // data.checklist 배열을 순회하면서 DOM 요소 생성 및 추가
-  	            for (let i = 0; i < data.checkList.length; i++) {
-  	                const checklistItem = data.checkList[i];
 
-  	                // 새로운 div.form-check 요소 생성
-  	                const addNewChecklist = document.querySelector('.add-new-checklist');
-  	                const checklistDiv = document.createElement('div');
-  	                checklistDiv.classList.add('form-check');
+  	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
+  	  	$("div.hk-checklist>div").remove();
+		console.log(data.checkList);
 
-  	                // 새로운 input 요소 생성
-  	                const checkboxInput = document.createElement('input');
-  	                checkboxInput.type = 'checkbox';
-  	                checkboxInput.classList.add('form-check-input');
-  	                checkboxInput.id = `customCheckList${i + 2}`;
-  	                checkboxInput.checked = checklistItem.endYn === 'Y' ? true : false;
-  	                checkboxInput.dataset.checklistNo = checklistItem.calChecklistNo;
+		if (data.checkList.length > 0) {
+    	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
+    	for (let i = 0; i < data.checkList.length; i++) {
+        const checklistItem = data.checkList[i];
 
-  	                // 새로운 label 요소 생성
-  	                const label = document.createElement('label');
-  	                label.classList.add('form-check-label');
-  	                label.htmlFor = `customCheckList${i + 2}`;
-  	                label.innerText = checklistItem.calChecklistContent;
-  	                
-  	                // 새로운 span 요소 생성
-  	                const span = document.createElement('span');
-  	                span.classList.add('done-strikethrough');
+        // 새로운 div.form-check 요소를 생성합니다.
+        const checklistDiv = document.createElement('div');
+        checklistDiv.classList.add('form-check');
 
-  	                // label에 span 추가
-  	                label.appendChild(span);
+        // 새로운 input-hidden 요소를 생성합니다.
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.id = 'checkNohidden';
+        hiddenInput.value = checklistItem.calChecklistNo;
 
-  	                // 새로운 a 요소 생성
-  	                const deleteLink = document.createElement('span');
-  	                deleteLink.href = '#';
-  	                deleteLink.dataset.checklistNo = checklistItem.calChecklistNo; 
-  	                deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
+        // 새로운 input-checkbox 요소를 생성합니다.
+        const checkboxInput = document.createElement('input');
+        checkboxInput.type = 'checkbox';
+        checkboxInput.classList.add('form-check-input');
+        checkboxInput.id = `customCheckList${i + 2}`;
+        checkboxInput.name = 'checkListBox';
+        checkboxInput.checked = checklistItem.endYn === 'Y';
 
-  	                // 새로운 span 요소 생성
-  	                const iconSpan = document.createElement('span');
-  	                iconSpan.classList.add('icon');
+        // 새로운 label 요소를 생성합니다.
+        const label = document.createElement('label');
+        label.classList.add('form-check-label');
+        label.htmlFor = `customCheckList${i + 2}`;
+        label.innerText = checklistItem.calChecklistContent;
 
-  	                // 새로운 feather-icon 요소 생성
-  	                const featherIcon = document.createElement('span');
-  	                featherIcon.classList.add('feather-icon');
+        // 새로운 span 요소를 생성합니다.
+        const span = document.createElement('span');
+        span.classList.add('done-strikethrough');
 
-  	                // 새로운 i 요소 생성
-  	                const trashIcon = document.createElement('i');
-  	                trashIcon.dataset.feather = 'trash-2';
+        // label에 span을 추가합니다.
+        label.appendChild(span);
 
-  	                // i를 feather-icon에 추가
-  	                featherIcon.appendChild(trashIcon);
+        // 삭제 링크를 위한 새로운 span 요소를 생성합니다.
+        const deleteLink = document.createElement('span');
+        deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
+        deleteLink.dataset.checklistNo = checklistItem.calChecklistNo;
 
-  	                // feather-icon을 icon에 추가
-  	                iconSpan.appendChild(featherIcon);
+        // 새로운 아이콘 span을 생성합니다.
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('icon');
 
-  	                // icon을 a에 추가
-  	                deleteLink.appendChild(iconSpan);
+        // 새로운 feather-icon span을 생성합니다.
+        const featherIcon = document.createElement('span');
+        featherIcon.classList.add('feather-icon');
 
-  	                // div.form-check에 input, label, a 추가
-  	                checklistDiv.appendChild(checkboxInput);
-  	                checklistDiv.appendChild(label);
-  	                checklistDiv.appendChild(deleteLink);
+        // 새로운 휘더 아이콘 i를 생성합니다.
+        const trashIcon = document.createElement('i');
+		trashIcon.classList.add('icon', 'feather-icon');
+		trashIcon.dataset.feather = 'trash-2';
 
-  	                // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내부에 추가
-  	                hkChecklist.appendChild(checklistDiv);
-  	                hkChecklist.insertBefore(checklistDiv, addNewChecklist);
-  	            }
-  			}
+        // i를 feather-icon에 추가합니다.
+        featherIcon.appendChild(trashIcon);
 
-  	     
-  	  // 체크리스트 추가
-  	   var id;
-  	   var checklistNo;
+        // feather-icon을 icon에 추가합니다.
+        iconSpan.appendChild(featherIcon);
 
-  	   $(document).on("click", ".add-new-checklist", function (e) {
-  		    var id = uniqId(); // Generate unique ID
+        // icon을 삭제 링크에 추가합니다.
+        deleteLink.appendChild(iconSpan);
 
-  		    var checklistItem = $('<div class="form-check">' +
-  		    	'<input type="hidden" id="checkNohidden" value=""' +
-  		        '<input type="checkbox" class="form-check-input" id="customCheckListAppend_' + id + '" data-checklistNo="">' +
-  		        '<label class="form-check-label" for="customCheckListAppend_' + id + '">' +
-  		        '<span class="done-strikethrough"></span>' +
-  		        '</label>' +
-  		        '<input class="form-control checklist-input" type="text" placeholder="Add new Item">' +
-  		        '<a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">' +
-  		        '<span class="icon">' +
-  		        '<span class="feather-icon">' +
-  		        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">' +
-  		        '<polyline points="3 6 5 6 21 6"></polyline>' +
-  		        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
-  		        '<line x1="10" y1="11" x2="10" y2="17"></line>' +
-  		        '<line x1="14" y1="11" x2="14" y2="17"></line>' +
-  		        '</svg>' +
-  		        '</span>' +
-  		        '</span>' +
-  		        '</a>' +
-  		        '</div>');
+        // div.form-check에 input-hidden, input-checkbox, label, 삭제 링크를 추가합니다.
+        checklistDiv.appendChild(hiddenInput);
+        checklistDiv.appendChild(checkboxInput);
+        checklistDiv.appendChild(label);
+        checklistDiv.appendChild(deleteLink);
 
-  		    checklistItem.insertBefore($(this)) // Insert new checklist before the current element
-  		        .find('input[type="text"]')
-  		        .on('keypress', function (e) {
-  		            if (e.which == 13) { // Enter key pressed
-  		                e.preventDefault();
-  		                var checklistValue = $(this).val(); // Save checklist input value
+        // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내에 추가합니다.
+        hkChecklist.insertBefore(checklistDiv, document.querySelector('.add-new-checklist'));
+    }
+}
+		
+		//댓글 조회
+		$("div.comment-block>div").remove();
+		if (data.commentList.length > 0) {
+    	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
+    	for (let i = 0; i < data.commentList.length; i++) {
+        const comment = data.commentList[i];
+        
+        var mediaDiv2 = document.createElement('div');
+  		mediaDiv2.className = 'media';
+  		mediaDiv2.id = 'level1'; // Ensure the id is unique
+  		
+  		var commentNoInput = document.createElement('input');
+  		commentNoInput.type = 'hidden';
+  		commentNoInput.id = 'commentNo';
+  		commentNoInput.value = comment.calCommentNo;
 
-  		                // Ajax call
-  		                $.ajax({
-  		                    url: "/schedule/insertChecklist",
-  		                    method: "POST",
-  		                    dataType: "json",
-  		                    data: JSON.stringify({
-  		                        checklistValue: checklistValue,
-  		                        calNo: data.calNo, // Set the appropriate value for data.calNo
-  		                        empNo: loginEmpNo // Set the appropriate value for loginEmpNo
-  		                    }),
-  		                    contentType: 'application/json',
-  		                    success: function (response) {
-  		                        // Success handling
-  		                        console.log("버노"+response);
-  		                         
-  		                      var newChecklistItem = $(this).prev().find('input').trigger('focus');
+  		// Create the inner div with class "media-body"
+  		var mediaBodyDiv2 = document.createElement('div');
+  		mediaBodyDiv2.className = 'media-body';
 
-  		                  
-  		                 	// Set the value of #checkNohidden to the response
-  		                    $('#checkNohidden').val(response);
+  		// Create the div for the name
+  		var nameDiv2 = document.createElement('div');
+  		var nameSpan2 = document.createElement('span');
+  		nameSpan2.className = 'cm-name';
+  		nameSpan2.textContent = comment.empName;
+  		nameDiv2.appendChild(nameSpan2);
 
-  		                    // Save the value of #checkNohidden in const checklistNo
-  		                  checklistItem.find('#checkNohidden').val(response);
+  		// Create the paragraph for the content
+  		var contentParagraph2 = document.createElement('p');
+  		contentParagraph2.id = 'commentContent';
+  		contentParagraph2.textContent = comment.calCommentContent;
 
-                          // Save the value of .checkNohidden in const checklistNo
-                          const checklistNo = checklistItem.find('#checkNohidden').val();
-                          console.log(checklistNo);
-  		                      
-  		                    },
-  		                    error: function (error) {
-  		                        // Error handling
-  		                        console.error(error);
-  		                    }
-  		                });
-  		            }
-  		        });
+  		// Create the div for comment actions
+  		var commentActionDiv2 = document.createElement('div');
+		commentActionDiv2.classList.add('comment-action-wrap', 'mt-3');
+		
+		// Create the "답글" (Reply) span
+		var replySpan = document.createElement('span');
+		replySpan.className = 'comment-dot-sep';
+		replySpan.textContent = '●';
+		commentActionDiv2.appendChild(replySpan);
+		
+		var replyCommentSpan = document.createElement('span');
+		replyCommentSpan.id = 'replyComment';
+		replyCommentSpan.textContent = '답글';
+		commentActionDiv2.appendChild(replyCommentSpan);
+		
+		// Create the "수정" (Update) span
+		var updateSeparator1 = document.createElement('span');
+		updateSeparator1.className = 'comment-dot-sep';
+		updateSeparator1.textContent = '●';
+		commentActionDiv2.appendChild(updateSeparator1);
+		
+		var updateCommentSpan = document.createElement('span');
+		updateCommentSpan.id = 'updateComment';
+		updateCommentSpan.textContent = '수정';
+		commentActionDiv2.appendChild(updateCommentSpan);
+		
+		// Create the "삭제" (Delete) span
+		var deleteSeparator = document.createElement('span');
+		deleteSeparator.className = 'comment-dot-sep';
+		deleteSeparator.textContent = '●';
+		commentActionDiv2.appendChild(deleteSeparator);
+		
+		var deleteCommentSpan = document.createElement('span');
+		deleteCommentSpan.id = 'deleteComment';
+		deleteCommentSpan.textContent = '삭제';
+		commentActionDiv2.appendChild(deleteCommentSpan);
 
-  		    return false;
+
+  		// Append the inner elements to the mediaBodyDiv2
+  		mediaBodyDiv2.appendChild(commentNoInput);
+  		mediaBodyDiv2.appendChild(nameDiv2);
+  		mediaBodyDiv2.appendChild(contentParagraph2);
+  		mediaBodyDiv2.appendChild(commentActionDiv2);
+
+  		// Append the mediaBodyDiv2 to the second mediaDiv
+  		mediaDiv2.appendChild(mediaBodyDiv2);
+
+  		// Create the second separator div
+  		var separatorDiv2 = document.createElement('div');
+  		separatorDiv2.className = 'separator separator-light';
+
+  		// Get the parent element ".comment-block" where you want to insert the created elements
+  		var commentBlock = document.querySelector('.comment-block');
+
+  		// Append the second mediaDiv and separatorDiv2 inside the comment-block
+  		commentBlock.appendChild(mediaDiv2);
+  		commentBlock.appendChild(separatorDiv2);
+  		
+        
+    		}
+        
+    	}
+  		})
+  		.fail(function(request, status, error) {
+  			console.log("프로젝트 상세 조회 실패" + error);
+  			console.log(request, status);
+  			console.log(error);
   		});
-  			
-  	     //체크리스트 삭제 //바로 만든게 삭제가 안됨
-  			$(document).on("click",".delete-checklist",function (e) {
+};
+	  	
+
+  // 체크리스트 추가
+	   var id;
+	   var checklistNo;
+
+	   $(document).on("click", ".add-new-checklist", function (e) {
+		    var id = uniqId(); // Generate unique ID
+
+		    var checklistItem = $('<div class="form-check">' +
+		    	'<input type="hidden" id="checkNohidden" value="">' +
+		        '<input type="checkbox" class="form-check-input" name="checkListBox" id="customCheckListAppend_' + id + '">' +
+		        '<label class="form-check-label" for="customCheckListAppend_' + id + '">' +
+		        '<span class="done-strikethrough"></span>' +
+		        '</label>' +
+		        '<input class="form-control checklist-input" type="text" placeholder="Add new Item">' +
+		        '<a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">' +
+		        '<span class="icon">' +
+		        '<span class="feather-icon">' +
+		        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">' +
+		        '<polyline points="3 6 5 6 21 6"></polyline>' +
+		        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+		        '<line x1="10" y1="11" x2="10" y2="17"></line>' +
+		        '<line x1="14" y1="11" x2="14" y2="17"></line>' +
+		        '</svg>' +
+		        '</span>' +
+		        '</span>' +
+		        '</a>' +
+		        '</div>');
+
+		    checklistItem.insertBefore($(this)) // Insert new checklist before the current element
+		        .find('input[type="text"]')
+		        .on('keypress', function (e) {
+		        	
+		            if (e.which == 13) { // Enter key pressed
+		                e.preventDefault();
+		                var checklistValue = $(this).val(); // Save checklist input value
+
+		                // Ajax call
+		                $.ajax({
+		                    url: "/schedule/insertChecklist",
+		                    method: "POST",
+		                    dataType: "json",
+		                    data: JSON.stringify({
+		                        checklistValue: checklistValue,
+		                        calNo: document.querySelector('#recalno').value, // Set the appropriate value for data.calNo
+		                        empNo: loginEmpNo // Set the appropriate value for loginEmpNo
+		                    }),
+		                    contentType: 'application/json',
+		                    success: function (response) {
+		                        // Success handling
+		                        console.log("버노"+response);
+		                         
+		                      var newChecklistItem = $(this).prev().find('input').trigger('focus');
+
+		                  
+		                 	// Set the value of #checkNohidden to the response
+		                    $('#checkNohidden').val(response);
+
+		                    // Save the value of #checkNohidden in const checklistNo
+		                  checklistItem.find('#checkNohidden').val(response);
+
+                     // Save the value of .checkNohidden in const checklistNo
+                     const checklistNo = checklistItem.find('#checkNohidden').val();
+                     console.log(checklistNo);
+		                      
+		                    },
+		                    error: function (error) {
+		                        // Error handling
+		                        console.error(error);
+		                        //삭제..!!
+		                    }
+		                });
+		            }
+		        });
+
+		    return false;
+		});
+	   
+	   //체크리스트 삭제
+			$(document).on("click",".delete-checklist",function (e) {
+				e.preventDefault();
+				
+				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
+				console.log("체크버노"+checklistNo)
+			     
+				   $.ajax({
+	                   url: "/schedule/deleteChecklist",
+	                   method: "POST",
+	                   dataType: "json",
+	                   data: JSON.stringify({
+	                       checklistNo: checklistNo
+	                   }),
+	                   contentType: 'application/json',
+	                   success: function (response) {
+	                       // 성공 시 처리
+	                       console.log(response);
+	                       $(this).closest('.form-check').remove();
+
+	                   },
+	                   error: function (error) {
+	                       // 에러 시 처리
+	                       console.error(error+"에러"+checklistNo);
+	                       //그냥 두기
+	                   }
+	               });
+			});
+	   
+			//체크리스트 완료 표시 //만든거 바로 안됨
+  			$(document).on("change",'input[type="checkbox"][name="checkListBox"]',function (e) {
   				e.preventDefault();
   				
+  				const isChecked = $(this).prop('checked');
   				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
   				console.log("체크버노"+checklistNo)
-  			     
-  				   $.ajax({
-  	                   url: "/schedule/deleteChecklist",
-  	                   method: "POST",
-  	                   dataType: "json",
-  	                   data: JSON.stringify({
-  	                       checklistNo: checklistNo
-  	                   }),
-  	                   contentType: 'application/json',
-  	                   success: function (response) {
-  	                       // 성공 시 처리
-  	                       console.log(response);
-  	                       $(this).closest('.form-check').remove();
- 
-  	                   },
-  	                   error: function (error) {
-  	                       // 에러 시 처리
-  	                       console.error(error+"에러"+checklistNo);
-  	                   }
-  	               });
-  			});
-  			
-  			//체크리스트 완료 표시 //만든거 바로 안됨
-  			$(document).on("change",".form-check-input",function (e) {
-  				e.preventDefault();
-  				
-  				var checklistNo = $('#checkNohidden').val;
-  			    var isChecked = $(this).prop('checked'); // 체크박스의 체크 여부 확인
 
   			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
   					
@@ -1829,20 +1792,350 @@ document.querySelectorAll(".projectView").forEach(element => {
   		                       // 에러 시 처리
   		                       console.error(error);
   		                   }
-
   					})
-
   			});
+			
+			
+  			//댓글 등록
+  	  		$("#addComment").on("click", function () {
+  	        // 텍스트 영역에서 코멘트 내용 가져오기
+  	        var commentText = $("#commentInput").val();
+
+  	        // 만약 코멘트가 비어 있다면 아무 작업도 하지 않음
+  	        if (!commentText.trim()) {
+  	            return;
+  	        }
+
+  	        // Ajax 호출
+  	    	fetch("${path}/schedule/insertComment",{
+  	    		method:"POST",
+  	    		headers:{
+  	    			"Content-Type":"application/json"
+  	    		},body:JSON.stringify({
+  	    			commentText : commentText, 
+  	    			 calNo: document.querySelector('#recalno').value, 
+  	                 empNo: loginEmpNo,
+  	                 calCommentLevel : 1,
+  	                 calCommentRef: 0
+  	    		})
+  	    	}).then(response=>{
+  	    		if(response.status!=200) throw new Error(response.status);
+  	    		return response.json();
+  	    	}).then(result=>{
+  	    		console.log(result);
+  	    		alert("댓글 등록 성공");
+  	    		
+  	    		$("#commentInput").val("");
+  	    	
+  	    	// Create the second mediaDiv with class "media" and id "level2"
+  	    		var mediaDiv2 = document.createElement('div');
+  	    		mediaDiv2.className = 'media';
+  	    		mediaDiv2.id = 'level1'; // Ensure the id is unique
+  	    		
+  	    		var commentNoInput = document.createElement('input');
+  	    		commentNoInput.type = 'hidden';
+  	    		commentNoInput.id = 'commentNo';
+  	    		commentNoInput.value = result.calCommentNo;
+
+  	    		// Create the inner div with class "media-body"
+  	    		var mediaBodyDiv2 = document.createElement('div');
+  	    		mediaBodyDiv2.className = 'media-body';
+
+  	    		// Create the div for the name
+  	    		var nameDiv2 = document.createElement('div');
+  	    		var nameSpan2 = document.createElement('span');
+  	    		nameSpan2.className = 'cm-name';
+  	    		nameSpan2.textContent = result.empName;
+  	    		nameDiv2.appendChild(nameSpan2);
+
+  	    		// Create the paragraph for the content
+  	    		var contentParagraph2 = document.createElement('p');
+  	    		contentParagraph2.id = 'commentContent';
+  	    		contentParagraph2.textContent = result.calCommentContent;
+
+  	    		// Create the div for comment actions
+  	    		var commentActionDiv2 = document.createElement('div');
+				commentActionDiv2.classList.add('comment-action-wrap', 'mt-3');
+				
+				// Create the "답글" (Reply) span
+				var replySpan = document.createElement('span');
+				replySpan.className = 'comment-dot-sep';
+				replySpan.textContent = '●';
+				commentActionDiv2.appendChild(replySpan);
+				
+				var replyCommentSpan = document.createElement('span');
+				replyCommentSpan.id = 'replyComment';
+				replyCommentSpan.textContent = '답글';
+				commentActionDiv2.appendChild(replyCommentSpan);
+				
+				// Create the "수정" (Update) span
+				var updateSeparator1 = document.createElement('span');
+				updateSeparator1.className = 'comment-dot-sep';
+				updateSeparator1.textContent = '●';
+				commentActionDiv2.appendChild(updateSeparator1);
+				
+				var updateCommentSpan = document.createElement('span');
+				updateCommentSpan.id = 'updateComment';
+				updateCommentSpan.textContent = '수정';
+				commentActionDiv2.appendChild(updateCommentSpan);
+				
+				// Create the "삭제" (Delete) span
+				var deleteSeparator = document.createElement('span');
+				deleteSeparator.className = 'comment-dot-sep';
+				deleteSeparator.textContent = '●';
+				commentActionDiv2.appendChild(deleteSeparator);
+				
+				var deleteCommentSpan = document.createElement('span');
+				deleteCommentSpan.id = 'deleteComment';
+				deleteCommentSpan.textContent = '삭제';
+				commentActionDiv2.appendChild(deleteCommentSpan);
+
+
+  	    		// Append the inner elements to the mediaBodyDiv2
+  	    		mediaBodyDiv2.appendChild(commentNoInput);
+  	    		mediaBodyDiv2.appendChild(nameDiv2);
+  	    		mediaBodyDiv2.appendChild(contentParagraph2);
+  	    		mediaBodyDiv2.appendChild(commentActionDiv2);
+
+  	    		// Append the mediaBodyDiv2 to the second mediaDiv
+  	    		mediaDiv2.appendChild(mediaBodyDiv2);
+
+  	    		// Create the second separator div
+  	    		var separatorDiv2 = document.createElement('div');
+  	    		separatorDiv2.className = 'separator separator-light';
+
+  	    		// Get the parent element ".comment-block" where you want to insert the created elements
+  	    		var commentBlock = document.querySelector('.comment-block');
+
+  	    		// Append the second mediaDiv and separatorDiv2 inside the comment-block
+  	    		commentBlock.appendChild(mediaDiv2);
+  	    		commentBlock.appendChild(separatorDiv2);
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    		
+  	    	}).catch(e=>{
+  	    		alert("댓글 등록 실패");
+  	    		console.log(e);
+  	    		$("#commentInput").val("");
+  	    	})	
+  	    });	
   			
-  		})
-  		.fail(function(request, status, error) {
-  			console.log("프로젝트 상세 조회 실패" + error);
-  			console.log(request, status);
-  			console.log(error);
-  		});
-  };
+  			
+  		//댓글 수정
+  	  		$(document).on("click","#updateComment",function (e) {
+  	  		 // Find the closest '.media' element, then find the '.media-body' within it
+  	  	    var mediaBody = $(this).closest('.media').find('.media-body');
+
+		    // Find the first paragraph element within the '.media-body'
+		    var commentContent = mediaBody.find('p').text().trim();
+		
+		    // Set the comment content to the comment input
+		    $("#commentInput").val(commentContent);
+		      	
+			  if (!commentText.trim()) {
+				  return;
+			  } else {
+				    // Create the "수정 저장" button
+				    var updateButton = '<button class="btn btn-primary" id="updateBtn">수정 저장</button>';
+
+				    // Insert the "수정 저장" button next to the "등록" button
+				    $("#addComment").after(updateButton);
+				  }
+			});
+				
+			 
+  
+  	  	$(document).on("click","#updateBtn",function (e) {	
+  	  		
+  	      // Optional: Do something with the comment text
+			 var commentText = $("#commentInput").val();
+			
+			 var calCommentNo = mediaBody.find('input').val();
+			 console.log(calCommentNo)
+			    
+  	        // Ajax 호출
+  	    	fetch("${path}/schedule/updateComment",{
+  	    		method:"POST",
+  	    		headers:{
+  	    			"Content-Type":"application/json"
+  	    		},body:JSON.stringify({
+  	    			commentText : commentText,
+  	    			calCommentNo: calCommentNo 
+  	    		})
+  	    	}).then(response=>{
+  	    		if(response.status!=200) throw new Error(response.status);
+  	    		return response.json();
+  	    	}).then(result=>{
+  	    		console.log(result);
+  	    		alert("댓글 수정 성공");
+  	    		
+  	    		$("#commentInput").val("");
+  	    		
+  	    		commentContent.textContent = result.calCommentContent;
+  	    		
+  	    			
+  	    	}).catch(e=>{
+  	    		alert("댓글 수정 실패");
+  	    		console.log(e);
+
+  	    	})
+  	    });	
+  		
+  	  	//댓글 삭제
+  	  		$(document).on("click","#deleteComment",function (e) {
+  	  		 // Find the closest '.media' element, then find the '.media-body' within it
+  	  	    var mediaBody = $(this).closest('.media').find('.media-body');
+  	  		 
+  	  		var calCommentNo = mediaBody.find('input').val();
+
+  	        // Ajax 호출
+  	    	fetch("${path}/schedule/deleteComment",{
+  	    		method:"POST",
+  	    		headers:{
+  	    			"Content-Type":"application/json"
+  	    		},body:JSON.stringify({
+  	    			calCommentNo: calCommentNo 
+  	    		})
+  	    	}).then(response=>{
+  	    		if(response.status!=200) throw new Error(response.status);
+  	    		return response.json();
+  	    	}).then(result=>{
+  	    		console.log(result);
+  	    		alert("댓글 삭제 성공");
+  	    				
+  	    		mediaBody.remove();
+  	    		
+  	    			
+  	    	}).catch(e=>{
+  	    		alert("댓글 삭제 실패");
+  	    		console.log(e);
+
+  	    	})	
+  	    });	
+  			
+  			
+  			
+			
 	
-	
+			
+  
+//수정 부서 직원 추가 
+  function createContainer(index) {
+      let reInviContainer = document.createElement('div');
+      reInviContainer.className = 'reinvicontainer' + index;
+      reInviContainer.style.display = 'flex';
+      reInviContainer.style.paddingTop = '5px';
+      reInviContainer.style.paddingBottom = '5px';
+
+      let deptContainer = document.createElement('div');
+      deptContainer.className = 'col-sm-5';
+      let empContainer = document.createElement('div');
+      empContainer.className = 'col-sm-5';
+
+      let deptSelect = document.createElement('select');
+      deptSelect.className = 'form-select me-3';
+      deptSelect.name = 'recalDept';
+      deptSelect.id = 'recalDept' + index;
+
+      let empSelect = document.createElement('select');
+      empSelect.className = 'form-select me-3';
+      empSelect.name = 'recalEmp';
+      empSelect.id = 'recalEmp' + index;
+
+      for (var j = 0; j < deptCodes.length; j++) {
+          let deptOption = document.createElement('option');
+          deptOption.value = deptCodes[j];
+          deptOption.text = deptNames[j];
+          deptSelect.appendChild(deptOption);
+      }
+
+      var selectedDeptIndex = deptSelect.selectedIndex;
+      var selectedDeptCode = deptCodes[selectedDeptIndex];
+
+      var matchingEmpNames = [];
+      var matchingEmpNos = [];
+
+      for (var k = 0; k < empDeptCodes.length; k++) {
+          if (empDeptCodes[k] === selectedDeptCode) {
+              matchingEmpNames.push(empNames[k]);
+              matchingEmpNos.push(empNos[k]);
+          }
+      }
+
+      empSelect.innerHTML = "";
+
+      for (var l = 0; l < matchingEmpNames.length; l++) {
+          var empOption = document.createElement("option");
+          empOption.value = matchingEmpNos[l];
+          empOption.text = matchingEmpNames[l];
+          empSelect.appendChild(empOption);
+      }
+
+      deptContainer.appendChild(deptSelect);
+      empContainer.appendChild(empSelect);
+
+      reInviContainer.appendChild(deptContainer);
+      reInviContainer.appendChild(empContainer);
+
+      // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+      let delButton = document.createElement('button');
+      delButton.type = 'button';
+      delButton.textContent = '삭제';
+      delButton.addEventListener('click', function () {
+          // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+          reInviContainer.remove();
+        shareProjectCount--;
+      });
+
+      reInviContainer.appendChild(delButton);
+
+      return reInviContainer;
+  }
+
+
+   
+
+    function updateCount() {
+   	shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+    }
+    
+  
+   $(document).on('click',"#addBtnRe",function (e) {
+  	   	 e.stopPropagation();
+  	        if (shareProjectCount <= 5) {
+  	            let reInviContainer = createContainer(shareProjectCount);
+
+  	            let someContainer2 = document.querySelector('#shareListJob');
+  	            someContainer2.appendChild(reInviContainer);
+
+  	          shareProjectCount++;
+  	        } else {
+  	            alert("공유인원은 5명까지 가능합니다.");
+  	        }
+  	        updateCount(); // count를 업데이트하는 함수 호출
+  	    });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 	
 //프로젝트 수정
 document.getElementById('proeditBtn').addEventListener('click', fn_update);
@@ -1973,7 +2266,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
 //부서 직원 추가
 const adddelFunction=(function(adddelFunction){
 	let self = {};
-  let count = 2;
+  	let count = 2;
   self.addFile=()=>{
      if(count<=5){
         const fileForm = $(".inviteContainer").eq(0).clone(true);
@@ -2151,14 +2444,13 @@ $('#alldaycheck').on(
  
  
 </script>
-
     
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- Bootstrap Core JS -->
  <%--   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script> --%>
 
     <!-- FeatherIcons JS -->
-    <%-- <script src="${path}/resources/js/feather.min.js"></script> --%>
+     <script src="${path}/resources/js/feather.min.js"></script>
 
     <!-- Fancy Dropdown JS -->
     <%-- <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script> --%>

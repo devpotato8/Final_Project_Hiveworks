@@ -38,6 +38,7 @@ public class Schedule {
 	private Resource resource;
 	private List<InvitationEmp> invitationEmpList;
 	private List<CheckList> CheckList;
+	private List<Comment> commentList;
 	
 	
 
