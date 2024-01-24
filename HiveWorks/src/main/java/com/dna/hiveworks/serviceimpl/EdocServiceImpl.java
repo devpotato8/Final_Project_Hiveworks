@@ -349,24 +349,35 @@ public class EdocServiceImpl implements EdocService{
 		
 		if(!isApprovalContainsEmp && !isReferenceContainsEmp&& !isUserPosCodeLowerThenAccessGrant) return Map.of("status","403","error","권한이 부족합니다.");
 		ElectronicDocumentSample sample = dao.getSample(session, String.valueOf(document.getEdocSampleNo()));
-		document.setApproval(dao.selectElectronicDocumentApproval(session, document.getEdocNo()));
 		
-		String content = makePrint(sample.getSampleContent(), document);
+		String content = makePrint(sample, document);
 		
 		return Map.of("status","200","data",content);
 	}
+	
+	@Override
+	public Map<String, Object> edocPrintPreview(Map<String, Object> param) {
+		
+		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
+		if(sample == null) return Map.of("status","404","error","해당번호의 서식을 찾을 수 없습니다.");
+		
+		String content = makePrint(sample, null);
+		
+		return Map.of("status","200","data",content);
+	}
+	
 
-	private String makePrint(String sampleContent, ElectronicDocument document) {
+	private String makePrint(ElectronicDocumentSample sample, ElectronicDocument document) {
 		boolean isEdocNull = document == null;
 		StringBuilder content = new StringBuilder();
-		content.append(sampleContent);
+		content.append(sample.getSampleContent());
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("YY.MM.DD");
 		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("YY.MM.DD HH:mm");
 		while(content.indexOf("{{문서번호}}")!= -1) {
 			int startIndex = content.indexOf("{{문서번호}}");
 			int endIndex = startIndex + 8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"edocNo\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocNo\">문서번호</span>");
 			}else {
 				content.replace(startIndex, endIndex, "<span  class=\"edocNo\">"+document.getEdocNo()+"</span>");
 			}
@@ -393,18 +404,18 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{기안일시}}");
 			int endIndex = startIndex + 8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"createDate\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{기안자사번}}")!= -1) {
 			int startIndex = content.indexOf("{{기안자사번}}");
 			int endIndex = startIndex +9;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"creater\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createrNo\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"creater\">"+document.getApproval().get(0).getAprvlEmpNo()+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createrNo\">"+document.getApproval().get(0).getAprvlEmpNo()+"</span>");
 			}
 		}
 		while(content.indexOf("{{기안자부서}}")!= -1) {
@@ -456,9 +467,9 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{시작일시}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{종료일자}}")!= -1) {
@@ -474,9 +485,9 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{종료일시}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\"></span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\">"+document.getEdocEndDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\">"+document.getEdocEndDate().toLocalDate().format(dateTimeFormat)+"</span>");
 			}
 		}
 		while(content.indexOf("{{결재선}}")!= -1) {
