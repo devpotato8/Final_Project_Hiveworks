@@ -52,7 +52,6 @@ public class EmpServiceImpl implements EmpService {
 		Employee employee=dao.selectEmployeeByEmpNo(session, empNo);
 		Account account=dao.selectAccountByEmpNo(session, empNo);
 
-		
 
 		value.put("employee",employee);
 		value.put("account", account);
@@ -139,32 +138,17 @@ public class EmpServiceImpl implements EmpService {
 		return data;
 		
 	}
-
+	
 
 	@Override
 	public int updatePassword(Map<String, Object> IdAndPassword) {
 		
-		Employee employee = dao.confirmEmployee(session,IdAndPassword);
-		
-		int result_first = 0;
-		
-		if(employee!=null && passwordEncoder.matches((String)IdAndPassword.get("empPassword"),employee.getPassword())) {
-			
-			String passwordNew = passwordEncoder.encode((String)IdAndPassword.get("empPassword"));
-			
-			IdAndPassword.put("empPasswordNew", passwordNew);
-			
-			int result_second = dao.updatePassword(session,IdAndPassword);
-			result_first = 1;
-			if(result_second==0) {
-				new RuntimeException("비밀번호 업데이트 실패");
-				result_first = 0;
-			}
-		}else {
-			new RuntimeException("유저 확인 실패");
+		int result = dao.updatePassword(session, IdAndPassword);
+		if(result==0) {
+			new RuntimeException("업데이트가 되지 않았습니다.");
 		}
 		
-		return result_first;
+		return result;
 	}
 
 
@@ -244,6 +228,25 @@ public class EmpServiceImpl implements EmpService {
 		System.out.println("insert횟수:"+count);
 
 		return result;
+	}
+
+
+	@Override
+	public Employee checkEmployeeByIdAndPassword(Map<String, String> empData) {
+		
+		Employee emp = dao.confirmEmployee(session, empData);
+		
+		if(emp!=null) {
+			
+			if(!passwordEncoder.matches(empData.get("empPassword"), emp.getEmp_pw())){
+				new RuntimeException("패스워드가 다릅니다.");				
+			}
+		
+		}else {
+			new RuntimeException("사원을 찾을 수 없습니다.");
+		}
+	
+		return emp;
 	}
 
 	

@@ -761,7 +761,7 @@
 					$("#dept_name").val(data[0].dept_name);
 					$("#job_name").val(data[0].job_name);
 					$("#position_name").val(data[0].position_name);
-					$("#position_pay").val(data[0].pp_add_pay);					
+					$("#position_pay").val(fn_insert_comma(data[0].pp_add_pay));					
 				}else{
 					alert("사원이 없습니다.");
 				}
@@ -778,7 +778,7 @@
 		let total = parseInt($("#sal_base").val())
 					+Number($("#overtime_pay").val())
 					+Number($("#sal_meal").val())
-					+Number($("#position_pay").val())
+					+Number(fn_delete_comma($("#position_pay").val()))
 					+Number($("#sal_bonus").val());
 		
 		let notax = Number($("#sal_meal").val());
@@ -845,7 +845,9 @@ fn_delete_comma=(num)=>{
 let $form = document.getElementById('form');
 $form.addEventListener('submit',event=>{
 	event.preventDefault();
+	
 	$("#sal_actual").val(fn_delete_comma($("#sal_actual").val()));
+	$("#position_pay").val(fn_delete_comma($("#position_pay").val()));
 	
 	if($("#sal_date").val()==0){
 		alert("날짜를 선택해 주세요.");

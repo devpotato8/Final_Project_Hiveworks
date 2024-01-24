@@ -16,6 +16,7 @@ import org.apache.catalina.util.URLEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -241,7 +242,7 @@ public class EmpController {
 	
 	}
 	
-	@GetMapping("/updateEmployeePassword")
+	@GetMapping("/updateEmployeePasswordCheck")
 	public String updateEmployeePassword(Model model, int emp_no) {
 		
 		Map<String,Object> value = new HashMap<>();
@@ -253,23 +254,50 @@ public class EmpController {
 		model.addAttribute("employee", value.get("employee"));
 		
 		
-		return "employees/updateEmployeePassword";
+		return "employees/updateEmployeePasswordCheck";
 	}
+
+	
+	@PostMapping("updateEmployeePasswordCheckEnd")
+	public @ResponseBody Employee checkEmployeeByIdAndPassword(String empId, String empPassword) {
+		
+		Map<String,String> empData = new HashMap<>();
+		empData.put("empId", empId);
+		empData.put("empPassword", empPassword);
+		
+		Employee employee =service.checkEmployeeByIdAndPassword(empData);
+		System.out.println(employee);
+		
+		return employee;
+	}
+	
+	@GetMapping("/updateEmployeePasswordWrite")
+	public String updateEmployeePasswordWrite(Model model,@RequestParam("empNo") int empNo) {
+		
+		Map<String,Object> value = new HashMap<>();
+		
+		value = service.selectEmployeeByEmpNo(empNo);
+		
+		model.addAttribute("employee",value.get("employee"));
+		
+		return "employees/updateEmployeePasswordWrite";
+	}
+	
+	
+	
 	
 	@PostMapping("/updatePassword")
 	public @ResponseBody int updatePassword(Model model,
 			@RequestParam("empId") String empId,
 			@RequestParam("empPassword") String empPassword,
-			@RequestParam("empPasswordNew") String empPasswordNew,
 			@RequestParam("modifier") int modifier) {
 		
 		Map<String,Object> IdAndPassword = new HashMap<>();
-		
-	
+
+		String encodePassword = passwordEncoder.encode(empPassword);
 		
 		IdAndPassword.put("empId", empId);
-		IdAndPassword.put("empPassword", empPassword);
-		IdAndPassword.put("empPasswordNew", empPasswordNew);
+		IdAndPassword.put("empPassword", encodePassword);
 		IdAndPassword.put("modifier", modifier);
 		
 		int result =service.updatePassword(IdAndPassword);
@@ -420,7 +448,6 @@ public class EmpController {
 	        Model model) throws Exception {
 	 
 	//LoginVO loginVO = loginService.getLoginInfo();
-		System.out.println("multiRequest 안녕:"+multiRequest);
 	 
 	
 	String msg,loc;
@@ -465,7 +492,7 @@ public class EmpController {
 	    	Date utilRetiredDate = format_se.parse(enrollEmployeesList.get(i).get("cell_6"));
 	    	java.sql.Date sqlRetiredDate = new java.sql.Date(utilRetiredDate.getTime());
 	    	
-	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_0")));
+	    	//employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_0")==null?enrollEmployeesList.get(i).get("cell_0"):"0"));
 	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_1"));
 	    	
 	    	String encodePassword = passwordEncoder.encode(enrollEmployeesList.get(i).get("cell_2"));

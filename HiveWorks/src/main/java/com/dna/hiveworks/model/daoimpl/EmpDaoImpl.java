@@ -119,9 +119,9 @@ public class EmpDaoImpl implements EmpDao {
 	}
 
 	@Override
-	public Employee confirmEmployee(SqlSession session, Map<String, Object> IdAndPassword) {
+	public Employee confirmEmployee(SqlSession session, Map<String, String> empId) {
 		// TODO Auto-generated method stub
-		return session.selectOne("employee.confirmEmployee",IdAndPassword);
+		return session.selectOne("employee.confirmEmployee",empId);
 	}
 
 	@Override
@@ -137,6 +137,11 @@ public class EmpDaoImpl implements EmpDao {
 	@Override
 	public int updateAuthorities(SqlSession session,Map<String, Object> empNoAndAutcode) {
 		return session.update("employee.updateAuthorities",empNoAndAutcode);
+	}
+
+	@Override
+	public Employee checkEmployeeByIdAndPassword(SqlSession session, Map<String, String> empData) {
+		return session.selectOne("employee.checkEmployeeByIdAndPassword",empData);
 	}
 	
 	

@@ -602,12 +602,25 @@
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly" value="${dedution.o_pension }" style="border: none;"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly" value="${dedution.o_insurance }" style="border: none;"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" value="${dedution.o_nursing }" style="border: none;"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly" value="${dedution.o_employ }" style="border: none;"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly" value="${dedution.o_income }" style="border: none;"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly" value="${dedution.o_local }" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<input type="text" id="dedu_national_pension" name="dedu_national_pension" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${dedution.o_pension }" type="number"/>" style="border: none;"/>
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<input type="text" id="dedu_health_insur" name="dedu_health_insur" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${dedution.o_insurance }" type="number"/>" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<input type="text" id=dedu_longterm_care_insur name="dedu_longterm_care_insur" 
+                    	value="<fmt:formatNumber value="${dedution.o_nursing }" type="number"/>" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<input type="text" id="dedu_emp_insur" name="dedu_emp_insur" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${dedution.o_employ }" type="number"/>" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<input type="text" id="dedu_income_tax" name="dedu_income_tax" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${dedution.o_income }" type="number"/>" style="border: none;"/></td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<input type="text" id="dedu_local_income_tax" name="dedu_local_income_tax" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${dedution.o_local }" type="number"/>" style="border: none;"/></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
                     style="font-size: 11px;font-family: 돋음, dotum;color: #666677;">
@@ -691,11 +704,13 @@
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     <td width="14%"></td>
                     <td width="14%"></td>
-                    <td width="14%"><input type="text" id="sal_total" name="sal_total" readonly="readonly" value="${dedution.i_total }" style="border: none;"/></td>
-                    <td width="14%"><input type="text" id="dedu_total" name="dedu_total" readonly="readonly" value="${dedution.o_pension+dedution.o_insurance
-                    				 +dedution.o_nursing+dedution.o_employ+dedution.o_income+dedution.o_local}" style="border: none;" /></td>
+                    <td width="14%"><input type="text" id="sal_total" name="sal_total" readonly="readonly" value="<fmt:formatNumber value="${dedution.i_total }" type="number"/>"
+                    style="border: none;"/></td>
+                    <td width="14%"><input type="text" id="dedu_total" name="dedu_total" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${dedution.o_pension+dedution.o_insurance+dedution.o_nursing+dedution.o_employ+dedution.o_income+dedution.o_local}" type="number"/>" style="border: none;" /></td>
                     <td width="14%"></td>
-                    <td width="14%"><input type="text" id="sal_actual" name="sal_actual" readonly="readonly" value="${salary.sal_actual }" style="border: none;" /></td>
+                    <td width="14%"><input type="text" id="sal_actual" name="sal_actual" readonly="readonly" 
+                    	value="<fmt:formatNumber value="${salary.sal_actual }" type="number"/>" style="border: none;" /></td>
                 </tr>
                 </tbody>
             </table>

@@ -121,7 +121,7 @@ input::-webkit-inner-spin-button {
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}">
+										<a href="${path }/employees/updateEmployeePasswordCheck?emp_no=${employee.emp_no}">
 											비밀번호 수정
 										</a>
 									</li>

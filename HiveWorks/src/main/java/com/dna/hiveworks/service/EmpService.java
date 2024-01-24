@@ -40,4 +40,6 @@ public interface EmpService {
 	Map<String, Object> downloadEmployeesAndAccount();
 	
 	int insertEmployeeByExcel(Map<String,Object> empData);
+	
+	Employee checkEmployeeByIdAndPassword(Map<String,String> empData);
 }
