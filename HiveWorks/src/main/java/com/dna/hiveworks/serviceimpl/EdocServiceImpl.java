@@ -349,17 +349,28 @@ public class EdocServiceImpl implements EdocService{
 		
 		if(!isApprovalContainsEmp && !isReferenceContainsEmp&& !isUserPosCodeLowerThenAccessGrant) return Map.of("status","403","error","권한이 부족합니다.");
 		ElectronicDocumentSample sample = dao.getSample(session, String.valueOf(document.getEdocSampleNo()));
-		document.setApproval(dao.selectElectronicDocumentApproval(session, document.getEdocNo()));
 		
-		String content = makePrint(sample.getSampleContent(), document);
+		String content = makePrint(sample, document);
 		
 		return Map.of("status","200","data",content);
 	}
+	
+	@Override
+	public Map<String, Object> edocPrintPreview(Map<String, Object> param) {
+		
+		ElectronicDocumentSample sample = dao.getSample(session, (String)param.get("sampleNo"));
+		if(sample == null) return Map.of("status","404","error","해당번호의 서식을 찾을 수 없습니다.");
+		
+		String content = makePrint(sample, null);
+		
+		return Map.of("status","200","data",content);
+	}
+	
 
-	private String makePrint(String sampleContent, ElectronicDocument document) {
+	private String makePrint(ElectronicDocumentSample sample, ElectronicDocument document) {
 		boolean isEdocNull = document == null;
 		StringBuilder content = new StringBuilder();
-		content.append(sampleContent);
+		content.append(sample.getSampleContent());
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("YY.MM.DD");
 		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("YY.MM.DD HH:mm");
 		while(content.indexOf("{{문서번호}}")!= -1) {
@@ -438,7 +449,7 @@ public class EdocServiceImpl implements EdocService{
 			int startIndex = content.indexOf("{{상세내용}}");
 			int endIndex = startIndex +8;
 			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+sample.getSampleFormat()+"</div>");
 			}else {
 				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
 			}

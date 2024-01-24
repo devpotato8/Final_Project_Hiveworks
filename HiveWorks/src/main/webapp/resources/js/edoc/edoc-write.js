@@ -474,3 +474,33 @@ const formValidate = ()=>{
 	//TODO 폼 데이터 확인
 	return true;
 };
+
+
+// 인쇄 미리보기 버튼 눌렀을때 내용 가져오기
+let printModal = document.getElementById('modal_print');
+$('#printPreviewButton').on('click',(e)=>{
+    const sampleNo = formatNo;
+	if(sampleNo == null || sampleNo == 0 || sampleNo == ''){
+		alert('서식이 선택되지 않았습니다.');
+		return;
+	}
+
+	const previewModal = new bootstrap.Modal(printModal);
+	previewModal.show();
+
+    const formData = new FormData();
+    formData.append('sampleNo',sampleNo);
+    fetch(path+'/edoc/printpreview',{
+        method:'POST',
+        body:formData
+    }).then(response=>{
+        if(response.status!=200) throw new Error(response.status);
+        return response.json();
+    }).then(data=>{
+        if(data.status!=200) throw new Error(data.error);
+        $(printModal).find('.document-content .container').html(data.data);
+    }).catch(e=>{
+        console.log(e);
+        alert(e);
+    })
+});
