@@ -88,7 +88,9 @@
 										<div class="container document-container">
 											<div class="document">
 												<div class="document-content">
-													${format.sampleContent}
+													<div class="container">
+														${format.fullSample}
+													</div>
 												</div>
 											</div>
 										</div>
@@ -123,7 +125,6 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-
 <link rel="stylesheet" href="${path}/resources/css/edoc/format.css">
 
 </div>

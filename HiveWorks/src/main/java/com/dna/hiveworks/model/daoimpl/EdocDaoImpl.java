@@ -183,4 +183,9 @@ public class EdocDaoImpl implements EdocDao{
 	public int deleteSample(SqlSession session, Map<String, Object> param) {
 		return session.delete("edoc.deleteSample", param);
 	}
+	
+	@Override
+	public String getPosCodeByDsgCode(SqlSession session, String dsgCode) {
+		return session.selectOne("edoc.getPosCodeByDsgCode", dsgCode);
+	}
 }

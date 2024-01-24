@@ -121,7 +121,7 @@
 		WHERE WORK_OVERWORK = 'N' AND WORK_END_TIME >  AND EMP_NO = 1
 	</select> -->
 	
-	<!-- 주 월 년 -->
+	<!-- 주 월 -->
 	<select id="avgStartWorkFilter" parameterType="Map" resultType="String">
 		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
                AVG(TO_NUMBER(TO_CHAR(WORK_START_TIME, 'SSSSS')))/86400, 
@@ -176,10 +176,10 @@
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
 		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = #{empNo}
 		<if test="week !=null">
-			AND (SYSDATE - WORK_START_TIME) &lt; #{week}
+			AND (SYSDATE - CREATE_DATE) &lt; #{week}
 		</if>
 		<if test="month !=null">
-			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
+			AND (SYSDATE - CREATE_DATE) &lt; #{month}
 		</if>
 	</select>
 	<!-- <select id="overWork" resultType="_int">
@@ -191,7 +191,7 @@
 	
 	<!-- 매일 1시에 근태상태 insert -->
 	<insert id="insertQuartzWork" parameterType="_int">
-		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',NULL,NULL,NULL,NULL,#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
+		INSERT INTO TBL_WORK VALUES(SEQ_WORK_NO.NEXTVAL,#{empNo},'WOT001',SYSDATE,NULL,NULL,NULL,#{empNo},SYSDATE,#{empNo},SYSDATE,'Y')
 	</insert>
 	
 	

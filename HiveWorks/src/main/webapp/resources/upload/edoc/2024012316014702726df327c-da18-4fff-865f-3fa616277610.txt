@@ -1,0 +1,52 @@
+@Autowired
+EdocService edocService;
+edocService.insertEdoc( ElectronicDocument edoc);
+
+//ElectronicDocument => 전자문서 정보
+
+edocDotCode = DotCode.DOT004 // 휴가신청서 코드 DOT004, 연장근무신청서 DOT005
+edocTitle = 타이틀
+edocDsgCode = DsgCode.DSG003 // 보안등급 B등급 코드 DSG003
+edocContent = <p>사유</p> //앞 뒤로 p 태그 안 붙여도 되기는 한데.. 그냥 붙여주셈
+
+edocStartDate = //휴가 시작일
+edocEndDate = //휴가 종료일
+edocVacationCount = //휴가 사용일수
+
+edocStatus = DST100 // 현재 진행중을 나타내는 코드(String)
+
+creater = //작성자 empno
+
+approval = List<ElectronicDocumentApproval> //만들어서 넣어주기 
+
+	//ElectronicDocumentApproval => 결재자 정보
+
+	//!! 결재자 정보가 없으면 에러남
+
+	올린사람 정보
+	aprvlEmpNo = //올린사람 empno
+	aprvlApvCode =ApvCode.APV001
+	aprvlStatus = 'A'
+	aprvlRank=1
+	
+	첫번째 결재자 정보
+	aprvlEmpNo = //결재자 empno
+	aprvlApvCode = ApvCode.APV000
+	aprvlStatus = 'W'
+	aprvlRank=2
+	
+	그 다음 결재자부터
+	aprvlEmpNo = //결재자 empno
+	aprvlApvCode =ApvCode.APV000
+	aprvlStatus = 'W'
+	aprvlRank= //3... 하나씩 증가
+
+첨부파일이 있으면
+attachFile = List<ElectronicDocumentAttachFile> 만들어서 넣어주기
+	
+	//ElectronicDocumentAttachFile => 첨부파일 정보
+	attachOriginalFilename = //파일 원래 이름
+	attachRenamedFilename = //서버에 저장된 파일 이름
+	creater = //신청한 사람 empno
+	
+	

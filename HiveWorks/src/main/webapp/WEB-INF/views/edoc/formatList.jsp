@@ -37,7 +37,8 @@
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
 							<span class="fmapp-title link-dark">
-								<h1>${title }</h1>
+								<h1>${title }</h1>&emsp;
+								<button type="button" class="btn btn-primary" id="btnFormatWrite">양식 작성</button>
 							</span>
 						</div>
 						<div class="fm-options-wrap">	
@@ -67,7 +68,6 @@
 											<table data-order='[[ 1, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
-														<th>양식번호</th>
 														<th>양식구분</th>
 														<th>양식이름</th>
 														<th>생성일</th>
@@ -78,7 +78,6 @@
 												<tbody>
 													<c:forEach items="${formatList }" var="fmt">
 														<tr data-sampleNo="${fmt.sampleNo}">
-															<td>${fmt.sampleNo }</td>
 															<td>${fmt.sampleDotCode.code }</td>
 															<td>${fmt.sampleName }</td>
 															<td>${fmt.createDate }</td>
