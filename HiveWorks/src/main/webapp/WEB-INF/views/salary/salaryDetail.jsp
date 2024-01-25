@@ -420,7 +420,14 @@
 <table width="740px">
     <tbody>
     <tr align="center">
-        <td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;"><b>2023년 12월 급여명세서</b></td>
+        <c:set var="test1" value="${salary.sal_date }"/>
+        <td style="font-size: 16px;font-family: 돋음, dotum;color: #444444;padding:10px;">
+        <b id="payday">
+        <fmt:formatDate var="year" value="${test1 }" pattern="yyyy"/>
+        <fmt:formatDate var="month" value="${test1 }" pattern="M"/>
+        	<c:out value="${year }"/>년 <c:out value="${month }"/>월 급여명세서
+        </b>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -741,7 +748,11 @@
         <th>지급액</th>
     </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+    	<td>-</td>
+    	<td>자세한 사항은 인사담당자에게 문의하세요.</td>
+    	<td>-</td>
+    </tbody>
 </table><!--하단글-->
 <table width="740px">
     <tbody>

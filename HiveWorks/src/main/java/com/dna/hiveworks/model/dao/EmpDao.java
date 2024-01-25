@@ -44,10 +44,12 @@ public interface EmpDao {
 	int updateAccount(SqlSession session, Account ac);
 	int deleteAccount(SqlSession session, int emp_no);
 	
-	Employee confirmEmployee(SqlSession session, Map<String, Object> IdAndPassword);
+	Employee confirmEmployee(SqlSession session, Map<String, String> empId);
 	int updatePassword(SqlSession session, Map<String, Object> IdAndPassword);
 	
 	List<Map<String,Object>> selectAuthorityList(SqlSession session);
 
 	int updateAuthorities(SqlSession session,Map<String,Object> empNoAndAutcode);
+
+	Employee checkEmployeeByIdAndPassword(SqlSession session,Map<String,String> empData);
 }

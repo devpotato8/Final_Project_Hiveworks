@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MsgServiceImpl implements MsgService {
 
+	
 	private final SqlSession session;
 	private final MsgDao dao;
 	
@@ -163,7 +164,10 @@ public class MsgServiceImpl implements MsgService {
 		return dao.deleteFile(session, params);
 	}
 	
-
+	@Override
+	public List<String> receiverIds(List<Integer> empNos) {
+		return dao.receiverIds(session, empNos);
+	}
 
 	
 

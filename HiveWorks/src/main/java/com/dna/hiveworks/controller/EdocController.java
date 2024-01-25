@@ -487,4 +487,13 @@ public class EdocController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(document);
 	}
+	@PostMapping("/printpreview")
+	public ResponseEntity<Map<String,Object>>edocPrintPreview(@RequestParam String sampleNo){
+		Map<String, Object>param = new HashMap<>();
+		param.put("sampleNo", sampleNo);
+		
+		Map <String, Object>document = edocService.edocPrintPreview(param);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(document);
+		}
 }

@@ -39,7 +39,7 @@ $(printModal).on('show.bs.modal',(e)=>{
     const edocNo = document.getElementById('document').dataset.edocNo;
     const formData = new FormData();
     formData.append('edocNo',edocNo);
-    fetch(path+'/edoc/print',{
+    fetch(contextPath+'/edoc/print',{
         method:'POST',
         body:formData
     }).then(response=>{
@@ -47,7 +47,6 @@ $(printModal).on('show.bs.modal',(e)=>{
         return response.json();
     }).then(data=>{
         if(data.status!=200) throw new Error(data.error);
-        console.log(data.data);
         $(printModal).find('.document-content .container').html(data.data);
     }).catch(e=>{
         console.log(e);

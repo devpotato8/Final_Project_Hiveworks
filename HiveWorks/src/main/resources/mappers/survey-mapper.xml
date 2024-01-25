@@ -27,7 +27,7 @@
   		<result column="ANSWER_COMENT" property="answerComent"/>
   		<result column="USER_INFOR" property="userInfor"/>
   	</resultMap>
-    
+   
     <select id="selectSurveyByNo" parameterType="_int" resultMap="surveyMap">
         SELECT * FROM TBL_SURVEY
         WHERE SURVEY_NO = #{surveyNo}      
@@ -62,4 +62,8 @@
 	<delete id="surveyDelete" parameterType="survey">
 		DELETE FROM TBL_SURVEY WHERE SURVEY_NO = #{surveyNo}
 	</delete>
+	<insert id="questionInsert" parameterType="question">
+		INSERT INTO TBL_SURVEY_QUESTION
+    	VALUES (SEQ_QUESTION_NO.NEXTVAL,#{questionTitle},#{surveyNo},#{surveyData})
+	</insert>
 </mapper>

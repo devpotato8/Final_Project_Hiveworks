@@ -65,7 +65,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											<table data-order='[[ 1, "asc" ]]' id="docTable" class="table nowrap table-hover">
+											<table data-order='[[ 0, "asc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
 														<th>양식구분</th>
@@ -104,7 +104,7 @@
 </div>
 <!-- /Main Content -->
 <script type="text/javascript">
-	const path = '${path}';
+	const contextPath = '${path}';
 </script>
 <!-- Bootstrap Core JS -->
 <script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

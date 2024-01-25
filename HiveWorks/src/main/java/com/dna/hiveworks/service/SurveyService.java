@@ -19,4 +19,6 @@ public interface SurveyService {
 	int surveyUpdate(Survey survey);
 	
 	Survey surveyDelete(int surveyNo);
+	
+	int questionInsert(SurveyQuestion q);
 }

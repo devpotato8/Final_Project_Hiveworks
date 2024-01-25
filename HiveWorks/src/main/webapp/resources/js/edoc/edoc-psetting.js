@@ -10,7 +10,7 @@ const updateAutograph = (isChanged)=>{
 
     formData.append('autograph', targetAuto);
 
-    fetch(path+'/edoc/autoupload',{
+    fetch(contextPath+'/edoc/autoupload',{
         method:'POST',
         body: formData
     }).then((response)=>{

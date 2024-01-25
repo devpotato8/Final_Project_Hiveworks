@@ -10,41 +10,68 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <div class="hk-pg-wrapper">
-    <div class="container-xxl" style="margin-left: 0px;">
-        <h2>등록</h2>
+    <div class="container-xxl" >
+        <h2 id="Title">등록</h2>
     </div>
     <div id="board-container">
         <form id="userForm" name="boardFrm" action="${path }/board/insertBoard" method="post" enctype="multipart/form-data">
+		    <div style="margin-left: 40px;">
 		    <select id="boardType" class="form-select" name="boardType">
 				<option selected>게시판 선택</option>
 				<option value="BRD001">공지사항</option>
 			    <option value="BRD002">건의사항</option>
-				<option value="BRD003">블라인드</option>
 			</select>
+			    <hr/>
+		</div>	
+		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
-            <div class="input-group mb-3" style="padding:0px;">
-  				<div class="input-group-prepend" style="padding:0px;">
-                    <button type="button" onclick="fn_addFileForm();">추가</button>
-                </div>
-            </div>
-            <div id="basicFileForm" class="input-group mb-3">
-			    <div class="custom-file" style="display: flex; align-items: center;">
-			        <input type="file" name="upFile" class="custom-file-input">
-			        <button type="button" onclick="fn_deleteFileForm();" id="deleteBtn">삭제</button>
-			    </div>
-			</div>
-												
+            <hr/>
+        </div>    
+            <br>
             <textarea class="form-control2" id="editor" name="boardContent" placeholder="내용" required style="resize:none;">
             ${data.editor }</textarea>
+          <div class="topicon">
+            <div class="input-group mb-3" style="padding:0px;margin-left:40px;">
+  				<div class="input-group mb-3" style="padding:0px;">
+				    <div class="input-group-prepend" style="padding:0px;">
+				        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder-plus" onclick="fn_addFileForm();">
+				            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+				            <line x1="12" y1="11" x2="12" y2="17"></line>
+				            <line x1="9" y1="14" x2="15" y2="14"></line>
+				        </svg>
+				    </div>
+				</div>
+            </div>
+            <div id="basicFileForm" class="input-group mb-3">
+			  <div class="custom-file" style="display: flex; align-items: center; width:">
+			    <input type="file" name="upFile" class="custom-file-input">
+			    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle" onclick="fn_deleteFileForm();">
+			        <circle cx="12" cy="12" r="10"></circle>
+			        <line x1="15" y1="9" x2="9" y2="15"></line>
+			        <line x1="9" y1="9" x2="15" y2="15"></line>
+			    </svg>
+			</div>
+			</div>
+		</div>									
+         <div class="bottomicon">
             <span id="messagebyte">0</span><span>/ 2000 Byte</span>
             <br />
-            <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
+            <input type="submit" name="name" id="submit" class="btn btn-flush-light btn-animated" value="등록" >
         	<input type="button" onclick="resetForm()" id="resetButton" value="초기화"/>
+        </div>
         </form>
     </div>
-
+</div>
 <style>
+	hr{
+	width:1200px;
+	}
+	.ck.ck-editor{
+	width: 1200px;
+	margin-left:40px;
+	}
 	.ck-editor__editable { 
+	width: 1200px;
 	height: 800px; 
 	}
 	.basicFileForm{
@@ -62,6 +89,50 @@
     .ck-content .image img{
     	width:500px;
     	hiight:500px;
+    }
+    #boardType{
+    width:150px;
+    }
+    #boardTitle{
+    width:300px;
+    }
+    #basicFileForm{
+    margin-left:40px;
+    }
+    .bottomicon{
+    position: absolute; 
+    right: 0;
+    }
+      .input-group-prepend {
+        position: relative;
+    }
+
+    .input-group-prepend::after {
+        content: "파일 추가";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        padding: 0.5rem;
+        background-color: transparent;
+        border: none;
+        white-space: nowrap;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s;
+    }
+
+    .input-group-prepend:hover::after {
+        visibility: visible;
+        opacity: 1;
+    }
+    .custom-file-input{
+    width:250px;
+    }
+    #userForm{   
+    margin-left: 145px; 
+    height: 1100px;
+    margin-top: 60px;
+    
     }
 </style>
 <script>
