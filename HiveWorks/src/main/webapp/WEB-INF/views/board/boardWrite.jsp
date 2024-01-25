@@ -10,19 +10,22 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <div class="hk-pg-wrapper">
-    <div class="container-xxl" style="margin-left: 0px;">
-        <h2>등록</h2>
+    <div class="container-xxl" >
+        <h2 id="Title">등록</h2>
     </div>
     <div id="board-container">
         <form id="userForm" name="boardFrm" action="${path }/board/insertBoard" method="post" enctype="multipart/form-data">
+		    <div style="margin-left: 40px;">
 		    <select id="boardType" class="form-select" name="boardType">
 				<option selected>게시판 선택</option>
 				<option value="BRD001">공지사항</option>
 			    <option value="BRD002">건의사항</option>
 			</select>
-			<br>
+			    <hr/>
+		</div>	
 		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
+            <hr/>
         </div>    
             <br>
             <textarea class="form-control2" id="editor" name="boardContent" placeholder="내용" required style="resize:none;">
@@ -53,13 +56,16 @@
          <div class="bottomicon">
             <span id="messagebyte">0</span><span>/ 2000 Byte</span>
             <br />
-            <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="등록" >
+            <input type="submit" name="name" id="submit" class="btn btn-flush-light btn-animated" value="등록" >
         	<input type="button" onclick="resetForm()" id="resetButton" value="초기화"/>
         </div>
         </form>
     </div>
 </div>
 <style>
+	hr{
+	width:1200px;
+	}
 	.ck.ck-editor{
 	width: 1200px;
 	margin-left:40px;
@@ -88,7 +94,7 @@
     width:150px;
     }
     #boardTitle{
-    width:150px;
+    width:300px;
     }
     #basicFileForm{
     margin-left:40px;
@@ -121,6 +127,12 @@
     }
     .custom-file-input{
     width:250px;
+    }
+    #userForm{   
+    margin-left: 145px; 
+    height: 1100px;
+    margin-top: 60px;
+    
     }
 </style>
 <script>
