@@ -76,7 +76,7 @@
 
 					<!-- Search -->
 
-					<%-- <form class="dropdown navbar-search">
+					 <form class="dropdown navbar-search">
 						<div class="dropdown-toggle no-caret" data-bs-toggle="dropdown"
 							data-dropdown-animation data-bs-auto-close="outside">
 							<a href="#"
@@ -152,7 +152,7 @@
 							      console.error(`요청 실패: ${error}`);
 						    });
 					 	});
-					</script> --%>
+					</script>
 					<!-- /Search -->
 				</div>
 				<!-- /Start Nav -->
