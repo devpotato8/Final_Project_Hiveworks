@@ -12,11 +12,12 @@
 </jsp:include>
 <style>
 /* 스타일 추가 */
-    #button-group {
+    .button-group {
        	/* text-align: center; */
 		white-space: nowrap; /* 줄 바꿈을 방지합니다. */  
 		text-align: right;
-    	padding-right: 40px;  
+    	padding-right: 60px;
+    	padding-bottom: 10px;  
     }
 
 	.d-xxl-flex{
@@ -72,20 +73,20 @@
 								</div> -->
 								
 							</header>
-							<div id="button-group">
-							<button class="btn btn-primary btn-sm" onclick="location.assign('${path}/salary/salaryWrite')" style="width:120px; display:inline-block;">급여 신규 등록</button>
-<!-- 							<button class="btn btn-primary btn-sm" onclick="fn_deleteChoice();" style="width:100px; display:inline-block;">선택 삭제</button> -->
-							</div>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
+										<div class="button-group">
+										<button class="btn btn-primary btn-sm" onclick="location.assign('${path}/salary/salaryWrite')" style="width:120px;">급여 신규 등록</button>
+			<!-- 							<button class="btn btn-primary btn-sm" onclick="fn_deleteChoice();" style="width:100px; display:inline-block;">선택 삭제</button> -->
+										</div>
 									<div class="invoice-list-view">
-										<table data-order='[[ 1, "desc" ]]' id="datable_1" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 1, "desc" ]]' id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
-												<tr>
+												<tr><!-- 
 													<th><span class="form-check mb-0">
 														<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
 														<label class="form-check-label" for="customCheck1"></label>
-													</span></th>
+													</span></th> -->
 													<th>날짜</th>
 													<th>사원번호</th>
 													<th>이름</th>
@@ -100,7 +101,7 @@
 											<tbody>
 												<c:forEach var="s" items="${list }">
 												<tr>
-													<td></td>
+													<!-- <td></td> -->
 													<input type="hidden" value="${s.sal_no }" />
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
@@ -522,6 +523,25 @@ $(document).ready(function() {
 
 
 </script>
+<script>
+$('#datable_2').DataTable( {
+	/* scrollY:        "800px", */
+	scrollX:        true,
+	language: { search: "",
+		searchPlaceholder: "Search",
+		paginate: {
+		next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+		previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+		}
+	},
+	"drawCallback": function () {
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+	}
+});
+
+</script>
+
+
 
  <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

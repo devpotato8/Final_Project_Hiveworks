@@ -34,8 +34,9 @@
     
     #save_btn{
     	text-align: right;
-    	padding-right: 40px;
+    	margin-bottom: 10px;
     }
+    
 
 </style>
 
@@ -87,12 +88,12 @@
 								
 							</header>
 							<div class="invoice-body">
-							<div id ="save_btn">
-							<button class="btn btn-primary btn-sm" type="button" onclick="fn_updateAuthorities();">저장</button>
-								</div>
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
-										<table id="datable_1" class="table nowrap w-100 mb-5">
+										<div id ="save_btn">
+											<button class="btn btn-primary btn-sm" type="button" onclick="fn_updateAuthorities();">저장</button>
+										</div>
+										<table id="datable_4c" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
 													<th><span class="form-check mb-0">
@@ -111,7 +112,6 @@
 											<tbody>
 												<c:forEach var="s" items="${employees }">
 												<tr class="list">
-													<td></td>
 													<td><c:out value="${s.emp_no }" /></td>
 													<td><c:out value="${s.emp_name }" /></td>
 													<td>
@@ -119,7 +119,7 @@
 													</td>
 														<c:forEach var="a" items="${autCodeList.authorityList }">
 													<td>
- 														<input type="radio" class="aut_code" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
+ 														<input type="radio" class="aut_code" onchange="fn_changeRadio(event);" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
 													</td>
 														</c:forEach>
 													<td>
@@ -461,18 +461,17 @@
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 	<script>
 	
-	
-	$(document).ready(function(){
-		$('input[type=radio]').change(function(){
-
-			let $row = $(this).closest('tr').find('span');
+	fn_changeRadio=(event)=>{
+			let $row = $(event.target).closest('tr').find('span');
 			
 			let checkbox = $row.find('input[type=checkbox]').eq(0);
 
 			checkbox.prop('checked',true);
-			
-		});
-	});
+		}	
+/* 	$(document).ready(function(){
+		$('input[type=radio]').change(function(){ */
+		/* });
+	}); */
 	
 	
 /* 	function getSelectedData() {
@@ -542,6 +541,39 @@
 		
 		};
 	</script>
+	<script>
+	/*MultiRow Select Checkbox*/
+	/*Checkbox Add*/
+	var tdCnt=0;
+	$(' table#datable_4c tbody tr').each(function(){
+		$('<td><span class="form-check"><input type="checkbox" class="form-check-input" id="chk_sel_'+tdCnt+'"><label class="form-check-label" for="chk_sel_'+tdCnt+'"></label></span></td>').prependTo($(this));
+		tdCnt++;
+	});
+	/*DataTable Init*/
+	var targetDt1 = $('#datable_4c').DataTable({
+		scrollX:  true,
+		autoWidth: false,
+		"columnDefs": [ {
+			"searchable": false,
+			"orderable": false,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]],
+		language: { search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+			paginate: {
+				next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+				previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+			}
+		},
+		"drawCallback": function () {
+			$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+		}
+	});
+	</script>
+	
+	
 	 <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

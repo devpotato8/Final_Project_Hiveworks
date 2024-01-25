@@ -11,15 +11,23 @@
 	<jsp:param value="" name="hover"/>
 </jsp:include>
 <style>
+/* 스타일 추가 */
+    .button-group {
+       	/* text-align: center; */
+		white-space: nowrap; /* 줄 바꿈을 방지합니다. */  
+		text-align: right;
+    	padding-right: 60px;
+    	padding-bottom: 10px;  
+    }
+
 	.d-xxl-flex{
     	display:none !important;
+    	
     }
 </style>
 
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
+
 		<!-- Main Content -->
 		<div class="hk-pg-wrapper pb-0">
 			<div class="hk-pg-body py-0">
@@ -29,7 +37,7 @@
 							<header class="invoice-header">
 								<div class="d-flex align-items-center">
 									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-										<h1>급여 관리</h1>
+										<h1>내 급여</h1>
 									</a>
 									<!-- <div class="dropdown-menu">
 										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="users"></i></span><span>All Invoices</span></a>
@@ -67,31 +75,27 @@
 							</header>
 							<div class="invoice-body">
 								<div data-simplebar class="nicescroll-bar">
+										<div class="button-group">
+			<!-- 							<button class="btn btn-primary btn-sm" onclick="fn_deleteChoice();" style="width:100px; display:inline-block;">선택 삭제</button> -->
+										</div>
 									<div class="invoice-list-view">
-										<table data-order='[[ 1, "desc" ]]' id="datable_1" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 1, "desc" ]]' id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
-													<th><span class="form-check mb-0">
-														<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
-														<label class="form-check-label" for="customCheck1"></label>
-													</span></th>
 													<th>날짜</th>
-													<th>사원번호</th>
 													<th>이름</th>
 													<th>아이디</th>
 													<th>부서명</th>
 													<th>지급 합계액</th>
 													<th>공제액</th>
 													<th>실수령액</th>
-													<!-- <th>수정/삭제</th> -->
 												</tr>
 											</thead>
 											<tbody>
 												<c:forEach var="s" items="${list }">
 												<tr>
-													<td></td>
+													<input type="hidden" value="${s.sal_no }" />
 													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
-													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
@@ -110,12 +114,6 @@
 														<c:set var="sal_actual" value="${s.sal_actual}" />
 														<fmt:formatNumber value="${sal_actual}" type="number" />원
 													</td>
-													<%-- <td>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-													</td> --%>
 												</tr>
 												</c:forEach>
 												<!-- <tr>
@@ -424,9 +422,6 @@
 			<!-- /Page Body -->
 		</div>
 		<!-- /Main Content -->
-	</div>
-	    <!-- /Wrapper -->
-
 	<!-- jQuery -->
     <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 
@@ -445,7 +440,34 @@
     <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
      
+<script>
+$('#datable_2').DataTable( {
+	/* scrollY:        "400px", */
+	scrollX:        true,
+	language: { search: "",
+		searchPlaceholder: "Search",
+		paginate: {
+		next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+		previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+		}
+	},
+	"drawCallback": function () {
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+	}
+});
+
+</script>
+
+ <!-- Bootstrap Core JS -->
+   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FeatherIcons JS -->
+    <script src="${path}/resources/js/feather.min.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="${path}/resources/js/dropdown-bootstrap-extended.js"></script>
+
 	<!-- Init JS -->
-
-
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	<script src="${path}/resources/js/init.js"></script>
+	<script src="${path}/resources/js/chips-init.js"></script>
+	<script src="${path}/resources/js/dashboard-data.js"></script>
