@@ -125,7 +125,7 @@
 													<td>
 														<div>
 															<div class="d-flex">
-																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no});">권한해제</button>
+																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no});">해제</button>
 															</div>
 														</div>
 													</td>

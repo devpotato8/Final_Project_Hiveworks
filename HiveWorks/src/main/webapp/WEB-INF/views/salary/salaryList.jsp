@@ -80,7 +80,7 @@
 			<!-- 							<button class="btn btn-primary btn-sm" onclick="fn_deleteChoice();" style="width:100px; display:inline-block;">선택 삭제</button> -->
 										</div>
 									<div class="invoice-list-view">
-										<table data-order='[[ 1, "desc" ]]' id="datable_2" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 0, "desc" ]]' id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr><!-- 
 													<th><span class="form-check mb-0">
@@ -540,7 +540,24 @@ $('#datable_2').DataTable( {
 });
 
 </script>
+<script>
 
+//feather 리로딩, 수정/삭제 아이콘 로딩
+$(document).ready(function(){
+	feather.replace();
+	applyFeatherLoading();
+});
+
+
+function applyFeatherLoading(){
+	$(document).on('click','.paginate_button',function(){
+		feather.replace();
+		console.log("feather리로드");
+	});
+
+} 
+
+</script>
 
 
  <!-- Bootstrap Core JS -->
