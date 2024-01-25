@@ -110,7 +110,7 @@
 <!-- /Main Content -->
 
 <script>
-	const path = '${path}';
+	const contextPath = '${path}';
 </script>
 
 <!-- Bootstrap Core JS -->

@@ -60,9 +60,10 @@
 								</div>
 								<div id="surveyForm" name="surveyForm" value="${survey.surveyData }">								
 								</div>
+								<%-- <a href="${path}/survey/survey"> --%>
 								<input type="submit" name="name" id="submit" class="btn btn-primary mt-5" onclick="sendData()" value="설문완료">
+								<!-- </a>  -->
 							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -80,30 +81,36 @@
 </style>
 <script>
 function sendData() {
-    var surveyData = {
+	alert("설문완료");
+    var surveyResult  = {
         checkboxValues: [],
         radioValues: []
     };
 
     $('input[type="checkbox"]:checked').each(function () {
-        surveyData.checkboxValues.push($(this).val());
+    	surveyResult.checkboxValues.push($(this).val());
+    	console.log("체크박스1:"+surveyResult.checkboxValues);
     });
 
     $('input[type="radio"]:checked').each(function () {
-        surveyData.radioValues.push($(this).val());
+    	surveyResult.radioValues.push($(this).val());
+    	console.log("라디오1:"+surveyResult.radioValues);
     });
 
     // Ajax를 사용하여 서버에 선택한 값을 보냄
     $.ajax({
-        type: "POST",
-        url: "${path}/survey/surveyresult",
-        data: { surveyData: JSON.stringify(surveyData) },  // JSON 문자열로 변환
-        contentType: 'application/json',  // 콘텐츠 유형 지정
-        success: function () {
-            location.href = "${path}/survey/surveyresult";
+        type: 'POST',
+        url: '${path}/survey/insertQuestion',  // 해당 URL은 서버에서 데이터를 처리할 컨트롤러의 매핑 주소로 변경
+        contentType: 'application/json',
+        dataType:'json',
+        data: JSON.stringify(surveyResult),
+        success: function(response) {
+            // 서버에서의 응답에 따른 처리
+            console.log('설문 결과 전송 성공:', response);
         },
-        error: function (error) {
-            console.log("에러:", error);
+        error: function(error) {
+            // 서버 전송 중 오류 발생 
+            console.error('설문 결과 전송 오류:', error);
         }
     });
 }
@@ -172,7 +179,7 @@ var html = '<div class="row gx-3">';
 html += '<div class="col-sm-12">';
 html += '<div class="form-group">';
 html += '<div class="form-label-group">';
-html += '<input class="form-control" type="text" value="' + item.title + '" readonly="readonly" />';
+html += '<input class="form-control" id="surveyData" name="surveyData" type="text" value="' + item.title + '" readonly="readonly" />';
 html += '</div>';
 html += '<textarea class="form-control" rows="8" style="resize: none;" placeholder="자유롭게 기재해주세요" ></textarea>';
 html += '</div>';
@@ -189,18 +196,18 @@ function addTypeChoiceSurvey(item) {
 var html = '<div class="row gx-3">';
 html += '<div class="col-sm-6">';
 html += '<div class="form-group">';
-html += '<input class="form-control" type="text" value="' + item.title + '" readonly="readonly" /><br>';
+html += '<input class="form-control" id="surveyData" name="surveyData" type="text" value="' + item.title + '" readonly="readonly" /><br>';
                                             
 // 선택지 출력
 for (var j = 0; j < item.choices.length; j++) {
 html += '<div class="col-sm-6" style="width:530px;">';
 html += '<div style="display: flex;">';
 if (item.type === 'B') {
-   html += '<input class="" name="check_" type="checkbox" value=""  />';
+   html += '<input class="" name="check_" type="checkbox" value="' + item.choices[j] + '"  />';
    } else if (item.type === 'C') {
-   html += '<input class="" type="radio" name="radio_' + item.id + '" value="" />';
+   html += '<input class="" id="surveyData" type="radio" name="radio_' + item.id + '"  value="' + item.choices[j] + '" />';
     }
-html += '<input class="form-control" type="text" style="margin-left: 10px;" value="' + item.choices[j] + '" readonly="readonly" />';
+html += '<input class="form-control" id="surveyData" type="text" style="margin-left: 10px;" value="' + item.choices[j] + '" readonly="readonly" />';
 html += '</div>';
 html += '</div>';
 }
@@ -213,4 +220,4 @@ html += '</div>';
 $("#surveyForm").append(html);
 }
 </script>
-	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>       

@@ -5,6 +5,7 @@ package com.dna.hiveworks.serviceimpl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -144,7 +145,6 @@ public class EdocServiceImpl implements EdocService{
 		ElectronicDocument edoc = dao.selectElectronicDocument(session, edocNo);
 		edoc.setApproval(dao.selectElectronicDocumentApproval(session, edocNo));
 		edoc.setAttachFiles(dao.selectElectronicDocumentAttachFiles(session,edocNo));
-		edoc.setComments(dao.selectElectronicDocumentComments(session, edocNo));
 		List<ElectronicDocumentReference> refList =dao.selectElectronicDocumentReference(session, edocNo); 
 		edoc.setReference(refList);
 		
@@ -371,8 +371,18 @@ public class EdocServiceImpl implements EdocService{
 		boolean isEdocNull = document == null;
 		StringBuilder content = new StringBuilder();
 		content.append(sample.getSampleContent());
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("YY.MM.DD");
-		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("YY.MM.DD HH:mm");
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yy.MM.dd");
+		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
+		
+		String createDate = document.getCreateDate().toLocalDate().format(dateFormat);
+		String createDateTime = new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
+		
+		String startDate = document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
+		String startDateTime = document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		
+		String endDate = document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
+		String endDateTime = document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		
 		while(content.indexOf("{{문서번호}}")!= -1) {
 			int startIndex = content.indexOf("{{문서번호}}");
 			int endIndex = startIndex + 8;
@@ -397,7 +407,7 @@ public class EdocServiceImpl implements EdocService{
 			if(isEdocNull) {
 				content.replace(startIndex, endIndex, "<span  class=\"createDate\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+document.getCreateDate().toLocalDate().format(dateFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createDate\">"+ createDate+"</span>");
 			}
 		}
 		while(content.indexOf("{{기안일시}}")!= -1) {
@@ -406,7 +416,7 @@ public class EdocServiceImpl implements EdocService{
 			if(isEdocNull) {
 				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\">"+document.getCreateDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"createDateTime\">"+createDateTime+"</span>");
 			}
 		}
 		while(content.indexOf("{{기안자사번}}")!= -1) {
@@ -460,7 +470,7 @@ public class EdocServiceImpl implements EdocService{
 			if(isEdocNull) {
 				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+document.getEdocStartDate().toLocalDate().format(dateFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDate\">"+startDate+"</span>");
 			}
 		}
 		while(content.indexOf("{{시작일시}}")!= -1) {
@@ -469,7 +479,7 @@ public class EdocServiceImpl implements EdocService{
 			if(isEdocNull) {
 				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\">"+document.getEdocStartDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocStartDateTime\">"+startDateTime+"</span>");
 			}
 		}
 		while(content.indexOf("{{종료일자}}")!= -1) {
@@ -478,7 +488,7 @@ public class EdocServiceImpl implements EdocService{
 			if(isEdocNull) {
 				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\">"+document.getEdocEndDate().toLocalDate().format(dateFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDate\">"+endDate+"</span>");
 			}
 		}
 		while(content.indexOf("{{종료일시}}")!= -1) {
@@ -487,7 +497,7 @@ public class EdocServiceImpl implements EdocService{
 			if(isEdocNull) {
 				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\"></span>");
 			}else {
-				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\">"+document.getEdocEndDate().toLocalDate().format(dateTimeFormat)+"</span>");
+				content.replace(startIndex, endIndex, "<span  class=\"edocEndDateTime\">"+endDateTime+"</span>");
 			}
 		}
 		while(content.indexOf("{{결재선}}")!= -1) {
