@@ -39,6 +39,7 @@ import com.dna.hiveworks.service.VacationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -93,6 +94,7 @@ public class ScheduleContoller {
 		if (searchType.indexOf('A') > -1) {param.put("searchTypeA", "A");}
 		if (searchType.indexOf('B') > -1) {param.put("searchTypeB", "B");}
 		if (searchType.indexOf('C') > -1) {param.put("searchTypeC", "C");}
+		if (searchType.indexOf('D') > -1) {param.put("searchTypeD", "D");}
 
 		List<Schedule> searchList = scheduleService.searchSchedule(param);
 		
@@ -700,6 +702,20 @@ public class ScheduleContoller {
 		return resourceT;
 	}
 	
+	//자산 예약 type/keyword로 조회
+	@PostMapping("/reserveBykeyword")
+	@ResponseBody
+	public List<Schedule> reserveBykeyword(@RequestParam Map<String, Object> param){
+		
+		int empNo = Integer.parseInt((String)param.get("empNo"));
+		String type = (String)param.get("type");
+		String keyword = (String)param.get("keyword");
+		System.out.println("컨트롤러"+type+keyword);
+		List<Schedule> reserveBykeyword = scheduleService.reserveBykeyword(keyword, type, empNo);
+		System.out.println(reserveBykeyword);
+		return reserveBykeyword;
+		
+	}
 	
 	
 	// 자산 예약 페이지 연결
@@ -770,7 +786,7 @@ public class ScheduleContoller {
 		int empNo = Integer.parseInt((String)param.get("empNo"));
 		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
 		String startDateString = (String) param.get("resstart");
-		String endDateString = (String) param.get("reend");
+		String endDateString = (String) param.get("resend");
 		String calColor = (String) param.get("backgroundColor");
 		String calCode = (String) param.get("code");
 		String calSubject = "";
@@ -791,12 +807,14 @@ public class ScheduleContoller {
 		 * } }
 		 */
 		
-	    int[] empList = new int[calEmp.length];
-        
-        for (int i = 0; i < calEmp.length; i++) {
-        	empList[i] = Integer.parseInt(calEmp[i]);
-        }
-
+		
+		int[] empList = new int[calEmp.length];
+		if (calEmp.length > 0) {
+			 for (int i = 0; i < calEmp.length; i++) {
+		        	empList[i] = Integer.parseInt(calEmp[i]);
+		        }
+		}
+		
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
@@ -837,8 +855,8 @@ public class ScheduleContoller {
 		int calNo = Integer.parseInt((String)param.get("calNo"));
 		int empNo = Integer.parseInt((String)param.get("empNo"));
 		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
-		String startDateString = (String) param.get("start");
-		String endDateString = (String) param.get("end");
+		String startDateString = (String) param.get("upstart");
+		String endDateString = (String) param.get("upend");
 		String calColor = (String) param.get("backgroundColor");
 		String calCode = (String) param.get("code");
 		String calSubject = "";
@@ -850,11 +868,15 @@ public class ScheduleContoller {
 		
 		String reminderYn = (String) param.get("reminder");
 		
-	    int[] empList = new int[recalEmp.length];
-        
-        for (int i = 0; i < recalEmp.length; i++) {
-        	empList[i] = Integer.parseInt(recalEmp[i]);
-        }
+		int[] empList;
+		if (recalEmp != null && recalEmp.length > 0) {
+		    empList = new int[recalEmp.length];
+		    for (int i = 0; i < recalEmp.length; i++) {
+		        empList[i] = Integer.parseInt(recalEmp[i]);
+		    }
+		} else {
+		    empList = new int[0];
+		}
 
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
@@ -938,16 +960,22 @@ public class ScheduleContoller {
 	//자산 삭제
 	@PostMapping("/deleteResource")
 	@ResponseBody
-	public ResponseEntity<String> deleteResource(@RequestBody List<Integer> checkedList) {
+	public List<Integer> deleteResource(@RequestBody List<Integer> checkedList) throws Exception {
 	    int result = 0;
 
 	    if (checkedList != null && !checkedList.isEmpty()) {
 	        result = scheduleService.deleteResource(checkedList);
 	    }
-
-	    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(String.valueOf(result)) :
-	            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(String.valueOf(result));
+	    
+	    if(result == 0) {
+            throw new Exception("자산 삭제에 실패했습니다.");
+        }
+        // 체크리스트 등록 성공 시
+        return checkedList;
 	}
+	
+	
+	
 	
 
 }

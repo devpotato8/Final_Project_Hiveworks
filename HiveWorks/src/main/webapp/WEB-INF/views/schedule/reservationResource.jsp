@@ -79,6 +79,7 @@
 									</ul>
 						</div>
 						<div class="menu-gap"></div>
+						<c:if test="${loginEmp.aut_code == 'AUT001'}">
 						<div class="nav-header">
 							<span>관리자</span>
 						</div>
@@ -97,8 +98,7 @@
 								</a></li>
 							</ul>
 						</div>
-						</div>
-						</div>
+						</c:if>
 			</nav>
 			<div class="blogapp-content">
 				<div class="blogapp-detail-wrap">
@@ -133,7 +133,7 @@
 						<div class="hk-pg-wrapper pb-0">
 							<div class="" style="display: flex;">
 							<div id='calendar-container'>
-							    <div id='calendar'></div>
+							    <div id='calendar' style="width: 700px; padding:20px"></div>
 							  </div>
 								<div style="width: 50%; display: block;">
 									<form action="${path}/schedule/reserveResourceEnd.do"
@@ -159,7 +159,7 @@
 											</div>
 										</div>
 
-					<div class="row gx-3">
+								<div class="row gx-3">
 										<div class="col-sm-3">
 											<span>일정 공유</span>
 										</div>
@@ -194,11 +194,7 @@
 												<label class="form-label">직원</label>
 												<div class="d-flex">
 													<select class="form-select me-3" name="calEmp" id="calEmp1">
-														<c:if test="${not empty empList}">
-															<c:forEach var="emp" items="${empList}">
-																<option value="${emp.emp_no}">${emp.emp_name}</option>
-															</c:forEach>
-														</c:if>
+																<option value=""></option>
 													</select>
 												</div>
 											</div>
@@ -326,7 +322,10 @@ $(document).ready(function() {
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
         // initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-        editable: true, // 수정 가능?
+        editable: false, // 수정 가능?
+        droppable: false,
+        eventStartEditable: false,
+        eventDurationEditable: false, // 이벤트 지속 시간 드래그 방지
         selectable: true, // 달력 일자 드래그 설정가능
         nowIndicator: true, // 현재 시간 마크
         dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -536,7 +535,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      
      employeeList.forEach(function(employee) {
        var option = document.createElement('option');
-       option.value = employee.EMP_NO;
+       option.value = employee.no;
        option.textContent = employee.name;
        employeeSelect.appendChild(option);
      });

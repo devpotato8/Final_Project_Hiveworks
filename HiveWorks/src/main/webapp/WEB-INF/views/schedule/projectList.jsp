@@ -456,7 +456,7 @@
 											class="d-flex align-items-center justify-content-between mb-2">
 
 										<div class="comment-block">
-											<div class="media" id="level1">
+<!-- 											<div class="media" id="level1">
 												<input type="hidden" id="commentNo" value="">
 												<div class="media-body">
 													<div>
@@ -470,8 +470,8 @@
 														<a href="#">Reply</a> 
 													</div>
 												</div>
-											</div>
-											<div class="separator separator-light"></div>
+											</div> -->
+									<!-- 		<div class="separator separator-light"></div>
 													<div class="media" id="level2">
 														<div class="media-body">
 															<div>
@@ -488,7 +488,7 @@
 																<span class="comment-dot-sep">●</span><span id="deleteComment">삭제</span>
 															</div>
 														</div>
-													</div>
+													</div> -->
 												</div>
 											</div>
 											<div class="separator separator-light"></div>
@@ -1365,6 +1365,8 @@ document.querySelectorAll(".projectView").forEach(element => {
   	     	    var YourEmpName = invitationEmpList[i].yourEmpName;
   	     	    var YourDeptName = invitationEmpList[i].yourDeptName;
   	     	    var YourDeptCode = invitationEmpList[i].yourDeptCode;
+  	     	    
+  	     	    if(invitationEmpList[i].inviUseYn = 'Y'){
 
   	     	    // 다시 생성
   	     	    let reInviContainer = document.createElement('div');
@@ -1430,47 +1432,49 @@ document.querySelectorAll(".projectView").forEach(element => {
 
   	     	 // 부서 선택 시 이벤트 핸들러 함수
   	     		function handleDeptSelect() {
-  	     			// 선택된 부서의 인덱스를 가져옵니다.
-  	     			var selectedDeptIndex = deptSelect.selectedIndex;
-
-  	     			// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-  	     			var matchingEmpNames = [];
-  	     			var matchingEmpNos = [];
-
-  	     			// 선택된 부서의 코드를 가져옵니다.
-  	     			var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-  	     			// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-  	     			for (var k = 0; k < empDeptCodes.length; k++) {
-  	     				if (empDeptCodes[k] === selectedDeptCode) {
-  	     					matchingEmpNames.push(empNames[k]);
-  	     					matchingEmpNos.push(empNos[k]);
-  	     				}
-  	     			}
-
-  	     			// 직원 선택(select) 요소를 초기화합니다.
-  	     			empSelect.innerHTML = "";
-
-  	     			// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-  	     			for (var l = 0; l < matchingEmpNames.length; l++) {
-  	     				var empOption = document.createElement("option");
-  	     				empOption.value = matchingEmpNos[l];
-  	     				empOption.text = matchingEmpNames[l];
-  	     				empSelect.appendChild(empOption);
-  	     			}
-
-  	     			for (var l = 0; l < empSelect.options.length; l++) {
-  	     				if (empSelect.options[l].value == YourEmpNo) {
-  	     					empSelect.options[l].selected = true;
-  	     					break;
-  	     				}
-  	     			}
-  	     		}
+  	     		// 선택된 부서의 인덱스를 가져옵니다.
+					var selectedDeptIndex = deptSelect.selectedIndex;
+		
+					// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+					var matchingEmpNames = [];
+					var matchingEmpNos = [];
+		
+					// 선택된 부서의 코드를 가져옵니다.
+					var selectedDeptCode = deptCodes[selectedDeptIndex];
+		
+					// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+					for (var k = 0; k < empDeptCodes.length; k++) {
+						if (empDeptCodes[k] === selectedDeptCode) {
+							matchingEmpNames.push(empNames[k]);
+							matchingEmpNos.push(empNos[k]);
+						}
+					}
+		
+					// 직원 선택(select) 요소를 초기화합니다.
+					empSelect.innerHTML = "";
+		
+					// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+					for (var l = 0; l < matchingEmpNames.length; l++) {
+						var empOption = document.createElement("option");
+						empOption.value = matchingEmpNos[l];
+						empOption.text = matchingEmpNames[l];
+						empSelect.appendChild(empOption);
+					}
+		
+					for (var l = 0; l < empSelect.options.length; l++) {
+						if (empSelect.options[l].value == YourEmpNo) {
+							empSelect.options[l].selected = true;
+							break;
+						}
+					}
+				}
+		
 
 
   	     	    handleDeptSelect();
 
   	     	    deptSelect.addEventListener("change", handleDeptSelect);
+  	     	}
   	     	}
   	     }
 
@@ -1558,8 +1562,8 @@ document.querySelectorAll(".projectView").forEach(element => {
 }
 		
 		//댓글 조회
-		$("div.comment-block>div").remove();
-		if (data.commentList.length > 0) {
+		//$("div.comment-block").remove();
+		if (data.commentList != null || data.commentList.length > 0) {
     	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
     	for (let i = 0; i < data.commentList.length; i++) {
         const comment = data.commentList[i];
@@ -1647,9 +1651,10 @@ document.querySelectorAll(".projectView").forEach(element => {
   		commentBlock.appendChild(mediaDiv2);
   		commentBlock.appendChild(separatorDiv2);
   		
+  		feather.replace();
+  		
         
     		}
-        
     	}
   		})
   		.fail(function(request, status, error) {
@@ -1994,6 +1999,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   	  		$(document).on("click","#deleteComment",function (e) {
   	  		 // Find the closest '.media' element, then find the '.media-body' within it
   	  	    var mediaBody = $(this).closest('.media').find('.media-body');
+  	  		var seperator = $(this).closest('.media').find('.separator separator-light'); 
   	  		 
   	  		var calCommentNo = mediaBody.find('input').val();
 
@@ -2013,6 +2019,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		alert("댓글 삭제 성공");
   	    				
   	    		mediaBody.remove();
+  	    		seperator.remove();
   	    		
   	    			
   	    	}).catch(e=>{
@@ -2028,101 +2035,127 @@ document.querySelectorAll(".projectView").forEach(element => {
 	
 			
   
-//수정 부서 직원 추가 
-  function createContainer(index) {
-      let reInviContainer = document.createElement('div');
-      reInviContainer.className = 'reinvicontainer' + index;
-      reInviContainer.style.display = 'flex';
-      reInviContainer.style.paddingTop = '5px';
-      reInviContainer.style.paddingBottom = '5px';
-
-      let deptContainer = document.createElement('div');
-      deptContainer.className = 'col-sm-5';
-      let empContainer = document.createElement('div');
-      empContainer.className = 'col-sm-5';
-
-      let deptSelect = document.createElement('select');
-      deptSelect.className = 'form-select me-3';
-      deptSelect.name = 'recalDept';
-      deptSelect.id = 'recalDept' + index;
-
-      let empSelect = document.createElement('select');
-      empSelect.className = 'form-select me-3';
-      empSelect.name = 'recalEmp';
-      empSelect.id = 'recalEmp' + index;
-
-      for (var j = 0; j < deptCodes.length; j++) {
-          let deptOption = document.createElement('option');
-          deptOption.value = deptCodes[j];
-          deptOption.text = deptNames[j];
-          deptSelect.appendChild(deptOption);
-      }
-
-      var selectedDeptIndex = deptSelect.selectedIndex;
-      var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-      var matchingEmpNames = [];
-      var matchingEmpNos = [];
-
-      for (var k = 0; k < empDeptCodes.length; k++) {
-          if (empDeptCodes[k] === selectedDeptCode) {
-              matchingEmpNames.push(empNames[k]);
-              matchingEmpNos.push(empNos[k]);
-          }
-      }
-
-      empSelect.innerHTML = "";
-
-      for (var l = 0; l < matchingEmpNames.length; l++) {
-          var empOption = document.createElement("option");
-          empOption.value = matchingEmpNos[l];
-          empOption.text = matchingEmpNames[l];
-          empSelect.appendChild(empOption);
-      }
-
-      deptContainer.appendChild(deptSelect);
-      empContainer.appendChild(empSelect);
-
-      reInviContainer.appendChild(deptContainer);
-      reInviContainer.appendChild(empContainer);
-
-      // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-      let delButton = document.createElement('button');
-      delButton.type = 'button';
-      delButton.textContent = '삭제';
-      delButton.addEventListener('click', function () {
-          // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-          reInviContainer.remove();
-        shareProjectCount--;
-      });
-
-      reInviContainer.appendChild(delButton);
-
-      return reInviContainer;
-  }
-
-
-   
-
-    function updateCount() {
-   	shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
-    }
-    
-  
-   $(document).on('click',"#addBtnRe",function (e) {
-  	   	 e.stopPropagation();
-  	        if (shareProjectCount <= 5) {
-  	            let reInviContainer = createContainer(shareProjectCount);
-
-  	            let someContainer2 = document.querySelector('#shareListJob');
-  	            someContainer2.appendChild(reInviContainer);
-
-  	          shareProjectCount++;
-  	        } else {
-  	            alert("공유인원은 5명까지 가능합니다.");
-  	        }
-  	        updateCount(); // count를 업데이트하는 함수 호출
-  	    });
+  	  	//수정 부서 직원 추가 
+			function createContainer(index) {
+			    let reInviContainer = document.createElement('div');
+			    reInviContainer.className = 'reinvicontainer' + index;
+			    reInviContainer.style.display = 'flex';
+			    reInviContainer.style.paddingTop = '5px';
+			    reInviContainer.style.paddingBottom = '5px';
+			
+			    let deptContainer = document.createElement('div');
+			    deptContainer.className = 'col-sm-5';
+			    let empContainer = document.createElement('div');
+			    empContainer.className = 'col-sm-5';
+			
+			    let deptSelect = document.createElement('select');
+			    deptSelect.className = 'form-select me-3';
+			    deptSelect.name = 'recalDept';
+			    deptSelect.id = 'recalDept' + index;
+			
+			    let empSelect = document.createElement('select');
+			    empSelect.className = 'form-select me-3';
+			    empSelect.name = 'recalEmp';
+			    empSelect.id = 'recalEmp' + index;
+			
+			    for (var j = 0; j < deptCodes.length; j++) {
+			        let deptOption = document.createElement('option');
+			        deptOption.value = deptCodes[j];
+			        deptOption.text = deptNames[j];
+			        deptSelect.appendChild(deptOption);
+			    }
+			    
+			    deptSelect.addEventListener("change", function(){
+					var selectedDeptIndex = deptSelect.selectedIndex;
+			
+					// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+					var matchingEmpNames = [];
+					var matchingEmpNos = [];
+		
+					// 선택된 부서의 코드를 가져옵니다.
+					var selectedDeptCode = deptCodes[selectedDeptIndex];
+		
+					// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+					for (var k = 0; k < empDeptCodes.length; k++) {
+						if (empDeptCodes[k] === selectedDeptCode) {
+							matchingEmpNames.push(empNames[k]);
+							matchingEmpNos.push(empNos[k]);
+						}
+					}
+		
+					// 직원 선택(select) 요소를 초기화합니다.
+					empSelect.innerHTML = "";
+		
+					// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+					for (var l = 0; l < matchingEmpNames.length; l++) {
+						var empOption = document.createElement("option");
+						empOption.value = matchingEmpNos[l];
+						empOption.text = matchingEmpNames[l];
+						empSelect.appendChild(empOption);
+					}
+		
+				});
+			
+			    var selectedDeptIndex = deptSelect.selectedIndex;
+			    var selectedDeptCode = deptCodes[selectedDeptIndex];
+			
+			    var matchingEmpNames = [];
+			    var matchingEmpNos = [];
+			
+			    for (var k = 0; k < empDeptCodes.length; k++) {
+			        if (empDeptCodes[k] === selectedDeptCode) {
+			            matchingEmpNames.push(empNames[k]);
+			            matchingEmpNos.push(empNos[k]);
+			        }
+			    }
+			
+			    empSelect.innerHTML = "";
+			
+			    for (var l = 0; l < matchingEmpNames.length; l++) {
+			        var empOption = document.createElement("option");
+			        empOption.value = matchingEmpNos[l];
+			        empOption.text = matchingEmpNames[l];
+			        empSelect.appendChild(empOption);
+			    }
+			
+			    deptContainer.appendChild(deptSelect);
+			    empContainer.appendChild(empSelect);
+			
+			    reInviContainer.appendChild(deptContainer);
+			    reInviContainer.appendChild(empContainer);
+			
+			    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+			    let delButton = document.createElement('button');
+			    delButton.type = 'button';
+			    delButton.textContent = '삭제';
+			    delButton.addEventListener('click', function () {
+			        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+			        reInviContainer.remove();
+			        shareProjectCount--;
+			    });
+			
+			    reInviContainer.appendChild(delButton);
+			
+			    return reInviContainer;
+			}
+			
+			function updateCount() {
+			    shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+			}
+			
+			$('#addBtnRe').on('click', function () {
+			    if (shareProjectCount <= 5) {
+			        let reInviContainer = createContainer(shareProjectCount);
+			
+			        let someContainer2 = document.querySelector('#shareListJob');
+			        someContainer2.appendChild(reInviContainer);
+			
+			        shareProjectCount++;
+			    } else {
+			        alert("공유인원은 5명까지 가능합니다.");
+			    }
+			    updateCount(); // count를 업데이트하는 함수 호출
+			});
   
   
   

@@ -130,6 +130,7 @@
 							<span class="event-code">내일정</span>
 						</div>
 					</div>
+					<input type="hidden" id="checkcalNo" value=""/>
 					<ul class="event-detail">
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="calendar"></i></span></span><span
@@ -160,7 +161,68 @@
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
 							class="event-content">이벤트입니다</span></li>
 					</ul>
+							<div class="tab-pane fade show active" id="tab_checklist">
+										<div
+											class="d-flex align-items-center justify-content-between mb-2" id="commentAllArea">
+											<div class="title title-lg mb-0">
+												<span>Checklist</span>
+											</div>
+										</div>
+										 <div class="hk-checklist">
+											<!-- <div class="form-check">
+											 <input type="hidden" id="checkNohidden" value=""/>
+												<input type="checkbox" class="form-check-input" name="checkListBox"
+													id="customCheckList1" checked=""> <label
+													class="form-check-label" for="customCheckList1">
+													Video conference with canada Team <span
+													class="done-strikethrough"></span>
+												</label> <span class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
+													class="icon"><span class="feather-icon"><i
+															data-feather="trash-2"></i></span></span></span> 
+											</div> -->
+											<a href="#"
+												class="d-flex align-items-center add-new-checklist"> <span
+												class="feather-icon fe-x me-2"><i
+													data-feather="plus-square"></i></span> <span>체크리스트 추가</span>
+											</a>
+										 </div> 
+										 <div class="d-flex align-items-center justify-content-between">
+											<!-- <div class="title title-wth-divider flex-grow-1 my-4 me-2">
+												<span>Canada team task</span>
+											</div> -->
+										<!-- 	 <div>
+												<a href="#"
+													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"
+													data-bs-toggle="tooltip" data-bs-placement="top" title=""
+													data-bs-original-title="Edit"><span class="icon"><span
+														class="feather-icon"><i data-feather="edit-2"></i></span></span></a>
+												<a href="#"
+													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
+													class="icon"><span class="feather-icon"><i
+															data-feather="trash-2"></i></span></span></a>
+											</div>  -->
+										</div> 
+						<!-- 				<div class="hk-checklist">
+											<div class="form-check">
+												<input type="checkbox" class="form-check-input"
+													id="customCheckList5" checked=""> <label
+													class="form-check-label" for="customCheckList5">
+													Upgrade dependency on resources <span
+													class="done-strikethrough"></span>
+												</label> <a href="#"
+													class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist"><span
+													class="icon"><span class="feather-icon"><i
+															data-feather="trash-2"></i></span></span></a>
+											</div>
+										 	<a href="#"
+												class="d-flex align-items-center add-new-checklist"> <span
+												class="feather-icon fe-x me-2"><i
+													data-feather="plus-square"></i></span> <span>New Item</span>
+											</a> 
+										</div> -->
+									</div> 
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -276,7 +338,7 @@
 				<div data-simplebar class="nicescroll-bar">
 					<div class="menu-content-wrap">
 						<button class="btn btn-primary btn-rounded btn-block mb-4"
-							data-bs-toggle="modal" data-bs-target="#create_new_event">일정등록</button>
+							data-bs-toggle="modal" data-bs-target="#create_new_event">새 일정 등록</button>
 						<!-- <div class="dropdown-menu">
                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#create_new_event"><span class="feather-icon dropdown-icon"><i data-feather="calendar"></i></span><span>새로운 일정 등록하기</span></a>
                             <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#set_new_reminder"><span class="feather-icon dropdown-icon"><i data-feather="bell"></i></span><span>Set a Reminder</span></a>
@@ -345,6 +407,12 @@
 									id="vaccalendar"> <label class="form-check-label"
 									for="vaccalendar">휴가일정</label>
 								<span class="badge badge-info badge-indicator badge-indicator-lg me-2"></span>
+							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input"
+									id="reserveCalendar"> <label class="form-check-label"
+									for="reserveCalendar">자산예약일정</label>
+								<span class="badge badge-secondary badge-indicator badge-indicator-lg me-2"></span>
 							</div>
 						<!-- 	<div
 								class="d-flex align-items-center justify-content-between mb-2">
@@ -564,6 +632,7 @@
 //로그인 정보 변수 저장
 var loginEmpNo = ${loginEmp.emp_no}
 var loginDeptCode = '${loginEmp.dept_code}';
+var loginAut = '${loginEmp.aut_code}';
 
 //model 값 js 배열로 바꿔서 사용
 var deptCodes = [];

@@ -17,9 +17,6 @@
 			<nav class="blogapp-sidebar">
 				<div data-simplebar class="nicescroll-bar">
 					<div class="menu-content-wrap">
-						<a href="add-new-post.html"
-							class="btn btn-primary btn-rounded btn-block mb-4"> Create
-							Post </a>
 						<div class="menu-group">
 								<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
@@ -49,6 +46,7 @@
 									</ul>
 						</div>
 						<div class="menu-gap"></div>
+						<c:if test="${loginEmp.aut_code == 'AUT001'}">
 						<div class="nav-header">
 							<span>관리자</span>
 						</div>
@@ -68,8 +66,7 @@
 											목록</span>
 								</a></li>
 							</ul>
-						</div>
-					</div>
+					</c:if>	
 				</div>
 			</nav>
 			<div class="blogapp-content">
@@ -109,7 +106,7 @@
 							<div class="dropdown">
 								<a
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
-									href="#" data-bs-toggle="dropdown">전체보기</a>
+									href="#" data-bs-toggle="dropdown">자산종류</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									<a class="dropdown-item" href="#" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
@@ -186,6 +183,26 @@
 									</table>
 								</div>
 							</div>
+							<div class="row mt-3">
+									<div class="col-sm-12">
+										<div class="float-end text-end">
+											<ul
+												class="pagination custom-pagination pagination-simple active-theme">
+												<li class="paginate_button page-item previous disabled"><a
+													href="#" class="page-link"><i
+														class="ri-arrow-left-s-line"></i></a></li>
+												<li class="paginate_button page-item active"><a
+													href="#" class="page-link">1</a></li>
+											<!-- 	<li class="paginate_button page-item "><a href="#"
+													class="page-link">2</a></li>
+												<li class="paginate_button page-item "><a href="#"
+													class="page-link">3</a></li> -->
+												<li class="paginate_button page-item next"><a href="#"
+													class="page-link"><i class="ri-arrow-right-s-line"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -313,7 +330,20 @@ $(document).ready(function() {
     });
 });
 
+//feather 리로딩, 수정/삭제 아이콘 로딩
+/* $(document).ready(function(){
+   feather.replace();
+   applyFeatherLoading();
+});
 
+
+function applyFeatherLoading(){
+   $(document).on('click','.paginate_button',function(){
+      feather.replace();
+      console.log("feather리로드");
+   });
+
+}  */
 
 
 //페이징 시도
@@ -398,7 +428,7 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 													.val(resourceNo);
 											$('#updateResource')
 													.find(
-															'input[name="resourceType"]')
+															'select[name="resourceType"]')
 													.val(resourceType);
 											$('#updateResource')
 													.find(
@@ -509,6 +539,15 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						// 모달창을 표시합니다.
 						$('#updateResource').modal('show');
 						});
+						
+					 	feather.replace();
+				      	console.log("feather리로드");
+					
+						},
+						error : function(request, status, error) {
+							// 요청 실패 시 처리할 코드
+							alert("삭제 실패");
+							console.log("삭제 실패" + error);
 						}
 					});
 				});
@@ -545,6 +584,14 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						alert("삭제 성공");
 						// 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
 						$(".form-check-input:checked").closest("tr").remove();
+						
+						console.log(response);
+						
+						 // 삭제된 resourceNo에 해당하는 HTML 요소를 삭제
+						response.forEach(function(resourceNo) {
+					        $("li.nav-item").has("a[href*='resourceNo=" + resourceNo + "']").remove();
+					    });
+						
 					},
 					error : function(request, status, error) {
 						// 요청 실패 시 처리할 코드

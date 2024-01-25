@@ -46,6 +46,7 @@
 									</ul>
 								</div>
 								<div class="menu-gap"></div>
+								<c:if test="${loginEmp.aut_code == 'AUT001'}">
 								<div class="nav-header">
 									<span>관리자</span>
 								</div>
@@ -66,14 +67,14 @@
 										</li>
 									</ul>
 								</div>
-
+							</c:if>	
 					</nav>
 					<div class="blogapp-content">
 						<div class="blogapp-detail-wrap">
 							<header class="blog-header">
 								<div class="d-flex align-items-center">
 									<a class="blogapp-title link-dark" href="#">
-										<h1>자산 예약</h1>
+										<h1>전체 예약/대여 조회</h1>
 									</a>
 								</div>
 								<div class="blog-options-wrap">	
@@ -89,17 +90,24 @@
 								<div class="hk-sidebar-togglable"></div>
 							</header>
 							<div class="blog-body">
+							<button type="button" class="btn btn-secondary" id="delReserveBtn">예약취소</button>
 								<div data-simplebar class="nicescroll-bar">
 								<div style="display:flex">
-										<div class="dropdown">
+								<select name="type" id="searchType">
+									<option value="resource_name">자산이름</option>
+									<option value="cal_status">예약상태</option>
+									<option value="my_emp_name">예약자이름</option>
+								</select>
+								<input type="text" name="keyword" id="searchKeyword" placeholder="검색어입력">
+								<button id="searchButton">검색</button>
+										<!-- <div class="dropdown">
 											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">전체보기</a>
 											<div class="dropdown-menu dropdown-menu-end">
 												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="flag"></i></span><span>회의실</span></a>
 												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="grid"></i></span><span>차량</span></a>
 												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="tag"></i></span><span>빔프로젝터</span></a>
 											</div>
-										</div>
-										<button type="button" class="btn btn-secondary" id="delReserveBtn">예약취소</button>
+										</div> -->
 									</div>
 										<div class="tab-content">
 											<div class="tab-pane fade show active" id="all_post">
@@ -136,9 +144,10 @@
 																</div>													
 															</td>
 															<td>${res.resource.resourceType }</td>
-															<td>${res.calStartDate }~${res.calEndDate }</td>
+															<td>${res.calStartDate.toString().substring(0, 16)} ~ ${res.calEndDate.toString().substring(0, 16)}</td>
 															<td>${res.calStatus }</td>
 															<td>${res.createDate }</td>
+															<c:if test="${res.calStatus == '승인완료'}">
 															<td>
 																<div class="d-flex align-items-center">
 															<div class="dropdown">
@@ -156,6 +165,7 @@
 																</div>
 																</div>
 															</td>
+															</c:if>
 														</tr>
 														</c:forEach>
 														</c:if>
@@ -163,6 +173,26 @@
 												</table>
 											</div>
 										</div>
+										<div class="row mt-3">
+									<div class="col-sm-12">
+										<div class="float-end text-end">
+											<ul
+												class="pagination custom-pagination pagination-simple active-theme">
+												<li class="paginate_button page-item previous disabled"><a
+													href="#" class="page-link"><i
+														class="ri-arrow-left-s-line"></i></a></li>
+												<li class="paginate_button page-item active"><a
+													href="#" class="page-link">1</a></li>
+											<!-- 	<li class="paginate_button page-item "><a href="#"
+													class="page-link">2</a></li>
+												<li class="paginate_button page-item "><a href="#"
+													class="page-link">3</a></li> -->
+												<li class="paginate_button page-item next"><a href="#"
+													class="page-link"><i class="ri-arrow-right-s-line"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
 									</div>
 								</div>
 							</div>
@@ -179,6 +209,8 @@ const empNo = ${loginEmp.emp_no}; //수정 필요
 console.log(empPhone, empNo);
 
 
+var contextPath = "<c:out value='${path}'/>";
+
 //페이지 새로고침
 $(document).ready(function() {
     $("#refreshButton").click(function(e) {
@@ -186,6 +218,88 @@ $(document).ready(function() {
         location.reload(); // 페이지를 새로고침함
     });
 });
+
+//타입별로 조회
+$(document).ready(function() {
+	$('#searchButton').on('click',function(e) {
+		e.preventDefault();
+
+		var type = $('#searchType').val();
+	    var keyword = $('#searchKeyword').val();
+
+		$.ajax({
+			url : '/schedule/reserveBykeyword',
+			type : 'POST',
+			data : {
+				type : type,
+				keyword : keyword,
+				empNo: empNo
+			},
+			dataType : 'json',
+			success : function(response) {
+				// 기존 테이블 내용 초기화
+		        $('#datable_1 tbody').empty();
+
+		        // 응답 데이터를 이용하여 새로운 행 추가
+		        response.forEach(function(item) {
+		        	  // 테이블 내용을 비웁니다.
+	                $('#datable_1 tbody').empty();
+
+	                // response 배열을 반복하면서 HTML 테이블 행을 만듭니다.
+	                response.forEach(function(item) {
+	                	console.log(item)
+	                	 var row = $('<tr></tr>');
+	                     var checkBoxTd = $('<td></td>');
+	                     var checkBox = $('<input>').attr({
+	                         type: 'checkbox', 
+	                         class: 'form-check-input check-select', 
+	                         id: 'customCheck' + item.calNo // 고유한 ID를 가지도록 합니다.
+	                     });
+	                     var label = $('<label>').addClass('form-check-label').attr('for', 'customCheck' + item.calNo);
+	                     checkBoxTd.append($('<span></span>').addClass('form-check').append(checkBox).append(label));
+	                    row.append(checkBoxTd);
+	                    row.append($('<td></td>').text(item.calNo));
+	                    row.append($('<td></td>').addClass('mw-250p text-truncate text-high-em').append($('<span></span>').text(item.resource.resourceName)));
+	                    row.append($('<td></td>').append($('<div></div>').addClass('media align-items-center').append($('<div></div>').addClass('media-body').append($('<span></span>').addClass('d-block').text(item.myEmpName)))));
+	                    row.append($('<td></td>').text(item.resource.resourceType));
+	                    row.append($('<td></td>').text(item.calStartDate + ' ~ ' + item.calEndDate));
+	                    row.append($('<td></td>').text(item.calStatus));
+	                    row.append($('<td></td>').text(item.createDate));
+
+	                    var actions = $('<td></td>').addClass('d-flex align-items-center');
+	                    var dropdown = $('<div></div>').addClass('dropdown');
+	                    var button = $('<button></button>').addClass('btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret')
+	                        .attr('aria-expanded', 'false')
+	                        .attr('data-bs-toggle', 'dropdown')
+	                        .append($('<span></span>').addClass('icon').append($('<span></span>').addClass('feather-icon').append($('<i></i>').attr('data-feather', 'more-vertical'))));
+
+	                    var menu = $('<div></div>').addClass('dropdown-menu dropdown-menu-end')
+	                        .append($('<a></a>').addClass('dropdown-item updateBtn').attr('href',contextPath+'/schedule/updateReservation?resourceNo=' + item.resource.resourceNo + '&calNo=' + item.calNo).text('수정'))
+	                        .append($('<span></span>').addClass('dropdown-item reminderBtn').text('메시지 알림 요청'));
+
+	                    dropdown.append(button);
+	                    dropdown.append(menu);
+	                    actions.append(dropdown);
+	                    if(item.calStatus == '승인완료'){
+		                    row.append(actions);
+							}
+
+	                    $('#datable_1 tbody').append(row);
+	                });
+
+	                // Feather Icons 초기화
+	                feather.replace();
+		        });
+				
+				
+			},
+			error : function(request, status, error) {
+				// 요청 실패 시 처리할 코드
+				console.log("조회 실패" + error);
+			}
+	    });
+	  });
+	});	
 
 
 $(document).ready(function() {
@@ -206,7 +320,8 @@ $(document).ready(function() {
         $(".check-select:checked").each(function() {
             var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
             var resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-            var calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+            const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+            const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
 
             checkedList.push(reserveNo);
             
@@ -264,7 +379,8 @@ $(document).ready(function() {
     	event.preventDefault();
 
         let resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-        let calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+        const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+        const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
         let calNo = $(this).closest('tr').find('td:nth-child(2)').text().trim();
 
         var confirmed = confirm("알림 메시지를 요청하시겠습니까?");

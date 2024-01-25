@@ -81,11 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			if($('#mydeptcalendar').is(':checked')) {
 				searchType += 'B'
 				calCode = 'CAL002'
-				
 			}
 			if($('#companycalendar').is(':checked')) {
 				searchType += 'C'
 				calCode = 'CAL003'
+			}if($('#reserveCalendar').is(':checked')) {
+				searchType += 'D'
 			}
 			$.ajax({
 				url: `/schedule/searchschedule`,
@@ -109,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 									myEmpNo: event.myEmpNo,
 									myDeptCode: event.myDeptCode,
 									invitationEmpList: event.invitationEmpList,
+									checkList: event.CheckList,
 									important: event.calImportYn,
 									status: event.calStatus,
 									reminder: event.reminderYn,
@@ -238,6 +240,56 @@ document.addEventListener('DOMContentLoaded', function() {
 			})
 		}
 	};
+	
+		/*var reserveCalendar = {
+		events: function(fetchInfo, successCallback, failureCallback) {
+			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
+			$.ajax({
+				url: `/schedule/calreservationlistbyno`,
+				method: 'POST',
+				dataType: 'json',
+				traditional: true,
+				async: false, //동기
+				data: JSON.stringify({ empNo: loginEmpNo }),
+				contentType: "application/json",
+				 success: function(data) {
+					 console.log(data);
+			       
+					var events = data.map(function(event, i) {
+							return {
+								id: event.calCode,
+								title: event.calSubject,
+								start: event.calStartDate,
+								end: event.calEndDate,
+								backgroundColor: event.calColor,
+								extendedProps: {
+									content: event.calContent,
+									myEmpNo: event.myEmpNo,
+									myDeptCode: event.myDeptCode,
+									invitationEmpList: event.invitationEmpList,
+									important: event.calImportYn,
+									status: event.calStatus,
+									reminder: event.reminderYn,
+									allday: event.calAlldayYn,
+									calNo: event.calNo,
+								}
+							};
+					});
+
+					// 필터링을 통해 undefined가 된 요소를 제거합니다.
+					events = events.filter(function(event) {
+						return event !== undefined;
+					});
+					successCallback(events);
+					console.log(events)
+					
+				},
+				error: function() {
+					failureCallback('이벤트를 가져오는 도중 오류가 발생했습니다!' + error);
+				}
+			})
+		}
+	};*/
 	
 	
 
@@ -483,13 +535,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			eventClick: function(info, initcount=2) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
+				console.log(targetE)
 				
 				  if (targetE.id === 'CAL008') {
 				$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = '/vacation/vacationView';
 			    } else if (targetE.id === 'CAL004' || targetE.id === 'CAL005' || targetE.id === 'CAL006') {
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
-			        window.location.href = '/schedule/reservationlistbyno.do';
+			        window.location.href = '/schedule/reservationlistbyno.do?empNo=' + loginEmpNo;
 			    } else {
 					$('.hk-drawer.calendar-drawer.drawer-right').show();
 
@@ -507,6 +560,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				};
 
 				//조회 부분
+				
+				$('#viewContainer').find('#checkcalNo').val(targetE.extendedProps.calNo);
 				$('#viewContainer').find('.event-start-date').text("시작 : " + formatDate(targetE.start));
 				$('#viewContainer').find('.event-end-date').text("종료 : " + formatDate(targetE.end));
 				var content = targetE.extendedProps.content || "내용이 없습니다.";
@@ -832,6 +887,94 @@ document.addEventListener('DOMContentLoaded', function() {
 					
 				}*/
 			}
+			
+			
+			  	     
+  	   //체크리스트 조회
+		const checkList = targetE.extendedProps.checkList;
+  	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
+  	  	$("div.hk-checklist>div").remove();
+
+		if (checkList.length > 0) {
+    	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
+    	for (let i = 0; i < checkList.length; i++) {
+        const checklistItem = checkList[i];
+
+        // 새로운 div.form-check 요소를 생성합니다.
+        const checklistDiv = document.createElement('div');
+        checklistDiv.classList.add('form-check');
+
+        // 새로운 input-hidden 요소를 생성합니다.
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.id = 'checkNohidden';
+        hiddenInput.value = checklistItem.calChecklistNo;
+
+        // 새로운 input-checkbox 요소를 생성합니다.
+        const checkboxInput = document.createElement('input');
+        checkboxInput.type = 'checkbox';
+        checkboxInput.classList.add('form-check-input');
+        checkboxInput.id = `customCheckList${i + 2}`;
+        checkboxInput.name = 'checkListBox';
+        checkboxInput.checked = checklistItem.endYn === 'Y';
+
+        // 새로운 label 요소를 생성합니다.
+        const label = document.createElement('label');
+        label.classList.add('form-check-label');
+        label.htmlFor = `customCheckList${i + 2}`;
+        label.innerText = checklistItem.calChecklistContent;
+
+        // 새로운 span 요소를 생성합니다.
+        const span = document.createElement('span');
+        span.classList.add('done-strikethrough');
+
+        // label에 span을 추가합니다.
+        label.appendChild(span);
+
+        // 삭제 링크를 위한 새로운 span 요소를 생성합니다.
+        const deleteLink = document.createElement('span');
+        deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
+        deleteLink.dataset.checklistNo = checklistItem.calChecklistNo;
+
+        // 새로운 아이콘 span을 생성합니다.
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('icon');
+
+        // 새로운 feather-icon span을 생성합니다.
+        const featherIcon = document.createElement('span');
+        featherIcon.classList.add('feather-icon');
+
+        // 새로운 휘더 아이콘 i를 생성합니다.
+        const trashIcon = document.createElement('i');
+		trashIcon.classList.add('icon', 'feather-icon');
+		trashIcon.dataset.feather = 'trash-2';
+
+        // i를 feather-icon에 추가합니다.
+        featherIcon.appendChild(trashIcon);
+
+        // feather-icon을 icon에 추가합니다.
+        iconSpan.appendChild(featherIcon);
+
+        // icon을 삭제 링크에 추가합니다.
+        deleteLink.appendChild(iconSpan);
+
+        // div.form-check에 input-hidden, input-checkbox, label, 삭제 링크를 추가합니다.
+        checklistDiv.appendChild(hiddenInput);
+        checklistDiv.appendChild(checkboxInput);
+        checklistDiv.appendChild(label);
+        checklistDiv.appendChild(deleteLink);
+
+        // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내에 추가합니다.
+        hkChecklist.insertBefore(checklistDiv, document.querySelector('.add-new-checklist'));
+    }
+}
+			
+			
+			
+			
+			
+			
+			
 			}
 			
 		});
@@ -868,6 +1011,37 @@ document.addEventListener('DOMContentLoaded', function() {
 			        deptOption.text = deptNames[j];
 			        deptSelect.appendChild(deptOption);
 			    }
+			    
+			    deptSelect.addEventListener("change", function(){
+					var selectedDeptIndex = deptSelect.selectedIndex;
+			
+					// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+					var matchingEmpNames = [];
+					var matchingEmpNos = [];
+		
+					// 선택된 부서의 코드를 가져옵니다.
+					var selectedDeptCode = deptCodes[selectedDeptIndex];
+		
+					// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+					for (var k = 0; k < empDeptCodes.length; k++) {
+						if (empDeptCodes[k] === selectedDeptCode) {
+							matchingEmpNames.push(empNames[k]);
+							matchingEmpNos.push(empNos[k]);
+						}
+					}
+		
+					// 직원 선택(select) 요소를 초기화합니다.
+					empSelect.innerHTML = "";
+		
+					// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+					for (var l = 0; l < matchingEmpNames.length; l++) {
+						var empOption = document.createElement("option");
+						empOption.value = matchingEmpNos[l];
+						empOption.text = matchingEmpNames[l];
+						empSelect.appendChild(empOption);
+					}
+		
+				});
 			
 			    var selectedDeptIndex = deptSelect.selectedIndex;
 			    var selectedDeptCode = deptCodes[selectedDeptIndex];
@@ -1153,7 +1327,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				calendar.addEvent(addEvent);
 				console.log(result);
 				// 일정을 등록한 후에 캘린더를 새로고침하지 않고 변경된 일정이 보이도록 처리합니다.
-				calendar.refetchEvents();
+				//calendar.refetchEvents();
+				$('#vaccalendar').trigger('change');
 			})
 			.fail(function(request, status, error) {
 				alert("일정 등록 실패" + error);
@@ -1234,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 	
 	
-	$('#vaccalendar, #mycalendar, #mydeptcalendar, #companycalendar').on('change', function() {
+	$('#reserveCalendar, #vaccalendar, #mycalendar, #mydeptcalendar, #companycalendar').on('change', function() {
 		// 체크박스의 id에 따라 이벤트 소스를 설정
 		var id;
 		var eventSource;
@@ -1249,6 +1424,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				eventSource = mycalendar;
 				break;
 			case 'vaccalendar':
+				eventSource = mycalendar;
+				break;
+			case 'reserveCalendar':
 				eventSource = mycalendar;
 				break;
 		}
@@ -1269,6 +1447,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		 	if($('#vaccalendar').is(':checked')){
 				calendar.addEventSource(vacCalendar);
 			 }
+			/* if($('#reserveCalendar').is(':checked')){
+				calendar.addEventSource(reserveCalendar);
+			}*/
 		 //}
 
 		// 중복된 일정 숨기기
@@ -1318,6 +1499,141 @@ document.addEventListener('DOMContentLoaded', function() {
 		// 캘린더 렌더링
 		calendar.render();
 	});*/
+	
+	// 체크리스트 추가
+	   var id;
+	   var checklistNo;
+
+	   $(document).on("click", ".add-new-checklist", function (e) {
+		    var id = uniqId(); // Generate unique ID
+
+		    var checklistItem = $('<div class="form-check">' +
+		    	'<input type="hidden" id="checkNohidden" value="">' +
+		        '<input type="checkbox" class="form-check-input" name="checkListBox" id="customCheckListAppend_' + id + '">' +
+		        '<label class="form-check-label" for="customCheckListAppend_' + id + '">' +
+		        '<span class="done-strikethrough"></span>' +
+		        '</label>' +
+		        '<input class="form-control checklist-input" type="text" placeholder="Add new Item">' +
+		        '<a href="#" class="btn btn-xs btn-icon btn-rounded btn-flush-light flush-soft-hover delete-checklist" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">' +
+		        '<span class="icon">' +
+		        '<span class="feather-icon">' +
+		        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">' +
+		        '<polyline points="3 6 5 6 21 6"></polyline>' +
+		        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+		        '<line x1="10" y1="11" x2="10" y2="17"></line>' +
+		        '<line x1="14" y1="11" x2="14" y2="17"></line>' +
+		        '</svg>' +
+		        '</span>' +
+		        '</span>' +
+		        '</a>' +
+		        '</div>');
+
+		    checklistItem.insertBefore($(this)) // Insert new checklist before the current element
+		        .find('input[type="text"]')
+		        .on('keypress', function (e) {
+		        	
+		            if (e.which == 13) { // Enter key pressed
+		                e.preventDefault();
+		                var checklistValue = $(this).val(); // Save checklist input value
+
+		                // Ajax call
+		                $.ajax({
+		                    url: "/schedule/insertChecklist",
+		                    method: "POST",
+		                    dataType: "json",
+		                    data: JSON.stringify({
+		                        checklistValue: checklistValue,
+		                        calNo: document.querySelector('#checkcalNo').value, // Set the appropriate value for data.calNo
+		                        empNo: loginEmpNo // Set the appropriate value for loginEmpNo
+		                    }),
+		                    contentType: 'application/json',
+		                    success: function (response) {
+		                        // Success handling
+		                        console.log("버노"+response);
+		                         
+		                      var newChecklistItem = $(this).prev().find('input').trigger('focus');
+
+		                  
+		                 	// Set the value of #checkNohidden to the response
+		                    $('#checkNohidden').val(response);
+
+		                    // Save the value of #checkNohidden in const checklistNo
+		                  checklistItem.find('#checkNohidden').val(response);
+
+                     // Save the value of .checkNohidden in const checklistNo
+                     const checklistNo = checklistItem.find('#checkNohidden').val();
+                     console.log(checklistNo);
+		                      
+		                    },
+		                    error: function (error) {
+		                        // Error handling
+		                        console.error(error);
+		                        //삭제..!!
+		                    }
+		                });
+		            }
+		        });
+
+		    return false;
+		});
+		
+		//체크리스트 삭제
+			$(document).on("click",".delete-checklist",function (e) {
+				e.preventDefault();
+				
+				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
+				console.log("체크버노"+checklistNo)
+			     
+				   $.ajax({
+	                   url: "/schedule/deleteChecklist",
+	                   method: "POST",
+	                   dataType: "json",
+	                   data: JSON.stringify({
+	                       checklistNo: checklistNo
+	                   }),
+	                   contentType: 'application/json',
+	                   success: function (response) {
+	                       // 성공 시 처리
+	                       console.log(response);
+	                       $(this).closest('.form-check').remove();
+
+	                   },
+	                   error: function (error) {
+	                       // 에러 시 처리
+	                       console.error(error+"에러"+checklistNo);
+	                       //그냥 두기
+	                   }
+	               });
+			});
+	   
+			//체크리스트 완료 표시 //만든거 바로 안됨
+  			$(document).on("change",'input[type="checkbox"][name="checkListBox"]',function (e) {
+  				e.preventDefault();
+  				
+  				const isChecked = $(this).prop('checked');
+  				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
+  				console.log("체크버노"+checklistNo)
+
+  			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
+  					
+  					   $.ajax({
+  		                   url: checkUrl,
+  		                   method: "POST",
+  		                   dataType: "json",
+  		                   data: JSON.stringify({
+  		                       checklistNo: checklistNo
+  		                   }),
+  		                   contentType: 'application/json',
+  		                   success: function (response) {
+  		                       // 성공 시 처리
+  		                       console.log(response);
+  		                   },
+  		                   error: function (error) {
+  		                       // 에러 시 처리
+  		                       console.error(error);
+  		                   }
+  					})
+  			});
 	
 	
 	
