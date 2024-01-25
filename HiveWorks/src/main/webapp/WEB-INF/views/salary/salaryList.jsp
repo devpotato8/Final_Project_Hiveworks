@@ -12,9 +12,11 @@
 </jsp:include>
 <style>
 /* 스타일 추가 */
-    .button-group {
+    #button-group {
        	/* text-align: center; */
-		white-space: nowrap; /* 줄 바꿈을 방지합니다. */    
+		white-space: nowrap; /* 줄 바꿈을 방지합니다. */  
+		text-align: right;
+    	padding-right: 40px;  
     }
 
 	.d-xxl-flex{
