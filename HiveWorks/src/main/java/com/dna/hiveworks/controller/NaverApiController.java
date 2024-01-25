@@ -36,7 +36,7 @@ public class NaverApiController {
      String text = null;
      try {
     	 // 키워드가 들어가는자리 , 인코딩
-         text = URLEncoder.encode("IT산업", "UTF-8");
+         text = URLEncoder.encode("하이브", "UTF-8");
      } catch (UnsupportedEncodingException e) {
          throw new RuntimeException("검색어 인코딩 실패",e);
      }

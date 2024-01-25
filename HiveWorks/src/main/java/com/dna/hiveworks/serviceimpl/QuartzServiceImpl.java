@@ -22,18 +22,13 @@ public class QuartzServiceImpl implements QuartzService {
 	public int insertQuartzWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNo(session, empNo);
 		System.out.println(isPresent);
-		if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+		//if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+		if (isPresent == null) {
 			return dao.insertQuartzWork(session, empNo);
 	    } else {
 	    	throw new RuntimeException("익셉션");
 	    }
 		
-	}
-
-	@Override
-	public int insertQuartzWorkRealTime() {
-		// TODO Auto-generated method stub
-		return dao.insertQuartzWorkRealTime(session);
 	}
 
 }

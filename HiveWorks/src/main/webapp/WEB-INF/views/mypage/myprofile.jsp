@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
@@ -29,7 +30,7 @@
 			<section>
 				<div class="selectBtn">
 		            <div><button class="btn" onclick="location.assign('${path}/mypage/myprofile')"><i class="fa-regular fa-id-card fa-lg"></i>&nbsp; 프로필</button></div>
-		            <div><button class="btn" onclick="location.assign('${path}/mypage/editmyprofile')"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 변경</button></div>
+		            <div><button class="btn" onclick="location.assign('${path}/mypage/editmyprofile')"><i class="fa-solid fa-brush fa-lg"></i>&nbsp; 수정</button></div>
 	        	</div>
 	
 	        <div class="showView">
@@ -53,10 +54,11 @@
 	                        value="입사일 : ${employee.emp_hired_date}"
 	                        readonly="readonly"
 	                    />
+	                    <c:set var="residentNo" value="${fn:substring(employee.emp_resident_no, 0, 8)}" />
 	                    <input
 	                        class="form-control"
 	                        type="text"
-	                        value="직책 : ${employee.emp_memo}"
+	                        value="생년월일 : ${residentNo}******"
                         	readonly="readonly"
 	                    />
 	                    <input
