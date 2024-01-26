@@ -17,6 +17,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dna.hiveworks.common.SessionUserMap;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Message;
 import com.dna.hiveworks.service.MsgService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author : 김태윤
@@ -45,9 +49,14 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MessageController {
 	
-	private final MsgService service; 
+	private final MsgService service;
+	
+	private final SimpMessagingTemplate template;
+	
+	private final SessionUserMap sessionUserMap;
 	
 	//받은 쪽지함 페이지 진입
 	@GetMapping("/messageview")
@@ -187,6 +196,7 @@ public class MessageController {
     public ResponseEntity<?> sendMsg(
     					@RequestParam("receiverEmpNo") List<String> receiverEmpNo,
     					@RequestParam("senderEmpNo") String senderEmpNo,
+    					@RequestParam("senderName") String senderName,
                         @RequestParam("msgCategory") String msgCategory,
                         @RequestParam("sendMsgTitle") String sendMsgTitle,
                         @RequestParam("sendMsgContent") String sendMsgContent,
@@ -226,8 +236,10 @@ public class MessageController {
 			fileRename = UUID.randomUUID().toString().replaceAll("-", "").substring(0,6) + timePart + extension; // UUID + 확장자
 			
 			File file = new File(savePath + "/" + fileRename);
+			
 			try {
 				sendmsgFile.transferTo(file);
+				
 			} catch(IOException e) {
 				e.printStackTrace();
 		        response.put("status", "fail");
@@ -261,7 +273,31 @@ public class MessageController {
 		
 		int result = service.sendMsg(params);	
 		
+		List<String> userIds = service.receiverIds(empNos);
+		System.err.println(userIds);
 		if (result > 0) {
+			
+			//쪽지 받는 사람들 각각에게 알림 전송
+			for(String receiverUserId : userIds) {
+		        if (sessionUserMap.containsValue(receiverUserId)) {
+		        	
+		        	System.err.println("receiverUserId :"+receiverUserId);
+		            
+		        	Map<String, String> msg = new HashMap<>();
+		            msg.put("senderName", senderName);
+		            msg.put("title", sendMsgTitle);
+		            ObjectMapper objectMapper = new ObjectMapper();
+			        String jsonMsg = objectMapper.writeValueAsString(msg);
+		            template.convertAndSendToUser(
+		                receiverUserId, // 받는 사람의 사용자 아이디
+		                "/topic/messages",
+		                jsonMsg
+		            );
+			        log.debug("Sending message to user: {}, destination: {}, message: {}", receiverUserId, "/topic/messages", jsonMsg);
+		            System.err.println(jsonMsg);
+		        }
+		    }
+			
             response.put("status", "success");
             return ResponseEntity.ok(response);
         } else {

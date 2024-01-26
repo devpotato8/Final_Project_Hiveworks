@@ -48,4 +48,8 @@ public class SurveyServiceImpl implements SurveyService{
 	public Survey surveyDelete(int surveyNo) {
 		return dao.surveyDelete(session,surveyNo);
 	}
+	@Override
+	public int questionInsert(SurveyQuestion q) {
+		return dao.questionInsert(session,q);
+	}
 }

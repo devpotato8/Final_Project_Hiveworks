@@ -116,13 +116,14 @@ input::-webkit-inner-spin-button {
 								</div>
 								<ul class="nav nav-light nav-vertical nav-tabs">
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}">
-											<span>기본정보 수정</span>
+										<input type="hidden" id="path" value="${path }"/>
+										<a href="#" onclick="fn_updateEmployeeDetail(${employee.emp_no});">
+											기본정보 수정
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" >
-											<span>비밀번호 수정</span>
+										<a href="#" onclick="fn_updateEmployeePasswordCheck(${employee.emp_no});">
+											비밀번호 수정
 										</a>
 									</li>
 								</ul>
@@ -144,14 +145,7 @@ input::-webkit-inner-spin-button {
 												</div>
 											</div>
 										</div>
-										<div class="row gx-3">
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label class="form-label">현재 비밀번호</label>
-													<input class="form-control" type="password" id="emp_pw" name="emp_pw" value="" required="required"/>
-												</div>
-											</div>
-										</div>
+
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
@@ -162,7 +156,7 @@ input::-webkit-inner-spin-button {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">새 비밀번호 확인</label>
-													<input class="form-control" type="password" id="emp_pw_newCheck" name="emp_pw_newCheck" onchange="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
+													<input class="form-control" type="password" id="emp_pw_newCheck" name="emp_pw_newCheck" onkeyup="fn_check_password();"  value="" min="8" maxlength="25" required="required"/>
 													<div id="pwMessage"></div>
 												</div>
 											</div>
@@ -240,7 +234,6 @@ fn_check_password=()=>{
 
 let submitBtn = document.getElementById("submitBtn");
 let emp_id = document.getElementById("emp_id");
-let emp_pw = document.getElementById("emp_pw");
 let modifier = document.getElementById("modifier");
 
 submitBtn.addEventListener('click',(event)=>{
@@ -256,8 +249,7 @@ submitBtn.addEventListener('click',(event)=>{
 			url:"${path}/employees/updatePassword",
 			data:{
 				empId:emp_id.value,
-				empPassword:emp_pw.value,
-				empPasswordNew:pw_first.value,
+				empPassword:pw_first.value,
 				modifier:modifier.value
 				},
 			success:data=>{
@@ -266,12 +258,56 @@ submitBtn.addEventListener('click',(event)=>{
 					location.assign("${path}/employees/employeeList");
 				}
 				else{
-					alert("비밀번호가 다릅니다!")
+					alert("비밀번호가 조건에 맞지 않습니다!")
 				}
 			}
 		})
 	}
 });
+
+</script>
+<script>
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeeDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeeDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeePasswordCheck=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeePasswordCheck');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
 
 
 </script>		

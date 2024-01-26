@@ -96,10 +96,10 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/schedule/schedulelist"><span class="nav-link-text">일정관리</span></a>
+												<a class="nav-link" href="${path}/schedule/schedulelist.do"><span class="nav-link-text">일정관리</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"><span class="nav-link-text">자산예약관리</span></a>
+												<a class="nav-link" href="${path}/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}"><span class="nav-link-text">자산예약관리</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -218,7 +218,7 @@
 							</li>
 							
 							<li class="nav-item">
-								<a class="nav-link" href="${path}/schedule/projectlist">
+								<a class="nav-link" href="${path}/schedule/projectlist.do">
 									
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">

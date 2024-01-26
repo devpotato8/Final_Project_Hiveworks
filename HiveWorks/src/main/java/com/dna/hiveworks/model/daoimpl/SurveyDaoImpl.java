@@ -40,6 +40,10 @@ public class SurveyDaoImpl implements SurveyDao{
 		public Survey surveyDelete(SqlSession session, int surveyNo) {
 			return session.selectOne("survey.surveyDelete",surveyNo);
 		}
+		@Override
+		public int questionInsert(SqlSession session, SurveyQuestion q) {
+			return session.insert("survey.questionInsert",q);
+		}
 		
 		
 		

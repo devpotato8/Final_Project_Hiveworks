@@ -47,8 +47,8 @@ public class SalaryController {
 		return "salary/salaryList";
 	}
 	
-	@GetMapping("/salaryDetail")
-	public String selectSalaryByNo(int sal_no, Model model) {
+	@PostMapping("/salaryDetail")
+	public String selectSalaryByNo(@RequestParam("sal_no")int sal_no, Model model) {
 		
 		
 		Salary sal = service.selectSalaryByNo(sal_no);
@@ -78,7 +78,7 @@ public class SalaryController {
 		return "salary/salaryDetail";
 	}
 	
-	@GetMapping("/updateSalaryDetail")
+	@PostMapping("/updateSalaryDetail")
 	public String updateSalaryDetailByNo(int sal_no, Model model) {
 		
 		Salary sal = service.selectSalaryByNo(sal_no);

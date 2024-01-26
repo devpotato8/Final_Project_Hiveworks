@@ -218,11 +218,11 @@
 		WHERE EMP_NO = ${emp_no}
 	</update>
 	<update id="updateAccount" parameterType="account">
-		UPDATE TBL_ACCOUNT SET AC_NO=${ac_no}, AC_BANK=#{ac_bank}, AC_NAME=#{ac_name}
+		UPDATE TBL_ACCOUNT SET AC_NO=#{ac_no}, AC_BANK=#{ac_bank}, AC_NAME=#{ac_name}
 		WHERE EMP_NO = ${emp_no}
 	</update>
 	<update id="updatePassword" parameterType="hashmap">
-		UPDATE TBL_EMPLOYEE SET EMP_PW = #{empPasswordNew}, MODIFIER=${modifier}, MODIFY_DATE=SYSDATE
+		UPDATE TBL_EMPLOYEE SET EMP_PW = #{empPassword}, MODIFIER=${modifier}, MODIFY_DATE=SYSDATE
 		WHERE EMP_ID LIKE #{empId}
 	</update>
 	
@@ -246,6 +246,10 @@
 		WHERE EMP_NO = ${empNo}
 	</update>
 	
+	<select id="checkEmployeeByIdAndPassword" parameterType="hashmap" resultMap="empMap">
+		SELECT * FROM TBL_EMPLOYEE
+		WHERE EMP_ID = #{empId} AND EMP_PW = #{empPassword}
+	</select>
 	
 	
 </mapper>

@@ -21,4 +21,6 @@ public interface SurveyDao {
 	int surveyUpdate(SqlSession session, Survey survey);
 	
 	Survey surveyDelete(SqlSession session, int surveyNo);
+	
+	int questionInsert(SqlSession session, SurveyQuestion q);
 }

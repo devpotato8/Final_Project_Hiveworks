@@ -16,6 +16,7 @@
 	<jsp:param value="${edocCountWait }" name="edocCountWait" />
 </jsp:include>
 
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Main Content -->
@@ -64,7 +65,7 @@
 									class="brand-img img-fluid " width="100px" height="100px">
 							</div>
 									<div class="user-name">나는 ${loginEmp.emp_name} 입니다</div>
-									<div class="user-email">부서 ${loginEmp.dept_code }</div>
+									<div class="user-email">${loginEmp.emp_email }</div>
 									<div class="user-contact">${loginEmp.emp_phone }</div>
 						</div>
 						<div class="card-footer text-muted position-relative">
@@ -84,7 +85,7 @@
 								<div class="btn-block">출퇴근을 눌러주세요 😊</div>
 								<div class="btn-block" id="currentTime"></div>
 							</div>
-							<div class="button-container d-flex justify-content-center mt-3">
+							<div class="d-flex justify-content-center mt-3">
 								<form action="${path}/work/updateStartWork" method="post" id="workStartForm">
 									<input class="btn btn-flush-light btn-animated" type="submit"
 										value="출근하기" onclick="workStartForm(event)"/> 
@@ -92,7 +93,7 @@
 								</form>
 								<form action="${path}/work/updateEndWork" method="post" id="workEndForm">
 									<input class="btn btn-flush-light btn-animated" type="submit"
-										value="퇴근하기" onclick="workEndForm(event)"/> 
+										value="퇴근하기" onclick="workEndForm(event)"/>
 										<input type="hidden" id="workEndTime" name="workEndTime" value="" />
 								</form>
 							</div>
@@ -145,8 +146,9 @@
 						</div>
 						<!-- 2 -->
 						<div class="d-flex justify-content-center">
-							<div style="width: 400px; height: 400px"
-								class="d-flex justify-content-center">
+							<div style="width: 300px; height: 400px"
+								class="d-flex justify-content-center align-items-center">
+								<!-- 투두 -->
 								<!-- <div class="wrapper" style="width: 350px; height: 350px">
 									<header>TodoList</header>
 									<div class="inputField d-flex justify-content-around">
@@ -160,11 +162,130 @@
 										</ul>
 									</div>
 								</div> -->
-								<img alt=""
+								<!-- 이미지 -->
+								<!-- <img alt=""
 									src="https://pbs.twimg.com/media/GC0ulucaUAAsu8A?format=jpg&name=medium"
-									style="width: 350px; height: 350px">
+									style="width: 350px; height: 350px"> -->
+									<!-- 차트 -->
+								<!--<div class="card card-border mb-0  h-100">
+										<div class="card-header card-header-action">
+											<h6>Returning Customers</h6>
+											<div class="card-action-wrap">
+											</div>
+										</div>
+										<div class="card-body text-center">
+											<div id="radial_chart_2"></div>
+											<div class="d-flex">
+												<div>
+													<span class="badge-status lh-1">
+														<span class="badge bg-danger badge-indicator badge-indicator-nobdr "></span>
+														<span class="badge-label ">Organic</span>
+													</span>
+												</div>
+												<div>
+													<span class="badge-status lh-1">
+														<span class="badge bg-warning-light-2 badge-indicator badge-indicator-nobdr"></span>
+														<span class="badge-label">Marketing</span>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div> -->
+						            <div class="card-body">
+						              	<div class="">
+												<div class="card border-warning">
+													<div class="d-flex card-body align-items-center">
+														<div class="align-items-center">
+																<span>안읽은 쪽지</span>
+														</div>
+														&nbsp;
+														<span class="svg-icon">
+															<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
+																	<line x1="22" y1="2" x2="11" y2="13"></line>
+																	<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+															</svg>
+														</span>
+													</div>
+													<div class="card-footer justify-content-between">
+														<div>
+															<div
+																class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																<div class="">
+																<c:choose>
+																	<c:when test="${msgUnreadCount > 0}">
+																		<span class="card-text"><a href="${path }/messageview"><b>${msgUnreadCount}</b></a> 건 있습니다</span>
+																	</c:when>
+																	<c:otherwise>
+																		<span class="card-text">0 건</span>
+																	</c:otherwise>
+																</c:choose>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row">
+											<div class="col-6">
+												<div class="card border-blue">
+													<div class="card-body">
+														<div class="align-items-center">
+																<span>대기 전자문서</span>
+														</div>
+													</div>
+													<div class="card-footer justify-content-between">
+														<div>
+															<div
+																class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																<div class="">
+																<c:choose>
+																	<c:when test="${countWait > 0}">
+																		<span class="card-text"><a href="${path}/edoc/lists/wait"><b>${countWait}</b></a> 건</span>
+																	</c:when>
+																	<c:otherwise>
+																		<span class="card-text">0 건</span>
+																	</c:otherwise>
+																</c:choose>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-6">
+												<div class="card border-blue">
+													<div class="card-body">
+														<div class="align-items-center">
+																<span>진행 전자문서</span>
+														</div>
+													</div>
+													<div class="card-footer justify-content-between">
+														<div>
+															<div
+																class="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+																<div class="">
+																<c:choose>
+																	<c:when test="${countProcess > 0}">
+																		<span class="card-text"><a href="${path}/edoc/lists/process"><b>${countProcess}</b></a> 건</span>
+																	</c:when>
+																	<c:otherwise>
+																		<span class="card-text">0 건</span>
+																	</c:otherwise>
+																</c:choose>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											</div>
+											
+						            </div>
+						          
 							</div>
 						</div>
+						
 					</div>
 
 					<!-- 3 -->
@@ -347,7 +468,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: lightblue;
+	background-color: var(--navy);
 }
 
 table>thead {
@@ -486,6 +607,29 @@ table>thead {
 	width: 150px;
 	text-align: center;
 }
+b{
+    will-change: transform;
+    /* 애니메이션을 안정적으로 보이도록 브라우저를 도와준다. */
+    /* 브라우저에게 어떤 것이 변할 것인지 예고해주는것 */
+    /* 그래픽 카드를 이용해서 애니메이션을 가속화 한다. */
+    animation: highlight 2s linear infinite;
+    cursor: pointer;
+}
+@keyframes highlight {
+    0%{
+        color: white;
+        transform: none;
+    }
+    50%{
+        color: var(--navy);
+        transform: scale(1.5);
+    }
+    100%{
+        color: white;
+        transform: none;
+    }
+}
+
 </style>
 <!-- 출퇴근제출 -->
 <script >
@@ -770,4 +914,7 @@ onGeoOk();
 		});
 	}
 </script>
+	<!-- Apex JS -->
+	<script src="${path}/resources/vendors/apexcharts/dist/apexcharts.min.js"></script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

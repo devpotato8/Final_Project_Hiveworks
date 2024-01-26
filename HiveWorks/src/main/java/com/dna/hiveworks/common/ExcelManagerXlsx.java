@@ -47,14 +47,13 @@ private static ExcelManagerXlsx excelXlsxMng;
     try {
     for( int i=0; i<1; i++ ) {  
        for( Row row : wb.getSheetAt(i) ) {
-           if(check != 0) {
+           if(check > 1) {
            
            HashMap<String, String> hMap = new HashMap<String, String>();
            String valueStr = ""; 
            int cellLength = (int) row.getLastCellNum();
            for(int j=0; j<cellLength; j++){
 		        Cell cell = row.getCell(j);
-		           
 		          if (cell == null || cell.getCellType() == CellType.BLANK) {
 		        valueStr = "";
 		      }else{
@@ -63,29 +62,29 @@ private static ExcelManagerXlsx excelXlsxMng;
 		                valueStr = cell.getStringCellValue();
 		                break;
 		            case NUMERIC : // 날짜 형식이든 숫자 형식이든 다 CELL_TYPE_NUMERIC으로 인식함.
-		                if(DateUtil.isCellDateFormatted(cell)){ // 날짜 유형의 데이터일 경우,
+		            	if(DateUtil.isCellDateFormatted(cell)){ // 날짜 유형의 데이터일 경우,
 		                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		                    String formattedStr = dateFormat.format(cell.getDateCellValue());
 		                    valueStr = formattedStr;
 		                    break;
-                }else{ // 순수하게 숫자 데이터일 경우,
-                    Double numericCellValue = cell.getNumericCellValue();
-                    if(Math.floor(numericCellValue) == numericCellValue){ // 소수점 이하를 버린 값이 원래의 값과 같다면,,
-                        valueStr = numericCellValue.intValue() + ""; // int형으로 소수점 이하 버리고 String으로 데이터 담는다.
-                    }else{
-                        valueStr = numericCellValue + "";
-                    }
-                    break;
-                }
-            case BOOLEAN :
-                valueStr = cell.getBooleanCellValue() + "";
-                break;
-        }
+		                }else{ // 순수하게 숫자 데이터일 경우,
+		                	Double numericCellValue = cell.getNumericCellValue();
+		                    if(Math.floor(numericCellValue) == numericCellValue){ // 소수점 이하를 버린 값이 원래의 값과 같다면,,
+		                        valueStr = numericCellValue.intValue() + ""; // int형으로 소수점 이하 버리고 String으로 데이터 담는다.
+		                    }else{
+		                        valueStr = numericCellValue + "";
+		                    }
+		                    break;
+		                }
+		            case BOOLEAN :
+		                valueStr = cell.getBooleanCellValue() + "";
+		                break;
+		        }	
              
-      }
+		      }
            
-     hMap.put("cell_"+j ,valueStr);
-               
+		          hMap.put("cell_"+j ,valueStr);
+               System.out.println(hMap);
            }
            
           list.add(hMap);

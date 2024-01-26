@@ -293,7 +293,7 @@
 </div>
 <!-- Modal Content -->
 <script>
-	const path = "${path}";
+	const contextPath = "${path}";
 </script>
 <!-- Bootstrap Core JS -->
 <script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

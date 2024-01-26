@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var allcalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
-			var eventSources = contextPath+`/schedule/schedulelistend`;
+			var eventSources = `/schedule/schedulelistend.do`;
 			$.ajax({
 				url: eventSources,
 				method: 'GET',
@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
 								content: event.calContent,   // 추가
 								myEmpNo: event.myEmpNo,// 추가
 								invitationEmpList: event.invitationEmpList,
-								checkList: event.CheckListAll,
 								important: event.calImportYn,
 								status: event.calStatus,
 								reminder: event.reminderYn,
@@ -90,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				searchType += 'D'
 			}
 			$.ajax({
-				url: contextPath+`/schedule/searchschedule`,
+				url: `/schedule/searchschedule`,
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
@@ -98,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				data: JSON.stringify({ calCode: calCode, empNo: loginEmpNo, deptCode: loginDeptCode,  searchType: searchType }),
 				contentType: "application/json",
 				success: function(data) {
-					console.log("데이터"+data);
 					var events = data.map(function(event, i) {
 						//로그인 한 사람의 번호가 만든 사람이거나 초대받는 사람일때
 							return {
@@ -107,13 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
-								//icon: 'yellow-star', // 노란색 별 아이콘 클래스
 								extendedProps: {
 									content: event.calContent,
 									myEmpNo: event.myEmpNo,
 									myDeptCode: event.myDeptCode,
 									invitationEmpList: event.invitationEmpList,
-									checkList: event.CheckListAll,
+									checkList: event.CheckList,
 									important: event.calImportYn,
 									status: event.calStatus,
 									reminder: event.reminderYn,
@@ -128,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						return event !== undefined;
 					});
 					successCallback(events);
-					console.log("이벤트"+events);
+					console.log(events)
 					
 				},
 				error: function() {
@@ -142,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
 			$.ajax({
-				url: contextPath+`/schedule/searchVacation`,
+				url: `/schedule/searchVacation`,
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
@@ -534,24 +531,18 @@ document.addEventListener('DOMContentLoaded', function() {
 					return true; // 기본 렌더링
 				}
 			},
-			/*eventRender: function(info) {
-		      if (info.event.extendedProps.icon) {
-				  if(info.event.extendedProps.important == 'Y'){
-		        info.el.querySelector('fc-event-time').insertAdjacentHTML('beforebegin', '<i class="yellow-star"></i>');
-		        }
-		      }
-   			 },*/
+
 			eventClick: function(info, initcount=2) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
-				console.log("타겟"+targetE.id);
+				console.log(targetE)
 				
 				  if (targetE.id === 'CAL008') {
 				$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = '/vacation/vacationView';
 			    } else if (targetE.id === 'CAL004' || targetE.id === 'CAL005' || targetE.id === 'CAL006') {
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
-			        window.location.href = contextPath+'/schedule/reservationlistbyno?empNo=' + loginEmpNo;
+			        window.location.href = '/schedule/reservationlistbyno.do?empNo=' + loginEmpNo;
 			    } else {
 					$('.hk-drawer.calendar-drawer.drawer-right').show();
 
@@ -900,8 +891,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			  	     
   	   //체크리스트 조회
-		var checkList = targetE.extendedProps.checkList;
-		console.log("체크"+checkList);
+		const checkList = targetE.extendedProps.checkList;
   	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
   	  	$("div.hk-checklist>div").remove();
 
@@ -1141,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		const deleteConfirm = confirm("일정을 삭제하시겠습니까?");
 		if (deleteConfirm) {
 			$.ajax({
-				url: contextPath+"/schedule/deleteschedule",
+				url: "/schedule/deleteschedule",
 				method: "POST",
 				data: JSON.stringify({ calNo: targetE.extendedProps.calNo }),
 				contentType: 'application/json',
@@ -1222,7 +1212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		};
 
 		$.ajax({
-			url: contextPath+"/schedule/updateschedule",
+			url: "/schedule/updateschedule",
 			method: "POST",
 			data: JSON.stringify(editEvent),
 			contentType: 'application/json',
@@ -1249,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var importYn = this.checked ? 'Y' : 'N';
         
         $.ajax({
-			url: contextPath+"/schedule/updateImportYn",
+			url: "/schedule/updateImportYn",
 			method: "POST",
 			data: JSON.stringify(
 				{importYn : importYn,
@@ -1326,7 +1316,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		};
 
 		$.ajax({
-			url: contextPath+"/schedule/insertschedule",
+			url: "/schedule/insertschedule",
 			method: "POST",
 			dataType: "json",
 			data: JSON.stringify(addEvent),
@@ -1371,7 +1361,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
    // AJAX 요청을 통해 서버에 검색을 요청합니다.
     $.ajax({
-      url: contextPath+'/schedule/searchEmpschedule', // 서버의 검색 엔드포인트 URL
+      url: '/schedule/searchEmpschedule', // 서버의 검색 엔드포인트 URL
       method: 'POST',
       contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
       data: JSON.stringify({ empName: empName }), // 서버에 보낼 데이터
@@ -1548,7 +1538,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		                // Ajax call
 		                $.ajax({
-		                    url: contextPath+"/schedule/insertChecklist",
+		                    url: "/schedule/insertChecklist",
 		                    method: "POST",
 		                    dataType: "json",
 		                    data: JSON.stringify({
@@ -1595,7 +1585,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				console.log("체크버노"+checklistNo)
 			     
 				   $.ajax({
-	                   url: contextPath+"/schedule/deleteChecklist",
+	                   url: "/schedule/deleteChecklist",
 	                   method: "POST",
 	                   dataType: "json",
 	                   data: JSON.stringify({
@@ -1624,7 +1614,7 @@ document.addEventListener('DOMContentLoaded', function() {
   				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
   				console.log("체크버노"+checklistNo)
 
-  			    var checkUrl = isChecked ? contextPath+"/schedule/doneChecklist" : contextPath+"/schedule/undoneChecklist";
+  			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
   					
   					   $.ajax({
   		                   url: checkUrl,

@@ -1,7 +1,10 @@
 package com.dna.hiveworks.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,9 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.util.URLEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,9 +73,7 @@ public class EmpController {
 		
 		List<Employee> employees = service.selectEmployeesListAll();
 		
-		
 		model.addAttribute("employees",employees);
-		
 		
 		return "employees/employeeList";
 	}
@@ -194,7 +197,6 @@ public class EmpController {
 		
 		int value =0;
 		Map<String,Object> param = new HashMap<>();
-		System.out.println(emp_id);
 		
 		param.put("type","emp_id");
 		param.put("keyword",emp_id);
@@ -210,7 +212,7 @@ public class EmpController {
 		return value;
 	}
 	
-	@GetMapping("/employeeDetail")
+	@PostMapping("/employeeDetail")
 	public String employeeDetail(Model model, int emp_no) {
 		
 		Map<String,Object> value = new HashMap<>();
@@ -223,7 +225,7 @@ public class EmpController {
 		return "employees/employeeDetail";
 	}
 	
-	@GetMapping("/updateEmployeeDetail")
+	@PostMapping("/updateEmployeeDetail")
 	public String updateEmployeeDetail(Model model, int emp_no) {
 		Map<String,Object> value = new HashMap<>();
 		
@@ -238,7 +240,7 @@ public class EmpController {
 	
 	}
 	
-	@GetMapping("/updateEmployeePassword")
+	@PostMapping("/updateEmployeePasswordCheck")
 	public String updateEmployeePassword(Model model, int emp_no) {
 		
 		Map<String,Object> value = new HashMap<>();
@@ -250,23 +252,49 @@ public class EmpController {
 		model.addAttribute("employee", value.get("employee"));
 		
 		
-		return "employees/updateEmployeePassword";
+		return "employees/updateEmployeePasswordCheck";
 	}
+
+	
+	@PostMapping("updateEmployeePasswordCheckEnd")
+	public @ResponseBody Employee checkEmployeeByIdAndPassword(String empId, String empPassword) {
+		
+		Map<String,String> empData = new HashMap<>();
+		empData.put("empId", empId);
+		empData.put("empPassword", empPassword);
+		
+		Employee employee =service.checkEmployeeByIdAndPassword(empData);
+		
+		return employee;
+	}
+	
+	@PostMapping("/updateEmployeePasswordWrite")
+	public String updateEmployeePasswordWrite(Model model,@RequestParam("empNo") int empNo) {
+		
+		Map<String,Object> value = new HashMap<>();
+		
+		value = service.selectEmployeeByEmpNo(empNo);
+		
+		model.addAttribute("employee",value.get("employee"));
+		
+		return "employees/updateEmployeePasswordWrite";
+	}
+	
+	
+	
 	
 	@PostMapping("/updatePassword")
 	public @ResponseBody int updatePassword(Model model,
 			@RequestParam("empId") String empId,
 			@RequestParam("empPassword") String empPassword,
-			@RequestParam("empPasswordNew") String empPasswordNew,
 			@RequestParam("modifier") int modifier) {
 		
 		Map<String,Object> IdAndPassword = new HashMap<>();
-		
-		
+
+		String encodePassword = passwordEncoder.encode(empPassword);
 		
 		IdAndPassword.put("empId", empId);
-		IdAndPassword.put("empPassword", empPassword);
-		IdAndPassword.put("empPasswordNew", empPasswordNew);
+		IdAndPassword.put("empPassword", encodePassword);
 		IdAndPassword.put("modifier", modifier);
 		
 		int result =service.updatePassword(IdAndPassword);
@@ -396,7 +424,7 @@ public class EmpController {
 	
 	}
 
-	@GetMapping("excelEmployeeDownload")
+	@GetMapping("/excelEmployeeDownload")
 	public View downloadEmployeesAndAccount(Model model) {
 		
 		Map<String, Object> employeesAndAccounts = service.downloadEmployeesAndAccount();
@@ -407,7 +435,7 @@ public class EmpController {
 		return new ExcelEmployeeListConvert();
 	}
 	
-	@PostMapping("excelEmployeeUpload")
+	@PostMapping("/excelEmployeeUpload")
 	public String uploadEmployeesAndAccount(
 			Employee employee,
 			Account account,
@@ -432,9 +460,10 @@ public class EmpController {
 	    Map<String,Object> empData = new HashMap<>();
 	    List<Employee> employees = new ArrayList<>();
 	    List<Account> accounts = new ArrayList<>();
-	    
+	    System.out.println("결과값 :"+enrollEmployeesList);
 	    for(int i = 0; i < enrollEmployeesList.size(); i++){
-	     
+	    	employee = new Employee();
+	    	account = new Account();
 			/*addHeader(sheet1,
 					List.of("사원번호","아이디","이름","주민번호","입사일","퇴사일","사내전화","핸드폰번호"
 							,"이메일","부서명","직위","직무","근로상태","근로형태","근무유형","권한","우편번호","주소","상세주소","메모","계좌번호","은행","소유주"));*/
@@ -456,12 +485,15 @@ public class EmpController {
 	    	Date utilHiredDate = format.parse(enrollEmployeesList.get(i).get("cell_5"));
 	    	java.sql.Date sqlHiredDate = new java.sql.Date(utilHiredDate.getTime());
 	    	
-	    	Date utilRetiredDate = format.parse(enrollEmployeesList.get(i).get("cell_6"));
+	    	SimpleDateFormat format_se = new SimpleDateFormat("yyyy-MM-dd");
+	    	Date utilRetiredDate = format_se.parse(enrollEmployeesList.get(i).get("cell_6"));
 	    	java.sql.Date sqlRetiredDate = new java.sql.Date(utilRetiredDate.getTime());
 	    	
+	    	//employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_0")==null?enrollEmployeesList.get(i).get("cell_0"):"0"));
+	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_1"));
 	    	
-	    	employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_1")));
-	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_2"));
+	    	String encodePassword = passwordEncoder.encode(enrollEmployeesList.get(i).get("cell_2"));
+	    	employee.setEmp_pw(encodePassword);
 	    	employee.setEmp_name(enrollEmployeesList.get(i).get("cell_3"));
 	    	employee.setEmp_resident_no(enrollEmployeesList.get(i).get("cell_4"));
 	    	employee.setEmp_hired_date(sqlHiredDate);
@@ -469,19 +501,20 @@ public class EmpController {
 	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("cell_7"));
 	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("cell_8"));
 	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_9"));
-	    	employee.setDept_name(enrollEmployeesList.get(i).get("cell_10"));
-	    	employee.setJob_name(enrollEmployeesList.get(i).get("cell_11"));
-	    	employee.setPosition_name(enrollEmployeesList.get(i).get("cell_12"));
-	    	employee.setWork_status_name(enrollEmployeesList.get(i).get("cell_13"));
-	    	employee.setWork_pattern_name(enrollEmployeesList.get(i).get("cell_14"));
-	    	employee.setAut_name(enrollEmployeesList.get(i).get("cell_15"));
-	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_16"));
-	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_17"));
-	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_18"));
-	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_19"));
+	    	
+	    	employee.setDept_code(enrollEmployeesList.get(i).get("cell_10").toUpperCase());
+	    	employee.setJob_code(enrollEmployeesList.get(i).get("cell_11").toUpperCase());
+	    	employee.setPosition_code(enrollEmployeesList.get(i).get("cell_12").toUpperCase());
+	    	employee.setWork_status(enrollEmployeesList.get(i).get("cell_13").toUpperCase());
+	    	employee.setWork_pattern(enrollEmployeesList.get(i).get("cell_14").toUpperCase());
+	    	employee.setWork_type_code(enrollEmployeesList.get(i).get("cell_15").toUpperCase());
+	    	employee.setAut_code(enrollEmployeesList.get(i).get("cell_16").toUpperCase());
+	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_17"));
+	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_18"));
+	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_19"));
 	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_20"));
   	
-	    	account.setAc_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_21")));
+	    	account.setAc_no(enrollEmployeesList.get(i).get("cell_21"));
 	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_22"));
 	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_23"));
 	    	
@@ -512,9 +545,8 @@ public class EmpController {
 			 */
 	                                     
 	       // reserveService.insertReserveVO(searchVO);
-	    	 System.out.println(employee);
-		     System.out.println(account);
 	    }
+	    
 	    empData.put("employees",employees);
 	    empData.put("accounts",accounts);
 
@@ -527,7 +559,7 @@ public class EmpController {
 	}catch(Exception e){
 	    System.out.println(e.toString());
 	    msg="정보 수정 실패";
-		loc="employees/enrollEmployee";
+		loc="employees/employeeList";
 	    }
 	 
 		model.addAttribute("msg", msg);
@@ -535,6 +567,60 @@ public class EmpController {
 		
 		return "common/msg";
 	}
+	
+	
+	@GetMapping("/sampleDownload")
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+		// 서버에 저장된 파일의 경로
+		String realPath = request.getServletContext().getRealPath("/resources/upload/excelformat/");
 		
+        String fileName = "upload_excel_format.xlsx";
+		File sample = new File(realPath+fileName);
+
+        try (FileInputStream fileInputStream = new FileInputStream(sample);
+             OutputStream output = response.getOutputStream()) {
+            response.reset();
+            response.setContentType("application/vnd.ms-excel");
+            URLEncoder encoder = new URLEncoder();
+            response.setHeader("Content-Disposition", "attachment; filename=" +  encoder.encode(fileName, StandardCharsets.UTF_8));
+
+            byte[] buffer = new byte[1024];
+            int b;
+
+            while ((b = fileInputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, b);
+            }
+
+            output.flush();
+        }
+    }
+	
+	@GetMapping("/employeeListBasis")
+	public String selectEmployeeListOfBasis(Model model) {
+		
+		List<Employee> employees = service.selectEmployeesListAll();
+		
+		model.addAttribute("employees",employees);
+		
+		return "employees/employeeListBasis";
+	}
+	
+	
+	@GetMapping("/employeeDetailBasis")
+	public String selectEmployeeDetailOfBasis(Model model, int emp_no) {
+		
+		Map<String,Object> value = new HashMap<>();
+		
+		value = service.selectEmployeeByEmpNo(emp_no);
+
+		model.addAttribute("employee", value.get("employee"));
+		model.addAttribute("account",value.get("account"));
+		
+		return "employees/employeeDetailBasis";
+		
+	}
+	
+	
 }
 

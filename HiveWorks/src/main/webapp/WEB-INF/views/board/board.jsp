@@ -32,7 +32,7 @@
 							<th>작성자</th>
 							<th>작성일</th>
 							<th>수정일</th>
-							<th>조회수</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -46,15 +46,10 @@
 									<td><c:out value="${b.createDate}" /></td>
 									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
-									<td><c:out value="${b.creater}" /></td>
+									<td><c:out value="${b.emp_No }" /></td>
 									<td><c:out value="${b.createDate}" /></td>
 									<td><c:out value="${b.modifyDate}" /></td>
 									<td>
-										<div class="d-flex align-items-center">
-											<div style="margin-right: 100px;">
-												<c:out value="${b.boardCount}" />
-											</div>
-									
 											<div class="d-flex">
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"

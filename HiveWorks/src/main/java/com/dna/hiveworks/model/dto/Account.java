@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Account {
 
-	private long ac_no;
+	private String ac_no;
 	private int emp_no;
 	private String ac_bank;
 	private String ac_name;

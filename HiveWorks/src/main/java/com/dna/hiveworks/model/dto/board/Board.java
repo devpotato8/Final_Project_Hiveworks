@@ -24,5 +24,5 @@ public class Board {
     private Date modifyDate;
     private char useYN;
     private List<Uploadfile> files;
-    
+    private int emp_No;
 }

@@ -32,7 +32,7 @@
 						<div class="d-flex align-items-center flex-grow-1">
 							<h1 class="fmapp-title">기안하기</h1>&emsp;
 							<button type="button" class="btn btn-primary" id="submitButton">기안하기</button>&emsp;
-							<button type="button" class="btn btn-secondary" id="printButton"disabled>인쇄 미리보기</button>
+							<button type="button" class="btn btn-primary" id="printPreviewButton">인쇄 미리보기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -206,8 +206,35 @@
 	<!-- /Page Body -->
 </div>
 <!-- /Main Content -->
+<!-- Modal Content -->
+<div class="modal fade" id="modal_print" tabindex="-1" role="dialog" aria-labelledby="modal-approval" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal_approval_label">인쇄 미리보기</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body document d-flex justify-content-center">
+				<div class="document-content">
+					<div class="container">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Content -->
 <script>
-	const path = "${path}";
+	const contextPath = "${path}";
+	const creater ={
+		createrNo :'${emp.EMPNO}',
+		createrName : '${emp.EMPNAME}',
+		createrDept : '${emp.DEPTNAME}',
+		createrJob :'${emp.JOBNAME}'
+	};
 </script>
 <!-- Bootstrap Core JS -->
 <script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -236,6 +263,8 @@
 
 <script type="text/javascript" src="${path }/resources/ckeditor/build/ckeditor.js"></script>
 <script type="text/javascript" src="${path }/resources/js/edoc/edoc-write.js"></script>
+
+<link rel="stylesheet" href="${path}/resources/css/edoc/format.css">
 <script>
 $(function(){
 	

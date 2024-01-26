@@ -517,17 +517,19 @@ $(document).ready(function(){
 	    var sendMsgTitle = $('input[name="sendMsgTitle"]').val();
 	    var sendMsgContent = $('#msgContentArea').val();
 	    var sendmsgFile = $('#msgFileAttach')[0].files[0]; // 파일 첨부의 경우
-	    console.log(sendmsgFile)
 		var senderEmpNo = '${loginEmp.emp_no}';
+		var senderName = '${loginEmp.emp_name};';
 	    var formData = new FormData();
 	    receiverEmpNo.forEach(function(no) {
 	        formData.append('receiverEmpNo', no.trim()); // 공백 제거 후 추가
 	    });
 	    formData.append('msgCategory', msgCategory);
 	    formData.append('senderEmpNo', senderEmpNo);
+	    formData.append('senderName', senderName);
 	    formData.append('sendMsgTitle', sendMsgTitle);
 	    formData.append('sendMsgContent', sendMsgContent);
 	    //formData.append('sendmsgFile', sendmsgFile[0]);
+	    
 	    // 파일이 첨부되었는지 확인하고, 첨부된 경우에만 formData에 추가
         if(sendmsgFile) {
 		    formData.append('sendmsgFile', sendmsgFile);
@@ -558,7 +560,7 @@ $(document).ready(function(){
 			            $('#sendMsgModal').modal('hide'); // 모달창 닫기
 			            // 업로드 완료 후 Progress Bar 초기화
 			            $('#uploadProgressBar').css('width', '0%').attr('aria-valuenow', 0);
-			            msgListAjax();
+			           
 		            } else {
 		                alert("쪽지 전송 실패. 다시 시도해보세요.");
 		                $('#sendMsgModal').modal('hide'); // 모달창 닫기

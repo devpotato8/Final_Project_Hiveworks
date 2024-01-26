@@ -78,29 +78,36 @@
 <script>
 
 
-    function addHiddenSection(type) {
-        var hiddenSection = document.getElementById('hiddenSectionTemplate').cloneNode(true);
-        hiddenSection.removeAttribute('id');
-        hiddenSection.removeAttribute('hidden');
+function addHiddenSection(type) {
+    // Clear existing sections
+    clearHiddenSections();
 
-        var newId = 'hiddenSection_' + new Date().getTime();
-        hiddenSection.setAttribute('id', newId);
-        hiddenSection.setAttribute('data-type', type);
-        console.log(hiddenSection.classList);//.add("surveyData");
-        // 실제 추가되는 HTML
-        if (type === 'A') {
-            hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-12"><div class="form-group"><div class="form-label-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /></div><textarea class="form-control" rows="8" placeholder="자유롭게 기재해주세요" style="resize: none; width: 523px;"></textarea><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button></div></div></div>';
-        } else if (type === 'B') {
-            hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" name="checkbox_" id="checkbox_' + newId + '"><input type="checkbox"  /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addCheckboxItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
-        } else if (type === 'C') {
-            hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" name="radio_" id="radio_' + newId + '"><input type="radio" /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addRadioItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
-        }
+    // Create and add the new section
+    var hiddenSection = document.getElementById('hiddenSectionTemplate').cloneNode(true);
+    hiddenSection.removeAttribute('id');
+    hiddenSection.removeAttribute('hidden');
 
-        document.getElementById('hiddenSectionContainer').appendChild(hiddenSection);
-        
-        
-        
+    var newId = 'hiddenSection_' + new Date().getTime();
+    hiddenSection.setAttribute('id', newId);
+    hiddenSection.setAttribute('data-type', type);
+
+    // Populate the section based on the type
+    if (type === 'A') {
+        hiddenSection.innerHTML = '<br><div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-12"><div class="form-group"><div class="form-label-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" style="width:523px;"/></div><textarea class="form-control" rows="8" placeholder="자유롭게 기재해주세요" style="resize: none; width: 523px;"></textarea><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button></div></div></div>';
+    } else if (type === 'B') {
+        hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" name="checkbox_" id="checkbox_' + newId + '"><input type="checkbox"  /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addCheckboxItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
+    } else if (type === 'C') {
+        hiddenSection.innerHTML = '<div class="row gx-3" id="surveyData" name="surveyData"><div class="col-sm-6"><br><div class="form-group"><input class="form-control" id="surveyQuestion" name="surveyQuestion" type="text" placeholder="질문제목" /><div class="col-sm-6" style="width:530px;"><br><div style="display: flex;" name="radio_" id="radio_' + newId + '"><input type="radio" /> <input class="form-control" type="text" style="margin-left: 10px;" /><button type="button" class="deleteBtn" onclick="removeHiddenSection(this)">삭제</button><button type="button" class="addBtn" onclick="addRadioItem(\'' + newId + '\')">추가</button></div></div></div></div><br>';
     }
+
+    document.getElementById('hiddenSectionContainer').appendChild(hiddenSection);
+	}
+	
+	function clearHiddenSections() {
+	    var container = document.getElementById('hiddenSectionContainer');
+	    container.innerHTML = ''; // Remove all child elements
+	}
+
 
     function removeHiddenSection(button) {
         var hiddenSection = button.parentNode;
@@ -128,44 +135,6 @@
         
         // newRadioItem을 hiddenSection에 추가
         document.getElementById(parentId).appendChild(newRadioItem);
-    }
-    
-    
-    function createSurvey(){
-    	let surveyData=[];
-    	const container=document.querySelectorAll("#hiddenSectionContainer>div");
-    	container.forEach(e=>{
-    		let survey={};
-    		switch($(e).attr("data-type")){
-    			case "A" : surveyData.push(makeTypeASurvey($(e),survey));break;
-    			default : surveyData.push(makeTypeChoice($(e),survey));break;
-    		}
-    	});
-
-    	const surveyDataInput=$("<input>").attr({
-    		"type":"hidden",
-    		"name":"surveyData",
-    	}).val(JSON.stringify(surveyData));
-    	$("#surveyForm").append(surveyDataInput);
-    	//return false;
-    	return true;
-    }
-
-    function makeTypeASurvey(target){
-    	const quiz=target.find("input").val();
-    	return {"type":target.attr("data-type"),"title":quiz,choices:[]};
-    }
-    
-    function makeTypeChoice(target){
-    	const title=target.find("input#surveyQuestion").val();
-    	const inputs=target.find("input[type=text]:not(input#surveyQuestion)");
-    	let choices=[];
-   		console.log(inputs);
-   		inputs.each((i,e)=>{
-   			choices.push(e.value)
-   		});
-     	return {"type":target.attr("data-type"),"title":title,"choices":choices};
-//     	console.log(selectBox);
     }
     
     

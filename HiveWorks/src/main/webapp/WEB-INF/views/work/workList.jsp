@@ -50,7 +50,7 @@
 
 			
 			<div class="taskboard-body col-md-8 col-sm-12 container-fluid mt-5">
-				<div class="row mb-5">
+				<div class="row mb-5 justify-content-center">
 
 					<div class="col-lg-4">
 						<div class="card border-dark">
@@ -93,7 +93,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-4">
+					<%-- <div class="col-lg-4">
 						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
@@ -113,7 +113,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 				</div>
 
 				<div class="row">
@@ -131,8 +131,7 @@
 								<div
 									class="d-flex align-items-center avatar-group avatar-group-me">
 									<div style="width: 120%" class="avatar avatar-soft-red">
-										<span style="width: 120%" id="lateWork" class="initial-wrap">${lateWork }
-											회</span>
+										<span style="width: 120%" id="lateWork" class="initial-wrap">${lateWork } 회</span>
 									</div>
 								</div>
 							</div>
@@ -152,8 +151,7 @@
 								<div
 									class="d-flex align-items-center avatar-group avatar-group-me">
 									<div style="width: 120%" class="avatar avatar-soft-red">
-										<span style="width: 120%" id="fastEnd" class="initial-wrap">${fastEnd }
-											회</span>
+										<span style="width: 120%" id="fastEnd" class="initial-wrap">${fastEnd } 회</span>
 									</div>
 								</div>
 							</div>

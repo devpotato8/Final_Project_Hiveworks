@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,11 +48,12 @@ public class SurveyController {
 	     model.addAttribute("surveyList", surveyList);
 		return "survey/surveyWrite";
 	}
-	@ResponseBody
-	@RequestMapping("/surveyresult")
-	public String surveyresult(HttpSession session) {
-		return "survey/surveyresult";
-	}
+	@GetMapping("/surveyresult")
+	public String surveyresult(Survey s,Model model) {
+		List<Survey> surveyList = service.selectAllSurvey();
+	    model.addAttribute("surveyList", surveyList);
+        return "survey/surveyresult";
+    }
 	@RequestMapping("/surveyDelete")
 	public String surveyDelete(@RequestParam("surveyNo") int surveyNo,Model model) {
 		Survey survey = service.surveyDelete(surveyNo);
@@ -114,28 +116,23 @@ public class SurveyController {
 		
 		return "board/msg";
 	}
-	@RequestMapping("/insertQuestion")
-	public String insertQuestion(SurveyQuestion question, Model model,@RequestParam String surveyData) {		
-		List<Map> data=new ArrayList<>();		
-		try {
-			data=new ObjectMapper().readValue(surveyData, List.class);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		String msg, loc;
-		question.setSurveyData(surveyData);
-		int result=service.insertQuestion(question);
-		if(result>0) {
-			msg = "설문 성공";
-			loc = "survey/survey";
-		} else {
-			msg = "설문실패";
-			loc = "survey/surveyWrite";
-		}
-		model.addAttribute("msg", msg);
-		model.addAttribute("loc", loc);
-		
-		return "board/msg";
-		
+	
+	@PostMapping("/insertQuestion")
+	@ResponseBody
+	public Map<String, Object> insertQuestion(@RequestBody Map<String, Object>surveyResult) {		
+	    // 결과 데이터를 Map에 담아서 반환
+		log.info("체크박스 내용{}",surveyResult);
+		log.error("체크박스 내용{}",surveyResult);
+//	    Map<String, List<String>> result = new HashMap<>();
+//	    result.put("checkboxValues", checkboxValues);
+//	    result.put("radioValues", radioValues);
+
+	    // 반환된 Map이 JSON 형식으로 변환되어 응답됨
+	    return surveyResult;
 	}
+	 	@PostMapping("/questionInsert")
+	    public String questionInsert(SurveyQuestion surveyquestion) {
+	        return "설문 결과가 성공적으로 처리되었습니다.";
+	    }
+
 }
