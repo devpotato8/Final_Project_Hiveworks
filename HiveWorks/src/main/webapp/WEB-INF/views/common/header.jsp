@@ -459,7 +459,7 @@
 		<div id="msgStack"></div>
 		<!-- /Top Navbar -->
 		
-		<!-- WebSocket연결 -->
+<!-- WebSocket연결 -->
 
 <!--sockJs 라이브러리-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
@@ -467,12 +467,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
-
-var socket = new SockJS('/ws/msg');  //WebSocketConfig에서 지정한 endpoint와 연결
+var endpoint = '${path}/ws/msg';
+var socket = new SockJS(endpoint);  //WebSocketConfig에서 지정한 endpoint와 연결
 var stompClient = Stomp.over(socket); //STOMP 클라이언트 생성
-stompClient.debug = function(str){
-	console.log(str);
-};
 var userId = '${loginEmp.emp_id}';
 console.log(userId);
 //연결 함수
@@ -494,7 +491,7 @@ stompClient.connect({userId:userId},onConnected,onError);
 	    var title = data.title;
 	    var sender = data.senderName;
 	    
-	    console.log(data,"공습경보!!!");
+	    console.log(data,"쪽지도착!");
 	}
     function onError(){
     	console.log('통신에러');
