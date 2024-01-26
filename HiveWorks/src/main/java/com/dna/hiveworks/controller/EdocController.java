@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.ApvCode;
@@ -169,20 +170,30 @@ public class EdocController {
 	}
 	
 	@GetMapping("/format/lists")
-	public String formatLists(Model model) {
+	public String formatLists(Model model, @SessionAttribute Employee loginEmp) {
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
 		model.addAttribute("title","양식 목록");
 		model.addAttribute("formatList", edocService.getEdocSampleList());
 		return "edoc/formatList";
 	}
 	
 	@GetMapping("/format/write")
-	public String formatWrite(Model model) {
+	public String formatWrite(Model model, @SessionAttribute Employee loginEmp) {
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 		model.addAttribute("dotcode",DotCode.values());
 		return "edoc/formatWrite";
 	}
 	
 	@GetMapping("/format/view")
-	public String formatView(Model model, @RequestParam String formatNo) {
+	public String formatView(Model model, @RequestParam String formatNo, @SessionAttribute Employee loginEmp) {
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 		model.addAttribute("format", edocService.getSample(formatNo));
 		return "edoc/format";
 	}
@@ -404,8 +415,8 @@ public class EdocController {
 	@PostMapping("/format/write")
 	public ResponseEntity<Map<String,Object>> insertSample(@RequestParam String sample, @SessionAttribute Employee loginEmp){
 		
-		if(!loginEmp.getAut_code().equals("AUT004")) {
-			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","403","error","권한이 부족합니다."));
 		}
 		
 		ElectronicDocumentSample sampleInstance = null;
@@ -429,8 +440,8 @@ public class EdocController {
 	
 	@PostMapping("/format/copy")
 	public ResponseEntity<Map<String,Object>> copySample(@RequestParam String sampleNo, @SessionAttribute Employee loginEmp){
-		if(!loginEmp.getAut_code().equals("AUT004")) {
-			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","403","error","권한이 부족합니다."));
 		}
 		Map<String, Object> param = new HashMap<>();
 		param.put("creater",loginEmp.getEmp_no());
@@ -443,8 +454,8 @@ public class EdocController {
 	@PatchMapping("/format/update")
 	public ResponseEntity<Map<String,Object>> updateSample(@RequestParam String sample, @SessionAttribute Employee loginEmp){
 
-		if(!loginEmp.getAut_code().equals("AUT004")) {
-			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","403","error","권한이 부족합니다."));
 		}
 		ElectronicDocumentSample sampleInstance = null;
 			
@@ -467,8 +478,8 @@ public class EdocController {
 	
 	@DeleteMapping("/format/delete")
 	public ResponseEntity<Map<String,Object>> deleteSample(@RequestParam String sampleNo, @SessionAttribute Employee loginEmp){
-		if(!loginEmp.getAut_code().equals("AUT004")) {
-			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","500","error","권한이 부족합니다."));
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","403","error","권한이 부족합니다."));
 		}
 
 		Map<String, Object> result = edocService.deleteSample(Map.of("modifier",loginEmp.getEmp_no(),"sampleNo", sampleNo));
@@ -496,4 +507,14 @@ public class EdocController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(document);
 		}
+	
+	@GetMapping("/managerSetting")
+	public String managerSetting(Model model, @SessionAttribute Employee loginEmp) {
+		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		model.addAttribute("settings", edocService.getCompanySetting());
+		
+		return "edoc/managerSetting";
+	}
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.dto.edoc.CompanySetting;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
@@ -85,5 +86,7 @@ public interface EdocDao {
 	int deleteSample(SqlSession session, Map<String, Object> param);
 
 	String getPosCodeByDsgCode(SqlSession session, String name);
+
+	CompanySetting getCompanySetting(SqlSession session);
 	
 }
