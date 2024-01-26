@@ -116,14 +116,15 @@ input::-webkit-inner-spin-button {
 								</div>
 								<ul class="nav nav-light nav-vertical nav-tabs">
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}">
-											<span>기본정보 수정</span>
-										</a>
+										<input type="hidden" id="path" value="${path }"/>
+										<span onclick="fn_updateEmployeeDetail(${employee.emp_no});">
+											기본정보 수정
+										</span>
 									</li>
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeePasswordCheck?emp_no=${employee.emp_no}" >
-											<span>비밀번호 수정</span>
-										</a>
+										<span onclick="fn_updateEmployeePasswordCheck(${employee.emp_no});">
+											비밀번호 수정
+										</span>
 									</li>
 								</ul>
 							</div>
@@ -217,7 +218,7 @@ submitBtn.addEventListener('click',(event)=>{
 					alert("해당 직원을 확인했습니다.");
 					console.log(data.emp_no);
 					let empNo = data.emp_no;
-					location.assign("${path}/employees/updateEmployeePasswordWrite?empNo="+empNo);
+					fn_updateEmployeePasswordWrite(empNo);
 				}
 				else{
 					alert("비밀번호가 다릅니다!")
@@ -225,6 +226,72 @@ submitBtn.addEventListener('click',(event)=>{
 			}
 		})
 });
+
+
+</script>
+<script>
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeeDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeeDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeePasswordCheck=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeePasswordCheck');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+
+fn_updateEmployeePasswordWrite=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','empNo');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeePasswordWrite');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
 
 
 </script>		

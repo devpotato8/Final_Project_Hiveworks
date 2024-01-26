@@ -212,7 +212,7 @@ public class EmpController {
 		return value;
 	}
 	
-	@GetMapping("/employeeDetail")
+	@PostMapping("/employeeDetail")
 	public String employeeDetail(Model model, int emp_no) {
 		
 		Map<String,Object> value = new HashMap<>();
@@ -225,7 +225,7 @@ public class EmpController {
 		return "employees/employeeDetail";
 	}
 	
-	@GetMapping("/updateEmployeeDetail")
+	@PostMapping("/updateEmployeeDetail")
 	public String updateEmployeeDetail(Model model, int emp_no) {
 		Map<String,Object> value = new HashMap<>();
 		
@@ -240,7 +240,7 @@ public class EmpController {
 	
 	}
 	
-	@GetMapping("/updateEmployeePasswordCheck")
+	@PostMapping("/updateEmployeePasswordCheck")
 	public String updateEmployeePassword(Model model, int emp_no) {
 		
 		Map<String,Object> value = new HashMap<>();
@@ -264,12 +264,11 @@ public class EmpController {
 		empData.put("empPassword", empPassword);
 		
 		Employee employee =service.checkEmployeeByIdAndPassword(empData);
-		System.out.println(employee);
 		
 		return employee;
 	}
 	
-	@GetMapping("/updateEmployeePasswordWrite")
+	@PostMapping("/updateEmployeePasswordWrite")
 	public String updateEmployeePasswordWrite(Model model,@RequestParam("empNo") int empNo) {
 		
 		Map<String,Object> value = new HashMap<>();
