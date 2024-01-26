@@ -82,12 +82,6 @@ public class WorkServiceImpl implements WorkService {
 	}
 	
 	@Override
-	public int overWork(int empNo) {
-		// TODO Auto-generated method stub
-		return dao.overWork(session, empNo);
-	}
-	
-	@Override
 	public int lateWork(int empNo) {
 		// TODO Auto-generated method stub
 		return dao.lateWork(session, empNo);
@@ -135,13 +129,6 @@ public class WorkServiceImpl implements WorkService {
 		return dao.absenceFilter(session, param);
 	}
 
-	@Override
-	public int overWorkFilter(Map<String, Integer>param) {
-		// TODO Auto-generated method stub
-		return dao.overWorkFilter(session, param);
-	}
-
-	
 
 	
 

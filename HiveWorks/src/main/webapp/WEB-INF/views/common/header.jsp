@@ -368,9 +368,11 @@
 												<div class="avatar avatar-rounded avatar-xs">
 													<c:choose>
 														<c:when test="${loginEmp.emp_profile_re_name ne null }">
+														<a href="${path }/mypage/myprofile">
 															<img
 																src="${path }/resources/upload/profile/${loginEmp.emp_profile_re_name }"
 																alt="user" class="avatar-img">
+														</a>
 														</c:when>
 														<c:otherwise>
 															<img src="${path }/resources/img/avatar12.jpg" alt="user"
@@ -384,7 +386,9 @@
 										<div class="media-body">
 											<c:choose>
 												<c:when test="${not empty loginEmp}">
+												<a href="${path }/mypage/myprofile">
 													<span class="d-block fw-medium" style="font-size:0.9rem">${loginEmp.emp_name}님 반가워요!</span>
+												</a>
 													<div class="fs-7">${loginEmp.emp_email }</div>		
 													<a href="${path}/logout" class="d-block fs-8 link-secondary"><u><b>로그아웃</b></u></a>
 												</c:when>

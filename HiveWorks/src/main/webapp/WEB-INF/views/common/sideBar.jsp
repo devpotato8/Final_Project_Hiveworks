@@ -96,10 +96,10 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/schedule/schedulelist.do"><span class="nav-link-text">일정관리</span></a>
+												<a class="nav-link" href="${path}/schedule/schedulelist"><span class="nav-link-text">일정관리</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/schedule/reservationlist.do"><span class="nav-link-text">자산예약관리</span></a>
+												<a class="nav-link" href="${path}/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"><span class="nav-link-text">자산예약관리</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -162,9 +162,12 @@
 								<a class="nav-link" href="${path }/employees/employeeListBasis">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
-												<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-												<polyline points="22,6 12,13 2,6"></polyline>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<circle cx="12" cy="7" r="4" />
+												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
+												<circle cx="16.5" cy="17.5" r="2.5" />
+												<path d="M18.5 19.5l2.5 2.5" />
 											</svg>
 										</span>
 									</span>
@@ -217,7 +220,7 @@
 							</li>
 							
 							<li class="nav-item">
-								<a class="nav-link" href="${path}/schedule/projectlist.do">
+								<a class="nav-link" href="${path}/schedule/projectlist">
 									
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
@@ -239,12 +242,10 @@
 								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_profile">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<circle cx="12" cy="7" r="4" />
-												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
-												<circle cx="16.5" cy="17.5" r="2.5" />
-												<path d="M18.5 19.5l2.5 2.5" />
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check">
+											<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+											<circle cx="8.5" cy="7" r="4"/>
+											<polyline points="17 11 19 13 23 9"/>
 											</svg>
 										</span>
 									</span>
@@ -285,6 +286,8 @@
 							</li>
 						</ul>
 					</div>
+					<c:choose>
+					<c:when test="${loginEmp.aut_code == 'AUT001' || loginEmp.aut_code == 'AUT002'  }">
 					<div class="menu-gap"></div>
 					<div class="menu-group">
 						<div class="nav-header">
@@ -361,14 +364,14 @@
 													</li>	
 												</ul>	
 											</li>
-											
 										</ul>
 									</li>
 								</ul>
 							</li>
-							
 						</ul>
 					</div>
+					</c:when>
+					</c:choose>
 				</div>
 			</div>
 			<!-- /Main Menu -->

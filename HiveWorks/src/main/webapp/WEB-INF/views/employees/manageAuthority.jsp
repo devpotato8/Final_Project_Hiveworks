@@ -34,8 +34,9 @@
     
     #save_btn{
     	text-align: right;
-    	padding-right: 40px;
+    	margin-bottom: 10px;
     }
+    
 
 </style>
 
@@ -52,47 +53,15 @@
 									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 										<h1>권한 관리</h1>
 									</a>
-									<!-- <div class="dropdown-menu">
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="users"></i></span><span>All Invoices</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="star"></i></span><span>Sent</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="archive"></i></span><span>Archive</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="edit"></i></span><span>Pending</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="trash-2"></i></span><span>Deleted</span></a>
-									</div> -->
-									
 								</div>
-								<!-- <div class="invoice-options-wrap">	
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Refresh"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
-									<div class="v-separator d-lg-inline-block d-none"></div>
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret ms-0  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
-									<div class="dropdown-menu dropdown-menu-end">
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="upload"></i></span><span>Manage Invoices</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="download"></i></span><span>Recurring Invoices</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="layers"></i></span><span>Manage Estimate</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="save"></i></span><span>Saved Templates</span></a>
-									</div>
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret" href="#" data-bs-toggle="dropdown"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="more-vertical"></i></span></span></a>
-									<div class="dropdown-menu dropdown-menu-end">
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="settings"></i></span><span>Settings</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="slash"></i></span><span>Block Content</span></a>
-										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="external-link"></i></span><span>Feedback</span></a>
-									</div>
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
-										<span class="btn-icon-wrap">
-											<span class="feather-icon"><i data-feather="chevron-up"></i></span>
-											<span class="feather-icon d-none"><i data-feather="chevron-down"></i></span>
-										</span>
-									</a>
-								</div> -->
-								
 							</header>
 							<div class="invoice-body">
-							<div id ="save_btn">
-							<button class="btn btn-primary btn-sm" type="button" onclick="fn_updateAuthorities();">저장</button>
-								</div>
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
-										<table id="datable_1" class="table nowrap w-100 mb-5">
+										<div id ="save_btn">
+											<button class="btn btn-primary btn-sm" type="button" onclick="fn_updateAuthorities();">저장</button>
+										</div>
+										<table id="datable_4c" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
 													<th><span class="form-check mb-0">
@@ -111,7 +80,6 @@
 											<tbody>
 												<c:forEach var="s" items="${employees }">
 												<tr class="list">
-													<td></td>
 													<td><c:out value="${s.emp_no }" /></td>
 													<td><c:out value="${s.emp_name }" /></td>
 													<td>
@@ -119,312 +87,18 @@
 													</td>
 														<c:forEach var="a" items="${autCodeList.authorityList }">
 													<td>
- 														<input type="radio" class="aut_code" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
+ 														<input type="radio" class="aut_code" onchange="fn_changeRadio(event);" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
 													</td>
 														</c:forEach>
 													<td>
 														<div>
 															<div class="d-flex">
-																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no});">권한해제</button>
+																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no}, event);">해제</button>
 															</div>
 														</div>
 													</td>
 												</tr>
 												</c:forEach>
-												
-												
-												<!-- <tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11235</a></td>
-													<td>13 Jan, 2020</td>
-													<td>
-														<div class="text-dark">Huma Therman</div>
-														<div class="fs-7">huma@clariesup.au</div>
-													</td>
-													<td>
-														<span class="badge badge-danger">Unpaid</span>
-														<div class="fs-8 mt-1">Due 25 Apr 2020</div>
-													</td>
-													<td>Sent</td>
-													<td>$ 780.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Remind</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11236</a></td>
-													<td>13 Jan, 2020</td>
-													<td>
-														<div class="text-dark">Charlie Chaplin</div>
-														<div class="fs-7">charlie@leernoca.monster</div>
-													</td>
-													<td>
-														<span class="badge badge-primary">Paid</span>
-													</td>
-													<td>Done</td>
-													<td>$ 567.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Active</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11237</a></td>
-													<td>13 Jan, 2020</td>
-													<td>
-														<div class="text-dark">Winston Churchil</div>
-														<div class="fs-7">winston@worthniza.ga</div>
-													</td>
-													<td>
-														<span class="badge badge-danger">Unpaid</span>
-														<div class="fs-8 mt-1">Due 12 Sep 2020</div>
-													</td>
-													<td>-</td>
-													<td>$ 1,500.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Sent</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11238</a></td>
-													<td>13 Jan, 2020</td>
-													<td>
-														<div class="text-dark">Jaquiline Joker</div>
-														<div class="fs-7">jaquljoker@jampack.com</div>
-													</td>
-													<td>
-														<span class="badge badge-danger">Unpaid</span>
-														<div class="fs-8 mt-1">Due 18 Oct 2020</div>
-													</td>
-													<td>Sent</td>
-													<td>$ 900.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Remind</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11239</a></td>
-													<td>3 July, 2020</td>
-													<td>
-														<div class="text-dark">Tom Cruz</div>
-														<div class="fs-7">tomcz@jampack.com</div>
-													</td>
-													<td>
-														<span class="badge badge-primary">Paid</span>
-													</td>
-													<td>Done</td>
-													<td>$ 4,750.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Active</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11240</a></td>
-													<td>24 Jun, 2019</td>
-													<td>
-														<div class="text-dark">Danial Craig</div>
-														<div class="fs-7">danialc@jampack.com</div>
-													</td>
-													<td>
-														<span class="badge badge-primary">Paid</span>
-														<div class="fs-8 mt-1">Due 25 Apr 2020</div>
-													</td>
-													<td>Done</td>
-													<td>$ 2,300.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Active</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11241</a></td>
-													<td>24 Jun, 2019</td>
-													<td>
-														<div class="text-dark">Katharine Jones</div>
-														<div class="fs-7">joneskath@jampack.com</div>
-													</td>
-													<td>
-														<span class="badge badge-primary">Paid</span>
-													</td>
-													<td>Done</td>
-													<td>$ 7,650.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Active</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td><a href="#" class="table-link-text link-high-em">11242</a></td>
-													<td>24 Jun, 2019</td>
-													<td>
-														<div class="text-dark">Hence Work</div>
-														<div class="fs-7">contact@hencework.com</div>
-													</td>
-													<td>
-														<span class="badge badge-light">Draft</span>
-													</td>
-													<td>-</td>
-													<td>$ 4,500.00 USD</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<div class="btn-group selectable-split-dropdown">
-																<button type="button" class="btn btn-outline-light btn-dyn-text w-100p">Sent</button>
-																<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<div class="dropdown-menu dropdown-menu-end">
-																	<a class="dropdown-item" href="#">Remind</a>
-																	<a class="dropdown-item" href="#">Sent</a>
-																	<a class="dropdown-item" href="#">Active</a>
-																	<div class="dropdown-divider"></div>
-																	<a class="dropdown-item" href="#">Edit</a>
-																</div>
-															</div>
-															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Archive" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="archive"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="contact-details.html"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
-															</div>
-														</div>
-													</td>
-												</tr> -->
 											</tbody>
 										</table>
 									
@@ -461,18 +135,17 @@
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
 	<script>
 	
-	
-	$(document).ready(function(){
-		$('input[type=radio]').change(function(){
-
-			let $row = $(this).closest('tr').find('span');
+	fn_changeRadio=(event)=>{
+			let $row = $(event.target).closest('tr').find('span');
 			
 			let checkbox = $row.find('input[type=checkbox]').eq(0);
 
 			checkbox.prop('checked',true);
-			
-		});
-	});
+		}	
+/* 	$(document).ready(function(){
+		$('input[type=radio]').change(function(){ */
+		/* });
+	}); */
 	
 	
 /* 	function getSelectedData() {
@@ -536,12 +209,45 @@
 	
 	</script>
 	<script>
-		fn_changeDefault=(e)=>{
+		fn_changeDefault=(e,event)=>{
 			let $radio=$('input[name='+e+']').eq(6);	
 			$radio.prop('checked',true);
-		
+			fn_changeRadio(event);
 		};
 	</script>
+	<script>
+	/*MultiRow Select Checkbox*/
+	/*Checkbox Add*/
+	var tdCnt=0;
+	$(' table#datable_4c tbody tr').each(function(){
+		$('<td><span class="form-check"><input type="checkbox" class="form-check-input" id="chk_sel_'+tdCnt+'"><label class="form-check-label" for="chk_sel_'+tdCnt+'"></label></span></td>').prependTo($(this));
+		tdCnt++;
+	});
+	/*DataTable Init*/
+	var targetDt1 = $('#datable_4c').DataTable({
+		scrollX:  true,
+		autoWidth: false,
+		"columnDefs": [ {
+			"searchable": false,
+			"orderable": false,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]],
+		language: { search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+			paginate: {
+				next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
+				previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
+			}
+		},
+		"drawCallback": function () {
+			$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
+		}
+	});
+	</script>
+	
+	
 	 <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

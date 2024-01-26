@@ -14,4 +14,5 @@ public interface MypageService {
 	
 	List<Search> integratedSearch(String keyword);
 	
+	Employee indexProfile(int empNo);
 }

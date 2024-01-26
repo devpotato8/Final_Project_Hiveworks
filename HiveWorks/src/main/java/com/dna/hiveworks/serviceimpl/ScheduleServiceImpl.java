@@ -22,7 +22,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Autowired
 	private SqlSession session;
-
+ 
 	@Autowired
 	@Qualifier("scheduleDao")
 	private ScheduleDao dao;
@@ -214,6 +214,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public int deleteReservation(List<Integer> checkedList) {
 		return dao.deleteReservation(session, checkedList);
+	}
+	
+	@Override
+	public List<Schedule> reserveBykeyword(String keyword,String type, int empNo) {
+		System.out.println("서비스"+type+keyword);
+		return dao.reserveBykeyword(session, keyword, type, empNo);
 	}
 
 	// project

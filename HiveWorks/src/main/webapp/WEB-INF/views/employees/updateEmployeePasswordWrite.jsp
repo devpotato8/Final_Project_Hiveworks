@@ -116,13 +116,14 @@ input::-webkit-inner-spin-button {
 								</div>
 								<ul class="nav nav-light nav-vertical nav-tabs">
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeeDetail?emp_no=${employee.emp_no}">
-											<span>기본정보 수정</span>
+										<input type="hidden" id="path" value="${path }"/>
+										<a href="#" onclick="fn_updateEmployeeDetail(${employee.emp_no});">
+											기본정보 수정
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="${path }/employees/updateEmployeePassword?emp_no=${employee.emp_no}" >
-											<span>비밀번호 수정</span>
+										<a href="#" onclick="fn_updateEmployeePasswordCheck(${employee.emp_no});">
+											비밀번호 수정
 										</a>
 									</li>
 								</ul>
@@ -263,6 +264,50 @@ submitBtn.addEventListener('click',(event)=>{
 		})
 	}
 });
+
+</script>
+<script>
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeeDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeeDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeePasswordCheck=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeePasswordCheck');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
 
 
 </script>		

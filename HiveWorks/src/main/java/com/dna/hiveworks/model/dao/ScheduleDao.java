@@ -76,6 +76,8 @@ public interface ScheduleDao {
 	
 	int deleteReservation(SqlSession session, List<Integer> intList);
 	
+	List<Schedule> reserveBykeyword(SqlSession session, String keyword, String type, int empNo);
+	
 	//project
 	List<Schedule> selectprojectAll(SqlSession session);
 	
