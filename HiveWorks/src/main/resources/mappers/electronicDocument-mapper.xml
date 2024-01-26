@@ -86,6 +86,19 @@
 		<result column="REFPER_STATUS" property="refperStatus"/>
 	</resultMap>
 	
+	<resultMap type="com.dna.hiveworks.model.dto.edoc.CompanySetting" id="settingMap">
+		<result column="COMPANY_NAME" property="companyName"/>
+		<result column="COMPANY_LOGO" property="companyLogo"/>
+		<result column="COMPANY_ADDRESS" property="companyAddress"/>
+		<result column="COMPANY_PHONE" property="companyPhone"/>
+		<result column="COMPANY_EMAIL" property="companyEmail"/>
+		<result column="COMPANY_CEO_STAMP" property="companyCeoStamp"/>
+		<result column="COMPANY_CEO_NAME" property="companyCeoName"/>
+		<result column="EDOC_PREFIX" property="edocPrefix"/>
+		<result column="EDOC_DATEFORMAT" property="edocDateFormat"/>
+		<result column="EDOC_NUMFORMAT" property="edocNumFormat"/>
+	</resultMap>
+	
 	<select id="getEdocList" parameterType="hashmap" resultMap="edocListMap">
 		SELECT DISTINCT D.EDOC_NO, D.EDOC_TITLE, DC.EMP_NAME, D.CREATE_DATE, D.EDOC_DOT_CODE,
 		FN_EDOC_STATUS(#{emp_id}, D.CREATER, A.APRVL_STATUS, A.APRVL_EMP_NO, D.EDOC_STATUS, R.REFPER_EMP_NO, R.REFPER_STATUS) AS EDOC_STATUS
@@ -507,4 +520,13 @@
 	 <select id="getPosCodeByDsgCode" parameterType="string" resultType="string">
 	 	SELECT POS_CODE FROM TBL_EDOC_ACCESS_GRANT WHERE DSG_CODE = #{dsgCode}
 	 </select>
+	 
+	  <select id="getCompanySetting" resultMap="settingMap">
+	 	SELECT * FROM TBL_SETTING WHERE SETTING_NO = 1
+	 </select>
+	 
+	 <update id="updateManagerSetting" parameterType="map">
+	 	UPDATE TBL_SETTING EDOC_PREFIX = #{edocPrefix}, EDOC_DATEFORMAT = #{dateFormat}, EDOC_NUMFORMAT = #{numFormat}
+	 	WHERE SETTING_NO = 1;
+	 </update>
 </mapper>

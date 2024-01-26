@@ -33,8 +33,8 @@ public class BoardDaoImpl implements BoardDao{
 		return session.update("board.boardUpdate",b);
 	}
 	@Override
-	public Board boardDelete(SqlSession session, int boardNo) {
-		return session.selectOne("board.boardDelete",boardNo);
+	public int boardDelete(SqlSession session, int boardNo) {
+		return session.delete("board.boardDelete",boardNo);
 	}
 	@Override
 	public int insertUploadfile(SqlSession session, Uploadfile uploadfile) {

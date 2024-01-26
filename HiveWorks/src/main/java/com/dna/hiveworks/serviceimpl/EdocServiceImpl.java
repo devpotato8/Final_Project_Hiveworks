@@ -22,6 +22,7 @@ import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.edoc.CompanySetting;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
@@ -567,5 +568,10 @@ public class EdocServiceImpl implements EdocService{
 		}
 		
 		return content.toString();
+	}
+	
+	@Override
+	public CompanySetting getCompanySetting() {
+		return dao.getCompanySetting(session);
 	}
 }
