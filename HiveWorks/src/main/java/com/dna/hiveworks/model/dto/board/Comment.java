@@ -1,7 +1,6 @@
 package com.dna.hiveworks.model.dto.board;
 
 import java.sql.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,17 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Board {
-    private int boardNo;
-    private String boardType;
-    private String boardContent;
-    private int boardCount;
-    private String boardTitle;
+public class Comment {
+    private int commentNo;
+    private int commentBoardNo;
+    private int reCommentNo;
+    private String commentContent;
     private int creater;
     private Date createDate;
     private int modifier;
     private Date modifyDate;
     private char useYN;
-    private List<Uploadfile> files;
-    private int emp_No;
 }

@@ -3,6 +3,7 @@
 <mapper namespace="board">
     <resultMap type="board" id="boardMap">
         <id column="BOARD_NO" property="boardNo"/>
+        <result column="emp_No" property="emp_No"/>
         <result column="BOARD_TITLE" property="boardTitle" />
         <result column="BOARD_CONTENT" property="boardContent"/>
         <result column="BOARD_COUNT" property="boardCount"/>
@@ -36,7 +37,7 @@
     		SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
     	</selectKey>
     	INSERT INTO TBL_BOARD VALUES 
-		(#{boardNo},#{boardType},#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
+		(#{boardNo},#{boardType},#{boardContent},NULL,NULL,#{boardTitle},#{creater},NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
 	    UPDATE TBL_BOARD SET
