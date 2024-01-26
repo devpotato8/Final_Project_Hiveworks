@@ -127,8 +127,9 @@
 												<c:forEach var="s" items="${employees }">
 												<tr>
 													<td></td>
-													<td><a href="${path }/employees/employeeDetail?emp_no=${s.emp_no}"><c:out value="${s.emp_no }" /></a></td>
-													<td><a href="${path }/employees/employeeDetail?emp_no=${s.emp_no}" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
+													<input type="hidden" id="path" value="${path }"/>
+													<td><a href="#" onclick="fn_employeeDetail(${s.emp_no});" ><c:out value="${s.emp_no }" /></a></td>
+													<td><a href="#" onclick="fn_employeeDetail(${s.emp_no});" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.emp_id }" /></div>
 													</td>
@@ -139,7 +140,7 @@
 													<td>
 														<div>
 															<div class="d-flex">
-																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/employees/updateEmployeeDetail?emp_no=${s.emp_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#" onclick="fn_updateEmployeeDetail(${s.emp_no});"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
 																<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" href="#" onclick="fn_delete_confirm(${s.emp_no});"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 															</div>
 														</div>
@@ -258,12 +259,56 @@ $(document).ready(function(){
 function applyFeatherLoading(){
 	$(document).on('click','.paginate_button',function(){
 		feather.replace();
-		console.log("feather리로드");
 	});
 
 } 
 
 </script>
+<script>
+//employeeDetail로 a태그를 post방식으로 보내기(Detail)
+fn_employeeDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/employeeDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+};
+
+//updateEmployeeDetail로 a태그를 post방식으로 보내기(update)
+fn_updateEmployeeDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','emp_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/employees/updateEmployeeDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+};
+
+
+
+</script>
+
 
 
 	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>

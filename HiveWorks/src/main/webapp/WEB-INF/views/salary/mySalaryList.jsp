@@ -95,7 +95,8 @@
 												<c:forEach var="s" items="${list }">
 												<tr>
 													<input type="hidden" value="${s.sal_no }" />
-													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
+													<input type="hidden" id="path" value="${path }"/>
+													<td><a href="#" onclick="fn_salaryDetail(${s.sal_no});"><c:out value="${s.sal_date }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
@@ -439,6 +440,32 @@
     <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script>
+
+//salaryDetail로 a태그를 post방식으로 보내기
+fn_salaryDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','sal_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/salary/salaryDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+
+</script>
+
      
 <script>
 $('#datable_2').DataTable( {

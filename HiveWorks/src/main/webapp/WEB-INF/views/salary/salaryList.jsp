@@ -103,8 +103,9 @@
 												<tr>
 													<!-- <td></td> -->
 													<input type="hidden" value="${s.sal_no }" />
-													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}"><c:out value="${s.sal_date }" /></a></td>
-													<td><a href="${path }/salary/salaryDetail?sal_no=${s.sal_no}" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
+													<input type="hidden" id="path" value="${path }"/>
+													<td><a href="#" onclick="fn_salaryDetail(${s.sal_no});"><c:out value="${s.sal_date }" /></a></td>
+													<td><a href="#" onclick="fn_salaryDetail(${s.sal_no});" class="table-link-text link-high-em"><c:out value="${s.employee.emp_no }" /></a></td>
 													<td>
 														<div class="text-dark"><c:out value="${s.employee.emp_name }" /></div>
 													</td>
@@ -125,7 +126,7 @@
 													</td>
 													<td>
 														<div class="d-flex">
-															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="${path }/salary/updateSalaryDetail?sal_no=${s.sal_no}"><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
+															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" href="#" onclick="fn_updateSalaryDetail(${s.sal_no});" ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="edit"></i></span></span></a>
 															<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" onclick='fn_delete_confirm(${s.sal_no});' ><span class="btn-icon-wrap"><span class="feather-icon"><i data-feather="trash-2"></i></span></span></a>
 														</div>
 													</td>
@@ -458,6 +459,53 @@
 	<!-- Init JS -->
 
 <script>
+//salaryDetail로 a태그를 post방식으로 보내기(detail)
+fn_salaryDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','sal_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/salary/salaryDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+
+//updateSalaryDetail로 a태그를 post방식으로 보내기(update)
+fn_updateSalaryDetail=(event)=>{
+	let $form = document.createElement('form');
+	
+	let $path = document.getElementById('path');
+	
+	let obj;
+	obj = document.createElement('input');
+	obj.setAttribute('type','hidden');
+	obj.setAttribute('name','sal_no');
+	obj.setAttribute('value',event);
+	
+	$form.appendChild(obj);
+	$form.setAttribute('method','post');
+	$form.setAttribute('action',$path.value+'/salary/updateSalaryDetail');
+	document.body.appendChild($form);
+	
+	$form.submit();
+	
+};
+
+
+
+
+
 	function fn_delete_confirm(e){
 		
 		if(confirm("정말로 삭제하시겠습니까?")){
