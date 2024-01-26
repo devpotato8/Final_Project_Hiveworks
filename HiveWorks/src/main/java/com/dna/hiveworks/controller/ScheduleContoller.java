@@ -382,7 +382,7 @@ public class ScheduleContoller {
 	public ResponseEntity<Object> updateImportYn(@RequestBody Map<String, Object> param){
 		System.out.println(param);
 		String calImportYn = (String)param.get("importYn");
-		int calNo = Integer.parseInt((String)param.get("calno"));
+		int calNo = (Integer)param.get("calno");
 		
 		Schedule schedule = Schedule.builder().calImportYn(calImportYn).build();
 		

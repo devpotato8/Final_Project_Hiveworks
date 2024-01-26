@@ -234,8 +234,9 @@
 const resourceNo = ${currentResourceNo };
 //console.log(resourceNo );
 
+var contextPath = "<c:out value='${path}'/>";
 
-//reminder 스트링으로 보내기
+
 /* var remindercheck = document.getElementById('flexCheckDefault');
 
 remindercheck.addEventListener('change', function() {
