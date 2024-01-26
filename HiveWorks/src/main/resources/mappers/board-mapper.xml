@@ -3,6 +3,8 @@
 <mapper namespace="board">
     <resultMap type="board" id="boardMap">
         <id column="BOARD_NO" property="boardNo"/>
+        <result column="emp_no" property="emp_no"/>
+        <result column="emp_name" property="emp_name"/>
         <result column="BOARD_TITLE" property="boardTitle" />
         <result column="BOARD_CONTENT" property="boardContent"/>
         <result column="BOARD_COUNT" property="boardCount"/>
@@ -26,6 +28,7 @@
     <select id="selectAllBoard" parameterType="string" resultMap="boardMap">
         SELECT * FROM TBL_BOARD 
         LEFT JOIN TBL_UPLOADFILE USING(BOARD_NO)
+    	LEFT JOIN TBL_EMPLOYEE ON TBL_BOARD.CREATER = TBL_EMPLOYEE.EMP_NO
         WHERE BOARD_TYPE = #{boardType}
     </select>
     <update id="updateBoardCount" parameterType="int">
@@ -36,7 +39,7 @@
     		SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
     	</selectKey>
     	INSERT INTO TBL_BOARD VALUES 
-		(#{boardNo},#{boardType},#{boardContent},NULL,NULL,#{boardTitle},NULL,NULL,DEFAULT,DEFAULT,'Y')
+		(#{boardNo},#{boardType},#{boardContent},NULL,NULL,#{boardTitle},#{creater},NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
 	    UPDATE TBL_BOARD SET

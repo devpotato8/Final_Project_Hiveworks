@@ -41,7 +41,7 @@
 								<tr>
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
-									<a href="/board/boardView?boardNo=${b.boardNo}&count=1"><c:out value="${b.boardNo}" /></a>
+									<a href="${path}/board/boardView?boardNo=${b.boardNo}&count=1"><c:out value="${b.boardNo}" /></a>
 									<td><c:out value="${b.createDate}" /></td>
 									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
@@ -58,13 +58,13 @@
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
 													data-bs-toggle="tooltip" data-bs-placement="top" title=""
-													data-bs-original-title="수정" href="/board/boardUpdate?boardNo=${b.boardNo}">
+													data-bs-original-title="수정" href="${path}/board/boardUpdate?boardNo=${b.boardNo}">
 													<span class="btn-icon-wrap"><span
 														class="feather-icon"><i data-feather="edit"></i></span></span>
 												</a> <a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
 													data-bs-toggle="tooltip" data-bs-placement="top" title=""
-													data-bs-original-title="삭제" href="/board/boardDelete?boardNo=${b.boardNo}""> <span
+													data-bs-original-title="삭제" href="${path}/board/boardDelete?boardNo=${b.boardNo}""> <span
 													class="btn-icon-wrap"><span class="feather-icon"><i
 															data-feather="trash-2"></i></span></span>
 												</a>
