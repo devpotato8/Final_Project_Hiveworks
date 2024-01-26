@@ -503,7 +503,7 @@ $(document).ready(function(){
 	
 	$('#modal_msgView').on('hide.bs.modal', function() {
 		//modal이 닫힐때 새로고침
-	    location.reload();		
+	    
 	});
 	
 });

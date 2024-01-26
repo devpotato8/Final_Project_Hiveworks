@@ -206,7 +206,6 @@ $('.deptLeaderOn').on('click', function() {
             }else if(response.status==='fail'){
             	alert('조직장 설정에 실패하였습니다. 다시 시도해주세요.')
             }
-            
         },
         error: function() {
         	console.error()

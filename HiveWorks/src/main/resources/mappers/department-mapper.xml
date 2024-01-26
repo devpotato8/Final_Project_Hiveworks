@@ -178,11 +178,12 @@
 	
 	<!-- 쪽지함 모달창 jstree 직원 구성 -->
 	<select id="modalDeptEmpList" resultMap="empMap">
-		SELECT e.EMP_NO, e.EMP_ID, e.EMP_NAME, e.DEPT_LEADER, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
+		SELECT e.EMP_NO, e.EMP_ID, e.EMP_NAME, p.CODE_NAME as POSITION, j.CODE_NAME as JOB, d.DEPT_NAME as DEPTNAME
 			FROM TBL_EMPLOYEE e
 				JOIN (
 				    SELECT DEPT_CODE, DEPT_NAME
 				    FROM TBL_DEPARTMENT
+				    WHERE USE_YN='Y'
 				) d ON e.DEPT_CODE = d.DEPT_CODE
 				LEFT JOIN TBL_CODE p ON e.POSITION_CODE = p.CODE_NO
 				LEFT JOIN TBL_CODE j ON e.JOB_CODE = j.CODE_NO

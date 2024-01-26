@@ -472,7 +472,8 @@ var socket = new SockJS(endpoint);  //WebSocketConfig에서 지정한 endpoint�
 var stompClient = Stomp.over(socket); //STOMP 클라이언트 생성
 var userId = '${loginEmp.emp_id}';
 console.log(userId);
-//연결 함수
+
+//연결 함수 선언
 stompClient.connect({userId:userId},onConnected,onError);
 
 	function onConnected(){
@@ -480,6 +481,9 @@ stompClient.connect({userId:userId},onConnected,onError);
 	    //쪽지가 도착하면 콜백 함수 실행
 	    stompClient.subscribe('/topic/messages',onMessageReceived);	    
 	}
+    function onError(){
+    	console.log('통신에러');
+    }
  
 	//메시지 수신
     function onMessageReceived(payload){
@@ -490,10 +494,23 @@ stompClient.connect({userId:userId},onConnected,onError);
 	    var data = JSON.parse(payload.body);
 	    var title = data.title;
 	    var sender = data.senderName;
-	    
-	    console.log(data,"쪽지도착!");
+	    var receiverId = data.receiverId;
+	   
+	    //토스트창 실행함수
+		if(receiverId.includes(userId)){
+		    // toast
+		    let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
+		    toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
+		    toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 btn-close' data-dismiss='toast' aria-label='Close'>";
+		    toast += "<span aria-hidden='true'>&times;</span></button>";
+		    toast += "</div> <div class='toast-body'><p>"+sender+" 님이 보낸 메시지</p><p>"+title+"</p></div></div>";
+		    $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+		    $(".toast").toast({"animation": true, "autohide": true, "delay":5000});
+		    $('.toast').toast('show');
+		}
 	}
-    function onError(){
-    	console.log('통신에러');
-    }
+	
+	
+	
+
 </script>

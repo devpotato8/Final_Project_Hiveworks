@@ -283,13 +283,14 @@ public class MessageController {
 		        	
 		        	System.err.println("receiverUserId :"+receiverUserId);
 		            
-		        	Map<String, String> msg = new HashMap<>();
+		        	Map<String, Object> msg = new HashMap<>();
 		            msg.put("senderName", senderName);
 		            msg.put("title", sendMsgTitle);
+		            msg.put("receiverId",userIds);
 		            ObjectMapper objectMapper = new ObjectMapper();
 			        String jsonMsg = objectMapper.writeValueAsString(msg);
-		            template.convertAndSendToUser(
-		                receiverUserId, // 받는 사람의 사용자 아이디
+		            template.convertAndSend(
+		                //receiverUserId, // 받는 사람의 사용자 아이디
 		                "/topic/messages",
 		                jsonMsg
 		            );

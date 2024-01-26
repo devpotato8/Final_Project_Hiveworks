@@ -9,6 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import com.dna.hiveworks.interceptor.WebSocketInterceptor;
 
+import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 
 
@@ -19,20 +20,23 @@ import lombok.RequiredArgsConstructor;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	
 	private final WebSocketInterceptor webSocketInterceptor;
-
+	
+	
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws/msg").setAllowedOriginPatterns("http://localhost:9090").withSockJS();
 		//registry.addEndpoint("/topic/messages").setAllowedOriginPatterns("http://localhost:9090").withSockJS();
+		
 	}
 
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		// 메시지를 발행하는 요청 url -> 메시지 발신
-	      registry.setApplicationDestinationPrefixes("/pub");
-	      // 메시지를 구독하는 요청 url -> 메시지 수신
-	      registry.enableSimpleBroker("/sub");
+	    //  registry.setApplicationDestinationPrefixes("/pub");
+	    // 메시지를 구독하는 요청 url -> 메시지 수신
+	    //  registry.enableSimpleBroker("/sub");
+	      registry.enableSimpleBroker("/sub","/topic");
 	}
 	
 	@Override
