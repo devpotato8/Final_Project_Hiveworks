@@ -23,7 +23,11 @@
 					<div class="mb-lg-0 mb-2 me-8 d-flex justify-content-between">
 						<h1 class="pg-title">휴가신청 - ${loginEmp.emp_name }님</h1>
 					</div>
-					<div><h1 class="pg-title"> 잔여연차 수 ${leftVacation }</h1></div>
+					<div>
+						<c:if test="${not empty leftVacation }">
+							<h1 class="pg-title"> 잔여연차 수 ${leftVacation }</h1>
+						</c:if>
+					</div>
 				</div>
 			</div>
 		</div>

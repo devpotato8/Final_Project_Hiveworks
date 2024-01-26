@@ -51,7 +51,7 @@ public class ReminderController {
      */
     @PostMapping("/sendMessage")
     public SingleMessageSentResponse sendmessage(@RequestParam Map<String, Object> param) {
-    	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S", Locale.KOREA);
+    	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA);
     	
     	
     	System.out.println(param);
@@ -120,7 +120,7 @@ public class ReminderController {
     	
     	System.out.println(selectedDataList);
     	
-    	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S", Locale.KOREA);
+    	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA);
     	
         ArrayList<Message> messageList = new ArrayList<>();
 

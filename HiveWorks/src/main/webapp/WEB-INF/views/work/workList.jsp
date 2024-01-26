@@ -50,7 +50,7 @@
 
 			
 			<div class="taskboard-body col-md-8 col-sm-12 container-fluid mt-5">
-				<div class="row mb-5">
+				<div class="row mb-5 justify-content-center">
 
 					<div class="col-lg-4">
 						<div class="card border-dark">
@@ -93,7 +93,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-4">
+					<%-- <div class="col-lg-4">
 						<div class="card border-dark">
 							<div class="card-body">
 								<div class="media align-items-center">
@@ -113,7 +113,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 				</div>
 
 				<div class="row">
@@ -131,8 +131,7 @@
 								<div
 									class="d-flex align-items-center avatar-group avatar-group-me">
 									<div style="width: 120%" class="avatar avatar-soft-red">
-										<span style="width: 120%" id="lateWork" class="initial-wrap">${lateWork }
-											회</span>
+										<span style="width: 120%" id="lateWork" class="initial-wrap">${lateWork } 회</span>
 									</div>
 								</div>
 							</div>
@@ -152,8 +151,7 @@
 								<div
 									class="d-flex align-items-center avatar-group avatar-group-me">
 									<div style="width: 120%" class="avatar avatar-soft-red">
-										<span style="width: 120%" id="fastEnd" class="initial-wrap">${fastEnd }
-											회</span>
+										<span style="width: 120%" id="fastEnd" class="initial-wrap">${fastEnd } 회</span>
 									</div>
 								</div>
 							</div>
@@ -260,34 +258,8 @@
 }
 </style>
 <script>
-	const day = 1;
 	const week = 7;
 	const month = 30;
-	function workListDay() {
-    	fetch("${path}/work/workListYear?day="+day)
-	    .then(response => response.json())
-	    .then(data => {
-	      // 데이터 처리 로직
-	      let avgStartWork = data.avgStartWork;
-	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
-	      let lateWork = data.lateWork;
-	      let fastEnd = data.fastEnd;
-	      let absence = data.absence;
-	      
-	      document.getElementById('avgStartWork').textContent = avgStartWork;
-	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork+" 회";
-	      document.getElementById('lateWork').textContent = lateWork+" 회";
-	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
-	      document.getElementById('absence').textContent = absence+" 회";
-	      console.log(avgStartWork);
-	    })
-	    .catch(error => {
-	      // 에러 처리 로직
-	      console.error(error);
-	    });
-	}
     function workListWeek() {
     	fetch("${path}/work/workListWeek?week=" + week)
     	//fetch("${path}/work/workListWeek?week=${week}") 이건 전달이 안됌...
@@ -296,14 +268,12 @@
 	      // 데이터 처리 로직
 	      let avgStartWork = data.avgStartWork;
 	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
 	      let lateWork = data.lateWork;
 	      let fastEnd = data.fastEnd;
 	      let absence = data.absence;
 	      
 	      document.getElementById('avgStartWork').textContent = avgStartWork;
 	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork+" 회";
 	      document.getElementById('lateWork').textContent = lateWork+" 회";
 	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
 	      document.getElementById('absence').textContent = absence+" 회";
@@ -321,14 +291,12 @@
 	      // 데이터 처리 로직
 	      let avgStartWork = data.avgStartWork;
 	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
 	      let lateWork = data.lateWork;
 	      let fastEnd = data.fastEnd;
 	      let absence = data.absence;
 	      
 	      document.getElementById('avgStartWork').textContent = avgStartWork;
 	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork+" 회";
 	      document.getElementById('lateWork').textContent = lateWork+" 회";
 	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
 	      document.getElementById('absence').textContent = absence+" 회";

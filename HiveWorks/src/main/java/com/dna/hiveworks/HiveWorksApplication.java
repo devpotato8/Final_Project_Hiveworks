@@ -11,5 +11,5 @@ public class HiveWorksApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HiveWorksApplication.class, args);
 	}
-
+	
 }

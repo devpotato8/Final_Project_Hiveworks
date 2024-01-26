@@ -14,6 +14,7 @@ public class InvitationEmp {
 	private String yourEmpName;
 	private String yourDeptName;
 	private String yourDeptCode;
+	private String inviUseYn;
 	
 
 }

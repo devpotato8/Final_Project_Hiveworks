@@ -15,4 +15,6 @@ public interface MypageDao {
 	int updateProfile(SqlSession session, Map<String, Object> param);
 	
 	List<Search> integratedSearch(SqlSession session, String keyword);
+	
+	Employee indexProfile(SqlSession session, int empNo);
 }

@@ -11,7 +11,7 @@
 
 <div class="hk-pg-wrapper">
 	<div class="container-xxl">
-		<h2>공지사항</h2>
+		<h2>블라인드</h2>
 		<a href="${path}/board/boardWrite">등록</a>
 	</div>
 	<div class="invoice-body">
@@ -32,7 +32,7 @@
 							<th>작성자</th>
 							<th>작성일</th>
 							<th>수정일</th>
-							<th></th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -42,14 +42,18 @@
 									<td></td>
 									<td><a href="#" class="table-link-text link-high-em">
 									<a href="/board/boardView?boardNo=${b.boardNo}&count=1"><c:out value="${b.boardNo}" /></a>
-									
 									<td><c:out value="${b.createDate}" /></td>
 									</a></td>
 									<td><c:out value="${b.boardTitle}" /></td>
-									<td><c:out value="${b.emp_No }" /></td>
+									<td>익명</td>
 									<td><c:out value="${b.createDate}" /></td>
 									<td><c:out value="${b.modifyDate}" /></td>
 									<td>
+										<div class="d-flex align-items-center">
+											<div style="margin-right: 100px;">
+												<c:out value="${b.boardCount}" />
+											</div>
+									
 											<div class="d-flex">
 												<a
 													class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"

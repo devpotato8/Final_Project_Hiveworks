@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CheckList {
 	private int calChecklistNo;
-	private int calNo;
+	private int checkCalNo;
 	private String calChecklistContent;
 	private Date createDate;
 	private Date ModifyDate;

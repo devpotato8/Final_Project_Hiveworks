@@ -65,6 +65,8 @@ public interface ScheduleService {
 	
 	int deleteReservation(List<Integer> checkedList);
 	
+	List<Schedule> reserveBykeyword(String keyword, String type, int empNo);
+	
 	//project
 	List<Schedule> selectprojectAll();
 	

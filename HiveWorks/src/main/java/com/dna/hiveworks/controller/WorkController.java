@@ -48,10 +48,6 @@ public class WorkController {
 		String avgEndWork = service.avgEndWork(empNo);
 		m.addAttribute("avgEndWork",avgEndWork);
 		
-		// 근무 시간 초과
-		int overWork = service.overWork(empNo);
-		m.addAttribute("overWork",overWork);
-		
 		// 지각
 		int lateWork = service.lateWork(empNo);
 		m.addAttribute("lateWork",lateWork);
@@ -80,14 +76,12 @@ public class WorkController {
 		
 		String avgStartWork = service.avgStartWorkFilter(param);
 		String avgEndWork = service.avgEndWorkFilter(param);
-		int overWork = service.overWorkFilter(param);
 		int lateWork = service.lateWorkFilter(param);
 		int fastEnd = service.fastEndFilter(param);
 		int absence = service.absenceFilter(param);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
-		response.put("overWork", overWork);
 		response.put("lateWork", lateWork);
 		response.put("fastEnd", fastEnd);
 		response.put("absence", absence);
@@ -107,14 +101,12 @@ public class WorkController {
 		
 		String avgStartWork = service.avgStartWorkFilter(param);
 		String avgEndWork = service.avgEndWorkFilter(param);
-		int overWork = service.overWorkFilter(param);
 		int lateWork = service.lateWorkFilter(param);
 		int fastEnd = service.fastEndFilter(param);
 		int absence = service.absenceFilter(param);
 		
 		response.put("avgStartWork", avgStartWork);
 		response.put("avgEndWork", avgEndWork);
-		response.put("overWork", overWork);
 		response.put("lateWork", lateWork);
 		response.put("fastEnd", fastEnd);
 		response.put("absence", absence);

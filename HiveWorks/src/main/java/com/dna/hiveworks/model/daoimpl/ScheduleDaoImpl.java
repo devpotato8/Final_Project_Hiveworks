@@ -183,6 +183,16 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public List<Schedule> reserveBykeyword(SqlSession session, String keyword, String type, int empNo) {
+		System.out.println("dao"+type+keyword);
+		 Map<String, Object> parameters = new HashMap<>();
+		 parameters.put("keyword", keyword);
+		 parameters.put("type", type);
+		 parameters.put("empNo", empNo);
+		return session.selectList("schedule.reserveBykeyword",parameters);
+	}
+	
+	@Override
 	public int insertInvitationRe(SqlSession session, int[] empList) {
 	    int count = 0;
 	    for (int empNo : empList) {

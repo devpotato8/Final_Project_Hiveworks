@@ -2,9 +2,9 @@ package com.dna.hiveworks.model.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,9 @@ public class Schedule {
 	private int myEmpNo;
 	private String myEmpName;
 	private String myDeptCode;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul",locale = "ko_KR")
 	private Timestamp calStartDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul",locale = "ko_KR")
 	private Timestamp calEndDate;
 	private String calSubject;
 	private String calContent;
@@ -37,7 +39,7 @@ public class Schedule {
 	private String useYn;
 	private Resource resource;
 	private List<InvitationEmp> invitationEmpList;
-	private List<CheckList> CheckList;
+	private List<CheckList> CheckListAll;
 	private List<Comment> commentList;
 	
 	

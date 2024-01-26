@@ -39,6 +39,7 @@ import com.dna.hiveworks.service.VacationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -57,7 +58,7 @@ public class ScheduleContoller {
 	private final VacationService vacationservice;
 
 	// 일정 조회 페이지 연결
-	@GetMapping("/schedulelist.do")
+	@GetMapping("/schedulelist")
 	public String scheduleList(Model model) {
 		List<Department> deptList = deptservice.deptListAll();
 		List<Employee> empList = scheduleService.selectEmployeesList();
@@ -67,7 +68,7 @@ public class ScheduleContoller {
 	}
 
 	// 일정 조회
-	@GetMapping("/schedulelistend.do")
+	@GetMapping("/schedulelistend")
 	@ResponseBody
 	public List<Schedule> scheduleListEnd() {
 		List<Schedule> schedules = scheduleService.selectScheduleAll();
@@ -93,10 +94,13 @@ public class ScheduleContoller {
 		if (searchType.indexOf('A') > -1) {param.put("searchTypeA", "A");}
 		if (searchType.indexOf('B') > -1) {param.put("searchTypeB", "B");}
 		if (searchType.indexOf('C') > -1) {param.put("searchTypeC", "C");}
+		if (searchType.indexOf('D') > -1) {param.put("searchTypeD", "D");}
 
 		List<Schedule> searchList = scheduleService.searchSchedule(param);
 		
+		System.out.println("서치스케쥴"+searchList);
 		return searchList;
+
 //		return null;
 	}
 	
@@ -230,10 +234,10 @@ public class ScheduleContoller {
 		String msg, loc;
 		if (result > 0) {
 			msg = "프로젝트 등록 성공";
-			loc = "schedule/projectlist.do";
+			loc = "schedule/projectlist";
 		} else {
 			msg = "프로젝트 등록 실패 ";
-			loc = "schdule/projectlist.do";
+			loc = "schdule/projectlist";
 		}
 
 		model.addAttribute("msg", msg);
@@ -403,7 +407,7 @@ public class ScheduleContoller {
 	}
 
 	// 프로젝트 조회
-	@GetMapping("/projectlist.do")
+	@GetMapping("/projectlist")
 	public String projectList(Model model) {
 		List<Schedule> projectList = scheduleService.selectprojectAll();
 		List<Department> deptList = deptservice.deptListAll();
@@ -415,7 +419,7 @@ public class ScheduleContoller {
 	}
 
 	//프로젝트 상세 조회
-	@GetMapping("/projectlistbycalno.do")
+	@GetMapping("/projectlistbycalno")
 	@ResponseBody
 	public ResponseEntity<Schedule> projectListByCalNo(@RequestParam int calNo, Model model) {
 		Schedule project = scheduleService.selectprojectByCalNo(calNo);
@@ -423,7 +427,7 @@ public class ScheduleContoller {
 	}
 
 	// 사원번호별 프로젝트 조회
-	@GetMapping("/projectlistbyempno.do")
+	@GetMapping("/projectlistbyempno")
 	public String projectListByEmpNo(@RequestParam int empNo, Model model) {
 		List<Schedule> myProjectList = scheduleService.selectprojectByEmpNo(empNo);
 		List<Department> deptList = deptservice.deptListAll();
@@ -444,7 +448,7 @@ public class ScheduleContoller {
         int calNo = Integer.parseInt((String)param.get("calNo"));
 
         CheckList checklist = CheckList.builder()
-                .calNo(calNo)
+                .checkCalNo(calNo)
                 .calChecklistContent(checklistValue)
                 .creater(empNo)
                 .modifier(empNo)
@@ -588,7 +592,7 @@ public class ScheduleContoller {
 	 */
 
 	// 자산 예약 조회
-	@GetMapping("/reservationlist.do")
+	@GetMapping("/reservationlist")
 	public String reservationList(Model model) {
 		String result = "";
 		/* if(calCode==null) { */
@@ -613,7 +617,7 @@ public class ScheduleContoller {
 	
 	
 	// 사원번호별 자산 예약 조회
-	@GetMapping("/reservationlistbyno.do")
+	@GetMapping("/reservationlistbyno")
 	public String reservationListByNo(@RequestParam int empNo, Model model) {
 		List<Schedule> MyReserveList = scheduleService.selectReserveByNo(empNo);
 		List<Resource> resourceList = scheduleService.selectResourceAll();
@@ -684,7 +688,7 @@ public class ScheduleContoller {
 	}
 
 	// 자산 목록 조회
-	@GetMapping("/resourcelist.do")
+	@GetMapping("/resourcelist")
 	public String resourceList(Model model) {
 		List<Resource> resourceList = scheduleService.selectResourceAll();
 		model.addAttribute("reList", resourceList);
@@ -700,10 +704,24 @@ public class ScheduleContoller {
 		return resourceT;
 	}
 	
+	//자산 예약 type/keyword로 조회
+	@PostMapping("/reserveBykeyword")
+	@ResponseBody
+	public List<Schedule> reserveBykeyword(@RequestParam Map<String, Object> param){
+		
+		int empNo = Integer.parseInt((String)param.get("empNo"));
+		String type = (String)param.get("type");
+		String keyword = (String)param.get("keyword");
+		System.out.println("컨트롤러"+type+keyword);
+		List<Schedule> reserveBykeyword = scheduleService.reserveBykeyword(keyword, type, empNo);
+		System.out.println(reserveBykeyword);
+		return reserveBykeyword;
+		
+	}
 	
 	
 	// 자산 예약 페이지 연결
-	@GetMapping("/reserveResource.do")
+	@GetMapping("/reserveResource")
 	public String reserveResource(Model model, @RequestParam int resourceNo) {
 		
 		List<Resource> resourceList = scheduleService.selectResourceAll();
@@ -755,7 +773,7 @@ public class ScheduleContoller {
 	
 
 	// 자산 예약
-	@PostMapping("/reserveResourceEnd.do")
+	@PostMapping("/reserveResourceEnd")
 	public String reserveResourceEnd(@RequestParam Map<String, Object> param, Model model, String[] calEmp) {
 		
 		log.debug(Arrays.toString(calEmp));
@@ -770,7 +788,7 @@ public class ScheduleContoller {
 		int empNo = Integer.parseInt((String)param.get("empNo"));
 		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
 		String startDateString = (String) param.get("resstart");
-		String endDateString = (String) param.get("reend");
+		String endDateString = (String) param.get("resend");
 		String calColor = (String) param.get("backgroundColor");
 		String calCode = (String) param.get("code");
 		String calSubject = "";
@@ -791,12 +809,14 @@ public class ScheduleContoller {
 		 * } }
 		 */
 		
-	    int[] empList = new int[calEmp.length];
-        
-        for (int i = 0; i < calEmp.length; i++) {
-        	empList[i] = Integer.parseInt(calEmp[i]);
-        }
-
+		
+		int[] empList = new int[calEmp.length];
+		if (calEmp.length > 0) {
+			 for (int i = 0; i < calEmp.length; i++) {
+		        	empList[i] = Integer.parseInt(calEmp[i]);
+		        }
+		}
+		
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
@@ -808,10 +828,10 @@ public class ScheduleContoller {
 		String msg, loc;
 		if (result > 0) {
 			msg = "예약성공";
-			loc = "schedule/reservationlistbyno.do?empNo="+empNo;
+			loc = "schedule/reservationlistbyno?empNo="+empNo;
 		} else {
 			msg = "예약실패";
-			loc = "schdule/reserveResource.do";
+			loc = "schdule/reserveResource";
 		}
 
 		model.addAttribute("msg", msg);
@@ -837,8 +857,8 @@ public class ScheduleContoller {
 		int calNo = Integer.parseInt((String)param.get("calNo"));
 		int empNo = Integer.parseInt((String)param.get("empNo"));
 		int resourceNo = Integer.parseInt((String) param.get("resourceNo"));
-		String startDateString = (String) param.get("start");
-		String endDateString = (String) param.get("end");
+		String startDateString = (String) param.get("upstart");
+		String endDateString = (String) param.get("upend");
 		String calColor = (String) param.get("backgroundColor");
 		String calCode = (String) param.get("code");
 		String calSubject = "";
@@ -850,11 +870,15 @@ public class ScheduleContoller {
 		
 		String reminderYn = (String) param.get("reminder");
 		
-	    int[] empList = new int[recalEmp.length];
-        
-        for (int i = 0; i < recalEmp.length; i++) {
-        	empList[i] = Integer.parseInt(recalEmp[i]);
-        }
+		int[] empList;
+		if (recalEmp != null && recalEmp.length > 0) {
+		    empList = new int[recalEmp.length];
+		    for (int i = 0; i < recalEmp.length; i++) {
+		        empList[i] = Integer.parseInt(recalEmp[i]);
+		    }
+		} else {
+		    empList = new int[0];
+		}
 
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
@@ -867,10 +891,10 @@ public class ScheduleContoller {
 		String msg, loc;
 		if (result > 0) {
 			msg = "예약 수정 성공";
-			loc = "schedule/reservationlistbyno.do?empNo="+empNo;
+			loc = "schedule/reservationlistbyno?empNo="+empNo;
 		} else {
 			msg = "예약 수정 실패";
-			loc = "schdule/reserveResource.do";
+			loc = "schdule/reserveResource";
 		}
 
 		model.addAttribute("msg", msg);
@@ -896,16 +920,16 @@ public class ScheduleContoller {
 
 
 	// 자산 등록
-	@PostMapping("/insertresource.do")
+	@PostMapping("/insertresource")
 	public String insertResource(Resource resource, Model model) throws Exception {
 		int result = scheduleService.insertResource(resource);
 		String msg, loc;
 		if (result > 0) {
 			msg = "등록 성공";
-			loc = "schedule/resourcelist.do";
+			loc = "schedule/resourcelist";
 		} else {
 			msg = "등록 실패";
-			loc = "schdule/resourcelist.do";
+			loc = "schdule/resourcelist";
 		}
 
 		model.addAttribute("msg", msg);
@@ -922,10 +946,10 @@ public class ScheduleContoller {
 		String msg, loc;
 		if (result > 0) {
 			msg = "수정 성공";
-			loc = "schedule/resourcelist.do";
+			loc = "schedule/resourcelist";
 		} else {
 			msg = "수정 실패";
-			loc = "schdule/resourcelist.do";
+			loc = "schdule/resourcelist";
 		}
 
 		model.addAttribute("msg", msg);
@@ -938,16 +962,22 @@ public class ScheduleContoller {
 	//자산 삭제
 	@PostMapping("/deleteResource")
 	@ResponseBody
-	public ResponseEntity<String> deleteResource(@RequestBody List<Integer> checkedList) {
+	public List<Integer> deleteResource(@RequestBody List<Integer> checkedList) throws Exception {
 	    int result = 0;
 
 	    if (checkedList != null && !checkedList.isEmpty()) {
 	        result = scheduleService.deleteResource(checkedList);
 	    }
-
-	    return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(String.valueOf(result)) :
-	            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(String.valueOf(result));
+	    
+	    if(result == 0) {
+            throw new Exception("자산 삭제에 실패했습니다.");
+        }
+        // 체크리스트 등록 성공 시
+        return checkedList;
 	}
+	
+	
+	
 	
 
 }
