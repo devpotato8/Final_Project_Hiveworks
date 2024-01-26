@@ -54,7 +54,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
+								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -70,7 +70,7 @@
 										<c:if test="${not empty reList}">
 											<c:forEach var="res" items="${reList}">
 												<li class="nav-item">
-													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do?resourceNo=${res.resourceNo}">
+													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource?resourceNo=${res.resourceNo}">
 														<span class="nav-link-text">${res.resourceName}</span>
 													</a>
 												</li>
@@ -86,13 +86,13 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link"
-									href="${path }/schedule/reservationlist.do"> <span class="nav-icon-wrap"><span
+									href="${path }/schedule/reservationlist"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="flag"></i></span></span> <span
 										class="nav-link-text">전체 예약/대여 조회</span>
 								</a></li>
 
 								<li class="nav-item"><a class="nav-link"
-									href="${path}/schedule/resourcelist.do"> <span class="nav-icon-wrap"><span
+									href="${path}/schedule/resourcelist"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="grid"></i></span></span> <span
 										class="nav-link-text">전사자산 목록</span>
 								</a></li>

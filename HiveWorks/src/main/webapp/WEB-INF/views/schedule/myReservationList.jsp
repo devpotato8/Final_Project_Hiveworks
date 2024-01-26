@@ -2,421 +2,372 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<!-- Vertical Nav -->
+        <div class="hk-menu">
+			<!-- Brand -->
+			<div class="menu-header">
+				<span>
+					<a class="navbar-brand" href="${path}/login/index">
+						<img class="brand-img img-fluid" src="${path}/resources/img/logo_bee.png" alt="brand" width="30px" height="35px"/>
+						<img class="brand-img img-fluid" src="${path}/resources/img/logo-title.png" alt="brand" width="150px" height="35px"/>
+					</a>
+					<!-- NavBar mini Button-->
+					<button class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle">
+						<span class="icon">
+							<span class="svg-icon fs-5">
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+									<line x1="10" y1="12" x2="20" y2="12"></line>
+									<line x1="10" y1="12" x2="14" y2="16"></line>
+									<line x1="10" y1="12" x2="14" y2="8"></line>
+									<line x1="4" y1="4" x2="4" y2="20"></line>
+								</svg>
+							</span>
+						</span>
+					</button>
+					<!--button end-->
+				</span>
+			</div>
+			<!-- /Brand -->
 
-<%-- <jsp:include page= "/WEB-INF/views/common/header.jsp"/> --%>
-<jsp:include page= "/WEB-INF/views/common/header.jsp">
-	<jsp:param value="collapsed" name="style"/>
-	<jsp:param value="data-hover='active'" name="hover"/>	
-</jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<div>
-			<div class="hk-pg-wrapper pb-0">
-			<div class="hk-pg-body py-0">
-				<div class="blogapp-wrap">
-					<nav class="blogapp-sidebar">
-						<div data-simplebar class="nicescroll-bar">
-							<div class="menu-content-wrap">
-								<div class="menu-group">
-									<ul class="nav nav-light navbar-nav flex-column">
-										<li class="nav-item active">
-											<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}">
-												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
-												<span class="nav-link-text">내 예약 현황</span>
-											</a>
-										</li>
-									</ul>
-								</div>
-								<div class="separator separator-light"></div>
-								<div class="d-flex align-items-center justify-content-between mb-2">
-									<div class="title-sm text-primary mb-0">전사자산</div>
-								</div>
-								<div class="menu-group">
-									<ul class="nav nav-light navbar-nav flex-column">
-										<c:if test="${not empty reList}">
-											<c:forEach var="res" items="${reList}">
-												<li class="nav-item">
-													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do?resourceNo=${res.resourceNo}">
-														<span class="nav-link-text">${res.resourceName}</span>
-													</a>
-												</li>
-											</c:forEach>
-										</c:if>
-									</ul>
-								</div>
-								<div class="menu-gap"></div>
-								<c:if test="${loginEmp.aut_code == 'AUT001'}">
-								<div class="nav-header">
-									<span>관리자</span>
-								</div>
-								<div class="menu-group">
-									<ul class="nav nav-light navbar-nav flex-column">	
-										<li class="nav-item">
-											<a class="nav-link" href="${path }/schedule/reservationlist.do">
-												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="flag"></i></span></span>
-												<span class="nav-link-text">전체 예약/대여 조회</span>
-											</a>
-										</li>
-										
-										<li class="nav-item">
-											<a class="nav-link" href="${path}/schedule/resourcelist.do">
-												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="grid"></i></span></span>
-												<span class="nav-link-text">전사자산 목록</span>
-											</a>
-										</li>
-									</ul>
-								</div>
-								</c:if>
-
-					</nav>
-					<div class="blogapp-content">
-						<div class="blogapp-detail-wrap">
-							<header class="blog-header">
-								<div class="d-flex align-items-center">
-									<a class="blogapp-title link-dark" href="#">
-										<h1>내 예약 현황</h1>
-									</a>
-								</div>
-								<div class="blog-options-wrap">	
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret flex-shrink-0 d-lg-inline-block d-none" href="#"  data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Refresh" id="refreshButton"><span class="icon"><span class="feather-icon"><i data-feather="refresh-cw"></i></span></span></a>
-									<div class="v-separator  d-lg-inline-block d-none"></div>
-									<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable flex-shrink-0  d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
-										<span class="icon">
-											<span class="feather-icon"><i data-feather="chevron-up"></i></span>
-											<span class="feather-icon d-none"><i data-feather="chevron-down"></i></span>
+			<!-- Main Menu -->
+			<div data-simplebar class="nicescroll-bar">
+				<div class="menu-content-wrap">
+					<div class="menu-group">
+						<ul class="navbar-nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link" href="${path}/login/index">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-template" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<rect x="4" y="4" width="16" height="4" rx="1" />
+												<rect x="4" y="12" width="6" height="8" rx="1" />
+												<line x1="14" y1="12" x2="20" y2="12" />
+												<line x1="14" y1="16" x2="20" y2="16" />
+												<line x1="14" y1="20" x2="20" y2="20" />
+											</svg>
 										</span>
-									</a>
-								</div>
-								<div class="hk-sidebar-togglable"></div>
-							</header>
-							<div class="blog-body">
-							<button type="button" class="btn btn-secondary" id="delReserveBtn">예약취소</button>
-								<div data-simplebar class="nicescroll-bar">
-								<div style="display:flex">
-						<select name="type" id="searchType">
-							<option value="resource_name">자산이름</option>
-							<option value="cal_status">예약상태</option>
-						</select>
-						<input type="text" name="keyword" id="searchKeyword" placeholder="검색어입력">
-						<button id="searchButton">검색</button>
-										<!-- <div class="dropdown" id="resType">
-											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">자산타입</a>
-											<div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="#" data-type="회의실"><span class="feather-icon dropdown-icon"><i data-feather="flag"></i></span><span>회의실</span></a>
-												<a class="dropdown-item" href="#" data-type="챠량"><span class="feather-icon dropdown-icon" ><i data-feather="grid"></i></span><span>차량</span></a>
-												<a class="dropdown-item" href="#" data-type="빔프로젝터"><span class="feather-icon dropdown-icon"><i data-feather="tag"></i></span><span>빔프로젝터</span></a>
-											</div>
-										</div>
-										<div class="dropdown" id="resStatus">
-											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">예약상태</a>
-											<div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="#" data-status="승인완료"><span class="feather-icon dropdown-icon"></span><span>승인완료</span></a>
-												<a class="dropdown-item" href="#" data-status="취소"><span class="feather-icon dropdown-icon"></span><span>취소</span></a>
-											</div>
-										</div>  -->
-									</div>
-										<div class="tab-content">
-											<div class="tab-pane fade show active" id="all_post">
-												<table id="datable_1" class="table nowrap w-100 mb-5">
-													<thead>
-														<tr>
-															<th><span class="form-check">
-																<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
-																<label class="form-check-label" for="customCheck1"></label>
-															</span></th>
-															<th>예약번호</th>
-															<th>자산이름</th>
-															<th>예약자</th>
-															<th>자산종류</th>
-															<th>예약시간</th>
-															<th>예약상태</th>
-															<th>예약일자</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:if test="${not empty MyReserveList}">
-															<c:forEach var="myres" items="${MyReserveList}">
-														<tr>
-															<td></td>
-															<td>${myres.calNo }</td>
-															<td class="mw-250p text-truncate text-high-em">
-																<span>${myres.resource.resourceName }</span>
-															</td>
-															<td>
-																<div class="media align-items-center">
-																	<div class="media-body">
-																		<span class="d-block">${myres.myEmpName }</span> 
-																	</div>
-																</div>													
-															</td>
-															<td>${myres.resource.resourceType }</td>
-															<td>${myres.calStartDate.toString().substring(0, 16)} ~ ${myres.calEndDate.toString().substring(0, 16)}</td>
-															<td>${myres.calStatus }</td>
-															<td>${myres.createDate }</td>
-															<c:if test="${myres.calStatus == '승인완료'}">
-															<td>
-																<div class="d-flex align-items-center">
-																		<div class="dropdown">
-																	<button
-																		class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-																		aria-expanded="false" data-bs-toggle="dropdown">
-																		<span class="icon"><span class="feather-icon"><i
-																				data-feather="more-vertical"></i></span></span>
-																	</button>
-																	<div role="menu"
-																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation?resourceNo=${myres.resource.resourceNo}&calNo=${myres.calNo}">수정</a>
-																		<span class="dropdown-item reminderBtn">메시지알림요청</span>
-																	</div>
-																</div>
-																</div>
-															</td>
-														</c:if>
-														</tr>
-														</c:forEach>
-														</c:if>
-													</tbody>
-												</table>
-											</div>
-										</div>
-								<div class="row mt-3">
-									<div class="col-sm-12">
-										<div class="float-end text-end">
-											<ul
-												class="pagination custom-pagination pagination-simple active-theme">
-												<li class="paginate_button page-item previous disabled"><a
-													href="#" class="page-link"><i
-														class="ri-arrow-left-s-line"></i></a></li>
-												<li class="paginate_button page-item active"><a
-													href="#" class="page-link">1</a></li>
-											<!-- 	<li class="paginate_button page-item "><a href="#"
-													class="page-link">2</a></li>
-												<li class="paginate_button page-item "><a href="#"
-													class="page-link">3</a></li> -->
-												<li class="paginate_button page-item next"><a href="#"
-													class="page-link"><i class="ri-arrow-right-s-line"></i></a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-									</div>
-								</div>
-							</div>
+									</span>
+									<span class="nav-link-text">메인 페이지</span>
+								</a>
+							</li>
+						</ul>	
+					</div>
+					<div class="menu-gap"></div>
+					<div class="menu-group">
+						<div class="nav-header">
+							<span>주요 메뉴</span>
 						</div>
+						<ul class="navbar-nav flex-column">
+							
+							<li class="nav-item">
+								<a class="nav-link" href="${path}/messageview">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
+													<line x1="22" y1="2" x2="11" y2="13"></line>
+													<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">쪽지함</span>
+								</a>	
+							</li>	
+								<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_task">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+												<circle cx="18" cy="18" r="4" />
+												<path d="M15 3v4" />
+												<path d="M7 3v4" />
+												<path d="M3 11h16" />
+												<path d="M18 16.496v1.504l1 1" />
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">캘린더</span>
+								</a>
+								<ul id="dash_task" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/schedule/schedulelist"><span class="nav-link-text">일정관리</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"><span class="nav-link-text">자산예약관리</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>	
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_work">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase">
+												<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+												<path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">근태관리</span>
+								</a>
+								<ul id="dash_work" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/work/workList"><span class="nav-link-text">근무현황</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/work/workView"><span class="nav-link-text">세부근무현황</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>
+							</li>	
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_vacation">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun">
+												<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+												<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+												<line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+												<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">휴가관리</span>
+								</a>
+								<ul id="dash_vacation" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/vacation/vacationList"><span class="nav-link-text">휴가신청</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/vacation/vacationView"><span class="nav-link-text">휴가사용내역</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>
+							</li>	
+							
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
+												<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+												<polyline points="22,6 12,13 2,6"></polyline>
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">Email</span>
+								</a>
+							</li>
+							
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_scrumboard">
+									<span class="nav-icon-wrap position-relative">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard">
+											<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+										</span>
+									</span>
+									<span class="nav-link-text" >게시판</span>
+								</a>
+								<ul id="dash_scrumboard" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/board/board"><span class="nav-link-text">공지사항</span></a>
+											</li>
+											
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/survey/survey"><span class="nav-link-text">설문</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>	
+							</li>
+							
+							<li class="nav-item">
+								<a class="nav-link" href="${path}/edoc/lists/wait">
+									<span class="nav-icon-wrap position-relative">
+										<i class="las la-file-contract"></i>
+										<c:if test="${param.edocCountWait ne null && param.edocCountWait > 0}">
+											<span class="badge badge-danger badge-indicator position-absolute top-0 start-0"></span>
+										</c:if>
+									</span>
+									<span class="nav-link-text">전자문서
+										
+									</span>
+								</a>
+							</li>
+							
+							<li class="nav-item">
+								<a class="nav-link" href="${path}/schedule/projectlist">
+									
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<path d="M13 5h8" />
+												<path d="M13 9h5" />
+												<path d="M13 15h8" />
+												<path d="M13 19h5" />
+												<rect x="3" y="4" width="6" height="6" rx="1" />
+												<rect x="3" y="14" width="6" height="6" rx="1" />
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">프로젝트관리</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_profile">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<circle cx="12" cy="7" r="4" />
+												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
+												<circle cx="16.5" cy="17.5" r="2.5" />
+												<path d="M18.5 19.5l2.5 2.5" />
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text position-relative">마이페이지
+									</span>
+								</a>
+								<ul id="dash_profile" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/mypage/myprofile">
+													<span class="nav-link-text">프로필 보기</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/mypage/editmyprofile">
+													<span class="nav-link-text">프로필 수정</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/overtimepay/myovertimepay">
+													<span class="nav-link-text">내 시간 외 근로수당</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path }/salary/mySalaryList">
+													<span class="nav-link-text">내 급여</span>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="menu-gap"></div>
+					<div class="menu-group">
+						<div class="nav-header">
+							<span>관리자 메뉴</span>
+						</div>
+						<ul class="navbar-nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_invoice">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+										</span>
+									</span>
+									<span class="nav-link-text">급여관리</span>
+								</a>
+								<ul id="dash_invoice" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/overtimepay/overtimePayList"><span class="nav-link-text">시간 외 근로수당</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>	
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_pages">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<circle cx="9" cy="7" r="4" />
+												<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+												<path d="M16 11h6m-3 -3v6" />
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text">인사/부서관리</span>
+								</a>
+								<ul id="dash_pages" class="nav flex-column collapse  nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_log">
+													<span class="nav-link-text">인사 관리</span> 
+												</a>
+												<ul id="dash_log" class="nav flex-column collapse  nav-children">
+													<li class="nav-item">
+														<ul class="nav flex-column">
+															<li class="nav-item">
+																<a class="nav-link" href="${path }/employees/employeeList"><span class="nav-link-text">직원관리</span></a>
+															</li>
+															<li class="nav-item">
+																<a class="nav-link" href="${path }/employees/manageAuthority"><span class="nav-link-text">권한관리</span></a>
+															</li>
+														</ul>	
+													</li>	
+												</ul>	
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_sign">
+													<span class="nav-link-text">부서 관리</span>
+												</a>
+												<ul id="dash_sign" class="nav flex-column collapse  nav-children">
+													<li class="nav-item">
+														<ul class="nav flex-column">
+															<li class="nav-item">
+																<a class="nav-link" href="${path}/deptview"><span class="nav-link-text">조직도/구성원 관리</span></a>
+															</li>
+														</ul>		
+													</li>	
+												</ul>	
+											</li>
+											
+										</ul>
+									</li>
+								</ul>
+							</li>
+							
+						</ul>
 					</div>
 				</div>
 			</div>
-			<!-- /Page Body -->
+			<!-- /Main Menu -->
 		</div>
-		<!-- /Main Content -->	
-<script>
-const empPhone = '${loginEmp.emp_cellphone}'; //수정필요
-const empNo = ${loginEmp.emp_no}; //수정 필요
-var loginAut = '${loginEmp.aut_code}';
-console.log(empPhone, empNo);
-console.log(loginAut);
-
-var contextPath = "<c:out value='${path}'/>";
-
-//페이지 새로고침
-$(document).ready(function() {
-    $("#refreshButton").click(function(e) {
-        e.preventDefault(); // 기본 클릭 이벤트를 방지함
-        location.reload(); // 페이지를 새로고침함
-    });
-});
-
-//타입별로 조회
-$(document).ready(function() {
-	$('#searchButton').on('click',function(e) {
-		e.preventDefault();
-
-		var type = $('#searchType').val();
-	    var keyword = $('#searchKeyword').val();
-
-		$.ajax({
-			url : '/schedule/reserveBykeyword',
-			type : 'POST',
-			data : {
-				type : type,
-				keyword : keyword,
-				empNo: empNo
-			},
-			dataType : 'json',
-			success : function(response) {
-				// 기존 테이블 내용 초기화
-		        $('#datable_1 tbody').empty();
-
-		        // 응답 데이터를 이용하여 새로운 행 추가
-		        response.forEach(function(item) {
-		        	  // 테이블 내용을 비웁니다.
-	                $('#datable_1 tbody').empty();
-
-	                // response 배열을 반복하면서 HTML 테이블 행을 만듭니다.
-	                response.forEach(function(item) {
-	                	console.log(item)
-	                	 var row = $('<tr></tr>');
-	                     var checkBoxTd = $('<td></td>');
-	                     var checkBox = $('<input>').attr({
-	                         type: 'checkbox', 
-	                         class: 'form-check-input check-select', 
-	                         id: 'customCheck' + item.calNo // 고유한 ID를 가지도록 합니다.
-	                     });
-	                     var label = $('<label>').addClass('form-check-label').attr('for', 'customCheck' + item.calNo);
-	                     checkBoxTd.append($('<span></span>').addClass('form-check').append(checkBox).append(label));
-	                    row.append(checkBoxTd);
-	                    row.append($('<td></td>').text(item.calNo));
-	                    row.append($('<td></td>').addClass('mw-250p text-truncate text-high-em').append($('<span></span>').text(item.resource.resourceName)));
-	                    row.append($('<td></td>').append($('<div></div>').addClass('media align-items-center').append($('<div></div>').addClass('media-body').append($('<span></span>').addClass('d-block').text(item.myEmpName)))));
-	                    row.append($('<td></td>').text(item.resource.resourceType));
-	                    row.append($('<td></td>').text(item.calStartDate + ' ~ ' + item.calEndDate));
-	                    row.append($('<td></td>').text(item.calStatus));
-	                    row.append($('<td></td>').text(item.createDate));
-
-	                    var actions = $('<td></td>').addClass('d-flex align-items-center');
-	                    var dropdown = $('<div></div>').addClass('dropdown');
-	                    var button = $('<button></button>').addClass('btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret')
-	                        .attr('aria-expanded', 'false')
-	                        .attr('data-bs-toggle', 'dropdown')
-	                        .append($('<span></span>').addClass('icon').append($('<span></span>').addClass('feather-icon').append($('<i></i>').attr('data-feather', 'more-vertical'))));
-
-	                    var menu = $('<div></div>').addClass('dropdown-menu dropdown-menu-end')
-	                        .append($('<a></a>').addClass('dropdown-item updateBtn').attr('href',contextPath+'/schedule/updateReservation?resourceNo=' + item.resource.resourceNo + '&calNo=' + item.calNo).text('수정'))
-	                        .append($('<span></span>').addClass('dropdown-item reminderBtn').text('메시지 알림 요청'));
-						
-	                    dropdown.append(button);
-	                    dropdown.append(menu);
-	                    actions.append(dropdown);
-	                    if(item.calStatus == '승인완료'){
-	                    row.append(actions);
-						}
-						
-	                    $('#datable_1 tbody').append(row);
-	                });
-
-	                // Feather Icons 초기화
-	                feather.replace();
-		        });
-				
-				
-			},
-			error : function(request, status, error) {
-				// 요청 실패 시 처리할 코드
-				console.log("조회 실패" + error);
-			}
-	    });
-	  });
-	});	
-
-
-$(document).ready(function() {
-    // 전체 체크박스 클릭
-    $("#customCheck1").click(function() {
-        // 전체 체크박스의 상태를 확인
-        var isChecked = $("#customCheck1").prop("checked");
-
-        // 모든 체크박스의 상태를 전체 체크박스에 맞춰 변경
-        $(".check-select").prop("checked", isChecked);
-    });
-
-    $("#delReserveBtn").click(function() {
-        var checkedList = [];
-        var selectedDataList = [];
-
-        // 체크된 체크박스를 찾아 예약 번호를 checkedList에 추가
-        $(".check-select:checked").each(function() {
-            var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
-            var resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-            var calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
-
-            checkedList.push(reserveNo);
-            
-            selectedDataList.push({
-                reserveNo: reserveNo,
-                resourceName: resourceName,
-                calStartDate: calStartDate,
-                empPhone: empPhone,
-                empNo: empNo
-            });
-        });
-
-        if (checkedList.length > 0) {
-            // 사용자에게 확인을 받는다.
-            var confirmed = confirm("선택한 예약을 취소하시겠습니까?");
-
-            if (confirmed) {
-                $.ajax({
-                    url: "/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
-                    type: "POST",
-                    data: JSON.stringify(checkedList), // JSON 데이터로 변환
-                    contentType: "application/json",
-                    success: function(response) {
-                        // 요청 성공 시 처리할 코드
-                        alert("취소 성공");
-                        // 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
-                        $(".check-select:checked").closest("tr").remove();
-                        
-                        $.ajax({
-                            url: "/sendCancelMessage",
-                            type: "POST",
-                            data: JSON.stringify(selectedDataList),
-                            contentType: "application/json", 
-                            success: function(response) {
-                                console.log("메시지 전송 성공")
-                            },
-                            error: function(request, status, error) {
-                                console.log("메시지 전송 실패: " + error);
-                            }
-                        });
-                    },
-                    error: function(request, status, error) {
-                        // 요청 실패 시 처리할 코드
-                        alert("취소 실패");
-                        console.log("취소 실패" + error);
-                    }
-                });
-            }
-        } else {
-            alert("취소할 예약을 선택해주세요.");
-        }
-    });
-
-    
-    $('#datable_1 tbody').on('click', '.reminderBtn', function(event) {
-    	event.preventDefault();
-
-        const resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-        const calStartDateString = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0].trim();
-       	const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
-        const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
-        const calNo = $(this).closest('tr').find('td:nth-child(2)').text().trim();
-
-        var confirmed = confirm("알림 메시지를 요청하시겠습니까?");
-
-        if (confirmed) {
-            $.ajax({
-                url: "/sendMessage",
-                type: "POST",
-                data: {
-                    resourceName: resourceName,
-                    calStartDate: calStartDate,
-                    empPhone: empPhone,
-                    empNo: empNo,
-                    calNo: calNo
-                },
-                success: function(response) {
-                    alert("메시지 전송 성공");
-                },
-                error: function(request, status, error) {
-                    alert("메시지 전송 실패");
-                    console.log("취소 실패" + error);
-                }
-            });
-        }
-    });
-    
-});
-
-</script>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+        <div id="hk_menu_backdrop" class="hk-menu-backdrop"></div>
+        <!-- /Vertical Nav -->
