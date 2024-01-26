@@ -32,5 +32,12 @@ public class MypageDaoImpl implements MypageDao {
 		return session.selectList("mypage.integratedSearch", keyword);
 	}
 
+	@Override
+	public Employee indexProfile(SqlSession session, int empNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("mypage.indexProfile", empNo);
+	}
+	
+	
 	
 }

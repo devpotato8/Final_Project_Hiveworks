@@ -136,7 +136,7 @@
 		</if>
 	</select>
 	
-	<select id="avgEndWorkFilter" parameterType="_int" resultType="String">
+	<select id="avgEndWorkFilter" parameterType="Map" resultType="String">
 		SELECT TO_CHAR(TO_DATE('00:00:00', 'HH24:MI:SS') + 
                AVG(TO_NUMBER(TO_CHAR(WORK_END_TIME, 'SSSSS')))/86400, 
                'HH24:MI:SS') 
@@ -149,7 +149,7 @@
 			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
 		</if>
 	</select>
-	<select id="lateWorkFilter" parameterType="_int" resultType="_int">
+	<select id="lateWorkFilter" parameterType="Map" resultType="int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
 		WHERE WORK_LATE = 'Y' AND EMP_NO = #{empNo}
@@ -160,7 +160,7 @@
 			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
 		</if>
 	</select>
-	<select id="fastEndFilter" parameterType="_int" resultType="_int">
+	<select id="fastEndFilter" parameterType="Map" resultType="_int">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
 		WHERE WORK_FAST_END = 'Y' AND EMP_NO = #{empNo}
@@ -171,7 +171,7 @@
 			AND (SYSDATE - WORK_START_TIME) &lt; #{month}
 		</if>
 	</select>
-	<select id="absenceFilter" parameterType="_int" resultType="_int">
+	<select id="absenceFilter" parameterType="Map" resultType="Integer">
 		SELECT COUNT(*) FROM TBL_WORK
 		JOIN TBL_WORK_REALTIME USING(WORK_NO)
 		WHERE WORK_ABSENCE = 'Y' AND EMP_NO = #{empNo}
@@ -182,11 +182,6 @@
 			AND (SYSDATE - CREATE_DATE) &lt; #{month}
 		</if>
 	</select>
-	<!-- <select id="overWork" resultType="_int">
-		SELECT COUNT(*) FROM TBL_WORK
-		JOIN TBL_WORK_REALTIME USING(WORK_NO)
-		WHERE WORK_OVERWORK = 'N' AND WORK_END_TIME >  AND EMP_NO = 1
-	</select> -->
 	
 	
 	<!-- 매일 1시에 근태상태 insert -->

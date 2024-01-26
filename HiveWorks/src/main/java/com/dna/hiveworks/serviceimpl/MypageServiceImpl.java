@@ -38,4 +38,10 @@ public class MypageServiceImpl implements MypageService {
 		return dao.integratedSearch(session, keyword);
 	}
 
+	@Override
+	public Employee indexProfile(int empNo) {
+		// TODO Auto-generated method stub
+		return dao.indexProfile(session, empNo);
+	}
+
 }

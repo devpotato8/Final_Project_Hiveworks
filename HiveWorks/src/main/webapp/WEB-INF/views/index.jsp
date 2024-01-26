@@ -60,13 +60,13 @@
 						<div class="card-body text-center">
 							<div class="card-action-wrap"></div>
 
-							<div class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
+						<div class="avatar-xl avatar-rounded align-items-center mb-5 mt-5">
 								<img src="${path }/resources/img/logo_bee.png" alt="user"
 									class="brand-img img-fluid " width="100px" height="100px">
-							</div>
-									<div class="user-name">나는 ${loginEmp.emp_name} 입니다</div>
-									<div class="user-email">${loginEmp.emp_email }</div>
-									<div class="user-contact">${loginEmp.emp_phone }</div>
+						</div>
+								<div class="user-name">${employee.dept_name} ${loginEmp.emp_name} ${employee.position_name }</div>
+								<div class="user-email">${loginEmp.emp_email }</div>
+								<div class="user-contact">${loginEmp.emp_phone }</div>
 						</div>
 						<div class="card-footer text-muted position-relative">
 							<a href="${path }/mypage/myprofile"
@@ -267,7 +267,7 @@
 																<div class="">
 																<c:choose>
 																	<c:when test="${countProcess > 0}">
-																		<span class="card-text"><a href="${path}/edoc/lists/process"><b>${countProcess}</b></a> 건</span>
+																		<span class="card-text"><a href="${path}/edoc/lists/process">${countProcess}</a> 건</span>
 																	</c:when>
 																	<c:otherwise>
 																		<span class="card-text">0 건</span>

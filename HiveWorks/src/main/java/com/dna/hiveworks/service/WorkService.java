@@ -22,12 +22,10 @@ public interface WorkService {
 	int lateWork(int empNo);
 	int fastEnd(int empNo);
 	int absence(int empNo);
-	int overWork(int empNo);
 	
 	String avgStartWorkFilter(Map<String, Integer>param);
 	String avgEndWorkFilter(Map<String, Integer>param);
 	int lateWorkFilter(Map<String, Integer>param);
 	int fastEndFilter(Map<String, Integer>param);
 	int absenceFilter(Map<String, Integer>param);
-	int overWorkFilter(Map<String, Integer>param);
 }
