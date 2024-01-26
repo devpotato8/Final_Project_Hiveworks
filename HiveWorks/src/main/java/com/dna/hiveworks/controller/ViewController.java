@@ -20,9 +20,12 @@ import com.dna.hiveworks.model.dto.Work;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
 import com.dna.hiveworks.model.dto.edoc.status.EdocStatus;
 import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
+import com.dna.hiveworks.model.dto.salary.Salary;
 import com.dna.hiveworks.service.EdocService;
 import com.dna.hiveworks.service.MsgService;
+import com.dna.hiveworks.service.MypageService;
 import com.dna.hiveworks.service.WorkService;
+import com.dna.hiveworks.serviceimpl.SalaryServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +37,8 @@ public class ViewController {
 	private final EdocService edocService;
 	private final WorkService service; 
 	private final MsgService msgService;
+	private final MypageService mypageService;
+
 	@GetMapping("/")
 	public String loginPage() {
 		return "common/loginPage";
@@ -51,6 +56,10 @@ public class ViewController {
 		Employee loginEmp = (Employee) authentication.getPrincipal();
 		int empNo = loginEmp.getEmp_no();
 		session.setAttribute("loginEmp", loginEmp);
+		
+		// 메인프로필 정보가져오기
+		Employee employee = mypageService.indexProfile(empNo);
+		m.addAttribute("employee", employee);
 		
 		// 직원 출퇴근기록 가져오기
 		Work commute = service.selectCommute(loginEmp.getEmp_no());

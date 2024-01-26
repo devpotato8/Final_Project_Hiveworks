@@ -258,34 +258,8 @@
 }
 </style>
 <script>
-	const day = 1;
 	const week = 7;
 	const month = 30;
-	function workListDay() {
-    	fetch("${path}/work/workListYear?day="+day)
-	    .then(response => response.json())
-	    .then(data => {
-	      // 데이터 처리 로직
-	      let avgStartWork = data.avgStartWork;
-	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
-	      let lateWork = data.lateWork;
-	      let fastEnd = data.fastEnd;
-	      let absence = data.absence;
-	      
-	      document.getElementById('avgStartWork').textContent = avgStartWork;
-	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork+" 회";
-	      document.getElementById('lateWork').textContent = lateWork+" 회";
-	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
-	      document.getElementById('absence').textContent = absence+" 회";
-	      console.log(avgStartWork);
-	    })
-	    .catch(error => {
-	      // 에러 처리 로직
-	      console.error(error);
-	    });
-	}
     function workListWeek() {
     	fetch("${path}/work/workListWeek?week=" + week)
     	//fetch("${path}/work/workListWeek?week=${week}") 이건 전달이 안됌...
@@ -294,14 +268,12 @@
 	      // 데이터 처리 로직
 	      let avgStartWork = data.avgStartWork;
 	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
 	      let lateWork = data.lateWork;
 	      let fastEnd = data.fastEnd;
 	      let absence = data.absence;
 	      
 	      document.getElementById('avgStartWork').textContent = avgStartWork;
 	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork+" 회";
 	      document.getElementById('lateWork').textContent = lateWork+" 회";
 	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
 	      document.getElementById('absence').textContent = absence+" 회";
@@ -319,14 +291,12 @@
 	      // 데이터 처리 로직
 	      let avgStartWork = data.avgStartWork;
 	      let avgEndWork = data.avgEndWork;
-	      let overWork = data.overWork;
 	      let lateWork = data.lateWork;
 	      let fastEnd = data.fastEnd;
 	      let absence = data.absence;
 	      
 	      document.getElementById('avgStartWork').textContent = avgStartWork;
 	      document.getElementById('avgEndWork').textContent = avgEndWork;
-	      document.getElementById('overWork').textContent = overWork+" 회";
 	      document.getElementById('lateWork').textContent = lateWork+" 회";
 	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
 	      document.getElementById('absence').textContent = absence+" 회";

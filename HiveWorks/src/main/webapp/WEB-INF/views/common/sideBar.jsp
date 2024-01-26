@@ -159,7 +159,7 @@
 							</li>	
 							
 							<li class="nav-item">
-								<a class="nav-link" href="#">
+								<a class="nav-link" href="${path }/employees/employeeListBasis">
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
@@ -168,7 +168,7 @@
 											</svg>
 										</span>
 									</span>
-									<span class="nav-link-text">Email</span>
+									<span class="nav-link-text">직원 조회</span>
 								</a>
 							</li>
 							
@@ -201,8 +201,7 @@
 										</ul>	
 									</li>	
 								</ul>	
-							</li>
-							
+							</li>						
 							<li class="nav-item">
 								<a class="nav-link" href="${path}/edoc/lists/wait">
 									<span class="nav-icon-wrap position-relative">
@@ -265,11 +264,16 @@
 													<span class="nav-link-text">프로필 수정</span>
 												</a>
 											</li>
-											<li class="nav-item">
+											<%-- <li class="nav-item">
+												<a class="nav-link" href="${path }/mypage/myvacation">
+													<span class="nav-link-text">내 휴가</span>
+												</a>
+											</li> --%>
+											<%-- <li class="nav-item">
 												<a class="nav-link" href="${path }/overtimepay/myovertimepay">
 													<span class="nav-link-text">내 시간 외 근로수당</span>
 												</a>
-											</li>
+											</li> --%>
 											<li class="nav-item">
 												<a class="nav-link" href="${path }/salary/mySalaryList">
 													<span class="nav-link-text">내 급여</span>
@@ -302,9 +306,9 @@
 											<li class="nav-item">
 												<a class="nav-link" href="${path}/salary/salaryList"><span class="nav-link-text">전체 급여 리스트</span></a>
 											</li>
-											<li class="nav-item">
+											<%-- <li class="nav-item">
 												<a class="nav-link" href="${path}/overtimepay/overtimePayList"><span class="nav-link-text">시간 외 근로수당</span></a>
-											</li>
+											</li> --%>
 										</ul>	
 									</li>	
 								</ul>	

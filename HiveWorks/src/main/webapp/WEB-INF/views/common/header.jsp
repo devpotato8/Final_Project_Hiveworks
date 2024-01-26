@@ -368,9 +368,11 @@
 												<div class="avatar avatar-rounded avatar-xs">
 													<c:choose>
 														<c:when test="${loginEmp.emp_profile_re_name ne null }">
+														<a href="${path }/mypage/myprofile">
 															<img
 																src="${path }/resources/upload/profile/${loginEmp.emp_profile_re_name }"
 																alt="user" class="avatar-img">
+														</a>
 														</c:when>
 														<c:otherwise>
 															<img src="${path }/resources/img/avatar12.jpg" alt="user"
@@ -384,7 +386,9 @@
 										<div class="media-body">
 											<c:choose>
 												<c:when test="${not empty loginEmp}">
+												<a href="${path }/mypage/myprofile">
 													<span class="d-block fw-medium" style="font-size:0.9rem">${loginEmp.emp_name}님 반가워요!</span>
+												</a>
 													<div class="fs-7">${loginEmp.emp_email }</div>		
 													<a href="${path}/logout" class="d-block fs-8 link-secondary"><u><b>로그아웃</b></u></a>
 												</c:when>
@@ -459,7 +463,7 @@
 		<div id="msgStack"></div>
 		<!-- /Top Navbar -->
 		
-<!-- WebSocket연결 -->
+		<!-- WebSocket연결 -->
 
 <!--sockJs 라이브러리-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
@@ -467,9 +471,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
-var endpoint = '${path}/ws/msg';
-var socket = new SockJS(endpoint);  //WebSocketConfig에서 지정한 endpoint와 연결
+
+var socket = new SockJS('/ws/msg');  //WebSocketConfig에서 지정한 endpoint와 연결
 var stompClient = Stomp.over(socket); //STOMP 클라이언트 생성
+stompClient.debug = function(str){
+	console.log(str);
+};
 var userId = '${loginEmp.emp_id}';
 console.log(userId);
 //연결 함수
@@ -491,7 +498,7 @@ stompClient.connect({userId:userId},onConnected,onError);
 	    var title = data.title;
 	    var sender = data.senderName;
 	    
-	    console.log(data,"쪽지도착!");
+	    console.log(data,"공습경보!!!");
 	}
     function onError(){
     	console.log('통신에러');

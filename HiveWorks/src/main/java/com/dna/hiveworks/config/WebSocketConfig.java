@@ -23,7 +23,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws/msg").setAllowedOriginPatterns("http://localhost:9090").withSockJS();
-		//registry.addEndpoint("/topic/messages").setAllowedOriginPatterns("http://localhost:9090").withSockJS();
 	}
 
 

@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
 
 import com.dna.hiveworks.security.DBConnectionProvider;
 
@@ -21,28 +20,27 @@ public class SecurityConfig {
 	
 	@Bean
 	SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception{
-	    return http.cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
-	            .csrf(csrf->csrf.disable())
-	            .authorizeHttpRequests(request->{
-	                request.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-	                        .requestMatchers("/").permitAll()
-	                        .requestMatchers("/WEB-INF/views/**").permitAll()
-	                        .requestMatchers("/resources/**").permitAll()
-	                        //.requestMatchers("/**").permitAll()
-	                        .anyRequest().authenticated();
-	            })
-	            .formLogin(formlogin->{
-	                formlogin.loginPage("/")
-	                        .loginProcessingUrl("/loginend")
-	                        .usernameParameter("emp_Id")
-	                        .passwordParameter("emp_Pw")
-	                        .failureUrl("/loginfail")
-	                        .successForwardUrl("/login/index")
-	                        .permitAll();
-	            })
-	            .logout(logout->logout.logoutUrl("/logout"))
-	            .authenticationProvider(dbprovider)
-	            .build();
+		return http.csrf(csrf->csrf.disable())
+				.authorizeHttpRequests(request->{
+					request.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+							.requestMatchers("/").permitAll()
+							.requestMatchers("/WEB-INF/views/**").permitAll()
+							.requestMatchers("/resources/**").permitAll()
+							//.requestMatchers("/**").permitAll()
+							.anyRequest().authenticated();
+				})
+				.formLogin(formlogin->{
+					formlogin.loginPage("/")
+							.loginProcessingUrl("/loginend")
+							.usernameParameter("emp_Id")
+							.passwordParameter("emp_Pw")
+							.failureUrl("/loginfail")
+							.successForwardUrl("/login/index")
+							.permitAll();
+				})
+				.logout(logout->logout.logoutUrl("/logout"))
+				.authenticationProvider(dbprovider)
+				.build();
 	}
 	
 	
