@@ -1,56 +1,406 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    pageEncoding="UTF-8"%>
 
-<c:set var="path" value="${pageContext.request.contextPath}" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="default" name="style" />
-	<jsp:param value="" name="hover" />
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<jsp:include page= "/WEB-INF/views/common/header.jsp">
+	<jsp:param value="default" name="style"/>
+	<jsp:param value="" name="hover"/>
 </jsp:include>
+  <style>
+    /* 스타일 추가 */
+    .button-group {
+       	/* text-align: center; */
+		white-space: nowrap; /* 줄 바꿈을 방지합니다. */    
+    }
 
-<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
-<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
-   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
-</jsp:include>
-<style>
-
-	.table td, .table th {
-    vertical-align: middle;
-    padding: 0;
+    .button-group button {
+      margin-left: 10px; /* 버튼 간의 간격을 조절합니다. */
+      display: inline-block; /* 버튼을 인라인 블록으로 표시합니다. */
+    }
+    
+    .button-group>#form_real {
+      margin-left: 5px; /* 버튼 간의 간격을 조절합니다. */
+      display: inline-block; /* 버튼을 인라인 블록으로 표시합니다. */
+    }
+   	
+   	.button-group>#excelDownload_btn {
+     justify-content: flex-end;
+    }
+    
+    .right-btn {
+ 	 float:right;
 	}
 
- 	.table td:nth-child(n+5){
-	text-align: left;
-	padding-left: 10px;
-
-	}
-	
-	.d-xxl-flex{
+/*     enrollEmployee_btn
+   	excelDownload_btn */
+    .invoice-toolbar-left{
     	display:none !important;
     	
     }
-    
-    #save_btn{
-    	text-align: right;
-    	padding-right: 40px;
-    }
 
-</style>
+  </style>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+   	<!-- Wrapper -->
+	<div id="scrollable-container" class="hk-wrapper" data-layout="vertical" data-layout-style="collapsed" data-menu="light" data-footer="simple" data-hover="active">
+		<!-- Top Navbar -->
+		<!-- <nav class="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
+			<div class="container-fluid">
+			Start Nav
+			<div class="nav-start-wrap">
+				<button class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="align-left"></i></span></span></button>
+					
+				Search
+				<form class="dropdown navbar-search">
+					<div class="dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="outside">
+						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="search"></i></span></span></a>
+						<div class="input-group d-xl-flex d-none">
+							<span class="input-affix-wrapper input-search affix-border">
+								<input type="text" class="form-control  bg-transparent"  data-navbar-search-close="false" placeholder="Search..." aria-label="Search">
+								<span class="input-suffix"><span>/</span>
+									<span class="btn-input-clear"><i class="bi bi-x-circle-fill"></i></span>
+									<span class="spinner-border spinner-border-sm input-loader text-primary" role="status">
+										<span class="sr-only">Loading...</span>
+									</span>
+								</span>
+							</span>
+						</div>
+					</div>
+					<div  class="dropdown-menu p-0">
+						Mobile Search
+						<div class="dropdown-item d-xl-none bg-transparent">
+							<div class="input-group mobile-search">
+								<span class="input-affix-wrapper input-search">
+									<input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+									<span class="input-suffix">
+										<span class="btn-input-clear"><i class="bi bi-x-circle-fill"></i></span>
+										<span class="spinner-border spinner-border-sm input-loader text-primary" role="status">
+											<span class="sr-only">Loading...</span>
+										</span>
+									</span>
+								</span>
+							</div>
+						</div>
+						/ Mobile Search
+						<div data-simplebar class="dropdown-body p-2">
+							<h6 class="dropdown-header">Recent Search
+							</h6>
+							<div class="dropdown-item bg-transparent">
+								<a href="#" class="badge badge-pill badge-soft-secondary">Grunt</a>
+								<a href="#" class="badge badge-pill badge-soft-secondary">Node JS</a>
+								<a href="#" class="badge badge-pill badge-soft-secondary">SCSS</a>
+							</div>
+							<div class="dropdown-divider"></div>
+							<h6 class="dropdown-header">Help
+							</h6>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<div class="media align-items-center">
+									<div class="media-head me-2">
+										<div class="avatar avatar-icon avatar-xs avatar-soft-light avatar-rounded">
+											<span class="initial-wrap">
+												<span class="svg-icon">
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-corner-down-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+														<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+														<path d="M6 6v6a3 3 0 0 0 3 3h10l-4 -4m0 8l4 -4"></path>
+													 </svg>
+												</span>
+											</span>
+										</div>
+									</div>
+									<div class="media-body">
+										How to setup theme?
+									</div>
+								</div>
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<div class="media align-items-center">
+									<div class="media-head me-2">
+										<div class="avatar avatar-icon avatar-xs avatar-soft-light avatar-rounded">
+											<span class="initial-wrap">
+												<span class="svg-icon">
+													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-corner-down-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+														<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+														<path d="M6 6v6a3 3 0 0 0 3 3h10l-4 -4m0 8l4 -4"></path>
+													 </svg>
+												</span>
+											</span>
+										</div>
+									</div>
+									<div class="media-body">
+										View detail documentation
+									</div>
+								</div>
+							</a>
+							<div class="dropdown-divider"></div>
+							<h6 class="dropdown-header">Users
+							</h6>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<div class="media align-items-center">
+									<div class="media-head me-2">
+										<div class="avatar avatar-xs avatar-rounded">
+											<img src="dist/img/avatar3.jpg" alt="user" class="avatar-img">
+										</div>
+									</div>
+									<div class="media-body">
+										Sarah Jone
+									</div>
+								</div>
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<div class="media align-items-center">
+									<div class="media-head me-2">
+										<div class="avatar avatar-xs avatar-soft-primary avatar-rounded">
+											<span class="initial-wrap">J</span>
+										</div>
+									</div>
+									<div class="media-body">
+										Joe Jackson
+									</div>
+								</div>
+							</a>
+							<a href="javascript:void(0);" class="dropdown-item">
+								<div class="media align-items-center">
+									<div class="media-head me-2">
+										<div class="avatar avatar-xs avatar-rounded">
+											<img src="dist/img/avatar4.jpg" alt="user" class="avatar-img">
+										</div>
+									</div>
+									<div class="media-body">
+										Maria Richard
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="dropdown-footer d-xl-flex d-none"><a href="#"><u>Search all</u></a></div>
+					</div>
+				</form>
+				/Search
+			</div>
+			/Start Nav
+			
+			End Nav
+			<div class="nav-end-wrap">
+				<ul class="navbar-nav flex-row">
+					<li class="nav-item">
+						<a href="email.html" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"><span class="icon"><span class=" position-relative"><span class="feather-icon"><i data-feather="inbox"></i></span><span class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span></span></span></a>
+					</li>
+					<li class="nav-item">
+						<div class="dropdown dropdown-notifications">
+							<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation role="button" aria-haspopup="true" aria-expanded="false"><span class="icon"><span class="position-relative"><span class="feather-icon"><i data-feather="bell"></i></span><span class="badge badge-success badge-indicator position-top-end-overflow-1"></span></span></span></a>
+							<div class="dropdown-menu dropdown-menu-end p-0">
+								<h6 class="dropdown-header px-4 fs-6">Notifications<a href="#" class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"><span class="icon"><span class="feather-icon"><i data-feather="settings"></i></span></span></a>
+								</h6>
+								<div data-simplebar class="dropdown-body  p-2">
+									<a href="javascript:void(0);" class="dropdown-item">
+										<div class="media">
+											<div class="media-head">
+												<div class="avatar avatar-rounded avatar-sm">
+													<img src="dist/img/avatar2.jpg" alt="user" class="avatar-img">
+												</div>
+											</div>
+											<div class="media-body">
+												<div>
+													<div class="notifications-text">Morgan Freeman accepted your invitation to join the team</div>
+													<div class="notifications-info">
+														<span class="badge badge-soft-success">Collaboration</span>
+														<div class="notifications-time">Today, 10:14 PM</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+									<a href="javascript:void(0);" class="dropdown-item">
+										<div class="media">
+											<div class="media-head">
+												<div class="avatar  avatar-icon avatar-sm avatar-success avatar-rounded">
+													<span class="initial-wrap">
+														<span class="feather-icon"><i data-feather="inbox"></i></span>
+													</span>
+												</div>
+											</div>
+											<div class="media-body">
+												<div>
+													<div class="notifications-text">New message received from Alan Rickman</div>
+													<div class="notifications-info">
+														<div class="notifications-time">Today, 7:51 AM</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+									<a href="javascript:void(0);" class="dropdown-item">
+										<div class="media">
+											<div class="media-head">
+												<div class="avatar  avatar-icon avatar-sm avatar-pink avatar-rounded">
+													<span class="initial-wrap">
+														<span class="feather-icon"><i data-feather="clock"></i></span>
+													</span>
+												</div>
+											</div>
+											<div class="media-body">
+												<div>
+													<div class="notifications-text">You have a follow up with Jampack Head on Friday, Dec 19 at 9:30 am</div>
+													<div class="notifications-info">
+														<div class="notifications-time">Yesterday, 9:25 PM</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+									<a href="javascript:void(0);" class="dropdown-item">
+										<div class="media">
+											<div class="media-head">
+												<div class="avatar avatar-sm avatar-rounded">
+													<img src="dist/img/avatar3.jpg" alt="user" class="avatar-img">
+												</div>
+											</div>
+											<div class="media-body">
+												<div>
+													<div class="notifications-text">Application of Sarah Williams is waiting for your approval</div>
+													<div class="notifications-info">
+														<div class="notifications-time">Today 10:14 PM</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+									<a href="javascript:void(0);" class="dropdown-item">
+										<div class="media">
+											<div class="media-head">
+												<div class="avatar avatar-sm avatar-rounded">
+													<img src="dist/img/avatar10.jpg" alt="user" class="avatar-img">
+												</div>
+											</div>
+											<div class="media-body">
+												<div>	
+													<div class="notifications-text">Winston Churchil shared a document with you</div>
+													<div class="notifications-info">
+														<span class="badge badge-soft-violet">File Manager</span>
+														<div class="notifications-time">2 Oct, 2021</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+									<a href="javascript:void(0);" class="dropdown-item">
+										<div class="media">
+											<div class="media-head">
+												<div class="avatar  avatar-icon avatar-sm avatar-danger avatar-rounded">
+													<span class="initial-wrap">
+														<span class="feather-icon"><i data-feather="calendar"></i></span>
+													</span>
+												</div>
+											</div>
+											<div class="media-body">
+												<div>	
+													<div class="notifications-text">Last 2 days left for the project to be completed</div>
+													<div class="notifications-info">
+														<span class="badge badge-soft-orange">Updates</span>
+														<div class="notifications-time">14 Sep, 2021</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div class="dropdown-footer"><a href="#"><u>View all notifications</u></a></div>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item">
+						<div class="dropdown ps-2">
+							<a class=" dropdown-toggle no-caret" href="#" role="button" data-bs-display="static" data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="outside" aria-expanded="false">
+								<div class="avatar avatar-rounded avatar-xs">
+									<img src="dist/img/avatar12.jpg" alt="user" class="avatar-img">
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<div class="p-2">
+									<div class="media">
+										<div class="media-head me-2">
+											<div class="avatar avatar-primary avatar-sm avatar-rounded">
+												<span class="initial-wrap">Hk</span>
+											</div>
+										</div>
+										<div class="media-body">
+											<div class="dropdown">
+												<a href="#" class="d-block dropdown-toggle link-dark fw-medium"  data-bs-toggle="dropdown" data-dropdown-animation data-bs-auto-close="inside">Hencework</a>
+												<div class="dropdown-menu dropdown-menu-end">
+													<div class="p-2">
+														<div class="media align-items-center active-user mb-3">
+															<div class="media-head me-2">
+																<div class="avatar avatar-primary avatar-xs avatar-rounded">
+																	<span class="initial-wrap">Hk</span>
+																</div>
+															</div>
+															<div class="media-body">
+																<a href="#" class="d-flex align-items-center link-dark">Hencework <i class="ri-checkbox-circle-fill fs-7 text-primary ms-1"></i></a>
+																<a href="#" class="d-block fs-8 link-secondary"><u>Manage your account</u></a>
+															</div>
+														</div>
+														<div class="media align-items-center mb-3">
+															<div class="media-head me-2">
+																<div class="avatar avatar-xs avatar-rounded">
+																	<img src="dist/img/avatar12.jpg" alt="user" class="avatar-img">
+																</div>
+															</div>
+															<div class="media-body">
+																<a href="#" class="d-block link-dark">Jampack Team</a>
+																<a href="#" class="d-block fs-8 link-secondary">contact@hencework.com</a>
+															</div>
+														</div>
+														<button class="btn btn-block btn-outline-light btn-sm">
+															<span><span class="icon"><span class="feather-icon"><i data-feather="plus"></i></span></span>
+															<span>Add Account</span></span>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="fs-7">contact@hencework.com</div>
+											<a href="#" class="d-block fs-8 link-secondary"><u>Sign Out</u></a>
+										</div>
+									</div>
+								</div>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="profile.html">Profile</a>
+								<a class="dropdown-item" href="#"><span class="me-2">Offers</span><span class="badge badge-sm badge-soft-pink">2</span></a><div class="dropdown-divider"></div>
+								<h6 class="dropdown-header">Manage Account</h6>
+								<a class="dropdown-item" href="#"><span class="dropdown-icon feather-icon"><i data-feather="credit-card"></i></span><span>Payment methods</span></a>
+								<a class="dropdown-item" href="#"><span class="dropdown-icon feather-icon"><i data-feather="check-square"></i></span><span>Subscriptions</span></a>
+								<a class="dropdown-item" href="#"><span class="dropdown-icon feather-icon"><i data-feather="settings"></i></span><span>Settings</span></a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#"><span class="dropdown-icon feather-icon"><i data-feather="tag"></i></span><span>Raise a ticket</span></a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Terms & Conditions</a>
+								<a class="dropdown-item" href="#">Help & Support</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			/End Nav
+			</div>									
+		</nav> -->
+		<!-- /Top Navbar -->
+
+        <!-- Vertical Nav -->
+        
+
 		<!-- Main Content -->
 		<div class="hk-pg-wrapper pb-0">
 			<div class="hk-pg-body py-0">
 				<div class="invoiceapp-wrap">
-					<div class="invoiceapp-content" style="padding-left: 40px;">
+					<div class="invoiceapp-content">
 						<div class="invoiceapp-detail-wrap">
 							<header class="invoice-header">
 								<div class="d-flex align-items-center">
-									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-										<h1>권한 관리</h1>
+									<a class="invoiceapp-title link-dark" data-bs-toggle="dropdown" href="#" role="button"aria-haspopup="true"  aria-expanded="false">
+										<h1>직원 조회</h1>
 									</a>
 									<!-- <div class="dropdown-menu">
 										<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="users"></i></span><span>All Invoices</span></a>
@@ -87,52 +437,32 @@
 								
 							</header>
 							<div class="invoice-body">
-							<div id ="save_btn">
-							<button class="btn btn-primary btn-sm" type="button" onclick="fn_updateAuthorities();">저장</button>
-								</div>
 								<div data-simplebar class="nicescroll-bar">
 									<div class="invoice-list-view">
-										<table id="datable_1" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 0, "asc" ]]' id="datable_2" class="table nowrap">
 											<thead>
 												<tr>
-													<th><span class="form-check mb-0">
-														<input type="checkbox" class="form-check-input check-select-all" id="customCheck1">
-														<label class="form-check-label" for="customCheck1"></label>
-													</span></th>
 													<th>사원번호</th>
 													<th>이름</th>
-													<th>아이디</th>
-													<c:forEach var="a" items="${autCodeList.authorityList }">
-													<th><c:out value="${a.AUTNAME }" /></th>
-													</c:forEach>
-													<th>권한조정</th>
+													<th>부서명</th>
+													<th>직위</th>
+													<th>사내전화</th>
+													<th>핸드폰번호</th>
+													<th>이메일</th>
 												</tr>
 											</thead>
 											<tbody>
 												<c:forEach var="s" items="${employees }">
-												<tr class="list">
-													<td></td>
-													<td><c:out value="${s.emp_no }" /></td>
-													<td><c:out value="${s.emp_name }" /></td>
-													<td>
-														<div class="text-dark"><c:out value="${s.emp_id }" /></div>
-													</td>
-														<c:forEach var="a" items="${autCodeList.authorityList }">
-													<td>
- 														<input type="radio" class="aut_code" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
-													</td>
-														</c:forEach>
-													<td>
-														<div>
-															<div class="d-flex">
-																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no});">권한해제</button>
-															</div>
-														</div>
-													</td>
+												<tr>
+													<td><a href="${path }/employees/employeeDetailBasis?emp_no=${s.emp_no}"><c:out value="${s.emp_no }" /></a></td>
+													<td><a href="${path }/employees/employeeDetailBasis?emp_no=${s.emp_no}" class="table-link-text link-high-em"><c:out value="${s.emp_name }" /></a></td>
+													<td><span><c:out value="${s.dept_name }" /></span></td>
+													<td><c:out value="${s.position_name }" /></td>
+													<td><c:out value="${s.emp_phone }"/></td>
+													<td><c:out value="${s.emp_cellphone }" /></td>
+													<td><c:out value="${s.emp_email }" /></td>
 												</tr>
 												</c:forEach>
-												
-												
 												<!-- <tr>
 													<td></td>
 													<td><a href="#" class="table-link-text link-high-em">11235</a></td>
@@ -440,109 +770,83 @@
 		</div>
 		<!-- /Main Content -->
 	</div>
-	    <!-- /Wrapper -->
 
-	<!-- jQuery -->
-    <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
+														
+<!-- Data Table JS -->
+<script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="${path}/resources/vendors/jszip/dist/jszip.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="${path}/resources/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js"></script>
+<script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>		
+<script src="${path}/resources/js/invoice-data.js"></script>
 
-    <!-- Bootstrap Core JS -->
-   	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- FeatherIcons JS -->
-
-    <!-- Fancy Dropdown JS -->
-
-	<!-- Simplebar JS -->
-	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+<script>
+$('#datable_2').DataTable( {
+	scrollX:  true,
+	autoWidth: false,
+	language: { search: "",
+		searchPlaceholder: "Search",
+		sLengthMenu: "_MENU_items",
+		paginate: {
+			next: '', // or '→'
+			previous: '' // or '←' 
+		}
+	},
+	"drawCallback": function () {
+		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
 	
-	<!-- Data Table JS -->
-    <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-	<script src="${path}/resources/vendors/datatables.net-select/js/dataTables.select.min.js"></script>
-	<script>
-	
-	
-	$(document).ready(function(){
-		$('input[type=radio]').change(function(){
-
-			let $row = $(this).closest('tr').find('span');
+		fn_deleteEmployee=(e)=>{
 			
-			let checkbox = $row.find('input[type=checkbox]').eq(0);
-
-			checkbox.prop('checked',true);
+			let result = confirm("해당 사용자의 정보를 삭제하시겠습니까?");
 			
-		});
-	});
-	
-	
-/* 	function getSelectedData() {
-		   
-		   var newData=[];
-
-		  $('.form-check-input:checked').each(function() {
-		      // 체크박스가 속한 행을 가져옴
-		      var $row = $(this).closest('tr');
-		   
-		      var msg_no = parseInt($row.find('td').eq(1).text());
-		      var emp_no = parseInt($row.find('td').eq(2).text());
-		      
-		      console.log(msg_no,emp_no);
-		      
-		      // 배열에 추가
-		      newData.push({
-		          msg_no: msg_no,
-		          emp_no: emp_no
-		      });
-		  });
-
-		  return newData; */
-	
-
-	
-	fn_updateAuthorities=()=>{
-		let autCode = document.querySelectorAll('.aut_code');
-
-		let autCodeArray = Array.from(autCode);
-		
-		let input_values =[];
-		let input_names =[];
-		autCodeArray.forEach(e=>{
-			if(e.checked){		
-				input_names.push(e.name);
-				input_values.push(e.value);
-				
+			if(result){
+				location.replace("${path }/employees/deleteEmployee?emp_no="+e);
+			}else{
+				alert("취소하였습니다.");
 			}
-
-		});
- 		$.ajax({
-			type:'POST',
-			url:'${path}/employees/updateAuthorities',
-			contentType:'application/json',
-			data:JSON.stringify({
-				names:input_names,
-				values:input_values
-			}),
-			success:data=>{
-				alert("업데이트 완료");
-				location.reload();
-			},
-			error:data=>{
-				alert("업데이트 실패");
-				location.reload();
-			}
-		});
+		}
 
 	}
+});
+													
+</script>
+<script>
+let $form = document.getElementById('form_real');
+fn_excelUpload=(e)=>{
+	e.preventDefault();
 	
-	</script>
-	<script>
-		fn_changeDefault=(e)=>{
-			let $radio=$('input[name='+e+']').eq(6);	
-			$radio.prop('checked',true);
-		
-		};
-	</script>
-	 <!-- Bootstrap Core JS -->
+	let $excelUpFile = document.getElementById('excelUpFile');
+	
+	if($excelUpFile.value==""){
+		alert("파일을 업로드해주세요.");
+		$excelUpFile.addEventListener('focus',event);
+		return false;
+	}	
+	
+	$form.submit();
+}
+
+</script>
+<script>
+//엑셀 다운로드
+fn_excelDownload=()=>{
+	location.replace("${path}/employees/excelEmployeeDownload");
+};
+
+</script>
+	<script src="${path}/resources/vendors/simplebar/dist/simplebar.min.js"></script>
+    <!-- Bootstrap Core JS -->
    	<script src="${path}/resources/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- FeatherIcons JS -->
@@ -554,5 +858,4 @@
 	<!-- Init JS -->
 	<script src="${path}/resources/js/init.js"></script>
 	<script src="${path}/resources/js/chips-init.js"></script>
-	<script src="${path}/resources/js/dashboard-data.js"></script>
-
+	<%-- <script src="${path}/resources/js/dashboard-data.js"></script> --%>

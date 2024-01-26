@@ -73,9 +73,7 @@ public class EmpController {
 		
 		List<Employee> employees = service.selectEmployeesListAll();
 		
-		
 		model.addAttribute("employees",employees);
-		
 		
 		return "employees/employeeList";
 	}
@@ -598,6 +596,32 @@ public class EmpController {
             output.flush();
         }
     }
+	
+	@GetMapping("/employeeListBasis")
+	public String selectEmployeeListOfBasis(Model model) {
+		
+		List<Employee> employees = service.selectEmployeesListAll();
+		
+		model.addAttribute("employees",employees);
+		
+		return "employees/employeeListBasis";
+	}
+	
+	
+	@GetMapping("/employeeDetailBasis")
+	public String selectEmployeeDetailOfBasis(Model model, int emp_no) {
+		
+		Map<String,Object> value = new HashMap<>();
+		
+		value = service.selectEmployeeByEmpNo(emp_no);
+
+		model.addAttribute("employee", value.get("employee"));
+		model.addAttribute("account",value.get("account"));
+		
+		return "employees/employeeDetailBasis";
+		
+	}
+	
 	
 }
 
