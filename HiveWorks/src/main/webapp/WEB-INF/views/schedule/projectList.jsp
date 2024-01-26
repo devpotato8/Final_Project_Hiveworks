@@ -26,7 +26,15 @@
 
 	<!-- CSS -->
     <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
-    
+<style>
+.bigbax {
+   margin-top: 20px;
+   border-radius: 20px;
+   background-color: #ffffff;
+   padding: 20px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+</style>
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -164,6 +172,103 @@
 										</ul>
 									</div>
 								</div>
+	<div class="row">
+      <div class="col-1"></div>
+      <div class="col-10  bigbax">
+         <div class="row" style="display: flex; justify-content: space-evenly; text-align: center;">
+            <div class="col-1"></div>
+            <div class="col-2 smallbox" >
+               <div class="">
+                  <h4 >총 프로젝트 수</h4>
+               </div>
+               <div class="blank">
+                 <%--  <c:if test="${not empty commute}">
+                      <c:set var="nomalCount" value="0" />
+                      <c:set var="nonAntteCount" value="0" />
+                         <c:forEach var="c" items="${commute}" varStatus="loop">
+                             <c:set var="nomalCount" value="${nomalCount + 1}" />
+                             <c:if test="${c. EMP_COMMUTE_STATUS == 'nonAntte'}">
+                                <c:set var="nonAntteCount" value="${nonAntteCount + 1}" /> 
+                             </c:if>
+                            </c:forEach>
+                      <h4 id="finishCount">${nomalCount-nonAntteCount} 일 </h4>
+                  </c:if> --%>
+               </div>
+            </div>
+            <div class="col-2 smallbox" >
+               <div class=" ">
+                  <h4 class="">마감된 프로젝트</h4>
+               </div>
+               <div class="blank">
+                <%--   <c:if test="${not empty commute}">
+                   <c:set var="nomalCount" value="0" />
+                      <c:forEach var="c" items="${commute}" varStatus="loop">
+                          <c:if test="${c. EMP_COMMUTE_LATENESS == 'N'}">
+                              <c:set var="nomalCount" value="${nomalCount + 1}" />
+                          </c:if>
+                         </c:forEach>
+                   <h4 id="finishCount">${nomalCount} 일</h4>
+                  </c:if> --%>
+               </div>
+            </div>
+            <div class=" col-2 smallbox">
+               <div class="">
+                  <h4 class="">남은 프로젝트</h4>
+               </div>
+               <div class="blank">
+                <%--   <c:if test="${not empty commute}">
+                   <c:set var="lateCount" value="0" />
+                   <c:forEach var="c" items="${commute}" varStatus="loop">
+                       <c:if test="${c. EMP_COMMUTE_LATENESS == 'Y'}">
+                           <c:set var="lateCount" value="${lateCount + 1}" />
+                       </c:if>
+                   </c:forEach>
+                  
+                   <h4 id="lateCount">${lateCount} 회</h4>
+               </c:if> --%>
+               </div>
+            </div>
+            <div class=" col-2 smallbox">
+               <div class="">
+                  <h4 class="">프로젝트 진행률</h4>
+               </div>
+               <div class="blank">
+                 <%--  <c:set var="nonAntteCount" value="0" />
+                  <c:if test="${not empty commute}">
+                      <c:set var="absenceCount" value="0" />
+                      <c:forEach var="c" items="${commute}" varStatus="loop">
+                          <c:if test="${c.EMP_COMMUTE_ABSENCE == 'Y'}">
+                              <c:set var="absenceCount" value="${absenceCount + 1}" />
+                          </c:if> 
+                          <c:if test="${c. EMP_COMMUTE_STATUS == 'nonAntte'}">
+                                <c:set var="nonAntteCount" value="${nonAntteCount + 1}" />
+                         </c:if>
+                      </c:forEach>
+                      <h4 id="finishCount">${absenceCount-nonAntteCount} 회</h4>
+                  </c:if> --%>
+               </div>
+            </div>
+            <div class=" col-2 smallbox">
+               <div class="">
+                  <h3 class="">퇴근 미처리</h3>
+               </div>
+               <div class="blank">
+                 <%--  <c:if test="${not empty commute}">
+                      <c:set var="Uncleared" value="0" />
+                      <c:forEach var="c" items="${commute}" varStatus="loop">                
+                          <c:if test="${c.EMP_COMMUTE_STATUS == 'Uncleared'}">
+                              <c:set var="Uncleared" value="${Uncleared + 1}" />
+                          </c:if>
+                      </c:forEach>                    
+                      <h4 id="Uncleared">${Uncleared} 회</h4>
+                  </c:if> --%>
+               </div>
+               
+            </div>
+            <div class="col-1"></div>
+         </div>
+      </div>
+   </div> 
 								<div class="collapse-simple mt-4">
 									<div class="card">
 										<div class="card-header">
@@ -188,8 +293,10 @@
 																				class="form-check-label" for="customCheckTodo1"></label>
 																		</div>
 																		<div>
+																		<c:if test="${pro.calImportYn == 'Y'}">
 																			<span class="todo-star marked"><span
 																				class="feather-icon"><i data-feather="star"></i></span></span>
+																		</c:if>
 																				
 																			<c:if test="${pro.calStatus == '마감'}">
 																			<span class="badge badge-danger badge-indicator badge-indicator-xl"></span>
@@ -225,10 +332,11 @@
 																	<div
 																		class="d-flex flex-shrink-0 align-items-center ms-3">
 																		<span
-																			class="todo-time d-lg-inline-block d-none text-primary me-3 projectViewDate" data-projectNo="${pro.calNo }">~ ${pro.calEndDate }</span>
+																			class="todo-time d-lg-inline-block d-none text-primary me-3 projectViewDate" data-projectNo="${pro.calNo }">~ ${pro.calEndDate.toString().substring(0, 16)}</span>
+																		
 																		<div
 																			class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																			<span class="d-block projectViewName">${pro.myEmpName}</span> 
+																			<span class="d-block projectViewName" style="width: 70px; padding-right: 5px;">${pro.myEmpName}</span> 
 																		</div>
 																	<!-- 	<span
 																			class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span> -->
@@ -298,9 +406,11 @@
 									</button>
 								</div>
 								<div class="task-options-wrap">
-									<span class="task-star marked"><span
-										class="feather-icon"><i data-feather="star"></i></span></span> <a
-										class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret ms-1"
+									<div class="form-check" style="padding-right:300px">
+								<input type="checkbox" class="form-check-input"
+									id="event_import"> <label class="form-check-label"
+									for="event_import">중요 프로젝트</label></div>
+										<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret ms-1"
 										href="#" data-bs-toggle="dropdown"><span class="icon"><span
 											class="feather-icon"><i data-feather="more-vertical"></i></span></span></a>
 									<div class="dropdown-menu dropdown-menu-end">
@@ -1246,6 +1356,37 @@ document.querySelectorAll(".projectView").forEach(element => {
         searchProjectbyCalNo($project.getAttribute('data-projectNo'),0);
     }
 });
+  
+//중요일정으로 변경
+	document.querySelector('#event_import').addEventListener('change', function() {
+      var importYn = this.checked ? 'Y' : 'N';
+      
+      $.ajax({
+			url: "/schedule/updateImportYn",
+			method: "POST",
+			data: JSON.stringify(
+				{importYn : importYn,
+				calno: document.getElementById('recalno').value,
+				}),
+			contentType: 'application/json',
+		})
+			.done(function(result) {
+				console.log(result);
+				alert("중요 프로젝트로 변경 성공");
+				calendar.addEvent(editEvent);
+
+				calendar.refetchEvents();
+			})
+			.fail(function(request, status, error) {
+				alert("중요 프로젝트로 변경 실패" + error);
+				this.checked = false;
+				console.log(request, status);
+				console.log(error);
+			});
+
+		calendar.unselect();
+
+	});
 
 
 
@@ -1281,6 +1422,16 @@ document.querySelectorAll(".projectView").forEach(element => {
   	        document.getElementById('reproContent').textContent = data.calContent;
   	        document.getElementById('reproEndDate').value = formatDate(data.calEndDate);
   	        document.getElementById('reproStartDate').value = formatDate(data.calStartDate);
+  	        
+  	      var importantYn = data.calImportYn;
+			switch (importantYn) {
+			    case 'Y':
+			        document.querySelector('#event_import').checked = true;
+			        break;
+			    case 'N':
+			        document.querySelector('#event_import').checked = false;
+			        break;
+			        }
   	        
   	        const selectElement = document.getElementById('reproStatus');
 

@@ -260,7 +260,9 @@
 									aria-label="Default select example">
 										<option selected value="CAL001">내일정</option>
 										<option value="CAL002">부서일정</option>
-										<option value="CAL003">전사일정</option>
+										<c:if test="${loginEmp.aut_code == 'AUT001'}">
+											<option value="CAL003">전사일정</option>
+										</c:if>
 								</select>
 								</span>
 							</div>
@@ -524,7 +526,9 @@
 											aria-label="Default select example">
 											<option selected value="CAL001">내일정</option>
 											<option value="CAL002">부서일정</option>
+											<c:if test="${loginEmp.aut_code == 'AUT001'}">
 											<option value="CAL003">전사일정</option>
+											</c:if>
 										</select>
 
 									</div>
@@ -654,6 +658,8 @@ empNos.push("${emp.emp_no}");
 </c:forEach>
 
 console.log(empDeptCodes);
+
+var contextPath = "<c:out value='${path}'/>";
 
 //체크박스 value주기	
 	$(document).ready(function(){

@@ -20,7 +20,7 @@
 						<div class="menu-group">
 								<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-										<a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}">
+										<a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -37,7 +37,7 @@
 										<c:if test="${not empty reList}">
 											<c:forEach var="res" items="${reList}">
 												<li class="nav-item">
-													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do?resourceNo=${res.resourceNo}">
+													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource?resourceNo=${res.resourceNo}">
 														<span class="nav-link-text">${res.resourceName}</span>
 													</a>
 												</li>
@@ -53,14 +53,14 @@
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link"
-									href="${path }/schedule/reservationlist.do"> <span
+									href="${path }/schedule/reservationlist"> <span
 										class="nav-icon-wrap"><span class="feather-icon"><i
 												data-feather="flag"></i></span></span> <span class="nav-link-text">전체
 											예약/대여 조회</span>
 								</a></li>
 
 								<li class="nav-item"><a class="nav-link"
-									href="${path}/schedule/resourcelist.do"> <span
+									href="${path}/schedule/resourcelist"> <span
 										class="nav-icon-wrap"><span class="feather-icon"><i
 												data-feather="grid"></i></span></span> <span class="nav-link-text">전사자산
 											목록</span>
@@ -217,7 +217,7 @@
 						</div>
 						<div class="modal-body">
 							<div class="resourceContainer">
-								<form id="resourceForm" action="${path }/schedule/insertresource.do" method="post">
+								<form id="resourceForm" action="${path }/schedule/insertresource" method="post">
 									<input type="hidden" name="creater" id="creater"
 										value="${loginEmp.emp_no}" /> <input type="hidden"
 										name="modifier" id="modifier" value="${loginEmp.emp_no}" />
@@ -465,7 +465,7 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 			$('#dropdownMenuButton').text(selectedType);
 	
 			$.ajax({
-				url : '/schedule/resourcelistByType',
+				url :  contextPath+'/schedule/resourcelistByType',
 				type : 'POST',
 				data : {
 					resourceType : type
@@ -575,7 +575,7 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 
 			if (checkedList.length > 0) {
 				$.ajax({
-					url : "/schedule/deleteResource", // 삭제 요청을 처리할 서버 URL
+					url :  contextPath+"/schedule/deleteResource", // 삭제 요청을 처리할 서버 URL
 					type : "POST",
 					data : JSON.stringify(checkedList), // JSON 데이터로 변환
 					contentType : "application/json",
