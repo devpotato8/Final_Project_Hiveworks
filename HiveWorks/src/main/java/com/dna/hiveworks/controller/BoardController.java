@@ -82,9 +82,9 @@ public class BoardController {
 	}
 	@RequestMapping("/boardDelete")
 	public String boardDelete(@RequestParam("boardNo") int boardNo,Model model) {
-		Board board = service.boardDelete(boardNo);
+		int board = service.boardDelete(boardNo);
 		log.debug("보드 번호{}",boardNo);
-		List<Board> boardList = service.selectAllBoard(board.getBoardType());
+		List<Board> boardList = service.selectAllBoard("");
 	    model.addAttribute("boardList", boardList);
 	    return "board/board";
 	}

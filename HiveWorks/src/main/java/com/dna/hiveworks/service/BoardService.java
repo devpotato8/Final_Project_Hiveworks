@@ -15,7 +15,7 @@ public interface BoardService {
 	
 	int boardUpdate(Board b);
 
-	Board boardDelete(int boardNo);
+	int boardDelete(int boardNo);
 
 	int updateBoardCount(int boardNo);
 

@@ -55,7 +55,7 @@ public class BoardServiceImpl implements BoardService{
 		return dao.boardUpdate(session,b);
 	}
 	@Override
-	public Board boardDelete(int boardNo) {
+	public int boardDelete(int boardNo) {
 		return dao.boardDelete(session, boardNo);
 		
 	}
