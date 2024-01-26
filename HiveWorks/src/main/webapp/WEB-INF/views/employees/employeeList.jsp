@@ -184,7 +184,7 @@
 <script>
 	function fn_delete_confirm(e){
 		
-		if(confirm("정말로 삭제하시겠습니까?")){
+		if(confirm("퇴사 처리하시겠습니까?")){
 			location.replace("${path}/employees/deleteEmployee?emp_no="+e);
 		}else{
 			alert("취소하였습니다.");
@@ -257,7 +257,13 @@ $(document).ready(function(){
 
 
 function applyFeatherLoading(){
+	//page버튼 변경 시
 	$(document).on('click','.paginate_button',function(){
+		feather.replace();
+	});
+	
+	//selectbox 변경 시
+	$(document).on('change','.form-select',function(){
 		feather.replace();
 	});
 

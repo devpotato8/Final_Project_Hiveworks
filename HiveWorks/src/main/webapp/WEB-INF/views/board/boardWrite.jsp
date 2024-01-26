@@ -27,6 +27,7 @@
 		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
             <input type="text" value="${loginEmp.emp_name }" readonly="readonly">
+            <input type="hidden" name="creater" id="creater" value="${loginEmp.emp_no} "/> 
             <hr/>
         </div>    
             <br>
