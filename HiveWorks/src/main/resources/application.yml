@@ -1,0 +1,47 @@
+## 서버 설정
+server:
+#  # 포트 설정
+#  port: 9090
+#  error:
+#    whitelabel:
+#      enabled: false
+
+# war파일 도커서버에 배포하기 위한 포트 설정
+  port: 9090
+  servlet:
+    context-path: /GDJ71_DNA_final/
+
+## 스프링 설정
+spring:
+
+  # 데이터 베이스 관련 설정
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@14.36.141.71:10052:xe
+    username: HIVEWORKS
+    password: HIVEWORKS
+    hikari: 
+      maximum-pool-size: 1
+      minimum-idle: 1
+    
+  # spring.mvc 설정
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
+  # spring.devtools 설정
+  devtools:
+    restart:
+      enabled: false
+      
+##로깅 설정
+logging:
+  level:
+    '[com.dna.hiveworks]': debug
+
+##mybatis설정
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
+  config-location: classpath:config/mybatis-config.xml
+

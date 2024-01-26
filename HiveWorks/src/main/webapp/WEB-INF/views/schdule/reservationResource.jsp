@@ -98,7 +98,7 @@
 								</a></li>
 							</ul>
 						</div>
-					</c:if>	
+						</c:if>
 			</nav>
 			<div class="blogapp-content">
 				<div class="blogapp-detail-wrap">
@@ -136,42 +136,72 @@
 							    <div id='calendar' style="width: 700px; padding:20px"></div>
 							  </div>
 								<div style="width: 50%; display: block;">
-									<form action="${path}/schedule/updateReservationEnd"
+									<form action="${path}/schedule/reserveResourceEnd"
 										method="POST">
 										<input type="hidden" name="empNo" value="${loginEmp.emp_no}"/>
-										<input type="hidden" name="code" value="${currentR.calCode}"/>
+										<input type="hidden" name="code" value="${currentResourceCalCode}"/>
 										<input type="hidden" name="resourceNo" value="${currentResourceNo }"/>
-										<input type="hidden" name="backgroundColor" value="#87f542"/>
-										<input type="hidden" name="calNo" value="${currentCalNo }"/>
+										<input type="hidden" name="backgroundColor" value="#c2c2c2"/>
 										<div class="row gx-3">
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">시작일자</label> <input
-														class="form-control cal-event-date-start" name="upstart"
+														class="form-control cal-event-date-start" name="resstart"
 														type="text" />
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="form-label">종료일자</label> <input
-														class="form-control cal-event-date-end" name="upend"
+														class="form-control cal-event-date-end" name="resend"
 														type="text" />
 												</div>
 											</div>
 										</div>
 
-									<div class="form-group">
-							<div class="d-flex flex-wrap" >
-								<button type="button" 
-									id="addBtnRe" class="btn btn-light btn-floating;">일정
-									공유 추가</button>
-								<div id="shareListJob" class="row gx-3">
+								<div class="row gx-3">
+										<div class="col-sm-3">
+											<span>일정 공유</span>
+										</div>
+										<div class="col-sm-5">
+											<div class="form-group">
+												<button type="button" onclick="window.adddelFunction.util.addFile();"
+													id="delBtn">추가</button>
+<%--												<button type="button"--%>
+<%--													id="addBtn">삭제</button>--%>
+											</div>
+										</div>
+									</div>
 
-
-								</div>
-							</div>
-						</div>
-									
+									<div class="inviteContainer inviteContainer_1" style="display: flex">
+										<div class="col-sm-4">
+											<div class="form-groupddddd">
+												<label class="form-label">부서</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calDept"
+														id="calDept1">
+														<c:if test="${not empty deptList}">
+															<c:forEach var="dept" items="${deptList}">
+																<option value="${dept.deptCode}">${dept.deptName}</option>
+															</c:forEach>
+														</c:if>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="form-label">직원</label>
+												<div class="d-flex">
+													<select class="form-select me-3" name="calEmp" id="calEmp1">
+																<option value=""></option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+									</div>
+									<div name="someContainer"></div>
 										<button type="button" class="btn btn-secondary">취소</button>
 										<button id="add_event" type="submit"
 											class="btn btn-primary fc-addEventButton-button">예약</button>
@@ -200,29 +230,9 @@
 </div>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <script>
-//model 값 js 배열로 바꿔서 사용
-const current = $('${current}');
-const currentRJson = JSON.parse('${currentRJson}');
+
 const resourceNo = ${currentResourceNo };
-const invitationEmpList = currentRJson.invitationEmpList;
-
-var deptCodes = [];
-var deptNames = [];
-
-<c:forEach items="${deptList }" var="dept">
-    deptCodes.push("${dept.deptCode}");
-    deptNames.push("${dept.deptName}");
-</c:forEach>
-
-var empDeptCodes = [];
-var empNames = [];
-var empNos = []
-
-<c:forEach items="${empList }" var="emp">
-empDeptCodes.push("${emp.dept_code}");
-empNames.push("${emp.emp_name}");
-empNos.push("${emp.emp_no}");
-</c:forEach>
+//console.log(resourceNo );
 
 
 //reminder 스트링으로 보내기
@@ -246,8 +256,54 @@ $(document).ready(function() {
 });
 
 
+
 (function(){
     $(function(){
+    	/* Single Date*/
+    	$('input[name="resstart"]').daterangepicker({
+    		singleDatePicker: true,
+    		timePicker: true, // 시간 선택 기능 끄기
+    		timePicker24Hour: true, // 24시간 형식 활성화
+    		startDate: moment().startOf('day').hour(9), // 오늘 날짜의 9시로 설정
+    	    showDropdowns: true,
+    		showDropdowns: true,
+    		minYear: 1901,
+    		timePickerIncrement: 60, // 1시간 간격
+    		"cancelClass": "btn-secondary",
+    		locale:  {
+    		  format: 'YYYY/MM/DD HH:mm'
+    		}
+    	}).on('show.daterangepicker', function(ev, picker) {
+    	    $('.hourselect').empty();
+    	    for (var i = 9; i <= 18; i++) {
+    	        $('.hourselect').append($('<option />').val(i).text(i));
+    	    }
+    	});
+    	
+    	$('input[name="resstart"]').attr('readonly', 'readonly');
+    	
+    	/* Single Date*/
+    	$('input[name="resend"]').daterangepicker({
+    		singleDatePicker: true,
+    		timePicker: true,
+    		timePicker24Hour: true, // 24시간 형식 활성화
+    		startDate: moment().startOf('day').hour(9), // 오늘 날짜의 9시로 설정
+    	    showDropdowns: true,
+    		showDropdowns: true,
+    		minYear: 1901,
+    		"cancelClass": "btn-secondary",
+    		locale:  {
+    		  format: 'YYYY/MM/DD HH:mm'
+    		}
+    	}).on('show.daterangepicker', function(ev, picker) {
+    	    $('.hourselect').empty();
+    	    for (var i = 9; i <= 18; i++) {
+    	        $('.hourselect').append($('<option />').val(i).text(i));
+    	    }
+    	});
+    	
+    	$('input[name="resend"]').attr('readonly', 'readonly');
+    	
       // calendar element 취득
       var calendarEl = $('#calendar')[0];
       // full-calendar 생성하기
@@ -265,8 +321,11 @@ $(document).ready(function() {
         },
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
         // initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
-        navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-        editable: true, // 수정 가능?
+        navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+        editable: false, // 수정 가능?
+        droppable: false,
+        eventStartEditable: false,
+        eventDurationEditable: false, // 이벤트 지속 시간 드래그 방지
         selectable: true, // 달력 일자 드래그 설정가능
         nowIndicator: true, // 현재 시간 마크
         dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -280,66 +339,66 @@ $(document).ready(function() {
         eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
           console.log(obj);
         },
-        select: function(info) {
-        	  // 시작과 종료 날짜의 기본값을 설정합니다.
-        	  var defaultStartDate = info.startStr; // 선택한 시작 날짜
-        	  var defaultEndDate = info.endStr; // 선택한 종료 날짜
+        select: function(selectionInfo) {
+        	var currentDate = new Date();
+			var currentHours = '09'; // 시간을 두 자리 숫자로 설정
+			var currentMinutes = '00'; // 항상 00으로 설정
 
-        	  // Date Range Picker를 초기화하거나 업데이트합니다.
-        	  $('.cal-event-date-start').daterangepicker({
-        	    singleDatePicker: true,
-        	    timePicker: true,
-        	    timePicker24Hour: true,
-        	    timePickerIncrement: 60,
-        	    startDate: defaultStartDate, // FullCalendar에서 선택한 시작 날짜를 기본값으로 사용합니다.
-        	    locale: {
-        	      format: 'YYYY/MM/DD HH:mm'
-        	    }
-        	  }, function(start, end, label) {
-        	    // 이 콜백 함수는 사용자가 날짜를 선택할 때 호출됩니다.
-        	    var startTime = start.format('HH');
-        	    var endTime = end.format('HH');
+			var startTime = selectionInfo.startStr + ' ' + currentHours + ':' + currentMinutes;
 
-        	    // 선택된 시간이 09시 이전이거나 18시 이후인 경우 시간을 조정합니다.
-        	    if(startTime < 9 || endTime > 18) {
-        	      start.hour(9).minute(0);
-        	      end.hour(18).minute(0);
-        	      $('.cal-event-date-start').data('daterangepicker').setStartDate(start);
-        	      $('.cal-event-date-end').data('daterangepicker').setEndDate(end);
-        	    }
-        	  });
+			// 종료일자에서 하루를 빼기
+			var endDate = new Date(selectionInfo.endStr);
+			endDate.setDate(endDate.getDate() - 1);
+			var endYear = endDate.getFullYear();
+			var endMonth = ('0' + (endDate.getMonth() + 1)).slice(-2);
+			var endDay = ('0' + endDate.getDate()).slice(-2);
+			var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + currentHours + ':' + currentMinutes;
 
-        	  // 'cal-event-date-end'에 대해 동일한 설정을 적용합니다.
-        	  $('.cal-event-date-end').daterangepicker({
-        	    singleDatePicker: true,
-        	    timePicker: true,
-        	    timePicker24Hour: true,
-        	    timePickerIncrement: 60,
-        	    startDate: defaultEndDate, // FullCalendar에서 선택한 종료 날짜를 기본값으로 사용합니다.
-        	    locale: {
-        	      format: 'YYYY/MM/DD HH:mm'
-        	    }
-        	  }, function(start, end, label) {
-        	    var startTime = start.format('HH');
-        	    var endTime = end.format('HH');
+			$('.cal-event-date-start').val(startTime);
+			$('.cal-event-date-end').val(endTime);
 
-        	    if(startTime < 9 || endTime > 18) {
-        	      start.hour(9).minute(0);
-        	      end.hour(18).minute(0);
-        	      $('.cal-event-date-start').data('daterangepicker').setStartDate(start);
-        	      $('.cal-event-date-end').data('daterangepicker').setEndDate(end);
-        	    }
-        	  });
+			// 달력도 해당 날짜 시각으로 바꾸는 코드 추가
+			$('.cal-event-date-start').daterangepicker({
+				timePicker: true,
+				singleDatePicker: true,
+				timePicker24Hour: true,
+				timePickerIncrement: 1,
+				startDate: startTime,
+				locale: {
+					format: 'YYYY/MM/DD HH:mm'
+				}
+			}).on('show.daterangepicker', function(ev, picker) {
+	    	    $('.hourselect').empty();
+	    	    for (var i = 9; i <= 18; i++) {
+	    	        $('.hourselect').append($('<option />').val(i).text(i));
+	    	    }
+	    	});
+
+			$('.cal-event-date-end').daterangepicker({
+				timePicker: true,
+				singleDatePicker: true,
+				timePicker24Hour: true,
+				timePickerIncrement: 1,
+				startDate: endTime,
+				locale: {
+					format: 'YYYY/MM/DD HH:mm'
+				}
+			}).on('show.daterangepicker', function(ev, picker) {
+	    	    $('.hourselect').empty();
+	    	    for (var i = 9; i <= 18; i++) {
+	    	        $('.hourselect').append($('<option />').val(i).text(i));
+	    	    }
+	    	});
 
         	  // 캘린더에서의 선택을 해제합니다.
         	  calendar.unselect();
         	  
         	  // 선택한 날짜에 해당하는 예약 리스트를 가져오는 AJAX 요청
         	  $.ajax({
-        	    url: '/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
+        	    url:  contextPath+'/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
         	    method: 'POST',
         	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
-        	      data: JSON.stringify({ selectDate: defaultStartDate, resourceNo: resourceNo }),
+        	      data: JSON.stringify({ selectDate: startTime, resourceNo: resourceNo }),
         	    success: function(response) {
         	      // 예약 리스트를 성공적으로 가져왔을 때 처리하는 로직을 작성합니다.
         	      console.log(response); // 예약 리스트를 콘솔에 출력하거나 원하는 방식으로 화면에 표시합니다.
@@ -367,6 +426,7 @@ $(document).ready(function() {
         	        // 생성한 행을 tbody에 추가합니다.
         	        tbody.append(newRow);
         	      }
+        	      
         	    },
         	    error: function(error) {
         	      // 예약 리스트를 가져오는 데 실패했을 때 처리하는 로직을 작성합니다.
@@ -376,7 +436,7 @@ $(document).ready(function() {
         	},
         	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url: `/schedule/selectReserveByresource`,
+					url:  contextPath+`/schedule/selectReserveByresource`,
 					type: "POST",
 					dataType: "JSON",
 					data: JSON.stringify({ resourceNo: resourceNo }),
@@ -456,296 +516,105 @@ $(document).ready(function() {
       
     });
   })();
-  
-  
-$(document).ready(function() {
-	  // 서버에서 전달받은 날짜 값을 JavaScript Date 객체로 변환
-	  const calStartDate = new Date('${currentR.calStartDate}'); 
-	  console.log(calStartDate);
 
-	  // DateRangePicker 초기화
-	  $('input[name="upstart"]').daterangepicker({
-	    timePicker: true,
-	    singleDatePicker: true,
-	    timePicker24Hour: true,
-	    timePickerIncrement: 1,
-	    startDate: calStartDate,
-	    locale: {
-	      format: 'YYYY/MM/DD HH:mm'
-	    }
-	  }).on('show.daterangepicker', function(ev, picker) {
-		    $('.hourselect').empty();
-		    for (var i = 9; i <= 18; i++) {
-		        $('.hourselect').append($('<option />').val(i).text(i));
-		    }
-		});
-	  
-	  $('input[name="upstart"]').attr('readonly', 'readonly');
+//부서 선택 시 직원 표시
+document.getElementById('calDept1').addEventListener('change', function() {
+ var selectedDeptCode = this.value;
+ 
+ fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+   .then(function(response) {
+     if (response.ok) {
+       return response.json();
+     } else {
+       throw new Error('요청이 실패하였습니다.');
+     }
+   })
+   .then(function(employeeList) {
+     var employeeSelect = document.getElementById('calEmp1');
+     employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+     
+     employeeList.forEach(function(employee) {
+       var option = document.createElement('option');
+       option.value = employee.no;
+       option.textContent = employee.name;
+       employeeSelect.appendChild(option);
+     });
+   })
+   .catch(function(error) {
+     console.error(error);
+   });
+}); 
 
-	  // 서버에서 전달받은 종료 날짜 값을 JavaScript Date 객체로 변환
-	  const calEndDate = new Date('${currentR.calEndDate}'); 
+//부서 직원 추가
+const adddelFunction=(function(adddelFunction){
+	let self = {};
+  let count = 2;
+  self.addFile=()=>{
+     if(count<=5){
+        const fileForm = $(".inviteContainer").eq(0).clone(true);
+	     fileForm.removeClass("inviteContainer_1");
+        fileForm.addClass("inviteContainer_"+count);
+           const deptId = "calDept" + count;
+           const empId = "calEmp" + count;
+           
+           fileForm.find("#calDept1").attr("id", deptId).val("").change(); // 부서 선택 시 직원 표시
+           fileForm.find("#calEmp1").attr("id", empId).val(""); // 초기화
+           
+           // 부서 선택 시 해당 부서의 직원 표시
+           fileForm.find("#" + deptId).on("change", function() {
+             var selectedDeptCode = $(this).val();
+             
+             fetch('${path}/deptemplist?deptCode=' + encodeURIComponent(selectedDeptCode))
+               .then(function(response) {
+                 if (response.ok) {
+                   return response.json();
+                 } else {
+                   throw new Error('요청이 실패하였습니다.');
+                 }
+               })
+               .then(function(employeeList) {
+                 var employeeSelect = document.getElementById(empId);
+           
+                 employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
+           
+                 employeeList.forEach(function(employee) {
+                   var option = document.createElement('option');
+                   option.value = employee.no;
+                   option.textContent = employee.name;
+                   employeeSelect.appendChild(option);
+                 });
+               })
+               .catch(function(error) {
+                 console.error(error);
+               });
+           });
+           
+           $("div[name=someContainer]").before(fileForm);
+           count++;
+         } else {
+           alert("공유인원은 5명까지 가능합니다.");
+         }
+  };
+  self.delFile=(e)=>{
+     if(count!=2){
+		  $(e).parent().remove();
+		  $(".inviteContainer").each(function(index, item){
+			  item.removeAttribute('class');
+			  $(item).addClass('inviteContainer').addClass('inviteContainer_'+(index+1));
+		  });
+   	  //$("div[name=someContainer]").prev().remove();
+        count--;
+     }
+  };
 
-	  // DateRangePicker 초기화
-	  $('input[name="upend"]').daterangepicker({
-	    timePicker: true,
-	    singleDatePicker: true,
-	    timePicker24Hour: true,
-	    timePickerIncrement: 1,
-	    startDate: calEndDate,
-	    locale: {
-	      format: 'YYYY/MM/DD HH:mm'
-	    }
-	  }).on('show.daterangepicker', function(ev, picker) {
-		    $('.hourselect').empty();
-		    for (var i = 9; i <= 18; i++) {
-		        $('.hourselect').append($('<option />').val(i).text(i));
-		    }
-		});
-	  
-	  $('input[name="upend"]').attr('readonly', 'readonly');
-	});  
-
-const invitationEmpListLength = invitationEmpList.length;
-let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
-shareProjectCount = 2;
-
-	if (invitationEmpList.length > 0) {
-		for (var i = 0; i < invitationEmpListLength; i++) {
-		    var YourEmpNo = invitationEmpList[i].yourEmpNo;
-		    var YourEmpName = invitationEmpList[i].yourEmpName;
-		    var YourDeptName = invitationEmpList[i].yourDeptName;
-		    var YourDeptCode = invitationEmpList[i].yourDeptCode;
-	
-		    // 다시 생성
-		    let reInviContainer = document.createElement('div');
-		    reInviContainer.className = 'reinvicontainer' + (i + 1);
-		    reInviContainer.style.display = 'flex';
-		    reInviContainer.style.paddingTop = '5px';
-		    reInviContainer.style.paddingBottom = '5px';
-	
-		    let deptContainer = document.createElement('div');
-		    deptContainer.className = 'col-sm-5';
-		    let empContainer = document.createElement('div');
-		    empContainer.className = 'col-sm-5';
-	
-		    let deptSelect = document.createElement('select');
-		    deptSelect.className = 'form-select me-3';
-		    deptSelect.name = 'recalDept';
-		    deptSelect.id = 'recalDept' + (i + 1);
-	
-		    let empSelect = document.createElement('select');
-		    empSelect.className = 'form-select me-3';
-		    empSelect.name = 'recalEmp';
-		    empSelect.id = 'recalEmp' + (i + 1);
-	
-		    deptContainer.appendChild(deptSelect);
-		    empContainer.appendChild(empSelect);
-	
-		    reInviContainer.appendChild(deptContainer);
-		    reInviContainer.appendChild(empContainer);
-	
-		    let someContainer2 = document.getElementById('shareListJob');
-		    someContainer2.appendChild(reInviContainer);
-	
-		    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-		    let delButton = document.createElement('button');
-		    delButton.type = 'button';
-		    delButton.textContent = '삭제';
-		    delButton.addEventListener('click', function () {
-		        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-		        reInviContainer.remove();
-		        removedItemsCount++;
-		        count = invitationEmpListLength - removedItemsCount + 1; // count 업데이트
-		    });
-	
-		    reInviContainer.appendChild(delButton);
-	
-		    // 나머지 코드는 그대로 유지
-	
-		    for (var j = 0; j < deptCodes.length; j++) {
-		        let deptOption = document.createElement('option');
-		        deptOption.value = deptCodes[j];
-		        deptOption.text = deptNames[j];
-		        deptSelect.appendChild(deptOption);
-		    }
-	
-		    for (var j = 0; j < deptSelect.options.length; j++) {
-		        console.log("Option value: " + deptSelect.options[j].value);
-		        console.log("YourDeptCode: " + YourDeptCode);
-		        if (deptSelect.options[j].value == YourDeptCode) {
-		            deptSelect.options[j].selected = true;
-		            break;
-		        }
-		    }
-		    
-		    // 부서 선택 시 이벤트 핸들러 함수
-			function handleDeptSelect() {
-				// 선택된 부서의 인덱스를 가져옵니다.
-				var selectedDeptIndex = deptSelect.selectedIndex;
-	
-				// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-				var matchingEmpNames = [];
-				var matchingEmpNos = [];
-	
-				// 선택된 부서의 코드를 가져옵니다.
-				var selectedDeptCode = deptCodes[selectedDeptIndex];
-	
-				// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-				for (var k = 0; k < empDeptCodes.length; k++) {
-					if (empDeptCodes[k] === selectedDeptCode) {
-						matchingEmpNames.push(empNames[k]);
-						matchingEmpNos.push(empNos[k]);
-					}
-				}
-	
-				// 직원 선택(select) 요소를 초기화합니다.
-				empSelect.innerHTML = "";
-	
-				// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-				for (var l = 0; l < matchingEmpNames.length; l++) {
-					var empOption = document.createElement("option");
-					empOption.value = matchingEmpNos[l];
-					empOption.text = matchingEmpNames[l];
-					empSelect.appendChild(empOption);
-				}
-	
-				for (var l = 0; l < empSelect.options.length; l++) {
-					if (empSelect.options[l].value == YourEmpNo) {
-						empSelect.options[l].selected = true;
-						break;
-					}
-				}
-			}
-	
-	
-		    handleDeptSelect();
-	
-		    deptSelect.addEventListener("change", handleDeptSelect);
-		}
+	/**
+	 * REGIST
+	 */
+	if (!adddelFunction) {
+		window.adddelFunction = adddelFunction = {};
 	}
-
-
-//수정 부서 직원 추가 
-function createContainer(index) {
-    let reInviContainer = document.createElement('div');
-    reInviContainer.className = 'reinvicontainer' + index;
-    reInviContainer.style.display = 'flex';
-    reInviContainer.style.paddingTop = '5px';
-    reInviContainer.style.paddingBottom = '5px';
-
-    let deptContainer = document.createElement('div');
-    deptContainer.className = 'col-sm-5';
-    let empContainer = document.createElement('div');
-    empContainer.className = 'col-sm-5';
-
-    let deptSelect = document.createElement('select');
-    deptSelect.className = 'form-select me-3';
-    deptSelect.name = 'recalDept';
-    deptSelect.id = 'recalDept' + index;
-
-    let empSelect = document.createElement('select');
-    empSelect.className = 'form-select me-3';
-    empSelect.name = 'recalEmp';
-    empSelect.id = 'recalEmp' + index;
-
-    for (var j = 0; j < deptCodes.length; j++) {
-        let deptOption = document.createElement('option');
-        deptOption.value = deptCodes[j];
-        deptOption.text = deptNames[j];
-        deptSelect.appendChild(deptOption);
-    }
-    
-    deptSelect.addEventListener("change", function(){
-		var selectedDeptIndex = deptSelect.selectedIndex;
-
-		// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-		var matchingEmpNames = [];
-		var matchingEmpNos = [];
-
-		// 선택된 부서의 코드를 가져옵니다.
-		var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-		// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-		for (var k = 0; k < empDeptCodes.length; k++) {
-			if (empDeptCodes[k] === selectedDeptCode) {
-				matchingEmpNames.push(empNames[k]);
-				matchingEmpNos.push(empNos[k]);
-			}
-		}
-
-		// 직원 선택(select) 요소를 초기화합니다.
-		empSelect.innerHTML = "";
-
-		// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-		for (var l = 0; l < matchingEmpNames.length; l++) {
-			var empOption = document.createElement("option");
-			empOption.value = matchingEmpNos[l];
-			empOption.text = matchingEmpNames[l];
-			empSelect.appendChild(empOption);
-		}
-
-	});
-
-    var selectedDeptIndex = deptSelect.selectedIndex;
-    var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-    var matchingEmpNames = [];
-    var matchingEmpNos = [];
-
-    for (var k = 0; k < empDeptCodes.length; k++) {
-        if (empDeptCodes[k] === selectedDeptCode) {
-            matchingEmpNames.push(empNames[k]);
-            matchingEmpNos.push(empNos[k]);
-        }
-    }
-
-    empSelect.innerHTML = "";
-
-    for (var l = 0; l < matchingEmpNames.length; l++) {
-        var empOption = document.createElement("option");
-        empOption.value = matchingEmpNos[l];
-        empOption.text = matchingEmpNames[l];
-        empSelect.appendChild(empOption);
-    }
-
-    deptContainer.appendChild(deptSelect);
-    empContainer.appendChild(empSelect);
-
-    reInviContainer.appendChild(deptContainer);
-    reInviContainer.appendChild(empContainer);
-
-    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-    let delButton = document.createElement('button');
-    delButton.type = 'button';
-    delButton.textContent = '삭제';
-    delButton.addEventListener('click', function () {
-        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-        reInviContainer.remove();
-        shareProjectCount--;
-    });
-
-    reInviContainer.appendChild(delButton);
-
-    return reInviContainer;
-}
-
-function updateCount() {
-    shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
-}
-
-$('#addBtnRe').on('click', function () {
-    if (shareProjectCount <= 5) {
-        let reInviContainer = createContainer(shareProjectCount);
-
-        let someContainer2 = document.querySelector('#shareListJob');
-        someContainer2.appendChild(reInviContainer);
-
-        shareProjectCount++;
-    } else {
-        alert("공유인원은 5명까지 가능합니다.");
-    }
-    updateCount(); // count를 업데이트하는 함수 호출
-});
+	adddelFunction.util = self;
+})();
 
 
 </script>

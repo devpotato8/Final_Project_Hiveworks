@@ -96,10 +96,10 @@
 									<li class="nav-item">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/schedule/schedulelist.do"><span class="nav-link-text">일정관리</span></a>
+												<a class="nav-link" href="${path}/schedule/schedulelist"><span class="nav-link-text">일정관리</span></a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/schedule/reservationlist.do"><span class="nav-link-text">자산예약관리</span></a>
+												<a class="nav-link" href="${path}/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"><span class="nav-link-text">자산예약관리</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -193,6 +193,9 @@
 												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의</span></a>
 											</li>
 											<li class="nav-item">
+												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
+											</li>
+											<li class="nav-item">
 												<a class="nav-link" href="${path}/survey/survey"><span class="nav-link-text">설문</span></a>
 											</li>
 										</ul>	
@@ -214,7 +217,7 @@
 							</li>
 							
 							<li class="nav-item">
-								<a class="nav-link" href="${path}/schedule/projectlist.do">
+								<a class="nav-link" href="${path}/schedule/projectlist">
 									
 									<span class="nav-icon-wrap">
 										<span class="svg-icon">

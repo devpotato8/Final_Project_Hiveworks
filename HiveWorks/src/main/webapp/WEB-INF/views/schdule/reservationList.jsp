@@ -21,7 +21,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-											<a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}">
+										<a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -67,15 +67,14 @@
 										</li>
 									</ul>
 								</div>
-								</c:if>
-
+							</c:if>	
 					</nav>
 					<div class="blogapp-content">
 						<div class="blogapp-detail-wrap">
 							<header class="blog-header">
 								<div class="d-flex align-items-center">
 									<a class="blogapp-title link-dark" href="#">
-										<h1>내 예약 현황</h1>
+										<h1>전체 예약/대여 조회</h1>
 									</a>
 								</div>
 								<div class="blog-options-wrap">	
@@ -94,27 +93,21 @@
 							<button type="button" class="btn btn-secondary" id="delReserveBtn">예약취소</button>
 								<div data-simplebar class="nicescroll-bar">
 								<div style="display:flex">
-						<select name="type" id="searchType">
-							<option value="resource_name">자산이름</option>
-							<option value="cal_status">예약상태</option>
-						</select>
-						<input type="text" name="keyword" id="searchKeyword" placeholder="검색어입력">
-						<button id="searchButton">검색</button>
-										<!-- <div class="dropdown" id="resType">
-											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">자산타입</a>
+								<select name="type" id="searchType">
+									<option value="resource_name">자산이름</option>
+									<option value="cal_status">예약상태</option>
+									<option value="my_emp_name">예약자이름</option>
+								</select>
+								<input type="text" name="keyword" id="searchKeyword" placeholder="검색어입력">
+								<button id="searchButton">검색</button>
+										<!-- <div class="dropdown">
+											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">전체보기</a>
 											<div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="#" data-type="회의실"><span class="feather-icon dropdown-icon"><i data-feather="flag"></i></span><span>회의실</span></a>
-												<a class="dropdown-item" href="#" data-type="챠량"><span class="feather-icon dropdown-icon" ><i data-feather="grid"></i></span><span>차량</span></a>
-												<a class="dropdown-item" href="#" data-type="빔프로젝터"><span class="feather-icon dropdown-icon"><i data-feather="tag"></i></span><span>빔프로젝터</span></a>
+												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="flag"></i></span><span>회의실</span></a>
+												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="grid"></i></span><span>차량</span></a>
+												<a class="dropdown-item" href="#"><span class="feather-icon dropdown-icon"><i data-feather="tag"></i></span><span>빔프로젝터</span></a>
 											</div>
-										</div>
-										<div class="dropdown" id="resStatus">
-											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">예약상태</a>
-											<div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="#" data-status="승인완료"><span class="feather-icon dropdown-icon"></span><span>승인완료</span></a>
-												<a class="dropdown-item" href="#" data-status="취소"><span class="feather-icon dropdown-icon"></span><span>취소</span></a>
-											</div>
-										</div>  -->
+										</div> -->
 									</div>
 										<div class="tab-content">
 											<div class="tab-pane fade show active" id="all_post">
@@ -131,33 +124,33 @@
 															<th>자산종류</th>
 															<th>예약시간</th>
 															<th>예약상태</th>
-															<th>예약일자</th>
+															<th>에약일자</th>
 														</tr>
 													</thead>
 													<tbody>
-														<c:if test="${not empty MyReserveList}">
-															<c:forEach var="myres" items="${MyReserveList}">
+														<c:if test="${not empty reserveList }">
+															<c:forEach var="res" items="${reserveList}">
 														<tr>
 															<td></td>
-															<td>${myres.calNo }</td>
+															<td>${res.calNo }</td>
 															<td class="mw-250p text-truncate text-high-em">
-																<span>${myres.resource.resourceName }</span>
+																<span>${res.resource.resourceName }</span>
 															</td>
 															<td>
 																<div class="media align-items-center">
 																	<div class="media-body">
-																		<span class="d-block">${myres.myEmpName }</span> 
+																		<span class="d-block">${res.myEmpName }</span> 
 																	</div>
 																</div>													
 															</td>
-															<td>${myres.resource.resourceType }</td>
-															<td>${myres.calStartDate.toString().substring(0, 16)} ~ ${myres.calEndDate.toString().substring(0, 16)}</td>
-															<td>${myres.calStatus }</td>
-															<td>${myres.createDate }</td>
-															<c:if test="${myres.calStatus == '승인완료'}">
+															<td>${res.resource.resourceType }</td>
+															<td>${res.calStartDate.toString().substring(0, 16)} ~ ${res.calEndDate.toString().substring(0, 16)}</td>
+															<td>${res.calStatus }</td>
+															<td>${res.createDate }</td>
+															<c:if test="${res.calStatus == '승인완료'}">
 															<td>
 																<div class="d-flex align-items-center">
-																		<div class="dropdown">
+															<div class="dropdown">
 																	<button
 																		class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
 																		aria-expanded="false" data-bs-toggle="dropdown">
@@ -166,13 +159,13 @@
 																	</button>
 																	<div role="menu"
 																		class="dropdown-menu dropdown-menu-end">
-																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation?resourceNo=${myres.resource.resourceNo}&calNo=${myres.calNo}">수정</a>
+																		<a class="dropdown-item updateBtn" href="${path}/schedule/updateReservation?resourceNo=${res.resource.resourceNo}&calNo=${res.calNo}">수정</a>
 																		<span class="dropdown-item reminderBtn">메시지알림요청</span>
 																	</div>
 																</div>
 																</div>
 															</td>
-														</c:if>
+															</c:if>
 														</tr>
 														</c:forEach>
 														</c:if>
@@ -180,7 +173,7 @@
 												</table>
 											</div>
 										</div>
-								<div class="row mt-3">
+										<div class="row mt-3">
 									<div class="col-sm-12">
 										<div class="float-end text-end">
 											<ul
@@ -213,9 +206,8 @@
 <script>
 const empPhone = '${loginEmp.emp_cellphone}'; //수정필요
 const empNo = ${loginEmp.emp_no}; //수정 필요
-var loginAut = '${loginEmp.aut_code}';
 console.log(empPhone, empNo);
-console.log(loginAut);
+
 
 var contextPath = "<c:out value='${path}'/>";
 
@@ -236,7 +228,7 @@ $(document).ready(function() {
 	    var keyword = $('#searchKeyword').val();
 
 		$.ajax({
-			url : '/schedule/reserveBykeyword',
+			url :  contextPath+'/schedule/reserveBykeyword',
 			type : 'POST',
 			data : {
 				type : type,
@@ -284,14 +276,14 @@ $(document).ready(function() {
 	                    var menu = $('<div></div>').addClass('dropdown-menu dropdown-menu-end')
 	                        .append($('<a></a>').addClass('dropdown-item updateBtn').attr('href',contextPath+'/schedule/updateReservation?resourceNo=' + item.resource.resourceNo + '&calNo=' + item.calNo).text('수정'))
 	                        .append($('<span></span>').addClass('dropdown-item reminderBtn').text('메시지 알림 요청'));
-						
+
 	                    dropdown.append(button);
 	                    dropdown.append(menu);
 	                    actions.append(dropdown);
 	                    if(item.calStatus == '승인완료'){
-	                    row.append(actions);
-						}
-						
+		                    row.append(actions);
+							}
+
 	                    $('#datable_1 tbody').append(row);
 	                });
 
@@ -321,14 +313,15 @@ $(document).ready(function() {
     });
 
     $("#delReserveBtn").click(function() {
-        var checkedList = [];
+    	var checkedList = [];
         var selectedDataList = [];
 
         // 체크된 체크박스를 찾아 예약 번호를 checkedList에 추가
         $(".check-select:checked").each(function() {
             var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
             var resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-            var calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+            const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+            const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
 
             checkedList.push(reserveNo);
             
@@ -347,7 +340,7 @@ $(document).ready(function() {
 
             if (confirmed) {
                 $.ajax({
-                    url: "/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
+                    url:  contextPath+"/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
                     type: "POST",
                     data: JSON.stringify(checkedList), // JSON 데이터로 변환
                     contentType: "application/json",
@@ -358,7 +351,7 @@ $(document).ready(function() {
                         $(".check-select:checked").closest("tr").remove();
                         
                         $.ajax({
-                            url: "/sendCancelMessage",
+                            url:  contextPath+"/sendCancelMessage",
                             type: "POST",
                             data: JSON.stringify(selectedDataList),
                             contentType: "application/json", 
@@ -381,22 +374,20 @@ $(document).ready(function() {
             alert("취소할 예약을 선택해주세요.");
         }
     });
-
     
-    $('#datable_1 tbody').on('click', '.reminderBtn', function(event) {
+    $(".reminderBtn").on("click", function(event) {
     	event.preventDefault();
 
-        const resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-        const calStartDateString = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0].trim();
-       	const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+        let resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
+        const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
         const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
-        const calNo = $(this).closest('tr').find('td:nth-child(2)').text().trim();
+        let calNo = $(this).closest('tr').find('td:nth-child(2)').text().trim();
 
         var confirmed = confirm("알림 메시지를 요청하시겠습니까?");
 
         if (confirmed) {
             $.ajax({
-                url: "/sendMessage",
+                url:  contextPath+"/sendMessage",
                 type: "POST",
                 data: {
                     resourceName: resourceName,
@@ -415,8 +406,7 @@ $(document).ready(function() {
             });
         }
     });
-    
 });
-
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
+

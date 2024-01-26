@@ -26,7 +26,15 @@
 
 	<!-- CSS -->
     <link href="${path}/resources/css/style.css" rel="stylesheet" type="text/css">
-    
+<style>
+.bigbax {
+   margin-top: 20px;
+   border-radius: 20px;
+   background-color: #ffffff;
+   padding: 20px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+</style>
 <!-- Main Content -->
 <div class="hk-pg-wrapper pb-0">
 	<!-- Page Body -->
@@ -164,6 +172,103 @@
 										</ul>
 									</div>
 								</div>
+	<div class="row">
+      <div class="col-1"></div>
+      <div class="col-10  bigbax">
+         <div class="row" style="display: flex; justify-content: space-evenly; text-align: center;">
+            <div class="col-1"></div>
+            <div class="col-2 smallbox" >
+               <div class="">
+                  <h4 >총 프로젝트 수</h4>
+               </div>
+               <div class="blank">
+                 <%--  <c:if test="${not empty commute}">
+                      <c:set var="nomalCount" value="0" />
+                      <c:set var="nonAntteCount" value="0" />
+                         <c:forEach var="c" items="${commute}" varStatus="loop">
+                             <c:set var="nomalCount" value="${nomalCount + 1}" />
+                             <c:if test="${c. EMP_COMMUTE_STATUS == 'nonAntte'}">
+                                <c:set var="nonAntteCount" value="${nonAntteCount + 1}" /> 
+                             </c:if>
+                            </c:forEach>
+                      <h4 id="finishCount">${nomalCount-nonAntteCount} 일 </h4>
+                  </c:if> --%>
+               </div>
+            </div>
+            <div class="col-2 smallbox" >
+               <div class=" ">
+                  <h4 class="">마감된 프로젝트</h4>
+               </div>
+               <div class="blank">
+                <%--   <c:if test="${not empty commute}">
+                   <c:set var="nomalCount" value="0" />
+                      <c:forEach var="c" items="${commute}" varStatus="loop">
+                          <c:if test="${c. EMP_COMMUTE_LATENESS == 'N'}">
+                              <c:set var="nomalCount" value="${nomalCount + 1}" />
+                          </c:if>
+                         </c:forEach>
+                   <h4 id="finishCount">${nomalCount} 일</h4>
+                  </c:if> --%>
+               </div>
+            </div>
+            <div class=" col-2 smallbox">
+               <div class="">
+                  <h4 class="">남은 프로젝트</h4>
+               </div>
+               <div class="blank">
+                <%--   <c:if test="${not empty commute}">
+                   <c:set var="lateCount" value="0" />
+                   <c:forEach var="c" items="${commute}" varStatus="loop">
+                       <c:if test="${c. EMP_COMMUTE_LATENESS == 'Y'}">
+                           <c:set var="lateCount" value="${lateCount + 1}" />
+                       </c:if>
+                   </c:forEach>
+                  
+                   <h4 id="lateCount">${lateCount} 회</h4>
+               </c:if> --%>
+               </div>
+            </div>
+            <div class=" col-2 smallbox">
+               <div class="">
+                  <h4 class="">프로젝트 진행률</h4>
+               </div>
+               <div class="blank">
+                 <%--  <c:set var="nonAntteCount" value="0" />
+                  <c:if test="${not empty commute}">
+                      <c:set var="absenceCount" value="0" />
+                      <c:forEach var="c" items="${commute}" varStatus="loop">
+                          <c:if test="${c.EMP_COMMUTE_ABSENCE == 'Y'}">
+                              <c:set var="absenceCount" value="${absenceCount + 1}" />
+                          </c:if> 
+                          <c:if test="${c. EMP_COMMUTE_STATUS == 'nonAntte'}">
+                                <c:set var="nonAntteCount" value="${nonAntteCount + 1}" />
+                         </c:if>
+                      </c:forEach>
+                      <h4 id="finishCount">${absenceCount-nonAntteCount} 회</h4>
+                  </c:if> --%>
+               </div>
+            </div>
+            <div class=" col-2 smallbox">
+               <div class="">
+                  <h3 class="">퇴근 미처리</h3>
+               </div>
+               <div class="blank">
+                 <%--  <c:if test="${not empty commute}">
+                      <c:set var="Uncleared" value="0" />
+                      <c:forEach var="c" items="${commute}" varStatus="loop">                
+                          <c:if test="${c.EMP_COMMUTE_STATUS == 'Uncleared'}">
+                              <c:set var="Uncleared" value="${Uncleared + 1}" />
+                          </c:if>
+                      </c:forEach>                    
+                      <h4 id="Uncleared">${Uncleared} 회</h4>
+                  </c:if> --%>
+               </div>
+               
+            </div>
+            <div class="col-1"></div>
+         </div>
+      </div>
+   </div> 
 								<div class="collapse-simple mt-4">
 									<div class="card">
 										<div class="card-header">
@@ -188,8 +293,10 @@
 																				class="form-check-label" for="customCheckTodo1"></label>
 																		</div>
 																		<div>
+																		<c:if test="${pro.calImportYn == 'Y'}">
 																			<span class="todo-star marked"><span
 																				class="feather-icon"><i data-feather="star"></i></span></span>
+																		</c:if>
 																				
 																			<c:if test="${pro.calStatus == '마감'}">
 																			<span class="badge badge-danger badge-indicator badge-indicator-xl"></span>
@@ -225,10 +332,11 @@
 																	<div
 																		class="d-flex flex-shrink-0 align-items-center ms-3">
 																		<span
-																			class="todo-time d-lg-inline-block d-none text-primary me-3 projectViewDate" data-projectNo="${pro.calNo }">~ ${pro.calEndDate }</span>
+																			class="todo-time d-lg-inline-block d-none text-primary me-3 projectViewDate" data-projectNo="${pro.calNo }">~ ${pro.calEndDate.toString().substring(0, 16)}</span>
+																		
 																		<div
 																			class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
-																			<span class="d-block projectViewName">${pro.myEmpName}</span> 
+																			<span class="d-block projectViewName" style="width: 70px; padding-right: 5px;">${pro.myEmpName}</span> 
 																		</div>
 																	<!-- 	<span
 																			class="badge badge-primary ms-3 d-md-inline-block d-none">Calls</span> -->
@@ -298,9 +406,11 @@
 									</button>
 								</div>
 								<div class="task-options-wrap">
-									<span class="task-star marked"><span
-										class="feather-icon"><i data-feather="star"></i></span></span> <a
-										class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret ms-1"
+									<div class="form-check" style="padding-right:300px">
+								<input type="checkbox" class="form-check-input"
+									id="event_import"> <label class="form-check-label"
+									for="event_import">중요 프로젝트</label></div>
+										<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret ms-1"
 										href="#" data-bs-toggle="dropdown"><span class="icon"><span
 											class="feather-icon"><i data-feather="more-vertical"></i></span></span></a>
 									<div class="dropdown-menu dropdown-menu-end">
@@ -456,7 +566,7 @@
 											class="d-flex align-items-center justify-content-between mb-2">
 
 										<div class="comment-block">
-											<div class="media" id="level1">
+<!-- 											<div class="media" id="level1">
 												<input type="hidden" id="commentNo" value="">
 												<div class="media-body">
 													<div>
@@ -470,8 +580,8 @@
 														<a href="#">Reply</a> 
 													</div>
 												</div>
-											</div>
-											<div class="separator separator-light"></div>
+											</div> -->
+									<!-- 		<div class="separator separator-light"></div>
 													<div class="media" id="level2">
 														<div class="media-body">
 															<div>
@@ -488,7 +598,7 @@
 																<span class="comment-dot-sep">●</span><span id="deleteComment">삭제</span>
 															</div>
 														</div>
-													</div>
+													</div> -->
 												</div>
 											</div>
 											<div class="separator separator-light"></div>
@@ -1246,6 +1356,37 @@ document.querySelectorAll(".projectView").forEach(element => {
         searchProjectbyCalNo($project.getAttribute('data-projectNo'),0);
     }
 });
+  
+//중요일정으로 변경
+	document.querySelector('#event_import').addEventListener('change', function() {
+      var importYn = this.checked ? 'Y' : 'N';
+      
+      $.ajax({
+			url: "/schedule/updateImportYn",
+			method: "POST",
+			data: JSON.stringify(
+				{importYn : importYn,
+				calno: document.getElementById('recalno').value,
+				}),
+			contentType: 'application/json',
+		})
+			.done(function(result) {
+				console.log(result);
+				alert("중요 프로젝트로 변경 성공");
+				calendar.addEvent(editEvent);
+
+				calendar.refetchEvents();
+			})
+			.fail(function(request, status, error) {
+				alert("중요 프로젝트로 변경 실패" + error);
+				this.checked = false;
+				console.log(request, status);
+				console.log(error);
+			});
+
+		calendar.unselect();
+
+	});
 
 
 
@@ -1281,6 +1422,16 @@ document.querySelectorAll(".projectView").forEach(element => {
   	        document.getElementById('reproContent').textContent = data.calContent;
   	        document.getElementById('reproEndDate').value = formatDate(data.calEndDate);
   	        document.getElementById('reproStartDate').value = formatDate(data.calStartDate);
+  	        
+  	      var importantYn = data.calImportYn;
+			switch (importantYn) {
+			    case 'Y':
+			        document.querySelector('#event_import').checked = true;
+			        break;
+			    case 'N':
+			        document.querySelector('#event_import').checked = false;
+			        break;
+			        }
   	        
   	        const selectElement = document.getElementById('reproStatus');
 
@@ -1365,6 +1516,8 @@ document.querySelectorAll(".projectView").forEach(element => {
   	     	    var YourEmpName = invitationEmpList[i].yourEmpName;
   	     	    var YourDeptName = invitationEmpList[i].yourDeptName;
   	     	    var YourDeptCode = invitationEmpList[i].yourDeptCode;
+  	     	    
+  	     	    if(invitationEmpList[i].inviUseYn = 'Y'){
 
   	     	    // 다시 생성
   	     	    let reInviContainer = document.createElement('div');
@@ -1430,47 +1583,49 @@ document.querySelectorAll(".projectView").forEach(element => {
 
   	     	 // 부서 선택 시 이벤트 핸들러 함수
   	     		function handleDeptSelect() {
-  	     			// 선택된 부서의 인덱스를 가져옵니다.
-  	     			var selectedDeptIndex = deptSelect.selectedIndex;
-
-  	     			// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
-  	     			var matchingEmpNames = [];
-  	     			var matchingEmpNos = [];
-
-  	     			// 선택된 부서의 코드를 가져옵니다.
-  	     			var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-  	     			// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
-  	     			for (var k = 0; k < empDeptCodes.length; k++) {
-  	     				if (empDeptCodes[k] === selectedDeptCode) {
-  	     					matchingEmpNames.push(empNames[k]);
-  	     					matchingEmpNos.push(empNos[k]);
-  	     				}
-  	     			}
-
-  	     			// 직원 선택(select) 요소를 초기화합니다.
-  	     			empSelect.innerHTML = "";
-
-  	     			// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
-  	     			for (var l = 0; l < matchingEmpNames.length; l++) {
-  	     				var empOption = document.createElement("option");
-  	     				empOption.value = matchingEmpNos[l];
-  	     				empOption.text = matchingEmpNames[l];
-  	     				empSelect.appendChild(empOption);
-  	     			}
-
-  	     			for (var l = 0; l < empSelect.options.length; l++) {
-  	     				if (empSelect.options[l].value == YourEmpNo) {
-  	     					empSelect.options[l].selected = true;
-  	     					break;
-  	     				}
-  	     			}
-  	     		}
+  	     		// 선택된 부서의 인덱스를 가져옵니다.
+					var selectedDeptIndex = deptSelect.selectedIndex;
+		
+					// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+					var matchingEmpNames = [];
+					var matchingEmpNos = [];
+		
+					// 선택된 부서의 코드를 가져옵니다.
+					var selectedDeptCode = deptCodes[selectedDeptIndex];
+		
+					// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+					for (var k = 0; k < empDeptCodes.length; k++) {
+						if (empDeptCodes[k] === selectedDeptCode) {
+							matchingEmpNames.push(empNames[k]);
+							matchingEmpNos.push(empNos[k]);
+						}
+					}
+		
+					// 직원 선택(select) 요소를 초기화합니다.
+					empSelect.innerHTML = "";
+		
+					// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+					for (var l = 0; l < matchingEmpNames.length; l++) {
+						var empOption = document.createElement("option");
+						empOption.value = matchingEmpNos[l];
+						empOption.text = matchingEmpNames[l];
+						empSelect.appendChild(empOption);
+					}
+		
+					for (var l = 0; l < empSelect.options.length; l++) {
+						if (empSelect.options[l].value == YourEmpNo) {
+							empSelect.options[l].selected = true;
+							break;
+						}
+					}
+				}
+		
 
 
   	     	    handleDeptSelect();
 
   	     	    deptSelect.addEventListener("change", handleDeptSelect);
+  	     	}
   	     	}
   	     }
 
@@ -1558,8 +1713,8 @@ document.querySelectorAll(".projectView").forEach(element => {
 }
 		
 		//댓글 조회
-		$("div.comment-block>div").remove();
-		if (data.commentList.length > 0) {
+		//$("div.comment-block").remove();
+		if (data.commentList != null || data.commentList.length > 0) {
     	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
     	for (let i = 0; i < data.commentList.length; i++) {
         const comment = data.commentList[i];
@@ -1647,9 +1802,10 @@ document.querySelectorAll(".projectView").forEach(element => {
   		commentBlock.appendChild(mediaDiv2);
   		commentBlock.appendChild(separatorDiv2);
   		
+  		feather.replace();
+  		
         
     		}
-        
     	}
   		})
   		.fail(function(request, status, error) {
@@ -1994,6 +2150,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   	  		$(document).on("click","#deleteComment",function (e) {
   	  		 // Find the closest '.media' element, then find the '.media-body' within it
   	  	    var mediaBody = $(this).closest('.media').find('.media-body');
+  	  		var seperator = $(this).closest('.media').find('.separator separator-light'); 
   	  		 
   	  		var calCommentNo = mediaBody.find('input').val();
 
@@ -2013,6 +2170,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		alert("댓글 삭제 성공");
   	    				
   	    		mediaBody.remove();
+  	    		seperator.remove();
   	    		
   	    			
   	    	}).catch(e=>{
@@ -2028,101 +2186,127 @@ document.querySelectorAll(".projectView").forEach(element => {
 	
 			
   
-//수정 부서 직원 추가 
-  function createContainer(index) {
-      let reInviContainer = document.createElement('div');
-      reInviContainer.className = 'reinvicontainer' + index;
-      reInviContainer.style.display = 'flex';
-      reInviContainer.style.paddingTop = '5px';
-      reInviContainer.style.paddingBottom = '5px';
-
-      let deptContainer = document.createElement('div');
-      deptContainer.className = 'col-sm-5';
-      let empContainer = document.createElement('div');
-      empContainer.className = 'col-sm-5';
-
-      let deptSelect = document.createElement('select');
-      deptSelect.className = 'form-select me-3';
-      deptSelect.name = 'recalDept';
-      deptSelect.id = 'recalDept' + index;
-
-      let empSelect = document.createElement('select');
-      empSelect.className = 'form-select me-3';
-      empSelect.name = 'recalEmp';
-      empSelect.id = 'recalEmp' + index;
-
-      for (var j = 0; j < deptCodes.length; j++) {
-          let deptOption = document.createElement('option');
-          deptOption.value = deptCodes[j];
-          deptOption.text = deptNames[j];
-          deptSelect.appendChild(deptOption);
-      }
-
-      var selectedDeptIndex = deptSelect.selectedIndex;
-      var selectedDeptCode = deptCodes[selectedDeptIndex];
-
-      var matchingEmpNames = [];
-      var matchingEmpNos = [];
-
-      for (var k = 0; k < empDeptCodes.length; k++) {
-          if (empDeptCodes[k] === selectedDeptCode) {
-              matchingEmpNames.push(empNames[k]);
-              matchingEmpNos.push(empNos[k]);
-          }
-      }
-
-      empSelect.innerHTML = "";
-
-      for (var l = 0; l < matchingEmpNames.length; l++) {
-          var empOption = document.createElement("option");
-          empOption.value = matchingEmpNos[l];
-          empOption.text = matchingEmpNames[l];
-          empSelect.appendChild(empOption);
-      }
-
-      deptContainer.appendChild(deptSelect);
-      empContainer.appendChild(empSelect);
-
-      reInviContainer.appendChild(deptContainer);
-      reInviContainer.appendChild(empContainer);
-
-      // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
-      let delButton = document.createElement('button');
-      delButton.type = 'button';
-      delButton.textContent = '삭제';
-      delButton.addEventListener('click', function () {
-          // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
-          reInviContainer.remove();
-        shareProjectCount--;
-      });
-
-      reInviContainer.appendChild(delButton);
-
-      return reInviContainer;
-  }
-
-
-   
-
-    function updateCount() {
-   	shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
-    }
-    
-  
-   $(document).on('click',"#addBtnRe",function (e) {
-  	   	 e.stopPropagation();
-  	        if (shareProjectCount <= 5) {
-  	            let reInviContainer = createContainer(shareProjectCount);
-
-  	            let someContainer2 = document.querySelector('#shareListJob');
-  	            someContainer2.appendChild(reInviContainer);
-
-  	          shareProjectCount++;
-  	        } else {
-  	            alert("공유인원은 5명까지 가능합니다.");
-  	        }
-  	        updateCount(); // count를 업데이트하는 함수 호출
-  	    });
+  	  	//수정 부서 직원 추가 
+			function createContainer(index) {
+			    let reInviContainer = document.createElement('div');
+			    reInviContainer.className = 'reinvicontainer' + index;
+			    reInviContainer.style.display = 'flex';
+			    reInviContainer.style.paddingTop = '5px';
+			    reInviContainer.style.paddingBottom = '5px';
+			
+			    let deptContainer = document.createElement('div');
+			    deptContainer.className = 'col-sm-5';
+			    let empContainer = document.createElement('div');
+			    empContainer.className = 'col-sm-5';
+			
+			    let deptSelect = document.createElement('select');
+			    deptSelect.className = 'form-select me-3';
+			    deptSelect.name = 'recalDept';
+			    deptSelect.id = 'recalDept' + index;
+			
+			    let empSelect = document.createElement('select');
+			    empSelect.className = 'form-select me-3';
+			    empSelect.name = 'recalEmp';
+			    empSelect.id = 'recalEmp' + index;
+			
+			    for (var j = 0; j < deptCodes.length; j++) {
+			        let deptOption = document.createElement('option');
+			        deptOption.value = deptCodes[j];
+			        deptOption.text = deptNames[j];
+			        deptSelect.appendChild(deptOption);
+			    }
+			    
+			    deptSelect.addEventListener("change", function(){
+					var selectedDeptIndex = deptSelect.selectedIndex;
+			
+					// 선택된 부서에 해당하는 사원 이름과 사원 번호를 담을 배열을 초기화합니다.
+					var matchingEmpNames = [];
+					var matchingEmpNos = [];
+		
+					// 선택된 부서의 코드를 가져옵니다.
+					var selectedDeptCode = deptCodes[selectedDeptIndex];
+		
+					// 선택된 부서의 코드와 일치하는 사원을 찾아서 배열에 추가합니다.
+					for (var k = 0; k < empDeptCodes.length; k++) {
+						if (empDeptCodes[k] === selectedDeptCode) {
+							matchingEmpNames.push(empNames[k]);
+							matchingEmpNos.push(empNos[k]);
+						}
+					}
+		
+					// 직원 선택(select) 요소를 초기화합니다.
+					empSelect.innerHTML = "";
+		
+					// 매칭된 직원 이름과 사원 번호를 새로운 옵션으로 추가합니다.
+					for (var l = 0; l < matchingEmpNames.length; l++) {
+						var empOption = document.createElement("option");
+						empOption.value = matchingEmpNos[l];
+						empOption.text = matchingEmpNames[l];
+						empSelect.appendChild(empOption);
+					}
+		
+				});
+			
+			    var selectedDeptIndex = deptSelect.selectedIndex;
+			    var selectedDeptCode = deptCodes[selectedDeptIndex];
+			
+			    var matchingEmpNames = [];
+			    var matchingEmpNos = [];
+			
+			    for (var k = 0; k < empDeptCodes.length; k++) {
+			        if (empDeptCodes[k] === selectedDeptCode) {
+			            matchingEmpNames.push(empNames[k]);
+			            matchingEmpNos.push(empNos[k]);
+			        }
+			    }
+			
+			    empSelect.innerHTML = "";
+			
+			    for (var l = 0; l < matchingEmpNames.length; l++) {
+			        var empOption = document.createElement("option");
+			        empOption.value = matchingEmpNos[l];
+			        empOption.text = matchingEmpNames[l];
+			        empSelect.appendChild(empOption);
+			    }
+			
+			    deptContainer.appendChild(deptSelect);
+			    empContainer.appendChild(empSelect);
+			
+			    reInviContainer.appendChild(deptContainer);
+			    reInviContainer.appendChild(empContainer);
+			
+			    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
+			    let delButton = document.createElement('button');
+			    delButton.type = 'button';
+			    delButton.textContent = '삭제';
+			    delButton.addEventListener('click', function () {
+			        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
+			        reInviContainer.remove();
+			        shareProjectCount--;
+			    });
+			
+			    reInviContainer.appendChild(delButton);
+			
+			    return reInviContainer;
+			}
+			
+			function updateCount() {
+			    shareProjectCount = document.querySelectorAll("[class^='reinvicontainer']").length + 1;
+			}
+			
+			$('#addBtnRe').on('click', function () {
+			    if (shareProjectCount <= 5) {
+			        let reInviContainer = createContainer(shareProjectCount);
+			
+			        let someContainer2 = document.querySelector('#shareListJob');
+			        someContainer2.appendChild(reInviContainer);
+			
+			        shareProjectCount++;
+			    } else {
+			        alert("공유인원은 5명까지 가능합니다.");
+			    }
+			    updateCount(); // count를 업데이트하는 함수 호출
+			});
   
   
   

@@ -68629,8 +68629,7 @@ div.hopscotch-bubble.fade-in-left {
   line-height: 0;
   cursor: pointer;
   margin-right: 0.25rem;
-}
-.rating .jq-star:last-child {
+}.rating .jq-star:last-child {
   margin-right: 0;
 }
 .rating .jq-star polygon[class^=svg-empty] {

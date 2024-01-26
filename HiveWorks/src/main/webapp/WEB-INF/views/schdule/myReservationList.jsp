@@ -236,7 +236,7 @@ $(document).ready(function() {
 	    var keyword = $('#searchKeyword').val();
 
 		$.ajax({
-			url : '/schedule/reserveBykeyword',
+			url : contextPath+'/schedule/reserveBykeyword',
 			type : 'POST',
 			data : {
 				type : type,
@@ -347,7 +347,7 @@ $(document).ready(function() {
 
             if (confirmed) {
                 $.ajax({
-                    url: "/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
+                    url: contextPath+"/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
                     type: "POST",
                     data: JSON.stringify(checkedList), // JSON 데이터로 변환
                     contentType: "application/json",
@@ -358,7 +358,7 @@ $(document).ready(function() {
                         $(".check-select:checked").closest("tr").remove();
                         
                         $.ajax({
-                            url: "/sendCancelMessage",
+                            url:  contextPath+"/sendCancelMessage",
                             type: "POST",
                             data: JSON.stringify(selectedDataList),
                             contentType: "application/json", 
@@ -396,7 +396,7 @@ $(document).ready(function() {
 
         if (confirmed) {
             $.ajax({
-                url: "/sendMessage",
+                url:  contextPath+"/sendMessage",
                 type: "POST",
                 data: {
                     resourceName: resourceName,

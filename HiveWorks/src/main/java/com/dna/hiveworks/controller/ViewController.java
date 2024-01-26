@@ -1,7 +1,9 @@
 package com.dna.hiveworks.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,8 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.Message;
 import com.dna.hiveworks.model.dto.Work;
+import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentList;
+import com.dna.hiveworks.model.dto.edoc.status.EdocStatus;
+import com.dna.hiveworks.model.dto.edoc.status.ListStatus;
+import com.dna.hiveworks.model.dto.salary.Salary;
+import com.dna.hiveworks.service.EdocService;
+import com.dna.hiveworks.service.MsgService;
+import com.dna.hiveworks.service.MypageService;
 import com.dna.hiveworks.service.WorkService;
+import com.dna.hiveworks.serviceimpl.SalaryServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,9 +34,11 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class ViewController {
-	
+	private final EdocService edocService;
 	private final WorkService service; 
-	
+	private final MsgService msgService;
+	private final MypageService mypageService;
+
 	@GetMapping("/")
 	public String loginPage() {
 		return "common/loginPage";
@@ -44,12 +57,40 @@ public class ViewController {
 		int empNo = loginEmp.getEmp_no();
 		session.setAttribute("loginEmp", loginEmp);
 		
-		// 직원 근무일 가져오기
-		List<Work> selectWorkListAllByEmp = service.selectWorkListAllByEmp(empNo);
+		// 메인프로필 정보가져오기
+		Employee employee = mypageService.indexProfile(empNo);
+		m.addAttribute("employee", employee);
 		
 		// 직원 출퇴근기록 가져오기
 		Work commute = service.selectCommute(loginEmp.getEmp_no());
 		m.addAttribute("commute", commute);
+		
+		// 안읽은메시지개수 가져오기
+		List<Message> msgList = msgService.msgList(empNo);
+		msgList = msgList.stream().filter(msg->msg.getMsg_read_yn().equals("N")).toList();
+		m.addAttribute("msgUnreadCount", msgList.size());
+		
+		// 전자문서상태 가져오기
+		List<ElectronicDocumentList> docList = edocService.getEdocList(Map.of("emp_id",loginEmp.getEmp_id(),"status",ListStatus.ALL.name()));
+		
+		int countAll = 0;
+		long countWait =  0;
+		long countCheck = 0;
+		long countExpect = 0;
+		long countProcess = 0;
+		
+		if(docList != null && docList.size()>0) {
+			countAll = docList.size();
+			countWait =  docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_W)).count();
+			countCheck = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_C)).count();
+			countExpect = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.APV_P)).count();
+			countProcess = docList.stream().filter(t -> t.getEdocStatus().equals(EdocStatus.PROCESS)).count();
+		}
+		m.addAttribute("countAll", countAll);
+		m.addAttribute("countWait", countWait);
+		m.addAttribute("countCheck", countCheck);
+		m.addAttribute("countExpect", countExpect);
+		m.addAttribute("countProcess", countProcess);
 		return "index";
 	}
 		

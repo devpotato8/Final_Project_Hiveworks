@@ -67,25 +67,19 @@ public class WorkDaoImpl implements WorkDao {
 	@Override
 	public int lateWork(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return session.selectOne("work.lateWork", empNo);
 	}
 
 	@Override
 	public int fastEnd(SqlSession session , int empNo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return session.selectOne("work.fastEnd", empNo);
 	}
 
 	@Override
 	public int absence(SqlSession session, int empNo) {
 		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int overWork(SqlSession session, int empNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.selectOne("work.absence", empNo);
 	}
 
 	@Override
@@ -115,12 +109,6 @@ public class WorkDaoImpl implements WorkDao {
 	public int absenceFilter(SqlSession session, Map<String, Integer>param) {
 		// TODO Auto-generated method stub
 		return session.selectOne("work.absenceFilter", param);
-	}
-
-	@Override
-	public int overWorkFilter(SqlSession session, Map<String, Integer>param) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 	

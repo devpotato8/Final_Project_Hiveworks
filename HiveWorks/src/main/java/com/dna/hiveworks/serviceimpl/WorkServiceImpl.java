@@ -37,7 +37,8 @@ public class WorkServiceImpl implements WorkService {
 	public int updateStartWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNo(session, empNo);
 		System.out.println(isPresent);
-		if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+		//if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+		if (isPresent == null) {
 			return dao.updateStartWork(session, empNo);
 	    } else {
 	    	throw new RuntimeException("익셉션");
@@ -48,7 +49,8 @@ public class WorkServiceImpl implements WorkService {
 	@Transactional
 	public int updateEndWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNoEND(session, empNo);
-		if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
+		System.out.println(isPresent);
+		if (isPresent == null) {
 			return dao.updateEndWork(session, empNo);
 	    } else {
 	    	 throw new RuntimeException("익셉션");
@@ -77,12 +79,6 @@ public class WorkServiceImpl implements WorkService {
 	public String avgEndWork(int empNo) {
 		// TODO Auto-generated method stub
 		return dao.avgEndWork(session, empNo);
-	}
-	
-	@Override
-	public int overWork(int empNo) {
-		// TODO Auto-generated method stub
-		return dao.overWork(session, empNo);
 	}
 	
 	@Override
@@ -133,13 +129,6 @@ public class WorkServiceImpl implements WorkService {
 		return dao.absenceFilter(session, param);
 	}
 
-	@Override
-	public int overWorkFilter(Map<String, Integer>param) {
-		// TODO Auto-generated method stub
-		return dao.overWorkFilter(session, param);
-	}
-
-	
 
 	
 

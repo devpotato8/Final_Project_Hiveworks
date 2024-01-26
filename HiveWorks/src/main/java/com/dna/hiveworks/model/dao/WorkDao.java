@@ -26,13 +26,11 @@ public interface WorkDao {
 	int lateWork(SqlSession session, int empNo);
 	int fastEnd(SqlSession session, int empNo);
 	int absence(SqlSession session, int empNo);
-	int overWork(SqlSession session, int empNo);
 	
 	String avgStartWorkFilter(SqlSession session, Map<String, Integer>param);
 	String avgEndWorkFilter(SqlSession session, Map<String, Integer>param);
 	int lateWorkFilter(SqlSession session, Map<String, Integer>param);
 	int fastEndFilter(SqlSession session, Map<String, Integer>param);
 	int absenceFilter(SqlSession session, Map<String, Integer>param);
-	int overWorkFilter(SqlSession session, Map<String, Integer>param);
 
 }

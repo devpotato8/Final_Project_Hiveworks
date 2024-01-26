@@ -54,7 +54,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno.do?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
+								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -70,7 +70,7 @@
 										<c:if test="${not empty reList}">
 											<c:forEach var="res" items="${reList}">
 												<li class="nav-item">
-													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource.do?resourceNo=${res.resourceNo}">
+													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource?resourceNo=${res.resourceNo}">
 														<span class="nav-link-text">${res.resourceName}</span>
 													</a>
 												</li>
@@ -79,26 +79,26 @@
 									</ul>
 						</div>
 						<div class="menu-gap"></div>
+						<c:if test="${loginEmp.aut_code == 'AUT001'}">
 						<div class="nav-header">
 							<span>관리자</span>
 						</div>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
 								<li class="nav-item"><a class="nav-link"
-									href="${path }/schedule/reservationlist.do"> <span class="nav-icon-wrap"><span
+									href="${path }/schedule/reservationlist"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="flag"></i></span></span> <span
 										class="nav-link-text">전체 예약/대여 조회</span>
 								</a></li>
 
 								<li class="nav-item"><a class="nav-link"
-									href="${path}/schedule/resourcelist.do"> <span class="nav-icon-wrap"><span
+									href="${path}/schedule/resourcelist"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="grid"></i></span></span> <span
 										class="nav-link-text">전사자산 목록</span>
 								</a></li>
 							</ul>
 						</div>
-						</div>
-						</div>
+						</c:if>
 			</nav>
 			<div class="blogapp-content">
 				<div class="blogapp-detail-wrap">
@@ -133,10 +133,10 @@
 						<div class="hk-pg-wrapper pb-0">
 							<div class="" style="display: flex;">
 							<div id='calendar-container'>
-							    <div id='calendar'></div>
+							    <div id='calendar' style="width: 700px; padding:20px"></div>
 							  </div>
 								<div style="width: 50%; display: block;">
-									<form action="${path}/schedule/reserveResourceEnd.do"
+									<form action="${path}/schedule/reserveResourceEnd"
 										method="POST">
 										<input type="hidden" name="empNo" value="${loginEmp.emp_no}"/>
 										<input type="hidden" name="code" value="${currentResourceCalCode}"/>
@@ -159,7 +159,7 @@
 											</div>
 										</div>
 
-					<div class="row gx-3">
+								<div class="row gx-3">
 										<div class="col-sm-3">
 											<span>일정 공유</span>
 										</div>
@@ -194,11 +194,7 @@
 												<label class="form-label">직원</label>
 												<div class="d-flex">
 													<select class="form-select me-3" name="calEmp" id="calEmp1">
-														<c:if test="${not empty empList}">
-															<c:forEach var="emp" items="${empList}">
-																<option value="${emp.emp_no}">${emp.emp_name}</option>
-															</c:forEach>
-														</c:if>
+																<option value=""></option>
 													</select>
 												</div>
 											</div>
@@ -238,8 +234,9 @@
 const resourceNo = ${currentResourceNo };
 //console.log(resourceNo );
 
+var contextPath = "<c:out value='${path}'/>";
 
-//reminder 스트링으로 보내기
+
 /* var remindercheck = document.getElementById('flexCheckDefault');
 
 remindercheck.addEventListener('change', function() {
@@ -326,7 +323,10 @@ $(document).ready(function() {
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
         // initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-        editable: true, // 수정 가능?
+        editable: false, // 수정 가능?
+        droppable: false,
+        eventStartEditable: false,
+        eventDurationEditable: false, // 이벤트 지속 시간 드래그 방지
         selectable: true, // 달력 일자 드래그 설정가능
         nowIndicator: true, // 현재 시간 마크
         dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
@@ -396,7 +396,7 @@ $(document).ready(function() {
         	  
         	  // 선택한 날짜에 해당하는 예약 리스트를 가져오는 AJAX 요청
         	  $.ajax({
-        	    url: '/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
+        	    url:  contextPath+'/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
         	    method: 'POST',
         	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
         	      data: JSON.stringify({ selectDate: startTime, resourceNo: resourceNo }),
@@ -437,7 +437,7 @@ $(document).ready(function() {
         	},
         	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url: `/schedule/selectReserveByresource`,
+					url:  contextPath+`/schedule/selectReserveByresource`,
 					type: "POST",
 					dataType: "JSON",
 					data: JSON.stringify({ resourceNo: resourceNo }),
@@ -536,7 +536,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      
      employeeList.forEach(function(employee) {
        var option = document.createElement('option');
-       option.value = employee.EMP_NO;
+       option.value = employee.no;
        option.textContent = employee.name;
        employeeSelect.appendChild(option);
      });
