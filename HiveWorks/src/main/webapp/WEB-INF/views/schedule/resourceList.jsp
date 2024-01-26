@@ -322,6 +322,9 @@
 </div>
 <!-- /Page Body -->
 <script>
+
+var contextPath = "<c:out value='${path}'/>";
+
 //페이지 새로고침
 $(document).ready(function() {
     $("#refreshButton").click(function(e) {

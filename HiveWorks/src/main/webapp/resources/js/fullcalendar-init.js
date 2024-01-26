@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				searchType += 'D'
 			}
 			$.ajax({
-				url: contextPath+`/schedule/searchschedule`,
+				url: contextPath+"/schedule/searchschedule",
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
