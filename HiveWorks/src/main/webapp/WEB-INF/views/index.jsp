@@ -85,7 +85,7 @@
 								<div class="btn-block">출퇴근을 눌러주세요 😊</div>
 								<div class="btn-block" id="currentTime"></div>
 							</div>
-							<div class="button-container d-flex justify-content-center mt-3">
+							<div class="d-flex justify-content-center mt-3">
 								<form action="${path}/work/updateStartWork" method="post" id="workStartForm">
 									<input class="btn btn-flush-light btn-animated" type="submit"
 										value="출근하기" onclick="workStartForm(event)"/> 
@@ -213,10 +213,10 @@
 																<div class="">
 																<c:choose>
 																	<c:when test="${msgUnreadCount > 0}">
-																		<span class="card-text"><a href="${path }/messageview"><b>${msgUnreadCount}</b></a> 개 있습니다</span>
+																		<span class="card-text"><a href="${path }/messageview"><b>${msgUnreadCount}</b></a> 건 있습니다</span>
 																	</c:when>
 																	<c:otherwise>
-																		<span class="card-text">0 개 있습니다</span>
+																		<span class="card-text">0 건</span>
 																	</c:otherwise>
 																</c:choose>
 																</div>
@@ -244,7 +244,7 @@
 																		<span class="card-text"><a href="${path}/edoc/lists/wait"><b>${countWait}</b></a> 건</span>
 																	</c:when>
 																	<c:otherwise>
-																		<span class="card-text">없습니다</span>
+																		<span class="card-text">0 건</span>
 																	</c:otherwise>
 																</c:choose>
 																</div>
@@ -270,7 +270,7 @@
 																		<span class="card-text"><a href="${path}/edoc/lists/process"><b>${countProcess}</b></a> 건</span>
 																	</c:when>
 																	<c:otherwise>
-																		<span class="card-text">없습니다</span>
+																		<span class="card-text">0 건</span>
 																	</c:otherwise>
 																</c:choose>
 																</div>
@@ -285,6 +285,7 @@
 						          
 							</div>
 						</div>
+						
 					</div>
 
 					<!-- 3 -->
