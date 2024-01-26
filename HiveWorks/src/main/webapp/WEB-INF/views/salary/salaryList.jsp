@@ -27,9 +27,7 @@
 </style>
 
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<c:choose>
-	<c:when test="${loginEmp.aut_code == 'AUT001' || loginEmp.aut_code == 'AUT002'  }">
-	
+
 		<!-- Main Content -->
 		<div class="hk-pg-wrapper pb-0">
 			<div class="hk-pg-body py-0">
@@ -148,37 +146,7 @@
 			<!-- /Page Body -->
 		</div>
 		<!-- /Main Content -->
-		</c:when>
-	<c:otherwise>
-		<!-- Main Content -->
-		<div class="hk-pg-wrapper pb-0">
-			<div class="hk-pg-body py-0">
-				<div class="invoiceapp-wrap">
-					<div class="invoiceapp-content" style="padding-left: 40px;">
-						<div class="invoiceapp-detail-wrap">
-							<header class="invoice-header">
-								<div class="d-flex align-items-center">
-									
-								</div>
-							</header>
-							<div class="invoice-body">
-								<div data-simplebar class="nicescroll-bar">
-										<span>해당 페이지의 권한이 없습니다.</span>
-									<div class="invoice-list-view">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /Page Body -->
-		</div>
-		<!-- /Main Content -->
-	
-	</c:otherwise>
 
-</c:choose>
 	<!-- jQuery -->
     <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 
