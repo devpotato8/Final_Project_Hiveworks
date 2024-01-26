@@ -227,7 +227,7 @@
 	</update>
 	
 	<delete id="deleteEmployee">
-		UPDATE TBL_EMPLOYEE SET USE_YN='N'
+		UPDATE TBL_EMPLOYEE SET USE_YN='N', EMP_RETIRED_DATE = SYSDATE
 		WHERE EMP_NO = ${emp_no}
 	</delete>
 	

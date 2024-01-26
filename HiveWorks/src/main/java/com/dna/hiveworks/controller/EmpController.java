@@ -389,11 +389,11 @@ public class EmpController {
 		try {
 			int result = service.deleteEmployee(emp_no);
 			
-			msg="직원 삭제 성공";
+			msg="퇴사 처리 성공";
 			loc="employees/employeeList";
 
 		}catch(RuntimeException e) {
-			msg="직원 삭제 실패";
+			msg="퇴사 처리 실패";
 			loc="employees/employeeList";
 		}
 		model.addAttribute("msg", msg);

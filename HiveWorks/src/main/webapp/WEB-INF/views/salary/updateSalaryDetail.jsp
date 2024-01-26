@@ -816,6 +816,7 @@
 	fn_delete_comma=(num)=>{
 	    return num.replaceAll(',','');
 	}
+	
 	</script>
 	<script>
 	let $form = document.getElementById('form');
