@@ -106,7 +106,7 @@
 							<div class="dropdown">
 								<a
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
-									href="#" data-bs-toggle="dropdown">자산종류</a>
+									href="#" data-bs-toggle="dropdown" id="dropdownMenuBtn">자산종류</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									<span class="dropdown-item" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
@@ -141,7 +141,7 @@
 											<c:if test="${not empty reList }">
 												<c:forEach var="r" items="${reList}">
 													<tr>
-														<td><input type="checkbox" class="form-check-input check-select" id="customCheck+${r.resourceNo}"></td>
+														<td><input type="checkbox" class="form-check-input check-select" id="customCheck${r.resourceNo}"></td>
 														<td>${r.resourceNo }</td>
 														<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
 														</td>
@@ -435,7 +435,7 @@ function applyFeatherLoading(){
 
 			var selectedType = $(this).data('type');
 											// 선택된 항목의 텍스트를 버튼에 업데이트
-			$('#dropdownMenuButton').text(selectedType);
+			$('#dropdownMenuBtn').text(selectedType);
 	
 			$.ajax({
 				url :  contextPath+'/schedule/resourcelistByType',

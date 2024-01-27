@@ -61,8 +61,10 @@ public class ScheduleContoller {
 	public String scheduleList(Model model) {
 		List<Department> deptList = deptservice.deptListAll();
 		List<Employee> empList = scheduleService.selectEmployeesList();
+		List<Schedule> schedules = scheduleService.selectScheduleAll();
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("empList", empList);
+		model.addAttribute("scheduleList", schedules);
 		return "schedule/scheduleList";
 	}
 

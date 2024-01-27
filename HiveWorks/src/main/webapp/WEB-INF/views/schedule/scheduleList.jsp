@@ -113,7 +113,7 @@
 		<div class="drawer-body" id="viewContainer">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
-				<div class="form-check">
+				<div class="form-check" id="importContainer">
 								<input type="checkbox" class="form-check-input"
 									id="event_import"> <label class="form-check-label"
 									for="event_import">중요일정</label>

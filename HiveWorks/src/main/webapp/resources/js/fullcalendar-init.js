@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
+								//allday: false,
 								//icon: 'yellow-star', // 노란색 별 아이콘 클래스
 								extendedProps: {
 									content: event.calContent,
@@ -545,6 +546,23 @@ document.addEventListener('DOMContentLoaded', function() {
 				targetE = info.event;
 				console.log("타겟"+targetE.id);
 				
+				//var tabChecklist = document.getElementById('checklistContainer');
+	
+				if (targetE.id === 'CAL003' && loginAut != 'AUT001') {
+				  document.getElementById('checklistContainer').style.visibility = 'hidden';
+				  document.getElementById('edit_event').style.visibility = 'hidden';
+				  document.getElementById('del_event').style.visibility = 'hidden';
+				  document.getElementById('importContainer').style.visibility = 'hidden';
+				}else if(targetE.id === 'CAL003' && loginAut == 'AUT001'){ 
+				  document.getElementById('checklistContainer').style.visibility = 'hidden';
+				  document.getElementById('importContainer').style.visibility = 'hidden';
+				}else{
+				  document.getElementById('checklistContainer').style.visibility = 'visible';
+				  document.getElementById('edit_event').style.visibility = 'visible';
+				  document.getElementById('del_event').style.visibility = 'visible';
+				}
+				
+				
 				//체크리스트 조회
 				$.ajax({
 			  		url: contextPath+"/schedule/checkListByCalNo?calNo="+targetE.extendedProps.calNo,
@@ -786,6 +804,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				    var YourEmpName = invitationEmpList[i].yourEmpName;
 				    var YourDeptName = invitationEmpList[i].yourDeptName;
 				    var YourDeptCode = invitationEmpList[i].yourDeptCode;
+				    var InviUseYn = invitationEmpList[i].inviUseYn;
+						
+						if(InviUseYn == 'Y'){
 			
 				    // 다시 생성
 				    let reInviContainer = document.createElement('div');
@@ -892,6 +913,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				    handleDeptSelect();
 			
 				    deptSelect.addEventListener("change", handleDeptSelect);
+					}
 				}
 			}
 			

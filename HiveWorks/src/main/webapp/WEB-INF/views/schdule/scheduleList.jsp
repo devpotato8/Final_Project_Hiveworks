@@ -166,7 +166,7 @@
 										<div
 											class="d-flex align-items-center justify-content-between mb-2" id="commentAllArea">
 											<div class="title title-lg mb-0">
-												<span id="checklistSpan">To-Do-List</span>
+												<span id="checklistspan">To-Do-List</span>
 											</div>
 										</div>
 										 <div class="hk-checklist">

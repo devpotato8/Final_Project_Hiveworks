@@ -192,9 +192,8 @@
 		<result property="empName" column="com_emp_name"/>
 	</resultMap>
 	
-	
-	
-	
+
+
 	<insert id="insertSchedule" parameterType="schedule">
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
 	</insert>
