@@ -36,6 +36,8 @@ public interface ScheduleDao {
 	
 	List<Schedule> selectScheduleAll(SqlSession session);
 	
+	Schedule scheduleListByCalNo(SqlSession session, int calNo);
+	
 	
 	List<Schedule> searchSchedule(SqlSession session, Map<String,Object> param);
 	
@@ -83,12 +85,14 @@ public interface ScheduleDao {
 	
 	List<Schedule> selectprojectByEmpNo(SqlSession session, int empNo);
 	
-	Schedule selectprojectByCalNo(SqlSession session, int calNo);
+	//Schedule scheduleListByCalNo(SqlSession session, int calNo);
 	
 	//int insertProject(SqlSession session, Schedule schedule);
 	
 	
 	CheckList selectChecklistByNo(SqlSession session, int checklistNo);
+	
+	List<CheckList> checkListByCalNo(SqlSession session, int calNo);
 	
 	int insertChecklist(SqlSession session, CheckList checklist);
 	

@@ -141,7 +141,7 @@
 											<c:if test="${not empty reList }">
 												<c:forEach var="r" items="${reList}">
 													<tr>
-														<td></td>
+														<td><input type="checkbox" class="form-check-input check-select" id="customCheck+${r.resourceNo}"></td>
 														<td>${r.resourceNo }</td>
 														<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
 														</td>

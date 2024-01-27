@@ -40,6 +40,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public Schedule scheduleListByCalNo(SqlSession session, int calNo) {
+		return session.selectOne("schedule.scheduleListByCalNo", calNo);
+	}
+	
+	@Override
 	public int insertSchedule(SqlSession session, Schedule schedule) {
 		return session.insert("schedule.insertSchedule",schedule);
 	}
@@ -54,6 +59,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	    }
 	    return count;
 	}
+	
 	
 	
 	
@@ -241,14 +247,19 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return session.selectList("schedule.selectprojectByEmpNo",empNo);
 	}
 	
-	@Override
-	public Schedule selectprojectByCalNo(SqlSession session, int calNo) {
-		return session.selectOne("schedule.selectprojectByCalNo", calNo);
-	}
+	/*
+	 * @Override public Schedule scheduleListByCalNo(SqlSession session, int calNo)
+	 * { return session.selectOne("schedule.scheduleListByCalNo", calNo); }
+	 */
 	
 	@Override
 	public CheckList selectChecklistByNo(SqlSession session, int checklistNo) {
 		return session.selectOne("schedule.selectChecklistByNo", checklistNo);
+	}
+	
+	@Override
+	public List<CheckList> checkListByCalNo(SqlSession session, int calNo) {
+		return session.selectList("schedule.checkListByCalNo", calNo);
 	}
 	
 	

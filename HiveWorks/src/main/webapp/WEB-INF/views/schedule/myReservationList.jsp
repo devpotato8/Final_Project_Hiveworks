@@ -138,7 +138,7 @@
 														<c:if test="${not empty MyReserveList}">
 															<c:forEach var="myres" items="${MyReserveList}">
 														<tr>
-															<td></td>
+															<td><input type="checkbox" class="form-check-input check-select" id="customCheck+${myres.calNo}"></td>
 															<td>${myres.calNo }</td>
 															<td class="mw-250p text-truncate text-high-em">
 																<span>${myres.resource.resourceName }</span>
@@ -245,6 +245,7 @@ $(document).ready(function() {
 			},
 			dataType : 'json',
 			success : function(response) {
+				console.log(response);
 				// 기존 테이블 내용 초기화
 		        $('#datable_1 tbody').empty();
 

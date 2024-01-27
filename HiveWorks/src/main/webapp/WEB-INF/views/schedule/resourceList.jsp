@@ -141,7 +141,7 @@
 											<c:if test="${not empty reList }">
 												<c:forEach var="r" items="${reList}">
 													<tr>
-														<td></td>
+														<td><input type="checkbox" class="form-check-input check-select" id="customCheck+${r.resourceNo}"></td>
 														<td>${r.resourceNo }</td>
 														<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
 														</td>
@@ -475,11 +475,10 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 				},
 				dataType : 'json',
 				success : function(response) {
-					response.forEach(function(item) {
-						var tableBody = $('#datable_1 tbody');
-						tableBody.empty();
-	
-						
+					var tableBody = $('#datable_1 tbody');
+					tableBody.empty();
+					
+					response.forEach(function(item) {	
 					    // 테이블 행 요소 생성
 					    var row = document.createElement('tr');
 	
