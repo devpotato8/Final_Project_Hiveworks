@@ -340,7 +340,7 @@ $(document).ready(function() {
 
             if (confirmed) {
                 $.ajax({
-                    url:  contextPath+"/schedule/deleteReservation", // 삭제 요청을 처리할 서버 URL
+                    url:  contextPath+'/schedule/deleteReservation', // 삭제 요청을 처리할 서버 URL
                     type: "POST",
                     data: JSON.stringify(checkedList), // JSON 데이터로 변환
                     contentType: "application/json",

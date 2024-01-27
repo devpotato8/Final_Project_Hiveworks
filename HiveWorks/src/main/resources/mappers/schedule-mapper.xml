@@ -325,7 +325,7 @@
 		<if test="searchTypeA != null || searchTypeB != null || searchTypeC != null">
 			union
 		</if>
-		SELECT * FROM V_CALENDAR_F
+		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
 		where 1=1
 		AND CAL_CODE IN ('CAL004','CAL005','CAL006') AND CAL_USE_YN = 'Y' AND MY_EMP_NO = #{empNo}
 	</if>

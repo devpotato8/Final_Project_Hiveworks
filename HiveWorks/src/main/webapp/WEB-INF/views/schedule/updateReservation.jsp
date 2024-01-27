@@ -224,6 +224,8 @@ empNames.push("${emp.emp_name}");
 empNos.push("${emp.emp_no}");
 </c:forEach>
 
+var contextPath = "<c:out value='${path}'/>";
+
 
 //reminder 스트링으로 보내기
 /* var remindercheck = document.getElementById('flexCheckDefault');
@@ -336,7 +338,7 @@ $(document).ready(function() {
         	  
         	  // 선택한 날짜에 해당하는 예약 리스트를 가져오는 AJAX 요청
         	  $.ajax({
-        	    url: '/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
+        	    url: contextPath+'/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
         	    method: 'POST',
         	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
         	      data: JSON.stringify({ selectDate: defaultStartDate, resourceNo: resourceNo }),
@@ -376,7 +378,7 @@ $(document).ready(function() {
         	},
         	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url: `/schedule/selectReserveByresource`,
+					url: contextPath+'/schedule/selectReserveByresource',
 					type: "POST",
 					dataType: "JSON",
 					data: JSON.stringify({ resourceNo: resourceNo }),

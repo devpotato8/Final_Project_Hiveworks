@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				searchType += 'D'
 			}
 			$.ajax({
-				url: contextPath+`/schedule/searchschedule`,
+				url: contextPath+"/schedule/searchschedule",
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
@@ -548,7 +548,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				  if (targetE.id === 'CAL008') {
 				$('.hk-drawer.calendar-drawer.drawer-right').hide();
-			        window.location.href = '/vacation/vacationView';
+			        window.location.href = contextPath+'/vacation/vacationView';
 			    } else if (targetE.id === 'CAL004' || targetE.id === 'CAL005' || targetE.id === 'CAL006') {
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/schedule/reservationlistbyno?empNo=' + loginEmpNo;
@@ -1152,8 +1152,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					//	calendar.addEvent(editEvent);
 					 // 성공 후 현재 페이지 새로고침
                 	//location.reload();
-					calendar.refetchEvents();
+					//calendar.refetchEvents();
 					//조회창 없어지게
+					$('#vaccalendar').trigger('change');
 					$(this).closest('.hk-drawer').removeClass('drawer-toggle');
 
 				})
@@ -1230,9 +1231,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			.done(function(result) {
 				console.log(result);
 				alert("일정 수정 성공");
-				//	calendar.addEvent(editEvent);
+				calendar.addEvent(editEvent);
 
-				calendar.refetchEvents();
+				//calendar.refetchEvents();
+				$('#vaccalendar').trigger('change');
 			})
 			.fail(function(request, status, error) {
 				alert("일정 수정 실패" + error);
@@ -1339,6 +1341,19 @@ document.addEventListener('DOMContentLoaded', function() {
 				// 일정을 등록한 후에 캘린더를 새로고침하지 않고 변경된 일정이 보이도록 처리합니다.
 				//calendar.refetchEvents();
 				$('#vaccalendar').trigger('change');
+				
+				
+				 document.querySelector('.cal-event-code').selectedIndex = "CAL001";
+			     document.querySelector('.cal-event-date-start').value = getCurrentDateTime();
+			     document.querySelector('.cal-event-date-end').value = getCurrentDateTime();
+			     document.getElementById('alldaycheck').checked = false;
+			     document.querySelector('.cal-event-content').value = '';
+			     document.querySelector('.cal-event-name').value = '';
+			     document.getElementById('reremindercheck').checked = false;
+			   	 $("[class$='inviteContainer']:not(:first)").remove();
+			     // 첫 번째 항목의 값 초기화
+			     $(".inviteContainer:first").find("select").val("");
+      
 			})
 			.fail(function(request, status, error) {
 				alert("일정 등록 실패" + error);
