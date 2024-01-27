@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.dna.hiveworks.model.code.DotCode;
 import com.dna.hiveworks.model.dto.Employee;
+import com.dna.hiveworks.model.dto.edoc.CompanySetting;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocument;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentApproval;
 import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentAttachFile;
@@ -303,5 +304,19 @@ public interface EdocService {
 	 * @return data 정상 리턴시 전자문서 String
 	 */
 	Map<String, Object> edocPrintPreview(Map<String, Object> param);
+	
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 26. 
+	 * @Return : CompanySetting
+	 * 
+	 * Description : 메소드에 대한 설명을 적어주세요
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 26., 설명 : 최초 작성
+	 *
+	 * @return
+	 */
+	CompanySetting getCompanySetting();
 	
 }

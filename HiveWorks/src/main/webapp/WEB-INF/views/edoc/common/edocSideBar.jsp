@@ -187,7 +187,7 @@
 						<li class="nav-item
 							<c:if test="${currentPage eq 'format' }">active</c:if> 
 						">
-							<a class="nav-link" href="javascript:void(0);">
+							<a class="nav-link" href="${path}/edoc/managerSetting">
 								<span class="nav-icon-wrap">
 									<span class="feather-icon"><i data-feather="settings"></i></span>
 								</span>

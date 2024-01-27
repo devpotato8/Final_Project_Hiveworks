@@ -46,56 +46,46 @@
 							<div class="file-list-view">
 								<ul class="nav nav-tabs nav-line nav-icon nav-light">
 									<li class="nav-item">
-										<a class="nav-link active" data-bs-toggle="tab" href="#cloud_doc">
-											<span class="nav-link-text">기본설정</span>
+										<a class="nav-link active" data-bs-toggle="tab" href="#managerSettings">
+											<span class="nav-link-text">관리자설정</span>
 										</a>
 									</li>
 								</ul>
 								<div class="tab-content">
-									<div class="tab-pane fade show active" id="cloud_doc">
-										<div class="container autograph-setting">
-											<h4>서명 설정</h4>
-											<div class="current-autograph">
-												<c:choose>
-													<c:when test="${loginEmp.emp_auto_fileName eq null}">
-														<figure>
-															<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
-															<img id="currentAuto" src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
-														</figure>
-													</c:when>
-													<c:otherwise>
-														<figure>
-															<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
-															<img id="currentAuto" src="${path}/resources/upload/edoc/autograph/${loginEmp.emp_auto_fileName}"/>
-														</figure>
-													</c:otherwise>
-												</c:choose>
-												<div class="row mt-10">
-													<span class="form-label">서명변경</span>
-													<c:choose>
-														<c:when test="${loginEmp.emp_auto_fileName eq null}">
-															<figure class="mb-3">
-																<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
-																<img id="targetAuto" src="${path}/resources/upload/edoc/autograph/defaultApprove.png"/>
-															</figure>
-														</c:when>
-														<c:otherwise>
-															<figure class="mb-3">
-																<figcaption class="figure-caption mb-3">현재 설정 :</figcaption>
-																<img id="targetAuto" src="${path}/resources/upload/edoc/autograph/${loginEmp.emp_auto_fileName}"/>
-															</figure>
-														</c:otherwise>
-													</c:choose>
-													<input type="file" class="form-control mb-3" name="autograph" id="changeAutograph" accept="image/*">
-													<div class="btn-container">
-														<button type="button" class="btn btn-primary" id="setAutographBtn">서명변경</button>
-														<button type="button" class="btn btn-primary" id="setDefaultBtn">기본으로변경</button>
-													</div>
-													<div class="new-auto-container">
-													</div>
-												</div>
-											</div>
-										</div>
+									<div class="tab-pane fade show active" id="managerSettings">
+										<h4>보안 등급별 열람 설정</h4>
+										<figure>
+											<table class="table">
+												<tbody>
+													<tr>
+														<th>S등급</th>
+														<td>기안 상에 설정된 관련자들만 문서 열람</td>
+													</tr>
+													<tr>
+														<th>A등급</th>
+														<td>결재 완료 후 직위
+															<select>
+																<option></option>
+															</select>
+															이상 기본 열람
+														</td>
+													</tr>
+													<tr>
+														<th>B등급</th>
+														<td>결재 완료 후 직위
+															이상 기본 열람
+														</td>
+													</tr>
+													<tr>
+														<th>C등급</th>
+														<td>모든 임직원이 문서 열람</td>
+													</tr>
+												</tbody>
+											</table>
+											<figcaption>
+												※ S등급과 C등급은 설정할 수 없습니다.
+											</figcaption>
+										</figure>
 									</div>
 								</div>
 							</div>
@@ -131,7 +121,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
-<script src="${path}/resources/js/edoc/edoc-psetting.js"></script>
+<script src="${path}/resources/js/edoc/edoc-msetting.js"></script>
 
 </div>
 </body>
