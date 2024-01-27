@@ -322,6 +322,9 @@
 </div>
 <!-- /Page Body -->
 <script>
+
+var contextPath = "<c:out value='${path}'/>";
+
 //페이지 새로고침
 $(document).ready(function() {
     $("#refreshButton").click(function(e) {
@@ -580,6 +583,7 @@ function applyFeatherLoading(){
 	};
 
  </script>
+ <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <%-- <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -598,4 +602,4 @@ function applyFeatherLoading(){
 <script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
 <script src="${path}/resources/js/invoice-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>  --%>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+

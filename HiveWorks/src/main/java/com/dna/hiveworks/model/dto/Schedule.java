@@ -39,8 +39,8 @@ public class Schedule {
 	private String useYn;
 	private Resource resource;
 	private List<InvitationEmp> invitationEmpList;
-	private List<CheckList> CheckListAll;
-	private List<Comment> commentList;
+	private List<CheckList> CheckList;
+	//private List<Comment> commentList;
 	
 	
 

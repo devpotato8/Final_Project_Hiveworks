@@ -80,7 +80,7 @@
 		</collection>
 		<collection property="CheckListAll" resultMap="checklistMap">
 			<id property="calChecklistNo" column="cc_cal_checklist_no"/>
-			<result property="checkCalNo" column="cc_cal_checklist_content"/>
+			<result property="checkCalNo" column="cc_cal_no"/>
 			<result property="calChecklistContent" column="cc_cal_checklist_content"/>
 			<result property="createDate" column="cc_create_date"/>
 			<result property="modifyDate" column="cc_modify_date"/>
@@ -120,28 +120,15 @@
 			<result property="inviUseYn" column="invi_use_yn"/>		
 		</collection>
 		<collection property="CheckList" resultMap="checklistMap">
-			<id property="calChecklistNo" column="cal_checklist_no"/>
-			<result property="calNo" column="cal_no"/>
-			<result property="calChecklistContent" column="cal_checklist_content"/>
-			<result property="createDate" column="create_date"/>
-			<result property="modifyDate" column="modify_date"/>
-			<result property="creater" column="creater"/>
-			<result property="modifier" column="modifier"/>
-			<result property="useYn" column="use_yn"/>
-			<result property="endYn" column="end_yn"/>
-		</collection>
-		<collection property="commentList" resultMap="commentMap">
-			<id property="calCommentNo" column="cal_comment_no"/>
-			<result property="calNo" column="cal_no"/>
-			<result property="calCommentLevel" column="cal_comment_level"/>
-			<result property="calCommentRef" column="cal_comment_ref"/>
-			<result property="calCommentContent" column="cal_comment_content"/>
-			<result property="createDate" column="create_date"/>
-			<result property="modifyDate" column="modify_date"/>
-			<result property="creater" column="creater"/>
-			<result property="modifier" column="modifier"/>
-			<result property="useYn" column="use_yn"/>
-			<result property="empName" column="com_emp_name"/>
+			<id property="calChecklistNo" column="cc_cal_checklist_no"/>
+			<result property="checkCalNo" column="cc_cal_no"/>
+			<result property="calChecklistContent" column="cc_cal_checklist_content"/>
+			<result property="createDate" column="cc_create_date"/>
+			<result property="modifyDate" column="cc_modify_date"/>
+			<result property="creater" column="cc_creater"/>
+			<result property="modifier" column="cc_modifier"/>
+			<result property="useYn" column="cc_use_yn"/>
+			<result property="endYn" column="cc_end_yn"/>
 		</collection>
 	</resultMap>
 	
@@ -181,7 +168,7 @@
 	
 	<resultMap id="checklistMap" type="com.dna.hiveworks.model.dto.CheckList">
 		<id property="calChecklistNo" column="cal_checklist_no"/>
-		<result property="calNo" column="cal_no"/>
+		<result property="checkCalNo" column="cal_no"/>
 		<result property="calChecklistContent" column="cal_checklist_content"/>
 		<result property="createDate" column="create_date"/>
 		<result property="modifyDate" column="modify_date"/>
@@ -292,7 +279,7 @@
 	
 	
 	
-	<select id="searchSchedule" resultMap="scheduleInviMap" parameterType="map">
+	<select id="searchSchedule" resultMap="projectMap" parameterType="map">
 		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
 		where 1=2
 	<if test="searchTypeA != null or searchTypeB != null or searchTypeC != null">

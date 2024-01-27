@@ -629,6 +629,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						var YourEmpName = invitationEmpList[i].yourEmpName;
 						var YourDeptName = invitationEmpList[i].yourDeptName;
 						var YourDeptCode = invitationEmpList[i].yourDeptCode;
+						var InviUseYn = invitationEmpList[i].inviUseYn;
+						
+						if(InviUseYn == 'Y'){
 
 						var invicon = document.createElement("div");
 						invicon.classList.add("d-flex", "flex-wrap");
@@ -653,6 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						existingContainer.appendChild(invicon);
 						invicon.appendChild(div);
 
+						}
 					}
 				}
 					
@@ -1155,7 +1159,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					//calendar.refetchEvents();
 					//조회창 없어지게
 					$('#vaccalendar').trigger('change');
-					$(this).closest('.hk-drawer').removeClass('drawer-toggle');
+					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 
 				})
 				.fail(function(request, status, error) {
@@ -1235,6 +1239,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				//calendar.refetchEvents();
 				$('#vaccalendar').trigger('change');
+				
+				
+				//location.reload();
+				$('.hk-drawer.calendar-drawer.drawer-right').hide();
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			})
 			.fail(function(request, status, error) {
 				alert("일정 수정 실패" + error);
