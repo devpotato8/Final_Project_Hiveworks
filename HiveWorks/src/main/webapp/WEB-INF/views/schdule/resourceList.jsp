@@ -346,36 +346,6 @@ function applyFeatherLoading(){
 }  */
 
 
-//페이징 시도
-/* var targetElem = $('#datable_4');
-var targetDt =targetElem.DataTable({
-	scrollX:  true,
-	autoWidth: false,
-	language: { search: "",
-		searchPlaceholder: "Search",
-		sLengthMenu: "_MENU_items",
-		paginate: {
-			next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
-			previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
-		}
-	},
-	select: {
-		style: 'multi'
-	},
-	"drawCallback": function () {
-		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
-	}
-}); */
-/* $(document).on( 'click', '.del-button', function () {
-	targetDt.rows('.selected').remove().draw( false );
-});
-$('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.dataTables_length label')); */
-
-
-
-
-
-
 
 
 	//등록 모달

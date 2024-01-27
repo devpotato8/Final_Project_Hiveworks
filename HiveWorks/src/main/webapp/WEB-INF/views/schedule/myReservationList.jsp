@@ -328,7 +328,8 @@ $(document).ready(function() {
         $(".check-select:checked").each(function() {
             var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
             var resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-            var calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+            const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
+            const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
 
             checkedList.push(reserveNo);
             
