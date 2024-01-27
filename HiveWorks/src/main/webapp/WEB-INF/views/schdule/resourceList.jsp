@@ -108,15 +108,15 @@
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
 									href="#" data-bs-toggle="dropdown">자산종류</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a class="dropdown-item" href="#" data-type="회의실"><span
+									<span class="dropdown-item" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="flag"></i></span><span>회의실</span></a> <a
-										class="dropdown-item" href="#" data-type="차량"><span
+											data-feather="flag"></i></span><span>회의실</span></span> <span
+										class="dropdown-item" data-type="차량"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="grid"></i></span><span>차량</span></a> <a
-										class="dropdown-item" href="#" data-type="빔프로젝터"><span
+											data-feather="grid"></i></span><span>차량</span></span> <span
+										class="dropdown-item" data-type="빔프로젝터"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="tag"></i></span><span>빔프로젝터</span></a>
+											data-feather="tag"></i></span><span>빔프로젝터</span></span>
 								</div>
 							</div>
 							<div class="tab-content">
@@ -442,11 +442,11 @@ function applyFeatherLoading(){
 				},
 				dataType : 'json',
 				success : function(response) {
+					console.log(response);
 					response.forEach(function(item) {
 						var tableBody = $('#datable_1 tbody');
 						tableBody.empty();
 	
-						
 					    // 테이블 행 요소 생성
 					    var row = document.createElement('tr');
 	
