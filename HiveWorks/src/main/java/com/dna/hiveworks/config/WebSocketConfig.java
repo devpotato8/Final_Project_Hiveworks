@@ -9,7 +9,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import com.dna.hiveworks.interceptor.WebSocketInterceptor;
 
-import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 
 
