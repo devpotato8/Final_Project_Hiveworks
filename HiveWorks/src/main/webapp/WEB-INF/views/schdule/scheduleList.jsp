@@ -161,11 +161,12 @@
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
 							class="event-content">이벤트입니다</span></li>
 					</ul>
+							<div id="checklistContainer" style="background-color: #f3f584; height: 100px;"></div>
 							<div class="tab-pane fade show active" id="tab_checklist">
 										<div
 											class="d-flex align-items-center justify-content-between mb-2" id="commentAllArea">
 											<div class="title title-lg mb-0">
-												<span>Checklist</span>
+												<span id="checklistspan">To-Do-List</span>
 											</div>
 										</div>
 										 <div class="hk-checklist">
@@ -183,7 +184,7 @@
 											<a href="#"
 												class="d-flex align-items-center add-new-checklist"> <span
 												class="feather-icon fe-x me-2"><i
-													data-feather="plus-square"></i></span> <span>체크리스트 추가</span>
+													data-feather="plus-square"></i></span> <span>To-Do-List 추가</span>
 											</a>
 										 </div> 
 										 <div class="d-flex align-items-center justify-content-between">
@@ -220,7 +221,8 @@
 													data-feather="plus-square"></i></span> <span>New Item</span>
 											</a> 
 										</div> -->
-									</div> 
+									</div>
+									</div>
 				</div>
 				
 			</div>

@@ -503,7 +503,7 @@ $(document).ready(function(){
 	
 	$('#modal_msgView').on('hide.bs.modal', function() {
 		//modal이 닫힐때 새로고침
-	    location.reload();		
+	    location.reload();
 	});
 	
 });
@@ -518,7 +518,7 @@ $(document).ready(function(){
 	    var sendMsgContent = $('#msgContentArea').val();
 	    var sendmsgFile = $('#msgFileAttach')[0].files[0]; // 파일 첨부의 경우
 		var senderEmpNo = '${loginEmp.emp_no}';
-		var senderName = '${loginEmp.emp_name};';
+		var senderName = '${loginEmp.emp_name}';
 	    var formData = new FormData();
 	    receiverEmpNo.forEach(function(no) {
 	        formData.append('receiverEmpNo', no.trim()); // 공백 제거 후 추가

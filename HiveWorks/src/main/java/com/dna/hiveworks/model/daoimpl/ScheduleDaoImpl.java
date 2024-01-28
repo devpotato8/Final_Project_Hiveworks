@@ -14,6 +14,8 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 
 @Repository("scheduleDao")
 public class ScheduleDaoImpl implements ScheduleDao {
@@ -40,6 +42,16 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
+	public Schedule scheduleListByCalNo(SqlSession session, int calNo) {
+		return session.selectOne("schedule.scheduleListByCalNo", calNo);
+	}
+	
+	@Override
+	public List<ScheduleVacation> searchVacationByCode(SqlSession session, String deptCode) {
+		return session.selectList("schedule.searchVacationByCode", deptCode);
+	}
+	
+	@Override
 	public int insertSchedule(SqlSession session, Schedule schedule) {
 		return session.insert("schedule.insertSchedule",schedule);
 	}
@@ -54,6 +66,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	    }
 	    return count;
 	}
+	
 	
 	
 	
@@ -95,7 +108,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public int deleteSchedule(SqlSession session, int calNo) {
-		return session.delete("schedule.deleteSchedule",calNo);
+		return session.update("schedule.deleteSchedule",calNo);
 	}
 	
 	@Override
@@ -241,14 +254,19 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return session.selectList("schedule.selectprojectByEmpNo",empNo);
 	}
 	
-	@Override
-	public Schedule selectprojectByCalNo(SqlSession session, int calNo) {
-		return session.selectOne("schedule.selectprojectByCalNo", calNo);
-	}
+	/*
+	 * @Override public Schedule scheduleListByCalNo(SqlSession session, int calNo)
+	 * { return session.selectOne("schedule.scheduleListByCalNo", calNo); }
+	 */
 	
 	@Override
 	public CheckList selectChecklistByNo(SqlSession session, int checklistNo) {
 		return session.selectOne("schedule.selectChecklistByNo", checklistNo);
+	}
+	
+	@Override
+	public List<CheckList> checkListByCalNo(SqlSession session, int calNo) {
+		return session.selectList("schedule.checkListByCalNo", calNo);
 	}
 	
 	

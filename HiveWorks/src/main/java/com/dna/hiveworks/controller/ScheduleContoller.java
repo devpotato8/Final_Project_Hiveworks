@@ -31,7 +31,7 @@ import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
-import com.dna.hiveworks.model.dto.Vacation;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
 import com.dna.hiveworks.service.DeptService;
 import com.dna.hiveworks.service.EmpService;
 import com.dna.hiveworks.service.ScheduleService;
@@ -39,7 +39,6 @@ import com.dna.hiveworks.service.VacationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -62,8 +61,10 @@ public class ScheduleContoller {
 	public String scheduleList(Model model) {
 		List<Department> deptList = deptservice.deptListAll();
 		List<Employee> empList = scheduleService.selectEmployeesList();
+		List<Schedule> schedules = scheduleService.selectScheduleAll();
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("empList", empList);
+		model.addAttribute("scheduleList", schedules);
 		return "schedule/scheduleList";
 	}
 
@@ -104,6 +105,10 @@ public class ScheduleContoller {
 //		return null;
 	}
 	
+	
+	//자산 일정 가져오기
+	
+	
 	//중요일정 조회
 	@GetMapping("/searchImpschedule")
 	@ResponseBody
@@ -132,11 +137,23 @@ public class ScheduleContoller {
 	}
 	
 	//직원 휴가 조회
-	@PostMapping("/searchVacation")
+	/*
+	 * @PostMapping("/searchVacation") public ResponseEntity<Map<String,Object>>
+	 * searchVacation(@RequestBody Map<String, Object> param){ int empNo =
+	 * (Integer)param.get("empNo"); List<Vacation> searchList =
+	 * vacationservice.selectVacationByNo(empNo); searchList =
+	 * searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit()
+	 * .equals("반려")).toList(); return
+	 * ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList)); }
+	 */
+	
+	//직원 휴가 조회(부서)
+	@PostMapping("/searchVacationByDept")
 	public ResponseEntity<Map<String,Object>> searchVacation(@RequestBody Map<String, Object> param){
-		int empNo = (Integer)param.get("empNo");
-		List<Vacation> searchList =  vacationservice.selectVacationByNo(empNo);
+		String deptCode = (String)param.get("deptCode");
+		List<ScheduleVacation> searchList =  scheduleService.searchVacationByCode(deptCode);
 		searchList = searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList();
+		System.out.println(searchList);
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList));
 	}
 	
@@ -419,12 +436,14 @@ public class ScheduleContoller {
 	}
 
 	//프로젝트 상세 조회
-	@GetMapping("/projectlistbycalno")
-	@ResponseBody
-	public ResponseEntity<Schedule> projectListByCalNo(@RequestParam int calNo, Model model) {
-		Schedule project = scheduleService.selectprojectByCalNo(calNo);
-		 return ResponseEntity.ok(project);
-	}
+	/*
+	 * @GetMapping("/projectlistbycalno")
+	 * 
+	 * @ResponseBody public ResponseEntity<Schedule>
+	 * projectListByCalNo(@RequestParam int calNo, Model model) { Schedule project =
+	 * scheduleService.selectprojectByCalNo(calNo); return
+	 * ResponseEntity.ok(project); }
+	 */
 
 	// 사원번호별 프로젝트 조회
 	@GetMapping("/projectlistbyempno")
@@ -437,6 +456,25 @@ public class ScheduleContoller {
 		model.addAttribute("myProjectList", myProjectList);
 		return "schedule/myProjectList";
 	}
+	
+	
+	//일정 상세 조회
+	@GetMapping("/scheduleListByCalNo")
+	@ResponseBody
+	public ResponseEntity<Schedule> scheduleListByCalNo(@RequestParam int calNo, Model model) {
+		Schedule schedule = scheduleService.scheduleListByCalNo(calNo);
+		 return ResponseEntity.ok(schedule);
+	}
+	
+	//체크리스트 조회
+	@GetMapping("/checkListByCalNo")
+	@ResponseBody
+	public ResponseEntity<List<CheckList>> checkListByCalNo(@RequestParam int calNo, Model model) {
+		List<CheckList> checklist = scheduleService.checkListByCalNo(calNo);
+		 return ResponseEntity.ok(checklist);
+	}
+	
+	
 	
 
 	// 체크리스트 등록
@@ -962,7 +1000,7 @@ public class ScheduleContoller {
 	//자산 삭제
 	@PostMapping("/deleteResource")
 	@ResponseBody
-	public List<Integer> deleteResource(@RequestBody List<Integer> checkedList) throws Exception {
+	public int deleteResource(@RequestBody List<Integer> checkedList) throws Exception {
 	    int result = 0;
 
 	    if (checkedList != null && !checkedList.isEmpty()) {
@@ -972,12 +1010,11 @@ public class ScheduleContoller {
 	    if(result == 0) {
             throw new Exception("자산 삭제에 실패했습니다.");
         }
-        // 체크리스트 등록 성공 시
-        return checkedList;
+ 
+        return result;
+        
+        
 	}
-	
-	
-	
 	
 
 }

@@ -9,6 +9,8 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 
 public interface ScheduleService {
 	
@@ -31,6 +33,10 @@ public interface ScheduleService {
 	int updateImportYn(Schedule schedule, int calNo);
 	
 	int deleteSchedule(int calNo);
+	
+	Schedule scheduleListByCalNo(int calNo);
+	
+	List<ScheduleVacation> searchVacationByCode(String deptCode);
 	
 	
 
@@ -74,7 +80,9 @@ public interface ScheduleService {
 	
 	int insertProject(Schedule schedule, int[] empList);
 	
-	Schedule selectprojectByCalNo(int calNo);
+	//Schedule scheduleListByCalNo(int calNo);
+	
+	List<CheckList> checkListByCalNo(int calNo);
 	
 	CheckList selectChecklistByNo(int checklistNo);
 	

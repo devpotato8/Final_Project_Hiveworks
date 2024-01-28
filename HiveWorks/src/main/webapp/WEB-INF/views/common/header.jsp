@@ -192,8 +192,10 @@
 													<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
 											</svg>
 										</span>
-									</span> <span
-										class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">${msgUnreadCount }</span>
+									</span> 
+									<span class="msgUnreadCounter badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">
+										${msgUnreadCount}
+									</span>
 								</span>
 
 							</span>
@@ -463,7 +465,9 @@
 		<div id="msgStack"></div>
 		<!-- /Top Navbar -->
 		
-		<!-- WebSocket연결 -->
+		
+		
+<!-- WebSocket연결 -->
 
 <!--sockJs 라이브러리-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
@@ -471,36 +475,72 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+if (!window.socketConnected) {
+    window.socketConnected = true;
 
-var socket = new SockJS('/ws/msg');  //WebSocketConfig에서 지정한 endpoint와 연결
-var stompClient = Stomp.over(socket); //STOMP 클라이언트 생성
-stompClient.debug = function(str){
-	console.log(str);
-};
-var userId = '${loginEmp.emp_id}';
-console.log(userId);
-//연결 함수
-stompClient.connect({userId:userId},onConnected,onError);
+    var endpoint = '${path}/ws/msg';
+    var socket = new SockJS(endpoint);
+    var stompClient = Stomp.over(socket);
+    var userId = '${loginEmp.emp_id}';
+    console.log(userId);
 
-	function onConnected(){
-	    console.log('연결함수실행');
-	    //쪽지가 도착하면 콜백 함수 실행
-	    stompClient.subscribe('/topic/messages',onMessageReceived);	    
-	}
- 
-	//메시지 수신
-    function onMessageReceived(payload){
-	
-	   	console.log(payload.body);
-	   	console.log('콜백함수실행');
-	   	
-	    var data = JSON.parse(payload.body);
-	    var title = data.title;
-	    var sender = data.senderName;
-	    
-	    console.log(data,"공습경보!!!");
-	}
-    function onError(){
-    	console.log('통신에러');
+    //연결 함수 선언
+    stompClient.connect({userId:userId}, onConnected, onError);
+
+    function onConnected() {
+        console.log('연결함수실행');
+        //쪽지가 도착하면 콜백 함수 실행
+        stompClient.subscribe('/topic/messages', onMessageReceived);    
     }
+    function onError() {
+        console.log('통신에러');
+    }
+
+    //메시지 수신
+    function onMessageReceived(payload) {
+        console.log(payload.body);
+        console.log('콜백함수실행');
+        
+        var data = JSON.parse(payload.body);
+        var title = data.title;
+        var sender = data.senderName;
+        var senderDeptName = data.senderDeptName;
+        var senderJobName = data.senderJobName;
+        var receiverId = data.receiverId;
+    
+        //토스트창 실행함수
+        if(receiverId.includes(userId)){
+            console.log('토스트창실행');
+            // toast
+            let toastId = "toast-"+Date.now(); //현재시간을 넣어 고유 태그Id생성
+            let toast = "<div id='"+ toastId +"' class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
+            toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
+            toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 btn-close' data-dismiss='toast' aria-label='Close'>";
+            toast += "<span aria-hidden='true'>&times;</span></button>";
+            toast += "</div> <div class='toast-body'><p>"+senderDeptName+" "+ sender +" "+senderJobName+"님이 보낸 메시지</p><p>"+title+"</p></div></div>";
+            $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+            $("#"+toastId).toast({"animation": true, "autohide": true, "delay":5000});
+            $("#"+toastId).toast('show');
+            
+         	// 새로운 메시지 도착 시 count +1
+            let count = parseInt($(".msgUnreadCounter").text()) || 0;
+            $(".msgUnreadCounter").text(count + 1);
+            
+         	// 메시지 클릭 시 '/messageview' 주소로 이동
+            $("#"+toastId).click(function() {
+            	location.href = '${path}/messageview';
+            });
+        }
+    }
+
+    // 페이지 언로드 시 웹소켓 연결 종료
+    $(window).on('unload', function() {
+        if (stompClient) {
+            stompClient.disconnect();
+            window.socketConnected = false;
+        }
+    });
+}
+
+
 </script>

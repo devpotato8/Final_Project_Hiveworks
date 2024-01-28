@@ -131,7 +131,7 @@
 														<c:if test="${not empty reserveList }">
 															<c:forEach var="res" items="${reserveList}">
 														<tr>
-															<td></td>
+															<td><input type="checkbox" class="form-check-input check-select" id="customCheck+${res.calNo}"></td>
 															<td>${res.calNo }</td>
 															<td class="mw-250p text-truncate text-high-em">
 																<span>${res.resource.resourceName }</span>

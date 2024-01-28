@@ -31,4 +31,5 @@ public interface MsgDao {
 	int deleteFile(SqlSession session, Map<String,Object> params);
 	
 	List<String>receiverIds(SqlSession session, List<Integer> empNos);
+	Map<String, Object> senderInfo(SqlSession session,int senderEmpNo);
 }

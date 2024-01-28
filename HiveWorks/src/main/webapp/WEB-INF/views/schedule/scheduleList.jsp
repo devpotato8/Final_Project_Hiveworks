@@ -113,7 +113,7 @@
 		<div class="drawer-body" id="viewContainer">
 			<div data-simplebar class="nicescroll-bar">
 				<div class="drawer-content-wrap">
-				<div class="form-check">
+				<div class="form-check" id="importContainer">
 								<input type="checkbox" class="form-check-input"
 									id="event_import"> <label class="form-check-label"
 									for="event_import">중요일정</label>
@@ -161,11 +161,12 @@
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
 							class="event-content">이벤트입니다</span></li>
 					</ul>
+					<div id="checklistContainer" style="background-color: #f3f584; height: 300px; padding: 10px">
 							<div class="tab-pane fade show active" id="tab_checklist">
 										<div
 											class="d-flex align-items-center justify-content-between mb-2" id="commentAllArea">
 											<div class="title title-lg mb-0">
-												<span>Checklist</span>
+												<span>To-Do-List</span>
 											</div>
 										</div>
 										 <div class="hk-checklist">
@@ -183,7 +184,7 @@
 											<a href="#"
 												class="d-flex align-items-center add-new-checklist"> <span
 												class="feather-icon fe-x me-2"><i
-													data-feather="plus-square"></i></span> <span>체크리스트 추가</span>
+													data-feather="plus-square"></i></span> <span>To-Do-List 추가</span>
 											</a>
 										 </div> 
 										 <div class="d-flex align-items-center justify-content-between">
@@ -221,6 +222,7 @@
 											</a> 
 										</div> -->
 									</div> 
+								</div>
 				</div>
 				
 			</div>

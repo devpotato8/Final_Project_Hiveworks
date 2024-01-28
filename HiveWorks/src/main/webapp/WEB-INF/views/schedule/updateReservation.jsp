@@ -512,12 +512,17 @@ let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
 shareProjectCount = 2;
 
 	if (invitationEmpList.length > 0) {
+		
+		
 		for (var i = 0; i < invitationEmpListLength; i++) {
 		    var YourEmpNo = invitationEmpList[i].yourEmpNo;
 		    var YourEmpName = invitationEmpList[i].yourEmpName;
 		    var YourDeptName = invitationEmpList[i].yourDeptName;
 		    var YourDeptCode = invitationEmpList[i].yourDeptCode;
-	
+		    var InviUseYn = invitationEmpList[i].inviUseYn;
+		    
+		    if(InviUseYn == 'Y'){
+		    
 		    // 다시 생성
 		    let reInviContainer = document.createElement('div');
 		    reInviContainer.className = 'reinvicontainer' + (i + 1);
@@ -623,6 +628,7 @@ shareProjectCount = 2;
 		    handleDeptSelect();
 	
 		    deptSelect.addEventListener("change", handleDeptSelect);
+		    }
 		}
 	}
 

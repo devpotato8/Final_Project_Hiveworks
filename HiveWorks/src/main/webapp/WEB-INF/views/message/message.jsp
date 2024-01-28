@@ -131,7 +131,8 @@
 							<thead>
 								<tr>
 									<th>
-										<input type="checkbox" name="" id="chkRowAll">
+										<input type="checkbox" class="form-check-input form-check-theme check-select-all" id="chkRowAll">
+										
 									</th>
 									<th>No</th>
 									<th style="display:none;"></th>

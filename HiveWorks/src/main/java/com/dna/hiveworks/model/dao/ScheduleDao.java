@@ -11,6 +11,8 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 
 public interface ScheduleDao {
 	
@@ -30,11 +32,15 @@ public interface ScheduleDao {
 	
 	int insertInvitation(SqlSession session, List<Integer> checkedList);
 	
+	List<ScheduleVacation> searchVacationByCode(SqlSession session, String deptCode);
+	
 	
 	
 	int deleteSchedule(SqlSession session, int calNo);
 	
 	List<Schedule> selectScheduleAll(SqlSession session);
+	
+	Schedule scheduleListByCalNo(SqlSession session, int calNo);
 	
 	
 	List<Schedule> searchSchedule(SqlSession session, Map<String,Object> param);
@@ -83,12 +89,14 @@ public interface ScheduleDao {
 	
 	List<Schedule> selectprojectByEmpNo(SqlSession session, int empNo);
 	
-	Schedule selectprojectByCalNo(SqlSession session, int calNo);
+	//Schedule scheduleListByCalNo(SqlSession session, int calNo);
 	
 	//int insertProject(SqlSession session, Schedule schedule);
 	
 	
 	CheckList selectChecklistByNo(SqlSession session, int checklistNo);
+	
+	List<CheckList> checkListByCalNo(SqlSession session, int calNo);
 	
 	int insertChecklist(SqlSession session, CheckList checklist);
 	

@@ -76,7 +76,6 @@ public class MessageController {
 		return "message/sendMsg";
 	}
 	
-	
 	//별표 쪽지함 페이지 진입
 	@GetMapping("/starmessageview")
 	public String starMessageView(@SessionAttribute Employee loginEmp, Model model) {
@@ -85,7 +84,6 @@ public class MessageController {
 		model.addAttribute("msgList", msgs);
 		return "message/starMsg";
 	}
-	
 	
 	//휴지통 페이지 진입
 	@GetMapping("/trashmessageview")
@@ -96,7 +94,6 @@ public class MessageController {
 		return "message/trashMsg";
 	}
 	
-		
 	//첨부파일 전체 페이지 진입
 	@GetMapping("/msgFileView")
 	public String msgFileView(@SessionAttribute Employee loginEmp, Model model) {
@@ -273,31 +270,37 @@ public class MessageController {
 		
 		int result = service.sendMsg(params);	
 		
+		
+		int senderNo = Integer.parseInt(senderEmpNo);
+		Map<String,Object> senderInfo = service.senderInfo(senderNo);
+		String senderDeptName = (String)senderInfo.get("DEPT_NAME");
+		String senderJobName = (String)senderInfo.get("CODE_NAME");
+		
 		List<String> userIds = service.receiverIds(empNos);
-		System.err.println(userIds);
 		if (result > 0) {
 			
 			//쪽지 받는 사람들 각각에게 알림 전송
 			for(String receiverUserId : userIds) {
 		        if (sessionUserMap.containsValue(receiverUserId)) {
 		        	
-		        	System.err.println("receiverUserId :"+receiverUserId);
-		            
-		        	Map<String, String> msg = new HashMap<>();
+		        	Map<String, Object> msg = new HashMap<>();  //웹소켓 클라이언트로 전달할 정보들 담기
 		            msg.put("senderName", senderName);
+		            msg.put("senderDeptName", senderDeptName);
+		            msg.put("senderJobName", senderJobName);
 		            msg.put("title", sendMsgTitle);
+		            msg.put("receiverId",receiverUserId);
+		            
+		            //ObjectMapper로 map에 담긴 데이터를 Json방식으로 변환하여 전달한다
 		            ObjectMapper objectMapper = new ObjectMapper();
 			        String jsonMsg = objectMapper.writeValueAsString(msg);
-		            template.convertAndSendToUser(
-		                receiverUserId, // 받는 사람의 사용자 아이디
+		            
+			        template.convertAndSend(
+		                //receiverUserId, // 받는 사람의 사용자 아이디
 		                "/topic/messages",
 		                jsonMsg
 		            );
-			        log.debug("Sending message to user: {}, destination: {}, message: {}", receiverUserId, "/topic/messages", jsonMsg);
-		            System.err.println(jsonMsg);
 		        }
-		    }
-			
+		    }			
             response.put("status", "success");
             return ResponseEntity.ok(response);
         } else {
