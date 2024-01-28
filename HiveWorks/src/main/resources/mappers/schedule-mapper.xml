@@ -268,7 +268,7 @@
 	
 	
 	<select id="selectScheduleAll" resultMap="scheduleInviMap">
-		SELECT * FROM V_CALENDAR_F WHERE USE_YN = 'Y'
+		SELECT * FROM V_CALENDAR_F WHERE CAL_USE_YN = 'Y'
 	</select>
 	
 	
