@@ -11,12 +11,12 @@
 <!-- sweet alert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	
-	<style>
-		h1{
-			font-family: 'Do Hyeon', sans-serif;
-		}
-		
-	</style>
+<style>
+	h1{
+		font-family: 'Do Hyeon', sans-serif;
+	}
+	
+</style>
 
 <c:if test="${errorCode >= 400 && errorCode <= 429}">
 
@@ -72,7 +72,7 @@
 											<Br>
 											<p class="p-sm">계속되면 관리자에게 문의해주세요</p>
 																					
-											<a href="${path}/" class="btn btn-primary mt-4">메인페이지로</a>
+											<a href="${path}/login/index" class="btn btn-primary mt-4">메인페이지로</a>
 											<Br>
 										</div>
 									</div>
@@ -203,7 +203,7 @@ const Toast = Swal.mixin({
 	  title: "5초 후, 이전페이지로 이동"
 	}).then((result) => {
 	    if (result.dismiss === Swal.DismissReason.timer) {
-	        window.location.href = '${url}'; // 여기에 원래 페이지의 URL을 넣어주세요.
+	        window.location.href = '${url}'; 
 	    }
 	});
 </script>

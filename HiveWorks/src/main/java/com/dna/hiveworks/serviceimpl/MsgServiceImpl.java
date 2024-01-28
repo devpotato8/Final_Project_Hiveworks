@@ -169,6 +169,11 @@ public class MsgServiceImpl implements MsgService {
 		return dao.receiverIds(session, empNos);
 	}
 
+	@Override
+	public Map<String, Object> senderInfo(int senderEmpNo) {
+		return dao.senderInfo(session,senderEmpNo);
+	}
+	
 	
 
 

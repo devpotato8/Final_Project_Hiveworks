@@ -36,6 +36,7 @@
 		<typeAlias type="com.dna.hiveworks.model.dto.board.SurveyAnswer" alias="answer"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.salary.OvertimePay" alias="overtimepay"/>
 		<typeAlias type="com.dna.hiveworks.model.dto.Search" alias="search"/>
+		<typeAlias alias="senderMap" type="java.util.HashMap"/>
 	</typeAliases>
 	
 	<typeHandlers>
