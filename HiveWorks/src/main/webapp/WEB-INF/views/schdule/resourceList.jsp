@@ -106,7 +106,7 @@
 							<div class="dropdown">
 								<a
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
-									href="#" data-bs-toggle="dropdown">자산종류</a>
+									href="#" data-bs-toggle="dropdown" id="dropdownMenuBtn">자산종류</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									<span class="dropdown-item" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
@@ -141,7 +141,7 @@
 											<c:if test="${not empty reList }">
 												<c:forEach var="r" items="${reList}">
 													<tr>
-														<td></td>
+														<td><input type="checkbox" class="form-check-input check-select" id="customCheck${r.resourceNo}"></td>
 														<td>${r.resourceNo }</td>
 														<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
 														</td>
@@ -322,6 +322,9 @@
 </div>
 <!-- /Page Body -->
 <script>
+
+var contextPath = "<c:out value='${path}'/>";
+
 //페이지 새로고침
 $(document).ready(function() {
     $("#refreshButton").click(function(e) {
@@ -432,7 +435,7 @@ function applyFeatherLoading(){
 
 			var selectedType = $(this).data('type');
 											// 선택된 항목의 텍스트를 버튼에 업데이트
-			$('#dropdownMenuButton').text(selectedType);
+			$('#dropdownMenuBtn').text(selectedType);
 	
 			$.ajax({
 				url :  contextPath+'/schedule/resourcelistByType',
@@ -580,6 +583,7 @@ function applyFeatherLoading(){
 	};
 
  </script>
+ <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <%-- <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -598,4 +602,4 @@ function applyFeatherLoading(){
 <script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
 <script src="${path}/resources/js/invoice-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>  --%>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+

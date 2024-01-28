@@ -107,13 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
+								//allday: false,
 								//icon: 'yellow-star', // 노란색 별 아이콘 클래스
 								extendedProps: {
 									content: event.calContent,
 									myEmpNo: event.myEmpNo,
 									myDeptCode: event.myDeptCode,
 									invitationEmpList: event.invitationEmpList,
-									checkList: event.CheckListAll,
 									important: event.calImportYn,
 									status: event.calStatus,
 									reminder: event.reminderYn,
@@ -546,6 +546,132 @@ document.addEventListener('DOMContentLoaded', function() {
 				targetE = info.event;
 				console.log("타겟"+targetE.id);
 				
+				//var tabChecklist = document.getElementById('checklistContainer');
+	
+				if (targetE.id === 'CAL003' && loginAut != 'AUT001') {
+				  document.getElementById('checklistContainer').style.visibility = 'hidden';
+				  document.getElementById('edit_event').style.visibility = 'hidden';
+				  document.getElementById('del_event').style.visibility = 'hidden';
+				  document.getElementById('importContainer').style.visibility = 'hidden';
+				}else if(targetE.id === 'CAL003' && loginAut == 'AUT001'){ 
+				  document.getElementById('checklistContainer').style.visibility = 'hidden';
+				  document.getElementById('importContainer').style.visibility = 'hidden';
+				}else{
+				  document.getElementById('checklistContainer').style.visibility = 'visible';
+				  document.getElementById('edit_event').style.visibility = 'visible';
+				  document.getElementById('del_event').style.visibility = 'visible';
+				}
+				
+				
+				//체크리스트 조회
+				$.ajax({
+			  		url: contextPath+"/schedule/checkListByCalNo?calNo="+targetE.extendedProps.calNo,
+			  		method: "GET",
+			  		contentType: 'application/json',
+			  	})
+			  		.done(function(data) {
+			  			console.log(data);
+			  			console.log("체크리스트 조회 성공");
+			  			
+			  	   //체크리스트 조회
+			
+			  	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
+			  	  	$("div.hk-checklist>div").remove();
+					console.log(data.checkList);
+			
+					if (data.length > 0) {
+			    	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
+			    	for (let i = 0; i < data.length; i++) {
+			        const checklistItem = data[i];
+			
+			        // 새로운 div.form-check 요소를 생성합니다.
+			        const checklistDiv = document.createElement('div');
+			        checklistDiv.classList.add('form-check');
+			
+			        // 새로운 input-hidden 요소를 생성합니다.
+			        const hiddenInput = document.createElement('input');
+			        hiddenInput.type = 'hidden';
+			        hiddenInput.id = 'checkNohidden';
+			        hiddenInput.value = checklistItem.calChecklistNo;
+			
+			        // 새로운 input-checkbox 요소를 생성합니다.
+			        const checkboxInput = document.createElement('input');
+			        checkboxInput.type = 'checkbox';
+			        checkboxInput.classList.add('form-check-input');
+			        checkboxInput.id = `customCheckList${i + 2}`;
+			        checkboxInput.name = 'checkListBox';
+			        checkboxInput.checked = checklistItem.endYn === 'Y';
+			
+			        // 새로운 label 요소를 생성합니다.
+			        const label = document.createElement('label');
+			        label.classList.add('form-check-label');
+			        label.htmlFor = `customCheckList${i + 2}`;
+			        label.innerText = checklistItem.calChecklistContent;
+			
+			        // 새로운 span 요소를 생성합니다.
+			        const span = document.createElement('span');
+			        span.classList.add('done-strikethrough');
+			
+			        // label에 span을 추가합니다.
+			        label.appendChild(span);
+			
+			        // 삭제 링크를 위한 새로운 span 요소를 생성합니다.
+			        const deleteLink = document.createElement('span');
+			        deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
+			        deleteLink.dataset.checklistNo = checklistItem.calChecklistNo;
+			
+			        // 새로운 아이콘 span을 생성합니다.
+			        const iconSpan = document.createElement('span');
+			        iconSpan.classList.add('icon');
+			
+			        // 새로운 feather-icon span을 생성합니다.
+			        const featherIcon = document.createElement('span');
+			        featherIcon.classList.add('feather-icon');
+			
+			        // 새로운 휘더 아이콘 i를 생성합니다.
+			        const trashIcon = document.createElement('i');
+					trashIcon.classList.add('icon', 'feather-icon');
+					trashIcon.dataset.feather = 'trash-2';
+			
+			        // i를 feather-icon에 추가합니다.
+			        featherIcon.appendChild(trashIcon);
+			
+			        // feather-icon을 icon에 추가합니다.
+			        iconSpan.appendChild(featherIcon);
+			
+			        // icon을 삭제 링크에 추가합니다.
+			        deleteLink.appendChild(iconSpan);
+			
+			        // div.form-check에 input-hidden, input-checkbox, label, 삭제 링크를 추가합니다.
+			        checklistDiv.appendChild(hiddenInput);
+			        checklistDiv.appendChild(checkboxInput);
+			        checklistDiv.appendChild(label);
+			        checklistDiv.appendChild(deleteLink);
+			
+			        // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내에 추가합니다.
+			        hkChecklist.insertBefore(checklistDiv, document.querySelector('.add-new-checklist'));
+			    }
+			    
+			    
+			}
+			feather.replace();
+					
+			  		})
+			  		.fail(function(request, status, error) {
+			  			console.log("일정 상세 조회 실패" + error);
+			  			console.log(request, status);
+			  			console.log(error);
+			  		});
+	
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				  if (targetE.id === 'CAL008') {
 				$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/vacation/vacationView';
@@ -571,6 +697,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				//조회 부분
 				
 				$('#viewContainer').find('#checkcalNo').val(targetE.extendedProps.calNo);
+				
+				$('#viewContainer').find('#checklistSpan').html('To-Do-List');
+				
+				
 				$('#viewContainer').find('.event-start-date').text("시작 : " + formatDate(targetE.start));
 				$('#viewContainer').find('.event-end-date').text("종료 : " + formatDate(targetE.end));
 				var content = targetE.extendedProps.content || "내용이 없습니다.";
@@ -629,6 +759,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						var YourEmpName = invitationEmpList[i].yourEmpName;
 						var YourDeptName = invitationEmpList[i].yourDeptName;
 						var YourDeptCode = invitationEmpList[i].yourDeptCode;
+						var InviUseYn = invitationEmpList[i].inviUseYn;
+						
+						if(InviUseYn == 'Y'){
 
 						var invicon = document.createElement("div");
 						invicon.classList.add("d-flex", "flex-wrap");
@@ -653,6 +786,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						existingContainer.appendChild(invicon);
 						invicon.appendChild(div);
 
+						}
 					}
 				}
 					
@@ -670,6 +804,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				    var YourEmpName = invitationEmpList[i].yourEmpName;
 				    var YourDeptName = invitationEmpList[i].yourDeptName;
 				    var YourDeptCode = invitationEmpList[i].yourDeptCode;
+				    var InviUseYn = invitationEmpList[i].inviUseYn;
+						
+						if(InviUseYn == 'Y'){
 			
 				    // 다시 생성
 				    let reInviContainer = document.createElement('div');
@@ -776,6 +913,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				    handleDeptSelect();
 			
 				    deptSelect.addEventListener("change", handleDeptSelect);
+					}
 				}
 			}
 			
@@ -896,96 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					
 				}*/
 			}
-			
-			
-			  	     
-  	   //체크리스트 조회
-		var checkList = targetE.extendedProps.checkList;
-		console.log("체크"+checkList);
-  	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
-  	  	$("div.hk-checklist>div").remove();
-
-		if (checkList.length > 0) {
-    	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
-    	for (let i = 0; i < checkList.length; i++) {
-        const checklistItem = checkList[i];
-
-        // 새로운 div.form-check 요소를 생성합니다.
-        const checklistDiv = document.createElement('div');
-        checklistDiv.classList.add('form-check');
-
-        // 새로운 input-hidden 요소를 생성합니다.
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.id = 'checkNohidden';
-        hiddenInput.value = checklistItem.calChecklistNo;
-
-        // 새로운 input-checkbox 요소를 생성합니다.
-        const checkboxInput = document.createElement('input');
-        checkboxInput.type = 'checkbox';
-        checkboxInput.classList.add('form-check-input');
-        checkboxInput.id = `customCheckList${i + 2}`;
-        checkboxInput.name = 'checkListBox';
-        checkboxInput.checked = checklistItem.endYn === 'Y';
-
-        // 새로운 label 요소를 생성합니다.
-        const label = document.createElement('label');
-        label.classList.add('form-check-label');
-        label.htmlFor = `customCheckList${i + 2}`;
-        label.innerText = checklistItem.calChecklistContent;
-
-        // 새로운 span 요소를 생성합니다.
-        const span = document.createElement('span');
-        span.classList.add('done-strikethrough');
-
-        // label에 span을 추가합니다.
-        label.appendChild(span);
-
-        // 삭제 링크를 위한 새로운 span 요소를 생성합니다.
-        const deleteLink = document.createElement('span');
-        deleteLink.classList.add('btn', 'btn-xs', 'btn-icon', 'btn-rounded', 'btn-flush-light', 'flush-soft-hover', 'delete-checklist');
-        deleteLink.dataset.checklistNo = checklistItem.calChecklistNo;
-
-        // 새로운 아이콘 span을 생성합니다.
-        const iconSpan = document.createElement('span');
-        iconSpan.classList.add('icon');
-
-        // 새로운 feather-icon span을 생성합니다.
-        const featherIcon = document.createElement('span');
-        featherIcon.classList.add('feather-icon');
-
-        // 새로운 휘더 아이콘 i를 생성합니다.
-        const trashIcon = document.createElement('i');
-		trashIcon.classList.add('icon', 'feather-icon');
-		trashIcon.dataset.feather = 'trash-2';
-
-        // i를 feather-icon에 추가합니다.
-        featherIcon.appendChild(trashIcon);
-
-        // feather-icon을 icon에 추가합니다.
-        iconSpan.appendChild(featherIcon);
-
-        // icon을 삭제 링크에 추가합니다.
-        deleteLink.appendChild(iconSpan);
-
-        // div.form-check에 input-hidden, input-checkbox, label, 삭제 링크를 추가합니다.
-        checklistDiv.appendChild(hiddenInput);
-        checklistDiv.appendChild(checkboxInput);
-        checklistDiv.appendChild(label);
-        checklistDiv.appendChild(deleteLink);
-
-        // 생성된 DOM 요소를 #tab_checklist .hk-checklist 내에 추가합니다.
-        hkChecklist.insertBefore(checklistDiv, document.querySelector('.add-new-checklist'));
-    }
-}
-			
-			
-			
-			
-			
-			
-			
-			}
+		}
 			
 		});
 	calendar.render();
@@ -1155,7 +1204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					//calendar.refetchEvents();
 					//조회창 없어지게
 					$('#vaccalendar').trigger('change');
-					$(this).closest('.hk-drawer').removeClass('drawer-toggle');
+					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 
 				})
 				.fail(function(request, status, error) {
@@ -1235,6 +1284,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				//calendar.refetchEvents();
 				$('#vaccalendar').trigger('change');
+				
+				
+				//location.reload();
+				$('.hk-drawer.calendar-drawer.drawer-right').hide();
+				
 			})
 			.fail(function(request, status, error) {
 				alert("일정 수정 실패" + error);
@@ -1524,6 +1578,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		// 캘린더 렌더링
 		calendar.render();
 	});*/
+	
+	
 	
 	// 체크리스트 추가
 	   var id;

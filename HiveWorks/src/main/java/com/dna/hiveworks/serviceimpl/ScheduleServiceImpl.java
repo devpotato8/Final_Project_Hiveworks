@@ -27,6 +27,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Qualifier("scheduleDao")
 	private ScheduleDao dao;
 
+	
+	
+	@Override
+	public Schedule scheduleListByCalNo(int calNo) {
+		return dao.scheduleListByCalNo(session, calNo);
+	}
+	
+	
 	@Override
 	public int insertSchedule(Schedule schedule, List<Integer> empList) {
 		int inviresult = 0;
@@ -228,10 +236,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return dao.selectprojectAll(session);
 	}
 
-	@Override
-	public Schedule selectprojectByCalNo(int calNo) {
-		return dao.selectprojectByCalNo(session, calNo);
-	}
+	/*
+	 * @Override public Schedule scheduleListByCalNo(int calNo) { return
+	 * dao.scheduleListByCalNo(session, calNo); }
+	 */
 
 	@Override
 	public List<Schedule> selectprojectByEmpNo(int empNo) {
@@ -260,6 +268,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public CheckList selectChecklistByNo(int checklistNo) {
 		return dao.selectChecklistByNo(session, checklistNo);
+	}
+	
+	@Override
+	public List<CheckList> checkListByCalNo(int calNo) {
+		return dao.checkListByCalNo(session, calNo);
 	}
 
 	

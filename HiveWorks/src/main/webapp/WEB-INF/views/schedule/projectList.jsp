@@ -505,7 +505,7 @@
 										<div
 											class="d-flex align-items-center justify-content-between mb-2" id="commentAllArea">
 											<div class="title title-lg mb-0">
-												<span>Checklist</span>
+												<span>To-Do-List</span>
 											</div>
 										</div>
 										 <div class="hk-checklist">
@@ -523,7 +523,7 @@
 											<a href="#"
 												class="d-flex align-items-center add-new-checklist"> <span
 												class="feather-icon fe-x me-2"><i
-													data-feather="plus-square"></i></span> <span>체크리스트 추가</span>
+													data-feather="plus-square"></i></span>To-Do-List 추가<span></span>
 											</a>
 										 </div> 
 										 <div class="d-flex align-items-center justify-content-between">

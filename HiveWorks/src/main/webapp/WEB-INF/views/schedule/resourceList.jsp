@@ -106,7 +106,7 @@
 							<div class="dropdown">
 								<a
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
-									href="#" data-bs-toggle="dropdown">자산종류</a>
+									href="#" data-bs-toggle="dropdown" id="dropdownMenuBtn">자산종류</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									<a class="dropdown-item" href="#" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
@@ -141,7 +141,7 @@
 											<c:if test="${not empty reList }">
 												<c:forEach var="r" items="${reList}">
 													<tr>
-														<td></td>
+														<td><input type="checkbox" class="form-check-input check-select" id="customCheck${r.resourceNo}"></td>
 														<td>${r.resourceNo }</td>
 														<td class="mw-250p text-truncate text-high-em"><span>${r.resourceType }</span>
 														</td>
@@ -465,7 +465,7 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 
 			var selectedType = $(this).data('type');
 											// 선택된 항목의 텍스트를 버튼에 업데이트
-			$('#dropdownMenuButton').text(selectedType);
+			$('#dropdownMenuBtn').text(selectedType);
 	
 			$.ajax({
 				url :  contextPath+'/schedule/resourcelistByType',
@@ -475,11 +475,10 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 				},
 				dataType : 'json',
 				success : function(response) {
-					response.forEach(function(item) {
-						var tableBody = $('#datable_1 tbody');
-						tableBody.empty();
-	
-						
+					var tableBody = $('#datable_1 tbody');
+					tableBody.empty();
+					
+					response.forEach(function(item) {	
 					    // 테이블 행 요소 생성
 					    var row = document.createElement('tr');
 	
@@ -563,14 +562,14 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 	        var isChecked = $("#customCheck1").prop("checked");
 
 	        // 모든 체크박스의 상태를 전체 체크박스에 맞춰 변경
-	        $(".form-check-input").prop("checked", isChecked);
+	        $(".check-select").prop("checked", isChecked);
 	    });
 
 		$("#delResourceBtn").click(function() {
 			var checkedList = [];
 
 			// 체크된 체크박스를 찾아 체크된 자산의 번호를 checkedList에 추가
-			$(".form-check-input:checked").each(function() {
+			$(".check-select:checked").not(".form-check-input.check-select-all").each(function() {
 				var resourceNo = $(this).closest("tr").find("td:eq(1)").text();
 				console.log(this);
 				checkedList.push(resourceNo);
@@ -591,9 +590,12 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						console.log(response);
 						
 						 // 삭제된 resourceNo에 해당하는 HTML 요소를 삭제
-						response.forEach(function(resourceNo) {
-					        $("li.nav-item").has("a[href*='resourceNo=" + resourceNo + "']").remove();
-					    });
+						
+						checkedList.forEach(function(resourceNo) {
+							  var selector = "li.nav-item:has(a[href*='" + contextPath +"/schedule/reserveResource?resourceNo=" + resourceNo + "'])";
+							  $(selector).remove();
+							});
+					    
 						
 					},
 					error : function(request, status, error) {

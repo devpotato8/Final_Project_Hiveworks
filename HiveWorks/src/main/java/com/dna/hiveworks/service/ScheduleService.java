@@ -32,6 +32,8 @@ public interface ScheduleService {
 	
 	int deleteSchedule(int calNo);
 	
+	Schedule scheduleListByCalNo(int calNo);
+	
 	
 
 	//resource
@@ -74,7 +76,9 @@ public interface ScheduleService {
 	
 	int insertProject(Schedule schedule, int[] empList);
 	
-	Schedule selectprojectByCalNo(int calNo);
+	//Schedule scheduleListByCalNo(int calNo);
+	
+	List<CheckList> checkListByCalNo(int calNo);
 	
 	CheckList selectChecklistByNo(int checklistNo);
 	

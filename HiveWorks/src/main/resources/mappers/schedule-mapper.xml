@@ -78,9 +78,9 @@
 			<result property="yourDeptName" column="your_dept_name"/>
 			<result property="yourDeptCode" column="your_dept_code"/>		
 		</collection>
-		<collection property="CheckListAll" resultMap="checklistMap">
-			<id property="calChecklistNo" column="cc_cal_checklist_no"/>
-			<result property="checkCalNo" column="cc_cal_checklist_content"/>
+		<collection property="CheckList" resultMap="checklistMap">
+			<id property="calChecklistNo" column="cal_checklist_no"/>
+			<result property="checkCalNo" column="check_cal_no"/>
 			<result property="calChecklistContent" column="cc_cal_checklist_content"/>
 			<result property="createDate" column="cc_create_date"/>
 			<result property="modifyDate" column="cc_modify_date"/>
@@ -121,27 +121,13 @@
 		</collection>
 		<collection property="CheckList" resultMap="checklistMap">
 			<id property="calChecklistNo" column="cal_checklist_no"/>
-			<result property="calNo" column="cal_no"/>
+			<result property="checkCalNo" column="cal_no"/>
 			<result property="calChecklistContent" column="cal_checklist_content"/>
-			<result property="createDate" column="create_date"/>
-			<result property="modifyDate" column="modify_date"/>
+			<result property="createDate" column="modify_date"/>
 			<result property="creater" column="creater"/>
 			<result property="modifier" column="modifier"/>
 			<result property="useYn" column="use_yn"/>
 			<result property="endYn" column="end_yn"/>
-		</collection>
-		<collection property="commentList" resultMap="commentMap">
-			<id property="calCommentNo" column="cal_comment_no"/>
-			<result property="calNo" column="cal_no"/>
-			<result property="calCommentLevel" column="cal_comment_level"/>
-			<result property="calCommentRef" column="cal_comment_ref"/>
-			<result property="calCommentContent" column="cal_comment_content"/>
-			<result property="createDate" column="create_date"/>
-			<result property="modifyDate" column="modify_date"/>
-			<result property="creater" column="creater"/>
-			<result property="modifier" column="modifier"/>
-			<result property="useYn" column="use_yn"/>
-			<result property="empName" column="com_emp_name"/>
 		</collection>
 	</resultMap>
 	
@@ -181,7 +167,7 @@
 	
 	<resultMap id="checklistMap" type="com.dna.hiveworks.model.dto.CheckList">
 		<id property="calChecklistNo" column="cal_checklist_no"/>
-		<result property="calNo" column="cal_no"/>
+		<result property="checkCalNo" column="cal_no"/>
 		<result property="calChecklistContent" column="cal_checklist_content"/>
 		<result property="createDate" column="create_date"/>
 		<result property="modifyDate" column="modify_date"/>
@@ -206,9 +192,8 @@
 		<result property="empName" column="com_emp_name"/>
 	</resultMap>
 	
-	
-	
-	
+
+
 	<insert id="insertSchedule" parameterType="schedule">
 		 INSERT INTO TBL_CALENDAR VALUES (SEQ_CAL_NO.NEXTVAL,#{calCode},#{myEmpNo},#{calStartDate},#{calEndDate},#{calSubject},#{calContent},#{calColor},DEFAULT,#{reminderYn},#{calAlldayYn},#{calStatus},DEFAULT,DEFAULT,#{creater},#{modifier},DEFAULT)
 	</insert>
@@ -283,7 +268,7 @@
 	
 	
 	<select id="selectScheduleAll" resultMap="scheduleInviMap">
-		SELECT * FROM V_CALENDAR_F WHERE USE_YN = 'Y'
+		SELECT * FROM V_CALENDAR_F WHERE CAL_USE_YN = 'Y'
 	</select>
 	
 	
@@ -293,13 +278,13 @@
 	
 	
 	<select id="searchSchedule" resultMap="scheduleInviMap" parameterType="map">
-		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
+		SELECT * FROM V_CALENDAR_F
 		where 1=2
 	<if test="searchTypeA != null or searchTypeB != null or searchTypeC != null">
 		union
 	</if>
 	<if test="searchTypeA != null">
-		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
+		SELECT * FROM V_CALENDAR_F
 		where 1=1
 		AND CAL_CODE = 'CAL001' AND CAL_USE_YN = 'Y' AND (MY_EMP_NO = #{empNo} OR YOUR_EMP_NO = #{empNo})
 	</if>
@@ -308,7 +293,7 @@
 		<if test="searchTypeA != null">
 			union
 		</if>
-		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
+		SELECT * FROM V_CALENDAR_F
 		where 1=1
 		AND CAL_CODE = 'CAL002' AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
 	</if>
@@ -317,7 +302,7 @@
 		<if test="searchTypeA != null || searchTypeB != null">
 			union
 		</if>
-		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
+		SELECT * FROM V_CALENDAR_F
 		where 1=1
 		AND CAL_CODE = 'CAL003' AND CAL_USE_YN = 'Y'
 	</if>
@@ -325,7 +310,7 @@
 		<if test="searchTypeA != null || searchTypeB != null || searchTypeC != null">
 			union
 		</if>
-		SELECT V.*, CC.cal_checklist_no AS CC_CAL_CHECKLIST_NO, cc.cal_no as CC_CAL_NO, CC.cal_checklist_content AS CC_CAL_CHECKLIST_CONTENT, CC.create_date AS CC_CREATE_DATE, CC.modify_date AS CC_MODIFY_DATE, CC.creater AS CC_CREATER, CC.modifier AS CC_MODIFIER, CC.use_yn AS CC_USE_YN, CC.end_yn AS CC_END_YN FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO
+		SELECT * FROM V_CALENDAR_F
 		where 1=1
 		AND CAL_CODE IN ('CAL004','CAL005','CAL006') AND CAL_USE_YN = 'Y' AND MY_EMP_NO = #{empNo}
 	</if>
@@ -387,8 +372,8 @@
 		SELECT * FROM V_CALENDAR_F WHERE CAL_CODE = 'CAL007' AND CAL_USE_YN = 'Y'
 	</select>
 	
-	<select id="selectprojectByCalNo" resultMap="projectMap">
-		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO LEFT JOIN V_CAL_COMMENT_USEY COM ON V.CAL_NO = COM.CAL_NO WHERE V.CAL_CODE = 'CAL007' AND V.CAL_NO = #{calNo} AND CAL_USE_YN = 'Y'
+	<select id="scheduleListByCalNo" resultMap="projectMap">
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_CAL_CHECKLIST CC ON V.CAL_NO = CC.CAL_NO LEFT JOIN V_CAL_COMMENT_USEY COM ON V.CAL_NO = COM.CAL_NO WHERE V.CAL_CODE IN ('CAL001','CAL002','CAL003') AND V.CAL_NO = #{calNo} AND CAL_USE_YN = 'Y'
 	</select>
 	
 	
@@ -399,7 +384,7 @@
 
 	
 	<insert id="insertChecklist" parameterType="com.dna.hiveworks.model.dto.CheckList">
-		INSERT INTO TBL_CAL_CHECKLIST VALUES (SEQ_CAL_CHECKLIST_NO.NEXTVAL, #{calNo}, #{calChecklistContent}, #{creater}, #{modifier}, DEFAULT, DEFAULT, 'N', 'Y')
+		INSERT INTO TBL_CAL_CHECKLIST VALUES (SEQ_CAL_CHECKLIST_NO.NEXTVAL, #{checkCalNo}, #{calChecklistContent}, #{creater}, #{modifier}, DEFAULT, DEFAULT, 'N', 'Y')
 		 <selectKey keyProperty="calChecklistNo" resultType="int" order="AFTER">
 	        SELECT MAX(CAL_CHECKLIST_NO) FROM TBL_CAL_CHECKLIST
 	    </selectKey>	
@@ -412,6 +397,10 @@
 	    </selectKey>	
 	</insert>
 	
+	
+	<select id="checkListByCalNo" resultMap="checklistMap">
+		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo}
+	</select>
 	
 	<select id="selectCommentByNo" resultMap="commentMap">
 		SELECT * FROM V_CAL_COMMENT WHERE CAL_COMMENT_NO = #{calcommentNo}
