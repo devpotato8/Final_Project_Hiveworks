@@ -119,6 +119,11 @@ public class MsgDaoImpl implements MsgDao {
 	public List<String> receiverIds(SqlSession session, List<Integer> empNos) {
 		return session.selectList("message.receiverIds",empNos);
 	}
+
+	@Override
+	public Map<String, Object> senderInfo(SqlSession session, int senderEmpNo) {
+		return session.selectOne("message.senderInfo", senderEmpNo);
+	}
 	
 	
 	

@@ -39,4 +39,5 @@ public interface MsgService {
 	int deleteFile(Map<String,Object> params);
 	
 	List<String>receiverIds(List<Integer> empNos);
+	Map<String,Object> senderInfo(int senderEmpNo);
 }
