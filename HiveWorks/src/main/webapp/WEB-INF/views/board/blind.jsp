@@ -21,9 +21,7 @@
 					<thead>
 						<tr>
 							<!-- 테이블 헤더 정보 추가 -->
-							<th><span class="form-check mb-0"> <input
-									type="checkbox" class="form-check-input check-select-all"
-									id="customCheck1"> <label class="form-check-label"
+							<th><span class="form-check mb-0">  <label class="form-check-label"
 									for="customCheck1"></label>
 							</span></th>
 							<th>게시판 번호</th>

@@ -193,13 +193,7 @@
 											</li>
 											
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path}/survey/survey"><span class="nav-link-text">설문</span></a>
+												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의사항</span></a>
 											</li>
 										</ul>	
 									</li>	
