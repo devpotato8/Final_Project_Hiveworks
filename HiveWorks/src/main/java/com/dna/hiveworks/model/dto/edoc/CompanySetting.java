@@ -19,7 +19,7 @@ public class CompanySetting {
 	private String companyPhone;
 	private String companyEmail;
 	private String companyCeoStamp;
-	private String comapnyCeoName;
+	private String companyCeoName;
 	private String edocPrefix;
 	private String edocDateFormat;
 	private String edocNumFormat;
