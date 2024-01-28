@@ -63,14 +63,20 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	@Transactional
 	public int updateBoardCount(int boardNo) {
-		log.debug("조회수: {}", boardNo);
-		if(boardNo>0) {
-			
-		}else {
-			throw new RuntimeException("번호가 안들어가짐");
-		}
+	    log.debug("조회수: {}", boardNo);
+	    if(boardNo > 0) {
+	        int result = dao.updateBoardCount(session, boardNo); // 실제 조회수 업데이트 메서드 호출
+	        if (result > 0) {
+	            // 여기에 필요한 로직을 추가할 수 있습니다.
+	        } else {
+	            throw new RuntimeException("조회수 업데이트 실패!");
+	        }
+	    } else {
+	        throw new RuntimeException("번호가 안들어가짐");
+	    }
 	    return boardNo;
 	}
+
 	
 }
 	

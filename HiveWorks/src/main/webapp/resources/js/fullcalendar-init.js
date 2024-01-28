@@ -25,6 +25,33 @@ $('input[name="calendar"]').trigger("click");
 
 var curYear = moment().format('YYYY'),
 	curMonth = moment().format('MM');
+	
+
+$(document).ready(function() {
+    $('#closeBtn, #cancelBtn').click(function() {
+        // 모든 필드를 재설정합니다.
+        $('.cal-event-name').val('');
+        $('.cal-event-code').val('CAL001');
+        $('.cal-event-date-start').val(getCurrentDateTime());
+        $('.cal-event-date-end').val(getCurrentDateTime());
+        $('#alldaycheck').prop('checked', false);
+        $('.cal-event-content').val('');
+       	$("[class$='inviteContainer']:not(:first)").remove();
+      // 첫 번째 항목의 값 초기화
+   	$(".inviteContainer:first").find("select[name='calEmp']").prop('selectedIndex', -1);
+    });
+});
+
+function getCurrentDateTime() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = ('0' + (now.getMonth() + 1)).slice(-2);
+    var day = ('0' + now.getDate()).slice(-2);
+    var hours = ('0' + now.getHours()).slice(-2);
+   	var minutes = '00'; // 분을 00으로 설정
+    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+}
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -100,10 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				success: function(data) {
 					console.log("데이터"+data);
 					var events = data.map(function(event, i) {
+						//var titlePrefix = event.important === 'Y' ? '<i class="fas fa-star"></i> ' : ''; // Font Awesome 별표 아이콘 추가
 						//로그인 한 사람의 번호가 만든 사람이거나 초대받는 사람일때
 							return {
 								id: event.calCode,
-								title: event.calSubject,
+								title: (event.calCode === 'CAL004' || event.calCode === 'CAL005' || event.calCode === 'CAL006') ? event.myEmpName + " " + event.calSubject : event.calSubject,
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
@@ -112,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								extendedProps: {
 									content: event.calContent,
 									myEmpNo: event.myEmpNo,
+									myEmpName: event.myEmpName,
 									myDeptCode: event.myDeptCode,
 									invitationEmpList: event.invitationEmpList,
 									important: event.calImportYn,
@@ -119,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 									reminder: event.reminderYn,
 									allday: event.calAlldayYn,
 									calNo: event.calNo,
+									
 								}
 							};
 					});
@@ -126,6 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					// 필터링을 통해 undefined가 된 요소를 제거합니다.
 					events = events.filter(function(event) {
 						return event !== undefined;
+						
+						
 					});
 					successCallback(events);
 					console.log("이벤트"+events);
@@ -142,12 +174,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
 			$.ajax({
-				url: contextPath+`/schedule/searchVacation`,
+				url: contextPath+`/schedule/searchVacationByDept`,
 				method: 'POST',
 				dataType: 'json',
 				traditional: true,
 				async: false, //동기
-				data: JSON.stringify({ empNo: loginEmpNo }),
+				data: JSON.stringify({ deptCode: loginDeptCode }),
 				contentType: "application/json",
 				 success: function(data) {
 					 console.log(data);
@@ -156,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			        data.searchList.forEach((v)=>{
 						let event = {
 							id: 'CAL008',
-			            	title: v.vacOption+'('+v.vacPermit+')',
+			            	title: v.myEmpName+" "+ v.vacOption+'('+v.vacPermit+')',
 			            	backgroundColor: '#03cefc', // 색상 코드 형식을 수정했습니다.
 			            	extendedProps: {
 				              // 추가된 속성들...
@@ -244,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	};
 	
-		/*var reserveCalendar = {
+	/*	var reserveCalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
 			$.ajax({
@@ -533,14 +565,25 @@ document.addEventListener('DOMContentLoaded', function() {
 				} else {
 					return true; // 기본 렌더링
 				}
+				
+				  /*if (arg.event.extendedProps.toHtml) {
+				    // 커스텀 HTML 렌더링 로직
+				    let arrayOfDomNodes = $.parseHTML(arg.event.title);
+				    return { domNodes: arrayOfDomNodes };
+				  } else {
+				    return { html: arg.event.title }; // 기본 렌더링
+				  }*/
+				
+				
 			},
-			/*eventRender: function(info) {
-		      if (info.event.extendedProps.icon) {
-				  if(info.event.extendedProps.important == 'Y'){
-		        info.el.querySelector('fc-event-time').insertAdjacentHTML('beforebegin', '<i class="yellow-star"></i>');
-		        }
-		      }
-   			 },*/
+			//eventRender: function(info) {
+			   /* if(info.event.extendedProps.calImportYn == 'Y'){
+			      var titleElement = info.el.querySelector('.fc-event-title');
+			      if (timeElement) {
+			        titleElement.insertAdjacentHTML('beforebegin', '<i class="fa fa-star yellow-star"></i>');
+			      }
+			    }*/
+   			 //},
 			eventClick: function(info, initcount=2) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
@@ -670,14 +713,27 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				
 				
-				
+
 				
 				  if (targetE.id === 'CAL008') {
+					  if(loginEmpNo === targetE.extendedProps.myEmpNo){
 				$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/vacation/vacationView';
+			        }else{
+						$('.hk-drawer.calendar-drawer.drawer-right').show();
+						 document.getElementById('checklistContainer').style.visibility = 'hidden';
+				  		 document.getElementById('importContainer').style.visibility = 'hidden';
+						
+					}
 			    } else if (targetE.id === 'CAL004' || targetE.id === 'CAL005' || targetE.id === 'CAL006') {
+					if(loginEmpNo === targetE.extendedProps.myEmpNo){
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/schedule/reservationlistbyno?empNo=' + loginEmpNo;
+			        }else{
+						$('.hk-drawer.calendar-drawer.drawer-right').show();
+						document.getElementById('checklistContainer').style.visibility = 'hidden';
+				  		document.getElementById('importContainer').style.visibility = 'hidden';
+					}
 			    } else {
 					$('.hk-drawer.calendar-drawer.drawer-right').show();
 
@@ -1421,6 +1477,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 페이지 로딩 완료 후 실행
 	$(document).ready(function() {
 		// 'mycalendar' 체크박스가 선택되어 있는지 확인
+		// 모든 체크박스를 일단 해제
+	    //$('#mydeptcalendar').prop('checked', false);
+	    //$('#companycalendar').prop('checked', false);
+	    //$('#vaccalendar').prop('checked', false);
+	    //$('#reserveCalendar').prop('checked', false);
+	
+	    // #mycalendar 체크
+	    //$('#mycalendar').prop('checked', true);
+
 		if ($('#mycalendar').is(':checked')) {
 			// 선택되어 있으면 캘린더에 이벤트 소스 추가
 			calendar.addEventSource(mycalendar);

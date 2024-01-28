@@ -9,6 +9,8 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 
 public interface ScheduleService {
 	
@@ -33,6 +35,8 @@ public interface ScheduleService {
 	int deleteSchedule(int calNo);
 	
 	Schedule scheduleListByCalNo(int calNo);
+	
+	List<ScheduleVacation> searchVacationByCode(String deptCode);
 	
 	
 
