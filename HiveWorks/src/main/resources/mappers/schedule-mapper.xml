@@ -355,7 +355,7 @@
 	
 	
 	<select id="selectResourceAll" resultMap="resourceMap">
-		SELECT * FROM TBL_RESOUCE ORDER BY RESOURCE_NO DESC
+		SELECT * FROM TBL_RESOUCE WHERE USE_YN = 'Y' ORDER BY RESOURCE_NO DESC
 	</select>
 	
 	
@@ -422,7 +422,7 @@
 	
 	
 	<select id="checkListByCalNo" resultMap="checklistMap">
-		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo}
+		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo} AND USE_YN = 'Y'
 	</select>
 	
 	<select id="selectCommentByNo" resultMap="commentMap">

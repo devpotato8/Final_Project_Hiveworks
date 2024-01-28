@@ -97,7 +97,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		}else{
 	        throw new RuntimeException("일정 삭제 실패");
 		}
-		return deleteInvi;
+		return scheduleDelete;
 	}
 
 	@Override
