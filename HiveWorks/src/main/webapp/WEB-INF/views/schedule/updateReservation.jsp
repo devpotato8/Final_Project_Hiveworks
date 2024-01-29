@@ -57,7 +57,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
+								<li class="nav-item"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -108,7 +108,7 @@
 					<header class="blog-header">
 						<div class="d-flex align-items-center">
 							<a class="blogapp-title link-dark" href="#">
-								<h1>자산 예약</h1>
+								<h1>자산 예약(${currentResourceName})</h1>
 							</a>
 						</div>
 						<div class="blog-options-wrap">
@@ -175,9 +175,9 @@
 							</div>
 						</div>
 									
-										<button type="button" class="btn btn-secondary">취소</button>
+										<button type="button" class="btn btn-secondary" onclick="window.location.href='${path}/schedule/reservationlistbyno'">취소</button>
 										<button id="add_event" type="submit"
-											class="btn btn-primary fc-addEventButton-button">예약</button>
+											class="btn btn-primary fc-addEventButton-button">예약 수정</button>
 									</form>
 									<table class="table">
 										<thead>
