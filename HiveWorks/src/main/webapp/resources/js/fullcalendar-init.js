@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			        var events = [];
 			        data.searchList.forEach((v)=>{
 						let event = {
-							id: 'CAL008',
+							id: 'CAL009',
 			            	title: v.myEmpName+" "+ v.vacOption,
 			            	backgroundColor: '#03cefc', // 색상 코드 형식을 수정했습니다.
 			            	extendedProps: {
