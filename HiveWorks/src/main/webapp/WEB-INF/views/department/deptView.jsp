@@ -388,6 +388,7 @@ function loadDeptEmpList(nodeId) {
             if (response.length > 0) {
                 var deptName = response[0].deptName + ' 구성원 목록'
                 $('.deptName').append(deptName);
+                $('#currentDeptCode').append(nodeId);
             }else{
             	$.ajax({
                     type: 'GET',
