@@ -177,6 +177,7 @@
 											
 											<li class="nav-item">
 												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의사항</span></a>
+
 											</li>
 										</ul>	
 									</li>	
