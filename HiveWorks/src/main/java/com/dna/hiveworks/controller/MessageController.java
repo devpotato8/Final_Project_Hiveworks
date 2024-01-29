@@ -393,7 +393,7 @@ public class MessageController {
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		int result1 = 0,result2 = 0;
+		int result = 0;
 
 		try {
 			
@@ -404,11 +404,11 @@ public class MessageController {
 				Map<String, Integer> params = new HashMap<>();
 				params.put("empNo", emp_no);
 				params.put("msgNo", msg_no);
-				result1 += service.starUncheckedBtn(params); //선택한 항목이 별표된 쪽지라면 해제
-				result2 += service.trashChekedBtn(params);
+//				result1 += service.starUncheckedBtn(params); //선택한 항목이 별표된 쪽지라면 해제
+				result += service.trashChekedBtn(params);
 			}
 			
-			if(result1>0 && result2>0) response.put("status", "success");
+			if(result>0) response.put("status", "success");
 			else response.put("status", "fail");
 			
 		}catch(Exception e){

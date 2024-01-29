@@ -335,7 +335,7 @@ var selectedData = [];
 //Ajax 요청
 function btnAjax(selectedData, url){
 	$.ajax({
-	    url: url,  // 요청을 보낼 URL
+	    url: path+url,  // 요청을 보낼 URL
 	    type: 'POST',  // HTTP 메서드
 	    data: JSON.stringify(selectedData),  // 전송할 데이터
 	    contentType: 'application/json',  // 요청 본문의 형식
@@ -358,7 +358,7 @@ function btnAjax(selectedData, url){
 function getSelectedData() {
 	var newData=[];
 
-    $('.form-check-input:checked').each(function() {
+    $('.listCheckBox:checked').each(function() {
         // 체크박스가 속한 행을 가져옴
         var $row = $(this).closest('tr');
         var msg_no = parseInt($row.find('td').eq(1).text());
@@ -423,7 +423,7 @@ $(document).on('click', 'td', function(event){
 /*Checkbox Add*/
 var tdCnt=0;
 $(' table#datable_4c tbody tr').each(function(){
-	$('<td><span class="form-check"><input type="checkbox" class="form-check-input" id="chk_sel_'+tdCnt+'"><label class="form-check-label" for="chk_sel_'+tdCnt+'"></label></span></td>').prependTo($(this));
+	$('<td><span class="form-check"><input type="checkbox" class="form-check-input listCheckBox" id="chk_sel_'+tdCnt+'"><label class="form-check-label" for="chk_sel_'+tdCnt+'"></label></span></td>').prependTo($(this));
 	tdCnt++;
 });
 /*DataTable Init*/
@@ -485,13 +485,13 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    e.preventDefault();  // 버블링 방지
 		
 		    var downloadUrl = $(this).attr("href");
-			console.log(downloadUrl);
+			
 		    if(downloadUrl === '#'){
 		        alert("첨부파일이 없습니다.");
 		    }else{
 		        // AJAX 요청으로 파일 존재 여부 확인
 		        $.ajax({
-		            url: downloadUrl,
+		            url: path+downloadUrl,
 		            type: "HEAD",  // HEAD 요청은 실제 파일을 다운로드하지 않고 메타데이터만 요청
 		            error: function() {
 		                // 파일이 없거나 다른 오류가 발생한 경우
@@ -538,7 +538,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    };
 		    
 		    $.ajax({
-		    	url: '/sharedEmp',
+		    	url: path+'/sharedEmp',
 		    	type: 'POST',
 		    	data: JSON.stringify(msgSharedEmps),
 		    	contentType:'application/json; charset=utf-8',
@@ -579,7 +579,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        $("#modal_msgView").modal('show');
 		        
 		        $.ajax({
-		        	url: '/readMsg',
+		        	url: path+'/readMsg',
 		        	type: 'POST',
 		        	data: { 
 		        		'emp_no' : emp_no,
@@ -606,7 +606,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    var isConfirmed = confirm("쪽지를 회수할까요? (회수 시, 쪽지가 완전삭제됩니다.)");
 		    if(isConfirmed){
 			    $.ajax({
-			        url: 'returnMsg',
+			        url: path+'/returnMsg',
 			        type: 'POST',
 			        data: {
 			        	'emp_no': emp_no,
