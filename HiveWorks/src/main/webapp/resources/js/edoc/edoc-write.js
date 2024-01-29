@@ -576,12 +576,12 @@ $('#printPreviewButton').on('click',(e)=>{
 		let $aprvlList = document.querySelectorAll('figure.approval-container');
 		let aprvlList = document.querySelector('#approvalList').children;
 		if($aprvlList.length >0){
-			let aprvlTable = '<table style="border:solid 1px black;"><tbody><tr>';
-			aprvlList.forEach((v)=>{aprvlTable += '<td>'+v.innerText.substr(0,v.innerText.indexOf('('))+'</td>'});
+			let aprvlTable = '<table style="border:solid 1px black; border-collapse:collapse;"><tbody><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td style="border:solid 1px black; border-collapse:collapse;">'+v.innerText.substr(0,v.innerText.indexOf('('))+'</td>'});
 			aprvlTable +='</tr><tr>';
-			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlList.forEach((v)=>{aprvlTable += '<td style="border:solid 1px black; border-collapse:collapse;"></td>'});
 			aprvlTable +='</tr><tr>';
-			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlList.forEach((v)=>{aprvlTable += '<td style="border:solid 1px black; border-collapse:collapse;"></td>'});
 			aprvlTable +='</tr></tbody></table>';
 			$aprvlList.forEach((v)=>{v.innerHTML = aprvlTable});
 		}
@@ -596,7 +596,8 @@ $('#printPreviewButton').on('click',(e)=>{
 		// 상세내용 등록
 		let $content = document.querySelectorAll('.document-content .edocContent');
 		if($content.length > 0){
-			$content.innerHTML = ckeditor.data.get();
+			$content.forEach((v)=>{v.innerHTML = ckeditor.data.get();})
+			
 		}
 		},500);
     }).catch(e=>{
