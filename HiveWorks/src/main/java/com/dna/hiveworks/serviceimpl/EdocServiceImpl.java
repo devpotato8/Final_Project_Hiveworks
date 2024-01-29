@@ -5,8 +5,10 @@ package com.dna.hiveworks.serviceimpl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.ApvCode;
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.Employee;
@@ -375,14 +378,14 @@ public class EdocServiceImpl implements EdocService{
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yy.MM.dd");
 		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
 		
-		String createDate = document.getCreateDate().toLocalDate().format(dateFormat);
-		String createDateTime = new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
+		String createDate = isEdocNull ? LocalDate.now().format(dateFormat) : document.getCreateDate().toLocalDate().format(dateFormat);
+		String createDateTime = isEdocNull ? LocalDateTime.now().format(dateTimeFormat) : new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
 		
-		String startDate = document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
-		String startDateTime = document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		String startDate = !isEdocNull &&document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
+		String startDateTime = !isEdocNull &&document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
-		String endDate = document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
-		String endDateTime = document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		String endDate = !isEdocNull &&document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
+		String endDateTime = !isEdocNull &&document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
 		while(content.indexOf("{{문서번호}}")!= -1) {
 			int startIndex = content.indexOf("{{문서번호}}");
@@ -571,7 +574,51 @@ public class EdocServiceImpl implements EdocService{
 	}
 	
 	@Override
-	public CompanySetting getCompanySetting() {
-		return dao.getCompanySetting(session);
+	public CompanySetting getEdocManagerSetting() {
+		return dao.getEdocManagerSetting(session);
+	}
+	@Override
+	public List<Map<String, Object>> getAccessGrantSetting() {
+		return dao.getAccessGrantSetting(session);
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> updateManagerStting(Map<String, Object> param) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			CompanySetting cs = CompanySetting.builder().edocPrefix((String)param.get("edocPrefix"))
+																										.edocDateFormat((String)param.get("edocDateFormat"))
+																										.edocNumFormat((String)param.get("edocNumFormat"))
+																										.build();
+			List<Map<String, Object>> accessGrant = new ArrayList<>();
+			param.entrySet().forEach(t -> {
+				for(DsgCode code : DsgCode.values()) {
+					if(code.name().equals(t.getKey())) {
+						accessGrant.add(Map.of("dsgCode",t.getKey(),"posCode",t.getValue()));
+						break;
+					}
+				}
+			});
+			int[] updateResult = {1};
+			updateResult[0] *= dao.updateEdocManagerSetting(session,cs);
+			accessGrant.forEach(t -> {
+				updateResult[0] *= dao.updateEdocAccessGrant(session,t);
+			});
+			if(updateResult[0] != 0) {
+				result.put("status", 200);
+				result.put("data", "정상적으로 업데이트 되었습니다.");
+			}else {
+				result.put("status", 500);
+				result.put("error", "DB입력중 오류가 발생하였습니다.");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("status", 500);
+			result.put("error", "설정 수정 중 오류가 발생하였습니다.");
+		}
+		
+		return result;
 	}
 }

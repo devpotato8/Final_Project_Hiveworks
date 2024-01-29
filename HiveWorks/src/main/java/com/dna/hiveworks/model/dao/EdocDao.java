@@ -87,6 +87,12 @@ public interface EdocDao {
 
 	String getPosCodeByDsgCode(SqlSession session, String name);
 
-	CompanySetting getCompanySetting(SqlSession session);
+	CompanySetting getEdocManagerSetting(SqlSession session);
+
+	List<Map<String, Object>> getAccessGrantSetting(SqlSession session);
+
+	int updateEdocManagerSetting(SqlSession session, CompanySetting cs);
+
+	int updateEdocAccessGrant(SqlSession session, Map<String, Object> param);
 	
 }
