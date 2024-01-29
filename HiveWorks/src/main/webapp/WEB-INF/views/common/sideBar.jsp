@@ -159,23 +159,6 @@
 							</li>	
 							
 							<li class="nav-item">
-								<a class="nav-link" href="${path }/employees/employeeListBasis">
-									<span class="nav-icon-wrap">
-										<span class="svg-icon">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-												<circle cx="12" cy="7" r="4" />
-												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
-												<circle cx="16.5" cy="17.5" r="2.5" />
-												<path d="M18.5 19.5l2.5 2.5" />
-											</svg>
-										</span>
-									</span>
-									<span class="nav-link-text">직원 조회</span>
-								</a>
-							</li>
-							
-							<li class="nav-item">
 								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_scrumboard">
 									<span class="nav-icon-wrap position-relative">
 										<span class="svg-icon">
@@ -193,13 +176,7 @@
 											</li>
 											
 											<li class="nav-item">
-												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path}/board/blind"><span class="nav-link-text">블라인드</span></a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="${path}/survey/survey"><span class="nav-link-text">설문</span></a>
+												<a class="nav-link" href="${path}/board/suggestions"><span class="nav-link-text">건의사항</span></a>
 											</li>
 										</ul>	
 									</li>	
@@ -213,9 +190,7 @@
 											<span class="badge badge-danger badge-indicator position-absolute top-0 start-0"></span>
 										</c:if>
 									</span>
-									<span class="nav-link-text">전자문서
-										
-									</span>
+									<span class="nav-link-text">전자문서</span>
 								</a>
 							</li>
 							<li class="nav-item">
@@ -263,6 +238,37 @@
 										</ul>
 									</li>
 								</ul>
+								
+								<li class="nav-item">
+								<a class="nav-link" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#dash_searchEmpDept">
+									<span class="nav-icon-wrap">
+										<span class="svg-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												<circle cx="12" cy="7" r="4" />
+												<path d="M6 21v-2a4 4 0 0 1 4 -4h1" />
+												<circle cx="16.5" cy="17.5" r="2.5" />
+												<path d="M18.5 19.5l2.5 2.5" />
+											</svg>
+										</span>
+									</span>
+									<span class="nav-link-text" >조직도/직원 조회</span>
+								</a>
+								<ul id="dash_searchEmpDept" class="nav flex-column collapse nav-children">
+									<li class="nav-item">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="${path}/employees/employeeListBasis"><span class="nav-link-text">직원목록 검색</span></a>
+											</li>
+											
+											<li class="nav-item">
+												<a class="nav-link deptViewUser" href="${path}/deptviewuser"><span class="nav-link-text">조직도 검색</span></a>
+											</li>
+										</ul>	
+									</li>	
+								</ul>	
+							</li>						
+								
 							</li>
 						</ul>
 					</div>
