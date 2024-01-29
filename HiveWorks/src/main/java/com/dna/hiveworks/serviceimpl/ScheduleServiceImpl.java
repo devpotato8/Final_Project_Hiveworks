@@ -15,6 +15,8 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.ScheduleService;
 
 @Service
@@ -95,7 +97,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		}else{
 	        throw new RuntimeException("일정 삭제 실패");
 		}
-		return deleteInvi;
+		return scheduleDelete;
 	}
 
 	@Override
@@ -122,6 +124,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> searchEmpSchedule(Map<String, Object> param) {
 		return dao.searchEmpSchedule(session, param);
+	}
+	
+	@Override
+	public List<ScheduleVacation> searchVacationByCode(String deptCode) {
+		return dao.searchVacationByCode(session, deptCode);
 	}
 
 	@Override

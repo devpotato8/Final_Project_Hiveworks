@@ -14,6 +14,8 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 
 @Repository("scheduleDao")
 public class ScheduleDaoImpl implements ScheduleDao {
@@ -42,6 +44,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	@Override
 	public Schedule scheduleListByCalNo(SqlSession session, int calNo) {
 		return session.selectOne("schedule.scheduleListByCalNo", calNo);
+	}
+	
+	@Override
+	public List<ScheduleVacation> searchVacationByCode(SqlSession session, String deptCode) {
+		return session.selectList("schedule.searchVacationByCode", deptCode);
 	}
 	
 	@Override
@@ -101,7 +108,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public int deleteSchedule(SqlSession session, int calNo) {
-		return session.delete("schedule.deleteSchedule",calNo);
+		return session.update("schedule.deleteSchedule",calNo);
 	}
 	
 	@Override

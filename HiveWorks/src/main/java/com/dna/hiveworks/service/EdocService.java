@@ -317,6 +317,38 @@ public interface EdocService {
 	 *
 	 * @return
 	 */
-	CompanySetting getCompanySetting();
+	CompanySetting getEdocManagerSetting();
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 28. 
+	 * @Return : List<Map<String,Object>>
+	 * 
+	 * Description : 전자문서의 접근권한 설정을 불러오는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 24., 설명 : 최초 작성
+	 *
+	 * @return dsgCode
+	 * @return posCode
+	 */
+	List<Map<String,Object>> getAccessGrantSetting();
+	/**
+	 * @Author : 이재연 
+	 * @Since : 2024. 1. 28. 
+	 * @Return : Map<String,Object>
+	 * 
+	 * Description : 전자문서 관리자 권한을 수정하는 메소드
+	 * 
+	 * History : 
+	 * - 작성자 : 이재연, 날짜 : 2024. 1. 28., 설명 : 최초 작성
+	 *
+	 * @param edocPreFix 전자문서 접두사
+	 * @param edocDateFormat 전자문서 날짜형식
+	 * @param edocDateFormat 전자문서 숫자형식
+	 * @return status  httpstatus
+	 * @return error 에러시 에러발생 원인
+	 * @return data 정상 리턴시 전자문서 String
+	 */
+	Map<String,Object> updateManagerStting(Map<String, Object> param);
 	
 }
