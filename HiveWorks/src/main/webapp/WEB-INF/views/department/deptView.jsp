@@ -352,6 +352,7 @@ function loadDeptEmpList(nodeId) {
             // 테이블의 기존 내용을 비우기
             $('.deptTable tbody').empty();
             $('.deptName').empty();
+            $('#currentDeptCode').empty();
            
             //서버에서 받아온 데이터 정렬
             response.sort(function(a, b) {
