@@ -67,7 +67,7 @@
 												<div class="form-group col-lg-12">
 													<div class="form-label-group">
 														<label>Password</label>
-														<a href="#" class="fs-8 fw-medium">비밀번호를 잊으셨나요?</a>
+														<!-- <a href="#" class="fs-8 fw-medium">비밀번호를 잊으셨나요?</a> -->
 													</div>
 													<div class="input-group password-check">
 														<span class="input-affix-wrapper affix-wth-text">
@@ -91,16 +91,16 @@
 												</div>
 											</div>
 											<div class="d-flex justify-content-center">
-												<div class="form-check form-check-sm mb-3">
+												<!-- <div class="form-check form-check-sm mb-3">
 													<input type="checkbox" class="form-check-input" id="logged_in" checked>
 													<label class="form-check-label text-muted fs-7" for="logged_in">로그인 상태 유지</label>
-												</div>
+												</div> -->
 											</div>
 											<button class="btn btn-primary btn-uppercase btn-block">Login</button>
 											<!-- <p class="p-xs mt-2 text-center">New to Jampack? <a href="#"><u>Create new account</u></a></p>
 											<a href="#" class="d-block extr-link text-center mt-4"><span class="feather-icon"><i data-feather="external-link"></i></span><u class="text-muted">Send feedback to our help forum</u></a> -->
 											<hr>
-											<p class="p-xs mt-2 text-center"> 신규가입은 인사관리자에게 문의해주세요 </p>
+											<p class="p-xs mt-2 text-center"> 신규가입/비밀번호 관련 문의는 인사관리자에게 문의해주세요 </p>
 										</div>
 									</div>
 								</form>

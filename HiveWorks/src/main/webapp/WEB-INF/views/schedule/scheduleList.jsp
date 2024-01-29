@@ -324,7 +324,7 @@
 						</div>
 						<div class="drawer-footer d-flex justify-content-end">
 							<button type="button"
-								class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn ">취소</button>
+								class="btn btn-secondary drawer-edit-close me-2" id="cancelBtn">취소</button>
 							<button type="button" class="btn btn-primary drawer-edit-close"
 								id="editBtn">저장</button>
 						</div>
@@ -576,12 +576,12 @@
 											class="form-check-label" for="alldaycheck"> 종일여부</label>
 									</div>
 									<div class="row gx-3">
-										<div class="col-sm-3">
+										<div class="col-sm-3" style="width: 86px; margin-top: 10px;">
 											<span>일정 공유</span>
 										</div>
 										<div class="col-sm-5">
 											<div class="form-group">
-												<button type="button" onclick="window.adddelFunction.util.addFile();"
+												<button type="button" class="btn btn-light" onclick="window.adddelFunction.util.addFile();"
 													id="delBtn">추가</button>
 <%--												<button type="button"--%>
 <%--													id="addBtn">삭제</button>--%>
@@ -615,7 +615,8 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+										<button type="button" class="btn btn-light" onclick="window.adddelFunction.util.delFile(this);" style="height: 38px; width: 73px; margin-top: 30px"
+										>삭제</button>
 									</div>
 
 

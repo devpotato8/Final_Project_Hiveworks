@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								start: event.calStartDate,
 								end: event.calEndDate,
 								backgroundColor: event.calColor,
+								//allday: event.calAlldayYn === 'Y',
 								//allday: false,
 								//icon: 'yellow-star', // 노란색 별 아이콘 클래스
 								extendedProps: {
@@ -845,6 +846,8 @@ document.addEventListener('DOMContentLoaded', function() {
     					//sessionStorage.setItem('refreshCalendar', 'true')
 						
 				        window.location.href = contextPath+'/vacation/vacationView';
+				        
+		
 			        }else{
 						$('.hk-drawer.calendar-drawer.drawer-right').hide();
 						
@@ -866,6 +869,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					if(loginEmpNo === targetE.extendedProps.myEmpNo){
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/schedule/reservationlistbyno';
+			        
 			        
 			        //sessionStorage.setItem('refreshCalendar', 'true')
 			        
@@ -1081,6 +1085,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
 				    let delButton = document.createElement('button');
 				    delButton.type = 'button';
+				    delButton.className = 'btn btn-light'
+				    delButton.style.width = '53px';
+					delButton.style.height = '40px';
+					delButton.style.fontSize = '0.7rem';
+					delButton.style.writingMode = 'horizontal-tb';
+				    
 				    delButton.textContent = '삭제';
 				    delButton.addEventListener('click', function () {
 				        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
@@ -1372,6 +1382,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			    // 추가된 부분: 삭제 버튼 생성 및 이벤트 핸들러 연결
 			    let delButton = document.createElement('button');
 			    delButton.type = 'button';
+			    delButton.className = 'btn btn-light'
+			    delButton.style.width = '53px';
+				delButton.style.height = '40px';
+				delButton.style.fontSize = '0.7rem';
+				delButton.style.writingMode = 'horizontal-tb';
 			    delButton.textContent = '삭제';
 			    delButton.addEventListener('click', function () {
 			        // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제

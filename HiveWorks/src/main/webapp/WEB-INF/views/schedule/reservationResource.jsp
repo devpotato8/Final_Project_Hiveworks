@@ -163,12 +163,12 @@
 										</div>
 
 								<div class="row gx-3">
-										<div class="col-sm-3">
+										<div class="col-sm-3" style="width: 86px; margin-top: 10px;">
 											<span>일정 공유</span>
 										</div>
 										<div class="col-sm-5">
-											<div class="form-group">
-												<button type="button" onclick="window.adddelFunction.util.addFile();"
+											<div class="form-group" style="margin-top: 5px;">
+												<button type="button" class="btn btn-light" onclick="window.adddelFunction.util.addFile();"
 													id="delBtn">추가</button>
 <%--												<button type="button"--%>
 <%--													id="addBtn">삭제</button>--%>
@@ -202,7 +202,7 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);" class="btn btn-light" onclick="window.adddelFunction.util.delFile(this);" style="height: 38px; width: 73px; margin-top: 25px">삭제</button>
 									</div>
 									<div name="someContainer"></div>
 										<button type="button" class="btn btn-secondary">취소</button>
