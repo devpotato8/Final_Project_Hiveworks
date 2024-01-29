@@ -65,7 +65,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="doc_list">
 										<div class="table-responsive">
-											<table data-order='[[ 4, "asc" ]]' id="docTable" class="table nowrap table-hover">
+											<table data-order='[[ 3, "desc" ]]' id="docTable" class="table nowrap table-hover">
 												<thead>
 													<tr>
 														<th>문서번호</th>

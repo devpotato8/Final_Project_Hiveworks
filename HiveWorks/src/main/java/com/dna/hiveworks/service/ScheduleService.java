@@ -9,8 +9,6 @@ import com.dna.hiveworks.model.dto.Comment;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
-import com.dna.hiveworks.model.dto.ScheduleVacation;
-import com.dna.hiveworks.model.dto.Vacation;
 
 public interface ScheduleService {
 	
@@ -36,8 +34,6 @@ public interface ScheduleService {
 	
 	Schedule scheduleListByCalNo(int calNo);
 	
-	List<ScheduleVacation> searchVacationByCode(String deptCode);
-	
 	
 
 	//resource
@@ -60,7 +56,7 @@ public interface ScheduleService {
 
 	List<Schedule> selectReserveByCode(String calCode);
 	
-	List<Schedule> selectReservationBydate(Date selectDate, int resourceNo);
+	List<Map> selectReservationBydate(Date selectDate, int resourceNo);
 	
 	List<Schedule> selectReserveByresource(int resourceNo);
 

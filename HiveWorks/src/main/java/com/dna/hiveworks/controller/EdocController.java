@@ -513,17 +513,8 @@ public class EdocController {
 		if(!loginEmp.getAut_code().equals("AUT004")&&!loginEmp.getAut_code().equals("AUT001")) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
-		model.addAttribute("dsgCodeList",DsgCode.values());
-		model.addAttribute("posCodeList",PosCode.values());
-		model.addAttribute("accessGrantSetting", edocService.getAccessGrantSetting());
-		model.addAttribute("settings", edocService.getEdocManagerSetting());
+		model.addAttribute("settings", edocService.getCompanySetting());
 		
 		return "edoc/managerSetting";
-	}
-	
-	@PostMapping("/managerSetting")
-	public ResponseEntity<Map<String,Object>> updateManagerSetting(@RequestParam Map<String,Object> param){
-		System.out.println(param);
-		return ResponseEntity.status(HttpStatus.OK).body(edocService.updateManagerStting(param));
 	}
 }
