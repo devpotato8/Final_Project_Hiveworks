@@ -188,8 +188,8 @@ var deptCode ='';
 $('.deptLeaderOn').on('click', function() {
 	
 	// oldLeaderId와 newLeaderId를 String 형태로 추출
-    var oldLeaderId = leaderData.oldLeader ? leaderData.oldLeader.id : null;
-    var newLeaderId = leaderData.newLeader ? leaderData.newLeader.id : null;
+    var oldLeaderId = leaderData.oldLeader ? leaderData.oldLeader.id : '';
+    var newLeaderId = leaderData.newLeader ? leaderData.newLeader.id : '';
     
 	// 서버로 정보 전송
     $.ajax({
@@ -488,10 +488,11 @@ $(document).ready(function(){
 var deptCode4;
 $('.addEmpDeptBtn').click(function(){
 	//현재 테이블의 dept_code
-	$('.deptTable tbody tr').each(function() {
-        var $row = $(this);
-        deptCode4 = $row.find('td:nth-child(6)').text();
-    }); 
+//	$('.deptTable tbody tr').each(function() {
+//        var $row = $(this);
+//        deptCode4 = $row.find('td:nth-child(6)').text();
+//    });
+	deptCode4=$('#currentDeptCode').text(); 
 	
 	//부서선택하지 않고 누르면 alert후 종료
 	if(!deptCode4||deptCode4.trim()===''){
