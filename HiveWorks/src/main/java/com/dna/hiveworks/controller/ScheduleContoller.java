@@ -31,7 +31,7 @@ import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
-import com.dna.hiveworks.model.dto.ScheduleVacation;
+import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.DeptService;
 import com.dna.hiveworks.service.EmpService;
 import com.dna.hiveworks.service.ScheduleService;
@@ -105,10 +105,6 @@ public class ScheduleContoller {
 //		return null;
 	}
 	
-	
-	//자산 일정 가져오기
-	
-	
 	//중요일정 조회
 	@GetMapping("/searchImpschedule")
 	@ResponseBody
@@ -137,23 +133,11 @@ public class ScheduleContoller {
 	}
 	
 	//직원 휴가 조회
-	/*
-	 * @PostMapping("/searchVacation") public ResponseEntity<Map<String,Object>>
-	 * searchVacation(@RequestBody Map<String, Object> param){ int empNo =
-	 * (Integer)param.get("empNo"); List<Vacation> searchList =
-	 * vacationservice.selectVacationByNo(empNo); searchList =
-	 * searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit()
-	 * .equals("반려")).toList(); return
-	 * ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList)); }
-	 */
-	
-	//직원 휴가 조회(부서)
-	@PostMapping("/searchVacationByDept")
+	@PostMapping("/searchVacation")
 	public ResponseEntity<Map<String,Object>> searchVacation(@RequestBody Map<String, Object> param){
-		String deptCode = (String)param.get("deptCode");
-		List<ScheduleVacation> searchList =  scheduleService.searchVacationByCode(deptCode);
+		int empNo = (Integer)param.get("empNo");
+		List<Vacation> searchList =  vacationservice.selectVacationByNo(empNo);
 		searchList = searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList();
-		System.out.println(searchList);
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList));
 	}
 	
@@ -1012,9 +996,10 @@ public class ScheduleContoller {
         }
  
         return result;
-        
-        
 	}
+	
+	
+	
 	
 
 }
