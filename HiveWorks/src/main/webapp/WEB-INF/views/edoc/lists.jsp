@@ -37,9 +37,24 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
-							<span class="fmapp-title">
+							<a class="fmapp-title dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 								<h1>${title }</h1>
-							</span>
+							</a>
+							<div class="dropdown-menu">
+								<c:forEach items="${category }" var="c">
+									<c:choose>
+										<c:when test="${category.getClass().name eq '[Lcom.dna.hiveworks.model.dto.edoc.status.ListStatus;'}">
+											<a class="dropdown-item" href="#"><span>${ListStatus.valueOf(c).status }</span></a>
+										</c:when>
+										<c:when test="${category.getClass().name eq '[Lcom.dna.hiveworks.model.dto.edoc.status.BoxStatus;'}">
+											<a class="dropdown-item" href="#"><span>${BoxStatus.valueOf(c).status }</span></a>
+										</c:when>
+										<c:when test="${category.getClass().name eq '[Lcom.dna.hiveworks.model.code.DotCode;'}">
+											<a class="dropdown-item" href="#"><span>${DotCode.valueOf(c).code }</span></a>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</div>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">

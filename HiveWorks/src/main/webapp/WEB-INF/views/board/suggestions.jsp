@@ -13,9 +13,9 @@
     <div class="container-xxl" style="margin-left: 0px; margin-bottom: 30px; margin-top: 40px;">
         <h2>건의사항</h2>
     </div>
-       <a href="${path}/board/boardWrite">
-			<button type="button" class="btn btn-primary btn-sm" style="margin-left: 1495px; margin-bottom: 5px;">등록</button>
-		</a>
+       <a href="${path}/board/boardWrite?boardType=BRD002" >
+    	<button type="button" class="btn btn-primary btn-sm" style="margin-left: 1495px; margin-bottom: 5px;">등록</button>
+	  </a>
     <div class="invoice-body">
         <div>
             <div class="invoice-list-view">
@@ -46,7 +46,7 @@
 	                                    </a>
 	                               </td>
                                     <td><c:out value="${b.boardTitle}" /></td>
-                                    <td>관리자</td>
+                                    <td><c:out value="${b.emp_name}" /></td>
                                     <td><c:out value="${b.createDate}" /></td>
                                     <td>
                                         <div class="d-flex">
@@ -94,6 +94,9 @@
 #datable_4_filter{
 	width: 715px;
 }
+.tooltip-inner{
+display:none;
+}
 </style>
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
@@ -140,7 +143,23 @@
     $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.dataTables_length label'));
 
 </script>
+<script>
+    $(document).on('click', '.del-button', function (e) {
+        e.preventDefault();
+        var deleteUrl = $(this).attr('href');
+        $.get(deleteUrl, function (data) {
+            if (data.success) {
+                // 서버 응답이 성공일 경우, 클라이언트에서 DOM 업데이트 등을 수행할 수 있음
+                console.log('Delete successful');
 
+                // 삭제 성공 시 페이지 이동
+                window.location.href = "${path}/suggestions.jsp";
+            } else {
+                console.error('Error deleting data.');
+            }
+        });
+    });
+</script>
 <!-- Init JS -->
 <script src="${path}/resources/js/invoice-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>

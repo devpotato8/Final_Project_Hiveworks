@@ -172,7 +172,7 @@
 	</update>
 	
 	<update id="trashChekedBtn">
-		UPDATE TBL_MESSAGE SET MSG_DELETE = 'Y' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
+		UPDATE TBL_MESSAGE SET MSG_DELETE = 'Y', MSG_MARKED_YN = 'N' WHERE MSG_RECEIVER_NO = ${empNo} AND MSG_NO = ${msgNo}
 	</update>
 	
 	<update id="starUnchekedBtn">

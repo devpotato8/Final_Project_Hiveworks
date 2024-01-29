@@ -31,7 +31,10 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <style>
   /* body 스타일 */
   html, body {
@@ -54,7 +57,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
+								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -250,6 +253,12 @@ $(document).ready(function() {
 
 (function(){
     $(function(){
+    	
+    	
+    	
+    	
+    	
+    	
       // calendar element 취득
       var calendarEl = $('#calendar')[0];
       // full-calendar 생성하기
@@ -282,56 +291,57 @@ $(document).ready(function() {
         eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
           console.log(obj);
         },
-        select: function(info) {
-        	  // 시작과 종료 날짜의 기본값을 설정합니다.
-        	  var defaultStartDate = info.startStr; // 선택한 시작 날짜
-        	  var defaultEndDate = info.endStr; // 선택한 종료 날짜
+        select: function(selectionInfo) {
+        	var currentDate = new Date();
+			var currentHours = '09'; // 시간을 두 자리 숫자로 설정
+			var currentMinutes = '00'; // 항상 00으로 설정
 
-        	  // Date Range Picker를 초기화하거나 업데이트합니다.
-        	  $('.cal-event-date-start').daterangepicker({
-        	    singleDatePicker: true,
-        	    timePicker: true,
-        	    timePicker24Hour: true,
-        	    timePickerIncrement: 60,
-        	    startDate: defaultStartDate, // FullCalendar에서 선택한 시작 날짜를 기본값으로 사용합니다.
-        	    locale: {
-        	      format: 'YYYY/MM/DD HH:mm'
-        	    }
-        	  }, function(start, end, label) {
-        	    // 이 콜백 함수는 사용자가 날짜를 선택할 때 호출됩니다.
-        	    var startTime = start.format('HH');
-        	    var endTime = end.format('HH');
+			var startTime = selectionInfo.startStr + ' ' + currentHours + ':' + currentMinutes;
 
-        	    // 선택된 시간이 09시 이전이거나 18시 이후인 경우 시간을 조정합니다.
-        	    if(startTime < 9 || endTime > 18) {
-        	      start.hour(9).minute(0);
-        	      end.hour(18).minute(0);
-        	      $('.cal-event-date-start').data('daterangepicker').setStartDate(start);
-        	      $('.cal-event-date-end').data('daterangepicker').setEndDate(end);
-        	    }
-        	  });
+			// 종료일자에서 하루를 빼기
+			var endDate = new Date(selectionInfo.endStr);
+			endDate.setDate(endDate.getDate() - 1);
+			var endYear = endDate.getFullYear();
+			var endMonth = ('0' + (endDate.getMonth() + 1)).slice(-2);
+			var endDay = ('0' + endDate.getDate()).slice(-2);
+			var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + currentHours + ':' + currentMinutes;
 
-        	  // 'cal-event-date-end'에 대해 동일한 설정을 적용합니다.
-        	  $('.cal-event-date-end').daterangepicker({
-        	    singleDatePicker: true,
-        	    timePicker: true,
-        	    timePicker24Hour: true,
-        	    timePickerIncrement: 60,
-        	    startDate: defaultEndDate, // FullCalendar에서 선택한 종료 날짜를 기본값으로 사용합니다.
-        	    locale: {
-        	      format: 'YYYY/MM/DD HH:mm'
-        	    }
-        	  }, function(start, end, label) {
-        	    var startTime = start.format('HH');
-        	    var endTime = end.format('HH');
+			$('.cal-event-date-start').val(startTime);
+			$('.cal-event-date-end').val(endTime);
 
-        	    if(startTime < 9 || endTime > 18) {
-        	      start.hour(9).minute(0);
-        	      end.hour(18).minute(0);
-        	      $('.cal-event-date-start').data('daterangepicker').setStartDate(start);
-        	      $('.cal-event-date-end').data('daterangepicker').setEndDate(end);
-        	    }
-        	  });
+			// 달력도 해당 날짜 시각으로 바꾸는 코드 추가
+			$('.cal-event-date-start').daterangepicker({
+				timePicker: true,
+				singleDatePicker: true,
+				timePicker24Hour: true,
+				timePickerIncrement: 1,
+				startDate: startTime,
+				locale: {
+					format: 'YYYY/MM/DD HH:mm'
+				}
+			}).on('show.daterangepicker', function(ev, picker) {
+	    	    $('.hourselect').empty();
+	    	    for (var i = 9; i <= 18; i++) {
+	    	        $('.hourselect').append($('<option />').val(i).text(i));
+	    	    }
+	    	});
+
+			$('.cal-event-date-end').daterangepicker({
+				timePicker: true,
+				singleDatePicker: true,
+				timePicker24Hour: true,
+				timePickerIncrement: 1,
+				startDate: endTime,
+				locale: {
+					format: 'YYYY/MM/DD HH:mm'
+				}
+			}).on('show.daterangepicker', function(ev, picker) {
+	    	    $('.hourselect').empty();
+	    	    for (var i = 9; i <= 18; i++) {
+	    	        $('.hourselect').append($('<option />').val(i).text(i));
+	    	    }
+	    	});
+			
 
         	  // 캘린더에서의 선택을 해제합니다.
         	  calendar.unselect();
@@ -341,7 +351,7 @@ $(document).ready(function() {
         	    url: contextPath+'/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
         	    method: 'POST',
         	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
-        	      data: JSON.stringify({ selectDate: defaultStartDate, resourceNo: resourceNo }),
+        	      data: JSON.stringify({ selectDate: startTime, resourceNo: resourceNo }),
         	    success: function(response) {
         	      // 예약 리스트를 성공적으로 가져왔을 때 처리하는 로직을 작성합니다.
         	      console.log(response); // 예약 리스트를 콘솔에 출력하거나 원하는 방식으로 화면에 표시합니다.
@@ -353,18 +363,18 @@ $(document).ready(function() {
         	      tbody.empty();
 
         	      // 예약 리스트를 반복하면서 테이블에 추가합니다.
-        	      for (var i = 0; i < response.length; i++) {
+        	       for (var i = 0; i < response.length; i++) {
         	        var res = response[i];
-        	        var formattedStartDate = moment(res.calStartDate).format('YYYY-MM-DD HH:mm');
-        	        var formattedEndDate = moment(res.calEndDate).format('YYYY-MM-DD HH:mm');
+        	        var formattedStartDate = res.CALSTARTDATE;
+        	        var formattedEndDate = res.CALENDDATE;
 
         	        // 새로운 행(tr)을 생성합니다.
         	        var newRow = $('<tr>');
 
         	        // 각 열(td)에 예약 정보를 추가합니다.
-        	        newRow.append('<td>' + res.calNo + '</td>');
+        	        newRow.append('<td>' + res.CAL_NO + '</td>');
         	        newRow.append('<td>' + formattedStartDate + " ~ " + formattedEndDate + '</td>');
-        	        newRow.append('<td>' + res.myEmpName + '</td>');
+        	        newRow.append('<td>' + res.MY_EMP_NAME + '</td>');
 
         	        // 생성한 행을 tbody에 추가합니다.
         	        tbody.append(newRow);
@@ -726,6 +736,7 @@ function createContainer(index) {
     let delButton = document.createElement('button');
     delButton.type = 'button';
     delButton.textContent = '삭제';
+    delButton.className = 'btn btn-light';
     delButton.addEventListener('click', function () {
         // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
         reInviContainer.remove();

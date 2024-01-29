@@ -9,37 +9,67 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<div class="hk-pg-wrapper">
-    <div class="container-xxl" style="margin-left: 0px;">
-        <h2>수정</h2>
+<div class="hk-pg-wrapper" style=" height: 1685px;">
+    <div class="container-xxl" >
+        <h2 id="Title">수정</h2>
     </div>
     <div id="board-container">
-        <form id="userForm" name="boardUpdate" action="${path}/board/boardUpdate" method="post" enctype="multipart/form-data">
+        <form id="userForm" name="boardFrm" action="${path }/board/boardUpdate" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="boardType" value="${board.boardType}" /> 
+		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required>
-            <input type="hidden" name="boardNo" value="${board.boardNo}"/>
-            <div class="input-group mb-3" style="padding:0px;">
-  				<div class="input-group-prepend" style="padding:0px;">
-                    <button type="button" onclick="fn_addFileForm();">추가</button>
-                </div>
-            </div>
-            <div id="basicFileForm" class="input-group mb-3">
-			    <div class="custom-file" style="display: flex; align-items: center;">
-			        <input type="file" name="upFile" class="custom-file-input">
-			        <button type="button" onclick="fn_deleteFileForm();" id="deleteBtn">삭제</button>
-			    </div>
-			</div>
-												
+            <input type="hidden" name="boardNo" value="${board.boardNo}"/>            
+            <br>   
+        </div>    
+            <br>
              <textarea class="form-control" id="editor" value="${data.editor }" name="boardContent" placeholder="내용을입력해주세요" required style="resize:none;">
             ${board.boardContent}</textarea>
-            <span id="messagebyte">0</span><span>/ 2000 Byte</span>
+          <div class="topicon">
+            <div class="input-group mb-3" style="padding:0px;margin-left:40px;">
+            	<div class="messagebyte"><span id="messagebyte">0</span><span>/ 2000 Byte</span></div>
+  				<div class="input-group mb-3" style="padding:0px;">
+				    <div class="input-group-prepend" style="padding:0px;">
+				        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder-plus" onclick="fn_addFileForm();">
+				            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+				            <line x1="12" y1="11" x2="12" y2="17"></line>
+				            <line x1="9" y1="14" x2="15" y2="14"></line>
+				        </svg>
+				    </div>
+				</div>
+            </div>
+            <div id="basicFileForm" class="input-group mb-3">
+			  <div class="custom-file" style="display: flex; align-items: center; width:">
+			    <input type="file" name="upFile" class="custom-file-input">
+			    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle" onclick="fn_deleteFileForm();">
+			        <circle cx="12" cy="12" r="10"></circle>
+			        <line x1="15" y1="9" x2="9" y2="15"></line>
+			        <line x1="9" y1="9" x2="15" y2="15"></line>
+			    </svg>
+			</div>
+			</div>
+		</div>									
+         <div class="bottomicon">
             <br />
-            <input type="submit" name="name" id="submit" class="btn btn-outline-success" value="저장" >
-        	<input type="button" onclick="resetForm()" id="resetButton" value="초기화"/>
+            <input type="submit" name="name" id="submit" class="button" value="등록" >
+        	<input type="button" onclick="resetForm()" id="resetButton" class="button" value="초기화" style="width:60px; margin-left:0px;'"/>
+        </div>
+			<div class="plusicon"></div>
         </form>
     </div>
-
+</div>
 <style>
+	#Title{
+	 margin-top: 50px;
+	}
+	hr{
+	width:1200px;
+	}
+	.ck.ck-editor{
+	width: 1200px;
+	margin-left:40px;
+	}
 	.ck-editor__editable { 
+	width: 1200px;
 	height: 800px; 
 	}
 	.basicFileForm{
@@ -58,8 +88,145 @@
     	width:500px;
     	hiight:500px;
     }
+    #boardType{
+    width:150px;
+    }
+    #boardTitle{
+    width:300px;
+    }
+    #basicFileForm{
+    margin-left:40px;
+    }
+    .bottomicon{
+    position: absolute; 
+    right: 245px;
+    }
+      .input-group-prepend {
+        position: relative;
+    }
+
+    .input-group-prepend::after {
+        content: "파일 추가";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        padding: 0.5rem;
+        background-color: transparent;
+        border: none;
+        white-space: nowrap;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s;
+    }
+
+    .input-group-prepend:hover::after {
+        visibility: visible;
+        opacity: 1;
+    }
+    .custom-file-input{
+    width:250px;
+    }
+    #userForm{   
+    margin-left: 145px; 
+    height: 1300px;
+    margin-top: 60px;
     
+    }
+    .messagebyte{
+  	 margin-left:1100px;
+    }
+    .button {
+    width: 50px;
+    height: 40px;
+    background-color: #fff; 
+    color: #000; 
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 16px;
+    text-transform: uppercase;
+    padding: 5px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    text-decoration: none;
+}
+
+.button:before {
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+    content: '';
+    top: 100%;
+    left: 5%;
+    height: 10px;
+    width: 90%;
+    opacity: 0;
+    background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform, opacity;
+    transition-property: transform, opacity;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+    color: #000; /* hover 시 글자색을 검정색으로 변경 */
+}
+
+.button:hover:before,
+.button:focus:before,
+.button:active:before {
+    opacity: 1;
+    -webkit-transform: translateY(5px);
+    transform: translateY(5px);
+}
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 페이지가 로드될 때 실행되는 함수
+
+        // boardType 매개변수를 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const boardTypeParam = urlParams.get('boardType');
+
+        // 게시판 선택(select) 요소
+        const boardTypeSelect = document.getElementById('boardType');
+
+        // 매개변수에 따라 옵션 선택하기
+        if (boardTypeParam === 'BRD001') {
+            // BRD001이면 공지사항 선택
+            boardTypeSelect.value = 'BRD001';
+        } else if (boardTypeParam === 'BRD002') {
+            // BRD002이면 건의사항 선택
+            boardTypeSelect.value = 'BRD002';
+        }
+
+        // 선택되지 않은 옵션 숨김 처리
+        const options = boardTypeSelect.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value !== boardTypeSelect.value) {
+                options[i].hidden = true;
+            }
+        }
+    });
+</script>
+
 <script>
 	function resetForm() {
 		document.getElementById("userForm").reset();
@@ -68,39 +235,45 @@
 </script>
 <script></script>
 <script>
-     const adddelFunction=(function(){
-    		let count=2;
-    		const addFile=()=>{
-    			if(count<=5){
-		    		const fileForm=$("#basicFileForm").clone(true);
-		    		fileForm.find("span.input-group-text").text("첨부파일 "+count);
-		    		fileForm.find("label.custom-file-label").text("파일을 선택하세요")
-		    		.attr("for","upFile"+count);
-		    		fileForm.find("input[type=file]").attr("id","upFile"+count).val("");
-		    		$("textarea[name=boardContent]").before(fileForm);
-		    		count++;
-		    	}else{
-	    			alert("첨부파일은 5개까지 가능합니다.");
-	    		}
-    		};
-    		const delFile=()=>{
-    			if(count!=2){
-	    			$("textarea[name=boardContent]").prev().remove();
-	    			count--;
-    			}
-    		};
-    		
-    		return [addFile,delFile];
-    	})();
-    
-		const fn_addFileForm=adddelFunction[0];
-    	const fn_deleteFileForm=adddelFunction[1]; 
-    	
-    	$("input[name=upFile]").change(e=>{
-    		const fileName=e.target.files[0].name;
-    		$(e.target).next(".custom-file-label").text(fileName);
-    	});
-    </script>
+const adddelFunction = (function () {
+    let count = 2;
+    const addFile = () => {
+        if (count <= 3) {
+            const fileForm = $("#basicFileForm").clone(true);
+            fileForm.find("span.input-group-text").text("첨부파일 " + count);
+            fileForm.find("label.custom-file-label").text("파일을 선택하세요")
+                .attr("for", "upFile" + count);
+            fileForm.find("input[type=file]").attr("id", "upFile" + count).val("");
+            
+            // 새 파일 양식을 추가할 목적지 요소를 지정합니다 (예: "bottomicon" 클래스가 지정된 div 아래에 추가)
+            $(".plusicon").append(fileForm);
+            
+            count++;
+        } else {
+            alert("첨부파일은 3개까지 가능합니다.");
+        }
+    };
+
+    const delFile = () => {
+        if (count != 2) {
+            // 삭제할 파일 양식이 있는 목적지 요소를 지정합니다 (예: "bottomicon" 클래스가 지정된 div 내에서 위치)
+            $(".plusicon").find("#basicFileForm:last-child").remove();
+            count--;
+        }
+    };
+
+    return [addFile, delFile];
+})();
+
+const fn_addFileForm = adddelFunction[0];
+const fn_deleteFileForm = adddelFunction[1];
+
+$("input[name=upFile]").change(e => {
+    const fileName = e.target.files[0].name;
+    $(e.target).next(".custom-file-label").text(fileName);
+});
+</script>
+
 	
 
 <script>
