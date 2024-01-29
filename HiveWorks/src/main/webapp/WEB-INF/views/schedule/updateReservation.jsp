@@ -363,18 +363,18 @@ $(document).ready(function() {
         	      tbody.empty();
 
         	      // 예약 리스트를 반복하면서 테이블에 추가합니다.
-        	      for (var i = 0; i < response.length; i++) {
+        	       for (var i = 0; i < response.length; i++) {
         	        var res = response[i];
-        	        var formattedStartDate = moment(res.calStartDate).format('YYYY-MM-DD HH:mm');
-        	        var formattedEndDate = moment(res.calEndDate).format('YYYY-MM-DD HH:mm');
+        	        var formattedStartDate = res.CALSTARTDATE;
+        	        var formattedEndDate = res.CALENDDATE;
 
         	        // 새로운 행(tr)을 생성합니다.
         	        var newRow = $('<tr>');
 
         	        // 각 열(td)에 예약 정보를 추가합니다.
-        	        newRow.append('<td>' + res.calNo + '</td>');
+        	        newRow.append('<td>' + res.CAL_NO + '</td>');
         	        newRow.append('<td>' + formattedStartDate + " ~ " + formattedEndDate + '</td>');
-        	        newRow.append('<td>' + res.myEmpName + '</td>');
+        	        newRow.append('<td>' + res.MY_EMP_NAME + '</td>');
 
         	        // 생성한 행을 tbody에 추가합니다.
         	        tbody.append(newRow);

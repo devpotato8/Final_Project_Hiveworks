@@ -55,6 +55,7 @@ function getCurrentDateTime() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+	// sessionStorage에서 캘린더 새로고침 표시를 확인	
 	var allcalendar = {
 		events: function(fetchInfo, successCallback, failureCallback) {
 			// 기본적으로 첫 번째 이벤트 소스를 사용합니다.
@@ -825,10 +826,24 @@ document.addEventListener('DOMContentLoaded', function() {
 					return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes;
 				};
 				
+				/*if (sessionStorage.getItem('refreshCalendar') === 'true') {
+					    // 캘린더 새로고침 로직 실행
+					    // 예: $('#your-calendar-id').fullCalendar('refetchEvents');
+					    // 혹은 캘린더 인스턴스에 대한 참조가 있어야 함
+					    calendar.refetchEvents();
+					    
+					    // 새로고침 표시 삭제
+					    sessionStorage.removeItem('refreshCalendar');
+					  }*/
+							
 				
 				  if (targetE.id === 'CAL008') {
 					  if(loginEmpNo === targetE.extendedProps.myEmpNo){
 						$('.hk-drawer.calendar-drawer.drawer-right').hide();
+						
+						 // 캘린더를 새로고침해야 한다는 표시를 sessionStorage에 저장
+    					//sessionStorage.setItem('refreshCalendar', 'true')
+						
 				        window.location.href = contextPath+'/vacation/vacationView';
 			        }else{
 						$('.hk-drawer.calendar-drawer.drawer-right').hide();
@@ -850,7 +865,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			    } else if (targetE.id === 'CAL004' || targetE.id === 'CAL005' || targetE.id === 'CAL006') {
 					if(loginEmpNo === targetE.extendedProps.myEmpNo){
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
-			        window.location.href = contextPath+'/schedule/reservationlistbyno?empNo=' + loginEmpNo;
+			        window.location.href = contextPath+'/schedule/reservationlistbyno';
+			        
+			        //sessionStorage.setItem('refreshCalendar', 'true')
+			        
 			        }else{
 						$('.hk-drawer.calendar-drawer.drawer-right').show();
 						document.getElementById('checklistContainer').style.visibility = 'hidden';
@@ -870,6 +888,8 @@ document.addEventListener('DOMContentLoaded', function() {
 						var existingContainer = document.getElementById("someContainer1");
 						existingContainer.innerHTML = '';
 						$("div[class^='reinvicontainer']").remove();
+						
+				
 
 
 				//조회 모달 list만큼 만들어주기
@@ -1670,10 +1690,31 @@ document.addEventListener('DOMContentLoaded', function() {
 			// 선택되어 있으면 캘린더에 이벤트 소스 추가
 			calendar.addEventSource(mycalendar);
 		}
-
+		/*if ($('#mydeptcalendar').is(':checked')) {
+			// 선택되어 있으면 캘린더에 이벤트 소스 추가
+			calendar.addEventSource(mycalendar);
+		}
+		if ($('#companycalendar').is(':checked')) {
+			// 선택되어 있으면 캘린더에 이벤트 소스 추가
+			calendar.addEventSource(mycalendar);
+		}
+		if ($('#reserveCalendar').is(':checked')) {
+			// 선택되어 있으면 캘린더에 이벤트 소스 추가
+			calendar.addEventSource(mycalendar);
+		}
+		if ($('#vaccalendar').is(':checked')) {
+			// 선택되어 있으면 캘린더에 이벤트 소스 추가
+			calendar.addEventSource(vaccalendar);
+		}
+		if ($('#myvaccalendar').is(':checked')) {
+			// 선택되어 있으면 캘린더에 이벤트 소스 추가
+			calendar.addEventSource(myvacCalendar);
+		}
+*/
 		// 캘린더 렌더링
 		calendar.render();
 	});
+
 	
 	
 	//직원검색 일정 찾기
