@@ -14,7 +14,7 @@
         <h2>공지사항</h2>
     </div>
    <c:if test="${loginEmp.emp_no == 1}">
-       <a href="${path}/board/boardWrite">
+       <a href="${path}/board/boardWrite?boardType=BRD001">
 			<button type="button" class="btn btn-primary btn-sm" style="margin-left: 1495px; margin-bottom: 5px;">등록</button>
 		</a>
     </c:if>
