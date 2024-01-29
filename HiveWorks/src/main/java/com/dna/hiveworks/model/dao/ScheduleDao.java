@@ -68,7 +68,7 @@ public interface ScheduleDao {
 
 	List<Schedule> selectReserveByCode(SqlSession session, String calCode);
 	
-	List<Map> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo);
+	List<Map<String,Object>> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo);
 	
 	List<Schedule> selectReserveByresource(SqlSession session, int resourceNo);
 	

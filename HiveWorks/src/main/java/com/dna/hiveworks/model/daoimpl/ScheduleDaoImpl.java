@@ -171,7 +171,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
-	public List<Map> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
+	public List<Map<String,Object>> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
 		System.out.println(resourceNo+"dao");
 		Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("selectDate", selectDate);

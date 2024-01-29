@@ -579,7 +579,6 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 			});
 
 			if (checkedList.length > 0) {
-				 var $selectedRows = $(".check-select:checked").not(".form-check-input.check-select-all").closest("tr");
 				    
 				$.ajax({
 					url :  contextPath+"/schedule/deleteResource", // 삭제 요청을 처리할 서버 URL
@@ -590,9 +589,8 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						// 요청 성공 시 처리할 코드
 						alert("삭제 성공");
 						// 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
-						$selectedRows.each(function() {
-			                $(this).find("td:eq(5)").text('N');
-			            });
+							$(".form-check-input:checked").closest("tr").remove();
+			            
 						
 						console.log(response);
 						

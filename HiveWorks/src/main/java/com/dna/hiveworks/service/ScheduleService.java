@@ -62,7 +62,7 @@ public interface ScheduleService {
 
 	List<Schedule> selectReserveByCode(String calCode);
 	
-	List<Map> selectReservationBydate(Date selectDate, int resourceNo);
+	List<Map<String,Object>> selectReservationBydate(Date selectDate, int resourceNo);
 	
 	List<Schedule> selectReserveByresource(int resourceNo);
 
