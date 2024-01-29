@@ -211,6 +211,36 @@
 }
 </style>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 페이지가 로드될 때 실행되는 함수
+
+        // boardType 매개변수를 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const boardTypeParam = urlParams.get('boardType');
+
+        // 게시판 선택(select) 요소
+        const boardTypeSelect = document.getElementById('boardType');
+
+        // 매개변수에 따라 옵션 선택하기
+        if (boardTypeParam === 'BRD001') {
+            // BRD001이면 공지사항 선택
+            boardTypeSelect.value = 'BRD001';
+        } else if (boardTypeParam === 'BRD002') {
+            // BRD002이면 건의사항 선택
+            boardTypeSelect.value = 'BRD002';
+        }
+
+        // 선택되지 않은 옵션 숨김 처리
+        const options = boardTypeSelect.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value !== boardTypeSelect.value) {
+                options[i].hidden = true;
+            }
+        }
+    });
+</script>
+
+<script>
 	function resetForm() {
 		document.getElementById("userForm").reset();
 		ckeditor.data.set('');
