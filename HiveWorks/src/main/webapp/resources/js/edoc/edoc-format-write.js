@@ -182,22 +182,40 @@ const dataProcess = ()=>{
     let data = ckeditor.getData();
     let format;
     if(data.indexOf('{{서식시작}}') != -1 && data.indexOf('{{서식종료}}') != -1){
+        
+        let formatStart;
+        let formatEnd;
+        if(data.substr(data.indexOf('{{서식시작}}')-3,3) != '<p>'){
+            formatStart = data.indexOf('{{서식시작}}');
+        }else{
+            formatStart = data.indexOf('{{서식시작}}')-3;
+        }
+        if(data.substr(data.indexOf('{{서식종료}}')+12,4) != '</p>'){
+            formatEnd = data.indexOf('{{서식종료}}')+8;
+        }else{
+            formatEnd = data.indexOf('{{서식종료}}')+12;
+        }
 
-        let formatStart = data.indexOf('{{서식시작}}')-3;
-        let formatEnd = data.indexOf('{{서식종료}}')+12;
-
-        let format = data.substring(formatStart, formatEnd);
+        format = data.substring(formatStart, formatEnd);
         data = data.replace(format, '{{상세내용}}');
 
-        if(format.substr(0,3) != '<p>'){
-            format = format.substr(3+8);
+        if(format.substr(0,15) == '<p>{{서식시작}}</p>'){
+            format = format.substr(15);
+        }else if(format.substr(0,12) == '{{서식시작}}</p>'){
+            format = format.substr(8+4);
+        }else if(format.substr(0,8) == '{{서식시작}}'){
+            format = format.substr(8);
         }else{
-            format = format.substr(3+8+4);
+            format = format.substr(format.indexOf('{{서식시작}}')+8);
         }
-        if(format.substr(format.length-4) != '</p>'){
-            format = format.substr(0,format.length-(4+8));
+        if(format.substr(format.length-15) == '<p>{{서식종료}}</p>'){
+            format = format.substr(0,format.length-15);
+        }else if(format.substr(format.length-12) == '{{서식종료}}</p>'){
+            format = format.substr(0,format.length-12);
+        }else if(format.substr(format.length-8) == '{{서식종료}}'){
+            format = format.substr(0,format.length-8);
         }else{
-            format = format.substr(0,format.length-(4+8+3));
+            format = format.substr(0,format.indexOf('{{서식종료}}'));
         }
     }
 
