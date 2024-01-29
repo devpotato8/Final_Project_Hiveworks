@@ -736,6 +736,7 @@ function createContainer(index) {
     let delButton = document.createElement('button');
     delButton.type = 'button';
     delButton.textContent = '삭제';
+    delButton.className = 'btn btn-light';
     delButton.addEventListener('click', function () {
         // 클릭된 삭제 버튼의 부모 요소인 컨테이너를 삭제
         reInviContainer.remove();

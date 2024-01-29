@@ -97,12 +97,12 @@
 							<button type="button" class="btn btn-secondary" id="delReserveBtn">예약취소</button>
 								<div data-simplebar class="nicescroll-bar">
 								<div style="display:flex">
-						<select name="type" id="searchType">
+						<select name="type" id="searchType" class="form-select" aria-label="Default select example" style="width: 114px;">
 							<option value="resource_name">자산이름</option>
 							<option value="cal_status">예약상태</option>
 						</select>
-						<input type="text" name="keyword" id="searchKeyword" placeholder="검색어입력">
-						<button id="searchButton">검색</button>
+						<input type="text" name="keyword" id="searchKeyword" placeholder="검색어입력" class="form-control" style="width: 225px;">
+						<button id="searchButton" class="btn btn-light">검색</button>
 										<!-- <div class="dropdown" id="resType">
 											<a class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none" href="#" data-bs-toggle="dropdown">자산타입</a>
 											<div class="dropdown-menu dropdown-menu-end">
