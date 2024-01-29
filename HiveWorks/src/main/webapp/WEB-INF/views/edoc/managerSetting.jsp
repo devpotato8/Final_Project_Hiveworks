@@ -72,6 +72,7 @@
 																		<c:if test="${posCode eq accessGrantSetting[1].POS_CODE }">selected</c:if>
 																	>${PosCode.valueOf(posCode).getCode() }</option>
 																</c:forEach>
+															</select>
 															이상 기본 열람
 														</td>
 													</tr>
@@ -110,7 +111,7 @@
 												<thead>
 													<tr>
 														<td>문서 등록 시점</td>
-														<td>일렬번호</td>
+														<td>일련번호</td>
 													</tr>
 												</thead>
 												<tbody>
@@ -124,7 +125,7 @@
 															<input type="radio" name="edocDateFormat" id="dateformat6" value="YY" <c:if test='${settings.edocDateFormat eq "YY"}'>checked</c:if>><label for="dateformat6">연 2자(YY)</label>
 														</td>
 														<td>
-															<input type="radio" name="edocNumFormat" id="numformat1" value="2" <c:if test='${settings.edocNumFormat eq 2}'>checked</c:if>><label for="numformat1">연 2자(YY)</label><br>
+															<input type="radio" name="edocNumFormat" id="numformat1" value="2" <c:if test='${settings.edocNumFormat eq 2}'>checked</c:if>><label for="numformat1">2자리 (ex.01)</label><br>
 															<input type="radio" name="edocNumFormat" id="numformat2" value="3" <c:if test='${settings.edocNumFormat eq 3}'>checked</c:if>><label for="numformat2">3자리 (ex.001)</label><br>
 															<input type="radio" name="edocNumFormat" id="numformat3" value="4" <c:if test='${settings.edocNumFormat eq 4}'>checked</c:if>><label for="numformat3">4자리 (ex.0001)</label>
 														</td>
