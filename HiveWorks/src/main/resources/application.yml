@@ -24,9 +24,9 @@ spring:
   # 데이터 베이스 관련 설정
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:oracle:thin:@14.36.141.71:10052:xe
-#    url: jdbc:log4jdbc:oracle:thin:@14.36.141.71:10052:xe
+#     url: jdbc:log4jdbc:oracle:thin:@14.36.141.71:10052:xe
     username: HIVEWORKS
     password: HIVEWORKS
     hikari: 
