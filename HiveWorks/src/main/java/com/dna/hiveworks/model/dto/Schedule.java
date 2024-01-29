@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Schedule {
+	
+	
 	private int calNo;
 	private String calCode;
 	private int myEmpNo;

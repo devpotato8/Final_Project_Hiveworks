@@ -20,6 +20,8 @@ import com.dna.hiveworks.model.dto.Vacation;
 @Repository("scheduleDao")
 public class ScheduleDaoImpl implements ScheduleDao {
 	
+	
+	
 	@Override
 	public List<Employee> selectEmployeesList(SqlSession session) {
 		return session.selectList("schedule.selectEmployeesList");
@@ -169,11 +171,12 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	}
 	
 	@Override
-	public List<Schedule> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
+	public List<Map> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
 		System.out.println(resourceNo+"dao");
 		Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("selectDate", selectDate);
 		 parameters.put("resourceNo", resourceNo);
+		 System.out.println(session.selectList("schedule.selectReservationBydate",parameters));
 		return session.selectList("schedule.selectReservationBydate",parameters);
 	}
 	

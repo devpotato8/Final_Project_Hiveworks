@@ -31,7 +31,10 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <style>
   /* body 스타일 */
   html, body {
@@ -54,7 +57,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
+								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -437,7 +440,7 @@ $(document).ready(function() {
         	},
         	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url:  contextPath+`/schedule/selectReserveByresource`,
+					url:  contextPath+'/schedule/selectReserveByresource',
 					type: "POST",
 					dataType: "JSON",
 					data: JSON.stringify({ resourceNo: resourceNo }),

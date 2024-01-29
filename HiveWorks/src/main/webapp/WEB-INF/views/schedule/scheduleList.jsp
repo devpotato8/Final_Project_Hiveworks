@@ -9,7 +9,10 @@
 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <!-- Sweetalert2 CSS -->
@@ -125,19 +128,19 @@
 						
 						
 						<div>
-							<div class="event-name">Jampack Team Meet</div>
+							<div class="event-name"></div>
 							
-							<span class="event-code">내일정</span>
+							<span class="event-code"></span>
 						</div>
 					</div>
 					<input type="hidden" id="checkcalNo" value=""/>
 					<ul class="event-detail">
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="calendar"></i></span></span><span
-							class="event-start-date">Aug 18,2020 - Aug 19, 2020</span></li>
+							class="event-start-date"></span></li>
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="calendar"></i></span></span><span
-							class="event-end-date">Aug 18,2020 - Aug 19, 2020</span></li>
+							class="event-end-date"></span></li>
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="user-plus"></i></span></span>
 							<div id="someContainer1">
@@ -145,7 +148,7 @@
 								<div class="d-flex flex-wrap" id="inviContainer1">
 									<div class="chip chip-primary user-chip mb-2 me-2">
 										<span> <span class="avatar"> </span> <span
-											class="chip-text">Morgan</span>
+											class="chip-text"></span>
 										</span>
 									</div>
 								</div>
@@ -159,7 +162,7 @@
 
 						<li><span class="ev-icon-wrap"><span
 								class="feather-icon"><i data-feather="menu"></i></span></span><span
-							class="event-content">이벤트입니다</span></li>
+							class="event-content"></span></li>
 					</ul>
 					<div id="checklistContainer" style="background-color: #f3f584; height: 300px; padding: 10px">
 							<div class="tab-pane fade show active" id="tab_checklist">
@@ -357,7 +360,7 @@
 						
 						
 						<!-- Search -->
-						<a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="search"></i></span></span></a>
+						<%-- <a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span class="icon"><span class="feather-icon"><i data-feather="search"></i></span></span></a>
 						<div class="input-group d-xl-flex d-none">
 							<span class="input-affix-wrapper input-search affix-border">
 								<input type="text" id="searchEmp" class="form-control  bg-transparent"  data-navbar-search-close="false" placeholder="캘린더 검색" aria-label="Search">
@@ -368,7 +371,7 @@
 									</span>
 								</span>
 							</span>
-						</div>
+						</div> --%>
 						<!-- <div class="separator separator-light"></div> -->
 						<div class="categories-wrap">
 							<!-- 	<div class="form-check">
@@ -396,15 +399,20 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="mydeptcalendar"> <label class="form-check-label"
-									for="mydeptcalendar">내부서일정</label>
-								<span class="badge badge-success badge-indicator badge-indicator-lg me-2"></span>
+									id="myvaccalendar"> <label class="form-check-label"
+									for="myvaccalendar">내 휴가일정</label>
+								<span class="badge badge-info badge-indicator badge-indicator-lg me-2"></span>
+							</div>
+							 <div class="separator separator-light"></div>
+							<div
+								class="d-flex align-items-center justify-content-between mb-2">
+								<div class="title-sm text-primary mb-0">내 부서 캘린더</div>
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
-									id="companycalendar"> <label class="form-check-label"
-									for="companycalendar">전사일정</label>
-								<span class="badge badge-dark badge-indicator badge-indicator-lg me-2"></span>
+									id="mydeptcalendar"> <label class="form-check-label"
+									for="mydeptcalendar">내부서일정</label>
+								<span class="badge badge-success badge-indicator badge-indicator-lg me-2"></span>
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
@@ -412,6 +420,14 @@
 									for="vaccalendar">휴가일정</label>
 								<span class="badge badge-info badge-indicator badge-indicator-lg me-2"></span>
 							</div>
+							 <div class="separator separator-light"></div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input"
+									id="companycalendar"> <label class="form-check-label"
+									for="companycalendar">전사일정</label>
+								<span class="badge badge-dark badge-indicator badge-indicator-lg me-2"></span>
+							</div>
+							<!-- <div class="separator separator-light"></div> -->
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input"
 									id="reserveCalendar"> <label class="form-check-label"
@@ -485,11 +501,11 @@
 								</ul>
 							</div> -->
 							<div class="separator separator-light"></div>
-							<div class="form-check">
+							<!-- <div class="form-check">
 								<input type="checkbox" class="form-check-input"
 									id="importantcalendar"> <label class="form-check-label"
 									for="importantcalendar">중요일정</label>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -663,6 +679,7 @@ console.log(empDeptCodes);
 
 var contextPath = "<c:out value='${path}'/>";
 
+
 //체크박스 value주기	
 	$(document).ready(function(){
 	    $('#realldaycheck').change(function() {
@@ -744,45 +761,7 @@ var contextPath = "<c:out value='${path}'/>";
             }
          });
 
-    document.querySelector('#closeBtn').addEventListener('click', function() {
-      resetForm();
-    });
    
-
-   // 취소 버튼 클릭 이벤트 처리
-   document.querySelector('#cancelBtn').addEventListener('click', function() {
-      resetForm();
-   });
-
-   // 현재 날짜와 시간을 가져오는 함수
-   function getCurrentDateTime() {
-      var now = new Date();
-      var year = now.getFullYear();
-      var month = ('0' + (now.getMonth() + 1)).slice(-2);
-      var day = ('0' + now.getDate()).slice(-2);
-      var hours = ('0' + now.getHours()).slice(-2);
-      var minutes = ('0' + now.getMinutes()).slice(-2);
-      var seconds = ('0' + now.getSeconds()).slice(-2);
-      return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
-            + ':' + seconds;
-   };
-   
-   
-   // 값 초기화 함수
-   function resetForm() {
-      document.querySelector('.cal-event-code').selectedIndex = "CAL001";
-      document.querySelector('.cal-event-date-start').value = getCurrentDateTime();
-      document.querySelector('.cal-event-date-end').value = getCurrentDateTime();
-      document.getElementById('alldaycheck').checked = false;
-      document.querySelector('.cal-event-content').value = '';
-      document.querySelector('.cal-event-name').value = '';
-      document.getElementById('reremindercheck').checked = false;
-   	  $("[class$='inviteContainer']:not(:first)").remove();
-      // 첫 번째 항목의 값 초기화
-      $(".inviteContainer:first").find("select").val("");
-    	  
-   }
-
 // 부서 선택 시 직원 표시
  document.getElementById('calDept1').addEventListener('change', function() {
   var selectedDeptCode = this.value;
