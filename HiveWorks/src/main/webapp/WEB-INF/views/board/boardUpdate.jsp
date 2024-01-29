@@ -15,6 +15,7 @@
     </div>
     <div id="board-container">
         <form id="userForm" name="boardFrm" action="${path }/board/boardUpdate" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="boardType" value="${board.boardType}" /> 
 		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required>
             <input type="hidden" name="boardNo" value="${board.boardNo}"/>            

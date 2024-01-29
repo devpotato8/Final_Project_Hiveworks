@@ -108,80 +108,93 @@ public class BoardController {
 	@PostMapping("/boardUpdate")
 	public String boardUpdate(Board b, Model model, HttpSession session) {
 	    log.debug("{}", b);
-	    
+
 	    String msg, loc;
-	   
-	    int result=service.boardUpdate(b);
+
+	    int result = service.boardUpdate(b);
 	    System.out.println(result);
-	    if(result>0) {
-	    	msg = "게시글 수정 성공 :)";
-	    	loc = "board/board";
+
+	    if ("BRD002".equals(b.getBoardType())) {
+	        // BRD002인 경우 suggestions 페이지로 이동
+	        loc = "board/suggestions";
 	    } else {
-	    	msg = "게시글 수정 실패 :(";
-	    	loc = "board/boardUpdate";
+	        // 기본적으로는 board 페이지로 이동
+	        loc = "board/board";
 	    }
+
+	    if (result > 0) {
+	        msg = "게시글 수정 성공 :)";
+	    } else {
+	        msg = "게시글 수정 실패 :(";
+	        loc = "board/boardUpdate";
+	    }
+
 	    model.addAttribute("msg", msg);
 	    model.addAttribute("loc", loc);
 
 	    return "board/msg";
 	}
+
 
 	@PostMapping("/insertBoard")
-	public String insertBoard(@RequestParam("upFile") MultipartFile[] upFiles,Board b, Model model, HttpSession session) {
-	    
-		
-		String path=session.getServletContext().getRealPath("/resources/upload/board/");
-		List<Uploadfile> files=new ArrayList<>();
-		
-	   
-	    if(upFiles!=null) {
-			for(MultipartFile mf:upFiles) {			
-				if(!mf.isEmpty()) {
-					String oriName=mf.getOriginalFilename();
-					String ext=oriName.substring(oriName.lastIndexOf("."));
-					Date today=new Date(System.currentTimeMillis());
-					int randomNum=(int)(Math.random()*10000)+1;
-					String rename
-						="DNA_"+(new SimpleDateFormat("yyyyMMddHHmmssSSS")
-						.format(today))+"_"+randomNum+ext;
-					try {
-						mf.transferTo(new File(path,rename));
-						Uploadfile file=Uploadfile.builder()
-								.originalFileName(oriName)
-								.reNamefile(rename)
-								.build();
-						files.add(file);
-					}catch(IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		b.setFiles(files);
-	    
-		log.debug("{}", b);
-		String msg, loc;
-	    int result=service.insertBoard(b);
-		/*
-		 * b.getFiles().forEach(f -> { f.setBoardNo(b.getBoardNo()); });람다
-		 */ 
+	public String insertBoard(@RequestParam("upFile") MultipartFile[] upFiles, Board b, Model model, HttpSession session) {
+	    String boardType = b.getBoardType();
+	    String path = session.getServletContext().getRealPath("/resources/upload/board/");
+	    List<Uploadfile> files = new ArrayList<>();
+
+	    if (upFiles != null) {
+	        for (MultipartFile mf : upFiles) {
+	            if (!mf.isEmpty()) {
+	                String oriName = mf.getOriginalFilename();
+	                String ext = oriName.substring(oriName.lastIndexOf("."));
+	                Date today = new Date(System.currentTimeMillis());
+	                int randomNum = (int) (Math.random() * 10000) + 1;
+	                String rename = "DNA_" + (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(today)) + "_" + randomNum + ext;
+	                try {
+	                    mf.transferTo(new File(path, rename));
+	                    Uploadfile file = Uploadfile.builder()
+	                            .originalFileName(oriName)
+	                            .reNamefile(rename)
+	                            .build();
+	                    files.add(file);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	    }
+	    b.setFiles(files);
+
+	    log.debug("{}", b);
+	    String msg, loc;
+	    int result = service.insertBoard(b);
 	    b.getFiles().forEach(f -> {
-	    	f.setBoardNo(b.getBoardNo());
-	    }); 
+	        f.setBoardNo(b.getBoardNo());
+	    });
 	    log.debug("Insert result: {}", result);
 	    System.out.println(result);
-	    if(result>0) {
-	    	msg = "게시글 등록 성공 :)";
-	    	loc = "board/board";
+
+	    if ("BRD002".equals(boardType)) {
+	        // BRD002인 경우 suggestions 페이지로 이동
+	        loc = "board/suggestions";
 	    } else {
-	    	msg = "게시글 등록 실패 :(";
-	    	loc = "board/boardWrite";
+	        // 기본적으로는 board 페이지로 이동
+	        loc = "board/board";
 	    }
+
+	    if (result > 0) {
+	        msg = "게시글 등록 성공 :)";
+	    } else {
+	        msg = "게시글 등록 실패 :(";
+	        loc = "board/boardWrite";
+	    }
+
 	    model.addAttribute("msg", msg);
 	    model.addAttribute("loc", loc);
 
 	    return "board/msg";
 	}
+
 	@RequestMapping("/filedownload")
 	public void fileDownload(String oriname, String rename,
 	        OutputStream out, HttpSession session, 

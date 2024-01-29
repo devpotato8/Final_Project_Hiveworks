@@ -13,11 +13,11 @@
     <div class="container-xxl" style="margin-left: 0px; margin-bottom: 30px; margin-top: 40px;">
         <h2>공지사항</h2>
     </div>
-   <c:if test="${loginEmp.emp_no == 1}">
-       <a href="${path}/board/boardWrite?boardType=BRD001">
+       <c:if test="${loginEmp.emp_no == 1}">
+		<a href="${path}/board/boardWrite?boardType=BRD001">
 			<button type="button" class="btn btn-primary btn-sm" style="margin-left: 1495px; margin-bottom: 5px;">등록</button>
 		</a>
-    </c:if>
+	  </c:if>
     <div class="invoice-body">
         <div>
             <div class="invoice-list-view">
@@ -96,6 +96,9 @@
 #datable_4_filter{
 	width: 715px;
 }
+.tooltip-inner{
+display:none;
+}
 </style>
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
@@ -142,7 +145,23 @@
     $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.dataTables_length label'));
 
 </script>
+<script>
+    $(document).on('click', '.del-button', function (e) {
+        e.preventDefault();
+        var deleteUrl = $(this).attr('href');
+        $.get(deleteUrl, function (data) {
+            if (data.success) {
+                // 서버 응답이 성공일 경우, 클라이언트에서 DOM 업데이트 등을 수행할 수 있음
+                console.log('Delete successful');
 
+                // 삭제 성공 시 페이지 이동
+                window.location.href = "${path}/suggestions.jsp";
+            } else {
+                console.error('Error deleting data.');
+            }
+        });
+    });
+</script>
 <!-- Init JS -->
 <script src="${path}/resources/js/invoice-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>
