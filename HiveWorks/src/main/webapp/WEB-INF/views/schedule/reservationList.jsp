@@ -10,7 +10,10 @@
 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/>	
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <div>
 			<div class="hk-pg-wrapper pb-0">
 			<div class="hk-pg-body py-0">
@@ -21,7 +24,7 @@
 								<div class="menu-group">
 									<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-										<a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}">
+										<a class="nav-link" href="${path }/schedule/reservationlistbyno">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -335,6 +338,8 @@ $(document).ready(function() {
         });
 
         if (checkedList.length > 0) {
+        	var $selectedRows = $(".check-select:checked").not(".form-check-input.check-select-all").closest("tr");
+        	
             // 사용자에게 확인을 받는다.
             var confirmed = confirm("선택한 예약을 취소하시겠습니까?");
 
@@ -348,7 +353,10 @@ $(document).ready(function() {
                         // 요청 성공 시 처리할 코드
                         alert("취소 성공");
                         // 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
-                        $(".check-select:checked").closest("tr").remove();
+                          $selectedRows.each(function() {
+			                $(this).find("td:eq(6)").text('취소');
+			                $(this).find("td:eq(8)").remove();
+			            });
                         
                         $.ajax({
                             url:  contextPath+"/sendCancelMessage",
@@ -409,4 +417,3 @@ $(document).ready(function() {
 });
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
-

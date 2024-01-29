@@ -1,6 +1,8 @@
 package com.dna.hiveworks.serviceimpl;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +18,13 @@ import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
 import com.dna.hiveworks.model.dto.ScheduleVacation;
-import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.ScheduleService;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
+	
+	
 	@Autowired
 	private SqlSession session;
  
@@ -206,9 +209,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
-	public List<Schedule> selectReservationBydate(Date selectDate, int resourceNo) {
+	public List<Map<String,Object>> selectReservationBydate(Date selectDate, int resourceNo) {
 		System.out.println(resourceNo+"서비스");
-		return dao.selectReservationBydate(session, selectDate, resourceNo);
+		List<Map<String,Object>> result =  dao.selectReservationBydate(session, selectDate, resourceNo);
+		
+		result.forEach(t -> {
+			t.remove("CAL_START_DATE");
+			t.remove("CAL_END_DATE");
+		});
+		
+		return result;
 	}
 	
 	@Override

@@ -102,7 +102,7 @@ public class VacationController {
 					approvalEmp.setAprvlRank(1);
 					
 					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-					approval1.setAprvlEmpNo(8); // 김팀장
+					approval1.setAprvlEmpNo(1); // 1번직원
 					approval1.setAprvlApvCode(ApvCode.APV000);
 					approval1.setAprvlStatus("W");
 					approval1.setAprvlRank(2);
@@ -169,7 +169,7 @@ public class VacationController {
 					approvalEmp.setAprvlRank(1);
 					
 					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-					approval1.setAprvlEmpNo(8); // 팀장
+					approval1.setAprvlEmpNo(1); // 1번직원
 					approval1.setAprvlApvCode(ApvCode.APV000);
 					approval1.setAprvlStatus("W");
 					approval1.setAprvlRank(2);
@@ -234,7 +234,7 @@ public class VacationController {
 					approvalEmp.setAprvlRank(1);
 					
 					ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-					approval1.setAprvlEmpNo(8); // 팀장
+					approval1.setAprvlEmpNo(1); // 1번직원
 					approval1.setAprvlApvCode(ApvCode.APV000);
 					approval1.setAprvlStatus("W");
 					approval1.setAprvlRank(2);
@@ -281,7 +281,7 @@ public class VacationController {
 				approvalEmp.setAprvlRank(1);
 				
 				ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-				approval1.setAprvlEmpNo(8); // 팀장
+				approval1.setAprvlEmpNo(1); // 1번직원
 				approval1.setAprvlApvCode(ApvCode.APV000);
 				approval1.setAprvlStatus("W");
 				approval1.setAprvlRank(2);
@@ -326,7 +326,7 @@ public class VacationController {
 				approvalEmp.setAprvlRank(1);
 				
 				ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-				approval1.setAprvlEmpNo(8); // 팀장
+				approval1.setAprvlEmpNo(1); // 1번직원
 				approval1.setAprvlApvCode(ApvCode.APV000);
 				approval1.setAprvlStatus("W");
 				approval1.setAprvlRank(2);
@@ -377,7 +377,7 @@ public class VacationController {
 				approvalEmp.setAprvlRank(1);
 				
 				ElectronicDocumentApproval approval1 = new ElectronicDocumentApproval();
-				approval1.setAprvlEmpNo(8); // 팀장
+				approval1.setAprvlEmpNo(1); // 1번직원
 				approval1.setAprvlApvCode(ApvCode.APV000);
 				approval1.setAprvlStatus("W");
 				approval1.setAprvlRank(2);
