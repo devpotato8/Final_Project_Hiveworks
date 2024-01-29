@@ -285,7 +285,7 @@
 	
 	
 	<select id="selectEmployeesList" resultMap="employee.empMap">
-		SELECT * FROM TBL_EMPLOYEE
+		SELECT * FROM TBL_EMPLOYEE WHERE USE_YN = 'Y'
 	</select>
 	
 	
