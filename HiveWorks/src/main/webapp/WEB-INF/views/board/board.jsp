@@ -96,6 +96,11 @@
 #datable_4_filter{
 	width: 715px;
 }
+.dataTables_scrollBody{
+position: none; 
+overflow: none; 
+width: 0%;
+}
 </style>
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
