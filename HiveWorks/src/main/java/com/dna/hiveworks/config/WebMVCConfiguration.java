@@ -1,7 +1,6 @@
 package com.dna.hiveworks.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,9 +30,5 @@ public class WebMVCConfiguration implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addViewControllers(registry);
 	}
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		// web.hiveworks.site로부터 들어오는 데이터 허용
-		registry.addMapping("/**").allowedOrigins("http://web.hiveworks.site");
-	}
+	
 }

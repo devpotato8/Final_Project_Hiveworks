@@ -191,22 +191,7 @@ public class EdocDaoImpl implements EdocDao{
 	}
 	
 	@Override
-	public CompanySetting getEdocManagerSetting(SqlSession session) {
-		return session.selectOne("edoc.getEdocManagerSetting");
-	}
-	
-	@Override
-	public List<Map<String, Object>> getAccessGrantSetting(SqlSession session) {
-		return session.selectList("edoc.getAccessGrantSetting");
-	}
-	
-	@Override
-	public int updateEdocManagerSetting(SqlSession session, CompanySetting cs) {
-		return session.update("edoc.updateEdocManagerSetting", cs);
-	}
-	
-	@Override
-	public int updateEdocAccessGrant(SqlSession session, Map<String, Object> param) {
-		return session.update("edoc.updateEdocAccessGrant", param);
+	public CompanySetting getCompanySetting(SqlSession session) {
+		return session.selectOne("edoc.getCompanySetting");
 	}
 }
