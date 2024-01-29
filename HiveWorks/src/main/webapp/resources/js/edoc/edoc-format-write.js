@@ -143,9 +143,14 @@ $('#submitButton').on('click',(e)=>{
 	$btn.disabled = true;
 	$($btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>전송중');
 
+    if(dataValidate()){
+        $btn.disabled = false;
+		$($btn).html('기안하기');
+        return;
+    }
+
+
 	let formData;
-    
-	
 	formData = dataProcess();
 	
 
@@ -256,3 +261,45 @@ $('#helpButton').on('click',()=>{
     +'해당부분은 {{상세내용}}으로 자동으로 치환되며, {{상세내용}}과 동시에 사용이 불가능하다'));
     $(helpWindow.document.body).append($ul);
 });
+
+const dataValidate = ()=>{
+    let results = [];
+    if(dotCode == null){
+        $('#docType').removeClass('is-valid');
+        $('#docType').addClass('is-invalid');
+        results.push(false);
+    }else{
+        $('#docType').removeClass('is-invalid');
+        $('#docType').addClass('is-valid');
+        results.push(true);
+    }
+    if($('#sampleName').val() == null || $('#sampleName').val() == ""){
+        $('#sampleName').removeClass('is-valid');
+        $('#sampleName').addClass('is-invalid');
+        results.push(false);
+    }else{
+        $('#sampleName').removeClass('is-invalid');
+        $('#sampleName').addClass('is-valid');
+        results.push(true);
+    }
+    const sampleData = ckeditor.data.get();
+    let isContainsDetail = sampleData.includes('{{상세내용}}');
+    let isContainsSampleStart = sampleData.includes('{{서식시작}}');
+    let isContainsSampleEnd = sampleData.includes('{{서식종료}}');
+    if((isContainsDetail && isContainsSampleStart) || (isContainsDetail && isContainsSampleEnd)){
+        alert('{{상세내용}}과 {{서식시작}} 혹은 {{서식종료}}는 \n 동시에 사용할 수 없습니다.');
+        results.push(false);
+    }else if((isContainsSampleStart && !isContainsSampleEnd) || (!isContainsSampleStart && isContainsSampleEnd)){
+        alert('{{서식시작}}과 {{서식종료}}는 모두 작성하여야 합니다.');
+        results.push(false);
+    }else if(sampleData.indexOf('{{서식시작}}')>sampleData.indexOf('{{서식종료}}')){
+        alert('{{서식시작}}이 {{서식종료}}보다 뒤에 위치할 수 없습니다.');
+        results.push(false);
+    }else if(!isContainsDetail && !isContainsSampleStart && !isContainsSampleEnd){
+        alert('{{상세내용}} 혹은 {{서식시작}}{{서식종료}} 중 하나는 반드시 존재하여야 합니다.');
+        results.push(false);
+    }else{
+        results.push(true);
+    }
+    return !results.includes(false);
+};
