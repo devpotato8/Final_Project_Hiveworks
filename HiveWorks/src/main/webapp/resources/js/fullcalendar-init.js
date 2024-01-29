@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					 console.log(data);
 			        // 서버로부터 받은 데이터를 이벤트로 변환합니다.
 			        var events = [];
-			        data.searchList.forEach((v)=>{
+			        data.searchListbyCode.forEach((v)=>{
 						let event = {
 							id: 'CAL009',
 			            	title: v.myEmpName+" "+ v.vacOption,
