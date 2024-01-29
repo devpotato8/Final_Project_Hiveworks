@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%@ page import="com.dna.hiveworks.model.code.PosCode" %>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <jsp:include page= "/WEB-INF/views/common/header.jsp">
@@ -29,7 +31,7 @@
 				<div class="fmapp-detail-wrap">
 					<header class="fm-header">
 						<div class="d-flex align-items-center flex-grow-1">
-							<h1>관리자설정</h1>
+							<h1>관리자설정</h1>&emsp;<button type="button" class="btn btn-primary" id="saveBtn">저장하기</button>
 						</div>
 						<div class="fm-options-wrap">	
 							<a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-lg-inline-block d-none" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Collapse">
@@ -64,15 +66,25 @@
 													<tr>
 														<th>A등급</th>
 														<td>결재 완료 후 직위
-															<select>
-																<option></option>
-															</select>
+															<select name="${accessGrantSetting[1].DSG_CODE}">
+																<c:forEach items="${posCodeList}" var="posCode">
+																	<option value="${posCode }" 
+																		<c:if test="${posCode eq accessGrantSetting[1].POS_CODE }">selected</c:if>
+																	>${PosCode.valueOf(posCode).getCode() }</option>
+																</c:forEach>
 															이상 기본 열람
 														</td>
 													</tr>
 													<tr>
 														<th>B등급</th>
 														<td>결재 완료 후 직위
+															<select name="${accessGrantSetting[2].DSG_CODE}">
+																<c:forEach items="${posCodeList}" var="posCode">
+																	<option value="${posCode }" 
+																		<c:if test="${posCode eq accessGrantSetting[2].POS_CODE }">selected</c:if>
+																	>${PosCode.valueOf(posCode).getCode() }</option>
+																</c:forEach>
+															</select>
 															이상 기본 열람
 														</td>
 													</tr>
@@ -86,6 +98,44 @@
 												※ S등급과 C등급은 설정할 수 없습니다.
 											</figcaption>
 										</figure>
+										<br>
+										<h4>문서 번호 설정</h4>
+										<h5>회사 코드 설정</h5>
+										<div class="form-group">
+											<label for="edocPrefix" class="form-label">문서번호에 사용할 회사 코드를 정하세요.</label>
+											<input type="text" name="edocPrefix" id="edocPrefix" class="form-control" value="${settings.edocPrefix}">
+										</div>
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<td>문서 등록 시점</td>
+														<td>일렬번호</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<input type="radio" name="edocDateFormat" id="dateformat1" value="YYYYMMDD" <c:if test='${settings.edocDateFormat eq "YYYYMMDD"}'>checked</c:if>><label for="dateformat1">연,월,일 8자(YYYYMMDD)</label><br>
+															<input type="radio" name="edocDateFormat" id="dateformat2" value="YYMMDD" <c:if test='${settings.edocDateFormat eq "YYMMDD"}'>checked</c:if>><label for="dateformat2">연,월,일 6자(YYMMDD)</label><br>
+															<input type="radio" name="edocDateFormat" id="dateformat3" value="YYYYMM" <c:if test='${settings.edocDateFormat eq "YYYYMM"}'>checked</c:if>><label for="dateformat3">연,월 6자(YYYYMM)</label><br>
+															<input type="radio" name="edocDateFormat" id="dateformat4" value="YYMM" <c:if test='${settings.edocDateFormat eq "YYMM"}'>checked</c:if>><label for="dateformat4">연,월 4자(YYMM)</label><br>
+															<input type="radio" name="edocDateFormat" id="dateformat5" value="YYYY" <c:if test='${settings.edocDateFormat eq "YYYY"}'>checked</c:if>><label for="dateformat5">연 4자(YYYY)</label><br>
+															<input type="radio" name="edocDateFormat" id="dateformat6" value="YY" <c:if test='${settings.edocDateFormat eq "YY"}'>checked</c:if>><label for="dateformat6">연 2자(YY)</label>
+														</td>
+														<td>
+															<input type="radio" name="edocNumFormat" id="numformat1" value="2" <c:if test='${settings.edocNumFormat eq 2}'>checked</c:if>><label for="numformat1">연 2자(YY)</label><br>
+															<input type="radio" name="edocNumFormat" id="numformat2" value="3" <c:if test='${settings.edocNumFormat eq 3}'>checked</c:if>><label for="numformat2">3자리 (ex.001)</label><br>
+															<input type="radio" name="edocNumFormat" id="numformat3" value="4" <c:if test='${settings.edocNumFormat eq 4}'>checked</c:if>><label for="numformat3">4자리 (ex.0001)</label>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="form-group">
+											<label for="edocResult" class="form-label">결과</label>
+											<input type="text" name="edocResult" id="edocResult" class="form-control" value="" disabled>
+										</div>
 									</div>
 								</div>
 							</div>

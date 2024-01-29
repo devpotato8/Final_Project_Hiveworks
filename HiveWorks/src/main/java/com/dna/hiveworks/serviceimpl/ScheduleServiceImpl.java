@@ -22,6 +22,8 @@ import com.dna.hiveworks.service.ScheduleService;
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
+	
+	
 	@Autowired
 	private SqlSession session;
  
@@ -206,7 +208,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
-	public List<Schedule> selectReservationBydate(Date selectDate, int resourceNo) {
+	public List<Map> selectReservationBydate(Date selectDate, int resourceNo) {
 		System.out.println(resourceNo+"서비스");
 		return dao.selectReservationBydate(session, selectDate, resourceNo);
 	}

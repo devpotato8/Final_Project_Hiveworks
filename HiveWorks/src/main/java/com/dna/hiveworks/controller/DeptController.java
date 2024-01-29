@@ -43,6 +43,13 @@ public class DeptController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/deptviewuser",method= {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView userTree(ModelAndView mav) {
+		mav.setViewName("department/deptViewUser");
+		return mav;
+	}
+	
 	//🔻🔻 조직도관리 controller 🔻🔻
 	
 	@RequestMapping(value="/deptlist",method= {RequestMethod.GET, RequestMethod.POST})
