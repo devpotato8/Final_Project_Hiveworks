@@ -326,9 +326,15 @@
 	<insert id="insertEdoc" parameterType="edoc">
 		<selectKey keyProperty="edocNo" keyColumn="EDOC_NO"
 			resultType="string" order="BEFORE">
-			SELECT 'HI-' ||TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD((select
-			count(*)+1 from TBL_EDOC WHERE EDOC_NO LIKE
-			'%-'||TO_CHAR(SYSDATE,'YYYYMMDD')||'-%'), 3, '0') from dual
+			SELECT 
+				EDOC_PREFIX||'-'||
+				TO_CHAR(SYSDATE, EDOC_DATEFORMAT)||'-'||
+				LPAD(
+					(SELECT COUNT(*)+1 
+					FROM TBL_EDOC 
+					WHERE EDOC_NO 
+						LIKE EDOC_PREFIX||'-'||TO_CHAR(SYSDATE, EDOC_DATEFORMAT)||'-%'),EDOC_NUMFORMAT,'0')
+				FROM TBL_SETTING
 		</selectKey>
 		INSERT INTO TBL_EDOC VALUES(
 		#{edocNo},<!-- EDOC_NO -->
@@ -521,12 +527,20 @@
 	 	SELECT POS_CODE FROM TBL_EDOC_ACCESS_GRANT WHERE DSG_CODE = #{dsgCode}
 	 </select>
 	 
-	  <select id="getCompanySetting" resultMap="settingMap">
+	 <select id="getEdocManagerSetting" resultMap="settingMap">
 	 	SELECT * FROM TBL_SETTING WHERE SETTING_NO = 1
 	 </select>
 	 
-	 <update id="updateManagerSetting" parameterType="map">
-	 	UPDATE TBL_SETTING EDOC_PREFIX = #{edocPrefix}, EDOC_DATEFORMAT = #{dateFormat}, EDOC_NUMFORMAT = #{numFormat}
-	 	WHERE SETTING_NO = 1;
+	 <select id="getAccessGrantSetting" resultType="map">
+	 	SELECT * FROM TBL_EDOC_ACCESS_GRANT
+	 </select>
+	 
+	 <update id="updateEdocManagerSetting" parameterType="map">
+	 	UPDATE TBL_SETTING SET EDOC_PREFIX = #{edocPrefix}, EDOC_DATEFORMAT = #{edocDateFormat}, EDOC_NUMFORMAT = #{edocNumFormat}
+	 	WHERE SETTING_NO = 1
+	 </update>
+	 
+	 <update id="updateEdocAccessGrant" parameterType="map">
+	 	UPDATE TBL_EDOC_ACCESS_GRANT SET POS_CODE = #{posCode} WHERE DSG_CODE = #{dsgCode} 
 	 </update>
 </mapper>
