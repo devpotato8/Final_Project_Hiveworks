@@ -166,7 +166,7 @@
 									<th>사원명</th>
 									<th>직위</th>
 									<th>직무</th>
-									<th id="currentDeptCode" style="display:none;">현재부서</th>
+									<th id="currentDeptCode" style="display:none;"></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -308,7 +308,7 @@ function getDeptList(){
 	
 	$.ajax({
 		type:'GET',
-		url:'${path}/deptlist',
+		url: path+'/deptlist',
 		dataType:'JSON',
 		success: function(data){
 			var deptlist = new Array();
@@ -345,14 +345,15 @@ function getDeptList(){
 function loadDeptEmpList(nodeId) {
     $.ajax({
         type: 'GET',
-        url: '${path}/deptemplist',
+        url: path+'/deptemplist',
         data: { deptCode : nodeId },
         dataType: 'JSON',
         success: function(response) {
             // 테이블의 기존 내용을 비우기
             $('.deptTable tbody').empty();
             $('.deptName').empty();
-            
+            $('#currentDeptCode').empty();
+           
             //서버에서 받아온 데이터 정렬
             response.sort(function(a, b) {
                 // leader가 붙은 사람을 먼저 나열
@@ -373,6 +374,7 @@ function loadDeptEmpList(nodeId) {
                 if(item.leader==='Y'){
                     name += '&nbsp<img src="${path}/resources/img/dept-leader.png" width="50px", height="25px">';
                 }
+                 
                 var row = '<tr>' +
                     '<td><input type="checkbox" name="chkRow" id=""></td>' +
                     '<td>' + item.id + '</td>' +
@@ -387,16 +389,18 @@ function loadDeptEmpList(nodeId) {
             if (response.length > 0) {
                 var deptName = response[0].deptName + ' 구성원 목록'
                 $('.deptName').append(deptName);
+                $('#currentDeptCode').append(nodeId);
             }else{
             	$.ajax({
                     type: 'GET',
-                    url: '${path}/searchDeptName',
+                    url: path+'/searchDeptName',
                     data: { deptCode : nodeId },
                     dataType: 'text',
                     success: function(response) {
                     	
                     	var thisDeptName = response + ' 구성원 목록';
                         $('.deptName').append(thisDeptName);
+                        $('#currentDeptCode').append(nodeId);
                     }
             	});
             }
@@ -410,7 +414,7 @@ function loadDeptEmpList(nodeId) {
 //부서일괄업로드 btn
 $(document).ready(function(){
 	$('.insertDeptList').on('click',function(){
-        window.location = "/insertDeptList";
+        window.location = path+"/insertDeptList";
     });
 });
 

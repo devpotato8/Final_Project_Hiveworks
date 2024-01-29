@@ -120,7 +120,7 @@
 									</c:if>
 									</span>
 								</a>
-								<a class="nav-link" href="${path }/edoc/lists/check"><span class="nav-link-text">확인
+								<a class="nav-link" href="${path }/edoc/lists/check"><span class="nav-link-text">참조
 									<c:if test="${param.countCheck > 0 }">
 										<span class="badge badge-sm badge-warning badge-pill">${param.countCheck }</span>
 									</c:if>

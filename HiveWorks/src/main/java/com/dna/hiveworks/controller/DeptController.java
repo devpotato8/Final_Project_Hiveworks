@@ -149,6 +149,7 @@ public class DeptController {
 	    return response;
 	}
 	
+	//조직장 설정하기
 	@PostMapping("/setleader")
 	@ResponseBody
 	public Map<String, String> setLeader(@RequestBody Map<String, String> leaderIds){
@@ -171,6 +172,7 @@ public class DeptController {
 	    return response;
 	}
 	
+	//조직장 해제하기
 	@PostMapping("/removeleader")
 	@ResponseBody
 	public Map<String, String> removeLeader(@RequestParam String id){
@@ -187,6 +189,7 @@ public class DeptController {
 	    return response;
 	}
 	
+	//소속제외시키기
 	@PostMapping("/deptout")
 	@ResponseBody
 	public Map<String, String> deptEmpOut(@RequestBody List<String> ids){
@@ -205,6 +208,7 @@ public class DeptController {
 	    return response;
 	}
 	
+	//직원 이름검색
 	@GetMapping("/searchEmp")
 	@ResponseBody
 	public List<Employee> searchEmpByName (@RequestParam String name){
@@ -212,6 +216,7 @@ public class DeptController {
 		return response;
 	}
 	
+	//부서에 직원 추가
 	@PostMapping("/addEmpDept")
 	@ResponseBody
 	public Map<String, String> addEmpDept(@RequestBody Employee emp){
@@ -228,11 +233,13 @@ public class DeptController {
 	    return response;
 	}
 	
+	//부서 엑셀일괄업로드 페이지로 이동
 	@GetMapping("/insertDeptList")
 	public String insertDeptExcel(){
 		return "department/deptExcelUpload";
 	}
-		
+	
+	//부서 엑셀일괄업로드 로직
 	@PostMapping("/deptExcelUpload")
 	public String uploadExcel(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		try {
@@ -252,6 +259,7 @@ public class DeptController {
 	    }
 	}
 	
+	//엑셀 샘플 다운로드 로직
 	@GetMapping("/sampleDownlaod")
     public void downloadFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
