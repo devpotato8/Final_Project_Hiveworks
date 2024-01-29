@@ -87,15 +87,26 @@
 													</td>
 														<c:forEach var="a" items="${autCodeList.authorityList }">
 													<td>
- 														<input type="radio" class="aut_code" onchange="fn_changeRadio(event);" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""}/> 
+ 														<input type="radio" class="aut_code" onchange="fn_changeRadio(event);" name="${s.emp_no }" value="${a.AUTCODE }" ${s.aut_code eq a.AUTCODE?"checked":""} ${s.emp_id eq 'emp001'?"disabled":""}/> 
 													</td>
 														</c:forEach>
 													<td>
+													<c:choose>
+														<c:when test="${s.emp_id ne 'emp001' }">
 														<div>
 															<div class="d-flex">
 																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button" onclick="fn_changeDefault(${s.emp_no}, event);">해제</button>
 															</div>
 														</div>
+														</c:when>
+														<c:otherwise>
+														<div>
+															<div class="d-flex">
+																<button class="btn btn-soft-primary btn-file mb-1" id="changeDefault" type="button">-</button>
+															</div>
+														</div>
+														</c:otherwise>
+													</c:choose>
 													</td>
 												</tr>
 												</c:forEach>

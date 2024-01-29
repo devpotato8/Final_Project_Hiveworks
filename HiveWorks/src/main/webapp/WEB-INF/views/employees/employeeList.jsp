@@ -266,7 +266,11 @@ function applyFeatherLoading(){
 	$(document).on('change','.form-select',function(){
 		feather.replace();
 	});
-
+	
+	//필터 버튼 클릭 시
+	$(document).on('click','.sorting',function(){
+		feather.replace();
+	});
 } 
 
 </script>
