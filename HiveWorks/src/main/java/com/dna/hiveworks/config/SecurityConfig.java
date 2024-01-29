@@ -1,23 +1,13 @@
 package com.dna.hiveworks.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import com.dna.hiveworks.security.DBConnectionProvider;
@@ -27,11 +17,7 @@ import com.dna.hiveworks.security.DBConnectionProvider;
 public class SecurityConfig {
 	
 	@Autowired
-	private DataSource dataSource;
-	
-	@Autowired
 	private DBConnectionProvider dbprovider;
-	
 	
 	@Bean
 	SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception{
@@ -56,33 +42,16 @@ public class SecurityConfig {
 	            })
 	            .logout(logout->logout.logoutUrl("/logout"))
 	            .authenticationProvider(dbprovider)
-	            .rememberMe(rememberMe ->
-		            rememberMe
-		                .key("theKey")
-		                .tokenValiditySeconds(86400)
-	            		.userDetailsService(this.dbprovider))	            
 	            .build();
 	}
 	
-	
-	@Bean
-    PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-        db.setDataSource(dataSource);
-        return db;
-    }
-	
-	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(dbprovider);
-    }
 	
 	@Bean
 	BCryptPasswordEncoder encodePassword() {
 		return new BCryptPasswordEncoder();
 	}
 	
-
+	
 	
 	
 }

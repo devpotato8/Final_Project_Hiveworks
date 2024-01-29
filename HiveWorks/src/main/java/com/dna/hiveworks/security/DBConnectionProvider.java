@@ -3,13 +3,9 @@ package com.dna.hiveworks.security;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class DBConnectionProvider implements AuthenticationProvider, UserDetailsService{
+public class DBConnectionProvider implements AuthenticationProvider{
 	
 	private final EmpDao dao;
 	private final SqlSession session;
@@ -34,27 +30,17 @@ public class DBConnectionProvider implements AuthenticationProvider, UserDetails
 		
 		Employee loginEmp = dao.selectEmployeeById(session,empId);
 		
+		//DB 완성 이후에 BCrypt이용해서 pw 재설정한 더미데이터 삽입 후 이용할 로직
 		if(loginEmp==null||!encoder.matches(empPw,loginEmp.getEmp_pw())) {
 			throw new BadCredentialsException("인증실패!");
 		}
-		
 		return new UsernamePasswordAuthenticationToken(loginEmp, loginEmp.getEmp_pw(),loginEmp.getAuthorities());
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException{
-		Employee loginEmp = dao.selectEmployeeById(session,username);
-        if (loginEmp == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return loginEmp;
-	}
-	
-	@Override
 	public boolean supports(Class<?> authentication) {
 		
-		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication) ||
-				RememberMeAuthenticationToken.class.isAssignableFrom(authentication);
+		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 
 }
