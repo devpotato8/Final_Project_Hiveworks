@@ -36,5 +36,4 @@ public class WebMVCConfiguration implements WebMvcConfigurer {
 		// web.hiveworks.site로부터 들어오는 데이터 허용
 		registry.addMapping("/**").allowedOrigins("http://web.hiveworks.site");
 	}
-	
 }

@@ -73,21 +73,29 @@ public class BoardController {
 	    return "board/boardWrite";
 	}
 	@RequestMapping("/boardView")
-	public void selectBoardByNo(int boardNo, Model model,int count) {
-		Board board = service.selectBoardByNo(boardNo);
-		int countresult=service.updateBoardCount(boardNo);
-		   log.debug("Board Object: {}", board);	   
-		   model.addAttribute("board", board);
-		   model.addAttribute("count",countresult);
+	public void selectBoardByNo(int boardNo, Model model) {
+	    Board board = service.selectBoardByNo(boardNo);
+	    model.addAttribute("board", board);
 	}
+
+
 	@RequestMapping("/boardDelete")
-	public String boardDelete(@RequestParam("boardNo") int boardNo,Model model) {
-		int board = service.boardDelete(boardNo);
-		log.debug("보드 번호{}",boardNo);
-		List<Board> boardList = service.selectAllBoard("");
-	    model.addAttribute("boardList", boardList);
-	    return "board/board";
+	public String boardDelete(@RequestParam("boardNo") int boardNo, Model model) {
+	    int board = service.boardDelete(boardNo);
+	    log.debug("보드 번호{}", boardNo);
+	    
+	    // 게시글 삭제가 성공적인지 확인
+	    if (board > 0) {
+	        // 성공적인 경우, "board/board" 페이지로 리디렉션
+	        return "redirect:/board/board";
+	    } else {
+	        // 성공하지 않은 경우, 게시글 목록을 다시 가져와서 "board/board" 페이지로 이동
+	        List<Board> boardList = service.selectAllBoard("");
+	        model.addAttribute("boardList", boardList);
+	        return "board/board";
+	    }
 	}
+
 	@GetMapping("/boardUpdate")
 	public String boardUpdate(@RequestParam("boardNo") int boardNo,Model model){
 		log.debug("보드 번호{}",boardNo);

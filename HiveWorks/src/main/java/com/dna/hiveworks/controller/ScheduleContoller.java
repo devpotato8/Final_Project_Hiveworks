@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.dna.hiveworks.model.dto.CheckList;
 import com.dna.hiveworks.model.dto.Comment;
@@ -31,6 +32,7 @@ import com.dna.hiveworks.model.dto.Department;
 import com.dna.hiveworks.model.dto.Employee;
 import com.dna.hiveworks.model.dto.Resource;
 import com.dna.hiveworks.model.dto.Schedule;
+import com.dna.hiveworks.model.dto.ScheduleVacation;
 import com.dna.hiveworks.model.dto.Vacation;
 import com.dna.hiveworks.service.DeptService;
 import com.dna.hiveworks.service.EmpService;
@@ -46,6 +48,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/schedule")
 public class ScheduleContoller {
 
+	
+	
 	private static final Logger log = LoggerFactory.getLogger(ScheduleContoller.class);
 
 	private final ScheduleService scheduleService;
@@ -105,6 +109,10 @@ public class ScheduleContoller {
 //		return null;
 	}
 	
+	
+	//자산 일정 가져오기
+	
+	
 	//중요일정 조회
 	@GetMapping("/searchImpschedule")
 	@ResponseBody
@@ -133,12 +141,22 @@ public class ScheduleContoller {
 	}
 	
 	//직원 휴가 조회
-	@PostMapping("/searchVacation")
-	public ResponseEntity<Map<String,Object>> searchVacation(@RequestBody Map<String, Object> param){
-		int empNo = (Integer)param.get("empNo");
-		List<Vacation> searchList =  vacationservice.selectVacationByNo(empNo);
-		searchList = searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList();
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList));
+	  @PostMapping("/searchVacation") 
+	  public ResponseEntity<Map<String,Object>> searchVacation(@RequestBody Map<String, Object> param){ 
+	  int empNo = (Integer)param.get("empNo"); 
+	  List<Vacation> searchList = vacationservice.selectVacationByNo(empNo); searchList =
+	  searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList(); return
+	  ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList)); }
+	 
+	
+	//직원 휴가 조회(부서)
+	@PostMapping("/searchVacationByDept")
+	public ResponseEntity<Map<String,Object>> searchVacationByDept(@RequestBody Map<String, Object> param){
+		String deptCode = (String)param.get("deptCode");
+		List<ScheduleVacation> searchListbyCode =  scheduleService.searchVacationByCode(deptCode);
+		searchListbyCode = searchListbyCode.stream().filter(vac->vac.getVacPermit()!=null&&vac.getVacPermit().equals("승인")).toList();
+		System.out.println(searchListbyCode);
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchListbyCode",searchListbyCode));
 	}
 	
 
@@ -389,8 +407,8 @@ public class ScheduleContoller {
 		
 		int result = scheduleService.updateImportYn(schedule,calNo);
 		
-		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(result) :
-			  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+		return result > 0 ? ResponseEntity.status(HttpStatus.OK).body(schedule) :
+			  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(schedule);
 	}
 	
 	
@@ -640,7 +658,8 @@ public class ScheduleContoller {
 	
 	// 사원번호별 자산 예약 조회
 	@GetMapping("/reservationlistbyno")
-	public String reservationListByNo(@RequestParam int empNo, Model model) {
+	public String reservationListByNo(@SessionAttribute("loginEmp")Employee loginEmp, Model model) {
+		int empNo = loginEmp.getEmp_no();
 		List<Schedule> MyReserveList = scheduleService.selectReserveByNo(empNo);
 		List<Resource> resourceList = scheduleService.selectResourceAll();
 		model.addAttribute("MyReserveList", MyReserveList);
@@ -906,18 +925,19 @@ public class ScheduleContoller {
 		Timestamp calStartDate = Timestamp.valueOf(LocalDateTime.parse(startDateString, dateTimeFormatter));
 		Timestamp calEndDate = Timestamp.valueOf(LocalDateTime.parse(endDateString, dateTimeFormatter));
 
-		Schedule schedule = Schedule.builder().calNo(calNo).calStartDate(calStartDate).calEndDate(calEndDate).calCode(calCode).myEmpNo(empNo)
-				.reminderYn(reminderYn).creater(empNo).modifier(empNo).calColor(calColor).calSubject(calSubject).build();
+		Schedule schedule = Schedule.builder().calNo(calNo).calStartDate(calStartDate).calEndDate(calEndDate).calCode(calCode)
+				.reminderYn(reminderYn).modifier(empNo).calColor(calColor).calSubject(calSubject).build();
 
 		result = scheduleService.updateReservation(schedule, calNo, empList);
-
+		
+		//나중에 경로 수정하셔야됨
 		String msg, loc;
 		if (result > 0) {
 			msg = "예약 수정 성공";
-			loc = "schedule/reservationlistbyno?empNo="+empNo;
+			loc = empNo == 1 ? "schedule/reservationlist":"schedule/reservationlistbyno?empNo="+empNo;
 		} else {
 			msg = "예약 수정 실패";
-			loc = "schdule/reserveResource";
+			loc = empNo == 1 ? "schedule/reservationlist":"schedule/reservationlistbyno?empNo="+empNo;
 		}
 
 		model.addAttribute("msg", msg);
@@ -997,10 +1017,9 @@ public class ScheduleContoller {
         }
  
         return result;
+        
+        
 	}
-	
-	
-	
 	
 
 }

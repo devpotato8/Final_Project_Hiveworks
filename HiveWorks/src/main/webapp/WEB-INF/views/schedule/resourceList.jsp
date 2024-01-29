@@ -10,7 +10,10 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <div class="hk-pg-wrapper pb-0">
 	<div class="hk-pg-body py-0">
 		<div class="blogapp-wrap">
@@ -20,7 +23,7 @@
 						<div class="menu-group">
 								<ul class="nav nav-light navbar-nav flex-column">
 										<li class="nav-item active">
-										<a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}">
+										<a class="nav-link" href="${path }/schedule/reservationlistbyno">
 												<span class="nav-icon-wrap"><span class="feather-icon"><i data-feather="users"></i></span></span>
 												<span class="nav-link-text">내 예약 현황</span>
 											</a>
@@ -576,6 +579,8 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 			});
 
 			if (checkedList.length > 0) {
+				 var $selectedRows = $(".check-select:checked").not(".form-check-input.check-select-all").closest("tr");
+				    
 				$.ajax({
 					url :  contextPath+"/schedule/deleteResource", // 삭제 요청을 처리할 서버 URL
 					type : "POST",
@@ -585,7 +590,9 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						// 요청 성공 시 처리할 코드
 						alert("삭제 성공");
 						// 성공적으로 삭제되면 체크된 체크박스를 가진 행을 삭제
-						$(".form-check-input:checked").closest("tr").remove();
+						$selectedRows.each(function() {
+			                $(this).find("td:eq(5)").text('N');
+			            });
 						
 						console.log(response);
 						
