@@ -689,6 +689,7 @@ public class ScheduleContoller {
 		System.out.println(resourceNo);
 		System.out.println(selectdate);
 		List<Schedule> ReserveListByDate = scheduleService.selectReservationBydate(selectdate, resourceNo);
+		System.out.println(ReserveListByDate);
 
 		return ReserveListByDate;
 	}

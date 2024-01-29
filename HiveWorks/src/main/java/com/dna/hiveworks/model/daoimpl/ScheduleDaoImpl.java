@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.poi.ddf.EscherColorRef.SysIndexProcedure;
 import org.springframework.stereotype.Repository;
 
 import com.dna.hiveworks.model.dao.ScheduleDao;
@@ -174,6 +175,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("selectDate", selectDate);
 		 parameters.put("resourceNo", resourceNo);
+		 System.out.println(session.selectList("schedule.selectReservationBydate",parameters));
 		return session.selectList("schedule.selectReservationBydate",parameters);
 	}
 	
