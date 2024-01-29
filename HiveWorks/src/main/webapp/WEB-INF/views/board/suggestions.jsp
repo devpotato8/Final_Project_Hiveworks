@@ -46,7 +46,7 @@
 	                                    </a>
 	                               </td>
                                     <td><c:out value="${b.boardTitle}" /></td>
-                                    <td>관리자</td>
+                                    <td><c:out value="${b.emp_name}" /></td>
                                     <td><c:out value="${b.createDate}" /></td>
                                     <td>
                                         <div class="d-flex">

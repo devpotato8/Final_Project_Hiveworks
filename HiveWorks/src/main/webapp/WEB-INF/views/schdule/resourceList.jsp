@@ -108,15 +108,15 @@
 									class="btn btn-outline-light dropdown-toggle  d-sm-inline-block d-none"
 									href="#" data-bs-toggle="dropdown" id="dropdownMenuBtn">자산종류</a>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a class="dropdown-item" href="#" data-type="회의실"><span
+									<span class="dropdown-item" data-type="회의실"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="flag"></i></span><span>회의실</span></a> <a
-										class="dropdown-item" href="#" data-type="차량"><span
+											data-feather="flag"></i></span><span>회의실</span></span> <span
+										class="dropdown-item" data-type="차량"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="grid"></i></span><span>차량</span></a> <a
-										class="dropdown-item" href="#" data-type="빔프로젝터"><span
+											data-feather="grid"></i></span><span>차량</span></span> <span
+										class="dropdown-item" data-type="빔프로젝터"><span
 										class="feather-icon dropdown-icon"><i
-											data-feather="tag"></i></span><span>빔프로젝터</span></a>
+											data-feather="tag"></i></span><span>빔프로젝터</span></span>
 								</div>
 							</div>
 							<div class="tab-content">
@@ -349,36 +349,6 @@ function applyFeatherLoading(){
 }  */
 
 
-//페이징 시도
-/* var targetElem = $('#datable_4');
-var targetDt =targetElem.DataTable({
-	scrollX:  true,
-	autoWidth: false,
-	language: { search: "",
-		searchPlaceholder: "Search",
-		sLengthMenu: "_MENU_items",
-		paginate: {
-			next: '<i class="ri-arrow-right-s-line"></i>', // or '→'
-			previous: '<i class="ri-arrow-left-s-line"></i>' // or '←' 
-		}
-	},
-	select: {
-		style: 'multi'
-	},
-	"drawCallback": function () {
-		$('.dataTables_paginate > .pagination').addClass('custom-pagination pagination-simple');
-	}
-}); */
-/* $(document).on( 'click', '.del-button', function () {
-	targetDt.rows('.selected').remove().draw( false );
-});
-$('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.dataTables_length label')); */
-
-
-
-
-
-
 
 
 	//등록 모달
@@ -475,10 +445,11 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 				},
 				dataType : 'json',
 				success : function(response) {
-					var tableBody = $('#datable_1 tbody');
-					tableBody.empty();
-					
-					response.forEach(function(item) {	
+					console.log(response);
+					response.forEach(function(item) {
+						var tableBody = $('#datable_1 tbody');
+						tableBody.empty();
+	
 					    // 테이블 행 요소 생성
 					    var row = document.createElement('tr');
 	
@@ -562,14 +533,14 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 	        var isChecked = $("#customCheck1").prop("checked");
 
 	        // 모든 체크박스의 상태를 전체 체크박스에 맞춰 변경
-	        $(".check-select").prop("checked", isChecked);
+	        $(".form-check-input").prop("checked", isChecked);
 	    });
 
 		$("#delResourceBtn").click(function() {
 			var checkedList = [];
 
 			// 체크된 체크박스를 찾아 체크된 자산의 번호를 checkedList에 추가
-			$(".check-select:checked").not(".form-check-input.check-select-all").each(function() {
+			$(".form-check-input:checked").each(function() {
 				var resourceNo = $(this).closest("tr").find("td:eq(1)").text();
 				console.log(this);
 				checkedList.push(resourceNo);
@@ -590,12 +561,9 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						console.log(response);
 						
 						 // 삭제된 resourceNo에 해당하는 HTML 요소를 삭제
-						
-						checkedList.forEach(function(resourceNo) {
-							  var selector = "li.nav-item:has(a[href*='" + contextPath +"/schedule/reserveResource?resourceNo=" + resourceNo + "'])";
-							  $(selector).remove();
-							});
-					    
+						response.forEach(function(resourceNo) {
+					        $("li.nav-item").has("a[href*='resourceNo=" + resourceNo + "']").remove();
+					    });
 						
 					},
 					error : function(request, status, error) {
@@ -615,6 +583,7 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 	};
 
  </script>
+ <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 <%-- <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="${path}/resources/vendors/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -633,4 +602,4 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 <script src="${path}/resources/vendors/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>	
 <script src="${path}/resources/js/invoice-data.js"></script>
 <script src="${path}/resources/js/chips-init.js"></script>  --%>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
