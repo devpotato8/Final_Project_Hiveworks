@@ -15,6 +15,8 @@ import com.dna.hiveworks.model.dto.Vacation;
 public interface ScheduleService {
 	
 	
+	
+	
 	List<Employee> selectEmployeesList();
 	
 	
@@ -60,7 +62,7 @@ public interface ScheduleService {
 
 	List<Schedule> selectReserveByCode(String calCode);
 	
-	List<Schedule> selectReservationBydate(Date selectDate, int resourceNo);
+	List<Map> selectReservationBydate(Date selectDate, int resourceNo);
 	
 	List<Schedule> selectReserveByresource(int resourceNo);
 

@@ -48,6 +48,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/schedule")
 public class ScheduleContoller {
 
+	
+	
 	private static final Logger log = LoggerFactory.getLogger(ScheduleContoller.class);
 
 	private final ScheduleService scheduleService;
@@ -669,7 +671,7 @@ public class ScheduleContoller {
 	//날짜별 자산 예약 조회
 	@PostMapping("/selectReservationBydate")
 	@ResponseBody
-	public List<Schedule> selectReservationBydate(@RequestBody Map<String, Object> param){
+	public List<Map> selectReservationBydate(@RequestBody Map<String, Object> param){
 		
 		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
 				  instanceof String)); });
@@ -688,7 +690,8 @@ public class ScheduleContoller {
 
 		System.out.println(resourceNo);
 		System.out.println(selectdate);
-		List<Schedule> ReserveListByDate = scheduleService.selectReservationBydate(selectdate, resourceNo);
+		List<Map> ReserveListByDate = scheduleService.selectReservationBydate(selectdate, resourceNo);
+		System.out.println(ReserveListByDate);
 
 		return ReserveListByDate;
 	}

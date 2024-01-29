@@ -17,9 +17,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ScheduleVacation {
 	
+	
+	
 	private int vacNo;
 	private int empNo;
-	private double vacCount;
+	private double vacCount; 
 	private int vacUsed;
 	private String vacOption;
 	private int creater;

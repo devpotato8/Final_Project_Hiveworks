@@ -16,6 +16,8 @@ import com.dna.hiveworks.model.dto.Vacation;
 
 public interface ScheduleDao {
 	
+	
+	
 	List<Employee> selectEmployeesList(SqlSession session);
 	
 	int insertSchedule(SqlSession session, Schedule schedule);
@@ -66,7 +68,7 @@ public interface ScheduleDao {
 
 	List<Schedule> selectReserveByCode(SqlSession session, String calCode);
 	
-	List<Schedule> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo);
+	List<Map> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo);
 	
 	List<Schedule> selectReserveByresource(SqlSession session, int resourceNo);
 	

@@ -192,6 +192,29 @@
 		<result property="empName" column="com_emp_name"/>
 	</resultMap>
 	
+	<resultMap id="vacationScheduleMap" type="com.dna.hiveworks.model.dto.ScheduleVacation">
+		<id property="vacNo" column="VAC_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="vacCount" column="VAC_COUNT"/>
+		<result property="vacUsed" column="VAC_USED"/>
+		<result property="vacOption" column="VAC_OPTION"/>
+		<result property="creater" column="CREATER"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifier" column="MODIFIER"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="useYN" column="USE_TN"/>
+		<result property="myDeptCode" column="my_dept_code"/>
+		<result property="myEmpName" column="my_emp_name"/>
+		
+		<result property="edocNo" column="EDOC_NO"/>
+		<result property="vacPermit" column="VAC_PERMIT"/>
+	</resultMap>
+	
+	
+	<select id="searchVacationByCode" resultMap="vacationScheduleMap">
+		SELECT V.*, E.DEPT_CODE AS MY_DEPT_CODE,E.EMP_NAME AS MY_EMP_NAME FROM TBL_VACATION V LEFT JOIN TBL_EMPLOYEE E ON V.EMP_NO = E.EMP_NO WHERE E.DEPT_CODE = #{deptCode} ORDER BY V.MODIFY_DATE DESC
+	</select>
+	
 
 
 	<insert id="insertSchedule" parameterType="schedule">
@@ -238,9 +261,9 @@
 		UPDATE TBL_CALENDAR SET USE_YN = 'N', CAL_STATUS = '취소' WHERE CAL_NO = #{checkNo}
 	</update>
 	
-	<delete id="deleteSchedule">
+	<update id="deleteSchedule">
 		UPDATE TBL_CALENDAR SET USE_YN = 'N' WHERE CAL_NO = #{calNo}
-	</delete>
+	</update>
 	
 	
 	
@@ -278,13 +301,13 @@
 	
 	
 	<select id="searchSchedule" resultMap="scheduleInviMap" parameterType="map">
-		SELECT * FROM V_CALENDAR_F
+		SELECT V.*,R.USE_YN FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO
 		where 1=2
 	<if test="searchTypeA != null or searchTypeB != null or searchTypeC != null">
 		union
 	</if>
 	<if test="searchTypeA != null">
-		SELECT * FROM V_CALENDAR_F
+		SELECT V.*,R.USE_YN FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO
 		where 1=1
 		AND CAL_CODE = 'CAL001' AND CAL_USE_YN = 'Y' AND (MY_EMP_NO = #{empNo} OR YOUR_EMP_NO = #{empNo})
 	</if>
@@ -293,7 +316,7 @@
 		<if test="searchTypeA != null">
 			union
 		</if>
-		SELECT * FROM V_CALENDAR_F
+		SELECT V.*,R.USE_YN FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO
 		where 1=1
 		AND CAL_CODE = 'CAL002' AND MY_DEPT_CODE = #{deptCode} AND CAL_USE_YN = 'Y'
 	</if>
@@ -302,7 +325,7 @@
 		<if test="searchTypeA != null || searchTypeB != null">
 			union
 		</if>
-		SELECT * FROM V_CALENDAR_F
+		SELECT V.*,R.USE_YN FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO
 		where 1=1
 		AND CAL_CODE = 'CAL003' AND CAL_USE_YN = 'Y'
 	</if>
@@ -310,9 +333,9 @@
 		<if test="searchTypeA != null || searchTypeB != null || searchTypeC != null">
 			union
 		</if>
-		SELECT * FROM V_CALENDAR_F
+		SELECT V.*,R.USE_YN FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO
 		where 1=1
-		AND CAL_CODE IN ('CAL004','CAL005','CAL006') AND CAL_USE_YN = 'Y' AND MY_EMP_NO = #{empNo}
+		AND CAL_CODE IN ('CAL004','CAL005','CAL006') AND CAL_USE_YN = 'Y' AND R.USE_YN = 'Y' AND (MY_EMP_NO = #{empNo} OR YOUR_EMP_NO = #{empNo})
 	</if>
 	</select>
 	
@@ -341,15 +364,15 @@
 	</select>
 	
 	<select id="selectReserveAll" resultMap="scheduleInviMap">
-		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') ORDER BY V.CAL_NO DESC
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND R.USE_YN = 'Y' ORDER BY V.CAL_NO DESC
 	</select>
 	
 	<select id="reserveBykeyword" parameterType="map" resultMap="scheduleInviMap">
-	SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND V.MY_EMP_NO = 1 AND ${type} LIKE '%'||#{keyword}||'%' ORDER BY V.CAL_NO DESC
+	SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND R.USE_YN = 'Y' AND V.MY_EMP_NO = 1 AND ${type} LIKE '%'||#{keyword}||'%' ORDER BY V.CAL_NO DESC
 	</select>
 	
 	<select id="selectReserveByNo" resultMap="scheduleInviMap">
-		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND V.MY_EMP_NO = #{empNo} ORDER BY V.CAL_NO DESC
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND R.USE_YN = 'Y' AND V.MY_EMP_NO = #{empNo} ORDER BY V.CAL_NO DESC
 	</select>
 	
 	
@@ -357,14 +380,14 @@
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = #{calCode}
 	</select>
 	
-	<select id="selectReservationBydate" resultMap="scheduleInviMap" parameterType="hashMap">
-    SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TO_DATE(#{selectDate}, 'YY/MM/DD HH24:MI:SS') AND CAL_STATUS = '승인완료' ORDER BY V.CAL_START_DATE
-</select>
+	<select id="selectReservationBydate" resultMap="map" parameterType="hashMap">
+    	SELECT V.* FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TRUNC(TO_DATE(#{selectDate}, 'YYYY-MM-DD HH24:MI:SS')) AND V.CAL_STATUS = '승인완료' ORDER BY V.CAL_START_DATE
+	</select>
 
 
  
 	<select id="selectReserveByresource" resultMap="scheduleMap">
-		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND CAL_STATUS = '승인완료'
+		SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND R.USE_YN = 'Y' AND CAL_STATUS = '승인완료'
 	</select>
 	
 	
@@ -399,7 +422,7 @@
 	
 	
 	<select id="checkListByCalNo" resultMap="checklistMap">
-		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo}
+		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo} AND USE_YN = 'Y'
 	</select>
 	
 	<select id="selectCommentByNo" resultMap="commentMap">
