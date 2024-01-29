@@ -5,6 +5,7 @@ package com.dna.hiveworks.serviceimpl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -377,14 +378,14 @@ public class EdocServiceImpl implements EdocService{
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yy.MM.dd");
 		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
 		
-		String createDate = document.getCreateDate().toLocalDate().format(dateFormat);
-		String createDateTime = new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
+		String createDate = isEdocNull ? LocalDate.now().format(dateFormat) : document.getCreateDate().toLocalDate().format(dateFormat);
+		String createDateTime = isEdocNull ? LocalDateTime.now().format(dateTimeFormat) : new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
 		
-		String startDate = document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
-		String startDateTime = document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		String startDate = !isEdocNull &&document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
+		String startDateTime = !isEdocNull &&document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
-		String endDate = document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
-		String endDateTime = document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		String endDate = !isEdocNull &&document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
+		String endDateTime = !isEdocNull &&document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
 		while(content.indexOf("{{문서번호}}")!= -1) {
 			int startIndex = content.indexOf("{{문서번호}}");
