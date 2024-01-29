@@ -9,7 +9,7 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<div class="hk-pg-wrapper" style=" height: 1685px;">
+<div class="hk-pg-wrapper">
     <div class="container-xxl" >
         <h2 id="Title">등록</h2>
     </div>
@@ -20,17 +20,13 @@
 				<option selected>게시판 선택</option>
 				<option value="BRD001">공지사항</option>
 			    <option value="BRD002">건의사항</option>
-			    <!-- <option value="BRD003">블라인드</option> -->
+			    <option value="BRD003">블라인드</option>
 			</select>
 			    <hr/>
 		</div>	
 		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
-            <br>
-            <div style="display: flex; align-items: center;">
-			  <p style="margin-right: 10px;">작성자:</p>
-			  <input type="text" class="form-control" value="${loginEmp.emp_name}" readonly="readonly" style="width: 77px;">
-			</div>
+            <input type="text" value="${loginEmp.emp_name }" readonly="readonly">
             <input type="hidden" name="creater" id="creater" value="${loginEmp.emp_no} "/> 
             <hr/>
         </div>    
@@ -71,9 +67,6 @@
     </div>
 </div>
 <style>
-	#Title{
-	 margin-top: 50px;
-	}
 	hr{
 	width:1200px;
 	}
@@ -221,7 +214,7 @@
 const adddelFunction = (function () {
     let count = 2;
     const addFile = () => {
-        if (count <= 3) {
+        if (count <= 5) {
             const fileForm = $("#basicFileForm").clone(true);
             fileForm.find("span.input-group-text").text("첨부파일 " + count);
             fileForm.find("label.custom-file-label").text("파일을 선택하세요")
@@ -233,7 +226,7 @@ const adddelFunction = (function () {
             
             count++;
         } else {
-            alert("첨부파일은 3개까지 가능합니다.");
+            alert("첨부파일은 5개까지 가능합니다.");
         }
     };
 

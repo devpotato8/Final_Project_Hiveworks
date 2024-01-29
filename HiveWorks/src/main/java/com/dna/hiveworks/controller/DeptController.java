@@ -43,13 +43,6 @@ public class DeptController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/deptviewuser",method= {RequestMethod.GET, RequestMethod.POST})
-	@ResponseBody
-	public ModelAndView userTree(ModelAndView mav) {
-		mav.setViewName("department/deptViewUser");
-		return mav;
-	}
-	
 	//🔻🔻 조직도관리 controller 🔻🔻
 	
 	@RequestMapping(value="/deptlist",method= {RequestMethod.GET, RequestMethod.POST})
@@ -130,13 +123,6 @@ public class DeptController {
 		return response;
 	}
 	
-	@GetMapping("/searchEmp")
-	@ResponseBody
-	public List<Employee> searchEmpByName (@RequestParam String name){
-		List<Employee> response = service.searchEmpByName(name);
-		return response;
-	}
-	
 	//부서이동
 	@PostMapping("/changeEmpDept")
 	@ResponseBody
@@ -210,6 +196,13 @@ public class DeptController {
 	    }
 	    
 	    return response;
+	}
+	
+	@GetMapping("/searchEmp")
+	@ResponseBody
+	public List<Employee> searchEmpByName (@RequestParam String name){
+		List<Employee> response = service.searchEmpByName(name);
+		return response;
 	}
 	
 	@PostMapping("/addEmpDept")
