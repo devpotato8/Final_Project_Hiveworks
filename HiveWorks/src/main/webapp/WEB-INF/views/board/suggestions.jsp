@@ -13,7 +13,7 @@
     <div class="container-xxl" style="margin-left: 0px; margin-bottom: 30px; margin-top: 40px;">
         <h2>건의사항</h2>
     </div>
-       <a href="${path}/board/boardWrite">
+       <a href="${path}/board/boardWrite" >
 			<button type="button" class="btn btn-primary btn-sm" style="margin-left: 1495px; margin-bottom: 5px;">등록</button>
 		</a>
     <div class="invoice-body">
@@ -46,7 +46,7 @@
 	                                    </a>
 	                               </td>
                                     <td><c:out value="${b.boardTitle}" /></td>
-                                    <td>관리자</td>
+                                    <td><c:out value="${b.emp_name}" /></td>
                                     <td><c:out value="${b.createDate}" /></td>
                                     <td>
                                         <div class="d-flex">
