@@ -10,41 +10,31 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <div class="hk-pg-wrapper">
+    <div class="container-xxl" >
+        <h2 id="Title">상세</h2>
+    </div>
     <div id="board-container">
 		<div style="margin-left: 40px;">
-			<div style="display: flex; align-items: center;">
-				  <p style="margin-right: 10px;">제목 :</p>
-				  <input type="text" class="form-control" value="${board.boardTitle}" readonly="readonly" style="width: 200px; margin-left:16px;">
-				</div>
-				<br>
-           		<div style="display: flex; align-items: center;">
-				  <p style="margin-right: 10px;">작성일 :</p>
-				  <input type="text" class="form-control" value="${board.createDate}" readonly="readonly" style="width: 200px;">
-				</div>
-				<br>
-           		<div style="display: flex; align-items: center;">
-				  <p style="margin-right: 10px;">글 번호:</p>
-				  <input type="text" class="form-control" value="${board.boardNo}" readonly="readonly" style="width: 100px;">
-				</div>
-            <hr/ style="width: 1000px;">
+			<p>제목</p>
+            <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }"  required readonly="readonly">
+           
+            <hr/>
         </div>    	
             <br>
-            <div class="form-control2" id="boardContent" name="boardContent" placeholder="내용" required style="border: 1px solid black;">
+            <div class="form-control2" id="boardContent" name="boardContent" placeholder="내용" required>
     			${board.boardContent}
 			</div>
     </div>
-    <hr/ style="width: 1000px;margin-left: 230px;">
-    <p style="margin-left: 230px; margin-top: 15px;">첨부파일</p>
         <c:if test="${not empty board.files}">
 		    <c:forEach var="file" items="${board.files}">
 		        <c:if test="${not empty file.originalFileName and not empty file.reNamefile}">
-		            <button type="button" class="btn btn-light" onclick="fn_filedownload('${file.originalFileName}', '${file.reNamefile}');" style="margin-left: 230px; margin-top: 15px;">
+		            <button type="button" class="btn btn-dark" onclick="fn_filedownload('${file.originalFileName}', '${file.reNamefile}');">
 		                ${file.originalFileName}
 		            </button>
 		        </c:if>
 		    </c:forEach>
 		</c:if>
-	<hr/ style="width: 1000px;margin-left: 230px;">
+
       <div class="OkBtn">
         <a href="${path}/board/board"><input type="button" class="button" value="확인"></a>
       </div>
@@ -117,8 +107,6 @@
 	}
 	#board-container{
     margin-left: 180px;
-    margin-top: 60px;
-    
 	}
     #boardTitle{
     width:300px;
@@ -127,7 +115,7 @@
     resize:none; 
     border: 1px solid #C2C2C2; 
     width: 1000px; 
-    height: 800px;
+    height: 500px;
     margin-left:50px;
     }
     figure.image>img{
@@ -144,10 +132,6 @@
     width: 1230px;
     margin-top: 20px;
 
-    }
-    p{
-     margin-left: 15px;
-    margin-top: 15px;
     }
 </style>
 <script>

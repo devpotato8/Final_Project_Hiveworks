@@ -31,16 +31,15 @@
     	LEFT JOIN TBL_EMPLOYEE ON TBL_BOARD.CREATER = TBL_EMPLOYEE.EMP_NO
         WHERE BOARD_TYPE = #{boardType}
     </select>
-   	<update id="updateBoardCount" parameterType="int">
+    <update id="updateBoardCount" parameterType="int">
     	UPDATE TBL_BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_NO = #{boardNo}
 	</update>
-
     <insert id="insertBoard" parameterType="board">
     	<selectKey keyProperty="boardNo" resultType="int" keyColumn="BOARD_NO" order="BEFORE">
     		SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
     	</selectKey>
     	INSERT INTO TBL_BOARD VALUES 
-		(#{boardNo},#{boardType},#{boardContent},#{boardCount},NULL,#{boardTitle},#{creater},NULL,DEFAULT,DEFAULT,'Y')
+		(#{boardNo},#{boardType},#{boardContent},NULL,NULL,#{boardTitle},#{creater},NULL,DEFAULT,DEFAULT,'Y')
     </insert>
     <update id="boardUpdate" parameterType="board">
 	    UPDATE TBL_BOARD SET

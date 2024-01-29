@@ -138,7 +138,7 @@
 														<c:if test="${not empty MyReserveList}">
 															<c:forEach var="myres" items="${MyReserveList}">
 														<tr>
-															<td><input type="checkbox" class="form-check-input check-select" id="customCheck+${myres.calNo}"></td>
+															<td></td>
 															<td>${myres.calNo }</td>
 															<td class="mw-250p text-truncate text-high-em">
 																<span>${myres.resource.resourceName }</span>
@@ -245,7 +245,6 @@ $(document).ready(function() {
 			},
 			dataType : 'json',
 			success : function(response) {
-				console.log(response);
 				// 기존 테이블 내용 초기화
 		        $('#datable_1 tbody').empty();
 
@@ -329,8 +328,7 @@ $(document).ready(function() {
         $(".check-select:checked").each(function() {
             var reserveNo = $(this).closest("tr").find("td:eq(1)").text();
             var resourceName = $(this).closest('tr').find('td:nth-child(3)').text().trim();
-            const calStartDateRaw = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
-            const calStartDate = calStartDateRaw.trim(); // 앞뒤 공백을 제거합니다.
+            var calStartDate = $(this).closest('tr').find('td:nth-child(6)').text().split('~')[0];
 
             checkedList.push(reserveNo);
             
@@ -360,7 +358,7 @@ $(document).ready(function() {
                         $(".check-select:checked").closest("tr").remove();
                         
                         $.ajax({
-                            url: contextPath+"/sendCancelMessage",
+                            url:  contextPath+"/sendCancelMessage",
                             type: "POST",
                             data: JSON.stringify(selectedDataList),
                             contentType: "application/json", 
@@ -398,7 +396,7 @@ $(document).ready(function() {
 
         if (confirmed) {
             $.ajax({
-                url: contextPath+"/sendMessage",
+                url:  contextPath+"/sendMessage",
                 type: "POST",
                 data: {
                     resourceName: resourceName,

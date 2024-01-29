@@ -224,8 +224,6 @@ empNames.push("${emp.emp_name}");
 empNos.push("${emp.emp_no}");
 </c:forEach>
 
-var contextPath = "<c:out value='${path}'/>";
-
 
 //reminder 스트링으로 보내기
 /* var remindercheck = document.getElementById('flexCheckDefault');
@@ -338,7 +336,7 @@ $(document).ready(function() {
         	  
         	  // 선택한 날짜에 해당하는 예약 리스트를 가져오는 AJAX 요청
         	  $.ajax({
-        	    url: contextPath+'/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
+        	    url: '/schedule/selectReservationBydate', // 예약 리스트를 가져올 서버의 URL을 입력해주세요
         	    method: 'POST',
         	    contentType: 'application/json', // 전송되는 데이터의 형식을 json으로 지정
         	      data: JSON.stringify({ selectDate: defaultStartDate, resourceNo: resourceNo }),
@@ -378,7 +376,7 @@ $(document).ready(function() {
         	},
         	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url: contextPath+'/schedule/selectReserveByresource',
+					url: `/schedule/selectReserveByresource`,
 					type: "POST",
 					dataType: "JSON",
 					data: JSON.stringify({ resourceNo: resourceNo }),
@@ -512,17 +510,12 @@ let removedItemsCount = 0; // 삭제된 요소의 수를 추적하는 변수
 shareProjectCount = 2;
 
 	if (invitationEmpList.length > 0) {
-		
-		
 		for (var i = 0; i < invitationEmpListLength; i++) {
 		    var YourEmpNo = invitationEmpList[i].yourEmpNo;
 		    var YourEmpName = invitationEmpList[i].yourEmpName;
 		    var YourDeptName = invitationEmpList[i].yourDeptName;
 		    var YourDeptCode = invitationEmpList[i].yourDeptCode;
-		    var InviUseYn = invitationEmpList[i].inviUseYn;
-		    
-		    if(InviUseYn == 'Y'){
-		    
+	
 		    // 다시 생성
 		    let reInviContainer = document.createElement('div');
 		    reInviContainer.className = 'reinvicontainer' + (i + 1);
@@ -628,7 +621,6 @@ shareProjectCount = 2;
 		    handleDeptSelect();
 	
 		    deptSelect.addEventListener("change", handleDeptSelect);
-		    }
 		}
 	}
 
