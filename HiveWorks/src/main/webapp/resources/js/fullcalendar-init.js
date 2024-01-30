@@ -199,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				              }
 				            };
 						let dateInfo = new Date(Date.parse(v.createDate));
+						dateInfo.setHours(dateInfo.getHours() + (dateInfo.getTimezoneOffset() / -60));
 				        switch(v.vacOption){
 							case '오전반차': 
 								event.start = dateInfo.toJSON().substr(0,11)+'09:00:00.000';
@@ -305,6 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				              }
 				            };
 						let dateInfo = new Date(Date.parse(v.createDate));
+						dateInfo.setHours(dateInfo.getHours() + (dateInfo.getTimezoneOffset() / -60));
 				        switch(v.vacOption){
 							case '오전반차': 
 								event.start = dateInfo.toJSON().substr(0,11)+'09:00:00.000';

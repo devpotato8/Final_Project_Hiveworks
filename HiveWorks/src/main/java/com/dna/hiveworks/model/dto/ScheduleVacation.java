@@ -25,10 +25,10 @@ public class ScheduleVacation {
 	private int vacUsed;
 	private String vacOption;
 	private int creater;
-	@JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+	@JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone="Asia/Seoul",locale = "ko_KR")
 	private Date createDate;
 	private int modifier;
-	@JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+	@JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone="Asia/Seoul",locale = "ko_KR")
 	private Date modifyDate;
 	private char useYN;
 	private String myDeptCode;
