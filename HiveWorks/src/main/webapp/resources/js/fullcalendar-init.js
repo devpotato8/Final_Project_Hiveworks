@@ -846,6 +846,10 @@ document.addEventListener('DOMContentLoaded', function() {
     					//sessionStorage.setItem('refreshCalendar', 'true')
 						
 				        window.location.href = contextPath+'/vacation/vacationView';
+				        $('#mydeptcalendar').prop('checked', false);
+					    $('#vaccalendar').prop('checked', false);
+					    $('#myvaccalendar').prop('checked', false);
+					    $('#reserveCalendar').prop('checked', false);
 				        
 		
 			        }else{
@@ -869,6 +873,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					if(loginEmpNo === targetE.extendedProps.myEmpNo){
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/schedule/reservationlistbyno';
+			        $('#mydeptcalendar').prop('checked', false);
+					    $('#vaccalendar').prop('checked', false);
+					    $('#myvaccalendar').prop('checked', false);
+					    $('#reserveCalendar').prop('checked', false);
 			        
 			        
 			        //sessionStorage.setItem('refreshCalendar', 'true')
@@ -1696,6 +1704,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    //$('#mydeptcalendar').prop('checked', false);
 	    //$('#companycalendar').prop('checked', false);
 	    //$('#vaccalendar').prop('checked', false);
+	    //$('#myvaccalendar').prop('checked', false);
 	    //$('#reserveCalendar').prop('checked', false);
 	
 	    // #mycalendar 체크
