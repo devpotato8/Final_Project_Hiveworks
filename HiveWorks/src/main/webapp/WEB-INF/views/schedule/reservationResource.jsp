@@ -36,6 +36,13 @@
    <jsp:param value="${edocCountWait }" name="edocCountWait"/>
 </jsp:include>
 <style>
+.schedulemenu:hover{
+		background-color: #ebf5f5;
+    	cursor: pointer;
+    	width:auto;
+    	max-width:300px;
+	}
+	
   /* body 스타일 */
   html, body {
     overflow: hidden;
@@ -57,7 +64,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
+								<li class="nav-item schedulemenu"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -72,7 +79,7 @@
 							<ul class="nav nav-light navbar-nav flex-column">
 										<c:if test="${not empty reList}">
 											<c:forEach var="res" items="${reList}">
-												<li class="nav-item">
+												<li class="nav-item schedulemenu">
 													<a class="nav-link link-badge-right" href="${path }/schedule/reserveResource?resourceNo=${res.resourceNo}">
 														<span class="nav-link-text">${res.resourceName}</span>
 													</a>
@@ -88,13 +95,13 @@
 						</div>
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item schedulemenu"><a class="nav-link"
 									href="${path }/schedule/reservationlist"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="flag"></i></span></span> <span
 										class="nav-link-text">전체 예약/대여 조회</span>
 								</a></li>
 
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item schedulemenu"><a class="nav-link"
 									href="${path}/schedule/resourcelist"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="grid"></i></span></span> <span
 										class="nav-link-text">전사자산 목록</span>
