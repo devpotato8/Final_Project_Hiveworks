@@ -477,7 +477,7 @@
     </tr>
     </tbody>
 </table><!--근로일수 및 시간 -->
-<table class="userwork_tbl">
+<%-- <table class="userwork_tbl">
     <colgroup>
         <col style="width:20%" span="5">
     </colgroup>
@@ -496,7 +496,7 @@
         <td></td>
         <td colspan="2"></td>
     </tr>
-    </tbody>
+    </tbody> --%>
 </table><!--지급내역/공제내역 테이블-->
 <table width="740px" border="0" cellspacing="1" cellpadding="1" class="origin_tbl">
     <tbody>
@@ -512,10 +512,10 @@
                         지급내역
                     </td>
                    	<th width="14%">기본급</th>
-                    <th width="14%">시간 외<br> 근로수당</th>
                     <th width="14%">식대</th>
                     <th width="14%">직위수당</th>
                     <th width="14%">보너스</th>
+                    <th width="14%"><!-- 시간 외<br> 근로수당 --></th>
                     <th width="14%"></th>
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
@@ -526,10 +526,10 @@
                     
                     
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value="${salary.sal_base }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="<fmt:formatNumber value="${overtime_pay}" type="number" />" readonly="readonly" style="border: none;"></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="${salary.sal_meal }"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="<fmt:formatNumber value="${position_pay}" type="number" />" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="${salary.sal_bonus }"/></td>
+                    <td style="border-bottom:1px solid #eee;"><%-- <input type="text" id="overtime_pay" name="overtime_pay" value="<fmt:formatNumber value="${overtime_pay}" type="number" />" readonly="readonly" style="border: none;"> --%></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
