@@ -50,6 +50,12 @@
 .toast{
 	cursor: pointer;
 }
+.whosend{
+	color : black;
+}
+.alramtitle{
+	color : black;
+}
 </style>
 
 </head>
@@ -517,7 +523,7 @@ if (!window.socketConnected) {
             toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
             toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 btn-close' data-dismiss='toast' aria-label='Close'>";
             toast += "<span aria-hidden='true'>&times;</span></button>";
-            toast += "</div> <div class='toast-body'><p>"+senderDeptName+" "+ sender +" "+senderJobName+"님이 보낸 메시지</p><p>"+title+"</p></div></div>";
+            toast += "</div> <div class='toast-body'><p class='whosend'>"+senderDeptName+" "+ sender +" "+senderJobName+"님이 보낸 메시지</p><p class='alramtitle'><b>"+title+"</b></p></div></div>";
             $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
             $("#"+toastId).toast({"animation": true, "autohide": true, "delay":5000});
             $("#"+toastId).toast('show');
