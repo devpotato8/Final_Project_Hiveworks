@@ -9,7 +9,10 @@
 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <!-- Sweetalert2 CSS -->

@@ -6,7 +6,10 @@
     <jsp:param value="default" name="style" />
     <jsp:param value="" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <div class="hk-pg-wrapper">
