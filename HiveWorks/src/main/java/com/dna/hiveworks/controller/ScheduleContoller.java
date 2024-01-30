@@ -145,8 +145,8 @@ public class ScheduleContoller {
 	  public ResponseEntity<Map<String,Object>> searchVacation(@RequestBody Map<String, Object> param){ 
 	  int empNo = (Integer)param.get("empNo"); 
 	  List<Vacation> searchList = vacationservice.selectVacationByNo(empNo); searchList =
-	  searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList(); return
-	  ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList)); }
+	  searchList.stream().filter(vac->vac.getVacPermit()!=null&&!vac.getVacPermit().equals("반려")).toList();
+	  return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchList",searchList)); }
 	 
 	
 	//직원 휴가 조회(부서)
