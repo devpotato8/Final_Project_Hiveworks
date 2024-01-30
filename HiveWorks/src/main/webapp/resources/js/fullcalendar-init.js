@@ -1017,7 +1017,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 						var span2 = document.createElement("span");
 						span2.classList.add("chip-text");
-						span2.innerText = YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
+						span2.innerText = YourDeptName+" "+YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
 
 						var span3 = document.createElement("span");
 						span3.appendChild(span1);
