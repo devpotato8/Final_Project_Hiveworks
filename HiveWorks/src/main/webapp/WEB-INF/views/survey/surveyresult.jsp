@@ -50,10 +50,8 @@ $.ajax({
     url:"${path}/survey/insertQuestion", //값을 가져올 경로
     dataType:"json",
     success: function(data){   
-        console.log("성공");
     },
     error:function(){		 
-        console.log("에러");
     }
 });
 </script>

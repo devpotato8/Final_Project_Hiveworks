@@ -554,13 +554,11 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 						});
 						
 					 	feather.replace();
-				      	console.log("feather리로드");
 					
 						},
 						error : function(request, status, error) {
 							// 요청 실패 시 처리할 코드
 							alert("삭제 실패");
-							console.log("삭제 실패" + error);
 						}
 					});
 				});
@@ -582,7 +580,6 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 			// 체크된 체크박스를 찾아 체크된 자산의 번호를 checkedList에 추가
 			$(".check-select:checked").not(".form-check-input.check-select-all").each(function() {
 				var resourceNo = $(this).closest("tr").find("td:eq(1)").text();
-				console.log(this);
 				checkedList.push(resourceNo);
 			});
 
@@ -600,7 +597,6 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 							$(".form-check-input:checked").closest("tr").remove();
 			            
 						
-						console.log(response);
 						
 						 // 삭제된 resourceNo에 해당하는 HTML 요소를 삭제
 						
@@ -614,7 +610,6 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 					error : function(request, status, error) {
 						// 요청 실패 시 처리할 코드
 						alert("삭제 실패");
-						console.log("삭제 실패" + error);
 					}
 				});
 			} else {
@@ -624,7 +619,6 @@ $('Delete row').insertAfter(targetElem.closest('#datable_4_wrapper').find('.data
 	});
 	function fn_updateResource(e){
 		e.preventDefault();
-		console.log("")
 	};
 
  </script>

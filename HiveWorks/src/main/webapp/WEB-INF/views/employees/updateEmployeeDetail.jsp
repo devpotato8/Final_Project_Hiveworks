@@ -453,7 +453,6 @@ input::-webkit-inner-spin-button {
 				reader.readAsDataURL(file);
 			}
 			let $value = document.getElementById('emp_profile_ori_name');
-			console.log($value.value);
 		}
 	</script>
 <script>

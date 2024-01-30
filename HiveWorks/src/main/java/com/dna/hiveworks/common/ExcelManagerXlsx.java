@@ -84,7 +84,6 @@ private static ExcelManagerXlsx excelXlsxMng;
 		      }
            
 		          hMap.put("cell_"+j ,valueStr);
-               System.out.println(hMap);
            }
            
           list.add(hMap);

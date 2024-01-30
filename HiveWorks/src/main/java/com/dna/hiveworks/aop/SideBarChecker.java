@@ -72,9 +72,7 @@ public class SideBarChecker {
 		request.setAttribute("edocCountWait", countWait);
 		
 		List<Message> msgList = msgService.msgList(loginEmp.getEmp_no());
-		//System.out.println(msgList);
 		msgList = msgList.stream().filter(msg->msg.getMsg_read_yn().equals("N")).toList();
-		//System.out.println(msgList);
 		request.setAttribute("msgUnreadCount", msgList.size());
 		
 		

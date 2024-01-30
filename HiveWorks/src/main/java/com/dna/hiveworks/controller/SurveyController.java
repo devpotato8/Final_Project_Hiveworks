@@ -79,7 +79,6 @@ public class SurveyController {
 	    int result=service.surveyUpdate(s);
 	    s.setSurveyData((String) model.getAttribute("surveyData"));
 	    
-	    System.out.println(result);
 	    if(result>0) {
 	    	msg = "게시글 수정 성공 :)";
 	    	loc = "survey/survey";

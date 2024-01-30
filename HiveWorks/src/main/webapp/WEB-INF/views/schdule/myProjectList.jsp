@@ -1811,7 +1811,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      });
    })
    .catch(function(error) {
-     console.error(error);
+     //console.error(error);
    });
 }); 
 
@@ -1858,7 +1858,7 @@ const adddelFunction=(function(adddelFunction){
                  });
                })
                .catch(function(error) {
-                 console.error(error);
+                 //console.error(error);
                });
            });
            
@@ -1897,7 +1897,6 @@ const addTodolist=(e)=>{
 	const projectStatus = document.querySelector('#projectStatus').value;
 	
 	e.preventDefault();
-	console.log("시작");
 	fetch("${path}/schedule/insertschedule.do",{
 		method:"POST",
 		headers:{
@@ -1911,14 +1910,11 @@ const addTodolist=(e)=>{
 			allday:$('#allDayCheck').is(':checked') ? 'Y' : 'N',
 			status: projectStatus})
 	}).then(response=>{
-		console.log(response);
 		if(response.status!=200) throw new Error(response.status);
 		return response.json();
 	}).then(result=>{
-		console.log(result);
 	}).catch(e=>{
-		alert(e);
-		console.log(e);
+		//alert(e);
 	})
 }
 
@@ -1926,9 +1922,7 @@ const addTodolist=(e)=>{
 $('#alldaycheck').on(
         'click',
         function() {
-           console.log(this);
            if ($(this).is(':checked')) {
-              console.log('종일여부 체크됨');
               var clickedDate = $('#startDate').data(
                     'daterangepicker').startDate;
            
@@ -1957,7 +1951,6 @@ $('#alldaycheck').on(
                     .setEndDate(clickedDate);
               
            } else {
-              console.log('종일 체크 안됨');
               var clickedDate = $('#startDate').data(
                     'daterangepicker').startDate;
               clickedDate.set({

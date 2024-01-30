@@ -219,7 +219,6 @@ submitBtn.addEventListener('click',(event)=>{
 			success:data=>{
 				if(data!=null){
 					alert("해당 직원을 확인했습니다.");
-					console.log(data.emp_no);
 					let empNo = data.emp_no;
 					fn_updateEmployeePasswordWrite(empNo);
 				}

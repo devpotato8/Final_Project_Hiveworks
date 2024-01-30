@@ -209,8 +209,6 @@ public class EmpServiceImpl implements EmpService {
 		List<Employee> employees = (List<Employee>)empData.get("employees");
 		List<Account> accounts = (List<Account>)empData.get("accounts");
 		
-		System.out.println("서비스 내 직원들:"+employees);
-		System.out.println("서비스 내 계좌들:"+accounts);
 		
 		int result=0;
 		int count=0;
@@ -226,7 +224,6 @@ public class EmpServiceImpl implements EmpService {
 				new RuntimeException("등록 실패");
 			}
 		}
-		System.out.println("insert횟수:"+count);
 
 		return result;
 	}

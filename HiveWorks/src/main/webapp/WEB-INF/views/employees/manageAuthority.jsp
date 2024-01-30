@@ -170,7 +170,6 @@
 		      var msg_no = parseInt($row.find('td').eq(1).text());
 		      var emp_no = parseInt($row.find('td').eq(2).text());
 		      
-		      console.log(msg_no,emp_no);
 		      
 		      // 배열에 추가
 		      newData.push({

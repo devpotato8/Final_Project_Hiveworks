@@ -112,7 +112,6 @@ public class BoardController {
 	    String msg, loc;
 
 	    int result = service.boardUpdate(b);
-	    System.out.println(result);
 
 	    if ("BRD002".equals(b.getBoardType())) {
 	        // BRD002인 경우 suggestions 페이지로 이동
@@ -172,7 +171,6 @@ public class BoardController {
 	        f.setBoardNo(b.getBoardNo());
 	    });
 	    log.debug("Insert result: {}", result);
-	    System.out.println(result);
 
 	    if ("BRD002".equals(boardType)) {
 	        // BRD002인 경우 suggestions 페이지로 이동

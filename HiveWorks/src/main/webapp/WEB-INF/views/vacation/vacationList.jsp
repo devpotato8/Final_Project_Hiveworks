@@ -335,7 +335,6 @@
         // 휴가신청 클릭시 상단 제목 휴가신청 - 해당하는 휴가종류표시
         //$(".common-container>div").click(function(e){
         $(".card-footer>div>button").click(function(e){
-        	      console.log(e.target.id);
         	$("#exampleModalLabel").text("휴가신청 - " + e.target.id);
         	$("input[name='vacOption']").val(e.target.id);
        	});
@@ -447,7 +446,6 @@
             	}
             	
             	let applyDate = currentYear + "-" + currentMonth2 + "-" + clickedElement.textContent2;
-            	console.log("선택한 날짜 : " + applyDate);
 
             	// 선택된 날짜가 이미 highlight 클래스를 가지고 있는 경우 아무 작업도 하지 않습니다.
                 if ($(clickedElement).hasClass("highlight")) {

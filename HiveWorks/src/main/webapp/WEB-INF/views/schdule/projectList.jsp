@@ -1886,7 +1886,7 @@ document.querySelectorAll(".projectView").forEach(element => {
 		                    },
 		                    error: function (error) {
 		                        // Error handling
-		                        console.error(error);
+		                        //console.error(error);
 		                        //삭제..!!
 		                    }
 		                });
@@ -1919,7 +1919,7 @@ document.querySelectorAll(".projectView").forEach(element => {
 	                   },
 	                   error: function (error) {
 	                       // 에러 시 처리
-	                       console.error(error+"에러"+checklistNo);
+	                       //console.error(error+"에러"+checklistNo);
 	                       //그냥 두기
 	                   }
 	               });
@@ -1949,7 +1949,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   		                   },
   		                   error: function (error) {
   		                       // 에러 시 처리
-  		                       console.error(error);
+  		                       //console.error(error);
   		                   }
   					})
   			});
@@ -2443,7 +2443,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      });
    })
    .catch(function(error) {
-     console.error(error);
+     //console.error(error);
    });
 }); 
 
@@ -2491,7 +2491,7 @@ const adddelFunction=(function(adddelFunction){
                  });
                })
                .catch(function(error) {
-                 console.error(error);
+                 //console.error(error);
                });
            });
            

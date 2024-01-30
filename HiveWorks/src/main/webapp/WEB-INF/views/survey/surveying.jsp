@@ -92,12 +92,10 @@ function sendData() {
 
     $('input[type="checkbox"]:checked').each(function () {
     	surveyResult.checkboxValues.push($(this).val());
-    	console.log("체크박스1:"+surveyResult.checkboxValues);
     });
 
     $('input[type="radio"]:checked').each(function () {
     	surveyResult.radioValues.push($(this).val());
-    	console.log("라디오1:"+surveyResult.radioValues);
     });
 
     // Ajax를 사용하여 서버에 선택한 값을 보냄
@@ -109,11 +107,9 @@ function sendData() {
         data: JSON.stringify(surveyResult),
         success: function(response) {
             // 서버에서의 응답에 따른 처리
-            console.log('설문 결과 전송 성공:', response);
         },
         error: function(error) {
             // 서버 전송 중 오류 발생 
-            console.error('설문 결과 전송 오류:', error);
         }
     });
 }
@@ -123,7 +119,6 @@ $(document).ready(function() {
     $('input[type="checkbox"]').change(function() {
         if (this.checked) {
             var divContainer = $(this).closest('div'); // checkbox 상위의 div를 찾음
-            console.log(divContainer);
             
             // 첫 번째 input[type="text"]의 값을 찾음
             var firstCell = divContainer.find('input[type="text"]').val();
@@ -131,7 +126,6 @@ $(document).ready(function() {
             // 두 번째 div의 내용을 찾음
             var secondCell = divContainer.find('div:eq(1)').text();
             
-            console.log(firstCell, secondCell);
         }
     });
 });
@@ -139,7 +133,6 @@ $(document).ready(function() {
     $('input[type="radio"]').change(function() {
         if (this.checked) {
             var divContainer = $(this).closest('div'); // checkbox 상위의 div를 찾음
-            console.log(divContainer);
             
             // 첫 번째 input[type="text"]의 값을 찾음
             var firstCell = divContainer.find('input[type="text"]').val();
@@ -147,7 +140,6 @@ $(document).ready(function() {
             // 두 번째 div의 내용을 찾음
             var secondCell = divContainer.find('div:eq(1)').text();
             
-            console.log(firstCell, secondCell);
         }
     });
 });

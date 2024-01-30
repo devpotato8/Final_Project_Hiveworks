@@ -112,7 +112,6 @@ public class SalaryController {
 		
 		String msg, loc;
 		
-		System.out.println(s);
 		
 		try {
 			int result = service.updateSalary(s);

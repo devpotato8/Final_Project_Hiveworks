@@ -142,7 +142,6 @@ public class MessageController {
 	@PostMapping("/sharedEmp")
 	public ResponseEntity<List<String>> sharedEmp(@RequestBody Map<String,String> msgSharedEmps){
 	    List<String> sharedEmp = service.sharedEmp(msgSharedEmps);
-	    System.out.println("결과 : " + sharedEmp);
 	    return ResponseEntity.ok(sharedEmp);
 	}
 	

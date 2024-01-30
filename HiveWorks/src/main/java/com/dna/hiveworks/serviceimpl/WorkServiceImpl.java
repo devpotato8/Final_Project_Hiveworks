@@ -36,7 +36,6 @@ public class WorkServiceImpl implements WorkService {
 	@Transactional
 	public int updateStartWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNo(session, empNo);
-		System.out.println(isPresent);
 		//if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
 		if (isPresent == null) {
 			return dao.updateStartWork(session, empNo);
@@ -49,7 +48,6 @@ public class WorkServiceImpl implements WorkService {
 	@Transactional
 	public int updateEndWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNoEND(session, empNo);
-		System.out.println(isPresent);
 		if (isPresent == null) {
 			return dao.updateEndWork(session, empNo);
 	    } else {

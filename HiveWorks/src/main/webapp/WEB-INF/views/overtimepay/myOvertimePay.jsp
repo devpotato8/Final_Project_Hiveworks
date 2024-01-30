@@ -184,7 +184,6 @@
 	            //var thirdCell = row.find('td:eq(2)').text();
 	            var overtime = row.find('td:eq(6)').text();
 	            
-	            //console.log(secondInputWorkNo, overtime, empNo ); // 콘솔에 첫 번째, 두 번째 셀 값 출력
 	            if(overtime>=1 && overtime<=3){
 		            if(workNo==""){
 		            	workNo = secondInputWorkNo;
@@ -209,7 +208,6 @@
 		})
 		.then(response=>{
 			if(!response.ok){
-				console.log('에러');
 			}
 			return console.log(response);
 		});

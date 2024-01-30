@@ -386,7 +386,7 @@ function getSelectedData() {
       var msg_no = parseInt($row.find('td').eq(1).text());
       var emp_no = parseInt($row.find('td').eq(2).text());
 		
-      console.log(msg_no,emp_no);
+
       
       // 배열에 추가
       newData.push({
@@ -405,7 +405,7 @@ $(document).ready(function(){
             if(confirm("선택한 쪽지들을 별표 쪽지에서 해제합니까?")) {
                 btnAjax(selectedData, '/unstarBtn');
             } else {
-                console.log("등록 취소");
+
             }
         } else {
             alert('저장할 쪽지들을 먼저 선택하세요');
@@ -419,7 +419,7 @@ $('.moveTrashBtn').on('click', function() {
 		if(confirm("쪽지를 삭제합니까? 삭제된 쪽지는 휴지통에서 확인 가능합니다.")) {
 		    btnAjax(selectedData, '/trashBtn');
 		} else {
-		    console.log("삭제 취소");
+
 		}
 	} else {
         alert('휴지통으로 내보낼 쪽지들을 먼저 선택하세요');
@@ -512,7 +512,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    e.preventDefault();  // 버블링 방지
 		
 		    var downloadUrl = $(this).attr("href");
-			console.log(downloadUrl);
+
 		    if(downloadUrl === '#'){
 		        alert("첨부파일이 없습니다.");
 		    }else{
@@ -570,7 +570,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    	data: JSON.stringify(msgSharedEmps),
 		    	contentType:'application/json; charset=utf-8',
 		 		success:function(response){
-		 			console.log(response);
+
 		 	        var sharedEmps = '';
 		 	        if(response && response.length > 0) {
 		 	            sharedEmps = response.join(', ');
@@ -580,7 +580,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		 	        $("#modal_msgView").find(".msgshared").text(sharedEmps);
 		 		},
 		 		error:function(error){
-		 			console.log("서버통신오류")
+
 		 		}
 		    });
 		    
@@ -613,10 +613,10 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        		'msg_no' : msg_no
 		        	},
 		     		success:function(){
-						console.log("읽음처리");
+
 		     		},
 		     		error:function(response){
-		     			console.log("서버통신오류")
+
 		     		}
 		        });
 		    });
@@ -628,7 +628,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    
 		    var msg_no = $(this).closest('tr').find('.msg_no').text();
 		    var emp_no = $(this).closest('tr').find('.emp_no').text();
-		    console.log('쪽지번호', msg_no, emp_no);
+
 		    
 		    var isConfirmed = confirm("별표를 해제합니다. 받은 쪽지함에서 확인하실 수 있습니다");
 		    if(isConfirmed){
@@ -640,14 +640,14 @@ var targetDt1 = $('#datable_4c').DataTable({
 			        },
 			        success: function(response) {
 			            if(response.status === 'success'){
-			                console.log("별표 해제 성공");
+
 			                location.reload();
 			            } else {
-			                console.log("별표 해제 실패");
+
 			            }
 			        },
 			        error: function(error) {
-			            console.log("서버 연결 실패");
+
 			        }
 			    });
 		    }
@@ -659,7 +659,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    
 		    var msg_no = $(this).closest('tr').find('.msg_no').text();
 		    var emp_no = $(this).closest('tr').find('.emp_no').text();
-		    console.log('쪽지번호', msg_no, emp_no);
+
 		    $.ajax({
 		        url: path+'/goTrash',
 		        type: 'POST',
@@ -669,14 +669,14 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        },
 		        success: function(response) {
 		            if(response.status === 'success'){
-		                console.log("휴지통으로 보내기 성공");
+
 		                location.reload();
 		            } else {
-		                console.log("휴지통으로 보내기 실패");
+
 		            }
 		        },
 		        error: function(error) {
-		            console.log("서버 연결 실패");
+
 		        }
 		    });
 		});
@@ -685,7 +685,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		//리스트에서 check박스 선택시 해당 checkbox데이터 가져오는 함수 실행
 		$('.form-check-input').on('change', function() {
 		    selectedData = getSelectedData();
-		    console.log(selectedData);
+
 		});
 		
 		

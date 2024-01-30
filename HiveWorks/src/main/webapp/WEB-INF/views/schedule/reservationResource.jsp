@@ -342,13 +342,10 @@ $(document).ready(function() {
         dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
         locale: 'ko', // 한국어 설정
         eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
-          console.log(obj);
         },
         eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
-          console.log(obj);
         },
         eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
-          console.log(obj);
         },
         select: function(selectionInfo) {
         	var currentDate = new Date();
@@ -412,7 +409,6 @@ $(document).ready(function() {
         	      data: JSON.stringify({ selectDate: startTime, resourceNo: resourceNo }),
         	    success: function(response) {
         	      // 예약 리스트를 성공적으로 가져왔을 때 처리하는 로직을 작성합니다.
-        	      console.log(response); // 예약 리스트를 콘솔에 출력하거나 원하는 방식으로 화면에 표시합니다.
         	      
         	      var tbody = $('.table tbody');
         	   
@@ -441,7 +437,6 @@ $(document).ready(function() {
         	    },
         	    error: function(error) {
         	      // 예약 리스트를 가져오는 데 실패했을 때 처리하는 로직을 작성합니다.
-        	      console.log(error); // 에러 메시지를 콘솔에 출력하거나 에러 처리 방식을 구현합니다.
         	    }
         	  });
         	},
@@ -480,13 +475,12 @@ $(document).ready(function() {
 							};
 						});
 						successCallback(events); // 로드된 이벤트 데이터를 콜백으로 전달
-						console.log(events);
 
 
 					},
 					error: function(request, status, error) {
-						alert("code = " + request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-						console.log("code = " + request.status + " message = " + request.responseText + " error = " + error);
+						//alert("code = " + request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+						
 					}
 				});
 			}
@@ -552,7 +546,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      });
    })
    .catch(function(error) {
-     console.error(error);
+     //console.error(error);
    });
 }); 
 
@@ -596,7 +590,7 @@ const adddelFunction=(function(adddelFunction){
                  });
                })
                .catch(function(error) {
-                 console.error(error);
+                 //console.error(error);
                });
            });
            

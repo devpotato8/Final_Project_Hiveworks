@@ -54,10 +54,7 @@ public class ReminderController {
     	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA);
     	
     	
-    	System.out.println(param);
     	
-		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		  instanceof String)); });
 		 
     	int calNo = Integer.parseInt((String)param.get("calNo"));
 		int empNo = Integer.parseInt((String)param.get("empNo"));
@@ -89,10 +86,7 @@ public class ReminderController {
 	 * DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S", Locale.KOREA);
 	 * 
 	 * 
-	 * System.out.println(param);
 	 * 
-	 * param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-	 * instanceof String)); });
 	 * 
 	 * int calNo = Integer.parseInt((String)param.get("calNo")); String empPhone =
 	 * (String) param.get("empPhone"); String startDateString = (String)
@@ -118,7 +112,6 @@ public class ReminderController {
     @PostMapping("/sendCancelMessage")
     public MultipleDetailMessageSentResponse sendCancelMessage(@RequestBody List<Map<String, Object>> selectedDataList) {
     	
-    	System.out.println(selectedDataList);
     	
     	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA);
     	
@@ -165,7 +158,6 @@ public class ReminderController {
                 // 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요!
                 MultipleDetailMessageSentResponse response = this.messageService.send(messageList, true);
 
-                System.out.println(response);
 
                 return response;
             } catch (NurigoMessageNotReceivedException exception) {
@@ -182,44 +174,7 @@ public class ReminderController {
     
     
     
-    
-    @PostMapping("/send-scheduled-messages")
-    public MultipleDetailMessageSentResponse sendScheduledMessages() {
-        ArrayList<Message> messageList = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
-            Message message = new Message();
-            // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-            message.setFrom("발신번호 입력");
-            message.setTo("수신번호 입력");
-            message.setText("한글 45자, 영자 90자 이하 입력되면 자동으로 SMS타입의 메시지가 추가됩니다." + i);
-
-            messageList.add(message);
-        }
-
-        try {
-            // 과거 시간으로 예약 발송을 진행할 경우 즉시 발송처리 됩니다.
-            LocalDateTime localDateTime = LocalDateTime.parse("2022-11-26 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            ZoneOffset zoneOffset = ZoneId.systemDefault().getRules().getOffset(localDateTime);
-            Instant instant = localDateTime.toInstant(zoneOffset);
-
-            // 단일 발송도 지원하여 ArrayList<Message> 객체가 아닌 Message 단일 객체만 넣어도 동작합니다!
-            MultipleDetailMessageSentResponse response = this.messageService.send(messageList, instant);
-
-            // 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요!
-            //MultipleDetailMessageSentResponse response = this.messageService.send(messageList, instant, true);
-
-            System.out.println(response);
-
-            return response;
-        } catch (NurigoMessageNotReceivedException exception) {
-            System.out.println(exception.getFailedMessageList());
-            System.out.println(exception.getMessage());
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
-        return null;
-    }
 
 
 }

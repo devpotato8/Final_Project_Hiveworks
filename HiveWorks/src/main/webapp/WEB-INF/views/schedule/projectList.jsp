@@ -1374,7 +1374,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 			contentType: 'application/json',
 		})
 			.done(function(result) {
-				console.log(result);
 				alert("중요 프로젝트로 변경 성공");
 				calendar.addEvent(editEvent);
 
@@ -1383,8 +1382,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 			.fail(function(request, status, error) {
 				alert("중요 프로젝트로 변경 실패" + error);
 				this.checked = false;
-				console.log(request, status);
-				console.log(error);
 			});
 
 		calendar.unselect();
@@ -1401,11 +1398,7 @@ document.querySelectorAll(".projectView").forEach(element => {
   		contentType: 'application/json',
   		dataType: 'json',
   	})
-  		.done(function(data) {
-  			console.log(data);
-  			console.log("프로젝트 상세 조회 성공");
-  			
-  			
+  		.done(function(data) {  			
   	    	function formatDate(date) {
   				  var formattedDate = new Date(date);
   				  var year = formattedDate.getFullYear();
@@ -1419,7 +1412,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    	
   	    	
   	    	
-  	        console.log(data);
   	        document.getElementById('recalno').value = data.calNo;
   	        document.getElementById('reproSubject').value = data.calSubject;
   	        document.getElementById('reproContent').textContent = data.calContent;
@@ -1462,7 +1454,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		var endPicker = $('#reproEndDate').data('daterangepicker');
 
   	    		if ($(this).is(':checked')) {
-  	    			console.log('종일여부 수정 체크됨');
 
   	    			var startD = moment(startPicker.startDate);
   	    			startD.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
@@ -1474,7 +1465,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 
 
   	    		} else {
-  	    			console.log('종일여부 수정 체크 해제됨');
   	    			$('#reproStartDate').daterangepicker({
   	    				timePicker: true,
   	    				singleDatePicker: true,
@@ -1576,8 +1566,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	     	    }
 
   	     	    for (var j = 0; j < deptSelect.options.length; j++) {
-  	     	        console.log("Option value: " + deptSelect.options[j].value);
-  	     	        console.log("YourDeptCode: " + YourDeptCode);
   	     	        if (deptSelect.options[j].value == YourDeptCode) {
   	     	            deptSelect.options[j].selected = true;
   	     	            break;
@@ -1639,7 +1627,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 
   	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
   	  	$("div.hk-checklist>div").remove();
-		console.log(data.checkList);
 
 		if (data.checkList.length > 0) {
     	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
@@ -1812,9 +1799,7 @@ document.querySelectorAll(".projectView").forEach(element => {
     	}
   		})
   		.fail(function(request, status, error) {
-  			console.log("프로젝트 상세 조회 실패" + error);
-  			console.log(request, status);
-  			console.log(error);
+  			//console.log("프로젝트 상세 조회 실패" + error);
   		});
 };
 	  	
@@ -1868,7 +1853,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 		                    contentType: 'application/json',
 		                    success: function (response) {
 		                        // Success handling
-		                        console.log("버노"+response);
 		                         
 		                      var newChecklistItem = $(this).prev().find('input').trigger('focus');
 
@@ -1881,12 +1865,11 @@ document.querySelectorAll(".projectView").forEach(element => {
 
                      // Save the value of .checkNohidden in const checklistNo
                      const checklistNo = checklistItem.find('#checkNohidden').val();
-                     console.log(checklistNo);
 		                      
 		                    },
 		                    error: function (error) {
 		                        // Error handling
-		                        console.error(error);
+		                        //console.error(error);
 		                        //삭제..!!
 		                    }
 		                });
@@ -1901,7 +1884,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 				e.preventDefault();
 				
 				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
-				console.log("체크버노"+checklistNo)
 			     
 				   $.ajax({
 	                   url: "/schedule/deleteChecklist",
@@ -1913,13 +1895,12 @@ document.querySelectorAll(".projectView").forEach(element => {
 	                   contentType: 'application/json',
 	                   success: function (response) {
 	                       // 성공 시 처리
-	                       console.log(response);
 	                       $(this).closest('.form-check').remove();
 
 	                   },
 	                   error: function (error) {
 	                       // 에러 시 처리
-	                       console.error(error+"에러"+checklistNo);
+	                       //console.error(error+"에러"+checklistNo);
 	                       //그냥 두기
 	                   }
 	               });
@@ -1931,7 +1912,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   				
   				const isChecked = $(this).prop('checked');
   				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
-  				console.log("체크버노"+checklistNo)
 
   			    var checkUrl = isChecked ? "/schedule/doneChecklist" : "/schedule/undoneChecklist";
   					
@@ -1945,11 +1925,9 @@ document.querySelectorAll(".projectView").forEach(element => {
   		                   contentType: 'application/json',
   		                   success: function (response) {
   		                       // 성공 시 처리
-  		                       console.log(response);
   		                   },
   		                   error: function (error) {
   		                       // 에러 시 처리
-  		                       console.error(error);
   		                   }
   					})
   			});
@@ -1981,7 +1959,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		if(response.status!=200) throw new Error(response.status);
   	    		return response.json();
   	    	}).then(result=>{
-  	    		console.log(result);
   	    		alert("댓글 등록 성공");
   	    		
   	    		$("#commentInput").val("");
@@ -2083,7 +2060,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		
   	    	}).catch(e=>{
   	    		alert("댓글 등록 실패");
-  	    		console.log(e);
   	    		$("#commentInput").val("");
   	    	})	
   	    });	
@@ -2119,7 +2095,6 @@ document.querySelectorAll(".projectView").forEach(element => {
 			 var commentText = $("#commentInput").val();
 			
 			 var calCommentNo = mediaBody.find('input').val();
-			 console.log(calCommentNo)
 			    
   	        // Ajax 호출
   	    	fetch("${path}/schedule/updateComment",{
@@ -2134,7 +2109,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		if(response.status!=200) throw new Error(response.status);
   	    		return response.json();
   	    	}).then(result=>{
-  	    		console.log(result);
   	    		alert("댓글 수정 성공");
   	    		
   	    		$("#commentInput").val("");
@@ -2144,7 +2118,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    			
   	    	}).catch(e=>{
   	    		alert("댓글 수정 실패");
-  	    		console.log(e);
 
   	    	})
   	    });	
@@ -2169,7 +2142,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    		if(response.status!=200) throw new Error(response.status);
   	    		return response.json();
   	    	}).then(result=>{
-  	    		console.log(result);
   	    		alert("댓글 삭제 성공");
   	    				
   	    		mediaBody.remove();
@@ -2178,7 +2150,6 @@ document.querySelectorAll(".projectView").forEach(element => {
   	    			
   	    	}).catch(e=>{
   	    		alert("댓글 삭제 실패");
-  	    		console.log(e);
 
   	    	})	
   	    });	
@@ -2336,7 +2307,6 @@ function fn_update() {
 	selectEmps.each(function() {
 		const reempValue = $(this).val();
 		reempList.push(reempValue);
-		console.log(typeof (reempValue));
 	});
 
 	const editProject = {
@@ -2362,7 +2332,6 @@ function fn_update() {
 		if(response.status!=200) throw new Error(response.status);
 		return response.json();
 	}).then(result=>{
-		console.log(result);
 		alert("프로젝트 수정 성공");
 		
 		location.reload();
@@ -2375,7 +2344,6 @@ function fn_update() {
 		
 	}).catch(e=>{
 		alert("프로젝트 수정 실패");
-		console.log(e);
 	})	
 };
 
@@ -2396,7 +2364,6 @@ $(document).ready(function() {
 			contentType: 'application/json',
         })
     		.done(function(result) {
-    			console.log(result);
     			 alert('프로젝트 삭제 성공');
                  todoAppTarget.removeClass('todoapp-info-active');
                  //$(this).closest('.advance-list-item').remove();
@@ -2407,8 +2374,6 @@ $(document).ready(function() {
     		})
     		.fail(function(request, status, error) {
     			alert("프로젝트 삭제 실패" + error);
-    			console.log(request, status);
-    			console.log(error);
     		});
 	});
 });
@@ -2443,7 +2408,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      });
    })
    .catch(function(error) {
-     console.error(error);
+     //console.error(error);
    });
 }); 
 
@@ -2483,7 +2448,6 @@ const adddelFunction=(function(adddelFunction){
                  employeeSelect.innerHTML = ''; // 기존의 옵션 초기화
            
                  employeeList.forEach(function(employee) {
-                	 console.log(employee)
                    var option = document.createElement('option');
                    option.value = employee.no;
                    option.textContent = employee.name;
@@ -2491,7 +2455,7 @@ const adddelFunction=(function(adddelFunction){
                  });
                })
                .catch(function(error) {
-                 console.error(error);
+                 //console.error(error);
                });
            });
            
@@ -2526,9 +2490,7 @@ const adddelFunction=(function(adddelFunction){
 $('#alldaycheck').on(
         'click',
         function() {
-           console.log(this);
            if ($(this).is(':checked')) {
-              console.log('종일여부 체크됨');
               var clickedDate = $('#startDate').data(
                     'daterangepicker').startDate;
            
@@ -2557,7 +2519,6 @@ $('#alldaycheck').on(
                     .setEndDate(clickedDate);
               
            } else {
-              console.log('종일 체크 안됨');
               var clickedDate = $('#startDate').data(
                     'daterangepicker').startDate;
               clickedDate.set({

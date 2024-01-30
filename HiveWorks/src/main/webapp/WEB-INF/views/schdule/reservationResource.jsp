@@ -544,7 +544,7 @@ document.getElementById('calDept1').addEventListener('change', function() {
      });
    })
    .catch(function(error) {
-     console.error(error);
+     //console.error(error);
    });
 }); 
 
@@ -588,7 +588,7 @@ const adddelFunction=(function(adddelFunction){
                  });
                })
                .catch(function(error) {
-                 console.error(error);
+                 //console.error(error);
                });
            });
            

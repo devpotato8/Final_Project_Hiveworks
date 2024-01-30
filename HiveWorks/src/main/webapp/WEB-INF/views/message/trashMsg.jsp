@@ -353,7 +353,7 @@ function getSelectedData() {
       var msg_no = parseInt($row.find('td').eq(1).text());
       var emp_no = parseInt($row.find('td').eq(2).text());
 		
-      console.log(msg_no,emp_no);
+
       
       // 배열에 추가
       newData.push({
@@ -372,7 +372,7 @@ $(document).ready(function(){
             if(confirm("선택한 쪽지들을 복구합니까?")) {
                 btnAjax(selectedData, '/returnTrashBtn');
             } else {
-                console.log("등록 취소");
+
             }
         } else {
             alert('복구할 쪽지들을 먼저 선택하세요');
@@ -466,7 +466,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    e.preventDefault();  // 버블링 방지
 		
 		    var downloadUrl = $(this).attr("href");
-			console.log(downloadUrl);
+
 		    if(downloadUrl === '#'){
 		        alert("첨부파일이 없습니다.");
 		    }else{
@@ -524,7 +524,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    	data: JSON.stringify(msgSharedEmps),
 		    	contentType:'application/json; charset=utf-8',
 		 		success:function(response){
-		 			console.log(response);
+
 		 	        var sharedEmps = '';
 		 	        if(response && response.length > 0) {
 		 	            sharedEmps = response.join(', ');
@@ -534,7 +534,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		 	        $("#modal_msgView").find(".msgshared").text(sharedEmps);
 		 		},
 		 		error:function(error){
-		 			console.log("서버통신오류")
+
 		 		}
 		    });
 		    
@@ -567,10 +567,10 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        		'msg_no' : msg_no
 		        	},
 		     		success:function(){
-						console.log("읽음처리");
+
 		     		},
 		     		error:function(response){
-		     			console.log("서버통신오류")
+
 		     		}
 		        });
 		    });
@@ -582,7 +582,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    
 		    var msg_no = $(this).closest('tr').find('.msg_no').text();
 		    var emp_no = $(this).closest('tr').find('.emp_no').text();
-		    console.log('쪽지번호', msg_no, emp_no);
+
 		    $.ajax({
 		        url: path+'/returnTrash',
 		        type: 'POST',
@@ -592,14 +592,14 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        },
 		        success: function(response) {
 		            if(response.status === 'success'){
-		                console.log("휴지통으로 보내기 성공");
+
 		                location.reload();
 		            } else {
-		                console.log("휴지통으로 보내기 실패");
+
 		            }
 		        },
 		        error: function(error) {
-		            console.log("서버 연결 실패");
+
 		        }
 		    });
 		});
@@ -608,7 +608,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		//리스트에서 check박스 선택시 해당 checkbox데이터 가져오는 함수 실행
 		$('.form-check-input').on('change', function() {
 		    selectedData = getSelectedData();
-		    console.log(selectedData);
+
 		});
 		
 		

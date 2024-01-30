@@ -210,7 +210,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Override
 	public List<Map<String,Object>> selectReservationBydate(Date selectDate, int resourceNo) {
-		System.out.println(resourceNo+"서비스");
 		List<Map<String,Object>> result =  dao.selectReservationBydate(session, selectDate, resourceNo);
 		
 		result.forEach(t -> {
@@ -243,7 +242,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Override
 	public List<Schedule> reserveBykeyword(String keyword,String type, int empNo) {
-		System.out.println("서비스"+type+keyword);
 		return dao.reserveBykeyword(session, keyword, type, empNo);
 	}
 

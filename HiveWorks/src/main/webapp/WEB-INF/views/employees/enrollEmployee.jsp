@@ -422,7 +422,6 @@ input::-webkit-inner-spin-button {
 					imageContainer.innerHTML = '';
 					imageContainer.appendChild(img);
 
-					console.log(img);
 				}
 				
 				reader.readAsDataURL(file);
@@ -607,7 +606,6 @@ document.addEventListener("click", closeAllSelect);
 	    // 선택한 도메인을 input에 입력하고 readOnly
 	    domainInputEl.value = event.target.value
 	    domainInputEl.readOnly = true
-	    console.log(domainInputEl.value);
 	  } else { 
 		// 직접 입력 시
 	    // input 내용 초기화 & 입력 가능하도록 변경

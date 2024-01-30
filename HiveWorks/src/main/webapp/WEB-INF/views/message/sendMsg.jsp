@@ -365,7 +365,7 @@ function getSelectedData() {
         var emp_no = parseInt($row.find('td').eq(2).text());
         var msg_read_yn = $row.find('.msg_read_yn').text();
 		
-        console.log(msg_no,emp_no);
+
 
         // 배열에 추가
         newData.push({
@@ -392,7 +392,7 @@ $('.returnMsgBtn').on('click', function() {
 		if(confirm("쪽지를 회수할까요? (회수 시, 쪽지가 완전삭제됩니다.)")) {
 		    btnAjax(selectedData, '/returnCheckedMsg');
 		} else {
-		    console.log("회수 취소");
+
 		}
 	} else {
         alert('회수 할 쪽지들을 먼저 선택하세요');
@@ -543,7 +543,6 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    	data: JSON.stringify(msgSharedEmps),
 		    	contentType:'application/json; charset=utf-8',
 		 		success:function(response){
-		 			console.log(response);
 		 	        var sharedEmps = '';
 		 	        if(response && response.length > 0) {
 		 	            sharedEmps = response.join(', ');
@@ -553,7 +552,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		 	        $("#modal_msgView").find(".msgshared").text(sharedEmps);
 		 		},
 		 		error:function(error){
-		 			console.log("서버통신오류")
+
 		 		}
 		    });
 		    
@@ -586,10 +585,10 @@ var targetDt1 = $('#datable_4c').DataTable({
 		        		'msg_no' : msg_no
 		        	},
 		     		success:function(){
-						console.log("읽음처리");
+
 		     		},
 		     		error:function(response){
-		     			console.log("서버통신오류")
+
 		     		}
 		        });
 		    });
@@ -601,7 +600,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		    
 		    var msg_no = $(this).closest('tr').find('.msg_no').text();
 		    var emp_no = $(this).closest('tr').find('.emp_no').text();
-		    console.log('쪽지번호', msg_no, emp_no);
+
 		    
 		    var isConfirmed = confirm("쪽지를 회수할까요? (회수 시, 쪽지가 완전삭제됩니다.)");
 		    if(isConfirmed){
@@ -614,14 +613,14 @@ var targetDt1 = $('#datable_4c').DataTable({
 			        },
 			        success: function(response) {
 			            if(response.status === 'success'){
-			                console.log("쪽지 회수 성공");
+
 			                location.reload();
 			            } else {
-			                console.log("쪽지 회수 실패");
+
 			            }
 			        },
 			        error: function(error) {
-			            console.log("서버 연결 실패");
+
 			        }
 			    });
 		    }
@@ -631,7 +630,7 @@ var targetDt1 = $('#datable_4c').DataTable({
 		//리스트에서 check박스 선택시 해당 checkbox데이터 가져오는 함수 실행
 		$('.form-check-input').on('change', function() {
 		    selectedData = getSelectedData();
-		    console.log(selectedData);
+
 		});
 		
 		

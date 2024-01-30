@@ -155,7 +155,7 @@
 								searchBox.style.flexDirection = "column";
 							})
 							.catch(error => {
-							      console.error(`요청 실패: ${error}`);
+							      //console.error(`요청 실패: ${error}`);
 						    });
 					 	});
 					</script>
@@ -488,24 +488,19 @@ if (!window.socketConnected) {
     var socket = new SockJS(endpoint);
     var stompClient = Stomp.over(socket);
     var userId = '${loginEmp.emp_id}';
-    console.log(userId);
 
     //연결 함수 선언
     stompClient.connect({userId:userId}, onConnected, onError);
 
     function onConnected() {
-        console.log('연결함수실행');
         //쪽지가 도착하면 콜백 함수 실행
         stompClient.subscribe('/topic/messages', onMessageReceived);    
     }
     function onError() {
-        console.log('통신에러');
     }
 
     //메시지 수신
     function onMessageReceived(payload) {
-        console.log(payload.body);
-        console.log('콜백함수실행');
         
         var data = JSON.parse(payload.body);
         var title = data.title;
@@ -516,7 +511,6 @@ if (!window.socketConnected) {
     
         //토스트창 실행함수
         if(receiverId.includes(userId)){
-            console.log('토스트창실행');
             // toast
             let toastId = "toast-"+Date.now(); //현재시간을 넣어 고유 태그Id생성
             let toast = "<div id='"+ toastId +"' class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";

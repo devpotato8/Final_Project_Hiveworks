@@ -676,7 +676,6 @@ empNames.push("${emp.emp_name}");
 empNos.push("${emp.emp_no}");
 </c:forEach>
 
-console.log(empDeptCodes);
 
 var contextPath = "<c:out value='${path}'/>";
 
@@ -706,9 +705,7 @@ var contextPath = "<c:out value='${path}'/>";
    $('#alldaycheck').on(
          'click',
          function() {
-            console.log(this);
             if ($(this).is(':checked')) {
-               console.log('종일여부 체크됨');
                var clickedDate = $('#startDate').data(
                      'daterangepicker').startDate;
             
@@ -737,7 +734,6 @@ var contextPath = "<c:out value='${path}'/>";
                      .setEndDate(clickedDate);
                
             } else {
-               console.log('종일 체크 안됨');
                var clickedDate = $('#startDate').data(
                      'daterangepicker').startDate;
                clickedDate.set({
@@ -787,7 +783,7 @@ var contextPath = "<c:out value='${path}'/>";
       });
     })
     .catch(function(error) {
-      console.error(error);
+      //console.error(error);
     });
 }); 
 
@@ -819,7 +815,6 @@ const adddelFunction=(function(adddelFunction){
                   }
                 })
                 .then(function(employeeList) {
-                	console.log(employeeList);
 
                   var employeeSelect = document.getElementById(empId);
             
@@ -833,7 +828,7 @@ const adddelFunction=(function(adddelFunction){
                   });
                 })
                 .catch(function(error) {
-                  console.error(error);
+                  //console.error(error);
                 });
             });
             

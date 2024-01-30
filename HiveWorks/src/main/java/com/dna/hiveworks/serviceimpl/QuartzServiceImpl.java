@@ -21,7 +21,6 @@ public class QuartzServiceImpl implements QuartzService {
 	// 이미 들어가있으면 안들어가게 익셉션주기
 	public int insertQuartzWork(int empNo) {
 		String isPresent = dao.selectWorkByEmpNo(session, empNo);
-		System.out.println(isPresent);
 		//if (isPresent == null || isPresent.isEmpty() || isPresent.equals(null)) {
 		if (isPresent == null) {
 			return dao.insertQuartzWork(session, empNo);

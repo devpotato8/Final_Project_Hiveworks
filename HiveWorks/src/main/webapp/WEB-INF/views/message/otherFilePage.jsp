@@ -161,7 +161,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		// 현재 클릭한 요소의 부모 요소 데이터 가져오기
 		var parent = $(this).closest('.file-compact-card').find('.media-body');
-		console.log(parent.html());
+
 		
 		var fileMsgNo = parent.find('.fileMsgNo').text().trim();
 		var fileSizeType = parent.find('.fileSizeType').text();

@@ -217,7 +217,6 @@
 <script>
 const empPhone = '${loginEmp.emp_cellphone}'; //수정필요
 const empNo = ${loginEmp.emp_no}; //수정 필요
-console.log(empPhone, empNo);
 
 
 var contextPath = "<c:out value='${path}'/>";
@@ -258,7 +257,6 @@ $(document).ready(function() {
 
 	                // response 배열을 반복하면서 HTML 테이블 행을 만듭니다.
 	                response.forEach(function(item) {
-	                	console.log(item)
 	                	 var row = $('<tr></tr>');
 	                     var checkBoxTd = $('<td></td>');
 	                     var checkBox = $('<input>').attr({
@@ -306,7 +304,6 @@ $(document).ready(function() {
 			},
 			error : function(request, status, error) {
 				// 요청 실패 시 처리할 코드
-				console.log("조회 실패" + error);
 			}
 	    });
 	  });
@@ -372,17 +369,14 @@ $(document).ready(function() {
                             data: JSON.stringify(selectedDataList),
                             contentType: "application/json", 
                             success: function(response) {
-                                console.log("메시지 전송 성공")
                             },
                             error: function(request, status, error) {
-                                console.log("메시지 전송 실패: " + error);
                             }
                         });
                     },
                     error: function(request, status, error) {
                         // 요청 실패 시 처리할 코드
                         alert("취소 실패");
-                        console.log("취소 실패" + error);
                     }
                 });
             }
@@ -417,7 +411,6 @@ $(document).ready(function() {
                 },
                 error: function(request, status, error) {
                     alert("메시지 전송 실패");
-                    console.log("취소 실패" + error);
                 }
             });
         }

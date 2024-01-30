@@ -36,14 +36,12 @@ public class WebSocketInterceptor implements ChannelInterceptor {
                 if (userIdHeader != null && !userIdHeader.isEmpty()) {
                     String userId = userIdHeader.get(0);
                     sessionUserMap.put(sessionId, userId);
-                    System.err.println("CONNECT:sessionId= "+sessionId + ", userId= "+userId);
                     
                 }
                 break;
             case DISCONNECT:
                 // 연결 종료 시 세션 ID와 사용자 ID 매핑 제거
                 sessionUserMap.remove(sessionId);
-                System.err.println("DISCONNECT:sessionId= "+sessionId);
                 break;
             default: 
                 break;

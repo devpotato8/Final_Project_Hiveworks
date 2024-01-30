@@ -356,7 +356,7 @@ input::-webkit-inner-spin-button {
 					imageContainer.innerHTML = '';
 					imageContainer.appendChild(img);
 					
-					console.log(img);
+
 				}
 				
 				reader.readAsDataURL(file);

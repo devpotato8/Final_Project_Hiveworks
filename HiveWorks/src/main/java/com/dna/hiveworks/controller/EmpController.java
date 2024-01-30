@@ -460,7 +460,6 @@ public class EmpController {
 	    Map<String,Object> empData = new HashMap<>();
 	    List<Employee> employees = new ArrayList<>();
 	    List<Account> accounts = new ArrayList<>();
-	    System.out.println("결과값 :"+enrollEmployeesList);
 	    for(int i = 0; i < enrollEmployeesList.size(); i++){
 	    	employee = new Employee();
 	    	account = new Account();
@@ -478,7 +477,6 @@ public class EmpController {
 			 * // java.util.Date 값을 java.sql.Date 형으로 변환 java.sql.Date sqlDate = new
 			 * java.sql.Date(utilDate.getTime());
 			 * 
-			 * System.out.println(sqlDate); // 출력: 2024-01-22
 			 */	    	
 	    	
 	    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -553,7 +551,6 @@ public class EmpController {
 	    
 	 
 	}catch(Exception e){
-	    System.out.println(e.toString());
 	    msg="정보 수정 실패";
 		loc="employees/employeeList";
 	    }

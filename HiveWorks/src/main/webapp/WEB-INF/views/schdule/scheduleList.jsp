@@ -810,7 +810,7 @@ var contextPath = "<c:out value='${path}'/>";
       });
     })
     .catch(function(error) {
-      console.error(error);
+      //console.error(error);
     });
 }); 
 
@@ -856,7 +856,7 @@ const adddelFunction=(function(adddelFunction){
                   });
                 })
                 .catch(function(error) {
-                  console.error(error);
+                  //console.error(error);
                 });
             });
             

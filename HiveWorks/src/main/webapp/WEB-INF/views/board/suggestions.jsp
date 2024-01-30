@@ -153,12 +153,11 @@ display:none;
         $.get(deleteUrl, function (data) {
             if (data.success) {
                 // 서버 응답이 성공일 경우, 클라이언트에서 DOM 업데이트 등을 수행할 수 있음
-                console.log('Delete successful');
 
                 // 삭제 성공 시 페이지 이동
                 window.location.href = "${path}/suggestions.jsp";
             } else {
-                console.error('Error deleting data.');
+                //console.error('Error deleting data.');
             }
         });
     });

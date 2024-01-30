@@ -277,11 +277,10 @@
 	      document.getElementById('lateWork').textContent = lateWork+" 회";
 	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
 	      document.getElementById('absence').textContent = absence+" 회";
-	      console.log(avgStartWork);
 	    })
 	    .catch(error => {
 	      // 에러 처리 로직
-	      console.error(error);
+	      //console.error(error);
 	    });
 	}
     function workListMonth() {
@@ -300,11 +299,9 @@
 	      document.getElementById('lateWork').textContent = lateWork+" 회";
 	      document.getElementById('fastEnd').textContent = fastEnd+" 회";
 	      document.getElementById('absence').textContent = absence+" 회";
-	      console.log(avgStartWork);
 	    })
 	    .catch(error => {
 	      // 에러 처리 로직
-	      console.error(error);
 	    });
 	}
     

@@ -87,11 +87,8 @@ public class ScheduleContoller {
 	public List<Schedule> searchSchedule(@RequestBody Map<String, Object> param){
 		
 	
-		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		  instanceof String)); });
 		 
 		String calCode = (String) param.get("calCode");
-		System.out.println(calCode);
 		//String calStatus = (String) param.get("status");
 		int empNo = (Integer)param.get("empNo");
 		String deptCode = (String) param.get("deptCode");
@@ -103,7 +100,6 @@ public class ScheduleContoller {
 
 		List<Schedule> searchList = scheduleService.searchSchedule(param);
 		
-		System.out.println("서치스케쥴"+searchList);
 		return searchList;
 
 //		return null;
@@ -128,10 +124,6 @@ public class ScheduleContoller {
 	public List<Schedule> searchEmpschedule(@RequestBody Map<String, Object> param){
 		
 	
-		/*
-		 * param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		 * instanceof String)); });
-		 */
 		 
 		String empName = (String)param.get("empName");
 		
@@ -155,7 +147,6 @@ public class ScheduleContoller {
 		String deptCode = (String)param.get("deptCode");
 		List<ScheduleVacation> searchListbyCode =  scheduleService.searchVacationByCode(deptCode);
 		searchListbyCode = searchListbyCode.stream().filter(vac->vac.getVacPermit()!=null&&vac.getVacPermit().equals("승인")).toList();
-		System.out.println(searchListbyCode);
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("searchListbyCode",searchListbyCode));
 	}
 	
@@ -165,8 +156,6 @@ public class ScheduleContoller {
 	@ResponseBody
 	public ResponseEntity<Object> insertSchedule(@RequestBody Map<String, Object> param) throws Exception {
 		
-		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-				  instanceof String)); });
 		
 		
 		
@@ -187,8 +176,6 @@ public class ScheduleContoller {
 		List<String> empStrList = (List<String>) param.get("empList");
 		
 		List<Integer> empList = new ArrayList<>();
-		System.out.println(param);
-		System.out.println(empList);
 		if (empStrList != null && empStrList.size() > 0) {
 			for (String emp : empStrList) {
 				if (!emp.isEmpty()) { // emp가 빈 문자열이 아닌 경우에만 parseInt 실행
@@ -218,8 +205,6 @@ public class ScheduleContoller {
 		
 		log.debug(Arrays.toString(calEmp));
 		
-		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		 instanceof String)); });
 		 
 
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
@@ -276,15 +261,10 @@ public class ScheduleContoller {
 
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 		
-	
-		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		  instanceof String)); });
 		 
 		
 		int result = 0;
-		System.out.println("파람"+param);
 		String calSubject = (String)param.get("retitle");
-		System.out.println(calSubject);
 		
 		String startDateString = (String)param.get("restart");
 		String endDateString = (String)param.get("reend");
@@ -341,15 +321,10 @@ public class ScheduleContoller {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 		
 	
-		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		  instanceof String)); });
 		 
 		
 		int result = 0;
-		System.out.println("파람"+param);
-		String calSubject = (String)param.get("retitle");
-		System.out.println(calSubject);
-		
+		String calSubject = (String)param.get("retitle");	
 		String startDateString = (String)param.get("restart");
 		String endDateString = (String)param.get("reend");
 		String calCode = (String)param.get("recode");
@@ -399,7 +374,6 @@ public class ScheduleContoller {
 	@PostMapping("/updateImportYn")
 	@ResponseBody
 	public ResponseEntity<Object> updateImportYn(@RequestBody Map<String, Object> param){
-		System.out.println(param);
 		String calImportYn = (String)param.get("importYn");
 		int calNo = (Integer)param.get("calno");
 		
@@ -515,7 +489,6 @@ public class ScheduleContoller {
 		@PostMapping("/deleteChecklist")
 		@ResponseBody
 		public ResponseEntity<Object> deleteChecklist(@RequestBody Map<String, Object> param){	
-			System.out.println("파람람"+param);
 		    int checklistNo = Integer.parseInt((String)param.get("checklistNo"));
 		    
 		    int result = scheduleService.deleteChecklist(checklistNo);
@@ -528,7 +501,6 @@ public class ScheduleContoller {
 				@PostMapping("/doneChecklist")
 				@ResponseBody
 				public ResponseEntity<Object> doneChecklist(@RequestBody Map<String, Object> param){	
-					System.out.println("파람람"+param);
 					int checklistNo = Integer.parseInt((String)param.get("checklistNo"));
 				    
 				    int result = scheduleService.doneChecklist(checklistNo);
@@ -541,7 +513,6 @@ public class ScheduleContoller {
 				@PostMapping("/undoneChecklist")
 				@ResponseBody
 				public ResponseEntity<Object> undoneChecklist(@RequestBody Map<String, Object> param){	
-					System.out.println("파람람"+param);
 					int checklistNo = Integer.parseInt((String)param.get("checklistNo"));
 				    
 				    int result = scheduleService.undoneChecklist(checklistNo);
@@ -572,7 +543,6 @@ public class ScheduleContoller {
 	        //  댓글 등록 실패 시
 	        if(result > 0) {
 	        	comment = scheduleService.selectCommentByNo(calCommenttNo);
-	        	System.out.println(comment);
 	        }else {
 	        	  throw new Exception("댓글 등록에 실패했습니다.");
 	        }
@@ -673,9 +643,6 @@ public class ScheduleContoller {
 	@ResponseBody
 	public List<Map<String,Object>> selectReservationBydate(@RequestBody Map<String, Object> param){
 		
-		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-				  instanceof String)); });
-		System.out.println(param);
 		 int resourceNo = (Integer)param.get("resourceNo");
 		String strDate = (String) param.get("selectDate");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -688,10 +655,7 @@ public class ScheduleContoller {
 
 		java.sql.Date selectdate = new java.sql.Date(utilDate.getTime());
 
-		System.out.println(resourceNo);
-		System.out.println(selectdate);
 		List<Map<String,Object>> ReserveListByDate = scheduleService.selectReservationBydate(selectdate, resourceNo);
-		System.out.println(ReserveListByDate);
 
 		return ReserveListByDate;
 	}
@@ -701,13 +665,9 @@ public class ScheduleContoller {
 	@ResponseBody
 	public List<Schedule> selectReserveByresource(@RequestBody Map<String, Object> param){
 		
-		param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-				  instanceof String)); });
-		System.out.println(param);
 		
 		int resourceNo = (Integer)param.get("resourceNo");
 
-		System.out.println(resourceNo);
 		
 		List<Schedule> ReserveListByresource = scheduleService.selectReserveByresource(resourceNo);
 
@@ -754,9 +714,7 @@ public class ScheduleContoller {
 		int empNo = Integer.parseInt((String)param.get("empNo"));
 		String type = (String)param.get("type");
 		String keyword = (String)param.get("keyword");
-		System.out.println("컨트롤러"+type+keyword);
 		List<Schedule> reserveBykeyword = scheduleService.reserveBykeyword(keyword, type, empNo);
-		System.out.println(reserveBykeyword);
 		return reserveBykeyword;
 		
 	}
@@ -825,10 +783,6 @@ public class ScheduleContoller {
 		
 		log.debug(Arrays.toString(calEmp));
 		
-		  param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		 instanceof String)); });
-		 
-
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 
 		int result = 0;
@@ -891,13 +845,6 @@ public class ScheduleContoller {
 	@PostMapping("/updateReservationEnd")
 	public String updateReservationEnd(@RequestParam Map<String, Object> param, Model model, String[] recalEmp) {
 		
-		
-		/*
-		 * param.forEach((key,value)->{ System.out.println(key+" : "+value + (value
-		 * instanceof String)); });
-		 */
-		 
-
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.KOREA);
 
 		int result = 0;

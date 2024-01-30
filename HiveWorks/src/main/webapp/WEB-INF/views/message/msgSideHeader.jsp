@@ -384,7 +384,6 @@ $(document).on("click",".msgTitle, .msgContent, .msgCateName",function() {
     	contentType:'application/json; charset=utf-8',
     	dataType:'JSON',
  		success:function(response){
- 			console.log(response);
  	        var sharedEmps = '';
  	        if(response && response.length > 0) {
  	            sharedEmps = response.join(', ');
@@ -395,7 +394,7 @@ $(document).on("click",".msgTitle, .msgContent, .msgCateName",function() {
  	        
  		},
  		error:function(error){
- 			console.log("서버통신오류")
+
  		}
     });
     
@@ -429,10 +428,10 @@ $(document).on("click",".msgTitle, .msgContent, .msgCateName",function() {
         		'msg_no' : msg_no
         	},
      		success:function(){
-				console.log("읽음처리");
+
      		},
      		error:function(response){
-     			console.log("서버통신오류")
+ 
      		}
         });
     });
@@ -442,7 +441,7 @@ $(".msg_file").click(function(e) {
 	    e.preventDefault();  // 버블링 방지
 	    
 	    var downloadUrl = $(this).attr("href");
-	    console.log(downloadUrl);
+
 		var $tagText = $(this).text().trim();
 	    
 		if($tagText === '첨부파일 없음'){
@@ -669,7 +668,7 @@ $('#searchEmpBtn').click(function(){
                 }
             } else if(node.type === 'dept') {
                 var deptEmps = deptEmpMap[node.text];
-				console.log(deptEmps);
+
                 for(var j = 0; j < deptEmps.length; j++) {
                     var empName = deptEmps[j].name;
 

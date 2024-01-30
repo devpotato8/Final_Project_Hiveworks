@@ -161,7 +161,6 @@ public class EdocController {
 		
 		ElectronicDocument edoc  = edocService.selectElectronicDocument(edocNo, loginEmp.getEmp_no());
 		
-		System.out.println("edoc: " + edoc);
 		
 		model.addAttribute("edoc",edoc);
 		model.addAttribute("apvCode",ApvCode.values());
@@ -214,7 +213,6 @@ public class EdocController {
 	public ResponseEntity<ElectronicDocumentSample> getFormatData(@RequestParam String formatNo){
 		ElectronicDocumentSample result = edocService.getSample(formatNo);
 		if(result == null) {
-			System.out.println(result);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -264,7 +262,6 @@ public class EdocController {
 			e.printStackTrace();
 		}
 		int result = edocService.insertEdoc(edocInstance);
-		System.out.println(edocInstance);
 		if(result >0) {
 			return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","200","edocNo",edocInstance.getEdocNo()));
 		}else {
@@ -305,7 +302,6 @@ public class EdocController {
 	
 	@GetMapping("/approvalList")
 	public ResponseEntity<List<Map<String,Object>>> selectEmplyeeInSubDepartmentByDeptCode(@RequestParam String deptCode){
-		System.out.println(deptCode);
 		List<Map<String,Object>> employees = edocService.selectEmployeeInSubDepartmentByDeptCode(deptCode);
 		if(employees == null) employees = new ArrayList<>();
 		return ResponseEntity.status(HttpStatus.OK).body(employees);
@@ -523,7 +519,6 @@ public class EdocController {
 	
 	@PostMapping("/managerSetting")
 	public ResponseEntity<Map<String,Object>> updateManagerSetting(@RequestParam Map<String,Object> param){
-		System.out.println(param);
 		return ResponseEntity.status(HttpStatus.OK).body(edocService.updateManagerStting(param));
 	}
 }

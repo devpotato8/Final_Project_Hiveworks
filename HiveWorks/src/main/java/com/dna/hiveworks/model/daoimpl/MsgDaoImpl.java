@@ -80,13 +80,11 @@ public class MsgDaoImpl implements MsgDao {
 
 	@Override
 	public int starChekedBtn(SqlSession session, Map<String, Integer> params) {
-		System.out.println(params);
 		return session.update("message.starChekedBtn",params);
 	}
 
 	@Override
 	public int trashChekedBtn(SqlSession session, Map<String, Integer> params) {
-		System.out.println(params);
 		return session.update("message.trashChekedBtn",params);
 	}
 

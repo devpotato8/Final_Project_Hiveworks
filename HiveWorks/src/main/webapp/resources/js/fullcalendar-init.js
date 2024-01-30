@@ -126,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				data: JSON.stringify({ calCode: calCode, empNo: loginEmpNo, deptCode: loginDeptCode,  searchType: searchType }),
 				contentType: "application/json",
 				success: function(data) {
-					console.log("데이터"+data);
 					var events = data.map(function(event, i) {
 						//var titlePrefix = event.important === 'Y' ? '<i class="fas fa-star"></i> ' : ''; // Font Awesome 별표 아이콘 추가
 						//로그인 한 사람의 번호가 만든 사람이거나 초대받는 사람일때
@@ -162,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						
 					});
 					successCallback(events);
-					console.log("이벤트"+events);
 					
 				},
 				error: function() {
@@ -185,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				data: JSON.stringify({ empNo: loginEmpNo }),
 				contentType: "application/json",
 				 success: function(data) {
-					 console.log(data);
 			        // 서버로부터 받은 데이터를 이벤트로 변환합니다.
 			        var events = [];
 			        data.searchList.forEach((v)=>{
@@ -271,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						return event !== undefined;
 					});
 					successCallback(events);
-					console.log(events)
 				},
 				error: function() {
 					failureCallback('이벤트를 가져오는 도중 오류가 발생했습니다!' + error);
@@ -292,7 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				data: JSON.stringify({ deptCode: loginDeptCode }),
 				contentType: "application/json",
 				 success: function(data) {
-					 console.log(data);
 			        // 서버로부터 받은 데이터를 이벤트로 변환합니다.
 			        var events = [];
 			        data.searchListbyCode.forEach((v)=>{
@@ -378,7 +373,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						return event !== undefined;
 					});
 					successCallback(events);
-					console.log(events)
 				},
 				error: function() {
 					failureCallback('이벤트를 가져오는 도중 오류가 발생했습니다!' + error);
@@ -698,7 +692,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			eventClick: function(info, initcount=2) {
 				// 이벤트 클릭 시 동작 정의
 				targetE = info.event;
-				console.log("타겟"+targetE.id);
 				
 				//var tabChecklist = document.getElementById('checklistContainer');
 	
@@ -724,14 +717,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			  		contentType: 'application/json',
 			  	})
 			  		.done(function(data) {
-			  			console.log(data);
-			  			console.log("체크리스트 조회 성공");
+			  			//console.log("체크리스트 조회 성공");
 			  			
 			  	   //체크리스트 조회
 			
 			  	    const hkChecklist = document.querySelector('#tab_checklist .hk-checklist');  	
 			  	  	$("div.hk-checklist>div").remove();
-					console.log(data.checkList);
 			
 					if (data.length > 0) {
 			    	// data.checkList 배열을 순회하며 DOM 요소를 생성합니다.
@@ -812,9 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					
 			  		})
 			  		.fail(function(request, status, error) {
-			  			console.log("일정 상세 조회 실패" + error);
-			  			console.log(request, status);
-			  			console.log(error);
+			  			//console.log("일정 상세 조회 실패" + error);
 			  		});
 					
 					//조회 창 날짜 포맷
@@ -998,7 +987,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 				const invitationEmpList = targetE.extendedProps.invitationEmpList;
-				console.log(invitationEmpList)
 				$("#inviteContainer>div").first().remove();
 				var existingContainer = document.getElementById("someContainer1");
 				existingContainer.innerHTML = '';
@@ -1121,8 +1109,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				    }
 			
 				    for (var j = 0; j < deptSelect.options.length; j++) {
-				        console.log("Option value: " + deptSelect.options[j].value);
-				        console.log("YourDeptCode: " + YourDeptCode);
 				        if (deptSelect.options[j].value == YourDeptCode) {
 				            deptSelect.options[j].selected = true;
 				            break;
@@ -1182,7 +1168,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				$('#modifyContainer').find('.event-name').val(targetE.title);
 				$('#modifyContainer').find('.event-content').val(targetE.extendedProps.content);
 				$('#modifyContainer').find('.cal-event-code').val(targetE.id);
-				console.log(($('#modifyContainer').find('.cal-event-code').val()));
 
 				switch (reminder) {
 					case 'Y':
@@ -1238,7 +1223,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					var endPicker = $('#modifyContainer').find('.cal-event-date-end').data('daterangepicker');
 
 					if ($(this).is(':checked')) {
-						console.log('종일여부 수정 체크됨');
+						//console.log('종일여부 수정 체크됨');
 
 						var startD = moment(startPicker.startDate);
 						startD.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
@@ -1250,7 +1235,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 					} else {
-						console.log('종일여부 수정 체크 해제됨');
+						//console.log('종일여부 수정 체크 해제됨');
 						$('#modifyContainer').find('.cal-event-date-start').daterangepicker({
 							timePicker: true,
 							singleDatePicker: true,
@@ -1444,7 +1429,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	var targetDrawer = '.hk-drawer.calendar-drawer',
 		targetEvent;
 	$(document).on("click", ".calendarapp-wrap .fc-daygrid-event", function(e) {
-		console.log(this);
 		$(targetDrawer).css({ "border": "none", "box-shadow": "0 8px 10px rgba(0, 0, 0, 0.1)" }).addClass('drawer-toggle');
 		$('.calendar-drawer').find('.event-name').text($(this).text());
 		return false;
@@ -1460,7 +1444,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				contentType: 'application/json',
 			})
 				.done(function(result) {
-					console.log(result);
 					alert("일정 삭제 성공");
 					//	calendar.addEvent(editEvent);
 					 // 성공 후 현재 페이지 새로고침
@@ -1474,7 +1457,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				})
 				.fail(function(request, status, error) {
 					alert("일정 삭제 실패" + error);
-					console.log(error);
 				});
 		} else {
 			$(this).closest('.hk-drawer').removeClass('drawer-toggle');
@@ -1519,7 +1501,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		selectEmps.each(function() {
 			const reempValue = $(this).val();
 			reempList.push(reempValue);
-			console.log(typeof (reempValue));
 		});
 
 		const editEvent = {
@@ -1543,7 +1524,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			contentType: 'application/json',
 		})
 			.done(function(result) {
-				console.log(result);
 				alert("일정 수정 성공");
 				calendar.addEvent(editEvent);
 
@@ -1557,9 +1537,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 			})
 			.fail(function(request, status, error) {
-				alert("일정 수정 실패" + error);
-				console.log(request, status);
-				console.log(error);
+				alert("일정 수정 실패");
 			});
 
 		calendar.unselect();
@@ -1581,7 +1559,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			contentType: 'application/json',
 		})
 			.done(function(result) {
-				console.log(result);
 				checkbox.checked ? alert("중요일정 변경 성공") : alert("중요일정 해제 성공"); // 알림 변경
 				location.reload();
 				//calendar.addEvent(editEvent);
@@ -1602,8 +1579,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			.fail(function(request, status, error) {
 				checkbox.checked ? alert("중요일정 변경 실패" + error) : alert("중요일정 해제 실패"+error);
 				//alert("중요일정으로 변경 실패" + error);
-				console.log(request, status);
-				console.log(error);
 			});
 
 		calendar.unselect();
@@ -1671,7 +1646,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			.done(function(result) {
 				alert("일정 등록 성공");
 				calendar.addEvent(addEvent);
-				console.log(result);
 				// 일정을 등록한 후에 캘린더를 새로고침하지 않고 변경된 일정이 보이도록 처리합니다.
 				//calendar.refetchEvents();
 				$('#vaccalendar').trigger('change');
@@ -1691,9 +1665,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
 			})
 			.fail(function(request, status, error) {
-				alert("일정 등록 실패" + error);
-				console.log(request, status);
-				console.log(error);
+				alert("일정 등록 실패");
 			});
 		calendar.unselect();
 
@@ -1948,7 +1920,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		                    contentType: 'application/json',
 		                    success: function (response) {
 		                        // Success handling
-		                        console.log("버노"+response);
 		                         
 		                      var newChecklistItem = $(this).prev().find('input').trigger('focus');
 
@@ -1961,7 +1932,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                      // Save the value of .checkNohidden in const checklistNo
                      const checklistNo = checklistItem.find('#checkNohidden').val();
-                     console.log(checklistNo);
 		                      
 		                    },
 		                    error: function (error) {
@@ -1981,7 +1951,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				e.preventDefault();
 				
 				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
-				console.log("체크버노"+checklistNo)
 			     
 				   $.ajax({
 	                   url: contextPath+"/schedule/deleteChecklist",
@@ -1993,7 +1962,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	                   contentType: 'application/json',
 	                   success: function (response) {
 	                       // 성공 시 처리
-	                       console.log(response);
 	                       $(this).closest('.form-check').remove();
 
 	                   },
@@ -2011,7 +1979,6 @@ document.addEventListener('DOMContentLoaded', function() {
   				
   				const isChecked = $(this).prop('checked');
   				const checklistNo = $(this).closest('.form-check').find('#checkNohidden').val();
-  				console.log("체크버노"+checklistNo)
 
   			    var checkUrl = isChecked ? contextPath+"/schedule/doneChecklist" : contextPath+"/schedule/undoneChecklist";
   					
@@ -2025,11 +1992,11 @@ document.addEventListener('DOMContentLoaded', function() {
   		                   contentType: 'application/json',
   		                   success: function (response) {
   		                       // 성공 시 처리
-  		                       console.log(response);
+  		                       //console.log("체크리스트 완료");
   		                   },
   		                   error: function (error) {
   		                       // 에러 시 처리
-  		                       console.error(error);
+  		                       //console.log("체크리스트 완료 실패");
   		                   }
   					})
   			});

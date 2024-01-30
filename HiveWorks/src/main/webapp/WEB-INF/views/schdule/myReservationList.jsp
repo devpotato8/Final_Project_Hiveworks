@@ -217,8 +217,6 @@
 const empPhone = '${loginEmp.emp_cellphone}'; //수정필요
 const empNo = ${loginEmp.emp_no}; //수정 필요
 var loginAut = '${loginEmp.aut_code}';
-console.log(empPhone, empNo);
-console.log(loginAut);
 
 var contextPath = "<c:out value='${path}'/>";
 

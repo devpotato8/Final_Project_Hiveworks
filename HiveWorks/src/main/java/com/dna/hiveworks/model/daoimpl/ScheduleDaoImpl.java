@@ -172,11 +172,9 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public List<Map<String,Object>> selectReservationBydate(SqlSession session, Date selectDate, int resourceNo) {
-		System.out.println(resourceNo+"dao");
 		Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("selectDate", selectDate);
 		 parameters.put("resourceNo", resourceNo);
-		 System.out.println(session.selectList("schedule.selectReservationBydate",parameters));
 		return session.selectList("schedule.selectReservationBydate",parameters);
 	}
 	
@@ -200,7 +198,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	
 	@Override
 	public List<Schedule> reserveBykeyword(SqlSession session, String keyword, String type, int empNo) {
-		System.out.println("dao"+type+keyword);
 		 Map<String, Object> parameters = new HashMap<>();
 		 parameters.put("keyword", keyword);
 		 parameters.put("type", type);
