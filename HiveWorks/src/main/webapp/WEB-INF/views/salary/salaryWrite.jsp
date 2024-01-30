@@ -12,7 +12,10 @@
 </jsp:include>
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <style>@font-face {
         font-family: 'douzone';
         src: local('DOUZONEText10'), url('https://static.wehago.com/fonts/douzone/DOUZONEText10.woff2') format('woff2'), url('https://static.wehago.com/fonts/douzone/DOUZONEText10.woff') format('woff');
@@ -415,16 +418,23 @@
     
     }
     
+    #register_sal{
+    	text-align: right;
+    	display: inline-block;
+    	float: right;
+    }
+    
     </style>
 <body leftmargin="0" topmargin="0" style="font-face:맑은고딕,Malgun Gothic, 돋음, dotum;" align="center"><!--제목--->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <form id="form" action="${path }/salary/SalaryWriteEnd" method="post">
 <button class="btn btn-primary btn-sm" style="width:100px">등록</button>
-<input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요."/>
-<button type="button" class="btn btn-primary btn-sm" style="width:100px" onclick="fn_changeEmployee()">검색</button>
-<datalist id="data"></datalist>
-
+	<div id="register_sal">
+		<input type="search" id="searchId" list="data" placeholder="사원번호를 입력해 주세요." style="width:200px;"/>
+		<button type="button" class="btn btn-primary btn-sm" style="width:100px" onclick="fn_changeEmployee()">검색</button>
+		<datalist id="data"></datalist>
+	</div>
 <table width="740px">
     <tbody>
     <tr align="center">
@@ -496,20 +506,20 @@
                         지급내역
                     </td>
                    	<th width="14%">기본급</th>
-                    <th width="14%">시간 외 근로수당</th>
                     <th width="14%">식대</th>
                     <th width="14%">직위수당</th>
                     <th width="14%">보너스</th>
+                    <th width="14%"></th>
                     <th width="14%"></th>
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
                     style="font-size: 12px;font-family: 돋음, dotum;color: #000000;">
                     
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_base" name="sal_base" value="0" onkeyup="fn_auto_delete(event);"/></td>
-                    <td style="border-bottom:1px solid #eee;"><input type="text" id="overtime_pay" name="overtime_pay" value="0" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="0" onkeyup="fn_auto_delete(event);"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="0" readonly="readonly" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="0" onkeyup="fn_auto_delete(event);"/></td>
+                    <td style="border-bottom:1px solid #eee;"><!-- <input type="text" id="overtime_pay" name="overtime_pay" value="0" readonly="readonly" style="border: none;"/> --></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"

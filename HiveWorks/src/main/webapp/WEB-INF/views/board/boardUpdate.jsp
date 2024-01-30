@@ -6,7 +6,10 @@
     <jsp:param value="default" name="style" />
     <jsp:param value="" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <div class="hk-pg-wrapper" style=" height: 1685px;">
@@ -15,6 +18,7 @@
     </div>
     <div id="board-container">
         <form id="userForm" name="boardFrm" action="${path }/board/boardUpdate" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="boardType" value="${board.boardType}" /> 
 		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" value="${board.boardTitle }" required>
             <input type="hidden" name="boardNo" value="${board.boardNo}"/>            

@@ -846,6 +846,10 @@ document.addEventListener('DOMContentLoaded', function() {
     					//sessionStorage.setItem('refreshCalendar', 'true')
 						
 				        window.location.href = contextPath+'/vacation/vacationView';
+				        $('#mydeptcalendar').prop('checked', false);
+					    $('#vaccalendar').prop('checked', false);
+					    $('#myvaccalendar').prop('checked', false);
+					    $('#reserveCalendar').prop('checked', false);
 				        
 		
 			        }else{
@@ -869,6 +873,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					if(loginEmpNo === targetE.extendedProps.myEmpNo){
 					$('.hk-drawer.calendar-drawer.drawer-right').hide();
 			        window.location.href = contextPath+'/schedule/reservationlistbyno';
+			        $('#mydeptcalendar').prop('checked', false);
+					    $('#vaccalendar').prop('checked', false);
+					    $('#myvaccalendar').prop('checked', false);
+					    $('#reserveCalendar').prop('checked', false);
 			        
 			        
 			        //sessionStorage.setItem('refreshCalendar', 'true')
@@ -918,7 +926,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 						var span2 = document.createElement("span");
 						span2.classList.add("chip-text");
-						span2.innerText = YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
+						span2.innerText = YourDeptName+" "+YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
 
 						var span3 = document.createElement("span");
 						span3.appendChild(span1);
@@ -1017,7 +1025,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 						var span2 = document.createElement("span");
 						span2.classList.add("chip-text");
-						span2.innerText = YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
+						span2.innerText = YourDeptName+" "+YourEmpName; // YourEmpName 변수의 값을 "Morgan"으로 설정
 
 						var span3 = document.createElement("span");
 						span3.appendChild(span1);
@@ -1696,6 +1704,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    //$('#mydeptcalendar').prop('checked', false);
 	    //$('#companycalendar').prop('checked', false);
 	    //$('#vaccalendar').prop('checked', false);
+	    //$('#myvaccalendar').prop('checked', false);
 	    //$('#reserveCalendar').prop('checked', false);
 	
 	    // #mycalendar 체크

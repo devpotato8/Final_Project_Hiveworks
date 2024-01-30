@@ -11,7 +11,10 @@
 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/>	
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <script src="https://kit.fontawesome.com/8f05e1d322.js" crossorigin="anonymous"></script>
 
 	<div class="hk-pg-wrapper">

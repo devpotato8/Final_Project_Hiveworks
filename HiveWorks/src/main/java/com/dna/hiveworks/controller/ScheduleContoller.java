@@ -774,6 +774,7 @@ public class ScheduleContoller {
 		model.addAttribute("reList", resourceList);
 		
 		Resource current = resourceList.stream().filter(r -> r.getResourceNo() == resourceNo).findAny().get();
+		String currentResourceName = current.getResourceName();
 		String calCode = "";
 		switch(current.getResourceType()) {
 		case "회의실": calCode = "CAL004"; break;
@@ -782,6 +783,7 @@ public class ScheduleContoller {
 		}
 		model.addAttribute("currentResourceCalCode",calCode);
 		model.addAttribute("currentResourceNo", resourceNo);
+		model.addAttribute("currentResourceName", currentResourceName);
 		return "schedule/reservationResource";
 	}
 	
@@ -797,6 +799,8 @@ public class ScheduleContoller {
 		List<Schedule> reserveList = scheduleService.selectReserveAll();
 		Schedule currentR = reserveList.stream().filter(r -> r.getCalNo() == calNo).findAny().get();
 		
+		String currentRName = currentR.getResource().getResourceName();
+		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		
@@ -808,6 +812,7 @@ public class ScheduleContoller {
 		}
 		model.addAttribute("currentCalNo",calNo);
 		model.addAttribute("currentResourceNo", resourceNo);
+		model.addAttribute("currentResourceName", currentRName);
 		return "schedule/updateReservation";
 	}
 	

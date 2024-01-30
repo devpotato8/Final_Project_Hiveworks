@@ -88,8 +88,9 @@ public class EmpServiceImpl implements EmpService {
 		if(result>0) {
 			ac.setEmp_no(e.getEmp_no());
 			int result2 = dao.updateAccount(session, ac);
-			if(result2==0) new RuntimeException("등록 실패");
-			
+			if(result2==0) {
+				result2 = dao.insertAccount(session, ac);
+			}
 		}else {
 			new RuntimeException("등록 실패");
 		}
