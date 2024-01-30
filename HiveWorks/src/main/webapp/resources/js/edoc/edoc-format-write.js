@@ -143,9 +143,9 @@ $('#submitButton').on('click',(e)=>{
 	$btn.disabled = true;
 	$($btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>전송중');
 
-    if(dataValidate()){
+    if(!dataValidate()){
         $btn.disabled = false;
-		$($btn).html('기안하기');
+		$($btn).html('양식 전송하기');
         return;
     }
 
@@ -177,7 +177,7 @@ $('#submitButton').on('click',(e)=>{
 		console.log(e);
 	}).finally(()=>{
 		$btn.disabled = false;
-		$($btn).html('기안하기');
+		$($btn).html('양식 전송하기');
 	});
 });
 
