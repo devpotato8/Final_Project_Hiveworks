@@ -485,9 +485,6 @@ public class EmpController {
 	    	Date utilHiredDate = format.parse(enrollEmployeesList.get(i).get("cell_5"));
 	    	java.sql.Date sqlHiredDate = new java.sql.Date(utilHiredDate.getTime());
 	    	
-	    	SimpleDateFormat format_se = new SimpleDateFormat("yyyy-MM-dd");
-	    	Date utilRetiredDate = format_se.parse(enrollEmployeesList.get(i).get("cell_6"));
-	    	java.sql.Date sqlRetiredDate = new java.sql.Date(utilRetiredDate.getTime());
 	    	
 	    	//employee.setEmp_no(Integer.parseInt(enrollEmployeesList.get(i).get("cell_0")==null?enrollEmployeesList.get(i).get("cell_0"):"0"));
 	    	employee.setEmp_id(enrollEmployeesList.get(i).get("cell_1"));
@@ -497,26 +494,25 @@ public class EmpController {
 	    	employee.setEmp_name(enrollEmployeesList.get(i).get("cell_3"));
 	    	employee.setEmp_resident_no(enrollEmployeesList.get(i).get("cell_4"));
 	    	employee.setEmp_hired_date(sqlHiredDate);
-	    	employee.setEmp_retired_date(sqlRetiredDate);
-	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("cell_7"));
-	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("cell_8"));
-	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_9"));
+	    	employee.setEmp_phone(enrollEmployeesList.get(i).get("cell_6"));
+	    	employee.setEmp_cellphone(enrollEmployeesList.get(i).get("cell_7"));
+	    	employee.setEmp_email(enrollEmployeesList.get(i).get("cell_8"));
 	    	
-	    	employee.setDept_code(enrollEmployeesList.get(i).get("cell_10").toUpperCase());
-	    	employee.setJob_code(enrollEmployeesList.get(i).get("cell_11").toUpperCase());
-	    	employee.setPosition_code(enrollEmployeesList.get(i).get("cell_12").toUpperCase());
-	    	employee.setWork_status(enrollEmployeesList.get(i).get("cell_13").toUpperCase());
-	    	employee.setWork_pattern(enrollEmployeesList.get(i).get("cell_14").toUpperCase());
-	    	employee.setWork_type_code(enrollEmployeesList.get(i).get("cell_15").toUpperCase());
-	    	employee.setAut_code(enrollEmployeesList.get(i).get("cell_16").toUpperCase());
-	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_17"));
-	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_18"));
-	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_19"));
-	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_20"));
+	    	employee.setDept_code(enrollEmployeesList.get(i).get("cell_9").toUpperCase());
+	    	employee.setJob_code(enrollEmployeesList.get(i).get("cell_10").toUpperCase());
+	    	employee.setPosition_code(enrollEmployeesList.get(i).get("cell_11").toUpperCase());
+	    	employee.setWork_status(enrollEmployeesList.get(i).get("cell_12").toUpperCase());
+	    	employee.setWork_pattern(enrollEmployeesList.get(i).get("cell_13").toUpperCase());
+	    	employee.setWork_type_code(enrollEmployeesList.get(i).get("cell_14").toUpperCase());
+	    	employee.setAut_code(enrollEmployeesList.get(i).get("cell_15").toUpperCase());
+	    	employee.setEmp_postcode(enrollEmployeesList.get(i).get("cell_16"));
+	    	employee.setEmp_address(enrollEmployeesList.get(i).get("cell_17"));
+	    	employee.setEmp_address_detail(enrollEmployeesList.get(i).get("cell_18"));
+	    	employee.setEmp_memo(enrollEmployeesList.get(i).get("cell_19"));
   	
-	    	account.setAc_no(enrollEmployeesList.get(i).get("cell_21"));
-	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_22"));
-	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_23"));
+	    	account.setAc_no(enrollEmployeesList.get(i).get("cell_20"));
+	    	account.setAc_bank(enrollEmployeesList.get(i).get("cell_21"));
+	    	account.setAc_name(enrollEmployeesList.get(i).get("cell_22"));
 	    	
 	    	employees.add(employee);
 	    	accounts.add(account);

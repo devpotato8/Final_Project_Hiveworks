@@ -519,7 +519,7 @@
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="0" onkeyup="fn_auto_delete(event);"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="0" readonly="readonly" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="0" onkeyup="fn_auto_delete(event);"/></td>
-                    <td style="border-bottom:1px solid #eee;"><!-- <input type="text" id="overtime_pay" name="overtime_pay" value="0" readonly="readonly" style="border: none;"/> --></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="hidden" id="overtime_pay" name="overtime_pay" value="0" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"

@@ -324,6 +324,12 @@ function applyFeatherLoading(){
 	$(document).on('click','.sorting',function(){
 		feather.replace();
 	});
+	
+	//검색창 실행 시
+	$(document).on('keyup','.form-control',function(){
+		feather.replace();
+	});
+	
 
 } 
 

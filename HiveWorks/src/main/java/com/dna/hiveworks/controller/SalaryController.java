@@ -112,6 +112,8 @@ public class SalaryController {
 		
 		String msg, loc;
 		
+		System.out.println(s);
+		
 		try {
 			int result = service.updateSalary(s);
 			
@@ -140,9 +142,8 @@ public class SalaryController {
 		
 		s.setEmployee(emp);
 		
-		String msg, loc;
 		
-		System.out.println(s);
+		String msg, loc;
 		
 		try {
 			int result = service.insertSalary(s);

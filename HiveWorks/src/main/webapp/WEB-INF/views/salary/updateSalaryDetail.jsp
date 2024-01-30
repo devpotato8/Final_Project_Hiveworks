@@ -532,7 +532,7 @@
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_meal" name="sal_meal" value="${salary.sal_meal }"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="position_pay" name="position_pay" value="<fmt:formatNumber value="${position_pay}" type="number" />" readonly="readonly" style="border: none;"/></td>
                     <td style="border-bottom:1px solid #eee;"><input type="text" id="sal_bonus" name="sal_bonus" value="${salary.sal_bonus }"/></td>
-                    <td style="border-bottom:1px solid #eee;"><%-- <input type="text" id="overtime_pay" name="overtime_pay" value="<fmt:formatNumber value="${overtime_pay}" type="number" />" readonly="readonly" style="border: none;"> --%></td>
+                    <td style="border-bottom:1px solid #eee;"><input type="hidden" id="overtime_pay" name="overtime_pay" value="<fmt:formatNumber value="${overtime_pay}" type="number" />" readonly="readonly" style="border: none;"></td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
                 <tr bgcolor="#f7f7f7" height="22px" align="center"
