@@ -285,7 +285,7 @@
 	
 	
 	<select id="selectEmployeesList" resultMap="employee.empMap">
-		SELECT * FROM TBL_EMPLOYEE
+		SELECT * FROM TBL_EMPLOYEE WHERE USE_YN = 'Y'
 	</select>
 	
 	
@@ -355,7 +355,7 @@
 	
 	
 	<select id="selectResourceAll" resultMap="resourceMap">
-		SELECT * FROM TBL_RESOUCE ORDER BY RESOURCE_NO DESC
+		SELECT * FROM TBL_RESOUCE WHERE USE_YN = 'Y' ORDER BY RESOURCE_NO DESC
 	</select>
 	
 	
@@ -380,9 +380,9 @@
 		SELECT * FROM TBL_CALENDAR WHERE CAL_CODE = #{calCode}
 	</select>
 	
-	<select id="selectReservationBydate" resultMap="scheduleInviMap" parameterType="hashMap">
-    SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TO_DATE(#{selectDate}, 'YY/MM/DD HH24:MI:SS') AND CAL_STATUS = '승인완료' ORDER BY V.CAL_START_DATE
-</select>
+	<select id="selectReservationBydate" resultType="map" parameterType="hashMap">
+    	SELECT V.* FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE RR.RESOURCE_NO = #{resourceNo} AND TRUNC(V.CAL_START_DATE) = TRUNC(TO_DATE(#{selectDate}, 'YYYY-MM-DD HH24:MI:SS')) AND V.CAL_STATUS = '승인완료' ORDER BY V.CAL_START_DATE
+	</select>
 
 
  
@@ -422,7 +422,7 @@
 	
 	
 	<select id="checkListByCalNo" resultMap="checklistMap">
-		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo}
+		SELECT * FROM TBL_CAL_CHECKLIST WHERE CAL_NO = #{calNo} AND USE_YN = 'Y'
 	</select>
 	
 	<select id="selectCommentByNo" resultMap="commentMap">

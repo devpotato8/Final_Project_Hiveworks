@@ -31,7 +31,10 @@
 	<jsp:param value="collapsed" name="style" />
 	<jsp:param value="data-hover='active'" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+   <jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <style>
   /* body 스타일 */
   html, body {
@@ -54,7 +57,7 @@
 					<div class="menu-content-wrap">
 						<div class="menu-group">
 							<ul class="nav nav-light navbar-nav flex-column">
-								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno?empNo=${loginEmp.emp_no}"> <span class="nav-icon-wrap"><span
+								<li class="nav-item active"><a class="nav-link" href="${path }/schedule/reservationlistbyno"> <span class="nav-icon-wrap"><span
 											class="feather-icon"><i data-feather="users"></i></span></span> <span
 										class="nav-link-text">내 예약 현황</span>
 								</a></li>
@@ -160,12 +163,12 @@
 										</div>
 
 								<div class="row gx-3">
-										<div class="col-sm-3">
+										<div class="col-sm-3" style="width: 86px; margin-top: 10px;">
 											<span>일정 공유</span>
 										</div>
 										<div class="col-sm-5">
-											<div class="form-group">
-												<button type="button" onclick="window.adddelFunction.util.addFile();"
+											<div class="form-group" style="margin-top: 5px;">
+												<button type="button" class="btn btn-light" onclick="window.adddelFunction.util.addFile();"
 													id="delBtn">추가</button>
 <%--												<button type="button"--%>
 <%--													id="addBtn">삭제</button>--%>
@@ -199,7 +202,7 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" onclick="window.adddelFunction.util.delFile(this);">삭제</button>
+										<button type="button" onclick="window.adddelFunction.util.delFile(this);" class="btn btn-light" onclick="window.adddelFunction.util.delFile(this);" style="height: 38px; width: 73px; margin-top: 25px">삭제</button>
 									</div>
 									<div name="someContainer"></div>
 										<button type="button" class="btn btn-secondary">취소</button>
@@ -413,16 +416,16 @@ $(document).ready(function() {
         	      // 예약 리스트를 반복하면서 테이블에 추가합니다.
         	      for (var i = 0; i < response.length; i++) {
         	        var res = response[i];
-        	        var formattedStartDate = moment(res.calStartDate).format('YYYY-MM-DD HH:mm');
-        	        var formattedEndDate = moment(res.calEndDate).format('YYYY-MM-DD HH:mm');
+        	        var formattedStartDate = res.CALSTARTDATE;
+        	        var formattedEndDate = res.CALENDDATE;
 
         	        // 새로운 행(tr)을 생성합니다.
         	        var newRow = $('<tr>');
 
         	        // 각 열(td)에 예약 정보를 추가합니다.
-        	        newRow.append('<td>' + res.calNo + '</td>');
+        	        newRow.append('<td>' + res.CAL_NO + '</td>');
         	        newRow.append('<td>' + formattedStartDate + " ~ " + formattedEndDate + '</td>');
-        	        newRow.append('<td>' + res.myEmpName + '</td>');
+        	        newRow.append('<td>' + res.MY_EMP_NAME + '</td>');
 
         	        // 생성한 행을 tbody에 추가합니다.
         	        tbody.append(newRow);
@@ -437,7 +440,7 @@ $(document).ready(function() {
         	},
         	events: function(info, successCallback, failureCallback) { // ajax 처리로 데이터를 로딩 시킨다. 
 				$.ajax({
-					url:  contextPath+`/schedule/selectReserveByresource`,
+					url:  contextPath+'/schedule/selectReserveByresource',
 					type: "POST",
 					dataType: "JSON",
 					data: JSON.stringify({ resourceNo: resourceNo }),

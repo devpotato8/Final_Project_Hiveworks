@@ -3,22 +3,28 @@
  */
 package com.dna.hiveworks.serviceimpl;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dna.hiveworks.common.SessionUserMap;
 import com.dna.hiveworks.common.exception.HiveworksException;
 import com.dna.hiveworks.model.code.ApvCode;
 import com.dna.hiveworks.model.code.DotCode;
+import com.dna.hiveworks.model.code.DsgCode;
 import com.dna.hiveworks.model.code.PosCode;
 import com.dna.hiveworks.model.dao.EdocDao;
 import com.dna.hiveworks.model.dto.Employee;
@@ -32,6 +38,7 @@ import com.dna.hiveworks.model.dto.edoc.ElectronicDocumentSample;
 import com.dna.hiveworks.service.EdocService;
 import com.dna.hiveworks.service.MsgService;
 import com.dna.hiveworks.service.VacationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletContext;
 
@@ -48,16 +55,31 @@ import jakarta.servlet.ServletContext;
 public class EdocServiceImpl implements EdocService{
 	
 	@Autowired
+	//전자문서 Dao
 	private EdocDao dao;
+	
 	@Autowired
+	// Sql Session Factory
 	private SqlSession session;
+	
 	@Autowired
-	ServletContext context;
+	// ServletContext
+	private ServletContext context;
+	
 	@Autowired
-	MsgService msgService;
+	//메세지 서비스(쪽지)
+	private MsgService msgService;
+	
 	@Autowired
-	VacationService vacService;
-
+	//휴가 서비스
+	private VacationService vacService;
+	
+	@Autowired
+	// 알림용 Websocket Session Map
+	private SessionUserMap sessionUserMap;
+	
+	@Autowired
+	private SimpMessagingTemplate template;
 	
 	@Override
 	public List<ElectronicDocumentList> getEdocList(Map<String, Object> param) {
@@ -84,13 +106,11 @@ public class EdocServiceImpl implements EdocService{
 	@Override
 	public ElectronicDocumentSample getSample(String formatNo) {
 		ElectronicDocumentSample sample = dao.getSample(session, formatNo);
-		System.out.println(sample);
 		if(sample.getSampleFormat() != null) {
 			sample.setFullSample(sample.getSampleContent().replace("{{상세내용}}", sample.getSampleFormat()));
 		}else {
 			sample.setFullSample(sample.getSampleContent());
 		}
-		System.out.println(sample.getFullSample());
 		return sample; 
 	}
 	
@@ -221,6 +241,10 @@ public class EdocServiceImpl implements EdocService{
 					
 					// 다음차례 결재자에게 쪽지전송
 					msgService.sendMsg(makeMsg(nextApproval.getAprvlEmpNo(),edoc.getCreater(), aprvl.getAprvlEdocNo()));
+					
+					// 쪽지 알람 발송
+					Map<String, Object> nextEmpId = dao.getEmpData(session, nextApproval.getAprvlEmpNo());
+					sendAlarm((String)nextEmpId.get("EMPID"),"결재가 필요한 전자문서가 도착하였습니다.");
 				}
 		// 결재코드가 'APV002(반려)'일때
 		}else if(approvalResult > 0 && aprvl.getAprvlApvCode().equals(ApvCode.APV002)){
@@ -342,11 +366,6 @@ public class EdocServiceImpl implements EdocService{
 		boolean isReferenceContainsEmp = document.getReference().stream().anyMatch(ref -> ref.getRefperEmpNo()==empNo);
 		boolean isUserPosCodeLowerThenAccessGrant = PosCode.valueOf((String)param.get("posCode")).compareTo(documentAccessGrant)<0;
 		
-		System.out.println("isApprovalContainsEmp : "+isApprovalContainsEmp);
-		System.out.println("isReferenceContainsEmp : "+isReferenceContainsEmp);
-		System.out.println("isUserPosCodeLowerThenAccessGrant : "+isUserPosCodeLowerThenAccessGrant);
-		System.out.println("accessGrant : "+documentAccessGrant);
-		System.out.println("userPosCode : "+PosCode.valueOf((String)param.get("posCode")));
 		
 		if(!isApprovalContainsEmp && !isReferenceContainsEmp&& !isUserPosCodeLowerThenAccessGrant) return Map.of("status","403","error","권한이 부족합니다.");
 		ElectronicDocumentSample sample = dao.getSample(session, String.valueOf(document.getEdocSampleNo()));
@@ -375,15 +394,24 @@ public class EdocServiceImpl implements EdocService{
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yy.MM.dd");
 		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
 		
-		String createDate = document.getCreateDate().toLocalDate().format(dateFormat);
-		String createDateTime = new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
+		String createDate = isEdocNull ? LocalDate.now().format(dateFormat) : document.getCreateDate().toLocalDate().format(dateFormat);
+		String createDateTime = isEdocNull ? LocalDateTime.now().format(dateTimeFormat) : new java.util.Date(document.getCreateDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat);
 		
-		String startDate = document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
-		String startDateTime = document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		String startDate = !isEdocNull &&document.getEdocStartDate() != null ? document.getEdocStartDate().toLocalDate().format(dateFormat):"";
+		String startDateTime = !isEdocNull &&document.getEdocStartDate()!= null ? new java.util.Date(document.getEdocStartDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
-		String endDate = document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
-		String endDateTime = document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
+		String endDate = !isEdocNull &&document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
+		String endDateTime = !isEdocNull &&document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
+		while(content.indexOf("{{상세내용}}")!= -1) {
+			int startIndex = content.indexOf("{{상세내용}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
+			}else {
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
+			}
+		}
 		while(content.indexOf("{{문서번호}}")!= -1) {
 			int startIndex = content.indexOf("{{문서번호}}");
 			int endIndex = startIndex + 8;
@@ -456,15 +484,7 @@ public class EdocServiceImpl implements EdocService{
 				content.replace(startIndex, endIndex, "<span  class=\"edocTitle\">"+document.getEdocTitle()+"</span>");
 			}
 		}
-		while(content.indexOf("{{상세내용}}")!= -1) {
-			int startIndex = content.indexOf("{{상세내용}}");
-			int endIndex = startIndex +8;
-			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
-			}else {
-				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
-			}
-		}
+		
 		while(content.indexOf("{{시작일자}}")!= -1) {
 			int startIndex = content.indexOf("{{시작일자}}");
 			int endIndex = startIndex +8;
@@ -548,6 +568,7 @@ public class EdocServiceImpl implements EdocService{
 				content.replace(startIndex, endIndex, sb.toString());
 			}
 		}
+		
 		while(content.indexOf("{{첨부목록}}")!= -1) {
 			int startIndex = content.indexOf("{{첨부목록}}");
 			int endIndex = startIndex +8;
@@ -571,7 +592,77 @@ public class EdocServiceImpl implements EdocService{
 	}
 	
 	@Override
-	public CompanySetting getCompanySetting() {
-		return dao.getCompanySetting(session);
+	public CompanySetting getEdocManagerSetting() {
+		return dao.getEdocManagerSetting(session);
+	}
+	@Override
+	public List<Map<String, Object>> getAccessGrantSetting() {
+		return dao.getAccessGrantSetting(session);
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> updateManagerStting(Map<String, Object> param) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			CompanySetting cs = CompanySetting.builder().edocPrefix((String)param.get("edocPrefix"))
+																										.edocDateFormat((String)param.get("edocDateFormat"))
+																										.edocNumFormat((String)param.get("edocNumFormat"))
+																										.build();
+			List<Map<String, Object>> accessGrant = new ArrayList<>();
+			param.entrySet().forEach(t -> {
+				for(DsgCode code : DsgCode.values()) {
+					if(code.name().equals(t.getKey())) {
+						accessGrant.add(Map.of("dsgCode",t.getKey(),"posCode",t.getValue()));
+						break;
+					}
+				}
+			});
+			int[] updateResult = {1};
+			updateResult[0] *= dao.updateEdocManagerSetting(session,cs);
+			accessGrant.forEach(t -> {
+				updateResult[0] *= dao.updateEdocAccessGrant(session,t);
+			});
+			if(updateResult[0] != 0) {
+				result.put("status", 200);
+				result.put("data", "정상적으로 업데이트 되었습니다.");
+			}else {
+				result.put("status", 500);
+				result.put("error", "DB입력중 오류가 발생하였습니다.");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("status", 500);
+			result.put("error", "설정 수정 중 오류가 발생하였습니다.");
+		}
+		
+		return result;
+	}
+	
+	private void sendAlarm(String receiverEmpid, String title){
+		 if (sessionUserMap.containsValue(receiverEmpid)) {
+	        	
+	        	Map<String, Object> msg = new HashMap<>();  //웹소켓 클라이언트로 전달할 정보들 담기
+	            msg.put("senderName", "관리자");
+	            msg.put("senderDeptName", "");
+	            msg.put("senderJobName", "");
+	            msg.put("title", title);
+	            msg.put("receiverId",receiverEmpid);
+	            String jsonMsg = "";
+	            try {
+	            //ObjectMapper로 map에 담긴 데이터를 Json방식으로 변환하여 전달한다
+	            ObjectMapper objectMapper = new ObjectMapper();
+		        jsonMsg = objectMapper.writeValueAsString(msg);
+	            }catch(IOException e) {
+	            	e.printStackTrace();
+	            }
+	            
+		        template.convertAndSend(
+	                //receiverUserId, // 받는 사람의 사용자 아이디
+	                "/topic/messages",
+	                jsonMsg
+	            );
+	        }
 	}
 }

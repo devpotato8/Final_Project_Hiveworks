@@ -6,7 +6,10 @@
 	<jsp:param value="default" name="style" />
 	<jsp:param value="" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 
 <div class="was-validated">
 	<!-- 이 부분은 설문 등록 페이지에서 입력한 질문들을 불러와서 출력하는 부분입니다. -->

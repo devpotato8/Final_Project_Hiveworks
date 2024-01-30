@@ -376,34 +376,56 @@ $('#submitButton').on('click',(e)=>{
 	}catch(e){
 		alert(e);
 		console.log(e);
-		return;
-	}
-
-    // fetch로 전송
-	fetch(contextPath+'/edoc/write',{
-		method : 'post',
-    	body : formData
-	})
-	.then(response =>{
-		if(response.status != 200) throw new Error(response.error);
-		return response.json();
-	})
-	.then(data=>{
-		if(data.status != 200){
-			alert(data.status+"\n"+data.error);
-			
-		}else{
-			alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
-			location.replace(contextPath+"/edoc/lists/process");
-		}
-	})
-	.catch(e=>{
-		alert(e);
-		console.log(e);
-	}).finally(()=>{
 		$btn.disabled = false;
 		$($btn).html('기안하기');
-	});
+		return;
+	}
+	// 결재선 확인
+	let checkApprovalList = false;
+	// 만약 결재선에 인원이 1명이면
+	if(approvalList.length == 1){
+		// 확인 메세지 띄움
+		checkApprovalList = confirm('결재선에 설정된 사람이 1명입니다. \n 이 경우 문서는 바로 전결 처리됩니다. \n 계속 진행하시겠습니까?');
+	}else{
+		// 아닐경우
+		// 확인 메세지 없이 true로
+		checkApprovalList = true;
+	}
+	// 결재선 확인 값이 false라면
+	if(!checkApprovalList){
+		$('#write_doc').removeClass('show active');
+		$('#attach_file').removeClass('show active');
+		$('#approval_set').addClass('show active');
+		$btn.disabled = false;
+		$($btn).html('기안하기');
+		return;
+	}else{
+		// fetch로 전송
+		fetch(contextPath+'/edoc/write',{
+			method : 'post',
+			body : formData
+		})
+		.then(response =>{
+			if(response.status != 200) throw new Error(response.error);
+			return response.json();
+		})
+		.then(data=>{
+			if(data.status != 200){
+				alert(data.status+"\n"+data.error);
+				
+			}else{
+				alert('문서가 정상적으로 기안되었습니다.\n문서번호 : '+data.edocNo);
+				location.replace(contextPath+"/edoc/lists/process");
+			}
+		})
+		.catch(e=>{
+			alert(e);
+			console.log(e);
+		}).finally(()=>{
+			$btn.disabled = false;
+			$($btn).html('기안하기');
+		});
+	}
 });
 
 
@@ -471,8 +493,40 @@ const dataProcess = ()=>{
 }
 
 const formValidate = ()=>{
+	let results = [];;
+	// 문서종류가 null인지 확인
+	if(dotCode == null){
+		document.querySelector('#edocType').classList.remove('is-valid');
+		document.querySelector('#edocType').classList.add('is-invalid');
+		results.push(false);
+	}else{
+		document.querySelector('#edocType').classList.remove('is-invalid');
+		document.querySelector('#edocType').classList.add('is-valid');
+		results.push(true);
+	}
+	// 문서 양식이 null인지 확인
+	if(formatNo == null){
+		document.querySelector('#edocFormat').classList.remove('is-valid');
+		document.querySelector('#edocFormat').classList.add('is-invalid');
+		results.push(false);
+	}else{
+		document.querySelector('#edocFormat').classList.remove('is-invalid');
+		document.querySelector('#edocFormat').classList.add('is-valid');
+		results.push(true);
+	}
+	// 문서 제목이 null인지 확인
+	const edocTitle = document.querySelector('#edocTitle');
+	if(edocTitle.value == null || edocTitle.value == ''){
+		edocTitle.classList.remove('is-valid');
+		edocTitle.classList.add('is-invalid');
+		results.push(false);
+	}else{
+		edocTitle.classList.remove('is-invalid');
+		edocTitle.classList.add('is-valid');
+		results.push(true);
+	}
 	//TODO 폼 데이터 확인
-	return true;
+	return !results.includes(false);
 };
 
 
@@ -576,12 +630,12 @@ $('#printPreviewButton').on('click',(e)=>{
 		let $aprvlList = document.querySelectorAll('figure.approval-container');
 		let aprvlList = document.querySelector('#approvalList').children;
 		if($aprvlList.length >0){
-			let aprvlTable = '<table style="border:solid 1px black;"><tbody><tr>';
-			aprvlList.forEach((v)=>{aprvlTable += '<td>'+v.innerText.substr(0,v.innerText.indexOf('('))+'</td>'});
+			let aprvlTable = '<table style="border:solid 1px black; border-collapse: collapse;"><tbody><tr>';
+			aprvlList.forEach((v)=>{aprvlTable += '<td style="border:solid 1px black; border-collapse: collapse;">'+v.innerText.substr(0,v.innerText.indexOf('('))+'</td>'});
 			aprvlTable +='</tr><tr>';
-			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlList.forEach((v)=>{aprvlTable += '<td style="border:solid 1px black; border-collapse: collapse;"></td>'});
 			aprvlTable +='</tr><tr>';
-			aprvlList.forEach((v)=>{aprvlTable += '<td></td>'});
+			aprvlList.forEach((v)=>{aprvlTable += '<td style="border:solid 1px black; border-collapse: collapse;"></td>'});
 			aprvlTable +='</tr></tbody></table>';
 			$aprvlList.forEach((v)=>{v.innerHTML = aprvlTable});
 		}
@@ -596,7 +650,7 @@ $('#printPreviewButton').on('click',(e)=>{
 		// 상세내용 등록
 		let $content = document.querySelectorAll('.document-content .edocContent');
 		if($content.length > 0){
-			$content.innerHTML = ckeditor.data.get();
+			$content.forEach((v)=>{v.innerHTML = ckeditor.data.get();});
 		}
 		},500);
     }).catch(e=>{

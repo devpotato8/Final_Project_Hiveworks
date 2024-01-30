@@ -6,10 +6,13 @@
     <jsp:param value="default" name="style" />
     <jsp:param value="" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<div class="hk-pg-wrapper">
+<div class="hk-pg-wrapper" style=" height: 1685px;">
     <div class="container-xxl" >
         <h2 id="Title">등록</h2>
     </div>
@@ -20,13 +23,17 @@
 				<option selected>게시판 선택</option>
 				<option value="BRD001">공지사항</option>
 			    <option value="BRD002">건의사항</option>
-			    <option value="BRD003">블라인드</option>
+			    <!-- <option value="BRD003">블라인드</option> -->
 			</select>
 			    <hr/>
 		</div>	
 		<div style="margin-left: 40px;">
             <input type="text" class="form-control" placeholder="제목" name="boardTitle" id="boardTitle" required>
-            <input type="text" value="${loginEmp.emp_name }" readonly="readonly">
+            <br>
+            <div style="display: flex; align-items: center;">
+			  <p style="margin-right: 10px;">작성자:</p>
+			  <input type="text" class="form-control" value="${loginEmp.emp_name}" readonly="readonly" style="width: 77px;">
+			</div>
             <input type="hidden" name="creater" id="creater" value="${loginEmp.emp_no} "/> 
             <hr/>
         </div>    
@@ -67,6 +74,9 @@
     </div>
 </div>
 <style>
+	#Title{
+	 margin-top: 50px;
+	}
 	hr{
 	width:1200px;
 	}
@@ -204,6 +214,36 @@
 }
 </style>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 페이지가 로드될 때 실행되는 함수
+
+        // boardType 매개변수를 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const boardTypeParam = urlParams.get('boardType');
+
+        // 게시판 선택(select) 요소
+        const boardTypeSelect = document.getElementById('boardType');
+
+        // 매개변수에 따라 옵션 선택하기
+        if (boardTypeParam === 'BRD001') {
+            // BRD001이면 공지사항 선택
+            boardTypeSelect.value = 'BRD001';
+        } else if (boardTypeParam === 'BRD002') {
+            // BRD002이면 건의사항 선택
+            boardTypeSelect.value = 'BRD002';
+        }
+
+        // 선택되지 않은 옵션 숨김 처리
+        const options = boardTypeSelect.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value !== boardTypeSelect.value) {
+                options[i].hidden = true;
+            }
+        }
+    });
+</script>
+
+<script>
 	function resetForm() {
 		document.getElementById("userForm").reset();
 		ckeditor.data.set('');
@@ -214,7 +254,7 @@
 const adddelFunction = (function () {
     let count = 2;
     const addFile = () => {
-        if (count <= 5) {
+        if (count <= 3) {
             const fileForm = $("#basicFileForm").clone(true);
             fileForm.find("span.input-group-text").text("첨부파일 " + count);
             fileForm.find("label.custom-file-label").text("파일을 선택하세요")
@@ -226,7 +266,7 @@ const adddelFunction = (function () {
             
             count++;
         } else {
-            alert("첨부파일은 5개까지 가능합니다.");
+            alert("첨부파일은 3개까지 가능합니다.");
         }
     };
 

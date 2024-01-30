@@ -10,7 +10,10 @@
 	<jsp:param value="" name="hover"/>
 </jsp:include>
 
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 
 <!-- jQuery -->
 <script src="${path}/resources/vendors/jquery/dist/jquery.min.js"></script>
@@ -46,7 +49,7 @@
 				<h2 class="pg-title">부서 일괄등록</h2>
 				<br>
 				<p class="p-lg col-lg-8">Excel파일을 업로드해 부서들을 일괄등록 할 수 있습니다</p>
-				<p class="p-m col-lg-8 mt-3">등록양식을 다운로드 받아, 부서를 일괄 등록 해보세요 ▶ <b><a href="/sampleDownlaod">등록양식 sample 다운로드</a></b></p>
+				<p class="p-m col-lg-8 mt-3">등록양식을 다운로드 받아, 부서를 일괄 등록 해보세요 ▶ <b><a href="${path}/sampleDownlaod">등록양식 sample 다운로드</a></b></p>
 			</div>
 		</div>
 	</div>
@@ -72,7 +75,7 @@
 						<p class="mb-5"></p>
 					</div>
 					<br>
-					<form method="POST" action="/deptExcelUpload" enctype="multipart/form-data">
+					<form method="POST" action="${path}/deptExcelUpload" enctype="multipart/form-data">
 						<div class="col-md-5">
 							<div class="input-group">
 								<input 
