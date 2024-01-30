@@ -32,7 +32,10 @@ spring:
     hikari: 
       maximum-pool-size: 1
       minimum-idle: 1
-    
+  servlet:
+    multipart:
+      max-request-size: 5MB
+      max-file-size: 10MB     
   # spring.mvc 설정
   mvc:
     view:

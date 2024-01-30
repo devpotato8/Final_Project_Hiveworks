@@ -106,13 +106,11 @@ public class EdocServiceImpl implements EdocService{
 	@Override
 	public ElectronicDocumentSample getSample(String formatNo) {
 		ElectronicDocumentSample sample = dao.getSample(session, formatNo);
-		System.out.println(sample);
 		if(sample.getSampleFormat() != null) {
 			sample.setFullSample(sample.getSampleContent().replace("{{상세내용}}", sample.getSampleFormat()));
 		}else {
 			sample.setFullSample(sample.getSampleContent());
 		}
-		System.out.println(sample.getFullSample());
 		return sample; 
 	}
 	
@@ -368,11 +366,6 @@ public class EdocServiceImpl implements EdocService{
 		boolean isReferenceContainsEmp = document.getReference().stream().anyMatch(ref -> ref.getRefperEmpNo()==empNo);
 		boolean isUserPosCodeLowerThenAccessGrant = PosCode.valueOf((String)param.get("posCode")).compareTo(documentAccessGrant)<0;
 		
-		System.out.println("isApprovalContainsEmp : "+isApprovalContainsEmp);
-		System.out.println("isReferenceContainsEmp : "+isReferenceContainsEmp);
-		System.out.println("isUserPosCodeLowerThenAccessGrant : "+isUserPosCodeLowerThenAccessGrant);
-		System.out.println("accessGrant : "+documentAccessGrant);
-		System.out.println("userPosCode : "+PosCode.valueOf((String)param.get("posCode")));
 		
 		if(!isApprovalContainsEmp && !isReferenceContainsEmp&& !isUserPosCodeLowerThenAccessGrant) return Map.of("status","403","error","권한이 부족합니다.");
 		ElectronicDocumentSample sample = dao.getSample(session, String.valueOf(document.getEdocSampleNo()));
@@ -410,6 +403,15 @@ public class EdocServiceImpl implements EdocService{
 		String endDate = !isEdocNull &&document.getEdocEndDate() != null? document.getEdocEndDate().toLocalDate().format(dateFormat):"";
 		String endDateTime = !isEdocNull &&document.getEdocEndDate() != null ? new java.util.Date(document.getEdocEndDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateTimeFormat):"";
 		
+		while(content.indexOf("{{상세내용}}")!= -1) {
+			int startIndex = content.indexOf("{{상세내용}}");
+			int endIndex = startIndex +8;
+			if(isEdocNull) {
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
+			}else {
+				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
+			}
+		}
 		while(content.indexOf("{{문서번호}}")!= -1) {
 			int startIndex = content.indexOf("{{문서번호}}");
 			int endIndex = startIndex + 8;
@@ -482,15 +484,7 @@ public class EdocServiceImpl implements EdocService{
 				content.replace(startIndex, endIndex, "<span  class=\"edocTitle\">"+document.getEdocTitle()+"</span>");
 			}
 		}
-		while(content.indexOf("{{상세내용}}")!= -1) {
-			int startIndex = content.indexOf("{{상세내용}}");
-			int endIndex = startIndex +8;
-			if(isEdocNull) {
-				content.replace(startIndex, endIndex, "<div class=\"edocContent\"></div>");
-			}else {
-				content.replace(startIndex, endIndex, "<div class=\"edocContent\">"+document.getEdocContent()+"</div>");
-			}
-		}
+		
 		while(content.indexOf("{{시작일자}}")!= -1) {
 			int startIndex = content.indexOf("{{시작일자}}");
 			int endIndex = startIndex +8;
@@ -574,6 +568,7 @@ public class EdocServiceImpl implements EdocService{
 				content.replace(startIndex, endIndex, sb.toString());
 			}
 		}
+		
 		while(content.indexOf("{{첨부목록}}")!= -1) {
 			int startIndex = content.indexOf("{{첨부목록}}");
 			int endIndex = startIndex +8;

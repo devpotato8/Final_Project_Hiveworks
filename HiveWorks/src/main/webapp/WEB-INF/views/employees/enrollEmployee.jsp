@@ -12,7 +12,10 @@
 </jsp:include>
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <style>
 /*the container must be positioned relative:*/
 .custom-select {
@@ -355,7 +358,7 @@ input::-webkit-inner-spin-button {
 													<input class="form-control" type="number" id="ac_no" name="ac_no"  value=""/>
 												</div>
 												<div class="form-group">
-													<label class="form-label">소유주</label>
+													<label class="form-label">예금주</label>
 													<input class="form-control" type="text" id="ac_name" name="ac_name" value=""/>
 												</div>
 											</div>

@@ -5,7 +5,10 @@
     <jsp:param value="default" name="style" />
     <jsp:param value="" name="hover" />
 </jsp:include>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 
 <div class="hk-pg-wrapper">
     <div class="container-xxl">

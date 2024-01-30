@@ -22,7 +22,7 @@
 	    height: 600px;
 	}
 	#sendMsgModal .modal-content {
-		height: 600px;
+		height: 650px;
 	}
 	
 	#msgContentArea {
@@ -147,6 +147,7 @@
 					</div>
 					<div id="byteCount" class="text-end mb-3">0 / 1500 byte</div>
 					
+					<p style="font-size:0.8rem;">첨부 가능한 파일 용량은 최대 5MB입니다.</p>
 					<div class="input-group mb-3">
 						<input type="file" class="form-control" id="msgFileAttach" name="sendmsgFile" aria-label="Upload"
 						accept=".txt, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .hwp, .pdf, .jpg, .jpeg, .bmp, .gif, .png, .zip">

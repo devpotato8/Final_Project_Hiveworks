@@ -12,7 +12,10 @@
 </jsp:include>
 <%-- 	<jsp:param value="collapsed" name="style"/>
 	<jsp:param value="data-hover='active'" name="hover"/> --%>
-<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/common/sideBar.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp">
+	<jsp:param value="${edocCountWait }" name="edocCountWait"/>
+</jsp:include>
 <style>@font-face {
         font-family: 'douzone';
         src: local('DOUZONEText10'), url('https://static.wehago.com/fonts/douzone/DOUZONEText10.woff2') format('woff2'), url('https://static.wehago.com/fonts/douzone/DOUZONEText10.woff') format('woff');
@@ -473,7 +476,7 @@
     </tr>
     </tbody>
 </table><!--근로일수 및 시간 -->
-<table class="userwork_tbl">
+<%-- <table class="userwork_tbl">
     <colgroup>
         <col style="width:20%" span="5">
     </colgroup>
@@ -493,7 +496,7 @@
         <td colspan="2"></td>
     </tr>
     </tbody>
-</table><!--지급내역/공제내역 테이블-->
+</table><!--지급내역/공제내역 테이블--> --%>
 <table width="740px" border="0" cellspacing="1" cellpadding="1" class="origin_tbl">
     <tbody>
     <tr>
@@ -508,10 +511,10 @@
                         지급내역
                     </td>
                    	<th width="14%">기본급</th>
-                    <th width="14%">시간 외 <br>근로수당</th>
                     <th width="14%">식대</th>
                     <th width="14%">직위수당</th>
                     <th width="14%">보너스</th>
+                    <th width="14%"><!-- 시간 외 <br>근로수당 --></th>
                     <th width="14%"></th>
                 </tr>
                 <tr bgcolor="#ffffff" height="22px" align="center"
@@ -519,10 +522,6 @@
                     <td style="border-bottom:1px solid #eee;">
 	                    <c:set var="sal_base" value="${salary.sal_base }"/>
 	                    <fmt:formatNumber value="${sal_base}" type="number" />
-                    </td>
-                    <td style="border-bottom:1px solid #eee;">
-                    	<c:set var="overtime_pay" value="${salary.overtime_pay }"/>
-                    	<fmt:formatNumber value="${overtime_pay}" type="number" />
                     </td>
                     <td style="border-bottom:1px solid #eee;">
                     	<c:set var="sal_meal" value="${salary.sal_meal }"/>
@@ -535,6 +534,10 @@
                     <td style="border-bottom:1px solid #eee;">
                     	<c:set var="sal_bonus" value="${salary.sal_bonus }"/>
                     	<fmt:formatNumber value="${sal_bonus}" type="number" />
+                    </td>
+                    <td style="border-bottom:1px solid #eee;">
+                    	<%-- <c:set var="overtime_pay" value="${salary.overtime_pay }"/>
+                    	<fmt:formatNumber value="${overtime_pay}" type="number" /> --%>
                     </td>
                     <td style="border-bottom:1px solid #eee;"></td>
                 </tr>
