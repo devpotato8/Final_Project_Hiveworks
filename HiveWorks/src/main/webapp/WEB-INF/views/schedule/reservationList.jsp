@@ -340,7 +340,7 @@ $(document).ready(function() {
                 reserveNo: reserveNo,
                 resourceName: resourceName,
                 calStartDate: calStartDate,
-                empPhone: empPhone,
+                empPhone: '010-9129-1327',
                 empNo: empNo
             });
         });
@@ -408,7 +408,7 @@ $(document).ready(function() {
                 data: {
                     resourceName: resourceName,
                     calStartDate: calStartDate,
-                    empPhone: empPhone,
+                    empPhone: '010-9129-1327',
                     empNo: empNo,
                     calNo: calNo
                 },

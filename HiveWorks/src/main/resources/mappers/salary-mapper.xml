@@ -66,7 +66,7 @@
   	
   	<update id="updateSalary" parameterType="salary">
   		UPDATE TBL_SALARY 
-  		SET SAL_BASE=#{sal_base}, SAL_MEAL=#{sal_meal}, SAL_BONUS=#{sal_bonus}, SAL_DATE=#{sal_date} WHERE SAL_NO=#{sal_no}
+  		SET SAL_BASE=#{sal_base}, SAL_MEAL=#{sal_meal}, SAL_ACTUAL=#{sal_actual},  SAL_BONUS=#{sal_bonus}, SAL_DATE=#{sal_date} WHERE SAL_NO=#{sal_no}
   	</update>
   	
   	<update id="updatePositionPay" parameterType="positionpay">
