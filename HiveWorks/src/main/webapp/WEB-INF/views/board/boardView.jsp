@@ -46,7 +46,8 @@
 		</c:if>
 	<hr/ style="width: 1000px;margin-left: 230px;">
       <div class="OkBtn">
-        <a href="${path}/board/board"><input type="button" class="button" value="확인"></a>
+        <a href="${path}/board/board"><input type="button" class="button" value="공지"></a>
+        <a href="${path}/board/suggestions"><input type="button" class="button" value="건의"></a>
       </div>
         
 </div>
