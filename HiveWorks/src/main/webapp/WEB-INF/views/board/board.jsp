@@ -54,6 +54,7 @@
                                     <td>관리자</td>
                                     <td><c:out value="${b.createDate}" /></td>
                                     <td>
+                                    <c:if test="${loginEmp.emp_no == 1}">
                                         <div class="d-flex">
                                             <a
                                                 class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
@@ -72,6 +73,7 @@
                                                             data-feather="trash-2"></i></span></span>
                                             </a>
                                         </div>
+                                      </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
