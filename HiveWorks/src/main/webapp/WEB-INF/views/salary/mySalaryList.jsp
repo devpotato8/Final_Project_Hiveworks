@@ -82,7 +82,7 @@
 			<!-- 							<button class="btn btn-primary btn-sm" onclick="fn_deleteChoice();" style="width:100px; display:inline-block;">선택 삭제</button> -->
 										</div>
 									<div class="invoice-list-view">
-										<table data-order='[[ 1, "desc" ]]' id="datable_2" class="table nowrap w-100 mb-5">
+										<table data-order='[[ 0, "desc" ]]' id="datable_2" class="table nowrap w-100 mb-5">
 											<thead>
 												<tr>
 													<th>날짜</th>

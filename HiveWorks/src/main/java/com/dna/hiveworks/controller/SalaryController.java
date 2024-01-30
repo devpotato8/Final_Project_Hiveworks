@@ -112,6 +112,8 @@ public class SalaryController {
 		
 		String msg, loc;
 		
+		System.out.println(s);
+		
 		try {
 			int result = service.updateSalary(s);
 			
@@ -139,6 +141,7 @@ public class SalaryController {
 	public String insertSalary(Salary s, Model model, Employee emp) {
 		
 		s.setEmployee(emp);
+		
 		
 		String msg, loc;
 		
