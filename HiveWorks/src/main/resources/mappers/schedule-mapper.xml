@@ -91,6 +91,45 @@
 		</collection>
 	</resultMap>
 	
+	<resultMap id="smsscheduleInviCheckMap" type="schedule">
+		<id property="calNo" column="cal_no"/>
+		<result property="calCode" column="cal_code"/>
+		<result property="myEmpNo" column="my_emp_no"/>
+		<result property="myEmpName" column="my_emp_name"/>
+		<result property="myDeptCode" column="my_dept_code"/>
+		<result property="calContent" column="cal_content"/>
+		<result property="calStartDate" column="cal_start_date"/>
+		<result property="calEndDate" column="cal_end_date"/>
+		<result property="calSubject" column="cal_subject"/>
+		<result property="calColor" column="cal_color"/>
+		<result property="calImportYn" column="cal_import_yn"/>
+		<result property="reminderYn" column="reminder_yn"/>
+		<result property="calAlldayYn" column="cal_allday_yn"/>
+		<result property="calStatus" column="cal_status"/>
+		<result property="creater" column="creater"/>
+		<result property="modifier" column="modifier"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="useYn" column="cal_use_yn"/>
+		<collection property="invitationEmpList" resultMap="inviEmpMap" >
+			<result property="yourEmpNo" column="your_emp_no" />
+			<result property="yourEmpName" column="your_emp_name"/>
+			<result property="yourDeptName" column="your_dept_name"/>
+			<result property="yourDeptCode" column="your_dept_code"/>		
+		</collection>
+		<collection property="CheckList" resultMap="checklistMap">
+			<id property="calChecklistNo" column="cal_checklist_no"/>
+			<result property="checkCalNo" column="check_cal_no"/>
+			<result property="calChecklistContent" column="cc_cal_checklist_content"/>
+			<result property="createDate" column="cc_create_date"/>
+			<result property="modifyDate" column="cc_modify_date"/>
+			<result property="creater" column="cc_creater"/>
+			<result property="modifier" column="cc_modifier"/>
+			<result property="useYn" column="cc_use_yn"/>
+			<result property="endYn" column="cc_end_yn"/>
+		</collection>
+	</resultMap>
+	
 	
 	<resultMap id="projectMap" type="schedule">
 		<id property="calNo" column="cal_no"/>
@@ -368,7 +407,7 @@
 	</select>
 	
 	<select id="reserveBykeyword" parameterType="map" resultMap="scheduleInviMap">
-	SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND R.USE_YN = 'Y' AND V.MY_EMP_NO = 1 AND ${type} LIKE '%'||#{keyword}||'%' ORDER BY V.CAL_NO DESC
+	SELECT * FROM V_CALENDAR_F V LEFT JOIN TBL_RESOURCE_RESERVATION RR ON V.CAL_NO = RR.CAL_NO LEFT JOIN TBL_RESOUCE R ON RR.RESOURCE_NO = R.RESOURCE_NO WHERE V.CAL_CODE IN ('CAL004','CAL005','CAL006') AND R.USE_YN = 'Y' AND ${type} LIKE '%'||#{keyword}||'%' ORDER BY V.CAL_NO DESC
 	</select>
 	
 	<select id="selectReserveByNo" resultMap="scheduleInviMap">

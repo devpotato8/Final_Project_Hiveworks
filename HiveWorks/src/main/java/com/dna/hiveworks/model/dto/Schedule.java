@@ -22,6 +22,7 @@ public class Schedule {
 	private String calCode;
 	private int myEmpNo;
 	private String myEmpName;
+	//private String myEmpPhone;
 	private String myDeptCode;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul",locale = "ko_KR")
 	private Timestamp calStartDate;
