@@ -317,6 +317,8 @@ public class EdocServiceImpl implements EdocService{
 			int result = dao.copySample(session, param);
 			sample.setSampleNo((int)param.get("newSampleNo"));
 			sample.setDotCodeName(sample.getSampleDotCode().getCode());
+			sample.setSampleName(sample.getSampleName()+"COPY");
+			sample.setSampleDesc(sample.getSampleDesc()+"복사본");
 			if(result>0) {
 				return Map.of("status","200","data",sample);
 			}else {
