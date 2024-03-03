@@ -20,7 +20,7 @@
             <img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=plastic&logo=Apache Tomcat&logoColor=white">
             <img src="https://img.shields.io/badge/Docker-2496ED?style=plastic&logo=Docker&logoColor=white">
             <br/>
-            <img src="https://img.shields.io/badge/Github-181717?style=plastic&logo=Github&logoColor=white">
+            <img src="https://img.shields.io/badge/Mybatis-181717?style=plastic&logo=Mybatis&logoColor=white">
             <img src="https://img.shields.io/badge/Oracle-F80000?style=plastic&logo=Oracle&logoColor=white">
             <img src="https://img.shields.io/badge/Jenkins-D24939?style=plastic&logo=Jenkins&logoColor=white">            
             <img src ="https://img.shields.io/badge/JSON-3776AB.svg?&style=plastic&logo=JSON&logoColor=white"/>
@@ -30,6 +30,7 @@
             <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=plastic&logo=Javascript&logoColor=white">
             <img src="https://img.shields.io/badge/jQuery-0769AD?style=plastic&logo=jQuery&logoColor=white">
             <img src="https://img.shields.io/badge/BootStrap-7952B3?style=plastic&logo=BootStrap&logoColor=white">
+            <img src="https://img.shields.io/badge/Github-181717?style=plastic&logo=Github&logoColor=white">
             
               
         </div>
