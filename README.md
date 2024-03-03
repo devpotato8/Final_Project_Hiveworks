@@ -33,8 +33,6 @@
             <img src="https://img.shields.io/badge/BootStrap-7952B3?style=plastic&logo=BootStrap&logoColor=white">
             <br/>
             <img src="https://img.shields.io/badge/Github-181717?style=plastic&logo=Github&logoColor=white">
-            
-              
         </div>
     </div>
     <div align= "center">
