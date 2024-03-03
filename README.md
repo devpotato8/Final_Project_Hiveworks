@@ -13,17 +13,19 @@
     </div>
     <div align= "center">
         <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 🛠️ Tech Stacks </h2> <br> 
-        <div style="margin: 0 auto; text-align: center;" align= "center"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=plastic&logo=CSS3&logoColor=white">
-              <img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=plastic&logo=Apache Tomcat&logoColor=white">
-              <img src="https://img.shields.io/badge/Docker-2496ED?style=plastic&logo=Docker&logoColor=white">
-              <img src="https://img.shields.io/badge/Github-181717?style=plastic&logo=Github&logoColor=white">
-              <img src="https://img.shields.io/badge/HTML5-E34F26?style=plastic&logo=HTML5&logoColor=white">
-              <br/><img src="https://img.shields.io/badge/jQuery-0769AD?style=plastic&logo=jQuery&logoColor=white">
-              <img src="https://img.shields.io/badge/Java-007396?style=plastic&logo=Java&logoColor=white">
-              <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=plastic&logo=Javascript&logoColor=white">
-              <img src="https://img.shields.io/badge/Oracle-F80000?style=plastic&logo=Oracle&logoColor=white">
-              <img alt="json" src ="https://img.shields.io/badge/JSON-3776AB.svg?&style=plastic&logo=JSON&logoColor=white"/>
-              <img src="https://img.shields.io/badge/Spring-6DB33F?style=plastic&logo=Spring&logoColor=white"/>
+        <div style="margin: 0 auto; text-align: center;" align= "center"> 
+            <img src="https://img.shields.io/badge/Spring-6DB33F?style=plastic&logo=Spring&logoColor=white"/>
+            <img src="https://img.shields.io/badge/CSS3-1572B6?style=plastic&logo=CSS3&logoColor=white">
+            <img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=plastic&logo=Apache Tomcat&logoColor=white">
+            <img src="https://img.shields.io/badge/Docker-2496ED?style=plastic&logo=Docker&logoColor=white">
+            <img src="https://img.shields.io/badge/Github-181717?style=plastic&logo=Github&logoColor=white">
+            <img src="https://img.shields.io/badge/HTML5-E34F26?style=plastic&logo=HTML5&logoColor=white">
+            <br/><img src="https://img.shields.io/badge/jQuery-0769AD?style=plastic&logo=jQuery&logoColor=white">
+            <img src="https://img.shields.io/badge/Java-007396?style=plastic&logo=Java&logoColor=white">
+            <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=plastic&logo=Javascript&logoColor=white">
+            <img src="https://img.shields.io/badge/Oracle-F80000?style=plastic&logo=Oracle&logoColor=white">
+            <img alt="json" src ="https://img.shields.io/badge/JSON-3776AB.svg?&style=plastic&logo=JSON&logoColor=white"/>
+              
         </div>
     </div>
     <div align= "center">
