@@ -2,6 +2,7 @@
     <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=120&text=HiveWorks&animation=&fontColor=ffffff&fontSize=70" />
     </div>
     <div align= "center"> 
+        <img src="http://web.hiveworks.site:15555/GDJ71_DNA_final/resources/img/logo_bee.png"/>
         <img src="http://web.hiveworks.site:15555/GDJ71_DNA_final/resources/img/logo-title.png"/>
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> HiveWorks는? </h2>  
     <div style="font-weight: 700; font-size: 15px; text-align: center; color: #282d33;"> 
