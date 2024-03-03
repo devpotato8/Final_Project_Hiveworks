@@ -15,6 +15,7 @@
          <p>쪽지 기능을 통해 부서원간의 원활한 커뮤니케이션이 가능합니다</p>
     </div> 
     </div>
+    <br/>
     <div align= "center">
         <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 🛠️ Tech Stacks </h2> <br> 
         <div style="margin: 0 auto; text-align: center;" align= "center"> 
