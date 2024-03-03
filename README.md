@@ -22,7 +22,7 @@
           <img src="https://img.shields.io/badge/Java-007396?style=plastic&logo=Java&logoColor=white">
           <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=plastic&logo=Javascript&logoColor=white">
           <img src="https://img.shields.io/badge/Oracle-F80000?style=plastic&logo=Oracle&logoColor=white">
-          <img alt="json" src ="https://img.shields.io/badge/json-3776AB.svg?&style=for-the-badge&logo=json&logoColor=white"/>
+          <img alt="json" src ="https://img.shields.io/badge/json-3776AB.svg?&style=plastic&logo=json&logoColor=white"/>
           </div>
     </div>
     <div align= "center">
