@@ -1,6 +1,6 @@
-<div align= "center">
-   <img src="http://web.hiveworks.site:15555/GDJ71_DNA_final/resources/img/logo_bee.png"/>
-            <img src="http://web.hiveworks.site:15555/GDJ71_DNA_final/resources/img/logo-title.png"/>
+   <div align= "center">
+      <img src="http://web.hiveworks.site:15555/GDJ71_DNA_final/resources/img/logo_bee.png"/>
+      <img src="http://web.hiveworks.site:15555/GDJ71_DNA_final/resources/img/logo-title.png"/>
     </div>
     <div align= "center"> 
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> HiveWorks는? </h2>  
@@ -11,6 +11,8 @@
       <h4>👀 주요특징</h4>
         <p>Java, SpringFramework, SpringBoot, Mybatis, JSP, JavaScript, JQuery 등을 사용하여 구현되었습니다</p>
       <p>다양한 Open API를 활용하여 사용자 편의성을 도모하였습니다</p>
+        <p>조직관리, 인사관리, 급여관리 등 다양한 기업에서 활용할 수 있는 기능들을 구현하였습니다</p>
+         <p>쪽지 기능을 통해 부서원간의 원활한 커뮤니케이션이 가능합니다</p>
     </div> 
     </div>
     <div align= "center">
