@@ -7,7 +7,7 @@
     <div style="font-weight: 700; font-size: 15px; text-align: center; color: #282d33;"> 
       <p>'HiveWorks'는 범기업용 그룹웨어 사이트로 국비지원교육과정 파이널 프로젝트로 만들어진 사이트입니다!</p>
         <p>HiveWorks는 벌집과도 같은 유기적인 조직구조를 모티브로 제작되었습니다</p>
-          <p><a href="http://hiveworks.site" target="_blank">여기서 HiveWorks를 직접 경험해보세요</a></p><span>Id:emp001/Pw:1234</span>
+          <p><a href="http://hiveworks.site" target="_blank">여기서 HiveWorks를 직접 경험해보세요</a></p><p>Id : emp001/Pw : 1234</p>
         <br/>
       <h4>👀 주요특징</h4>
         <p>Java, SpringFramework, SpringBoot, Mybatis, JSP, JavaScript, JQuery 등을 사용하여 구현되었습니다</p>
