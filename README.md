@@ -16,6 +16,7 @@
         <div style="margin: 0 auto; text-align: center;" align= "center"> 
             <img src="https://img.shields.io/badge/Spring-6DB33F?style=plastic&logo=Spring&logoColor=white"/>
             <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=plastic&logo=SpringBoot&logoColor=white"/>
+            <img src="https://img.shields.io/badge/Java-6DB33F?style=plastic&logo=Java&logoColor=white"/>
             <img src="https://img.shields.io/badge/Java-007396?style=plastic&logo=Java&logoColor=white">
             <img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=plastic&logo=Apache Tomcat&logoColor=white">
             <img src="https://img.shields.io/badge/Docker-2496ED?style=plastic&logo=Docker&logoColor=white">
